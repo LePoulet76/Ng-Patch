@@ -1,0 +1,15 @@
+C:\forge\mcp\src\minecraft_server\net\minecraft\util\ChatMessageComponent.java:266: warning: non-varargs call of varargs method with inexact argument type for last parameter;
+                var7.append(StatCollector.translateToLocalFormatted(this.translationKey, var13));
+                                                                                         ^
+  cast to Object for a varargs call
+  cast to Object[] for a non-varargs call and to suppress this warning
+C:\forge\mcp\src\minecraft_server\net\minecraft\world\gen\feature\MapGenScatteredFeature.java:113: error: components has protected access in StructureStart
+        if (var4 != null && var4 instanceof StructureScatteredFeatureStart && !var4.components.isEmpty())
+                                                                                   ^
+C:\forge\mcp\src\minecraft_server\net\minecraft\world\gen\feature\MapGenScatteredFeature.java:115: error: components has protected access in StructureStart
+            StructureComponent var5 = (StructureComponent)var4.components.getFirst();
+                                                              ^
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+2 errors
+1 warning

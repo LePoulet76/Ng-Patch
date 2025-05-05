@@ -1,0 +1,523 @@
+2025-03-27 03:39:50 [INFOS] [ForgeModLoader] Forge Mod Loader version 6.4.45.953 for Minecraft 1.6.4 loading
+2025-03-27 03:39:50 [INFOS] [ForgeModLoader] Java is Java HotSpot(TM) 64-Bit Server VM, version 1.7.0_80, running on Windows 8.1:amd64:6.3, installed at C:\Program Files\Java\jdk1.7.0_80\jre
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Java classpath at launch is ..\bin\minecraft;..\src\minecraft;..\jars\versions\1.6.4\1.6.4.jar;..\lib;..\lib\asm-7.3.1-NG-SNAPSHOT.jar;..\lib\asm-all-6.0_BETA.jar;..\lib\asm-commons-7.3.1-NG-SNAPSHOT.jar;..\lib\asm-debug-all-4.1.jar;..\lib\asm-tree-7.3.1-NG-SNAPSHOT.jar;..\lib\asm-util-7.3.1-NG-SNAPSHOT.jar;..\lib\commons-codec-1.6.jar;..\lib\commons-logging-1.1.1.jar;..\lib\customgalacticraft-1.0.jar;..\lib\customnpc-1.0.jar;..\lib\flansmods-4.1.1.jar;..\lib\fluent-hc-4.2.5.jar;..\lib\forge.jar;..\lib\gson-2.2.2.jar;..\lib\httpclient-4.2.5.jar;..\lib\httpclient-cache-4.2.5.jar;..\lib\httpcore-4.2.4.jar;..\lib\httpmime-4.2.5.jar;..\lib\icbm.jar;..\lib\jackson-annotations-2.4.0.jar;..\lib\jackson-core-2.4.0.jar;..\lib\jackson-databind-2.4.0.jar;..\lib\jsonmodel-1.0-api.jar;..\lib\lzma-0.0.1.jar;..\lib\micdoodlecore-1.6.4-2.0.14.1098.jar;..\lib\nationsgui-forge-1.8.0.jar;..\lib\ngbibliocraft-1.5.5.jar;..\lib\ngbrowser.jar;..\lib\ngcontent-1.0-forge.jar;..\lib\ngelectricity-1.0-forge.jar;..\lib\nglib-1.0.jar;..\lib\ngnoel.jar;..\lib\ngpams-1.0.jar;..\lib\ngupgrades-1.0.jar;..\lib\ngvehicles-1.0.jar;..\lib\ue.jar;..\jars\libraries\net\java\jinput\jinput\2.0.5\jinput-2.0.5.jar;..\jars\libraries\org\lwjgl\lwjgl\lwjgl-platform\2.9.0\lwjgl-platform-2.9.0-natives-windows.jar;..\jars\libraries\org\apache\commons\commons-lang3\3.1\commons-lang3-3.1.jar;..\jars\libraries\com\paulscode\libraryjavasound\20101123\libraryjavasound-20101123.jar;..\jars\libraries\net\sf\jopt-simple\jopt-simple\4.5\jopt-simple-4.5.jar;..\jars\libraries\com\google\guava\guava\14.0\guava-14.0.jar;..\jars\libraries\lzma\lzma\0.0.1\lzma-0.0.1.jar;..\jars\libraries\com\paulscode\codecjorbis\20101023\codecjorbis-20101023.jar;..\jars\libraries\org\bouncycastle\bcprov-jdk15on\1.47\bcprov-jdk15on-1.47.jar;..\jars\libraries\com\paulscode\soundsystem\20120107\soundsystem-20120107.jar;..\jars\libraries\com\paulscode\librarylwjglopenal\20100824\librarylwjglopenal-20100824.jar;..\jars\libraries\org\scala-lang\scala-library\2.10.2\scala-library-2.10.2.jar;..\jars\libraries\org\lwjgl\lwjgl\lwjgl_util\2.9.0\lwjgl_util-2.9.0.jar;..\jars\libraries\org\scala-lang\scala-compiler\2.10.2\scala-compiler-2.10.2.jar;..\jars\libraries\net\java\jutils\jutils\1.0.0\jutils-1.0.0.jar;..\jars\libraries\org\ow2\asm\asm-debug-all\4.1\asm-debug-all-4.1.jar;..\jars\libraries\org\lwjgl\lwjgl\lwjgl\2.9.0\lwjgl-2.9.0.jar;..\jars\libraries\commons-io\commons-io\2.4\commons-io-2.4.jar;..\jars\libraries\net\sourceforge\argo\argo\2.25\argo-2.25.jar;..\jars\libraries\com\google\code\gson\gson\2.2.2\gson-2.2.2.jar;..\jars\libraries\com\paulscode\codecwav\20101023\codecwav-20101023.jar;..\jars\libraries\net\java\jinput\jinput-platform\2.0.5\jinput-platform-2.0.5-natives-windows.jar;..\jars\libraries\net\minecraft\launchwrapper\1.8\launchwrapper-1.8.jar
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Java library path at launch is ..\jars\versions\1.6.4\1.6.4-natives
+2025-03-27 03:39:50 [INFOS] [ForgeModLoader] Managed to load a deobfuscated Minecraft name- we are in a deobfuscated environment. Skipping runtime deobfuscation
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Instantiating coremod class FMLCorePlugin
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Enqueued coremod FMLCorePlugin
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Instantiating coremod class FMLForgePlugin
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Enqueued coremod FMLForgePlugin
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] All fundamental core mods are successfully located
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Discovering coremods
+2025-03-27 03:39:50 [INFOS] [ForgeModLoader] Loading tweak class name cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+2025-03-27 03:39:50 [INFOS] [ForgeModLoader] Loading tweak class name cpw.mods.fml.common.launcher.FMLDeobfTweaker
+2025-03-27 03:39:50 [INFOS] [ForgeModLoader] Calling tweak class cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+2025-03-27 03:39:50 [INFOS] [ForgeModLoader] Calling tweak class cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+2025-03-27 03:39:50 [INFOS] [ForgeModLoader] Calling tweak class cpw.mods.fml.relauncher.CoreModManager$FMLPluginWrapper
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Injecting coremod FMLCorePlugin {cpw.mods.fml.relauncher.FMLCorePlugin} class transformers
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Registering transformer cpw.mods.fml.common.asm.transformers.AccessTransformer
+2025-03-27 03:39:50 [INFOS] [STDOUT] Loaded 40 rules from AccessTransformer config file fml_at.cfg
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Registering transformer cpw.mods.fml.common.asm.transformers.MarkerTransformer
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Registering transformer cpw.mods.fml.common.asm.transformers.SideTransformer
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Injection complete
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Running coremod plugin for FMLCorePlugin {cpw.mods.fml.relauncher.FMLCorePlugin}
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Running coremod plugin FMLCorePlugin
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.Block.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockBaseRailLogic.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockButton.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockCactus.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockChest.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockCocoa.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockComparator.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockCrops.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockDoor.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockFarmland.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockFire.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockFlower.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockFlowing.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockFluid.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockGrass.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockLadder.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockLeaves.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockLever.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockLog.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockMobSpawner.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockMushroom.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockMycelium.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockNetherStalk.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockOre.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockPane.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockPistonBase.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockPortal.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockPumpkin.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockRailBase.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockRedstoneOre.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockRedstoneWire.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockReed.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockSand.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockSapling.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockSkull.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockSnow.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockStem.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockTallGrass.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockTorch.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockTrapDoor.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockTripWireSource.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.block.BlockVine.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.ClientBrandRetriever.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.Minecraft.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.audio.SoundManager.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.entity.EntityOtherPlayerMP.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.entity.EntityPlayerSP.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.gui.GuiChat.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.gui.GuiControls.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.gui.GuiCreateWorld.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.gui.GuiIngame.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.gui.GuiMainMenu.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.gui.GuiSlot.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.gui.achievement.GuiAchievements.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.gui.inventory.GuiContainer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.gui.inventory.GuiContainerCreative.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.model.ModelBase.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.model.ModelBox.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.model.ModelRenderer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.model.PositionTextureVertex.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.model.TexturedQuad.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.multiplayer.ChunkProviderClient.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.multiplayer.GuiConnecting.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.multiplayer.NetClientHandler.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.multiplayer.PlayerControllerMP.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.multiplayer.WorldClient.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.particle.EffectRenderer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.particle.EntityDiggingFX.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.particle.EntityFireworkStarterFX.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.EntityRenderer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.ItemRenderer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.OpenGlHelper.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.RenderBlocks.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.RenderGlobal.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.Tessellator.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.WorldRenderer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.entity.RenderBiped.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.entity.RenderItem.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.entity.RenderManager.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.entity.RenderPlayer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.entity.RenderSnowMan.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.entity.RenderVillager.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.entity.RendererLivingEntity.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.texture.Stitcher.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.texture.TextureAtlasSprite.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.texture.TextureMap.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.renderer.tileentity.TileEntityChestRenderer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.resources.LanguageManager.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.client.settings.GameSettings.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.command.CommandHandler.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.crash.CallableSuspiciousClasses.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.crash.CrashReport.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.crash.CrashReportCategory.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.creativetab.CreativeTabs.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.enchantment.Enchantment.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.enchantment.EnchantmentHelper.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.Entity.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.EntityList.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.EntityLiving.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.EntityLivingBase.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.EntityTracker.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.EntityTrackerEntry.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.ai.EntityAIAttackOnCollide.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.boss.EntityDragon.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.boss.EntityWither.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.boss.IBossDisplayData.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.effect.EntityLightningBolt.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.item.EntityEnderPearl.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.item.EntityItem.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.item.EntityMinecart.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.item.EntityMinecartContainer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.item.EntityMinecartEmpty.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.item.EntityMinecartFurnace.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.item.EntityMinecartHopper.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.monster.EntityEnderman.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.monster.EntitySlime.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.monster.EntityZombie.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.passive.EntityMooshroom.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.passive.EntityOcelot.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.passive.EntitySheep.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.passive.EntityVillager.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.player.EntityPlayer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.player.EntityPlayerMP.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.entity.player.InventoryPlayer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.inventory.ContainerEnchantment.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.inventory.ContainerFurnace.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.inventory.ContainerRepair.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.inventory.Slot.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.inventory.SlotArmor.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.inventory.SlotBrewingStandIngredient.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.inventory.SlotBrewingStandPotion.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.inventory.SlotCrafting.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.inventory.SlotFurnace.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.BehaviorDispenseArmor.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.EnumArmorMaterial.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.EnumRarity.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.EnumToolMaterial.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.Item.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemArmor.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemBlock.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemBow.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemBucket.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemBucketMilk.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemDye.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemEmptyMap.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemFlintAndSteel.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemHoe.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemInWorldManager.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemMap.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemSeedFood.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemSeeds.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemShears.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemStack.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.ItemTool.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.crafting.CraftingManager.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.crafting.FurnaceRecipes.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.item.crafting.RecipeFireworks.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.logging.LogAgent.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.nbt.CompressedStreamTools.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.nbt.NBTTagList.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.network.MemoryConnection.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.network.NetLoginHandler.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.network.NetServerHandler.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.network.NetworkListenThread.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.network.TcpConnection.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.network.packet.NetHandler.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.network.packet.Packet.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.network.packet.Packet1Login.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.network.packet.Packet51MapChunk.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.network.packet.Packet52MultiBlockChange.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.network.packet.Packet56MapChunks.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.potion.PotionEffect.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.server.MinecraftServer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.server.ServerListenThread.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.server.dedicated.DedicatedServer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.server.gui.StatsComponent.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.server.integrated.IntegratedServer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.server.integrated.IntegratedServerListenThread.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.server.management.PlayerInstance.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.server.management.ServerConfigurationManager.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.stats.StatFileWriter.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.stats.StatList.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.tileentity.TileEntity.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.tileentity.TileEntityBeacon.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.tileentity.TileEntityBrewingStand.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.tileentity.TileEntityFurnace.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.tileentity.TileEntityHopper.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.util.CryptManager.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.util.MovingObjectPosition.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.util.ResourceLocation.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.util.Session.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.util.StringTranslate.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.util.WeightedRandomChestContent.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.village.VillageCollection.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.ChunkCache.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.Explosion.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.IBlockAccess.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.SpawnerAnimals.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.World.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.WorldProvider.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.WorldServer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.WorldServerMulti.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.WorldType.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.biome.BiomeDecorator.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.biome.BiomeGenBase.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.biome.WorldChunkManager.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.chunk.Chunk.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.chunk.storage.AnvilChunkLoader.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.chunk.storage.AnvilSaveHandler.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.ChunkProviderEnd.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.ChunkProviderGenerate.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.ChunkProviderHell.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.ChunkProviderServer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.MapGenCaves.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.MapGenRavine.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.feature.WorldGenBigMushroom.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.feature.WorldGenBigTree.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.feature.WorldGenDeadBush.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.feature.WorldGenDungeons.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.feature.WorldGenForest.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.feature.WorldGenHugeTrees.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.feature.WorldGenMinable.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.feature.WorldGenShrub.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.feature.WorldGenSwamp.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.feature.WorldGenTaiga1.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.feature.WorldGenTaiga2.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.feature.WorldGenTallGrass.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.feature.WorldGenTrees.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.layer.GenLayer.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.layer.GenLayerBiome.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.ComponentMineshaftCorridor.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.ComponentScatteredFeatureDesertPyramid.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.ComponentScatteredFeatureJunglePyramid.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.ComponentStrongholdChestCorridor.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.ComponentStrongholdLibrary.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.ComponentStrongholdRoomCrossing.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.ComponentVillage.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.ComponentVillageHouse2.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.ComponentVillageStartPiece.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.MapGenStronghold.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.MapGenStructure.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.StructureComponent.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.StructureStart.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.gen.structure.StructureVillagePieces.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.storage.MapData.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.storage.SaveHandler.binpatch
+2025-03-27 03:39:50 [LE PLUS PRÉCIS] [ForgeModLoader] Reading patch data from binpatch/client/net.minecraft.world.storage.WorldInfo.binpatch
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Read 247 binary patches
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Patch list :
+	xj=[xj : xj => net.minecraft.item.ItemTool (true) size 2546]	
+bkd=[bkd : bkd => net.minecraft.client.resources.LanguageManager (true) size 3250]	
+xn=[xn : xn => net.minecraft.item.ItemEmptyMap (true) size 1467]	
+xl=[xl : xl => net.minecraft.item.ItemDye (true) size 7289]	
+xw=[xw : xw => net.minecraft.item.ItemFlintAndSteel (true) size 1193]	
+aji=[aji : aji => net.minecraft.world.gen.structure.ComponentVillageHouse2 (true) size 4409]	
+ajj=[ajj : ajj => net.minecraft.world.gen.structure.ComponentVillageStartPiece (true) size 1193]	
+ww=[ww : ww => net.minecraft.creativetab.CreativeTabs (true) size 5562]	
+ajm=[ajm : ajm => net.minecraft.world.gen.structure.ComponentVillage (true) size 5767]	
+bjo=[bjo : bjo => net.minecraft.util.ResourceLocation (true) size 1521]	
+aiy=[aiy : aiy => net.minecraft.world.gen.structure.StructureVillagePieces (true) size 5470]	
+wh=[wh : wh => net.minecraft.item.ItemArmor (true) size 4113]	
+wi=[wi : wi => net.minecraft.item.BehaviorDispenseArmor (true) size 1467]	
+wj=[wj : wj => net.minecraft.item.EnumArmorMaterial (true) size 1903]	
+wp=[wp : wp => net.minecraft.item.ItemBow (true) size 3902]	
+wr=[wr : wr => net.minecraft.item.ItemBucket (true) size 3600]	
+vw=[vw : vw => net.minecraft.inventory.SlotArmor (true) size 1083]	
+biv=[biv : biv => net.minecraft.client.renderer.tileentity.TileEntityChestRenderer (true) size 3431]	
+ain=[ain : ain => net.minecraft.world.gen.structure.MapGenStructure (true) size 5700]	
+bik=[bik : bik => net.minecraft.client.renderer.texture.TextureMap (true) size 6282]	
+bil=[bil : bil => net.minecraft.client.renderer.texture.TextureAtlasSprite (true) size 6104]	
+ait=[ait : ait => net.minecraft.world.gen.structure.StructureComponent (true) size 11241]	
+big=[big : big => net.minecraft.client.renderer.texture.Stitcher (true) size 4303]	
+wd=[wd : wd => net.minecraft.inventory.SlotCrafting (true) size 3028]	
+aiv=[aiv : aiv => net.minecraft.world.gen.structure.StructureStart (true) size 4075]	
+we=[we : we => net.minecraft.inventory.Slot (true) size 2815]	
+vm=[vm : vm => net.minecraft.inventory.ContainerEnchantment (true) size 4973]	
+vh=[vh : vh => net.minecraft.inventory.SlotBrewingStandPotion (true) size 1088]	
+ahw=[ahw : ahw => net.minecraft.world.gen.structure.ComponentStrongholdChestCorridor (true) size 3351]	
+axm=[axm : axm => net.minecraft.client.gui.inventory.GuiContainerCreative (true) size 15123]	
+vg=[vg : vg => net.minecraft.inventory.SlotBrewingStandIngredient (true) size 739]	
+aif=[aif : aif => net.minecraft.world.gen.structure.ComponentStrongholdRoomCrossing (true) size 4150]	
+vp=[vp : vp => net.minecraft.inventory.ContainerFurnace (true) size 2741]	
+bma=[bma : bma => net.minecraft.client.renderer.OpenGlHelper (true) size 1411]	
+vq=[vq : vq => net.minecraft.inventory.SlotFurnace (true) size 2057]	
+aia=[aia : aia => net.minecraft.world.gen.structure.ComponentStrongholdLibrary (true) size 4382]	
+ahm=[ahm : ahm => net.minecraft.world.gen.structure.ComponentScatteredFeatureJunglePyramid (true) size 6124]	
+blt=[blt : blt => net.minecraft.client.gui.GuiMainMenu (true) size 13579]	
+ahl=[ahl : ahl => net.minecraft.world.gen.structure.ComponentScatteredFeatureDesertPyramid (true) size 6695]	
+awy=[awy : awy => net.minecraft.client.gui.inventory.GuiContainer (true) size 13715]	
+blv=[blv : blv => net.minecraft.stats.StatFileWriter (true) size 6363]	
+dn=[dn : dn => net.minecraft.network.packet.Packet52MultiBlockChange (true) size 2759]	
+ahq=[ahq : ahq => net.minecraft.world.gen.structure.MapGenStronghold (true) size 4003]	
+va=[va : va => net.minecraft.inventory.ContainerRepair (true) size 7549]	
+bln=[bln : bln => net.minecraft.client.audio.SoundManager (true) size 11380]	
+blc=[blc : blc => net.minecraft.server.integrated.IntegratedServerListenThread (true) size 2255]	
+b=[b : b => net.minecraft.crash.CrashReport (true) size 6438]	
+uf=[uf : uf => net.minecraft.entity.player.EntityPlayer (true) size 37417]	
+ey=[ey : ey => net.minecraft.network.packet.Packet (true) size 7765]	
+ez=[ez : ez => net.minecraft.network.packet.NetHandler (true) size 9724]	
+bkz=[bkz : bkz => net.minecraft.server.integrated.IntegratedServer (true) size 6663]	
+us=[us : us => net.minecraft.entity.item.EntityEnderPearl (true) size 2237]	
+m=[m : m => net.minecraft.crash.CrashReportCategory (true) size 4654]	
+j=[j : j => net.minecraft.crash.CallableSuspiciousClasses (true) size 3261]	
+el=[el : el => net.minecraft.network.packet.Packet56MapChunks (true) size 4572]	
+tw=[tw : tw => net.minecraft.entity.monster.EntityZombie (true) size 11961]	
+ej=[ej : ej => net.minecraft.network.packet.Packet51MapChunk (true) size 4590]	
+agi=[agi : agi => net.minecraft.world.gen.structure.ComponentMineshaftCorridor (true) size 6198]	
+ub=[ub : ub => net.minecraft.entity.passive.EntityVillager (true) size 16779]	
+ep=[ep : ep => net.minecraft.network.packet.Packet1Login (true) size 2313]	
+ud=[ud : ud => net.minecraft.entity.player.InventoryPlayer (true) size 9477]	
+aoi=[aoi : aoi => net.minecraft.block.BlockFire (true) size 9397]	
+aof=[aof : aof => net.minecraft.block.BlockFarmland (true) size 3785]	
+ts=[ts : ts => net.minecraft.entity.monster.EntitySlime (true) size 5904]	
+tg=[tg : tg => net.minecraft.entity.monster.EntityEnderman (true) size 9412]	
+bv=[bv : bv => net.minecraft.util.StringTranslate (true) size 3038]	
+anz=[anz : anz => net.minecraft.block.BlockDoor (true) size 6524]	
+anp=[anp : anp => net.minecraft.block.BlockComparator (true) size 6119]	
+sv=[sv : sv => net.minecraft.entity.item.EntityMinecartContainer (true) size 5210]	
+ss=[ss : ss => net.minecraft.entity.item.EntityItem (true) size 8020]	
+anm=[anm : anm => net.minecraft.block.BlockCocoa (true) size 5240]	
+st=[st : st => net.minecraft.entity.item.EntityMinecart (true) size 20381]	
+sy=[sy : sy => net.minecraft.entity.item.EntityMinecartEmpty (true) size 1152]	
+anr=[anr : anr => net.minecraft.block.BlockCrops (true) size 4745]	
+sw=[sw : sw => net.minecraft.entity.item.EntityMinecartFurnace (true) size 4071]	
+sx=[sx : sx => net.minecraft.entity.item.EntityMinecartHopper (true) size 3390]	
+ane=[ane : ane => net.minecraft.block.BlockFlower (true) size 3559]	
+anf=[anf : anf => net.minecraft.block.BlockButton (true) size 6964]	
+sk=[sk : sk => net.minecraft.entity.boss.EntityDragon (true) size 12819]	
+ang=[ang : ang => net.minecraft.block.BlockCactus (true) size 4040]	
+net.minecraft.client.ClientBrandRetriever=[net/minecraft/client/ClientBrandRetriever : net.minecraft.client.ClientBrandRetriever => net.minecraft.client.ClientBrandRetriever (true) size 593]	
+sm=[sm : sm => net.minecraft.entity.boss.EntityWither (true) size 11081]	
+sp=[sp : sp => net.minecraft.entity.effect.EntityLightningBolt (true) size 3207]	
+ank=[ank : ank => net.minecraft.block.BlockChest (true) size 8957]	
+sg=[sg : sg => net.minecraft.entity.boss.IBossDisplayData (true) size 182]	
+rz=[rz : rz => net.minecraft.entity.passive.EntitySheep (true) size 7337]	
+co=[co : co => net.minecraft.network.TcpConnection (true) size 8307]	
+amy=[amy : amy => net.minecraft.block.BlockRailBase (true) size 4263]	
+cn=[cn : cn => net.minecraft.network.MemoryConnection (true) size 3240]	
+amz=[amz : amz => net.minecraft.block.BlockBaseRailLogic (true) size 5680]	
+ci=[ci : ci => net.minecraft.nbt.CompressedStreamTools (true) size 3184]	
+cg=[cg : cg => net.minecraft.nbt.NBTTagList (true) size 2942]	
+rw=[rw : rw => net.minecraft.entity.passive.EntityMooshroom (true) size 2488]	
+rx=[rx : rx => net.minecraft.entity.passive.EntityOcelot (true) size 6568]	
+rm=[rm : rm => net.minecraft.village.VillageCollection (true) size 5751]	
+als=[als : als => net.minecraft.world.storage.WorldInfo (true) size 9344]	
+alq=[alq : alq => net.minecraft.world.storage.SaveHandler (true) size 5737]	
+alm=[alm : alm => net.minecraft.world.chunk.storage.AnvilSaveHandler (true) size 1234]	
+ali=[ali : ali => net.minecraft.world.storage.MapData (true) size 5496]	
+qa=[qa : qa => net.minecraft.entity.ai.EntityAIAttackOnCollide (true) size 2784]	
+akq=[akq : akq => net.minecraft.world.gen.layer.GenLayer (true) size 3731]	
+aa=[aa : aa => net.minecraft.command.CommandHandler (true) size 4742]	
+akj=[akj : akj => net.minecraft.world.gen.layer.GenLayerBiome (true) size 1122]	
+aqv=[aqv : aqv => net.minecraft.block.BlockTallGrass (true) size 3823]	
+nt=[nt : nt => net.minecraft.entity.EntityList (true) size 6113]	
+bbo=[bbo : bbo => net.minecraft.client.model.ModelBase (true) size 1633]	
+aqq=[aqq : aqq => net.minecraft.block.BlockStem (true) size 6095]	
+nn=[nn : nn => net.minecraft.entity.Entity (true) size 36819]	
+net.minecraft.server.MinecraftServer=[net/minecraft/server/MinecraftServer : net.minecraft.server.MinecraftServer => net.minecraft.server.MinecraftServer (true) size 25663]	
+aqz=[aqz : aqz => net.minecraft.block.Block (true) size 48827]	
+aqy=[aqy : aqy => net.minecraft.block.BlockPane (true) size 4245]	
+abr=[abr : abr => net.minecraft.world.Explosion (true) size 5891]	
+arg=[arg : arg => net.minecraft.block.BlockTorch (true) size 4649]	
+of=[of : of => net.minecraft.entity.EntityLivingBase (true) size 32397]	
+arf=[arf : arf => net.minecraft.block.BlockSnow (true) size 3712]	
+abw=[abw : abw => net.minecraft.world.World (true) size 62775]	
+arm=[arm : arm => net.minecraft.block.BlockVine (true) size 6536]	
+ark=[ark : ark => net.minecraft.block.BlockTripWireSource (true) size 7037]	
+bbs=[bbs : bbs => net.minecraft.client.model.TexturedQuad (true) size 1696]	
+arj=[arj : arj => net.minecraft.block.BlockLog (true) size 2952]	
+og=[og : og => net.minecraft.entity.EntityLiving (true) size 18999]	
+ari=[ari : ari => net.minecraft.block.BlockTrapDoor (true) size 4620]	
+aab=[aab : aab => net.minecraft.item.crafting.FurnaceRecipes (true) size 4015]	
+arw=[arw : arw => net.minecraft.tileentity.TileEntityBeacon (true) size 6177]	
+arx=[arx : arx => net.minecraft.tileentity.TileEntityBrewingStand (true) size 6074]	
+aaf=[aaf : aaf => net.minecraft.item.crafting.CraftingManager (true) size 13127]	
+asg=[asg : asg => net.minecraft.tileentity.TileEntityFurnace (true) size 6407]	
+asi=[asi : asi => net.minecraft.tileentity.TileEntityHopper (true) size 8525]	
+aaw=[aaw : aaw => net.minecraft.enchantment.EnchantmentHelper (true) size 7690]	
+aau=[aau : aau => net.minecraft.enchantment.Enchantment (true) size 3897]	
+asp=[asp : asp => net.minecraft.tileentity.TileEntity (true) size 6902]	
+aon=[aon : aon => net.minecraft.block.BlockGrass (true) size 3310]	
+aos=[aos : aos => net.minecraft.block.BlockSand (true) size 2351]	
+bdb=[bdb : bdb => net.minecraft.client.multiplayer.ChunkProviderClient (true) size 2949]	
+bdc=[bdc : bdc => net.minecraft.client.multiplayer.PlayerControllerMP (true) size 8870]	
+aoy=[aoy : aoy => net.minecraft.block.BlockLadder (true) size 3003]	
+bdd=[bdd : bdd => net.minecraft.client.multiplayer.WorldClient (true) size 9287]	
+aoz=[aoz : aoz => net.minecraft.block.BlockLeaves (true) size 7573]	
+apb=[apb : apb => net.minecraft.block.BlockLever (true) size 5734]	
+apd=[apd : apd => net.minecraft.block.BlockFlowing (true) size 5090]	
+apc=[apc : apc => net.minecraft.block.BlockFluid (true) size 9176]	
+apj=[apj : apj => net.minecraft.block.BlockMushroom (true) size 2377]	
+api=[api : api => net.minecraft.block.BlockMobSpawner (true) size 1449]	
+mk=[mk : mk => net.minecraft.util.WeightedRandomChestContent (true) size 2389]	
+bdy=[bdy : bdy => net.minecraft.client.particle.EntityFireworkStarterFX (true) size 6752]	
+apl=[apl : apl => net.minecraft.block.BlockNetherStalk (true) size 3530]	
+apk=[apk : apk => net.minecraft.block.BlockMycelium (true) size 2731]	
+apr=[apr : apr => net.minecraft.block.BlockOre (true) size 1954]	
+aps=[aps : aps => net.minecraft.block.BlockPortal (true) size 5179]	
+bcp=[bcp : bcp => net.minecraft.client.model.ModelBox (true) size 2433]	
+apy=[apy : apy => net.minecraft.block.BlockPumpkin (true) size 3644]	
+bcf=[bcf : bcf => net.minecraft.client.model.PositionTextureVertex (true) size 892]	
+aqc=[aqc : aqc => net.minecraft.block.BlockRedstoneOre (true) size 3431]	
+bcy=[bcy : bcy => net.minecraft.client.multiplayer.GuiConnecting (true) size 3396]	
+aqb=[aqb : aqb => net.minecraft.block.BlockRedstoneWire (true) size 8522]	
+aqe=[aqe : aqe => net.minecraft.block.BlockReed (true) size 3170]	
+aqi=[aqi : aqi => net.minecraft.block.BlockSapling (true) size 3649]	
+aqk=[aqk : aqk => net.minecraft.block.BlockSkull (true) size 6382]	
+nj=[nj : nj => net.minecraft.potion.PotionEffect (true) size 5033]	
+bcw=[bcw : bcw => net.minecraft.client.multiplayer.NetClientHandler (true) size 36758]	
+bcu=[bcu : bcu => net.minecraft.client.model.ModelRenderer (true) size 4781]	
+jx=[jx : jx => net.minecraft.entity.EntityTrackerEntry (true) size 11005]	
+jy=[jy : jy => net.minecraft.network.NetLoginHandler (true) size 6525]	
+afp=[afp : afp => net.minecraft.world.gen.feature.WorldGenDungeons (true) size 3585]	
+avb=[avb : avb => net.minecraft.client.gui.GuiCreateWorld (true) size 8901]	
+jv=[jv : jv => net.minecraft.entity.player.EntityPlayerMP (true) size 20120]	
+afo=[afo : afo => net.minecraft.world.gen.feature.WorldGenHugeTrees (true) size 4707]	
+bfj=[bfj : bfj => net.minecraft.client.renderer.ItemRenderer (true) size 14073]	
+jw=[jw : jw => net.minecraft.item.ItemInWorldManager (true) size 8353]	
+afr=[afr : afr => net.minecraft.world.gen.feature.WorldGenTaiga1 (true) size 2467]	
+bfe=[bfe : bfe => net.minecraft.client.renderer.EntityRenderer (true) size 28498]	
+afq=[afq : afq => net.minecraft.world.gen.feature.WorldGenMinable (true) size 2544]	
+jr=[jr : jr => net.minecraft.world.gen.ChunkProviderServer (true) size 6996]	
+js=[js : js => net.minecraft.world.WorldServer (true) size 20019]	
+bfq=[bfq : bfq => net.minecraft.client.renderer.Tessellator (true) size 7118]	
+jq=[jq : jq => net.minecraft.server.management.PlayerInstance (true) size 4525]	
+auy=[auy : auy => net.minecraft.client.gui.GuiControls (true) size 1967]	
+afg=[afg : afg => net.minecraft.world.gen.feature.WorldGenShrub (true) size 1493]	
+bfr=[bfr : bfr => net.minecraft.client.renderer.RenderBlocks (true) size 122909]	
+jl=[jl : jl => net.minecraft.world.WorldServerMulti (true) size 913]	
+auw=[auw : auw => net.minecraft.client.gui.GuiChat (true) size 6317]	
+bfl=[bfl : bfl => net.minecraft.client.renderer.RenderGlobal (true) size 40467]	
+jm=[jm : jm => net.minecraft.entity.EntityTracker (true) size 5493]	
+afl=[afl : afl => net.minecraft.world.gen.feature.WorldGenBigMushroom (true) size 2806]	
+aga=[aga : aga => net.minecraft.world.gen.feature.WorldGenTrees (true) size 4297]	
+kd=[kd : kd => net.minecraft.network.NetworkListenThread (true) size 2427]	
+ka=[ka : ka => net.minecraft.network.NetServerHandler (true) size 23196]	
+afx=[afx : afx => net.minecraft.world.gen.feature.WorldGenTaiga2 (true) size 2803]	
+avj=[avj : avj => net.minecraft.client.gui.GuiIngame (true) size 19884]	
+afy=[afy : afy => net.minecraft.world.gen.feature.WorldGenSwamp (true) size 3186]	
+afz=[afz : afz => net.minecraft.world.gen.feature.WorldGenTallGrass (true) size 1109]	
+aem=[aem : aem => net.minecraft.world.gen.MapGenRavine (true) size 5323]	
+beh=[beh : beh => net.minecraft.client.particle.EffectRenderer (true) size 5644]	
+aeq=[aeq : aeq => net.minecraft.world.gen.MapGenCaves (true) size 5736]	
+aep=[aep : aep => net.minecraft.world.gen.ChunkProviderHell (true) size 12943]	
+aee=[aee : aee => net.minecraft.world.chunk.storage.AnvilChunkLoader (true) size 10370]	
+zz=[zz : zz => net.minecraft.item.crafting.RecipeFireworks (true) size 3773]	
+aei=[aei : aei => net.minecraft.world.WorldProvider (true) size 9582]	
+bey=[bey : bey => net.minecraft.client.entity.EntityOtherPlayerMP (true) size 3659]	
+bex=[bex : bex => net.minecraft.client.entity.EntityPlayerSP (true) size 11958]	
+afc=[afc : afc => net.minecraft.world.gen.feature.WorldGenDeadBush (true) size 1040]	
+bes=[bes : bes => net.minecraft.client.particle.EntityDiggingFX (true) size 2881]	
+lg=[lg : lg => net.minecraft.util.CryptManager (true) size 5162]	
+awq=[awq : awq => net.minecraft.client.gui.achievement.GuiAchievements (true) size 9923]	
+la=[la : la => net.minecraft.stats.StatList (true) size 6201]	
+aew=[aew : aew => net.minecraft.world.gen.feature.WorldGenBigTree (true) size 7442]	
+aet=[aet : aet => net.minecraft.world.gen.ChunkProviderGenerate (true) size 13463]	
+lc=[lc : lc => net.minecraft.logging.LogAgent (true) size 2748]	
+aeu=[aeu : aeu => net.minecraft.world.gen.ChunkProviderEnd (true) size 8482]	
+bfa=[bfa : bfa => net.minecraft.client.renderer.WorldRenderer (true) size 5157]	
+awg=[awg : awg => net.minecraft.client.gui.GuiSlot (true) size 7189]	
+aex=[aex : aex => net.minecraft.world.gen.feature.WorldGenForest (true) size 2586]	
+adr=[adr : adr => net.minecraft.world.chunk.Chunk (true) size 21412]	
+zh=[zh : zh => net.minecraft.item.ItemBlock (true) size 3855]	
+bhj=[bhj : bhj => net.minecraft.client.renderer.entity.RenderPlayer (true) size 13450]	
+ata=[ata : ata => net.minecraft.util.MovingObjectPosition (true) size 1081]	
+bho=[bho : bho => net.minecraft.client.renderer.entity.RenderSnowMan (true) size 2777]	
+ast=[ast : ast => net.minecraft.block.BlockPistonBase (true) size 9440]	
+hn=[hn : hn => net.minecraft.server.management.ServerConfigurationManager (true) size 19703]	
+bhu=[bhu : bhu => net.minecraft.client.renderer.entity.RenderVillager (true) size 2882]	
+acq=[acq : acq => net.minecraft.world.biome.BiomeGenBase (true) size 8722]	
+yh=[yh : yh => net.minecraft.item.ItemMap (true) size 6143]	
+ye=[ye : ye => net.minecraft.item.ItemStack (true) size 14814]	
+is=[is : is => net.minecraft.server.dedicated.DedicatedServer (true) size 10066]	
+bgl=[bgl : bgl => net.minecraft.client.renderer.entity.RenderManager (true) size 9404]	
+yc=[yc : yc => net.minecraft.item.Item (true) size 30933]	
+acl=[acl : acl => net.minecraft.world.ChunkCache (true) size 6497]	
+yd=[yd : yd => net.minecraft.item.EnumToolMaterial (true) size 2100]	
+yb=[yb : yb => net.minecraft.item.ItemHoe (true) size 2422]	
+aci=[aci : aci => net.minecraft.world.SpawnerAnimals (true) size 7002]	
+acg=[acg : acg => net.minecraft.world.WorldType (true) size 5531]	
+atv=[atv : atv => net.minecraft.client.Minecraft (true) size 38640]	
+acf=[acf : acf => net.minecraft.world.IBlockAccess (true) size 752]	
+aul=[aul : aul => net.minecraft.client.settings.GameSettings (true) size 15902]	
+bgw=[bgw : bgw => net.minecraft.client.renderer.entity.RenderItem (true) size 11792]	
+yx=[yx : yx => net.minecraft.item.ItemShears (true) size 3596]	
+yw=[yw : yw => net.minecraft.item.ItemSeeds (true) size 2008]	
+bgu=[bgu : bgu => net.minecraft.client.renderer.entity.RenderBiped (true) size 9300]	
+yv=[yv : yv => net.minecraft.item.ItemSeedFood (true) size 1895]	
+je=[je : je => net.minecraft.server.gui.StatsComponent (false) size 4603]	
+yq=[yq : yq => net.minecraft.item.EnumRarity (true) size 1042]	
+aus=[aus : aus => net.minecraft.util.Session (true) size 1334]	
+iy=[iy : iy => net.minecraft.server.ServerListenThread (true) size 3680]	
+acv=[acv : acv => net.minecraft.world.biome.WorldChunkManager (true) size 5290]	
+acu=[acu : acu => net.minecraft.world.biome.BiomeDecorator (true) size 9242]	
+bhb=[bhb : bhb => net.minecraft.client.renderer.entity.RendererLivingEntity (true) size 11696]	
+yi=[yi : yi => net.minecraft.item.ItemBucketMilk (true) size 1145]
+2025-03-27 03:39:50 [PRÉCIS] [ForgeModLoader] Runtime patching class aa (input size 3939), found 1 patch
+2025-03-27 03:39:50 [GRAVE] [ForgeModLoader] There is a binary discrepency between the expected input class aa (aa) and the actual class. Checksum on disk is 86ab721a, in patch c7e1682c. Things are probably about to go very wrong. Did you put something into the jar file?
+2025-03-27 03:39:50 [GRAVE] [ForgeModLoader] The game is going to exit, because this is a critical error, and it is very improbable that the modded game will work, please obtain clean jar files.

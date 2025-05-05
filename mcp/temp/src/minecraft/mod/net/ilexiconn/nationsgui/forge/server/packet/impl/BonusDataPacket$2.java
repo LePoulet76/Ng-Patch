@@ -1,0 +1,16 @@
+package net.ilexiconn.nationsgui.forge.server.packet.impl;
+
+import com.google.gson.reflect.TypeToken;
+import java.util.HashMap;
+import net.ilexiconn.nationsgui.forge.server.packet.impl.BonusDataPacket;
+
+class BonusDataPacket$2 extends TypeToken<HashMap<String, Float>> {
+
+   // $FF: synthetic field
+   final BonusDataPacket this$0;
+
+
+   BonusDataPacket$2(BonusDataPacket this$0) {
+      this.this$0 = this$0;
+   }
+}

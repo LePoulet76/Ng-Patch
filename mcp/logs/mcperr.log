@@ -1,0 +1,437 @@
+13:37:19 - "scalac" is not found on the PATH.  Scala files will not be recompiled
+14:34:59 - "scalac" is not found on the PATH.  Scala files will not be recompiled
+14:35:29 - "scalac" is not found on the PATH.  Scala files will not be recompiled
+14:54:55 - "scalac" is not found on the PATH.  Scala files will not be recompiled
+14:57:30 - !! Modified jar detected. Unpredictable results !!
+15:09:45 - !! Modified jar detected. Unpredictable results !!
+15:12:52 - '"C:\Program Files\Java\jdk-1.8\bin\javac" -encoding UTF-8 -Xlint:-options -deprecation -g -source 1.7 -target 1.7 -classpath "jars\versions\1.6.4\1.6.4.jar;lib;lib\*;jars\libraries\net\java\jinput\jinput\2.0.5\jinput-2.0.5.jar;jars\libraries\org\lwjgl\lwjgl\lwjgl-platform\2.9.0\lwjgl-platform-2.9.0-natives-windows.jar;jars\libraries\org\apache\commons\commons-lang3\3.1\commons-lang3-3.1.jar;jars\libraries\com\paulscode\libraryjavasound\20101123\libraryjavasound-20101123.jar;jars\libraries\net\sf\jopt-simple\jopt-simple\4.5\jopt-simple-4.5.jar;jars\libraries\com\google\guava\guava\14.0\guava-14.0.jar;jars\libraries\lzma\lzma\0.0.1\lzma-0.0.1.jar;jars\libraries\com\paulscode\codecjorbis\20101023\codecjorbis-20101023.jar;jars\libraries\org\bouncycastle\bcprov-jdk15on\1.47\bcprov-jdk15on-1.47.jar;jars\libraries\com\paulscode\soundsystem\20120107\soundsystem-20120107.jar;jars\libraries\com\paulscode\librarylwjglopenal\20100824\librarylwjglopenal-20100824.jar;jars\libraries\org\scala-lang\scala-library\2.10.2\scala-library-2.10.2.jar;jars\libraries\org\lwjgl\lwjgl\lwjgl_util\2.9.0\lwjgl_util-2.9.0.jar;jars\libraries\org\scala-lang\scala-compiler\2.10.2\scala-compiler-2.10.2.jar;jars\libraries\net\java\jutils\jutils\1.0.0\jutils-1.0.0.jar;jars\libraries\org\ow2\asm\asm-debug-all\4.1\asm-debug-all-4.1.jar;jars\libraries\org\lwjgl\lwjgl\lwjgl\2.9.0\lwjgl-2.9.0.jar;jars\libraries\commons-io\commons-io\2.4\commons-io-2.4.jar;jars\libraries\net\sourceforge\argo\argo\2.25\argo-2.25.jar;jars\libraries\com\google\code\gson\gson\2.2.2\gson-2.2.2.jar;jars\libraries\com\paulscode\codecwav\20101023\codecwav-20101023.jar;jars\libraries\net\java\jinput\jinput-platform\2.0.5\jinput-platform-2.0.5-natives-windows.jar;jars\libraries\net\minecraft\launchwrapper\1.8\launchwrapper-1.8.jar" -sourcepath src\minecraft -d bin\minecraft @"c:\users\poula\appdata\local\temp\java_src_path_2rykem.txt"' failed : 1
+15:12:52 - 
+15:12:52 - == ERRORS FOUND in JAVA CODE ==
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:626: error: '(' or '[' expected
+15:12:52 -         PrefsButton var13 = new PrefsButton;
+15:12:52 -                                            ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:633: error: <identifier> expected
+15:12:52 -         var13.<init>(9316, col1x, var10004, 45, 14, "New");
+15:12:52 -                     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:635: error: '(' or '[' expected
+15:12:52 -         var13 = new PrefsButton;
+15:12:52 -                                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:643: error: <identifier> expected
+15:12:52 -         var13.<init>(9317, var10003, var10004, 45, 14, "Delete");
+15:12:52 -                     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:653: error: '(' or '[' expected
+15:12:52 -         var13 = new PrefsButton;
+15:12:52 -                                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:657: error: <identifier> expected
+15:12:52 -         var13.<init>(9308, var10003, var10004, 20, 14, "<<");
+15:12:52 -                     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:659: error: '(' or '[' expected
+15:12:52 -         var13 = new PrefsButton;
+15:12:52 -                                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:663: error: <identifier> expected
+15:12:52 -         var13.<init>(9309, var10003, var10004, 20, 14, ">>");
+15:12:52 -                     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsGUI.java:74: error: '(' or '[' expected
+15:12:52 -         PrefsButton var11 = new PrefsButton;
+15:12:52 -                                            ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsGUI.java:78: error: <identifier> expected
+15:12:52 -         var11.<init>(8901, var10003, (var10004 + 180) / 2 - bH, bW, bH, "Save");
+15:12:52 -                     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsGUI.java:81: error: '(' or '[' expected
+15:12:52 -         var11 = new PrefsButton;
+15:12:52 -                                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsGUI.java:85: error: <identifier> expected
+15:12:52 -         var11.<init>(8902, var10003, (var10004 + 180) / 2 - bH, bW, bH, "Cancel");
+15:12:52 -                     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$1.java:7: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$1.java:8: error: ',', '}', or ';' expected
+15:12:52 -     public void handleTransform(MenuButtonGUI button, ButtonPositionHandler$State state) {}
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$1.java:8: error: '}' expected
+15:12:52 -     public void handleTransform(MenuButtonGUI button, ButtonPositionHandler$State state) {}
+15:12:52 -                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$2.java:8: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$2.java:9: error: ',', '}', or ';' expected
+15:12:52 -     public void handleTransform(MenuButtonGUI button, ButtonPositionHandler$State state)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$2.java:9: error: '}' expected
+15:12:52 -     public void handleTransform(MenuButtonGUI button, ButtonPositionHandler$State state)
+15:12:52 -                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$2.java:15: error: class, interface, or enum expected
+15:12:52 -                 break;
+15:12:52 -                 ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$2.java:17: error: class, interface, or enum expected
+15:12:52 -             case 2:
+15:12:52 -             ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$2.java:19: error: class, interface, or enum expected
+15:12:52 -         }
+15:12:52 -         ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$3.java:8: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$3.java:9: error: ',', '}', or ';' expected
+15:12:52 -     public void handleTransform(MenuButtonGUI button, ButtonPositionHandler$State state)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$3.java:9: error: '}' expected
+15:12:52 -     public void handleTransform(MenuButtonGUI button, ButtonPositionHandler$State state)
+15:12:52 -                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$3.java:15: error: class, interface, or enum expected
+15:12:52 -                 break;
+15:12:52 -                 ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$3.java:17: error: class, interface, or enum expected
+15:12:52 -             case 2:
+15:12:52 -             ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$3.java:19: error: class, interface, or enum expected
+15:12:52 -         }
+15:12:52 -         ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$1.java:8: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$1.java:9: error: ',', '}', or ';' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$1.java:9: error: '}' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+15:12:52 -                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$1.java:12: error: class, interface, or enum expected
+15:12:52 -     }
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$2.java:8: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$2.java:9: error: ',', '}', or ';' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$2.java:9: error: '}' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+15:12:52 -                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$2.java:12: error: class, interface, or enum expected
+15:12:52 -     }
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$3.java:7: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$3.java:8: error: ',', '}', or ';' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$3.java:8: error: '}' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+15:12:52 -                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$4.java:7: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$4.java:8: error: ',', '}', or ';' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$4.java:8: error: '}' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+15:12:52 -                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$5.java:7: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$5.java:8: error: ',', '}', or ';' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$5.java:8: error: '}' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+15:12:52 -                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:10: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:11: error: ',', '}', or ';' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:11: error: '}' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+15:12:52 -                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:14: error: class, interface, or enum expected
+15:12:52 -         String extra = data.readUTF();
+15:12:52 -         ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:16: error: class, interface, or enum expected
+15:12:52 -         if (!extra.isEmpty())
+15:12:52 -         ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:19: error: class, interface, or enum expected
+15:12:52 -         }
+15:12:52 -         ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:22: error: class, interface, or enum expected
+15:12:52 -     }
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$7.java:7: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$7.java:8: error: ',', '}', or ';' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$7.java:8: error: '}' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+15:12:52 -                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:11: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:12: error: ',', '}', or ';' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:12: error: '}' expected
+15:12:52 -     public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+15:12:52 -                ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:15: error: class, interface, or enum expected
+15:12:52 -         String message = data.readUTF();
+15:12:52 -         ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:16: error: class, interface, or enum expected
+15:12:52 -         RequestGUI.handleReturn(success);
+15:12:52 -         ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:17: error: class, interface, or enum expected
+15:12:52 -         ClientProxy.SNACKBAR_LIST.add(new SnackbarGUI(StatCollector.translateToLocal("nationsgui.radio." + message)));
+15:12:52 -         ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:18: error: class, interface, or enum expected
+15:12:52 -     }
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$1.java:4: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$1.java:5: error: ',', '}', or ';' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$1.java:5: error: '}' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -                  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$1.java:8: error: class, interface, or enum expected
+15:12:52 -     }
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$2.java:4: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$2.java:5: error: ',', '}', or ';' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$2.java:5: error: '}' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -                  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$2.java:8: error: class, interface, or enum expected
+15:12:52 -     }
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$3.java:4: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$3.java:5: error: ',', '}', or ';' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$3.java:5: error: '}' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -                  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$3.java:8: error: class, interface, or enum expected
+15:12:52 -     }
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$4.java:4: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$4.java:5: error: ',', '}', or ';' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$4.java:5: error: '}' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -                  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$4.java:8: error: class, interface, or enum expected
+15:12:52 -     }
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$5.java:4: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$5.java:5: error: ',', '}', or ';' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$5.java:5: error: '}' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -                  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$5.java:8: error: class, interface, or enum expected
+15:12:52 -     }
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$6.java:4: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$6.java:5: error: ',', '}', or ';' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$6.java:5: error: '}' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -                  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$6.java:8: error: class, interface, or enum expected
+15:12:52 -     }
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$7.java:4: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$7.java:5: error: ',', '}', or ';' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$7.java:5: error: '}' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -                  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$7.java:8: error: class, interface, or enum expected
+15:12:52 -     }
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$8.java:4: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$8.java:5: error: ',', '}', or ';' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$8.java:5: error: '}' expected
+15:12:52 -     public String getPermission(String ... extra)
+15:12:52 -                  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$8.java:8: error: class, interface, or enum expected
+15:12:52 -     }
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$1.java:4: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$1.java:5: error: ',', '}', or ';' expected
+15:12:52 -     public String getBranding()
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$1.java:5: error: '}' expected
+15:12:52 -     public String getBranding()
+15:12:52 -                  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$1.java:8: error: class, interface, or enum expected
+15:12:52 -     }
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$2.java:4: error: <identifier> expected
+15:12:52 - {
+15:12:52 -  ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$2.java:5: error: ',', '}', or ';' expected
+15:12:52 -     public String getBranding()
+15:12:52 -     ^
+15:12:52 - 
+15:12:52 - C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$2.java:5: error: '}' expected
+15:12:52 -     public String getBranding()
+15:12:52 -                  ^
+15:12:52 - 
+15:12:52 - 100 errors
+15:12:52 - ==================
+15:12:52 - 
+15:12:52 - Initial client recompile failed, correct source then run updatemd5
+15:13:01 - '"C:\Program Files\Java\jdk-1.8\bin\javac" -encoding UTF-8 -Xlint:-options -deprecation -g -source 1.7 -target 1.7 -classpath "lib;lib\*;jars\minecraft_server.jar" -sourcepath src\minecraft_server -d bin\minecraft_server @"c:\users\poula\appdata\local\temp\java_src_path_dxvbqe.txt"' failed : 1
+15:13:01 - 
+15:13:01 - == ERRORS FOUND in JAVA CODE ==
+15:13:01 - 
+15:13:01 - C:\forge\mcp\src\minecraft_server\net\minecraft\util\ChatMessageComponent.java:266: warning: non-varargs call of varargs method with inexact argument type for last parameter;
+15:13:01 -                 var7.append(StatCollector.translateToLocalFormatted(this.translationKey, var13));
+15:13:01 -                                                                                          ^
+15:13:01 - 
+15:13:01 -   cast to Object for a varargs call
+15:13:01 -   cast to Object[] for a non-varargs call and to suppress this warning
+15:13:01 - C:\forge\mcp\src\minecraft_server\net\minecraft\world\gen\feature\MapGenScatteredFeature.java:113: error: components has protected access in StructureStart
+15:13:01 -         if (var4 != null && var4 instanceof StructureScatteredFeatureStart && !var4.components.isEmpty())
+15:13:01 -                                                                                    ^
+15:13:01 - 
+15:13:01 - C:\forge\mcp\src\minecraft_server\net\minecraft\world\gen\feature\MapGenScatteredFeature.java:115: error: components has protected access in StructureStart
+15:13:01 -             StructureComponent var5 = (StructureComponent)var4.components.getFirst();
+15:13:01 -                                                               ^
+15:13:01 - 
+15:13:01 - 2 errors
+15:13:01 - 1 warning
+15:13:01 - ==================
+15:13:01 - 
+15:13:01 - Initial server recompile failed, correct source then run updatemd5

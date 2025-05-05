@@ -1,0 +1,28 @@
+package net.ilexiconn.nationsgui.forge.server.packet.impl;
+
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.ilexiconn.nationsgui.forge.client.gui.faction.FactionCreateEditPlotsGUI;
+import net.ilexiconn.nationsgui.forge.server.packet.IClientPacket;
+import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+
+public class RemoteOpenFactionCreateEditPlotsPacket implements IPacket, IClientPacket {
+
+   int plotId;
+
+
+   @SideOnly(Side.CLIENT)
+   public void handleClientPacket(EntityPlayer player) {
+      Minecraft.func_71410_x().func_71373_a(new FactionCreateEditPlotsGUI(this.plotId));
+   }
+
+   public void fromBytes(ByteArrayDataInput data) {
+      this.plotId = data.readInt();
+   }
+
+   public void toBytes(ByteArrayDataOutput data) {}
+}

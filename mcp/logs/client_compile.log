@@ -1,0 +1,301 @@
+C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:626: error: '(' or '[' expected
+        PrefsButton var13 = new PrefsButton;
+                                           ^
+C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:633: error: <identifier> expected
+        var13.<init>(9316, col1x, var10004, 45, 14, "New");
+                    ^
+C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:635: error: '(' or '[' expected
+        var13 = new PrefsButton;
+                               ^
+C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:643: error: <identifier> expected
+        var13.<init>(9317, var10003, var10004, 45, 14, "Delete");
+                    ^
+C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:653: error: '(' or '[' expected
+        var13 = new PrefsButton;
+                               ^
+C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:657: error: <identifier> expected
+        var13.<init>(9308, var10003, var10004, 20, 14, "<<");
+                    ^
+C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:659: error: '(' or '[' expected
+        var13 = new PrefsButton;
+                               ^
+C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsFilters.java:663: error: <identifier> expected
+        var13.<init>(9309, var10003, var10004, 20, 14, ">>");
+                    ^
+C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsGUI.java:74: error: '(' or '[' expected
+        PrefsButton var11 = new PrefsButton;
+                                           ^
+C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsGUI.java:78: error: <identifier> expected
+        var11.<init>(8901, var10003, (var10004 + 180) / 2 - bH, bW, bH, "Save");
+                    ^
+C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsGUI.java:81: error: '(' or '[' expected
+        var11 = new PrefsButton;
+                               ^
+C:\forge\mcp\src\minecraft\mod\acs\tabbychat\TCSettingsGUI.java:85: error: <identifier> expected
+        var11.<init>(8902, var10003, (var10004 + 180) / 2 - bH, bW, bH, "Cancel");
+                    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$1.java:7: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$1.java:8: error: ',', '}', or ';' expected
+    public void handleTransform(MenuButtonGUI button, ButtonPositionHandler$State state) {}
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$1.java:8: error: '}' expected
+    public void handleTransform(MenuButtonGUI button, ButtonPositionHandler$State state) {}
+               ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$2.java:8: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$2.java:9: error: ',', '}', or ';' expected
+    public void handleTransform(MenuButtonGUI button, ButtonPositionHandler$State state)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$2.java:9: error: '}' expected
+    public void handleTransform(MenuButtonGUI button, ButtonPositionHandler$State state)
+               ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$2.java:15: error: class, interface, or enum expected
+                break;
+                ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$2.java:17: error: class, interface, or enum expected
+            case 2:
+            ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$2.java:19: error: class, interface, or enum expected
+        }
+        ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$3.java:8: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$3.java:9: error: ',', '}', or ';' expected
+    public void handleTransform(MenuButtonGUI button, ButtonPositionHandler$State state)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$3.java:9: error: '}' expected
+    public void handleTransform(MenuButtonGUI button, ButtonPositionHandler$State state)
+               ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$3.java:15: error: class, interface, or enum expected
+                break;
+                ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$3.java:17: error: class, interface, or enum expected
+            case 2:
+            ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler$3.java:19: error: class, interface, or enum expected
+        }
+        ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$1.java:8: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$1.java:9: error: ',', '}', or ';' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$1.java:9: error: '}' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+               ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$1.java:12: error: class, interface, or enum expected
+    }
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$2.java:8: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$2.java:9: error: ',', '}', or ';' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$2.java:9: error: '}' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+               ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$2.java:12: error: class, interface, or enum expected
+    }
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$3.java:7: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$3.java:8: error: ',', '}', or ';' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$3.java:8: error: '}' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+               ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$4.java:7: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$4.java:8: error: ',', '}', or ';' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$4.java:8: error: '}' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+               ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$5.java:7: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$5.java:8: error: ',', '}', or ';' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$5.java:8: error: '}' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+               ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:10: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:11: error: ',', '}', or ';' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:11: error: '}' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+               ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:14: error: class, interface, or enum expected
+        String extra = data.readUTF();
+        ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:16: error: class, interface, or enum expected
+        if (!extra.isEmpty())
+        ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:19: error: class, interface, or enum expected
+        }
+        ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$6.java:22: error: class, interface, or enum expected
+    }
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$7.java:7: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$7.java:8: error: ',', '}', or ';' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$7.java:8: error: '}' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data) {}
+               ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:11: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:12: error: ',', '}', or ';' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:12: error: '}' expected
+    public void handleCallback(EntityPlayer player, ByteArrayDataInput data)
+               ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:15: error: class, interface, or enum expected
+        String message = data.readUTF();
+        ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:16: error: class, interface, or enum expected
+        RequestGUI.handleReturn(success);
+        ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:17: error: class, interface, or enum expected
+        ClientProxy.SNACKBAR_LIST.add(new SnackbarGUI(StatCollector.translateToLocal("nationsgui.radio." + message)));
+        ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks$8.java:18: error: class, interface, or enum expected
+    }
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$1.java:4: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$1.java:5: error: ',', '}', or ';' expected
+    public String getPermission(String ... extra)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$1.java:5: error: '}' expected
+    public String getPermission(String ... extra)
+                 ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$1.java:8: error: class, interface, or enum expected
+    }
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$2.java:4: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$2.java:5: error: ',', '}', or ';' expected
+    public String getPermission(String ... extra)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$2.java:5: error: '}' expected
+    public String getPermission(String ... extra)
+                 ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$2.java:8: error: class, interface, or enum expected
+    }
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$3.java:4: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$3.java:5: error: ',', '}', or ';' expected
+    public String getPermission(String ... extra)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$3.java:5: error: '}' expected
+    public String getPermission(String ... extra)
+                 ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$3.java:8: error: class, interface, or enum expected
+    }
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$4.java:4: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$4.java:5: error: ',', '}', or ';' expected
+    public String getPermission(String ... extra)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$4.java:5: error: '}' expected
+    public String getPermission(String ... extra)
+                 ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$4.java:8: error: class, interface, or enum expected
+    }
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$5.java:4: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$5.java:5: error: ',', '}', or ';' expected
+    public String getPermission(String ... extra)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$5.java:5: error: '}' expected
+    public String getPermission(String ... extra)
+                 ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$5.java:8: error: class, interface, or enum expected
+    }
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$6.java:4: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$6.java:5: error: ',', '}', or ';' expected
+    public String getPermission(String ... extra)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$6.java:5: error: '}' expected
+    public String getPermission(String ... extra)
+                 ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$6.java:8: error: class, interface, or enum expected
+    }
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$7.java:4: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$7.java:5: error: ',', '}', or ';' expected
+    public String getPermission(String ... extra)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$7.java:5: error: '}' expected
+    public String getPermission(String ... extra)
+                 ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$7.java:8: error: class, interface, or enum expected
+    }
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$8.java:4: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$8.java:5: error: ',', '}', or ';' expected
+    public String getPermission(String ... extra)
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$8.java:5: error: '}' expected
+    public String getPermission(String ... extra)
+                 ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\permission\PermissionType$8.java:8: error: class, interface, or enum expected
+    }
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$1.java:4: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$1.java:5: error: ',', '}', or ';' expected
+    public String getBranding()
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$1.java:5: error: '}' expected
+    public String getBranding()
+                 ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$1.java:8: error: class, interface, or enum expected
+    }
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$2.java:4: error: <identifier> expected
+{
+ ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$2.java:5: error: ',', '}', or ';' expected
+    public String getBranding()
+    ^
+C:\forge\mcp\src\minecraft\mod\net\ilexiconn\nationsgui\forge\server\util\ReleaseType$2.java:5: error: '}' expected
+    public String getBranding()
+                 ^
+100 errors
