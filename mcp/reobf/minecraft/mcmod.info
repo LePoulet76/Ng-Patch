@@ -1,7 +1,0 @@
-[{
-  "modid": "ngpatch",
-  "name": "NG Patch",
-  "description": "Stub pour corriger les références client de NationsGUI",
-  "version": "1.0",
-  "mcversion": "1.6.4"
-}]

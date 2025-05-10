@@ -1,0 +1,157 @@
+package net.ilexiconn.nationsgui.forge.client.gui.shop;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+import java.util.Locale;
+import net.ilexiconn.nationsgui.forge.client.gui.shop.Category$1;
+import net.ilexiconn.nationsgui.forge.client.gui.shop.type.CategoryTypes;
+import net.ilexiconn.nationsgui.forge.client.gui.shop.type.ICategoryType;
+import net.ilexiconn.nationsgui.forge.server.json.CategoryJSON;
+import net.ilexiconn.nationsgui.forge.server.permission.PermissionCache;
+import net.ilexiconn.nationsgui.forge.server.permission.PermissionType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.ThreadDownloadImageData;
+import net.minecraft.util.ResourceLocation;
+
+@SideOnly(Side.CLIENT)
+public class Category
+{
+    private CategoryJSON container;
+    private ICategoryType type;
+    private Boolean enabled;
+    private ResourceLocation resourceLocation;
+    private ThreadDownloadImageData imageData;
+    private ResourceLocation resourceLocationImage;
+    private ThreadDownloadImageData imageDataImage;
+    private ResourceLocation resourceLocationImageHover;
+    private ThreadDownloadImageData imageDataImageHover;
+    private CategoryItem[] items;
+
+    public Category(ShopGUI gui, CategoryJSON container)
+    {
+        this.container = container;
+        this.type = CategoryTypes.valueOf(container.type.toUpperCase(Locale.ENGLISH)).getType();
+        this.resourceLocation = new ResourceLocation("category_icon/" + container.name);
+        this.imageData = gui.getDownloadImage(this.resourceLocation, container.icon);
+
+        if (container.image != null)
+        {
+            this.resourceLocationImage = new ResourceLocation("category_image/" + container.name);
+            this.imageDataImage = gui.getDownloadImage(this.resourceLocationImage, container.image);
+
+            if (container.imageHover != null)
+            {
+                this.resourceLocationImageHover = new ResourceLocation("category_image_hover/" + container.name);
+                this.imageDataImageHover = gui.getDownloadImage(this.resourceLocationImageHover, container.imageHover);
+            }
+        }
+
+        if (!container.permission)
+        {
+            this.enabled = Boolean.valueOf(true);
+        }
+        else
+        {
+            this.enabled = PermissionCache.INSTANCE.checkPermission(PermissionType.CATEGORY, new Category$1(this), new String[] {container.name});
+        }
+
+        this.items = new CategoryItem[container.items.length];
+
+        for (int i = 0; i < container.items.length; ++i)
+        {
+            this.items[i] = new CategoryItem(gui, this, container.items[i], i);
+        }
+    }
+
+    public boolean isEnabled()
+    {
+        return this.enabled == null ? false : this.enabled.booleanValue();
+    }
+
+    public void initCategory(ShopGUI gui, List<GuiButton> buttonList)
+    {
+        this.type.init(this.getX(gui), this.getY(gui), gui, this, buttonList);
+    }
+
+    public void renderCategory(ShopGUI gui, int mouseX, int mouseY)
+    {
+        this.type.render(this.getX(gui), this.getY(gui), mouseX, mouseY, gui, this, Minecraft.getMinecraft().fontRenderer);
+    }
+
+    public void renderCategoryPost(ShopGUI gui, int mouseX, int mouseY)
+    {
+        this.type.renderPost(this.getX(gui), this.getY(gui), mouseX, mouseY, gui, this, Minecraft.getMinecraft().fontRenderer);
+    }
+
+    public void mouseClicked(ShopGUI gui, int mouseX, int mouseY, int button)
+    {
+        this.type.mouseClicked(this.getX(gui), this.getY(gui), mouseX, mouseY, button, gui, this);
+    }
+
+    public void actionPerformed(ShopGUI gui, GuiButton button)
+    {
+        this.type.actionPerformed(button, gui, this);
+    }
+
+    private int getX(ShopGUI gui)
+    {
+        return gui.width / 2 - 147;
+    }
+
+    private int getY(ShopGUI gui)
+    {
+        return gui.height / 2 - 119;
+    }
+
+    public String getName()
+    {
+        return this.container.name;
+    }
+
+    public boolean isIconLoaded()
+    {
+        return this.imageData.isTextureUploaded();
+    }
+
+    public ResourceLocation getIcon()
+    {
+        return this.resourceLocation;
+    }
+
+    public boolean isImageLoaded()
+    {
+        return this.imageDataImage.isTextureUploaded();
+    }
+
+    public ResourceLocation getImage()
+    {
+        return this.resourceLocationImage;
+    }
+
+    public boolean isImageHoverLoaded()
+    {
+        return this.imageDataImageHover.isTextureUploaded();
+    }
+
+    public ResourceLocation getImageHover()
+    {
+        return this.resourceLocationImageHover;
+    }
+
+    public CategoryItem[] getItems()
+    {
+        return this.items;
+    }
+
+    public String getURL()
+    {
+        return this.container.url;
+    }
+
+    static Boolean access$002(Category x0, Boolean x1)
+    {
+        return x0.enabled = x1;
+    }
+}
