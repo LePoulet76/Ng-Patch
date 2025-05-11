@@ -1,8 +1,20 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.collect.Lists
+ *  net.minecraft.client.renderer.texture.IconRegister
+ *  net.minecraft.client.renderer.texture.TextureAtlasSprite
+ *  net.minecraft.client.renderer.texture.TextureMap
+ *  net.minecraft.client.resources.Resource
+ *  net.minecraft.client.resources.ResourceManager
+ *  net.minecraft.util.Icon
+ *  net.minecraft.util.ResourceLocation
+ */
 package fr.nationsglory.remoteitem.client.renderer.texture;
 
 import com.google.common.collect.Lists;
 import fr.nationsglory.remoteitem.RemoteItem;
-import fr.nationsglory.remoteitem.common.data.ItemData;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -16,51 +28,44 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import sun.misc.BASE64Decoder;
 
-public class CustomAtlas extends TextureAtlasSprite
-{
-    public CustomAtlas(String par1Str)
-    {
+public class CustomAtlas
+extends TextureAtlasSprite {
+    public CustomAtlas(String par1Str) {
         super(par1Str);
     }
 
-    private void resetSprite()
-    {
-        this.setFramesTextureData(Lists.newArrayList());
-        this.frameCounter = 0;
-        this.tickCounter = 0;
+    private void resetSprite() {
+        this.func_110968_a(Lists.newArrayList());
+        this.field_110973_g = 0;
+        this.field_110983_h = 0;
     }
 
-    public void loadSprite(Resource par1Resource) throws IOException
-    {
+    public void func_130100_a(Resource par1Resource) throws IOException {
         this.resetSprite();
         BASE64Decoder decoder = new BASE64Decoder();
-        byte[] imageByte = decoder.decodeBuffer(((ItemData)RemoteItem.getRemoteConfig().get(this.getIconName())).getTexture());
+        byte[] imageByte = decoder.decodeBuffer(RemoteItem.getRemoteConfig().get(this.func_94215_i()).getTexture());
         ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
         BufferedImage bufferedimage = ImageIO.read(bis);
-        this.height = bufferedimage.getHeight();
-        this.width = bufferedimage.getWidth();
-        int[] aint = new int[this.height * this.width];
-        bufferedimage.getRGB(0, 0, this.width, this.height, aint, 0, this.width);
-        this.framesTextureData.add(aint);
+        this.field_130224_d = bufferedimage.getHeight();
+        this.field_130223_c = bufferedimage.getWidth();
+        int[] aint = new int[this.field_130224_d * this.field_130223_c];
+        bufferedimage.getRGB(0, 0, this.field_130223_c, this.field_130224_d, aint, 0, this.field_130223_c);
+        this.field_110976_a.add(aint);
     }
 
-    public boolean load(ResourceManager manager, ResourceLocation location) throws IOException
-    {
-        this.loadSprite((Resource)null);
+    public boolean load(ResourceManager manager, ResourceLocation location) throws IOException {
+        this.func_130100_a(null);
         return true;
     }
 
-    public static Icon registerIcon(IconRegister iconRegister, String textureName)
-    {
+    public static Icon registerIcon(IconRegister iconRegister, String textureName) {
         TextureMap textureMap = (TextureMap)iconRegister;
         CustomAtlas customAtlas = (CustomAtlas)textureMap.getTextureExtry(textureName);
-
-        if (customAtlas == null)
-        {
+        if (customAtlas == null) {
             customAtlas = new CustomAtlas(textureName);
         }
-
-        textureMap.setTextureEntry(textureName, customAtlas);
+        textureMap.setTextureEntry(textureName, (TextureAtlasSprite)customAtlas);
         return customAtlas;
     }
 }
+

@@ -1,3 +1,16 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.entity.player.EntityPlayerMP
+ *  net.minecraft.network.packet.Packet
+ *  net.minecraft.server.MinecraftServer
+ *  net.minecraft.util.ChatMessageComponent
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -10,42 +23,46 @@ import net.ilexiconn.nationsgui.forge.server.packet.IServerPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatMessageComponent;
 
-public class PingPacket implements IPacket, IClientPacket, IServerPacket
-{
+public class PingPacket
+implements IPacket,
+IClientPacket,
+IServerPacket {
     private int ping = 0;
     private String emitter = "";
 
-    public PingPacket() {}
+    public PingPacket() {
+    }
 
-    public PingPacket(String emitter)
-    {
+    public PingPacket(String emitter) {
         this.emitter = emitter;
     }
 
-    public void handleClientPacket(EntityPlayer player)
-    {
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
         this.ping = PingThread.ping;
-        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(this));
+        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(this));
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.ping = data.readInt();
         this.emitter = data.readUTF();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeInt(this.ping);
         data.writeUTF(this.emitter);
     }
 
-    public void handleServerPacket(EntityPlayer player)
-    {
-        EntityPlayerMP entityPlayerMP = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.emitter);
-        entityPlayerMP.sendChatToPlayer(ChatMessageComponent.createFromText(player.username + " : " + this.ping + " ms"));
+    @Override
+    public void handleServerPacket(EntityPlayer player) {
+        EntityPlayerMP entityPlayerMP = MinecraftServer.func_71276_C().func_71203_ab().func_72361_f(this.emitter);
+        entityPlayerMP.func_70006_a(ChatMessageComponent.func_111066_d((String)(player.field_71092_bJ + " : " + this.ping + " ms")));
     }
 }
+

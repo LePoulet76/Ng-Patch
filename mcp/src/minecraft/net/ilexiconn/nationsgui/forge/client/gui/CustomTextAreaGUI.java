@@ -1,3 +1,12 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.GuiTextField
+ */
 package net.ilexiconn.nationsgui.forge.client.gui;
 
 import cpw.mods.fml.relauncher.Side;
@@ -7,9 +16,9 @@ import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 
-@SideOnly(Side.CLIENT)
-public class CustomTextAreaGUI extends GuiTextField
-{
+@SideOnly(value=Side.CLIENT)
+public class CustomTextAreaGUI
+extends GuiTextField {
     private final int width;
     private final int height;
     private final String customFont;
@@ -19,143 +28,86 @@ public class CustomTextAreaGUI extends GuiTextField
     public int posY;
     private int cursorCounter;
 
-    public CustomTextAreaGUI(int x, int y, int width, String customFont, int fontSize, int height)
-    {
-        super(Minecraft.getMinecraft().fontRenderer, x, y, width, height);
+    public CustomTextAreaGUI(int x, int y, int width, String customFont, int fontSize, int height) {
+        super(Minecraft.func_71410_x().field_71466_p, x, y, width, height);
         this.posX = x;
         this.posY = y;
         this.width = width;
         this.height = height;
         this.customFont = customFont;
         this.fontSize = fontSize;
-        this.fontRenderer = ModernGui.getCustomFont(customFont, Integer.valueOf(fontSize));
+        this.fontRenderer = ModernGui.getCustomFont(customFont, fontSize);
     }
 
-    /**
-     * Increments the cursor counter
-     */
-    public void updateCursorCounter()
-    {
+    public void func_73780_a() {
         ++this.cursorCounter;
     }
 
-    /**
-     * Args: x, y, buttonClicked
-     */
-    public void mouseClicked(int par1, int par2, int par3)
-    {
+    public void func_73793_a(int par1, int par2, int par3) {
         boolean flag = par1 >= this.posX && par1 < this.posX + this.width && par2 >= this.posY && par2 < this.posY + this.height;
-        this.setFocused(flag);
-
-        if (this.isFocused() && par3 == 0)
-        {
+        this.func_73796_b(flag);
+        if (this.func_73806_l() && par3 == 0) {
             int l = par1 - this.posX;
-
-            if (this.getEnableBackgroundDrawing())
-            {
+            if (this.func_73783_i()) {
                 l -= 4;
             }
-
-            l += (par2 - this.posY - 4) / ((this.fontRenderer.getHeight() + 4) / 2) * this.width;
-            this.setCursorPosition(this.trimStringToWidth(this.getText(), l).length());
+            this.func_73791_e(this.trimStringToWidth(this.func_73781_b(), l += (par2 - this.posY - 4) / ((this.fontRenderer.getHeight() + 4) / 2) * this.width).length());
         }
     }
 
-    public String trimStringToWidth(String str, int width)
-    {
+    public String trimStringToWidth(String str, int width) {
         String line = "";
-        char[] var4 = this.getText().toCharArray();
-        int var5 = var4.length;
-
-        for (int var6 = 0; var6 < var5; ++var6)
-        {
-            char character = var4[var6];
-            line = line + (char)character;
-
-            if (this.fontRenderer.getStringWidth(line) / 2.0F >= (float)width)
-            {
-                return line;
-            }
+        for (char character : this.func_73781_b().toCharArray()) {
+            if (!(this.fontRenderer.getStringWidth(line = line + (char)character) / 2.0f >= (float)width)) continue;
+            return line;
         }
-
         return line;
     }
 
-    /**
-     * Draws the textbox
-     */
-    public void drawTextBox()
-    {
+    public void func_73795_f() {
         int x = 0;
         String line = "";
-        char[] flag = this.getText().toCharArray();
-        int i = flag.length;
-
-        for (int var5 = 0; var5 < i; ++var5)
-        {
-            char character = flag[var5];
-
-            if (character != 13 && character != 10)
-            {
-                if (this.fontRenderer.getStringWidth(line + (char)character) / 2.0F > (float)this.width)
-                {
-                    ModernGui.drawScaledStringCustomFont(line, (float)(this.posX + 4), (float)(this.posY + 4 + x * (this.fontRenderer.getHeight() + 4) / 2), 14737632, 0.5F, "left", false, this.customFont, this.fontSize);
-                    line = "";
-                    ++x;
-                }
-
-                line = line + (char)character;
+        for (char character : this.func_73781_b().toCharArray()) {
+            if (character == '\r' || character == '\n') {
+                ModernGui.drawScaledStringCustomFont(line, this.posX + 4, this.posY + 4 + x * (this.fontRenderer.getHeight() + 4) / 2, 0xE0E0E0, 0.5f, "left", false, this.customFont, this.fontSize);
+                line = "";
+                ++x;
+                continue;
             }
-            else
-            {
-                ModernGui.drawScaledStringCustomFont(line, (float)(this.posX + 4), (float)(this.posY + 4 + x * (this.fontRenderer.getHeight() + 4) / 2), 14737632, 0.5F, "left", false, this.customFont, this.fontSize);
+            StringBuilder stringBuilder = new StringBuilder();
+            if (this.fontRenderer.getStringWidth(stringBuilder.append(line).append(character).toString()) / 2.0f > (float)this.width) {
+                ModernGui.drawScaledStringCustomFont(line, this.posX + 4, this.posY + 4 + x * (this.fontRenderer.getHeight() + 4) / 2, 0xE0E0E0, 0.5f, "left", false, this.customFont, this.fontSize);
                 line = "";
                 ++x;
             }
+            line = line + (char)character;
         }
-
-        ModernGui.drawScaledStringCustomFont(line, (float)(this.posX + 4), (float)(this.posY + 4 + x * (this.fontRenderer.getHeight() + 4) / 2), 14737632, 0.5F, "left", false, this.customFont, this.fontSize);
-        boolean var9 = this.isFocused() && this.cursorCounter / 6 % 2 == 0;
-        i = 0;
+        ModernGui.drawScaledStringCustomFont(line, this.posX + 4, this.posY + 4 + x * (this.fontRenderer.getHeight() + 4) / 2, 0xE0E0E0, 0.5f, "left", false, this.customFont, this.fontSize);
+        boolean flag = this.func_73806_l() && this.cursorCounter / 6 % 2 == 0;
+        int i = 0;
         x = 0;
         line = "";
-
-        if (var9 && 0 == this.getText().length())
-        {
-            ModernGui.drawScaledStringCustomFont("_", (float)(this.posX + 3 + (int)this.fontRenderer.getStringWidth(line) / 2), (float)(this.posY + 4 + x * (this.fontRenderer.getHeight() + 4) / 2), 14737632, 0.5F, "left", false, this.customFont, this.fontSize);
+        if (flag && 0 == this.func_73781_b().length()) {
+            ModernGui.drawScaledStringCustomFont("_", this.posX + 3 + (int)this.fontRenderer.getStringWidth(line) / 2, this.posY + 4 + x * (this.fontRenderer.getHeight() + 4) / 2, 0xE0E0E0, 0.5f, "left", false, this.customFont, this.fontSize);
         }
-
-        char[] var10 = this.getText().toCharArray();
-        int var11 = var10.length;
-
-        for (int var7 = 0; var7 < var11; ++var7)
-        {
-            char character1 = var10[var7];
+        for (char character : this.func_73781_b().toCharArray()) {
             ++i;
-
-            if (character1 != 13 && character1 != 10)
-            {
-                if (this.fontRenderer.getStringWidth(line + character1) / 2.0F > (float)this.width)
-                {
-                    line = "";
-                    ++x;
-                    line = line + character1;
-                }
-                else
-                {
-                    line = line + character1;
-                }
-            }
-            else
-            {
+            if (character == '\r' || character == '\n') {
                 line = "";
                 ++x;
+            } else {
+                StringBuilder stringBuilder = new StringBuilder();
+                if (this.fontRenderer.getStringWidth(stringBuilder.append(line).append(character).toString()) / 2.0f > (float)this.width) {
+                    line = "";
+                    ++x;
+                    line = line + character;
+                } else {
+                    line = line + character;
+                }
             }
-
-            if (var9 && i == this.getText().length())
-            {
-                ModernGui.drawScaledStringCustomFont("_", (float)(this.posX + 3 + (int)this.fontRenderer.getStringWidth(line) / 2), (float)(this.posY + 4 + x * (this.fontRenderer.getHeight() + 4) / 2), 14737632, 0.5F, "left", false, this.customFont, this.fontSize);
-            }
+            if (!flag || i != this.func_73781_b().length()) continue;
+            ModernGui.drawScaledStringCustomFont("_", this.posX + 3 + (int)this.fontRenderer.getStringWidth(line) / 2, this.posY + 4 + x * (this.fontRenderer.getHeight() + 4) / 2, 0xE0E0E0, 0.5f, "left", false, this.customFont, this.fontSize);
         }
     }
 }
+

@@ -1,3 +1,18 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.block.Block
+ *  net.minecraft.client.renderer.texture.IconRegister
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.creativetab.CreativeTabs
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.item.Item
+ *  net.minecraft.item.ItemDoor
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.util.MathHelper
+ *  net.minecraft.world.World
+ */
 package net.ilexiconn.nationsgui.forge.server.item;
 
 import java.util.List;
@@ -12,68 +27,44 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class ItemBlockPortal extends Item
-{
+public class ItemBlockPortal
+extends Item {
     public Block doorBlock;
 
-    public ItemBlockPortal(Block block)
-    {
+    public ItemBlockPortal(Block block) {
         super(4755);
         this.doorBlock = block;
-        this.maxStackSize = 1;
-        this.setCreativeTab(CreativeTabs.tabBlock);
-        this.setUnlocalizedName("island_portal");
+        this.field_77777_bU = 1;
+        this.func_77637_a(CreativeTabs.field_78030_b);
+        this.func_77655_b("island_portal");
     }
 
-    /**
-     * allows items to add custom lines of information to the mouseover description
-     */
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
-    {
-        par3List.add(I18n.getString("island.portal.tooltip.1"));
-        par3List.add(I18n.getString("island.portal.tooltip.2"));
-        par3List.add(I18n.getString("island.portal.tooltip.3"));
-        par3List.add(I18n.getString("island.portal.tooltip.4"));
+    public void func_77624_a(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+        par3List.add(I18n.func_135053_a((String)"island.portal.tooltip.1"));
+        par3List.add(I18n.func_135053_a((String)"island.portal.tooltip.2"));
+        par3List.add(I18n.func_135053_a((String)"island.portal.tooltip.3"));
+        par3List.add(I18n.func_135053_a((String)"island.portal.tooltip.4"));
     }
 
-    /**
-     * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
-     * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
-     */
-    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
-    {
-        if (par7 != 1)
-        {
+    public boolean func_77648_a(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
+        if (par7 != 1) {
             return false;
         }
-        else
-        {
-            ++par5;
-            Block block = this.doorBlock;
-
-            if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
-            {
-                if (!block.canPlaceBlockAt(par3World, par4, par5, par6))
-                {
-                    return false;
-                }
-                else
-                {
-                    int i1 = MathHelper.floor_double((double)((par2EntityPlayer.rotationYaw + 180.0F) * 4.0F / 360.0F) - 0.5D) & 3;
-                    ItemDoor.placeDoorBlock(par3World, par4, par5, par6, i1, block);
-                    --par1ItemStack.stackSize;
-                    return true;
-                }
-            }
-            else
-            {
+        Block block = this.doorBlock;
+        if (par2EntityPlayer.func_82247_a(par4, ++par5, par6, par7, par1ItemStack) && par2EntityPlayer.func_82247_a(par4, par5 + 1, par6, par7, par1ItemStack)) {
+            if (!block.func_71930_b(par3World, par4, par5, par6)) {
                 return false;
             }
+            int i1 = MathHelper.func_76128_c((double)((double)((par2EntityPlayer.field_70177_z + 180.0f) * 4.0f / 360.0f) - 0.5)) & 3;
+            ItemDoor.func_77869_a((World)par3World, (int)par4, (int)par5, (int)par6, (int)i1, (Block)block);
+            --par1ItemStack.field_77994_a;
+            return true;
         }
+        return false;
     }
 
-    public void registerIcons(IconRegister iconRegister)
-    {
-        this.itemIcon = iconRegister.registerIcon("nationsgui:island_portal");
+    public void func_94581_a(IconRegister iconRegister) {
+        this.field_77791_bV = iconRegister.func_94245_a("nationsgui:island_portal");
     }
 }
+

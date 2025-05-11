@@ -1,6 +1,26 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.client.registry.KeyBindingRegistry$KeyHandler
+ *  cpw.mods.fml.common.TickType
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.gui.inventory.GuiContainer
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.client.settings.KeyBinding
+ *  net.minecraft.entity.player.InventoryPlayer
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.network.packet.Packet
+ *  net.minecraft.stats.StatList
+ *  org.lwjgl.input.Mouse
+ */
 package net.ilexiconn.nationsgui.forge.client;
 
-import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
@@ -9,11 +29,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import net.ilexiconn.nationsgui.forge.NationsGUI;
+import net.ilexiconn.nationsgui.forge.client.ClientData;
+import net.ilexiconn.nationsgui.forge.client.ClientEventHandler;
+import net.ilexiconn.nationsgui.forge.client.ClientProxy;
+import net.ilexiconn.nationsgui.forge.client.ClientSocket;
+import net.ilexiconn.nationsgui.forge.client.Notification;
 import net.ilexiconn.nationsgui.forge.client.data.ClientConfig;
 import net.ilexiconn.nationsgui.forge.client.gui.BonusesGui;
 import net.ilexiconn.nationsgui.forge.client.gui.GuiDebugSkin;
@@ -39,24 +63,24 @@ import net.ilexiconn.nationsgui.forge.server.util.SoundStreamer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.stats.StatList;
 import org.lwjgl.input.Mouse;
 
-@SideOnly(Side.CLIENT)
-public class ClientKeyHandler extends KeyHandler
-{
+@SideOnly(value=Side.CLIENT)
+public class ClientKeyHandler
+extends KeyBindingRegistry.KeyHandler {
     public static final KeyBinding KEY_MULTIPLAYER = new KeyBinding("Multiplayer", 64);
     public static final KeyBinding KEY_CATALOG = new KeyBinding("Catalogue", 46);
     public static final KeyBinding KEY_SPRINT = new KeyBinding("Sprint", 29);
     public static final KeyBinding KEY_SPECIAL_INFO = new KeyBinding("InfoBox", 22);
     public static final KeyBinding KEY_WARZONE_LEAVE = new KeyBinding("Quitter Warzone", 24);
     public static final KeyBinding KEY_BONUS = new KeyBinding("Afficher les bonus", 48);
-    public static final KeyBinding KEY_WAITING = new KeyBinding("G\u00e9rer la file d\'attente", 36);
+    public static final KeyBinding KEY_WAITING = new KeyBinding("G\u00e9rer la file d'attente", 36);
     public static final KeyBinding KEY_PORTAL_TP = new KeyBinding("T\u00e9l\u00e9portation portail", 25);
     public static final KeyBinding KEY_SELL = new KeyBinding("nationsgui.shop.key", 37);
     public static final KeyBinding KEY_TOGGLE_SPRINT = new KeyBinding("Toggle Sprint", 35);
@@ -77,338 +101,214 @@ public class ClientKeyHandler extends KeyHandler
     public static boolean toggleSprintEnabled = false;
     public static boolean displayChunck = false;
     public static boolean displayMobSpawning = false;
-    public static Long lastHotbarKeyPress = Long.valueOf(0L);
+    public static Long lastHotbarKeyPress = 0L;
     private static LinkedHashMap<KeyBinding, Boolean> keyBindingBooleanHashMap = new LinkedHashMap();
 
-    public ClientKeyHandler()
-    {
-        super((KeyBinding[])keyBindingBooleanHashMap.keySet().toArray(new KeyBinding[0]), toPrimitiveArray((Boolean[])keyBindingBooleanHashMap.values().toArray(new Boolean[0])));
+    public ClientKeyHandler() {
+        super(keyBindingBooleanHashMap.keySet().toArray(new KeyBinding[0]), ClientKeyHandler.toPrimitiveArray(keyBindingBooleanHashMap.values().toArray(new Boolean[0])));
     }
 
-    private static boolean[] toPrimitiveArray(Boolean[] booleanList)
-    {
+    private static boolean[] toPrimitiveArray(Boolean[] booleanList) {
         boolean[] primitives = new boolean[booleanList.length];
         int index = 0;
-        Boolean[] var3 = booleanList;
-        int var4 = booleanList.length;
-
-        for (int var5 = 0; var5 < var4; ++var5)
-        {
-            Boolean object = var3[var5];
-            primitives[index++] = object.booleanValue();
+        for (Boolean object : booleanList) {
+            primitives[index++] = object;
         }
-
         return primitives;
     }
 
-    public void keyDown(EnumSet<TickType> types, KeyBinding keyBinding, boolean tickEnd, boolean isRepeat)
-    {
-        if (!tickEnd)
-        {
-            Iterator iterator4;
-
-            if (keyBinding == KEY_MULTIPLAYER && keyBinding.keyCode != -100 && keyBinding.keyCode != -99 && (Minecraft.getMinecraft().currentScreen == null || !(Minecraft.getMinecraft().currentScreen instanceof ITrade)))
-            {
-                ClientData.lastPlayerWantDisconnect = Long.valueOf(System.currentTimeMillis());
-
-                if (Minecraft.getMinecraft().theWorld != null)
-                {
-                    Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
+    public void keyDown(EnumSet<TickType> types, KeyBinding keyBinding, boolean tickEnd, boolean isRepeat) {
+        if (!tickEnd) {
+            if (!(keyBinding != KEY_MULTIPLAYER || keyBinding.field_74512_d == -100 || keyBinding.field_74512_d == -99 || Minecraft.func_71410_x().field_71462_r != null && Minecraft.func_71410_x().field_71462_r instanceof ITrade)) {
+                ClientData.lastPlayerWantDisconnect = System.currentTimeMillis();
+                if (Minecraft.func_71410_x().field_71441_e != null) {
+                    Minecraft.func_71410_x().func_71373_a(null);
                     TradeManager.sendData(EnumPacketServer.TRADE_CANCEL, 0);
-
-                    if (Minecraft.getMinecraft().theWorld != null)
-                    {
-                        Minecraft.getMinecraft().statFileWriter.readStat(StatList.leaveGameStat, 1);
-                        Minecraft.getMinecraft().theWorld.sendQuittingDisconnectingPacket();
-                        Minecraft.getMinecraft().loadWorld((WorldClient)null);
-                        iterator4 = (new ArrayList(ClientProxy.STREAMER_LIST)).iterator();
-
-                        while (iterator4.hasNext())
-                        {
-                            SoundStreamer notification3 = (SoundStreamer)iterator4.next();
-                            notification3.forceClose();
+                    if (Minecraft.func_71410_x().field_71441_e != null) {
+                        Minecraft.func_71410_x().field_71413_E.func_77450_a(StatList.field_75947_j, 1);
+                        Minecraft.func_71410_x().field_71441_e.func_72882_A();
+                        Minecraft.func_71410_x().func_71403_a(null);
+                        for (SoundStreamer player : new ArrayList<SoundStreamer>(ClientProxy.STREAMER_LIST)) {
+                            player.forceClose();
                         }
-
                         ClientProxy.STREAMER_LIST.clear();
                     }
-
                     ClientEventHandler.modsChecked = false;
-
-                    if (!ClientProxy.currentServerName.contains("hub"))
-                    {
-                        if (ClientSocket.out != null)
-                        {
+                    if (!ClientProxy.currentServerName.contains("hub")) {
+                        if (ClientSocket.out != null) {
                             ClientSocket.out.println("MESSAGE socket ADD_WAITINGLIST hub");
-                            ClientData.waitingJoinTime = Long.valueOf(System.currentTimeMillis());
-                            Minecraft.getMinecraft().displayGuiScreen(new WaitingSocketGui());
+                            ClientData.waitingJoinTime = System.currentTimeMillis();
+                            Minecraft.func_71410_x().func_71373_a((GuiScreen)new WaitingSocketGui());
                         }
+                    } else {
+                        Minecraft.func_71410_x().func_71373_a((GuiScreen)new MainGUI());
                     }
-                    else
-                    {
-                        Minecraft.getMinecraft().displayGuiScreen(new MainGUI());
+                } else {
+                    Minecraft.func_71410_x().func_71373_a((GuiScreen)new MainGUI());
+                }
+            } else if (keyBinding == KEY_CATALOG && Minecraft.func_71410_x().field_71462_r == null) {
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new RemoteOpenCatalogPacket()));
+            } else if (keyBinding == KEY_SPECIAL_INFO && Minecraft.func_71410_x().field_71462_r == null) {
+                ClientConfig clientConfig = ClientProxy.clientConfig;
+                clientConfig.specialEnabled = !clientConfig.specialEnabled;
+                try {
+                    ClientProxy.saveConfig();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (keyBinding == KEY_PORTAL_TP && Minecraft.func_71410_x().field_71462_r == null) {
+                if (!(System.currentTimeMillis() - ClientProxy.lastCollidedWithPortalTime >= 100L || PortalBlock.lastTP.containsKey(Minecraft.func_71410_x().field_71439_g.field_71092_bJ) && System.currentTimeMillis() - PortalBlock.lastTP.get(Minecraft.func_71410_x().field_71439_g.field_71092_bJ) <= 5000L)) {
+                    PortalBlock.lastTP.put(Minecraft.func_71410_x().field_71439_g.field_71092_bJ, System.currentTimeMillis());
+                    PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new IslandPortalTPPacket(ClientProxy.lastCollidedWithPortalX, ClientProxy.lastCollidedWithPortalY, ClientProxy.lastCollidedWithPortalZ, Minecraft.func_71410_x().field_71439_g.field_71092_bJ, Minecraft.func_71410_x().field_71439_g.field_70177_z)));
+                }
+            } else if (keyBinding == KEY_WARZONE_LEAVE && Minecraft.func_71410_x().field_71462_r == null && !this.isAnyMouseButtonDown()) {
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new PlayerExecCmdPacket("spawn", 0)));
+                if (ClientData.currentJumpStartTime != -1L) {
+                    NationsGUI.islandsSaveJumpPosition(ClientData.currentJumpLocation, "stop", -1L);
+                    ClientData.currentJumpRecord = "";
+                    ClientData.currentJumpStartTime = -1L;
+                }
+            } else if (keyBinding == KEY_BONUS && Minecraft.func_71410_x().field_71462_r == null && !this.isAnyMouseButtonDown()) {
+                if (System.currentTimeMillis() > 1734166800000L && System.currentTimeMillis() < 1736722800000L) {
+                    Minecraft.func_71410_x().func_71373_a((GuiScreen)new NoelMegaGiftGui());
+                } else if (ClientData.bonusStartTime != 0L && System.currentTimeMillis() >= ClientData.bonusStartTime && System.currentTimeMillis() <= ClientData.bonusEndTime) {
+                    Minecraft.func_71410_x().func_71373_a((GuiScreen)new BonusesGui());
+                }
+            } else if (keyBinding == KEY_WAITING && Minecraft.func_71410_x().field_71462_r == null && !this.isAnyMouseButtonDown() && ClientData.waitingServerName != null) {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new WaitingModalGui("quit"));
+            } else if (keyBinding == KEY_TOGGLE_SPRINT && Minecraft.func_71410_x().field_71462_r == null) {
+                boolean bl = toggleSprintEnabled = !toggleSprintEnabled;
+                if (!toggleSprintEnabled) {
+                    Minecraft.func_71410_x().field_71439_g.func_70031_b(false);
+                }
+            } else if (keyBinding == KEY_BLOCKINFO) {
+                ClientConfig clientConfig = ClientProxy.clientConfig;
+                clientConfig.blockInfoEnabled = !clientConfig.blockInfoEnabled;
+                try {
+                    ClientProxy.saveConfig();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (keyBinding == KEY_CHUNCK) {
+                boolean bl = displayChunck = !displayChunck;
+                if (Minecraft.func_71410_x().field_71439_g.field_71092_bJ.equals("iBalix") || Minecraft.func_71410_x().field_71439_g.field_71092_bJ.equals("MisterSand") || Minecraft.func_71410_x().field_71439_g.field_71092_bJ.equals("Tymothi")) {
+                    Minecraft.func_71410_x().func_71373_a((GuiScreen)new GuiDebugSkin());
+                }
+            } else if (keyBinding == KEY_MOB_SPAWN) {
+                displayMobSpawning = !displayMobSpawning;
+            } else if (keyBinding == KEY_SELL) {
+                if (Minecraft.func_71410_x().field_71441_e != null && Minecraft.func_71410_x().field_71462_r == null) {
+                    InventoryPlayer inventoryPlayer = Minecraft.func_71410_x().field_71439_g.field_71071_by;
+                    ItemStack itemStack = inventoryPlayer.field_70462_a[inventoryPlayer.field_70461_c];
+                    if (itemStack != null) {
+                        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new SellItemCheckPacket()));
                     }
                 }
-                else
-                {
-                    Minecraft.getMinecraft().displayGuiScreen(new MainGUI());
+            } else if (keyBinding == KEY_EMOTES && Minecraft.func_71410_x().field_71441_e != null) {
+                if (Minecraft.func_71410_x().field_71462_r == null) {
+                    Minecraft.func_71410_x().func_71373_a((GuiScreen)new EmoteGui());
+                } else if (Minecraft.func_71410_x().field_71462_r instanceof EmoteGui) {
+                    Minecraft.func_71410_x().func_71373_a(null);
                 }
-            }
-            else if (keyBinding == KEY_CATALOG && Minecraft.getMinecraft().currentScreen == null)
-            {
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new RemoteOpenCatalogPacket()));
-            }
-            else
-            {
-                ClientConfig iterator;
-
-                if (keyBinding == KEY_SPECIAL_INFO && Minecraft.getMinecraft().currentScreen == null)
-                {
-                    iterator = ClientProxy.clientConfig;
-                    iterator.specialEnabled = !iterator.specialEnabled;
-
-                    try
-                    {
-                        ClientProxy.saveConfig();
-                    }
-                    catch (IOException var9)
-                    {
-                        var9.printStackTrace();
-                    }
+            } else if (keyBinding.field_74515_c.contains("Hot Bar Slot")) {
+                Minecraft minecraft = Minecraft.func_71410_x();
+                if (minecraft.field_71441_e != null && minecraft.field_71462_r == null) {
+                    Minecraft.func_71410_x().field_71439_g.field_71071_by.field_70461_c = Integer.parseInt(keyBinding.field_74515_c.substring(keyBinding.field_74515_c.length() - 1)) - 1;
                 }
-                else if (keyBinding == KEY_PORTAL_TP && Minecraft.getMinecraft().currentScreen == null)
-                {
-                    if (System.currentTimeMillis() - ClientProxy.lastCollidedWithPortalTime.longValue() < 100L && (!PortalBlock.lastTP.containsKey(Minecraft.getMinecraft().thePlayer.username) || System.currentTimeMillis() - ((Long)PortalBlock.lastTP.get(Minecraft.getMinecraft().thePlayer.username)).longValue() > 5000L))
-                    {
-                        PortalBlock.lastTP.put(Minecraft.getMinecraft().thePlayer.username, Long.valueOf(System.currentTimeMillis()));
-                        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new IslandPortalTPPacket(ClientProxy.lastCollidedWithPortalX, ClientProxy.lastCollidedWithPortalY, ClientProxy.lastCollidedWithPortalZ, Minecraft.getMinecraft().thePlayer.username, Minecraft.getMinecraft().thePlayer.rotationYaw)));
+                if (minecraft.field_71441_e != null && minecraft.field_71462_r != null && minecraft.field_71462_r instanceof GuiContainer && !(minecraft.field_71462_r instanceof InventoryGUI)) {
+                    if (System.currentTimeMillis() - lastHotbarKeyPress < 250L) {
+                        Minecraft.func_71410_x().func_71373_a(null);
                     }
+                    lastHotbarKeyPress = System.currentTimeMillis();
                 }
-                else if (keyBinding == KEY_WARZONE_LEAVE && Minecraft.getMinecraft().currentScreen == null && !this.isAnyMouseButtonDown())
-                {
-                    PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new PlayerExecCmdPacket("spawn", 0)));
-
-                    if (ClientData.currentJumpStartTime.longValue() != -1L)
-                    {
-                        NationsGUI.islandsSaveJumpPosition(ClientData.currentJumpLocation, "stop", Long.valueOf(-1L));
-                        ClientData.currentJumpRecord = "";
-                        ClientData.currentJumpStartTime = Long.valueOf(-1L);
-                    }
+            } else if (keyBinding == KEY_REFRESH_HATS) {
+                String pseudo = Minecraft.func_71410_x().func_110432_I().func_111285_a();
+                List<String> pseudoList = Arrays.asList("iBalix", "GuiGeeK60", "GuiGeeK60_ulti", "Wascar");
+                if (pseudoList.contains(pseudo)) {
+                    Minecraft.func_71410_x().field_71439_g.func_71035_c("\u00a74[\u00a7cHat\u00a74]\u00a7r \u00a77Refreshing Skins...");
                 }
-                else if (keyBinding == KEY_BONUS && Minecraft.getMinecraft().currentScreen == null && !this.isAnyMouseButtonDown())
-                {
-                    if (System.currentTimeMillis() > 1734166800000L && System.currentTimeMillis() < 1736722800000L)
-                    {
-                        Minecraft.getMinecraft().displayGuiScreen(new NoelMegaGiftGui());
-                    }
-                    else if (ClientData.bonusStartTime.longValue() != 0L && System.currentTimeMillis() >= ClientData.bonusStartTime.longValue() && System.currentTimeMillis() <= ClientData.bonusEndTime.longValue())
-                    {
-                        Minecraft.getMinecraft().displayGuiScreen(new BonusesGui());
-                    }
+            } else if (keyBinding == KEY_TOGGLE_3D_SKINS && Minecraft.func_71410_x().field_71462_r == null) {
+                ClientProxy.clientConfig.render3DSkins = !ClientProxy.clientConfig.render3DSkins;
+                try {
+                    ClientProxy.saveConfig();
                 }
-                else if (keyBinding == KEY_WAITING && Minecraft.getMinecraft().currentScreen == null && !this.isAnyMouseButtonDown() && ClientData.waitingServerName != null)
-                {
-                    Minecraft.getMinecraft().displayGuiScreen(new WaitingModalGui("quit"));
+                catch (IOException e) {
+                    e.printStackTrace();
                 }
-                else if (keyBinding == KEY_TOGGLE_SPRINT && Minecraft.getMinecraft().currentScreen == null)
-                {
-                    toggleSprintEnabled = !toggleSprintEnabled;
-
-                    if (!toggleSprintEnabled)
-                    {
-                        Minecraft.getMinecraft().thePlayer.setSprinting(false);
-                    }
-                }
-                else if (keyBinding == KEY_BLOCKINFO)
-                {
-                    iterator = ClientProxy.clientConfig;
-                    iterator.blockInfoEnabled = !iterator.blockInfoEnabled;
-
-                    try
-                    {
-                        ClientProxy.saveConfig();
-                    }
-                    catch (IOException var8)
-                    {
-                        var8.printStackTrace();
-                    }
-                }
-                else if (keyBinding == KEY_CHUNCK)
-                {
-                    displayChunck = !displayChunck;
-
-                    if (Minecraft.getMinecraft().thePlayer.username.equals("iBalix") || Minecraft.getMinecraft().thePlayer.username.equals("MisterSand") || Minecraft.getMinecraft().thePlayer.username.equals("Tymothi"))
-                    {
-                        Minecraft.getMinecraft().displayGuiScreen(new GuiDebugSkin());
-                    }
-                }
-                else if (keyBinding == KEY_MOB_SPAWN)
-                {
-                    displayMobSpawning = !displayMobSpawning;
-                }
-                else if (keyBinding == KEY_SELL)
-                {
-                    if (Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().currentScreen == null)
-                    {
-                        InventoryPlayer iterator1 = Minecraft.getMinecraft().thePlayer.inventory;
-                        ItemStack notification = iterator1.mainInventory[iterator1.currentItem];
-
-                        if (notification != null)
-                        {
-                            PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new SellItemCheckPacket()));
+                Minecraft.func_71410_x().field_71439_g.func_71035_c(I18n.func_135052_a((String)"nationsgui.toggle3d", (Object[])new Object[]{ClientProxy.clientConfig.render3DSkins ? "ON" : "OFF"}));
+            } else if (keyBinding == KEY_OPEN_NOTIF && Minecraft.func_71410_x().field_71462_r == null) {
+                Notification notification;
+                Iterator<Notification> iterator;
+                if (!ClientData.dialogs.isEmpty()) {
+                    if (DialogOverride.currentDialogLetterIndex == ((String)ClientData.dialogs.get(0).get("content")).length()) {
+                        if (ClientData.dialogs.get(0).get("command") != null) {
+                            PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new DialogExecPacket((String)ClientData.dialogs.get(0).get("identifier"))));
                         }
+                        ClientData.dialogs.remove(0);
+                        DialogOverride.resetDisplay();
+                    } else {
+                        DialogOverride.currentDialogLetterIndex = ((String)ClientData.dialogs.get(0).get("content")).length();
                     }
                 }
-                else if (keyBinding == KEY_EMOTES && Minecraft.getMinecraft().theWorld != null)
-                {
-                    if (Minecraft.getMinecraft().currentScreen == null)
-                    {
-                        Minecraft.getMinecraft().displayGuiScreen(new EmoteGui());
-                    }
-                    else if (Minecraft.getMinecraft().currentScreen instanceof EmoteGui)
-                    {
-                        Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
-                    }
-                }
-                else if (keyBinding.keyDescription.contains("Hot Bar Slot"))
-                {
-                    Minecraft iterator2 = Minecraft.getMinecraft();
-
-                    if (iterator2.theWorld != null && iterator2.currentScreen == null)
-                    {
-                        Minecraft.getMinecraft().thePlayer.inventory.currentItem = Integer.parseInt(keyBinding.keyDescription.substring(keyBinding.keyDescription.length() - 1)) - 1;
-                    }
-
-                    if (iterator2.theWorld != null && iterator2.currentScreen != null && iterator2.currentScreen instanceof GuiContainer && !(iterator2.currentScreen instanceof InventoryGUI))
-                    {
-                        if (System.currentTimeMillis() - lastHotbarKeyPress.longValue() < 250L)
-                        {
-                            Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
-                        }
-
-                        lastHotbarKeyPress = Long.valueOf(System.currentTimeMillis());
-                    }
-                }
-                else if (keyBinding == KEY_REFRESH_HATS)
-                {
-                    String iterator3 = Minecraft.getMinecraft().getSession().getUsername();
-                    List notification1 = Arrays.asList(new String[] {"iBalix", "GuiGeeK60", "GuiGeeK60_ulti", "Wascar"});
-
-                    if (notification1.contains(iterator3))
-                    {
-                        Minecraft.getMinecraft().thePlayer.addChatMessage("\u00a74[\u00a7cHat\u00a74]\u00a7r \u00a77Refreshing Skins...");
-                    }
-                }
-                else if (keyBinding == KEY_TOGGLE_3D_SKINS && Minecraft.getMinecraft().currentScreen == null)
-                {
-                    ClientProxy.clientConfig.render3DSkins = !ClientProxy.clientConfig.render3DSkins;
-
-                    try
-                    {
-                        ClientProxy.saveConfig();
-                    }
-                    catch (IOException var7)
-                    {
-                        var7.printStackTrace();
-                    }
-
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(I18n.getStringParams("nationsgui.toggle3d", new Object[] {ClientProxy.clientConfig.render3DSkins ? "ON" : "OFF"}));
-                }
-                else if (keyBinding == KEY_OPEN_NOTIF && Minecraft.getMinecraft().currentScreen == null)
-                {
-                    if (!ClientData.dialogs.isEmpty())
-                    {
-                        if (DialogOverride.currentDialogLetterIndex == ((String)((HashMap)ClientData.dialogs.get(0)).get("content")).length())
-                        {
-                            if (((HashMap)ClientData.dialogs.get(0)).get("command") != null)
-                            {
-                                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new DialogExecPacket((String)((HashMap)ClientData.dialogs.get(0)).get("identifier"))));
-                            }
-
-                            ClientData.dialogs.remove(0);
-                            DialogOverride.resetDisplay();
-                        }
-                        else
-                        {
-                            DialogOverride.currentDialogLetterIndex = ((String)((HashMap)ClientData.dialogs.get(0)).get("content")).length();
-                        }
-                    }
-
-                    iterator4 = ClientData.notifications.iterator();
-
-                    if (iterator4.hasNext())
-                    {
-                        Notification notification2 = (Notification)iterator4.next();
-
-                        if (!notification2.isExpired() && ClientProxy.clientConfig.displayNotifications && notification2.getCompound().hasKey("actions"))
-                        {
-                            Minecraft.getMinecraft().displayGuiScreen(new NotificationActionsGUI(notification2));
-                        }
-                    }
+                if ((iterator = ClientData.notifications.iterator()).hasNext() && !(notification = iterator.next()).isExpired() && ClientProxy.clientConfig.displayNotifications && notification.getCompound().func_74764_b("actions")) {
+                    Minecraft.func_71410_x().func_71373_a((GuiScreen)new NotificationActionsGUI(notification));
                 }
             }
         }
     }
 
-    public void keyUp(EnumSet<TickType> types, KeyBinding keyBinding, boolean tickEnd) {}
+    public void keyUp(EnumSet<TickType> types, KeyBinding keyBinding, boolean tickEnd) {
+    }
 
-    public EnumSet<TickType> ticks()
-    {
+    public EnumSet<TickType> ticks() {
         return EnumSet.of(TickType.CLIENT);
     }
 
-    public String getLabel()
-    {
+    public String getLabel() {
         return "nationsgui";
     }
 
-    private boolean isAnyMouseButtonDown()
-    {
-        for (int i = 0; i < Mouse.getButtonCount(); ++i)
-        {
-            if (Mouse.isButtonDown(i))
-            {
-                return true;
-            }
+    private boolean isAnyMouseButtonDown() {
+        for (int i = 0; i < Mouse.getButtonCount(); ++i) {
+            if (!Mouse.isButtonDown((int)i)) continue;
+            return true;
         }
-
         return false;
     }
 
-    static
-    {
-        keyBindingBooleanHashMap.put(KEY_MULTIPLAYER, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_CATALOG, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_SPRINT, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_SPECIAL_INFO, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_PORTAL_TP, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_WARZONE_LEAVE, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_BONUS, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_WAITING, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_TOGGLE_SPRINT, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_BLOCKINFO, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_CHUNCK, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_MOB_SPAWN, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_SELL, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_EMOTES, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_SCREENSHOT, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_DEBUG, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_HIDE_GUI, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_THIRD_PERSON, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_SMOOTH_CAMERA, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_FULLSCREEN, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_TOGGLE_3D_SKINS, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_OPEN_NOTIF, Boolean.valueOf(false));
-        keyBindingBooleanHashMap.put(KEY_TEST, Boolean.valueOf(false));
-        String pseudo = Minecraft.getMinecraft().getSession().getUsername();
-
-        if (pseudo.equalsIgnoreCase("iBalix") || pseudo.equalsIgnoreCase("GuiGeeK60") || pseudo.equalsIgnoreCase("GuiGeeK60_ulti"))
-        {
-            keyBindingBooleanHashMap.put(KEY_REFRESH_HATS, Boolean.valueOf(false));
+    static {
+        keyBindingBooleanHashMap.put(KEY_MULTIPLAYER, false);
+        keyBindingBooleanHashMap.put(KEY_CATALOG, false);
+        keyBindingBooleanHashMap.put(KEY_SPRINT, false);
+        keyBindingBooleanHashMap.put(KEY_SPECIAL_INFO, false);
+        keyBindingBooleanHashMap.put(KEY_PORTAL_TP, false);
+        keyBindingBooleanHashMap.put(KEY_WARZONE_LEAVE, false);
+        keyBindingBooleanHashMap.put(KEY_BONUS, false);
+        keyBindingBooleanHashMap.put(KEY_WAITING, false);
+        keyBindingBooleanHashMap.put(KEY_TOGGLE_SPRINT, false);
+        keyBindingBooleanHashMap.put(KEY_BLOCKINFO, false);
+        keyBindingBooleanHashMap.put(KEY_CHUNCK, false);
+        keyBindingBooleanHashMap.put(KEY_MOB_SPAWN, false);
+        keyBindingBooleanHashMap.put(KEY_SELL, false);
+        keyBindingBooleanHashMap.put(KEY_EMOTES, false);
+        keyBindingBooleanHashMap.put(KEY_SCREENSHOT, false);
+        keyBindingBooleanHashMap.put(KEY_DEBUG, false);
+        keyBindingBooleanHashMap.put(KEY_HIDE_GUI, false);
+        keyBindingBooleanHashMap.put(KEY_THIRD_PERSON, false);
+        keyBindingBooleanHashMap.put(KEY_SMOOTH_CAMERA, false);
+        keyBindingBooleanHashMap.put(KEY_FULLSCREEN, false);
+        keyBindingBooleanHashMap.put(KEY_TOGGLE_3D_SKINS, false);
+        keyBindingBooleanHashMap.put(KEY_OPEN_NOTIF, false);
+        keyBindingBooleanHashMap.put(KEY_TEST, false);
+        String pseudo = Minecraft.func_71410_x().func_110432_I().func_111285_a();
+        if (pseudo.equalsIgnoreCase("iBalix") || pseudo.equalsIgnoreCase("GuiGeeK60") || pseudo.equalsIgnoreCase("GuiGeeK60_ulti")) {
+            keyBindingBooleanHashMap.put(KEY_REFRESH_HATS, false);
         }
-
-        for (int i = 0; i < 9; ++i)
-        {
-            keyBindingBooleanHashMap.put(new KeyBinding("Hot Bar Slot " + (i + 1), 2 + i), Boolean.valueOf(false));
+        for (int i = 0; i < 9; ++i) {
+            keyBindingBooleanHashMap.put(new KeyBinding("Hot Bar Slot " + (i + 1), 2 + i), false);
         }
     }
 }
+

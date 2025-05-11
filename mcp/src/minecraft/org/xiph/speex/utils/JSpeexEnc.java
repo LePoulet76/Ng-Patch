@@ -1,3 +1,6 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package org.xiph.speex.utils;
 
 import java.io.DataInputStream;
@@ -11,8 +14,7 @@ import org.xiph.speex.PcmWaveWriter;
 import org.xiph.speex.RawWriter;
 import org.xiph.speex.SpeexEncoder;
 
-public class JSpeexEnc
-{
+public class JSpeexEnc {
     public static final String VERSION = "Java Speex Command Line Encoder v0.9.7 ($Revision: 1.5 $)";
     public static final String COPYRIGHT = "Copyright (C) 2002-2004 Wimba S.A.";
     public static final int DEBUG = 0;
@@ -32,200 +34,127 @@ public class JSpeexEnc
     protected int bitrate = -1;
     protected int sampleRate = -1;
     protected int channels = 1;
-    protected float vbr_quality = -1.0F;
+    protected float vbr_quality = -1.0f;
     protected boolean vbr = false;
     protected boolean vad = false;
     protected boolean dtx = false;
     protected String srcFile;
     protected String destFile;
 
-    public static void main(String[] var0) throws IOException
-    {
+    public static void main(String[] var0) throws IOException {
         JSpeexEnc var1 = new JSpeexEnc();
-
-        if (var1.parseArgs(var0))
-        {
+        if (var1.parseArgs(var0)) {
             var1.encode();
         }
     }
 
-    public boolean parseArgs(String[] var1)
-    {
-        if (var1.length < 2)
-        {
-            if (var1.length == 1 && (var1[0].equalsIgnoreCase("-v") || var1[0].equalsIgnoreCase("--version")))
-            {
-                version();
+    public boolean parseArgs(String[] var1) {
+        if (var1.length < 2) {
+            if (var1.length == 1 && (var1[0].equalsIgnoreCase("-v") || var1[0].equalsIgnoreCase("--version"))) {
+                JSpeexEnc.version();
                 return false;
             }
-            else
-            {
-                usage();
-                return false;
-            }
+            JSpeexEnc.usage();
+            return false;
         }
-        else
-        {
-            this.srcFile = var1[var1.length - 2];
-            this.destFile = var1[var1.length - 1];
-
-            if (this.srcFile.toLowerCase().endsWith(".wav"))
-            {
-                this.srcFormat = 2;
-            }
-            else
-            {
-                this.srcFormat = 0;
-            }
-
-            if (this.destFile.toLowerCase().endsWith(".spx"))
-            {
-                this.destFormat = 1;
-            }
-            else if (this.destFile.toLowerCase().endsWith(".wav"))
-            {
-                this.destFormat = 2;
-            }
-            else
-            {
-                this.destFormat = 0;
-            }
-
-            int var2 = 0;
-
-            while (var2 < var1.length - 2)
-            {
-                if (!var1[var2].equalsIgnoreCase("-h") && !var1[var2].equalsIgnoreCase("--help"))
-                {
-                    if (!var1[var2].equalsIgnoreCase("-v") && !var1[var2].equalsIgnoreCase("--version"))
-                    {
-                        if (var1[var2].equalsIgnoreCase("--verbose"))
-                        {
-                            this.printlevel = 0;
-                        }
-                        else if (var1[var2].equalsIgnoreCase("--quiet"))
-                        {
-                            this.printlevel = 2;
-                        }
-                        else if (!var1[var2].equalsIgnoreCase("-n") && !var1[var2].equalsIgnoreCase("-nb") && !var1[var2].equalsIgnoreCase("--narrowband"))
-                        {
-                            if (!var1[var2].equalsIgnoreCase("-w") && !var1[var2].equalsIgnoreCase("-wb") && !var1[var2].equalsIgnoreCase("--wideband"))
-                            {
-                                if (!var1[var2].equalsIgnoreCase("-u") && !var1[var2].equalsIgnoreCase("-uwb") && !var1[var2].equalsIgnoreCase("--ultra-wideband"))
-                                {
-                                    if (!var1[var2].equalsIgnoreCase("-q") && !var1[var2].equalsIgnoreCase("--quality"))
-                                    {
-                                        if (var1[var2].equalsIgnoreCase("--complexity"))
-                                        {
-                                            try
-                                            {
-                                                ++var2;
-                                                this.complexity = Integer.parseInt(var1[var2]);
-                                            }
-                                            catch (NumberFormatException var7)
-                                            {
-                                                usage();
-                                                return false;
-                                            }
+        this.srcFile = var1[var1.length - 2];
+        this.destFile = var1[var1.length - 1];
+        this.srcFormat = this.srcFile.toLowerCase().endsWith(".wav") ? 2 : 0;
+        this.destFormat = this.destFile.toLowerCase().endsWith(".spx") ? 1 : (this.destFile.toLowerCase().endsWith(".wav") ? 2 : 0);
+        for (int var2 = 0; var2 < var1.length - 2; ++var2) {
+            if (!var1[var2].equalsIgnoreCase("-h") && !var1[var2].equalsIgnoreCase("--help")) {
+                if (!var1[var2].equalsIgnoreCase("-v") && !var1[var2].equalsIgnoreCase("--version")) {
+                    if (var1[var2].equalsIgnoreCase("--verbose")) {
+                        this.printlevel = 0;
+                        continue;
+                    }
+                    if (var1[var2].equalsIgnoreCase("--quiet")) {
+                        this.printlevel = 2;
+                        continue;
+                    }
+                    if (!(var1[var2].equalsIgnoreCase("-n") || var1[var2].equalsIgnoreCase("-nb") || var1[var2].equalsIgnoreCase("--narrowband"))) {
+                        if (!(var1[var2].equalsIgnoreCase("-w") || var1[var2].equalsIgnoreCase("-wb") || var1[var2].equalsIgnoreCase("--wideband"))) {
+                            if (!(var1[var2].equalsIgnoreCase("-u") || var1[var2].equalsIgnoreCase("-uwb") || var1[var2].equalsIgnoreCase("--ultra-wideband"))) {
+                                if (!var1[var2].equalsIgnoreCase("-q") && !var1[var2].equalsIgnoreCase("--quality")) {
+                                    if (var1[var2].equalsIgnoreCase("--complexity")) {
+                                        try {
+                                            this.complexity = Integer.parseInt(var1[++var2]);
+                                            continue;
                                         }
-                                        else if (var1[var2].equalsIgnoreCase("--nframes"))
-                                        {
-                                            try
-                                            {
-                                                ++var2;
-                                                this.nframes = Integer.parseInt(var1[var2]);
-                                            }
-                                            catch (NumberFormatException var6)
-                                            {
-                                                usage();
-                                                return false;
-                                            }
-                                        }
-                                        else if (var1[var2].equalsIgnoreCase("--vbr"))
-                                        {
-                                            this.vbr = true;
-                                        }
-                                        else if (var1[var2].equalsIgnoreCase("--vad"))
-                                        {
-                                            this.vad = true;
-                                        }
-                                        else if (var1[var2].equalsIgnoreCase("--dtx"))
-                                        {
-                                            this.dtx = true;
-                                        }
-                                        else if (var1[var2].equalsIgnoreCase("--rate"))
-                                        {
-                                            try
-                                            {
-                                                ++var2;
-                                                this.sampleRate = Integer.parseInt(var1[var2]);
-                                            }
-                                            catch (NumberFormatException var5)
-                                            {
-                                                usage();
-                                                return false;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (!var1[var2].equalsIgnoreCase("--stereo"))
-                                            {
-                                                usage();
-                                                return false;
-                                            }
-
-                                            this.channels = 2;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        try
-                                        {
-                                            ++var2;
-                                            this.vbr_quality = Float.parseFloat(var1[var2]);
-                                            this.quality = (int)this.vbr_quality;
-                                        }
-                                        catch (NumberFormatException var4)
-                                        {
-                                            usage();
+                                        catch (NumberFormatException var6) {
+                                            JSpeexEnc.usage();
                                             return false;
                                         }
                                     }
+                                    if (var1[var2].equalsIgnoreCase("--nframes")) {
+                                        try {
+                                            this.nframes = Integer.parseInt(var1[++var2]);
+                                            continue;
+                                        }
+                                        catch (NumberFormatException var5) {
+                                            JSpeexEnc.usage();
+                                            return false;
+                                        }
+                                    }
+                                    if (var1[var2].equalsIgnoreCase("--vbr")) {
+                                        this.vbr = true;
+                                        continue;
+                                    }
+                                    if (var1[var2].equalsIgnoreCase("--vad")) {
+                                        this.vad = true;
+                                        continue;
+                                    }
+                                    if (var1[var2].equalsIgnoreCase("--dtx")) {
+                                        this.dtx = true;
+                                        continue;
+                                    }
+                                    if (var1[var2].equalsIgnoreCase("--rate")) {
+                                        try {
+                                            this.sampleRate = Integer.parseInt(var1[++var2]);
+                                            continue;
+                                        }
+                                        catch (NumberFormatException var4) {
+                                            JSpeexEnc.usage();
+                                            return false;
+                                        }
+                                    }
+                                    if (!var1[var2].equalsIgnoreCase("--stereo")) {
+                                        JSpeexEnc.usage();
+                                        return false;
+                                    }
+                                    this.channels = 2;
+                                    continue;
                                 }
-                                else
-                                {
-                                    this.mode = 2;
+                                try {
+                                    this.vbr_quality = Float.parseFloat(var1[++var2]);
+                                    this.quality = (int)this.vbr_quality;
+                                    continue;
+                                }
+                                catch (NumberFormatException var7) {
+                                    JSpeexEnc.usage();
+                                    return false;
                                 }
                             }
-                            else
-                            {
-                                this.mode = 1;
-                            }
+                            this.mode = 2;
+                            continue;
                         }
-                        else
-                        {
-                            this.mode = 0;
-                        }
-
-                        ++var2;
+                        this.mode = 1;
                         continue;
                     }
-
-                    version();
-                    return false;
+                    this.mode = 0;
+                    continue;
                 }
-
-                usage();
+                JSpeexEnc.version();
                 return false;
             }
-
-            return true;
+            JSpeexEnc.usage();
+            return false;
         }
+        return true;
     }
 
-    public static void usage()
-    {
-        version();
+    public static void usage() {
+        JSpeexEnc.version();
         System.out.println("");
         System.out.println("Usage: JSpeexEnc [options] input_file output_file");
         System.out.println("Where:");
@@ -256,179 +185,118 @@ public class JSpeexEnc
         System.out.println("This code is a Java port of the Speex codec: http://www.speex.org/");
     }
 
-    public static void version()
-    {
-        System.out.println("Java Speex Command Line Encoder v0.9.7 ($Revision: 1.5 $)");
+    public static void version() {
+        System.out.println(VERSION);
         System.out.println("using Java Speex Encoder v0.9.7 ($Revision: 1.6 $)");
-        System.out.println("Copyright (C) 2002-2004 Wimba S.A.");
+        System.out.println(COPYRIGHT);
     }
 
-    public void encode() throws IOException
-    {
+    public void encode() throws IOException {
         this.encode(new File(this.srcFile), new File(this.destFile));
     }
 
-    public void encode(File var1, File var2) throws IOException
-    {
+    public void encode(File var1, File var2) throws IOException {
+        AudioFileWriter var17;
         byte[] var3 = new byte[2560];
-
-        if (this.printlevel <= 1)
-        {
-            version();
+        if (this.printlevel <= 1) {
+            JSpeexEnc.version();
         }
-
-        if (this.printlevel <= 0)
-        {
+        if (this.printlevel <= 0) {
             System.out.println("");
         }
-
-        if (this.printlevel <= 0)
-        {
+        if (this.printlevel <= 0) {
             System.out.println("Input File: " + var1);
         }
-
         DataInputStream var10 = new DataInputStream(new FileInputStream(var1));
-
-        if (this.srcFormat == 2)
-        {
+        if (this.srcFormat == 2) {
             var10.readFully(var3, 0, 12);
-
-            if (!"RIFF".equals(new String(var3, 0, 4)) && !"WAVE".equals(new String(var3, 8, 4)))
-            {
+            if (!"RIFF".equals(new String(var3, 0, 4)) && !"WAVE".equals(new String(var3, 8, 4))) {
                 System.err.println("Not a WAVE file");
                 return;
             }
-
             var10.readFully(var3, 0, 8);
-            String var16 = new String(var3, 0, 4);
-            int var17;
-
-            for (var17 = readInt(var3, 4); !var16.equals("data"); var17 = readInt(var3, 4))
-            {
-                var10.readFully(var3, 0, var17);
-
-                if (var16.equals("fmt "))
-                {
-                    if (readShort(var3, 0) != 1)
-                    {
+            String var11 = new String(var3, 0, 4);
+            int var12 = JSpeexEnc.readInt(var3, 4);
+            while (!var11.equals("data")) {
+                var10.readFully(var3, 0, var12);
+                if (var11.equals("fmt ")) {
+                    if (JSpeexEnc.readShort(var3, 0) != 1) {
                         System.err.println("Not a PCM file");
                         return;
                     }
-
-                    this.channels = readShort(var3, 2);
-                    this.sampleRate = readInt(var3, 4);
-
-                    if (readShort(var3, 14) != 16)
-                    {
-                        System.err.println("Not a 16 bit file " + readShort(var3, 18));
+                    this.channels = JSpeexEnc.readShort(var3, 2);
+                    this.sampleRate = JSpeexEnc.readInt(var3, 4);
+                    if (JSpeexEnc.readShort(var3, 14) != 16) {
+                        System.err.println("Not a 16 bit file " + JSpeexEnc.readShort(var3, 18));
                         return;
                     }
-
-                    if (this.printlevel <= 0)
-                    {
+                    if (this.printlevel <= 0) {
                         System.out.println("File Format: PCM wave");
                         System.out.println("Sample Rate: " + this.sampleRate);
                         System.out.println("Channels: " + this.channels);
                     }
                 }
-
                 var10.readFully(var3, 0, 8);
-                var16 = new String(var3, 0, 4);
+                var11 = new String(var3, 0, 4);
+                var12 = JSpeexEnc.readInt(var3, 4);
             }
-
-            if (this.printlevel <= 0)
-            {
-                System.out.println("Data size: " + var17);
+            if (this.printlevel <= 0) {
+                System.out.println("Data size: " + var12);
             }
-        }
-        else
-        {
-            if (this.sampleRate < 0)
-            {
-                switch (this.mode)
-                {
-                    case 0:
+        } else {
+            if (this.sampleRate < 0) {
+                switch (this.mode) {
+                    case 0: {
                         this.sampleRate = 8000;
                         break;
-
-                    case 1:
+                    }
+                    case 1: {
                         this.sampleRate = 16000;
                         break;
-
-                    case 2:
+                    }
+                    case 2: {
                         this.sampleRate = 32000;
                         break;
-
-                    default:
+                    }
+                    default: {
                         this.sampleRate = 8000;
+                    }
                 }
             }
-
-            if (this.printlevel <= 0)
-            {
+            if (this.printlevel <= 0) {
                 System.out.println("File format: Raw audio");
                 System.out.println("Sample rate: " + this.sampleRate);
                 System.out.println("Channels: " + this.channels);
                 System.out.println("Data size: " + var1.length());
             }
         }
-
-        if (this.mode < 0)
-        {
-            if (this.sampleRate < 100)
-            {
+        if (this.mode < 0) {
+            if (this.sampleRate < 100) {
                 this.sampleRate *= 1000;
             }
-
-            if (this.sampleRate < 12000)
-            {
-                this.mode = 0;
-            }
-            else if (this.sampleRate < 24000)
-            {
-                this.mode = 1;
-            }
-            else
-            {
-                this.mode = 2;
-            }
+            this.mode = this.sampleRate < 12000 ? 0 : (this.sampleRate < 24000 ? 1 : 2);
         }
-
-        SpeexEncoder var101 = new SpeexEncoder();
-        var101.init(this.mode, this.quality, this.sampleRate, this.channels);
-
-        if (this.complexity > 0)
-        {
-            var101.getEncoder().setComplexity(this.complexity);
+        SpeexEncoder var16 = new SpeexEncoder();
+        var16.init(this.mode, this.quality, this.sampleRate, this.channels);
+        if (this.complexity > 0) {
+            var16.getEncoder().setComplexity(this.complexity);
         }
-
-        if (this.bitrate > 0)
-        {
-            var101.getEncoder().setBitRate(this.bitrate);
+        if (this.bitrate > 0) {
+            var16.getEncoder().setBitRate(this.bitrate);
         }
-
-        if (this.vbr)
-        {
-            var101.getEncoder().setVbr(this.vbr);
-
-            if (this.vbr_quality > 0.0F)
-            {
-                var101.getEncoder().setVbrQuality(this.vbr_quality);
+        if (this.vbr) {
+            var16.getEncoder().setVbr(this.vbr);
+            if (this.vbr_quality > 0.0f) {
+                var16.getEncoder().setVbrQuality(this.vbr_quality);
             }
         }
-
-        if (this.vad)
-        {
-            var101.getEncoder().setVad(this.vad);
+        if (this.vad) {
+            var16.getEncoder().setVad(this.vad);
         }
-
-        if (this.dtx)
-        {
-            var101.getEncoder().setDtx(this.dtx);
+        if (this.dtx) {
+            var16.getEncoder().setDtx(this.dtx);
         }
-
-        if (this.printlevel <= 0)
-        {
+        if (this.printlevel <= 0) {
             System.out.println("");
             System.out.println("Output File: " + var2);
             System.out.println("File format: Ogg Speex");
@@ -440,61 +308,42 @@ public class JSpeexEnc
             System.out.println("Voice activity detection: " + this.vad);
             System.out.println("Discontinouous Transmission: " + this.dtx);
         }
-
-        Object var11;
-
-        if (this.destFormat == 1)
-        {
-            var11 = new OggSpeexWriter(this.mode, this.sampleRate, this.channels, this.nframes, this.vbr);
-        }
-        else if (this.destFormat == 2)
-        {
+        if (this.destFormat == 1) {
+            var17 = new OggSpeexWriter(this.mode, this.sampleRate, this.channels, this.nframes, this.vbr);
+        } else if (this.destFormat == 2) {
             this.nframes = PcmWaveWriter.WAVE_FRAME_SIZES[this.mode - 1][this.channels - 1][this.quality];
-            var11 = new PcmWaveWriter(this.mode, this.quality, this.sampleRate, this.channels, this.nframes, this.vbr);
+            var17 = new PcmWaveWriter(this.mode, this.quality, this.sampleRate, this.channels, this.nframes, this.vbr);
+        } else {
+            var17 = new RawWriter();
         }
-        else
-        {
-            var11 = new RawWriter();
-        }
-
-        ((AudioFileWriter)var11).open(var2);
-        ((AudioFileWriter)var11).writeHeader("Encoded with: Java Speex Command Line Encoder v0.9.7 ($Revision: 1.5 $)");
-        int var13 = 2 * this.channels * var101.getFrameSize();
-
-        try
-        {
-            while (true)
-            {
+        ((AudioFileWriter)var17).open(var2);
+        ((AudioFileWriter)var17).writeHeader("Encoded with: Java Speex Command Line Encoder v0.9.7 ($Revision: 1.5 $)");
+        int var13 = 2 * this.channels * var16.getFrameSize();
+        try {
+            while (true) {
+                int var14;
                 var10.readFully(var3, 0, this.nframes * var13);
-                int var15;
-
-                for (var15 = 0; var15 < this.nframes; ++var15)
-                {
-                    var101.processData(var3, var15 * var13, var13);
+                for (var14 = 0; var14 < this.nframes; ++var14) {
+                    var16.processData(var3, var14 * var13, var13);
                 }
-
-                var15 = var101.getProcessedData(var3, 0);
-
-                if (var15 > 0)
-                {
-                    ((AudioFileWriter)var11).writePacket(var3, 0, var15);
-                }
+                var14 = var16.getProcessedData(var3, 0);
+                if (var14 <= 0) continue;
+                ((AudioFileWriter)var17).writePacket(var3, 0, var14);
             }
         }
-        catch (EOFException var9)
-        {
-            ((AudioFileWriter)var11).close();
+        catch (EOFException var15) {
+            ((AudioFileWriter)var17).close();
             var10.close();
+            return;
         }
     }
 
-    protected static int readInt(byte[] var0, int var1)
-    {
-        return var0[var1] & 255 | (var0[var1 + 1] & 255) << 8 | (var0[var1 + 2] & 255) << 16 | var0[var1 + 3] << 24;
+    protected static int readInt(byte[] var0, int var1) {
+        return var0[var1] & 0xFF | (var0[var1 + 1] & 0xFF) << 8 | (var0[var1 + 2] & 0xFF) << 16 | var0[var1 + 3] << 24;
     }
 
-    protected static int readShort(byte[] var0, int var1)
-    {
-        return var0[var1] & 255 | var0[var1 + 1] << 8;
+    protected static int readShort(byte[] var0, int var1) {
+        return var0[var1] & 0xFF | var0[var1 + 1] << 8;
     }
 }
+

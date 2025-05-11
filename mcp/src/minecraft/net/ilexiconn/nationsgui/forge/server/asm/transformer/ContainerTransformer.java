@@ -1,13 +1,29 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.inventory.Slot
+ *  net.minecraft.item.ItemFood
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.nbt.NBTTagCompound
+ *  org.objectweb.asm.tree.AbstractInsnNode
+ *  org.objectweb.asm.tree.ClassNode
+ *  org.objectweb.asm.tree.FieldInsnNode
+ *  org.objectweb.asm.tree.InsnList
+ *  org.objectweb.asm.tree.JumpInsnNode
+ *  org.objectweb.asm.tree.LabelNode
+ *  org.objectweb.asm.tree.MethodInsnNode
+ *  org.objectweb.asm.tree.MethodNode
+ *  org.objectweb.asm.tree.VarInsnNode
+ */
 package net.ilexiconn.nationsgui.forge.server.asm.transformer;
 
-import java.util.Iterator;
 import java.util.List;
-import net.minecraft.entity.Entity;
+import net.ilexiconn.nationsgui.forge.server.asm.transformer.Transformer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -18,185 +34,101 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-public class ContainerTransformer implements Transformer
-{
-    public String getTarget()
-    {
+public class ContainerTransformer
+implements Transformer {
+    @Override
+    public String getTarget() {
         return "net.minecraft.inventory.Container";
     }
 
-    public void transform(ClassNode node, boolean dev)
-    {
-        Iterator var3 = node.methods.iterator();
-
-        while (var3.hasNext())
-        {
-            MethodNode mn = (MethodNode)var3.next();
-
-            if (mn.name.equals(dev ? "detectAndSendChanges" : "detectAndSendChanges") && mn.desc.equals("()V"))
-            {
-                InsnList var14 = new InsnList();
-                var14.add(new VarInsnNode(25, 0));
-                var14.add(new FieldInsnNode(180, "net/minecraft/inventory/Container", dev ? "inventorySlots" : "inventorySlots", "Ljava/util/List;"));
-                var14.add(new MethodInsnNode(184, "net/ilexiconn/nationsgui/forge/server/asm/transformer/ContainerTransformer", "updateItemIfFood", "(Ljava/util/List;)V"));
-                mn.instructions.insertBefore(mn.instructions.getFirst(), var14);
+    @Override
+    public void transform(ClassNode node, boolean dev) {
+        block0: for (MethodNode mn : node.methods) {
+            if (mn.name.equals(dev ? "detectAndSendChanges" : "func_75142_b") && mn.desc.equals("()V")) {
+                InsnList list = new InsnList();
+                list.add((AbstractInsnNode)new VarInsnNode(25, 0));
+                list.add((AbstractInsnNode)new FieldInsnNode(180, "net/minecraft/inventory/Container", dev ? "inventorySlots" : "field_75151_b", "Ljava/util/List;"));
+                list.add((AbstractInsnNode)new MethodInsnNode(184, "net/ilexiconn/nationsgui/forge/server/asm/transformer/ContainerTransformer", "updateItemIfFood", "(Ljava/util/List;)V"));
+                mn.instructions.insertBefore(mn.instructions.getFirst(), list);
+                continue;
             }
-            else if (!mn.name.equals(dev ? "mergeItemStack" : "mergeItemStack"))
-            {
-                AbstractInsnNode[] var13;
-                int var15;
-                int var17;
-                AbstractInsnNode var19;
-                MethodInsnNode var20;
-
-                if (mn.name.equals("func_94527_a"))
-                {
-                    var13 = mn.instructions.toArray();
-                    var15 = var13.length;
-
-                    for (var17 = 0; var17 < var15; ++var17)
-                    {
-                        var19 = var13[var17];
-
-                        if (var19 instanceof MethodInsnNode)
-                        {
-                            var20 = (MethodInsnNode)var19;
-
-                            if (var20.name.equals(dev ? "areItemStackTagsEqual" : "areItemStackTagsEqual"))
-                            {
-                                var20.name = "areItemStackTagsEqual";
-                                var20.owner = "net/ilexiconn/nationsgui/forge/server/asm/transformer/ContainerTransformer";
-                                break;
-                            }
-                        }
-                    }
-                }
-                else if (mn.name.equals(dev ? "slotClick" : "slotClick"))
-                {
-                    var13 = mn.instructions.toArray();
-                    var15 = var13.length;
-
-                    for (var17 = 0; var17 < var15; ++var17)
-                    {
-                        var19 = var13[var17];
-
-                        if (var19 instanceof MethodInsnNode)
-                        {
-                            var20 = (MethodInsnNode)var19;
-
-                            if (var20.name.equals(dev ? "areItemStackTagsEqual" : "areItemStackTagsEqual"))
-                            {
-                                var20.name = "areItemStackTagsEqual";
-                                var20.owner = "net/ilexiconn/nationsgui/forge/server/asm/transformer/ContainerTransformer";
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
+            if (mn.name.equals(dev ? "mergeItemStack" : "func_75135_a")) {
                 AbstractInsnNode target = null;
                 LabelNode jumpLabel = null;
-                AbstractInsnNode[] patch = mn.instructions.toArray();
-                int insnNode = patch.length;
-
-                for (int methodInsnNode = 0; methodInsnNode < insnNode; ++methodInsnNode)
-                {
-                    AbstractInsnNode insnNode1 = patch[methodInsnNode];
-
-                    if (insnNode1 instanceof MethodInsnNode)
-                    {
-                        MethodInsnNode methodInsnNode1 = (MethodInsnNode)insnNode1;
-
-                        if (methodInsnNode1.getOpcode() == 182 && methodInsnNode1.name.equals(dev ? "getStack" : "getStack"))
-                        {
-                            target = methodInsnNode1.getNext();
-                            AbstractInsnNode current;
-
-                            for (current = target; !(current instanceof JumpInsnNode); current = current.getNext())
-                            {
-                                ;
-                            }
-
-                            jumpLabel = ((JumpInsnNode)current).label;
-                            break;
-                        }
+                for (AbstractInsnNode insnNode : mn.instructions.toArray()) {
+                    MethodInsnNode methodInsnNode;
+                    if (!(insnNode instanceof MethodInsnNode) || (methodInsnNode = (MethodInsnNode)insnNode).getOpcode() != 182 || !methodInsnNode.name.equals(dev ? "getStack" : "func_75211_c")) continue;
+                    AbstractInsnNode current = target = methodInsnNode.getNext();
+                    while (!(current instanceof JumpInsnNode)) {
+                        current = current.getNext();
                     }
+                    jumpLabel = ((JumpInsnNode)current).label;
+                    break;
                 }
-
-                InsnList var16 = new InsnList();
-                var16.add(new VarInsnNode(25, 1));
-                var16.add(new VarInsnNode(25, 8));
-                var16.add(new MethodInsnNode(184, "net/ilexiconn/nationsgui/forge/server/asm/transformer/ContainerTransformer", "canMergeItemFood", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z"));
-                LabelNode var18 = new LabelNode();
-                var16.add(new JumpInsnNode(154, var18));
-                var16.add(new JumpInsnNode(167, (LabelNode)jumpLabel));
-                var16.add(var18);
-                mn.instructions.insert(target, var16);
+                InsnList patch = new InsnList();
+                patch.add((AbstractInsnNode)new VarInsnNode(25, 1));
+                patch.add((AbstractInsnNode)new VarInsnNode(25, 8));
+                patch.add((AbstractInsnNode)new MethodInsnNode(184, "net/ilexiconn/nationsgui/forge/server/asm/transformer/ContainerTransformer", "canMergeItemFood", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z"));
+                LabelNode labelContinue = new LabelNode();
+                patch.add((AbstractInsnNode)new JumpInsnNode(154, labelContinue));
+                patch.add((AbstractInsnNode)new JumpInsnNode(167, jumpLabel));
+                patch.add((AbstractInsnNode)labelContinue);
+                mn.instructions.insert(target, patch);
+                continue;
             }
-        }
-    }
-
-    public static boolean areItemStackTagsEqual(ItemStack item, ItemStack item2)
-    {
-        if (item != null && item2 != null && item.getItem() instanceof ItemFood && item2.getItem() instanceof ItemFood)
-        {
-            if (item.hasTagCompound() && item2.hasTagCompound())
-            {
-                NBTTagCompound nbt1 = item.getTagCompound();
-                NBTTagCompound nbt2 = item2.getTagCompound();
-                return !nbt1.hasKey("rottenTimer") && !nbt2.hasKey("rottenTimer") || nbt1.hasKey("rottenTimer") && nbt2.hasKey("rottenTimer") && nbt1.getLong("rottenTimer") == nbt2.getLong("rottenTimer");
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return ItemStack.areItemStackTagsEqual(item, item2);
-        }
-    }
-
-    public static boolean canMergeItemFood(ItemStack item, ItemStack item2)
-    {
-        if (item != null && item2 != null && item.getItem() instanceof ItemFood && item2.getItem() instanceof ItemFood)
-        {
-            if (item.hasTagCompound() && item2.hasTagCompound())
-            {
-                NBTTagCompound nbt1 = item.getTagCompound();
-                NBTTagCompound nbt2 = item2.getTagCompound();
-                return !nbt1.hasKey("rottenTimer") && !nbt2.hasKey("rottenTimer") || nbt1.hasKey("rottenTimer") && nbt2.hasKey("rottenTimer") && nbt1.getLong("rottenTimer") == nbt2.getLong("rottenTimer");
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    public static void updateItemIfFood(List listSlot)
-    {
-        Iterator var1 = listSlot.iterator();
-
-        while (var1.hasNext())
-        {
-            Slot slot = (Slot)var1.next();
-
-            if (slot != null)
-            {
-                ItemStack stack = slot.getStack();
-
-                if (stack != null && stack.getItem() != null && stack.getItem() instanceof ItemFood)
-                {
-                    stack.getItem().onUpdate(stack, (World)null, (Entity)null, 0, false);
+            if (mn.name.equals("func_94527_a")) {
+                for (AbstractInsnNode insnNode : mn.instructions.toArray()) {
+                    if (!(insnNode instanceof MethodInsnNode)) continue;
+                    MethodInsnNode methodInsnNode = (MethodInsnNode)insnNode;
+                    if (!methodInsnNode.name.equals(dev ? "areItemStackTagsEqual" : "func_77970_a")) continue;
+                    methodInsnNode.name = "areItemStackTagsEqual";
+                    methodInsnNode.owner = "net/ilexiconn/nationsgui/forge/server/asm/transformer/ContainerTransformer";
+                    continue block0;
                 }
+                continue;
             }
+            if (!mn.name.equals(dev ? "slotClick" : "func_75144_a")) continue;
+            for (AbstractInsnNode insnNode : mn.instructions.toArray()) {
+                if (!(insnNode instanceof MethodInsnNode)) continue;
+                MethodInsnNode methodInsnNode = (MethodInsnNode)insnNode;
+                if (!methodInsnNode.name.equals(dev ? "areItemStackTagsEqual" : "func_77970_a")) continue;
+                methodInsnNode.name = "areItemStackTagsEqual";
+                methodInsnNode.owner = "net/ilexiconn/nationsgui/forge/server/asm/transformer/ContainerTransformer";
+                continue block0;
+            }
+        }
+    }
+
+    public static boolean areItemStackTagsEqual(ItemStack item, ItemStack item2) {
+        if (item != null && item2 != null && item.func_77973_b() instanceof ItemFood && item2.func_77973_b() instanceof ItemFood) {
+            if (item.func_77942_o() && item2.func_77942_o()) {
+                NBTTagCompound nbt1 = item.func_77978_p();
+                NBTTagCompound nbt2 = item2.func_77978_p();
+                return !nbt1.func_74764_b("rottenTimer") && !nbt2.func_74764_b("rottenTimer") || nbt1.func_74764_b("rottenTimer") && nbt2.func_74764_b("rottenTimer") && nbt1.func_74763_f("rottenTimer") == nbt2.func_74763_f("rottenTimer");
+            }
+            return false;
+        }
+        return ItemStack.func_77970_a((ItemStack)item, (ItemStack)item2);
+    }
+
+    public static boolean canMergeItemFood(ItemStack item, ItemStack item2) {
+        if (item != null && item2 != null && item.func_77973_b() instanceof ItemFood && item2.func_77973_b() instanceof ItemFood) {
+            if (item.func_77942_o() && item2.func_77942_o()) {
+                NBTTagCompound nbt1 = item.func_77978_p();
+                NBTTagCompound nbt2 = item2.func_77978_p();
+                return !nbt1.func_74764_b("rottenTimer") && !nbt2.func_74764_b("rottenTimer") || nbt1.func_74764_b("rottenTimer") && nbt2.func_74764_b("rottenTimer") && nbt1.func_74763_f("rottenTimer") == nbt2.func_74763_f("rottenTimer");
+            }
+            return false;
+        }
+        return true;
+    }
+
+    public static void updateItemIfFood(List listSlot) {
+        for (Slot slot : listSlot) {
+            ItemStack stack;
+            if (slot == null || (stack = slot.func_75211_c()) == null || stack.func_77973_b() == null || !(stack.func_77973_b() instanceof ItemFood)) continue;
+            stack.func_77973_b().func_77663_a(stack, null, null, 0, false);
         }
     }
 }
+

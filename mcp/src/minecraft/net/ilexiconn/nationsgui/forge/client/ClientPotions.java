@@ -1,3 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.collect.Lists
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.entity.EntityLivingBase
+ *  net.minecraft.potion.Potion
+ */
 package net.ilexiconn.nationsgui.forge.client;
 
 import com.google.common.collect.Lists;
@@ -10,39 +20,34 @@ import java.util.WeakHashMap;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 
-@SideOnly(Side.CLIENT)
-public class ClientPotions
-{
-    private static final Map<Integer, List<Potion>> POTIONS = new WeakHashMap();
+@SideOnly(value=Side.CLIENT)
+public class ClientPotions {
+    private static final Map<Integer, List<Potion>> POTIONS = new WeakHashMap<Integer, List<Potion>>();
 
-    public static void addPotionToEntity(EntityLivingBase entity, Potion potion)
-    {
-        if (POTIONS.containsKey(Integer.valueOf(entity.entityId)))
-        {
-            ((List)POTIONS.get(Integer.valueOf(entity.entityId))).add(potion);
-        }
-        else
-        {
-            POTIONS.put(Integer.valueOf(entity.entityId), Lists.newArrayList(new Potion[] {potion}));
+    public static void addPotionToEntity(EntityLivingBase entity, Potion potion) {
+        if (POTIONS.containsKey(entity.field_70157_k)) {
+            POTIONS.get(entity.field_70157_k).add(potion);
+        } else {
+            POTIONS.put(entity.field_70157_k, Lists.newArrayList((Object[])new Potion[]{potion}));
         }
     }
 
-    public static void removePotionFromEntity(EntityLivingBase entity, Potion potion)
-    {
-        if (POTIONS.containsKey(Integer.valueOf(entity.entityId)))
-        {
-            ((List)POTIONS.get(Integer.valueOf(entity.entityId))).remove(potion);
+    public static void removePotionFromEntity(EntityLivingBase entity, Potion potion) {
+        if (POTIONS.containsKey(entity.field_70157_k)) {
+            POTIONS.get(entity.field_70157_k).remove(potion);
         }
     }
 
-    public static List getPotionsForEntity(EntityLivingBase entity)
-    {
-        return entity == null ? Collections.emptyList() : getOrDefault(Integer.valueOf(entity.entityId), Collections.emptyList());
+    public static List getPotionsForEntity(EntityLivingBase entity) {
+        if (entity == null) {
+            return Collections.emptyList();
+        }
+        return ClientPotions.getOrDefault(entity.field_70157_k, Collections.emptyList());
     }
 
-    private static List getOrDefault(Object key, List defaultValue)
-    {
-        List v;
-        return (v = (List)POTIONS.get(key)) == null && !POTIONS.containsKey(key) ? defaultValue : v;
+    private static List getOrDefault(Object key, List defaultValue) {
+        List v = POTIONS.get(key);
+        return v != null || POTIONS.containsKey(key) ? v : defaultValue;
     }
 }
+

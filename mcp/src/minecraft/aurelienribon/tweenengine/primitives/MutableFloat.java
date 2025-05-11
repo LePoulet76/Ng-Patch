@@ -1,59 +1,52 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package aurelienribon.tweenengine.primitives;
 
 import aurelienribon.tweenengine.TweenAccessor;
 
-public class MutableFloat extends Number implements TweenAccessor<MutableFloat>
-{
+public class MutableFloat
+extends Number
+implements TweenAccessor<MutableFloat> {
     private float value;
 
-    public MutableFloat(float value)
-    {
+    public MutableFloat(float value) {
         this.value = value;
     }
 
-    public void setValue(float value)
-    {
+    public void setValue(float value) {
         this.value = value;
     }
 
-    public int intValue()
-    {
+    @Override
+    public int intValue() {
         return (int)this.value;
     }
 
-    public long longValue()
-    {
+    @Override
+    public long longValue() {
         return (long)this.value;
     }
 
-    public float floatValue()
-    {
+    @Override
+    public float floatValue() {
         return this.value;
     }
 
-    public double doubleValue()
-    {
-        return (double)this.value;
+    @Override
+    public double doubleValue() {
+        return this.value;
     }
 
-    public int getValues(MutableFloat target, int tweenType, float[] returnValues)
-    {
+    @Override
+    public int getValues(MutableFloat target, int tweenType, float[] returnValues) {
         returnValues[0] = target.value;
         return 1;
     }
 
-    public void setValues(MutableFloat target, int tweenType, float[] newValues)
-    {
+    @Override
+    public void setValues(MutableFloat target, int tweenType, float[] newValues) {
         target.value = newValues[0];
     }
-
-    public void setValues(Object var1, int var2, float[] var3)
-    {
-        this.setValues((MutableFloat)var1, var2, var3);
-    }
-
-    public int getValues(Object var1, int var2, float[] var3)
-    {
-        return this.getValues((MutableFloat)var1, var2, var3);
-    }
 }
+

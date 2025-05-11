@@ -1,3 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.network.INetworkManager
+ *  net.minecraft.network.packet.Packet
+ *  net.minecraft.network.packet.Packet132TileEntityData
+ *  net.minecraft.tileentity.TileEntity
+ */
 package net.ilexiconn.nationsgui.forge.server.block.entity;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -6,62 +16,44 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityHatBlock extends TileEntity
-{
+public class TileEntityHatBlock
+extends TileEntity {
     private String hatID = "";
 
-    /**
-     * Reads a tile entity from NBT.
-     */
-    public void readFromNBT(NBTTagCompound par1nbtTagCompound)
-    {
-        if (!this.worldObj.isRemote && this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord) != 3590)
-        {
-            this.worldObj.removeBlockTileEntity(this.xCoord, this.yCoord, this.zCoord);
+    public void func_70307_a(NBTTagCompound par1nbtTagCompound) {
+        if (!this.field_70331_k.field_72995_K && this.field_70331_k.func_72798_a(this.field_70329_l, this.field_70330_m, this.field_70327_n) != 3590) {
+            this.field_70331_k.func_72932_q(this.field_70329_l, this.field_70330_m, this.field_70327_n);
         }
-
-        super.readFromNBT(par1nbtTagCompound);
-        NBTTagCompound data = par1nbtTagCompound.getCompoundTag("data");
-
-        if (data != null)
-        {
-            this.hatID = data.getString("HatID");
+        super.func_70307_a(par1nbtTagCompound);
+        NBTTagCompound data = par1nbtTagCompound.func_74775_l("data");
+        if (data != null) {
+            this.hatID = data.func_74779_i("HatID");
         }
     }
 
-    /**
-     * Writes a tile entity to NBT.
-     */
-    public void writeToNBT(NBTTagCompound par1nbtTagCompound)
-    {
-        super.writeToNBT(par1nbtTagCompound);
+    public void func_70310_b(NBTTagCompound par1nbtTagCompound) {
+        super.func_70310_b(par1nbtTagCompound);
         NBTTagCompound data = new NBTTagCompound();
-        data.setString("HatID", this.hatID);
-        par1nbtTagCompound.setCompoundTag("data", data);
+        data.func_74778_a("HatID", this.hatID);
+        par1nbtTagCompound.func_74766_a("data", data);
     }
 
-    /**
-     * Overriden in a sign to provide the text.
-     */
-    public Packet getDescriptionPacket()
-    {
+    public Packet func_70319_e() {
         NBTTagCompound data = new NBTTagCompound();
-        this.writeToNBT(data);
-        return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 3, data);
+        this.func_70310_b(data);
+        return new Packet132TileEntityData(this.field_70329_l, this.field_70330_m, this.field_70327_n, 3, data);
     }
 
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
-    {
-        this.readFromNBT(pkt.data);
+    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
+        this.func_70307_a(pkt.field_73331_e);
     }
 
-    public String getHatID()
-    {
+    public String getHatID() {
         return this.hatID;
     }
 
-    public void setHatID(String hatID)
-    {
+    public void setHatID(String hatID) {
         this.hatID = hatID;
     }
 }
+

@@ -1,3 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.network.packet.Packet
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -8,18 +18,21 @@ import net.ilexiconn.nationsgui.forge.server.packet.IClientPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IServerPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
+import net.ilexiconn.nationsgui.forge.server.packet.impl.FactionActionsDataPacket;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.packet.Packet;
 
-public class FactionBuyActionPacket implements IPacket, IClientPacket, IServerPacket
-{
+public class FactionBuyActionPacket
+implements IPacket,
+IClientPacket,
+IServerPacket {
     public String factionTargetId;
     public String factionWhoBuyId;
     public String ownerFactionId;
     public int index;
     public String price;
 
-    public FactionBuyActionPacket(String factionTargetId, String factionWhoBuyId, String ownerFactionId, int index, String price)
-    {
+    public FactionBuyActionPacket(String factionTargetId, String factionWhoBuyId, String ownerFactionId, int index, String price) {
         this.factionTargetId = factionTargetId;
         this.factionWhoBuyId = factionWhoBuyId;
         this.ownerFactionId = ownerFactionId;
@@ -27,8 +40,8 @@ public class FactionBuyActionPacket implements IPacket, IClientPacket, IServerPa
         this.price = price;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.factionTargetId = data.readUTF();
         this.factionWhoBuyId = data.readUTF();
         this.ownerFactionId = data.readUTF();
@@ -36,8 +49,8 @@ public class FactionBuyActionPacket implements IPacket, IClientPacket, IServerPa
         this.price = data.readUTF();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeUTF(this.factionTargetId);
         data.writeUTF(this.factionWhoBuyId);
         data.writeUTF(this.ownerFactionId);
@@ -45,10 +58,13 @@ public class FactionBuyActionPacket implements IPacket, IClientPacket, IServerPa
         data.writeUTF(this.price);
     }
 
-    public void handleClientPacket(EntityPlayer player)
-    {
-        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new FactionActionsDataPacket((String)FactionGUI.factionInfos.get("name"))));
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
+        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new FactionActionsDataPacket((String)FactionGUI.factionInfos.get("name"))));
     }
 
-    public void handleServerPacket(EntityPlayer player) {}
+    @Override
+    public void handleServerPacket(EntityPlayer player) {
+    }
 }
+

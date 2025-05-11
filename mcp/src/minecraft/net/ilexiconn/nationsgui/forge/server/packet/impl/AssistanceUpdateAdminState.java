@@ -1,9 +1,23 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.nbt.CompressedStreamTools
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.nbt.NBTTagList
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.io.DataInput;
 import java.io.IOException;
 import net.ilexiconn.nationsgui.forge.client.ClientProxy;
 import net.ilexiconn.nationsgui.forge.server.packet.IClientPacket;
@@ -13,41 +27,39 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class AssistanceUpdateAdminState implements IPacket, IClientPacket
-{
+public class AssistanceUpdateAdminState
+implements IPacket,
+IClientPacket {
     private boolean state = false;
     NBTTagList list = new NBTTagList();
 
-    public AssistanceUpdateAdminState(boolean state)
-    {
+    public AssistanceUpdateAdminState(boolean state) {
         this.state = state;
     }
 
-    @SideOnly(Side.CLIENT)
-    public void handleClientPacket(EntityPlayer player)
-    {
-        for (int i = 0; i < this.list.tagCount(); ++i)
-        {
-            NBTTagCompound tag = (NBTTagCompound)this.list.tagAt(i);
-            ClientProxy.playersInAdminMode.put(tag.getString("pseudo"), Boolean.valueOf(tag.getBoolean("state")));
+    @Override
+    @SideOnly(value=Side.CLIENT)
+    public void handleClientPacket(EntityPlayer player) {
+        for (int i = 0; i < this.list.func_74745_c(); ++i) {
+            NBTTagCompound tag = (NBTTagCompound)this.list.func_74743_b(i);
+            ClientProxy.playersInAdminMode.put(tag.func_74779_i("pseudo"), tag.func_74767_n("state"));
         }
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
-        try
-        {
-            NBTTagCompound e = CompressedStreamTools.read(data);
-            this.list = e.getTagList("playerStates");
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
+        try {
+            NBTTagCompound tagCompound = CompressedStreamTools.func_74794_a((DataInput)data);
+            this.list = tagCompound.func_74761_m("playerStates");
         }
-        catch (IOException var3)
-        {
-            var3.printStackTrace();
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeBoolean(this.state);
     }
 }
+

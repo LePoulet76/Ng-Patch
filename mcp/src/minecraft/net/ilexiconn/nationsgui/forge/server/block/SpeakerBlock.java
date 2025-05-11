@@ -1,3 +1,23 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.block.BlockContainer
+ *  net.minecraft.block.material.Material
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.particle.EntityFX
+ *  net.minecraft.creativetab.CreativeTabs
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.tileentity.TileEntity
+ *  net.minecraft.util.AxisAlignedBB
+ *  net.minecraft.util.MovingObjectPosition
+ *  net.minecraft.world.IBlockAccess
+ *  net.minecraft.world.World
+ *  org.lwjgl.input.Keyboard
+ */
 package net.ilexiconn.nationsgui.forge.server.block;
 
 import cpw.mods.fml.relauncher.Side;
@@ -11,6 +31,7 @@ import net.ilexiconn.nationsgui.forge.server.block.entity.SpeakerBlockEntity;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,131 +42,92 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 
-public class SpeakerBlock extends BlockContainer
-{
-    public SpeakerBlock()
-    {
-        super(647, Material.cloth);
-        this.setUnlocalizedName("speaker");
-        this.setCreativeTab(CreativeTabs.tabBlock);
-        this.setHardness(2.0F);
-        this.setResistance(2.0F);
-        this.setTextureName("wool_colored_black");
+public class SpeakerBlock
+extends BlockContainer {
+    public SpeakerBlock() {
+        super(647, Material.field_76253_m);
+        this.func_71864_b("speaker");
+        this.func_71849_a(CreativeTabs.field_78030_b);
+        this.func_71848_c(2.0f);
+        this.func_71894_b(2.0f);
+        this.func_111022_d("wool_colored_black");
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
-    public int getRenderType()
-    {
+    public int func_71857_b() {
         return -1;
     }
 
-    /**
-     * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
-     * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
-     */
-    public boolean isOpaqueCube()
-    {
+    public boolean func_71926_d() {
         return false;
     }
 
-    /**
-     * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
-     */
-    public boolean renderAsNormalBlock()
-    {
+    public boolean func_71886_c() {
         return false;
     }
 
-    /**
-     * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
-     * cleared to be reused)
-     */
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
-        this.setBlockBoundsBasedOnState(world, x, y, z);
-        return super.getCollisionBoundingBoxFromPool(world, x, y, z);
+    public AxisAlignedBB func_71872_e(World world, int x, int y, int z) {
+        this.func_71902_a((IBlockAccess)world, x, y, z);
+        return super.func_71872_e(world, x, y, z);
     }
 
-    /**
-     * Updates the blocks bounds based on its current state. Args: world, x, y, z
-     */
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
-    {
-        switch (world.getBlockMetadata(x, y, z) & 7)
-        {
-            case 2:
-                this.setBlockBounds(0.12F, 0.12F, 0.65F, 0.88F, 0.88F, 1.0F);
+    public void func_71902_a(IBlockAccess world, int x, int y, int z) {
+        switch (world.func_72805_g(x, y, z) & 7) {
+            case 2: {
+                this.func_71905_a(0.12f, 0.12f, 0.65f, 0.88f, 0.88f, 1.0f);
                 break;
-
-            case 3:
-                this.setBlockBounds(0.12F, 0.12F, 0.0F, 0.88F, 0.88F, 0.35F);
+            }
+            case 3: {
+                this.func_71905_a(0.12f, 0.12f, 0.0f, 0.88f, 0.88f, 0.35f);
                 break;
-
-            case 4:
-                this.setBlockBounds(0.65F, 0.12F, 0.12F, 1.0F, 0.88F, 0.88F);
+            }
+            case 4: {
+                this.func_71905_a(0.65f, 0.12f, 0.12f, 1.0f, 0.88f, 0.88f);
                 break;
-
-            case 5:
-                this.setBlockBounds(0.0F, 0.12F, 0.12F, 0.35F, 0.88F, 0.88F);
+            }
+            case 5: {
+                this.func_71905_a(0.0f, 0.12f, 0.12f, 0.35f, 0.88f, 0.88f);
+            }
         }
     }
 
-    public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
-    {
-        SpeakerBlockEntity blockEntity = (SpeakerBlockEntity)world.getBlockTileEntity(x, y, z);
-        ArrayList list = new ArrayList();
+    public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune) {
+        SpeakerBlockEntity blockEntity = (SpeakerBlockEntity)world.func_72796_p(x, y, z);
+        ArrayList<ItemStack> list = new ArrayList<ItemStack>();
         ItemStack stack = new ItemStack(NationsGUI.SPEAKER);
         NBTTagCompound compound = new NBTTagCompound();
-        compound.setInteger("RadioX", blockEntity.radioX);
-        compound.setInteger("RadioY", blockEntity.radioY);
-        compound.setInteger("RadioZ", blockEntity.radioZ);
-        stack.setTagCompound(compound);
+        compound.func_74768_a("RadioX", blockEntity.radioX);
+        compound.func_74768_a("RadioY", blockEntity.radioY);
+        compound.func_74768_a("RadioZ", blockEntity.radioZ);
+        stack.func_77982_d(compound);
         list.add(stack);
         return list;
     }
 
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
-    {
-        if (Keyboard.isKeyDown(29))
-        {
-            SpeakerBlockEntity blockEntity = (SpeakerBlockEntity)world.getBlockTileEntity(x, y, z);
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
+        if (Keyboard.isKeyDown((int)29)) {
+            SpeakerBlockEntity blockEntity = (SpeakerBlockEntity)world.func_72796_p(x, y, z);
             ItemStack stack = new ItemStack(NationsGUI.SPEAKER);
             NBTTagCompound compound = new NBTTagCompound();
-            compound.setInteger("RadioX", blockEntity.radioX);
-            compound.setInteger("RadioY", blockEntity.radioY);
-            compound.setInteger("RadioZ", blockEntity.radioZ);
-            stack.setTagCompound(compound);
+            compound.func_74768_a("RadioX", blockEntity.radioX);
+            compound.func_74768_a("RadioY", blockEntity.radioY);
+            compound.func_74768_a("RadioZ", blockEntity.radioZ);
+            stack.func_77982_d(compound);
             return stack;
         }
-        else
-        {
-            return super.getPickBlock(target, world, x, y, z);
+        return super.getPickBlock(target, world, x, y, z);
+    }
+
+    @SideOnly(value=Side.CLIENT)
+    public void func_71862_a(World world, int x, int y, int z, Random random) {
+        SpeakerBlockEntity speaker = (SpeakerBlockEntity)world.func_72796_p(x, y, z);
+        RadioBlockEntity blockEntity = (RadioBlockEntity)world.func_72796_p(speaker.radioX, speaker.radioY, speaker.radioZ);
+        if (blockEntity != null && (float)blockEntity.volume > 0.0f && blockEntity.streamer != null && blockEntity.streamer.isPlaying() && (!blockEntity.needsRedstone || world.func_94572_D(x, y, z) > 0)) {
+            Minecraft.func_71410_x().field_71452_i.func_78873_a((EntityFX)new RadioParticle(world, (float)x + ((float)random.nextInt(75) + 1.0f) / 100.0f, (float)y + ((float)random.nextInt(100) + 1.0f) / 100.0f, (float)z + ((float)random.nextInt(100) + 1.0f) / 100.0f, (float)blockEntity.volume / 100.0f, random));
         }
     }
 
-    @SideOnly(Side.CLIENT)
-
-    /**
-     * A randomly called display update to be able to add particles or other items for display
-     */
-    public void randomDisplayTick(World world, int x, int y, int z, Random random)
-    {
-        SpeakerBlockEntity speaker = (SpeakerBlockEntity)world.getBlockTileEntity(x, y, z);
-        RadioBlockEntity blockEntity = (RadioBlockEntity)world.getBlockTileEntity(speaker.radioX, speaker.radioY, speaker.radioZ);
-
-        if (blockEntity != null && (float)blockEntity.volume > 0.0F && blockEntity.streamer != null && blockEntity.streamer.isPlaying() && (!blockEntity.needsRedstone || world.getStrongestIndirectPower(x, y, z) > 0))
-        {
-            Minecraft.getMinecraft().effectRenderer.addEffect(new RadioParticle(world, (double)((float)x + ((float)random.nextInt(75) + 1.0F) / 100.0F), (double)((float)y + ((float)random.nextInt(100) + 1.0F) / 100.0F), (double)((float)z + ((float)random.nextInt(100) + 1.0F) / 100.0F), (float)blockEntity.volume / 100.0F, random));
-        }
-    }
-
-    /**
-     * Returns a new instance of a block's tile entity class. Called on placing the block.
-     */
-    public TileEntity createNewTileEntity(World world)
-    {
+    public TileEntity func_72274_a(World world) {
         return new SpeakerBlockEntity();
     }
 }
+

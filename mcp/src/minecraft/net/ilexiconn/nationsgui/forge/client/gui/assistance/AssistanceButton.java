@@ -1,97 +1,82 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.renderer.Tessellator
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.assistance;
 
+import net.ilexiconn.nationsgui.forge.client.gui.assistance.AbstractAssistanceGUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.opengl.GL11;
 
-public class AssistanceButton extends GuiButton
-{
+public class AssistanceButton
+extends GuiButton {
     private int uMin = 0;
     private int uMax = 157;
     private int v = 256;
 
-    public AssistanceButton(int par1, int par2, int par3, String par4Str)
-    {
-        super(par1, par2, par3, par4Str);
+    public AssistanceButton(int p_i1020_1_, int p_i1020_2_, int p_i1020_3_, String p_i1020_4_) {
+        super(p_i1020_1_, p_i1020_2_, p_i1020_3_, p_i1020_4_);
     }
 
-    public AssistanceButton(int par1, int par2, int par3, int par4, int par5, String par6Str)
-    {
-        super(par1, par2, par3, par4, par5, par6Str);
+    public AssistanceButton(int p_i1021_1_, int p_i1021_2_, int p_i1021_3_, int p_i1021_4_, int p_i1021_5_, String p_i1021_6_) {
+        super(p_i1021_1_, p_i1021_2_, p_i1021_3_, p_i1021_4_, p_i1021_5_, p_i1021_6_);
     }
 
-    /**
-     * Returns 0 if the button is disabled, 1 if the mouse is NOT hovering over this button and 2 if it IS hovering over
-     * this button.
-     */
-    protected int getHoverState(boolean par1)
-    {
-        byte b0 = 0;
-
-        if (!this.enabled)
-        {
+    protected int func_73738_a(boolean par1) {
+        int b0 = 0;
+        if (!this.field_73742_g) {
             b0 = 2;
-        }
-        else if (par1)
-        {
+        } else if (par1) {
             b0 = 1;
         }
-
         return b0;
     }
 
-    /**
-     * Draws this button to the screen.
-     */
-    public void drawButton(Minecraft par1Minecraft, int par2, int par3)
-    {
-        if (this.drawButton)
-        {
-            FontRenderer fontrenderer = par1Minecraft.fontRenderer;
-            par1Minecraft.getTextureManager().bindTexture(AbstractAssistanceGUI.GUI_TEXTURE);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.field_82253_i = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
-            int k = this.getHoverState(this.field_82253_i);
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, this.uMin, this.v + k * 20, this.width / 2, this.height);
-            this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, this.uMax - this.width / 2, this.v + k * 20, this.width / 2, this.height);
-            this.mouseDragged(par1Minecraft, par2, par3);
-            int l = 14737632;
-
-            if (!this.enabled)
-            {
+    public void func_73737_a(Minecraft par1Minecraft, int par2, int par3) {
+        if (this.field_73748_h) {
+            FontRenderer fontrenderer = par1Minecraft.field_71466_p;
+            par1Minecraft.func_110434_K().func_110577_a(AbstractAssistanceGUI.GUI_TEXTURE);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            this.field_82253_i = par2 >= this.field_73746_c && par3 >= this.field_73743_d && par2 < this.field_73746_c + this.field_73747_a && par3 < this.field_73743_d + this.field_73745_b;
+            int k = this.func_73738_a(this.field_82253_i);
+            this.func_73729_b(this.field_73746_c, this.field_73743_d, this.uMin, this.v + k * 20, this.field_73747_a / 2, this.field_73745_b);
+            this.func_73729_b(this.field_73746_c + this.field_73747_a / 2, this.field_73743_d, this.uMax - this.field_73747_a / 2, this.v + k * 20, this.field_73747_a / 2, this.field_73745_b);
+            this.func_73739_b(par1Minecraft, par2, par3);
+            int l = 0xE0E0E0;
+            if (!this.field_73742_g) {
                 l = -6250336;
+            } else if (this.field_82253_i) {
+                l = 0xFFFFA0;
             }
-            else if (this.field_82253_i)
-            {
-                l = 16777120;
-            }
-
-            this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, l);
+            this.func_73732_a(fontrenderer, this.field_73744_e, this.field_73746_c + this.field_73747_a / 2, this.field_73743_d + (this.field_73745_b - 8) / 2, l);
         }
     }
 
-    /**
-     * Draws a textured rectangle at the stored z-value. Args: x, y, u, v, width, height
-     */
-    public void drawTexturedModalRect(int posX, int posY, int u, int v, int width, int height)
-    {
-        float f = 0.001953125F;
-        float f1 = 0.001953125F;
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV((double)posX, (double)(posY + height), (double)this.zLevel, (double)((float)u * f), (double)((float)(v + height) * f1));
-        tessellator.addVertexWithUV((double)(posX + width), (double)(posY + height), (double)this.zLevel, (double)((float)(u + width) * f), (double)((float)(v + height) * f1));
-        tessellator.addVertexWithUV((double)(posX + width), (double)posY, (double)this.zLevel, (double)((float)(u + width) * f), (double)((float)v * f1));
-        tessellator.addVertexWithUV((double)posX, (double)posY, (double)this.zLevel, (double)((float)u * f), (double)((float)v * f1));
-        tessellator.draw();
+    public void func_73729_b(int posX, int posY, int u, int v, int width, int height) {
+        float f = 0.001953125f;
+        float f1 = 0.001953125f;
+        Tessellator tessellator = Tessellator.field_78398_a;
+        tessellator.func_78382_b();
+        tessellator.func_78374_a((double)posX, (double)(posY + height), (double)this.field_73735_i, (double)((float)u * f), (double)((float)(v + height) * f1));
+        tessellator.func_78374_a((double)(posX + width), (double)(posY + height), (double)this.field_73735_i, (double)((float)(u + width) * f), (double)((float)(v + height) * f1));
+        tessellator.func_78374_a((double)(posX + width), (double)posY, (double)this.field_73735_i, (double)((float)(u + width) * f), (double)((float)v * f1));
+        tessellator.func_78374_a((double)posX, (double)posY, (double)this.field_73735_i, (double)((float)u * f), (double)((float)v * f1));
+        tessellator.func_78381_a();
     }
 
-    public void setUVMap(int uMin, int uMax, int v)
-    {
+    public void setUVMap(int uMin, int uMax, int v) {
         this.uMin = uMin;
         this.uMax = uMax;
         this.v = v;
     }
 }
+

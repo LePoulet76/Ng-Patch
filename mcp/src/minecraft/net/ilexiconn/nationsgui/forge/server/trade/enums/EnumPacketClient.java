@@ -1,10 +1,14 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package net.ilexiconn.nationsgui.forge.server.trade.enums;
 
-public enum EnumPacketClient
-{
+public enum EnumPacketClient {
     TRADE_REQUEST,
     TRADE_CANCEL,
     TRADE_STATE,
     TRADE_CLOSE,
     TRADE_ITEMS;
+
 }
+

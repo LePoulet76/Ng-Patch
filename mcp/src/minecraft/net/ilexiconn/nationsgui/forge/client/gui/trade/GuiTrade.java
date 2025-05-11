@@ -1,14 +1,34 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.GuiTextField
+ *  net.minecraft.client.gui.inventory.GuiContainer
+ *  net.minecraft.client.gui.inventory.GuiInventory
+ *  net.minecraft.client.renderer.RenderHelper
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.entity.EntityLivingBase
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.inventory.Container
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.network.packet.Packet
+ *  net.minecraft.util.ResourceLocation
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.trade;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
 import net.ilexiconn.nationsgui.forge.client.gui.shop.ShopGUI;
-import net.ilexiconn.nationsgui.forge.client.gui.trade.GuiTrade$VoidButton;
+import net.ilexiconn.nationsgui.forge.client.gui.trade.ITrade;
 import net.ilexiconn.nationsgui.forge.client.util.GUIUtils;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketCallbacks;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
@@ -20,21 +40,22 @@ import net.ilexiconn.nationsgui.forge.server.trade.enums.EnumTradeState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-public class GuiTrade extends GuiContainer implements ITrade
-{
+public class GuiTrade
+extends GuiContainer
+implements ITrade {
     private static ResourceLocation resource = new ResourceLocation("nationsgui", "textures/gui/trade/troc.png");
     public Map items = new HashMap();
     public EntityPlayer trader = null;
@@ -49,385 +70,266 @@ public class GuiTrade extends GuiContainer implements ITrade
     public long lastInteraction = 0L;
     public static long stopCooldown;
 
-    public GuiTrade(Container container)
-    {
+    public GuiTrade(Container container) {
         super(container);
         this.container = (ContainerTrade)container;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
+    public void func_73866_w_() {
+        super.func_73866_w_();
         PacketCallbacks.MONEY.send(new String[0]);
-        this.xSize = 401;
-        this.ySize = 216;
-        this.guiLeft = (this.width - this.xSize) / 2;
-        this.guiTop = (this.height - this.ySize) / 2;
-        this.buttonList.clear();
-        this.buttonList.add(this.accept = new GuiButton(0, this.guiLeft + 16, this.guiTop + 95, 35, 20, "Ok"));
-        this.buttonList.add(new GuiTrade$VoidButton(this, 1, this.guiLeft + 181, this.guiTop + 17, 9, 10));
-        this.moneyField = new GuiTextField(this.fontRenderer, this.guiLeft + 113, this.guiTop + 102, 58, 20);
-        this.moneyField.setMaxStringLength(8);
-        this.moneyField.setFocused(false);
-        this.moneyField.setText("0");
-        this.moneyField.setEnableBackgroundDrawing(false);
-
-        if (this.trader != null)
-        {
-            PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new TradeUpdateMoneyPacket(Integer.parseInt(this.moneyField.getText()), this.trader.username, true)));
+        this.field_74194_b = 401;
+        this.field_74195_c = 216;
+        this.field_74198_m = (this.field_73880_f - this.field_74194_b) / 2;
+        this.field_74197_n = (this.field_73881_g - this.field_74195_c) / 2;
+        this.field_73887_h.clear();
+        this.accept = new GuiButton(0, this.field_74198_m + 16, this.field_74197_n + 95, 35, 20, "Ok");
+        this.field_73887_h.add(this.accept);
+        this.field_73887_h.add(new VoidButton(1, this.field_74198_m + 181, this.field_74197_n + 17, 9, 10));
+        this.moneyField = new GuiTextField(this.field_73886_k, this.field_74198_m + 113, this.field_74197_n + 102, 58, 20);
+        this.moneyField.func_73804_f(8);
+        this.moneyField.func_73796_b(false);
+        this.moneyField.func_73782_a("0");
+        this.moneyField.func_73786_a(false);
+        if (this.trader != null) {
+            PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new TradeUpdateMoneyPacket(Integer.parseInt(this.moneyField.func_73781_b()), this.trader.field_71092_bJ, true)));
         }
     }
 
-    /**
-     * Draw the background layer for the GuiContainer (everything behind the items)
-     */
-    protected void drawGuiContainerBackgroundLayer(float partialsTicks, int mouseX, int mouseY)
-    {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.guiLeft = (this.width - this.xSize) / 2;
-        this.guiTop = (this.height - this.ySize) / 2;
+    protected void func_74185_a(float partialsTicks, int mouseX, int mouseY) {
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        this.field_74198_m = (this.field_73880_f - this.field_74194_b) / 2;
+        this.field_74197_n = (this.field_73881_g - this.field_74195_c) / 2;
         GL11.glPushMatrix();
-        GUIUtils.startGLScissor(this.guiLeft + 16, this.guiTop + 56, 35, 35);
-        GuiInventory.func_110423_a(this.guiLeft + 35, this.guiTop + 125, 35, (float)((-mouseX + this.guiLeft + 32) / 4), (float)((-mouseY + this.guiTop + 32) / 4), this.mc.thePlayer);
+        GUIUtils.startGLScissor(this.field_74198_m + 16, this.field_74197_n + 56, 35, 35);
+        GuiInventory.func_110423_a((int)(this.field_74198_m + 35), (int)(this.field_74197_n + 125), (int)35, (float)((-mouseX + this.field_74198_m + 32) / 4), (float)((-mouseY + this.field_74197_n + 32) / 4), (EntityLivingBase)this.field_73882_e.field_71439_g);
         GUIUtils.endGLScissor();
-
-        if (this.trader != null && this.container.state != EnumTradeState.DONE && this.container.state != EnumTradeState.WAITING)
-        {
-            GUIUtils.startGLScissor(this.guiLeft + 16, this.guiTop + 146, 35, 35);
-            GuiInventory.func_110423_a(this.guiLeft + 35, this.guiTop + 215, 35, (float)((-mouseX + this.guiLeft + 32) / 4), (float)((-mouseY + this.guiTop + 32) / 4), this.trader);
+        if (this.trader != null && this.container.state != EnumTradeState.DONE && this.container.state != EnumTradeState.WAITING) {
+            GUIUtils.startGLScissor(this.field_74198_m + 16, this.field_74197_n + 146, 35, 35);
+            GuiInventory.func_110423_a((int)(this.field_74198_m + 35), (int)(this.field_74197_n + 215), (int)35, (float)((-mouseX + this.field_74198_m + 32) / 4), (float)((-mouseY + this.field_74197_n + 32) / 4), (EntityLivingBase)this.trader);
             GUIUtils.endGLScissor();
         }
-
         GL11.glPopMatrix();
-        this.mc.getTextureManager().bindTexture(resource);
-        ModernGui.drawModalRectWithCustomSizedTexture((float)this.guiLeft, (float)this.guiTop, 0, 0, this.xSize, this.ySize, 512.0F, 512.0F, false);
-
-        if (this.imReady)
-        {
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 57), (float)(this.guiTop + 56), 0, 218, 4, 59, 512.0F, 512.0F, false);
+        this.field_73882_e.func_110434_K().func_110577_a(resource);
+        ModernGui.drawModalRectWithCustomSizedTexture(this.field_74198_m, this.field_74197_n, 0, 0, this.field_74194_b, this.field_74195_c, 512.0f, 512.0f, false);
+        if (this.imReady) {
+            ModernGui.drawModalRectWithCustomSizedTexture(this.field_74198_m + 57, this.field_74197_n + 56, 0, 218, 4, 59, 512.0f, 512.0f, false);
         }
-
-        if (this.traderIsReady)
-        {
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 57), (float)(this.guiTop + 146), 0, 218, 4, 59, 512.0F, 512.0F, false);
+        if (this.traderIsReady) {
+            ModernGui.drawModalRectWithCustomSizedTexture(this.field_74198_m + 57, this.field_74197_n + 146, 0, 218, 4, 59, 512.0f, 512.0f, false);
         }
-
-        this.drawString(this.fontRenderer, (int)ShopGUI.CURRENT_MONEY + "$", this.guiLeft + 378 - this.fontRenderer.getStringWidth((int)ShopGUI.CURRENT_MONEY + "$"), this.guiTop + 63, -1);
-        this.drawString(this.fontRenderer, "Mon Inventaire", this.guiLeft + 249, this.guiTop + 63, -1);
-        this.drawString(this.fontRenderer, String.valueOf(this.moneyTrader), this.guiLeft + 113, this.guiTop + 193, -1);
-
-        if (this.trader != null && this.container.state != EnumTradeState.DONE && this.container.state != EnumTradeState.WAITING)
-        {
-            this.drawString(this.fontRenderer, "Echange", this.guiLeft + 33, this.guiTop + 12, -1);
-            this.drawString(this.fontRenderer, "Avec " + this.trader.username, this.guiLeft + 33, this.guiTop + 23, 11842740);
+        this.func_73731_b(this.field_73886_k, String.valueOf((int)ShopGUI.CURRENT_MONEY) + "$", this.field_74198_m + 378 - this.field_73886_k.func_78256_a(String.valueOf((int)ShopGUI.CURRENT_MONEY) + "$"), this.field_74197_n + 63, -1);
+        this.func_73731_b(this.field_73886_k, "Mon Inventaire", this.field_74198_m + 249, this.field_74197_n + 63, -1);
+        this.func_73731_b(this.field_73886_k, String.valueOf(this.moneyTrader), this.field_74198_m + 113, this.field_74197_n + 193, -1);
+        if (this.trader != null && this.container.state != EnumTradeState.DONE && this.container.state != EnumTradeState.WAITING) {
+            this.func_73731_b(this.field_73886_k, "Echange", this.field_74198_m + 33, this.field_74197_n + 12, -1);
+            this.func_73731_b(this.field_73886_k, "Avec " + this.trader.field_71092_bJ, this.field_74198_m + 33, this.field_74197_n + 23, 0xB4B4B4);
             ItemStack hover = null;
-
-            for (int k = 0; k < 14; ++k)
-            {
-                ItemStack item = (ItemStack)this.items.get(Integer.valueOf(k));
-
-                if (item != null)
-                {
-                    int x = this.guiLeft + 66 + k % 7 * 18;
-                    int y = this.guiTop + 147 + k / 7 * 18;
-                    this.drawItemStack(item, x, y, (String)null);
-
-                    if (this.isPointInRegion(x - this.guiLeft, y - this.guiTop, 16, 16, mouseX, mouseY))
-                    {
-                        hover = item;
-                    }
-                }
+            for (int k = 0; k < 14; ++k) {
+                ItemStack item = (ItemStack)this.items.get(k);
+                if (item == null) continue;
+                int x = this.field_74198_m + 66 + k % 7 * 18;
+                int y = this.field_74197_n + 147 + k / 7 * 18;
+                this.drawItemStack(item, x, y, null);
+                if (!this.func_74188_c(x - this.field_74198_m, y - this.field_74197_n, 16, 16, mouseX, mouseY)) continue;
+                hover = item;
             }
-
-            if (hover != null)
-            {
-                this.drawItemStackTooltip(hover, mouseX, mouseY);
+            if (hover != null) {
+                this.func_74184_a(hover, mouseX, mouseY);
             }
         }
-
-        if (!this.accept.enabled && mouseX >= this.guiLeft + 16 && mouseX <= this.guiLeft + 16 + 35 && mouseY >= this.guiTop + 95 && mouseY <= this.guiTop + 95 + 20 && !this.hasEnoughMoney)
-        {
-            this.drawHoveringText(Arrays.asList(new String[] {I18n.getString("trade.not_enough_money")}), mouseX, mouseY, this.fontRenderer);
+        if (!this.accept.field_73742_g && mouseX >= this.field_74198_m + 16 && mouseX <= this.field_74198_m + 16 + 35 && mouseY >= this.field_74197_n + 95 && mouseY <= this.field_74197_n + 95 + 20 && !this.hasEnoughMoney) {
+            this.drawHoveringText(Arrays.asList(I18n.func_135053_a((String)"trade.not_enough_money")), mouseX, mouseY, this.field_73886_k);
         }
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char par1, int par2)
-    {
-        super.keyTyped(par1, par2);
+    protected void func_73869_a(char par1, int par2) {
+        super.func_73869_a(par1, par2);
         this.lastInteraction = System.currentTimeMillis();
-
-        if (this.moneyField.textboxKeyTyped(par1, par2))
-        {
-            if (Character.isDigit(par1) || par2 == 14 || par2 == 54 || par2 == 42 || par2 == 205 || par2 == 203 || par2 == 211)
-            {
-                if (Character.isDigit(par1) && this.moneyField.getText().equals("0"))
-                {
-                    this.moneyField.setText("");
+        if (this.moneyField.func_73802_a(par1, par2)) {
+            if (Character.isDigit(par1) || par2 == 14 || par2 == 54 || par2 == 42 || par2 == 205 || par2 == 203 || par2 == 211) {
+                if (Character.isDigit(par1) && this.moneyField.func_73781_b().equals("0")) {
+                    this.moneyField.func_73782_a("");
                 }
-
-                if (this.moneyField.getText().isEmpty() || this.moneyField.getText().matches("0*"))
-                {
-                    this.moneyField.setText("0");
+                if (this.moneyField.func_73781_b().isEmpty() || this.moneyField.func_73781_b().matches("0*")) {
+                    this.moneyField.func_73782_a("0");
                 }
             }
-
-            if (this.moneyField.getText() != null && !this.moneyField.getText().isEmpty() && this.isNumeric(this.moneyField.getText()) && this.trader != null)
-            {
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new TradeUpdateMoneyPacket(Integer.parseInt(this.moneyField.getText()), this.trader.username, true)));
-            }
-            else if (this.trader != null)
-            {
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new TradeUpdateMoneyPacket(0, this.trader.username, true)));
+            if (this.moneyField.func_73781_b() != null && !this.moneyField.func_73781_b().isEmpty() && this.isNumeric(this.moneyField.func_73781_b()) && this.trader != null) {
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new TradeUpdateMoneyPacket(Integer.parseInt(this.moneyField.func_73781_b()), this.trader.field_71092_bJ, true)));
+            } else if (this.trader != null) {
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new TradeUpdateMoneyPacket(0, this.trader.field_71092_bJ, true)));
             }
         }
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int par1, int par2, int par3)
-    {
-        super.mouseClicked(par1, par2, par3);
-        this.moneyField.mouseClicked(par1, par2, par3);
+    protected void func_73864_a(int par1, int par2, int par3) {
+        super.func_73864_a(par1, par2, par3);
+        this.moneyField.func_73793_a(par1, par2, par3);
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
-        super.updateScreen();
-        this.moneyField.updateCursorCounter();
-
-        if (this.moneyUpdater > 10)
-        {
+    public void func_73876_c() {
+        super.func_73876_c();
+        this.moneyField.func_73780_a();
+        if (this.moneyUpdater > 10) {
             PacketCallbacks.MONEY.send(new String[0]);
-
-            if (this.isNumeric(this.moneyField.getText()) && this.trader != null && this.container.state != EnumTradeState.DONE && this.container.state != EnumTradeState.WAITING && this.container.state != EnumTradeState.TRADER_ACCEPTED)
-            {
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new TradeUpdateMoneyPacket(Integer.parseInt(this.moneyField.getText()), this.trader.username, false)));
+            if (this.isNumeric(this.moneyField.func_73781_b()) && this.trader != null && this.container.state != EnumTradeState.DONE && this.container.state != EnumTradeState.WAITING && this.container.state != EnumTradeState.TRADER_ACCEPTED) {
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new TradeUpdateMoneyPacket(Integer.parseInt(this.moneyField.func_73781_b()), this.trader.field_71092_bJ, false)));
             }
-
             this.moneyUpdater = 0;
         }
-
         ++this.moneyUpdater;
     }
 
-    public boolean isNumeric(String str)
-    {
-        if (str != null && str.length() != 0)
-        {
-            char[] var2 = str.toCharArray();
-            int var3 = var2.length;
-
-            for (int var4 = 0; var4 < var3; ++var4)
-            {
-                char c = var2[var4];
-
-                if (!Character.isDigit(c))
-                {
-                    return false;
-                }
-            }
-
-            if (Integer.parseInt(str) < 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        else
-        {
+    public boolean isNumeric(String str) {
+        if (str == null || str.length() == 0) {
             return false;
         }
+        for (char c : str.toCharArray()) {
+            if (Character.isDigit(c)) continue;
+            return false;
+        }
+        return Integer.parseInt(str) >= 0;
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int par1, int par2, float par3)
-    {
-        super.drawScreen(par1, par2, par3);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.moneyField.drawTextBox();
-        this.accept.enabled = !this.imReady && this.hasEnoughMoney && stopCooldown <= System.currentTimeMillis();
+    public void func_73863_a(int par1, int par2, float par3) {
+        super.func_73863_a(par1, par2, par3);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        this.moneyField.func_73795_f();
+        this.accept.field_73742_g = !this.imReady && this.hasEnoughMoney && stopCooldown <= System.currentTimeMillis();
     }
 
-    /**
-     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
-     */
-    protected void actionPerformed(GuiButton btn)
-    {
-        switch (btn.id)
-        {
-            case 0:
-                if (!this.isNumeric(this.moneyField.getText()))
-                {
-                    this.moneyField.setText("0");
+    protected void func_73875_a(GuiButton btn) {
+        switch (btn.field_73741_f) {
+            case 0: {
+                if (!this.isNumeric(this.moneyField.func_73781_b())) {
+                    this.moneyField.func_73782_a("0");
                     return;
                 }
-
-                if (this.accept.enabled && System.currentTimeMillis() - this.lastInteraction > 1000L && this.trader != null && this.container.state != EnumTradeState.DONE && this.container.state != EnumTradeState.WAITING)
-                {
-                    TradeManager.sendData(EnumPacketServer.TRADE_COMPLETE, Integer.parseInt(this.moneyField.getText()));
-                    this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-                }
-
+                if (!this.accept.field_73742_g || System.currentTimeMillis() - this.lastInteraction <= 1000L || this.trader == null || this.container.state == EnumTradeState.DONE || this.container.state == EnumTradeState.WAITING) break;
+                TradeManager.sendData(EnumPacketServer.TRADE_COMPLETE, Integer.parseInt(this.moneyField.func_73781_b()));
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
                 break;
-
-            case 1:
-                this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-                Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
+            }
+            case 1: {
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                Minecraft.func_71410_x().func_71373_a(null);
+            }
         }
     }
 
-    /**
-     * Called when the screen is unloaded. Used to disable keyboard repeat events
-     */
-    public void onGuiClosed()
-    {
-        super.onGuiClosed();
+    public void func_73874_b() {
+        super.func_73874_b();
         PacketCallbacks.MONEY.send(new String[0]);
         TradeManager.sendData(EnumPacketServer.TRADE_CANCEL, 0);
     }
 
-    public EntityPlayer getTrader()
-    {
+    @Override
+    public EntityPlayer getTrader() {
         return this.trader;
     }
 
-    public static void addCooldown(long timeMillis)
-    {
+    public static void addCooldown(long timeMillis) {
         stopCooldown = System.currentTimeMillis() + timeMillis;
     }
 
-    public void updateState(EnumTradeState state)
-    {
+    public void updateState(EnumTradeState state) {
         this.container.state = state;
         this.imReady = state != EnumTradeState.STARTED && state != EnumTradeState.TRADER_ACCEPTED;
-        this.accept.enabled = !this.imReady && this.hasEnoughMoney && stopCooldown <= System.currentTimeMillis();
+        this.accept.field_73742_g = !this.imReady && this.hasEnoughMoney && stopCooldown <= System.currentTimeMillis();
         this.traderIsReady = state == EnumTradeState.TRADER_ACCEPTED;
     }
 
-    private void drawItemStack(ItemStack par1ItemStack, int par2, int par3, String par4Str)
-    {
+    private void drawItemStack(ItemStack par1ItemStack, int par2, int par3, String par4Str) {
         GL11.glPushMatrix();
-        GL11.glTranslatef(0.0F, 0.0F, 32.0F);
-        RenderHelper.enableGUIStandardItemLighting();
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-        GL11.glEnable(GL11.GL_LIGHTING);
-        this.zLevel = 200.0F;
-        itemRenderer.zLevel = 200.0F;
+        GL11.glTranslatef((float)0.0f, (float)0.0f, (float)32.0f);
+        RenderHelper.func_74520_c();
+        GL11.glDisable((int)2896);
+        GL11.glEnable((int)32826);
+        GL11.glEnable((int)2903);
+        GL11.glEnable((int)2896);
+        this.field_73735_i = 200.0f;
+        GuiTrade.field_74196_a.field_77023_b = 200.0f;
         FontRenderer font = null;
-
-        if (par1ItemStack != null)
-        {
-            font = par1ItemStack.getItem().getFontRenderer(par1ItemStack);
+        if (par1ItemStack != null) {
+            font = par1ItemStack.func_77973_b().getFontRenderer(par1ItemStack);
         }
-
-        if (font == null)
-        {
-            font = this.fontRenderer;
+        if (font == null) {
+            font = this.field_73886_k;
         }
-
-        itemRenderer.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), par1ItemStack, par2, par3);
-        itemRenderer.renderItemOverlayIntoGUI(font, this.mc.getTextureManager(), par1ItemStack, par2, par3, par4Str);
-        this.zLevel = 0.0F;
-        itemRenderer.zLevel = 0.0F;
+        field_74196_a.func_82406_b(font, this.field_73882_e.func_110434_K(), par1ItemStack, par2, par3);
+        field_74196_a.func_94148_a(font, this.field_73882_e.func_110434_K(), par1ItemStack, par2, par3, par4Str);
+        this.field_73735_i = 0.0f;
+        GuiTrade.field_74196_a.field_77023_b = 0.0f;
         GL11.glPopMatrix();
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        RenderHelper.enableStandardItemLighting();
+        GL11.glEnable((int)2896);
+        GL11.glEnable((int)2929);
+        RenderHelper.func_74519_b();
     }
 
-    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font)
-    {
-        if (!par1List.isEmpty())
-        {
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
+    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font) {
+        if (!par1List.isEmpty()) {
+            GL11.glDisable((int)32826);
+            RenderHelper.func_74518_a();
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
             int k = 0;
-            Iterator iterator = par1List.iterator();
-            int j1;
-
-            while (iterator.hasNext())
-            {
-                String i1 = (String)iterator.next();
-                j1 = font.getStringWidth(i1);
-
-                if (j1 > k)
-                {
-                    k = j1;
-                }
+            for (String s : par1List) {
+                int l = font.func_78256_a(s);
+                if (l <= k) continue;
+                k = l;
             }
-
-            int var15 = par2 + 12;
-            j1 = par3 - 12;
+            int i1 = par2 + 12;
+            int j1 = par3 - 12;
             int k1 = 8;
-
-            if (par1List.size() > 1)
-            {
+            if (par1List.size() > 1) {
                 k1 += 2 + (par1List.size() - 1) * 10;
             }
-
-            if (var15 + k > this.width)
-            {
-                var15 -= 28 + k;
+            if (i1 + k > this.field_73880_f) {
+                i1 -= 28 + k;
             }
-
-            if (j1 + k1 + 6 > this.height)
-            {
-                j1 = this.height - k1 - 6;
+            if (j1 + k1 + 6 > this.field_73881_g) {
+                j1 = this.field_73881_g - k1 - 6;
             }
-
-            this.zLevel = 300.0F;
-            itemRenderer.zLevel = 300.0F;
+            this.field_73735_i = 300.0f;
+            GuiTrade.field_74196_a.field_77023_b = 300.0f;
             int l1 = -267386864;
-            this.drawGradientRect(var15 - 3, j1 - 4, var15 + k + 3, j1 - 3, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 3, var15 + k + 3, j1 + k1 + 4, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 - 4, j1 - 3, var15 - 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 + k + 3, j1 - 3, var15 + k + 4, j1 + k1 + 3, l1, l1);
-            int i2 = 1347420415;
-            int j2 = (i2 & 16711422) >> 1 | i2 & -16777216;
-            this.drawGradientRect(var15 - 3, j1 - 3 + 1, var15 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 + k + 2, j1 - 3 + 1, var15 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 - 3 + 1, i2, i2);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 2, var15 + k + 3, j1 + k1 + 3, j2, j2);
-
-            for (int k2 = 0; k2 < par1List.size(); ++k2)
-            {
+            this.func_73733_a(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
+            this.func_73733_a(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
+            int i2 = 0x505000FF;
+            int j2 = (i2 & 0xFEFEFE) >> 1 | i2 & 0xFF000000;
+            this.func_73733_a(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+            this.func_73733_a(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+            for (int k2 = 0; k2 < par1List.size(); ++k2) {
                 String s1 = (String)par1List.get(k2);
-                font.drawStringWithShadow(s1, var15, j1, -1);
-
-                if (k2 == 0)
-                {
+                font.func_78261_a(s1, i1, j1, -1);
+                if (k2 == 0) {
                     j1 += 2;
                 }
-
                 j1 += 10;
             }
+            this.field_73735_i = 0.0f;
+            GuiTrade.field_74196_a.field_77023_b = 0.0f;
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
+            GL11.glEnable((int)32826);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        }
+    }
 
-            this.zLevel = 0.0F;
-            itemRenderer.zLevel = 0.0F;
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+    private class VoidButton
+    extends GuiButton {
+        public VoidButton(int id, int posX, int posY, int width, int height) {
+            super(id, posX, posY, width, height, "");
+        }
+
+        public void func_73737_a(Minecraft par1Minecraft, int par2, int par3) {
         }
     }
 }
+

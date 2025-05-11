@@ -1,9 +1,14 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.item.ItemStack
+ */
 package net.ilexiconn.nationsgui.forge.client.data;
 
 import net.minecraft.item.ItemStack;
 
-public class MarketSale
-{
+public class MarketSale {
     private String uuid;
     private String pseudo;
     private int quantity;
@@ -14,63 +19,54 @@ public class MarketSale
     private int price;
     private int itemstackId;
 
-    public String getUuid()
-    {
+    public String getUuid() {
         return this.uuid;
     }
 
-    public String getPseudo()
-    {
+    public String getPseudo() {
         return this.pseudo;
     }
 
-    public int getQuantity()
-    {
+    public int getQuantity() {
         return this.quantity;
     }
 
-    public long getExpiry()
-    {
+    public long getExpiry() {
         return this.expiry;
     }
 
-    public int getSold()
-    {
+    public int getSold() {
         return this.sold;
     }
 
-    public int getItemstackId()
-    {
+    public int getItemstackId() {
         return this.itemstackId;
     }
 
-    public ItemStack getItemStack()
-    {
+    public ItemStack getItemStack() {
         return this.itemStack;
     }
 
-    public int getPrice()
-    {
+    public int getPrice() {
         return this.price;
     }
 
-    public void setSold(int sold)
-    {
+    public void setSold(int sold) {
         this.sold = sold;
     }
 
-    public int getRest()
-    {
+    public int getRest() {
         return this.quantity - this.sold;
     }
 
-    public boolean equals(Object obj)
-    {
-        return obj instanceof MarketSale ? this.getUuid().equals(((MarketSale)obj).getUuid()) : false;
+    public boolean equals(Object obj) {
+        if (obj instanceof MarketSale) {
+            return this.getUuid().equals(((MarketSale)obj).getUuid());
+        }
+        return false;
     }
 
-    public void replace(MarketSale origin)
-    {
+    public void replace(MarketSale origin) {
         this.uuid = origin.uuid;
         this.pseudo = origin.pseudo;
         this.quantity = origin.quantity;
@@ -80,13 +76,12 @@ public class MarketSale
         this.price = origin.price;
     }
 
-    public long getSuperexpiry()
-    {
+    public long getSuperexpiry() {
         return this.superexpiry;
     }
 
-    public void setItemStack(ItemStack itemStack)
-    {
+    public void setItemStack(ItemStack itemStack) {
         this.itemStack = itemStack;
     }
 }
+

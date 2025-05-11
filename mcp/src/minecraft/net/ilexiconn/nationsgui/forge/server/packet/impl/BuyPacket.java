@@ -1,3 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.util.StatCollector
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -13,45 +25,44 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 
-public class BuyPacket implements IPacket, IClientPacket
-{
+public class BuyPacket
+implements IPacket,
+IClientPacket {
     private int category;
     private int item;
     private int amount;
     private String categoryName;
     private double newMoney;
 
-    public BuyPacket(int category, int item, int amount, String categoryName)
-    {
+    public BuyPacket(int category, int item, int amount, String categoryName) {
         this.category = category;
         this.item = item;
         this.amount = amount;
         this.categoryName = categoryName;
     }
 
-    @SideOnly(Side.CLIENT)
-    public void handleClientPacket(EntityPlayer player)
-    {
-        if (this.newMoney != ShopGUI.CURRENT_MONEY)
-        {
+    @Override
+    @SideOnly(value=Side.CLIENT)
+    public void handleClientPacket(EntityPlayer player) {
+        if (this.newMoney != ShopGUI.CURRENT_MONEY) {
             ShopGUI.CURRENT_MONEY = this.newMoney;
-            Minecraft.getMinecraft().sndManager.playSoundFX("nationsgui:buy", 1.0F, 1.0F);
-            ClientProxy.SNACKBAR_LIST.add(new SnackbarGUI(StatCollector.translateToLocal("nationsgui.shop.successful")));
+            Minecraft.func_71410_x().field_71416_A.func_77366_a("nationsgui:buy", 1.0f, 1.0f);
+            ClientProxy.SNACKBAR_LIST.add(new SnackbarGUI(StatCollector.func_74838_a((String)"nationsgui.shop.successful")));
         }
-
         ShopGUI.CAN_BUY = true;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.newMoney = data.readDouble();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeInt(this.category);
         data.writeInt(this.item);
         data.writeInt(this.amount);
         data.writeUTF(this.categoryName);
     }
 }
+

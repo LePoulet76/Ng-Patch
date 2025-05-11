@@ -1,67 +1,61 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  com.google.gson.Gson
+ *  com.google.gson.reflect.TypeToken
+ *  net.minecraft.entity.player.EntityPlayer
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import net.ilexiconn.nationsgui.forge.client.gui.island.IslandMembersGui;
 import net.ilexiconn.nationsgui.forge.server.packet.IClientPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
-import net.ilexiconn.nationsgui.forge.server.packet.impl.IslandTeamsDataPacket$1;
-import net.ilexiconn.nationsgui.forge.server.packet.impl.IslandTeamsDataPacket$2;
-import net.ilexiconn.nationsgui.forge.server.packet.impl.IslandTeamsDataPacket$3;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class IslandTeamsDataPacket implements IPacket, IClientPacket
-{
+public class IslandTeamsDataPacket
+implements IPacket,
+IClientPacket {
     public ArrayList<HashMap<String, Object>> teamsInfos = new ArrayList();
     public ArrayList<String> teamFlags = new ArrayList();
     public boolean isCreation;
 
-    public IslandTeamsDataPacket(boolean isCreation)
-    {
+    public IslandTeamsDataPacket(boolean isCreation) {
         this.isCreation = isCreation;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
-        this.teamsInfos = (ArrayList)(new Gson()).fromJson(data.readUTF(), (new IslandTeamsDataPacket$1(this)).getType());
-        this.teamFlags = (ArrayList)(new Gson()).fromJson(data.readUTF(), (new IslandTeamsDataPacket$2(this)).getType());
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
+        this.teamsInfos = (ArrayList)new Gson().fromJson(data.readUTF(), new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType());
+        this.teamFlags = (ArrayList)new Gson().fromJson(data.readUTF(), new TypeToken<ArrayList<String>>(){}.getType());
         this.isCreation = data.readBoolean();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeBoolean(this.isCreation);
     }
 
-    public void handleClientPacket(EntityPlayer player)
-    {
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
         IslandMembersGui.teamsInfos = new ArrayList();
         IslandMembersGui.teamFlags = this.teamFlags;
         IslandMembersGui.needUpdate = true;
-
-        if (this.teamsInfos.size() > 0)
-        {
-            Iterator var2 = this.teamsInfos.iterator();
-
-            while (var2.hasNext())
-            {
-                HashMap teamInfos = (HashMap)var2.next();
-                teamInfos.put("flags", (new Gson()).fromJson((String)teamInfos.get("flags"), (new IslandTeamsDataPacket$3(this)).getType()));
+        if (this.teamsInfos.size() > 0) {
+            for (HashMap<String, Object> teamInfos : this.teamsInfos) {
+                teamInfos.put("flags", new Gson().fromJson((String)teamInfos.get("flags"), new TypeToken<HashMap<String, Boolean>>(){}.getType()));
                 IslandMembersGui.teamsInfos.add(teamInfos);
             }
-
-            if (!this.isCreation)
-            {
-                IslandMembersGui.selectedTeamInfos = (HashMap)this.teamsInfos.get(0);
-            }
-            else
-            {
-                IslandMembersGui.selectedTeamInfos = (HashMap)this.teamsInfos.get(this.teamsInfos.size() - 1);
-            }
+            IslandMembersGui.selectedTeamInfos = !this.isCreation ? this.teamsInfos.get(0) : this.teamsInfos.get(this.teamsInfos.size() - 1);
         }
     }
 }
+

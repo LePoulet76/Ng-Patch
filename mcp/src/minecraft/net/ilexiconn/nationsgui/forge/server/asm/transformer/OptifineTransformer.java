@@ -1,6 +1,20 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  org.objectweb.asm.tree.AbstractInsnNode
+ *  org.objectweb.asm.tree.ClassNode
+ *  org.objectweb.asm.tree.InsnList
+ *  org.objectweb.asm.tree.InsnNode
+ *  org.objectweb.asm.tree.JumpInsnNode
+ *  org.objectweb.asm.tree.LabelNode
+ *  org.objectweb.asm.tree.MethodInsnNode
+ *  org.objectweb.asm.tree.MethodNode
+ *  org.objectweb.asm.tree.VarInsnNode
+ */
 package net.ilexiconn.nationsgui.forge.server.asm.transformer;
 
-import java.util.Iterator;
+import net.ilexiconn.nationsgui.forge.server.asm.transformer.Transformer;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InsnList;
@@ -11,50 +25,33 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-public class OptifineTransformer implements Transformer
-{
-    public String getTarget()
-    {
+public class OptifineTransformer
+implements Transformer {
+    @Override
+    public String getTarget() {
         return "net.minecraft.block.Block";
     }
 
-    public void transform(ClassNode node, boolean dev)
-    {
-        Iterator var3 = node.methods.iterator();
-
-        while (var3.hasNext())
-        {
-            MethodNode methodNode = (MethodNode)var3.next();
+    @Override
+    public void transform(ClassNode node, boolean dev) {
+        for (MethodNode methodNode : node.methods) {
             InsnList insnList = methodNode.instructions;
-
-            if (methodNode.name.equals("isBlockNormalCube") || methodNode.name.equals("isBlockNormalCube"))
-            {
-                AbstractInsnNode targetNode = null;
-                AbstractInsnNode[] newLabel = methodNode.instructions.toArray();
-                int var8 = newLabel.length;
-
-                for (int var9 = 0; var9 < var8; ++var9)
-                {
-                    AbstractInsnNode instruction = newLabel[var9];
-
-                    if (instruction.getOpcode() == 25 && ((VarInsnNode)instruction).var == 0)
-                    {
-                        targetNode = instruction;
-                        break;
-                    }
-                }
-
-                if (targetNode != null)
-                {
-                    insnList.insertBefore(targetNode, new VarInsnNode(25, 0));
-                    LabelNode var11 = new LabelNode();
-                    insnList.insertBefore(targetNode, new MethodInsnNode(184, "net/ilexiconn/nationsgui/forge/server/asm/NationsGUIHooks", "isBlocBypassCheckNormalCube", "(Lnet/minecraft/block/Block;)Z"));
-                    insnList.insertBefore(targetNode, new JumpInsnNode(153, var11));
-                    insnList.insertBefore(targetNode, new InsnNode(4));
-                    insnList.insertBefore(targetNode, new InsnNode(172));
-                    insnList.insertBefore(targetNode, var11);
-                }
+            if (!methodNode.name.equals("isBlockNormalCube") && !methodNode.name.equals("func_72809_s")) continue;
+            AbstractInsnNode targetNode = null;
+            for (AbstractInsnNode instruction : methodNode.instructions.toArray()) {
+                if (instruction.getOpcode() != 25 || ((VarInsnNode)instruction).var != 0) continue;
+                targetNode = instruction;
+                break;
             }
+            if (targetNode == null) continue;
+            insnList.insertBefore(targetNode, (AbstractInsnNode)new VarInsnNode(25, 0));
+            LabelNode newLabel = new LabelNode();
+            insnList.insertBefore(targetNode, (AbstractInsnNode)new MethodInsnNode(184, "net/ilexiconn/nationsgui/forge/server/asm/NationsGUIHooks", "isBlocBypassCheckNormalCube", "(Lnet/minecraft/block/Block;)Z"));
+            insnList.insertBefore(targetNode, (AbstractInsnNode)new JumpInsnNode(153, newLabel));
+            insnList.insertBefore(targetNode, (AbstractInsnNode)new InsnNode(4));
+            insnList.insertBefore(targetNode, (AbstractInsnNode)new InsnNode(172));
+            insnList.insertBefore(targetNode, (AbstractInsnNode)newLabel);
         }
     }
 }
+

@@ -1,240 +1,157 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package org.xiph.speex;
 
-public class Vbr
-{
+public class Vbr {
     public static final int VBR_MEMORY_SIZE = 5;
     public static final int MIN_ENERGY = 6000;
-    public static final float NOISE_POW = 0.3F;
-    public static final float[][] nb_thresh = new float[][] {{ -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F}, {3.5F, 2.5F, 2.0F, 1.2F, 0.5F, 0.0F, -0.5F, -0.7F, -0.8F, -0.9F, -1.0F}, {10.0F, 6.5F, 5.2F, 4.5F, 3.9F, 3.5F, 3.0F, 2.5F, 2.3F, 1.8F, 1.0F}, {11.0F, 8.8F, 7.5F, 6.5F, 5.0F, 3.9F, 3.9F, 3.9F, 3.5F, 3.0F, 1.0F}, {11.0F, 11.0F, 9.9F, 9.0F, 8.0F, 7.0F, 6.5F, 6.0F, 5.0F, 4.0F, 2.0F}, {11.0F, 11.0F, 11.0F, 11.0F, 9.5F, 9.0F, 8.0F, 7.0F, 6.5F, 5.0F, 3.0F}, {11.0F, 11.0F, 11.0F, 11.0F, 11.0F, 11.0F, 9.5F, 8.5F, 8.0F, 6.5F, 4.0F}, {11.0F, 11.0F, 11.0F, 11.0F, 11.0F, 11.0F, 11.0F, 11.0F, 9.8F, 7.5F, 5.5F}, {8.0F, 5.0F, 3.7F, 3.0F, 2.5F, 2.0F, 1.8F, 1.5F, 1.0F, 0.0F, 0.0F}};
-    public static final float[][] hb_thresh = new float[][] {{ -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F}, { -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F}, {11.0F, 11.0F, 9.5F, 8.5F, 7.5F, 6.0F, 5.0F, 3.9F, 3.0F, 2.0F, 1.0F}, {11.0F, 11.0F, 11.0F, 11.0F, 11.0F, 9.5F, 8.7F, 7.8F, 7.0F, 6.5F, 4.0F}, {11.0F, 11.0F, 11.0F, 11.0F, 11.0F, 11.0F, 11.0F, 11.0F, 9.8F, 7.5F, 5.5F}};
-    public static final float[][] uhb_thresh = new float[][] {{ -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F, -1.0F}, {3.9F, 2.5F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -1.0F}};
-    private float energy_alpha = 0.1F;
-    private float average_energy = 0.0F;
-    private float last_energy = 1.0F;
+    public static final float NOISE_POW = 0.3f;
+    public static final float[][] nb_thresh = new float[][]{{-1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f}, {3.5f, 2.5f, 2.0f, 1.2f, 0.5f, 0.0f, -0.5f, -0.7f, -0.8f, -0.9f, -1.0f}, {10.0f, 6.5f, 5.2f, 4.5f, 3.9f, 3.5f, 3.0f, 2.5f, 2.3f, 1.8f, 1.0f}, {11.0f, 8.8f, 7.5f, 6.5f, 5.0f, 3.9f, 3.9f, 3.9f, 3.5f, 3.0f, 1.0f}, {11.0f, 11.0f, 9.9f, 9.0f, 8.0f, 7.0f, 6.5f, 6.0f, 5.0f, 4.0f, 2.0f}, {11.0f, 11.0f, 11.0f, 11.0f, 9.5f, 9.0f, 8.0f, 7.0f, 6.5f, 5.0f, 3.0f}, {11.0f, 11.0f, 11.0f, 11.0f, 11.0f, 11.0f, 9.5f, 8.5f, 8.0f, 6.5f, 4.0f}, {11.0f, 11.0f, 11.0f, 11.0f, 11.0f, 11.0f, 11.0f, 11.0f, 9.8f, 7.5f, 5.5f}, {8.0f, 5.0f, 3.7f, 3.0f, 2.5f, 2.0f, 1.8f, 1.5f, 1.0f, 0.0f, 0.0f}};
+    public static final float[][] hb_thresh = new float[][]{{-1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f}, {-1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f}, {11.0f, 11.0f, 9.5f, 8.5f, 7.5f, 6.0f, 5.0f, 3.9f, 3.0f, 2.0f, 1.0f}, {11.0f, 11.0f, 11.0f, 11.0f, 11.0f, 9.5f, 8.7f, 7.8f, 7.0f, 6.5f, 4.0f}, {11.0f, 11.0f, 11.0f, 11.0f, 11.0f, 11.0f, 11.0f, 11.0f, 9.8f, 7.5f, 5.5f}};
+    public static final float[][] uhb_thresh = new float[][]{{-1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f}, {3.9f, 2.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f}};
+    private float energy_alpha = 0.1f;
+    private float average_energy = 0.0f;
+    private float last_energy = 1.0f;
     private float[] last_log_energy;
-    private float accum_sum = 0.0F;
-    private float last_pitch_coef = 0.0F;
-    private float soft_pitch = 0.0F;
-    private float last_quality = 0.0F;
+    private float accum_sum = 0.0f;
+    private float last_pitch_coef = 0.0f;
+    private float soft_pitch = 0.0f;
+    private float last_quality = 0.0f;
     private float noise_level;
-    private float noise_accum = (float)(0.05D * Math.pow(6000.0D, 0.30000001192092896D));
-    private float noise_accum_count = 0.05F;
-    private int consec_noise;
+    private float noise_accum = (float)(0.05 * Math.pow(6000.0, 0.3f));
+    private float noise_accum_count = 0.05f;
+    private int consec_noise = 0;
 
-    public Vbr()
-    {
+    public Vbr() {
         this.noise_level = this.noise_accum / this.noise_accum_count;
-        this.consec_noise = 0;
         this.last_log_energy = new float[5];
-
-        for (int var1 = 0; var1 < 5; ++var1)
-        {
-            this.last_log_energy[var1] = (float)Math.log(6000.0D);
+        for (int var1 = 0; var1 < 5; ++var1) {
+            this.last_log_energy[var1] = (float)Math.log(6000.0);
         }
     }
 
-    public float analysis(float[] var1, int var2, int var3, float var4)
-    {
-        float var6 = 0.0F;
-        float var7 = 0.0F;
-        float var8 = 0.0F;
-        float var9 = 7.0F;
-        float var12 = 0.0F;
+    public float analysis(float[] var1, int var2, int var3, float var4) {
+        float var15;
+        boolean var10;
         int var5;
-
-        for (var5 = 0; var5 < var2 >> 1; ++var5)
-        {
+        float var6 = 0.0f;
+        float var7 = 0.0f;
+        float var8 = 0.0f;
+        float var9 = 7.0f;
+        float var12 = 0.0f;
+        for (var5 = 0; var5 < var2 >> 1; ++var5) {
             var7 += var1[var5] * var1[var5];
         }
-
-        for (var5 = var2 >> 1; var5 < var2; ++var5)
-        {
+        for (var5 = var2 >> 1; var5 < var2; ++var5) {
             var8 += var1[var5] * var1[var5];
         }
-
         var6 = var7 + var8;
-        float var11 = (float)Math.log((double)(var6 + 6000.0F));
-
-        for (var5 = 0; var5 < 5; ++var5)
-        {
+        float var11 = (float)Math.log(var6 + 6000.0f);
+        for (var5 = 0; var5 < 5; ++var5) {
             var12 += (var11 - this.last_log_energy[var5]) * (var11 - this.last_log_energy[var5]);
         }
-
-        var12 /= 150.0F;
-
-        if (var12 > 1.0F)
-        {
-            var12 = 1.0F;
+        if ((var12 /= 150.0f) > 1.0f) {
+            var12 = 1.0f;
         }
-
-        float var13 = 3.0F * (var4 - 0.4F) * Math.abs(var4 - 0.4F);
-        this.average_energy = (1.0F - this.energy_alpha) * this.average_energy + this.energy_alpha * var6;
+        float var13 = 3.0f * (var4 - 0.4f) * Math.abs(var4 - 0.4f);
+        this.average_energy = (1.0f - this.energy_alpha) * this.average_energy + this.energy_alpha * var6;
         this.noise_level = this.noise_accum / this.noise_accum_count;
-        float var14 = (float)Math.pow((double)var6, 0.30000001192092896D);
-
-        if (this.noise_accum_count < 0.06F && var6 > 6000.0F)
-        {
-            this.noise_accum = 0.05F * var14;
+        float var14 = (float)Math.pow(var6, 0.3f);
+        if (this.noise_accum_count < 0.06f && var6 > 6000.0f) {
+            this.noise_accum = 0.05f * var14;
         }
-
-        boolean var10;
-        float var15;
-
-        if ((var13 >= 0.3F || var12 >= 0.2F || var14 >= 1.2F * this.noise_level) && (var13 >= 0.3F || var12 >= 0.05F || var14 >= 1.5F * this.noise_level) && (var13 >= 0.4F || var12 >= 0.05F || var14 >= 1.2F * this.noise_level) && (var13 >= 0.0F || var12 >= 0.05F))
-        {
+        if ((var13 >= 0.3f || var12 >= 0.2f || var14 >= 1.2f * this.noise_level) && (var13 >= 0.3f || var12 >= 0.05f || var14 >= 1.5f * this.noise_level) && (var13 >= 0.4f || var12 >= 0.05f || var14 >= 1.2f * this.noise_level) && (var13 >= 0.0f || var12 >= 0.05f)) {
             var10 = true;
             this.consec_noise = 0;
-        }
-        else
-        {
+        } else {
             var10 = false;
             ++this.consec_noise;
-
-            if (var14 > 3.0F * this.noise_level)
-            {
-                var15 = 3.0F * this.noise_level;
-            }
-            else
-            {
-                var15 = var14;
-            }
-
-            if (this.consec_noise >= 4)
-            {
-                this.noise_accum = 0.95F * this.noise_accum + 0.05F * var15;
-                this.noise_accum_count = 0.95F * this.noise_accum_count + 0.05F;
+            var15 = var14 > 3.0f * this.noise_level ? 3.0f * this.noise_level : var14;
+            if (this.consec_noise >= 4) {
+                this.noise_accum = 0.95f * this.noise_accum + 0.05f * var15;
+                this.noise_accum_count = 0.95f * this.noise_accum_count + 0.05f;
             }
         }
-
-        if (var14 < this.noise_level && var6 > 6000.0F)
-        {
-            this.noise_accum = 0.95F * this.noise_accum + 0.05F * var14;
-            this.noise_accum_count = 0.95F * this.noise_accum_count + 0.05F;
+        if (var14 < this.noise_level && var6 > 6000.0f) {
+            this.noise_accum = 0.95f * this.noise_accum + 0.05f * var14;
+            this.noise_accum_count = 0.95f * this.noise_accum_count + 0.05f;
         }
-
-        if (var6 < 30000.0F)
-        {
-            var9 -= 0.7F;
-
-            if (var6 < 10000.0F)
-            {
-                var9 -= 0.7F;
+        if (var6 < 30000.0f) {
+            var9 -= 0.7f;
+            if (var6 < 10000.0f) {
+                var9 -= 0.7f;
             }
-
-            if (var6 < 3000.0F)
-            {
-                var9 -= 0.7F;
+            if (var6 < 3000.0f) {
+                var9 -= 0.7f;
             }
-        }
-        else
-        {
-            var15 = (float)Math.log((double)((var6 + 1.0F) / (1.0F + this.last_energy)));
-            float var16 = (float)Math.log((double)((var6 + 1.0F) / (1.0F + this.average_energy)));
-
-            if (var16 < -5.0F)
-            {
-                var16 = -5.0F;
+        } else {
+            var15 = (float)Math.log((var6 + 1.0f) / (1.0f + this.last_energy));
+            float var16 = (float)Math.log((var6 + 1.0f) / (1.0f + this.average_energy));
+            if (var16 < -5.0f) {
+                var16 = -5.0f;
             }
-
-            if (var16 > 2.0F)
-            {
-                var16 = 2.0F;
+            if (var16 > 2.0f) {
+                var16 = 2.0f;
             }
-
-            if (var16 > 0.0F)
-            {
-                var9 += 0.6F * var16;
+            if (var16 > 0.0f) {
+                var9 += 0.6f * var16;
             }
-
-            if (var16 < 0.0F)
-            {
-                var9 += 0.5F * var16;
+            if (var16 < 0.0f) {
+                var9 += 0.5f * var16;
             }
-
-            if (var15 > 0.0F)
-            {
-                if (var15 > 5.0F)
-                {
-                    var15 = 5.0F;
+            if (var15 > 0.0f) {
+                if (var15 > 5.0f) {
+                    var15 = 5.0f;
                 }
-
-                var9 += 0.5F * var15;
+                var9 += 0.5f * var15;
             }
-
-            if (var8 > 1.6F * var7)
-            {
-                var9 += 0.5F;
+            if (var8 > 1.6f * var7) {
+                var9 += 0.5f;
             }
         }
-
         this.last_energy = var6;
-        this.soft_pitch = 0.6F * this.soft_pitch + 0.4F * var4;
-        var9 = (float)((double)var9 + 2.200000047683716D * ((double)var4 - 0.4D + ((double)this.soft_pitch - 0.4D)));
-
-        if (var9 < this.last_quality)
-        {
-            var9 = 0.5F * var9 + 0.5F * this.last_quality;
+        this.soft_pitch = 0.6f * this.soft_pitch + 0.4f * var4;
+        if ((var9 = (float)((double)var9 + (double)2.2f * ((double)var4 - 0.4 + ((double)this.soft_pitch - 0.4)))) < this.last_quality) {
+            var9 = 0.5f * var9 + 0.5f * this.last_quality;
         }
-
-        if (var9 < 4.0F)
-        {
-            var9 = 4.0F;
+        if (var9 < 4.0f) {
+            var9 = 4.0f;
         }
-
-        if (var9 > 10.0F)
-        {
-            var9 = 10.0F;
+        if (var9 > 10.0f) {
+            var9 = 10.0f;
         }
-
-        if (this.consec_noise >= 3)
-        {
-            var9 = 4.0F;
+        if (this.consec_noise >= 3) {
+            var9 = 4.0f;
         }
-
-        if (this.consec_noise != 0)
-        {
-            var9 -= (float)(1.0D * (Math.log(3.0D + (double)this.consec_noise) - Math.log(3.0D)));
+        if (this.consec_noise != 0) {
+            var9 -= (float)(1.0 * (Math.log(3.0 + (double)this.consec_noise) - Math.log(3.0)));
         }
-
-        if (var9 < 0.0F)
-        {
-            var9 = 0.0F;
+        if (var9 < 0.0f) {
+            var9 = 0.0f;
         }
-
-        if (var6 < 60000.0F)
-        {
-            if (this.consec_noise > 2)
-            {
-                var9 -= (float)(0.5D * (Math.log(3.0D + (double)this.consec_noise) - Math.log(3.0D)));
+        if (var6 < 60000.0f) {
+            if (this.consec_noise > 2) {
+                var9 -= (float)(0.5 * (Math.log(3.0 + (double)this.consec_noise) - Math.log(3.0)));
             }
-
-            if (var6 < 10000.0F && this.consec_noise > 2)
-            {
-                var9 -= (float)(0.5D * (Math.log(3.0D + (double)this.consec_noise) - Math.log(3.0D)));
+            if (var6 < 10000.0f && this.consec_noise > 2) {
+                var9 -= (float)(0.5 * (Math.log(3.0 + (double)this.consec_noise) - Math.log(3.0)));
             }
-
-            if (var9 < 0.0F)
-            {
-                var9 = 0.0F;
+            if (var9 < 0.0f) {
+                var9 = 0.0f;
             }
-
-            var9 += (float)(0.3D * Math.log((double)var6 / 60000.0D));
+            var9 += (float)(0.3 * Math.log((double)var6 / 60000.0));
         }
-
-        if (var9 < -1.0F)
-        {
-            var9 = -1.0F;
+        if (var9 < -1.0f) {
+            var9 = -1.0f;
         }
-
         this.last_pitch_coef = var4;
         this.last_quality = var9;
-
-        for (var5 = 4; var5 > 0; --var5)
-        {
+        for (var5 = 4; var5 > 0; --var5) {
             this.last_log_energy[var5] = this.last_log_energy[var5 - 1];
         }
-
         this.last_log_energy[0] = var11;
         return var9;
     }
 }
+

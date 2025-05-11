@@ -1,20 +1,23 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package javazoom.jl.decoder;
 
 import java.io.IOException;
 
-public interface Source
-{
-    long LENGTH_UNKNOWN = -1L;
+public interface Source {
+    public static final long LENGTH_UNKNOWN = -1L;
 
-    int read(byte[] var1, int var2, int var3) throws IOException;
+    public int read(byte[] var1, int var2, int var3) throws IOException;
 
-    boolean willReadBlock();
+    public boolean willReadBlock();
 
-    boolean isSeekable();
+    public boolean isSeekable();
 
-    long length();
+    public long length();
 
-    long tell();
+    public long tell();
 
-    long seek(long var1);
+    public long seek(long var1);
 }
+

@@ -1,55 +1,66 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.entity.Entity
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.entity.player.InventoryPlayer
+ *  net.minecraft.inventory.ContainerPlayer
+ *  net.minecraft.inventory.IInventory
+ *  net.minecraft.inventory.Slot
+ *  net.minecraft.inventory.SlotCrafting
+ *  net.minecraft.item.ItemStack
+ */
 package net.ilexiconn.nationsgui.forge.server.container;
 
-import net.ilexiconn.nationsgui.forge.server.container.PlayerContainer$1;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
+import net.minecraft.item.ItemStack;
 
-public class PlayerContainer extends ContainerPlayer
-{
-    public PlayerContainer(InventoryPlayer playerInventory, boolean localWorld, EntityPlayer player)
-    {
+public class PlayerContainer
+extends ContainerPlayer {
+    public PlayerContainer(InventoryPlayer playerInventory, boolean localWorld, final EntityPlayer player) {
         super(playerInventory, localWorld, player);
-        super.addSlotToContainer(new SlotCrafting(playerInventory.player, this.craftMatrix, this.craftResult, 0, 155, 105));
         int x;
-        int x1;
-
-        for (x = 0; x < 2; ++x)
-        {
-            for (x1 = 0; x1 < 2; ++x1)
-            {
-                super.addSlotToContainer(new Slot(this.craftMatrix, x1 + x * 2, 110 + x1 * 18, 87 + x * 18));
+        int y;
+        super.func_75146_a((Slot)new SlotCrafting(playerInventory.field_70458_d, (IInventory)this.field_75181_e, this.field_75179_f, 0, 155, 105));
+        for (y = 0; y < 2; ++y) {
+            for (x = 0; x < 2; ++x) {
+                super.func_75146_a(new Slot((IInventory)this.field_75181_e, x + y * 2, 110 + x * 18, 87 + y * 18));
             }
         }
+        y = 0;
+        while (y < 4) {
+            final int finalY = y++;
+            super.func_75146_a(new Slot((IInventory)playerInventory, 36 + (3 - finalY), 11, 51 + finalY * 18){
 
-        for (x = 0; x < 4; ++x)
-        {
-            super.addSlotToContainer(new PlayerContainer$1(this, playerInventory, 36 + (3 - x), 11, 51 + x * 18, x, player));
+                public int func_75219_a() {
+                    return 1;
+                }
+
+                public boolean func_75214_a(ItemStack stack) {
+                    return stack != null && stack.func_77973_b().isValidArmor(stack, finalY, (Entity)player);
+                }
+            });
         }
-
-        for (x = 0; x < 3; ++x)
-        {
-            for (x1 = 0; x1 < 9; ++x1)
-            {
-                super.addSlotToContainer(new Slot(playerInventory, x1 + (x + 1) * 9, 11 + x1 * 18, 141 + x * 18));
+        for (y = 0; y < 3; ++y) {
+            for (x = 0; x < 9; ++x) {
+                super.func_75146_a(new Slot((IInventory)playerInventory, x + (y + 1) * 9, 11 + x * 18, 141 + y * 18));
             }
         }
-
-        for (x = 0; x < 9; ++x)
-        {
-            super.addSlotToContainer(new Slot(playerInventory, x, 11 + x * 18, 199));
+        for (int x2 = 0; x2 < 9; ++x2) {
+            super.func_75146_a(new Slot((IInventory)playerInventory, x2, 11 + x2 * 18, 199));
         }
-
-        this.onCraftMatrixChanged(this.craftMatrix);
+        this.func_75130_a((IInventory)this.field_75181_e);
     }
 
-    /**
-     * the slot is assumed empty
-     */
-    protected Slot addSlotToContainer(Slot slot)
-    {
+    protected Slot func_75146_a(Slot slot) {
         return slot;
     }
 }
+

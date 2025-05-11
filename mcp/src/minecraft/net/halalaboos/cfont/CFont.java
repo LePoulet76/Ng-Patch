@@ -1,3 +1,10 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.renderer.texture.DynamicTexture
+ *  org.lwjgl.opengl.GL11
+ */
 package net.halalaboos.cfont;
 
 import java.awt.Color;
@@ -8,14 +15,12 @@ import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
-import net.halalaboos.cfont.CFont$CharData;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import org.lwjgl.opengl.GL11;
 
-public class CFont
-{
-    private float imgSize = 512.0F;
-    protected CFont$CharData[] charData = new CFont$CharData[256];
+public class CFont {
+    private float imgSize = 512.0f;
+    protected CharData[] charData = new CharData[256];
     protected Font font;
     protected boolean antiAlias;
     protected boolean fractionalMetrics;
@@ -24,31 +29,25 @@ public class CFont
     protected DynamicTexture tex;
     private HashMap<Float, Font> cachedFontSize = new HashMap();
 
-    public CFont(Font font, boolean antiAlias, boolean fractionalMetrics)
-    {
+    public CFont(Font font, boolean antiAlias, boolean fractionalMetrics) {
         this.font = font;
         this.antiAlias = antiAlias;
         this.fractionalMetrics = fractionalMetrics;
         this.tex = this.setupTexture(font, antiAlias, fractionalMetrics, this.charData);
     }
 
-    protected DynamicTexture setupTexture(Font font, boolean antiAlias, boolean fractionalMetrics, CFont$CharData[] chars)
-    {
+    protected DynamicTexture setupTexture(Font font, boolean antiAlias, boolean fractionalMetrics, CharData[] chars) {
         BufferedImage img = this.generateFontImage(font, antiAlias, fractionalMetrics, chars);
-
-        try
-        {
+        try {
             return new DynamicTexture(img);
         }
-        catch (Exception var7)
-        {
-            var7.printStackTrace();
+        catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
 
-    protected BufferedImage generateFontImage(Font font, boolean antiAlias, boolean fractionalMetrics, CFont$CharData[] chars)
-    {
+    protected BufferedImage generateFontImage(Font font, boolean antiAlias, boolean fractionalMetrics, CharData[] chars) {
         int imgSize = (int)this.imgSize;
         BufferedImage bufferedImage = new BufferedImage(imgSize, imgSize, 2);
         Graphics2D g = (Graphics2D)bufferedImage.getGraphics();
@@ -63,155 +62,127 @@ public class CFont
         int charHeight = 0;
         int positionX = 0;
         int positionY = 1;
-
-        for (int i = 0; i < chars.length; ++i)
-        {
+        for (int i = 0; i < chars.length; ++i) {
             char ch = (char)i;
-            CFont$CharData charData = new CFont$CharData(this);
+            CharData charData = new CharData();
             Rectangle2D dimensions = fontMetrics.getStringBounds(String.valueOf(ch), g);
             charData.width = dimensions.getBounds().width + 8;
             charData.height = dimensions.getBounds().height;
-
-            if (positionX + charData.width >= imgSize)
-            {
+            if (positionX + charData.width >= imgSize) {
                 positionX = 0;
                 positionY += charHeight;
                 charHeight = 0;
             }
-
-            if (charData.height > charHeight)
-            {
+            if (charData.height > charHeight) {
                 charHeight = charData.height;
             }
-
             charData.storedX = positionX;
             charData.storedY = positionY;
-
-            if (charData.height > this.fontHeight)
-            {
+            if (charData.height > this.fontHeight) {
                 this.fontHeight = charData.height;
             }
-
             chars[i] = charData;
             g.drawString(String.valueOf(ch), positionX + 2, positionY + fontMetrics.getAscent());
             positionX += charData.width;
         }
-
         return bufferedImage;
     }
 
-    public void drawChar(CFont$CharData[] chars, char c, float x, float y) throws ArrayIndexOutOfBoundsException
-    {
-        try
-        {
-            this.drawQuad(x, y, (float)chars[c].width, (float)chars[c].height, (float)chars[c].storedX, (float)chars[c].storedY, (float)chars[c].width, (float)chars[c].height);
+    public void drawChar(CharData[] chars, char c, float x, float y) throws ArrayIndexOutOfBoundsException {
+        try {
+            this.drawQuad(x, y, chars[c].width, chars[c].height, chars[c].storedX, chars[c].storedY, chars[c].width, chars[c].height);
         }
-        catch (Exception var6)
-        {
-            var6.printStackTrace();
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    protected void drawQuad(float x, float y, float width, float height, float srcX, float srcY, float srcWidth, float srcHeight)
-    {
+    protected void drawQuad(float x, float y, float width, float height, float srcX, float srcY, float srcWidth, float srcHeight) {
         float renderSRCX = srcX / this.imgSize;
         float renderSRCY = srcY / this.imgSize;
         float renderSRCWidth = srcWidth / this.imgSize;
         float renderSRCHeight = srcHeight / this.imgSize;
-        GL11.glTexCoord2f(renderSRCX + renderSRCWidth, renderSRCY);
+        GL11.glTexCoord2f((float)(renderSRCX + renderSRCWidth), (float)renderSRCY);
         GL11.glVertex2d((double)(x + width), (double)y);
-        GL11.glTexCoord2f(renderSRCX, renderSRCY);
+        GL11.glTexCoord2f((float)renderSRCX, (float)renderSRCY);
         GL11.glVertex2d((double)x, (double)y);
-        GL11.glTexCoord2f(renderSRCX, renderSRCY + renderSRCHeight);
+        GL11.glTexCoord2f((float)renderSRCX, (float)(renderSRCY + renderSRCHeight));
         GL11.glVertex2d((double)x, (double)(y + height));
-        GL11.glTexCoord2f(renderSRCX, renderSRCY + renderSRCHeight);
+        GL11.glTexCoord2f((float)renderSRCX, (float)(renderSRCY + renderSRCHeight));
         GL11.glVertex2d((double)x, (double)(y + height));
-        GL11.glTexCoord2f(renderSRCX + renderSRCWidth, renderSRCY + renderSRCHeight);
+        GL11.glTexCoord2f((float)(renderSRCX + renderSRCWidth), (float)(renderSRCY + renderSRCHeight));
         GL11.glVertex2d((double)(x + width), (double)(y + height));
-        GL11.glTexCoord2f(renderSRCX + renderSRCWidth, renderSRCY);
+        GL11.glTexCoord2f((float)(renderSRCX + renderSRCWidth), (float)renderSRCY);
         GL11.glVertex2d((double)(x + width), (double)y);
     }
 
-    public int getStringHeight(String text)
-    {
+    public int getStringHeight(String text) {
         return this.getHeight();
     }
 
-    public int getHeight()
-    {
+    public int getHeight() {
         return (this.fontHeight - 8) / 2;
     }
 
-    public float getStringWidth(String text)
-    {
+    public float getStringWidth(String text) {
         int width = 0;
-        char[] var3 = text.toCharArray();
-        int var4 = var3.length;
-
-        for (int var5 = 0; var5 < var4; ++var5)
-        {
-            char c = var3[var5];
-
-            if (c < this.charData.length && c >= 0)
-            {
-                width += this.charData[c].width - 8 + this.charOffset;
-            }
+        for (char c : text.toCharArray()) {
+            if (c >= this.charData.length || c < '\u0000') continue;
+            width += this.charData[c].width - 8 + this.charOffset;
         }
-
-        return (float)(width / 2);
+        return width / 2;
     }
 
-    public boolean isAntiAlias()
-    {
+    public boolean isAntiAlias() {
         return this.antiAlias;
     }
 
-    public void setAntiAlias(boolean antiAlias)
-    {
-        if (this.antiAlias != antiAlias)
-        {
+    public void setAntiAlias(boolean antiAlias) {
+        if (this.antiAlias != antiAlias) {
             this.antiAlias = antiAlias;
             this.tex = this.setupTexture(this.font, antiAlias, this.fractionalMetrics, this.charData);
         }
     }
 
-    public boolean isFractionalMetrics()
-    {
+    public boolean isFractionalMetrics() {
         return this.fractionalMetrics;
     }
 
-    public void setFractionalMetrics(boolean fractionalMetrics)
-    {
-        if (this.fractionalMetrics != fractionalMetrics)
-        {
+    public void setFractionalMetrics(boolean fractionalMetrics) {
+        if (this.fractionalMetrics != fractionalMetrics) {
             this.fractionalMetrics = fractionalMetrics;
             this.tex = this.setupTexture(this.font, this.antiAlias, fractionalMetrics, this.charData);
         }
     }
 
-    public Font getFont()
-    {
+    public Font getFont() {
         return this.font;
     }
 
-    public void setFontSize(float size)
-    {
-        if (this.cachedFontSize.containsKey(Float.valueOf(size)))
-        {
-            this.setFont((Font)this.cachedFontSize.get(Float.valueOf(size)));
-        }
-        else
-        {
+    public void setFontSize(float size) {
+        if (this.cachedFontSize.containsKey(Float.valueOf(size))) {
+            this.setFont(this.cachedFontSize.get(Float.valueOf(size)));
+        } else {
             Font fontSized = this.font.deriveFont(size);
             this.cachedFontSize.put(Float.valueOf(size), fontSized);
             this.setFont(fontSized);
         }
     }
 
-    public void setFont(Font font)
-    {
+    public void setFont(Font font) {
         this.font = font;
-        GL11.glDeleteTextures(this.tex.getGlTextureId());
+        GL11.glDeleteTextures((int)this.tex.func_110552_b());
         this.tex = this.setupTexture(font, this.antiAlias, this.fractionalMetrics, this.charData);
     }
+
+    protected class CharData {
+        public int width;
+        public int height;
+        public int storedX;
+        public int storedY;
+
+        protected CharData() {
+        }
+    }
 }
+

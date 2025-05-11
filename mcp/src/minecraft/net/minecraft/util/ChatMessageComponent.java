@@ -267,7 +267,7 @@ public class ChatMessageComponent
                     var13[var14] = ((ChatMessageComponent)this.field_111091_i.get(var14)).toStringWithDefaultFormatting(par1, var8, var9, var10, var11, var12);
                 }
 
-                var7.append(StatCollector.translateToLocalFormatted(this.translationKey, var13));
+                var7.append(StatCollector.translateToLocalFormatted(this.translationKey, (Object[]) var13));
             }
             else
             {

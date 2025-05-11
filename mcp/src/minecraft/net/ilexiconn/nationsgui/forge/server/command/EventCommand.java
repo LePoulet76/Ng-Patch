@@ -1,292 +1,223 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  fr.nationsglory.ngbridge.Bukkit2Forge
+ *  micdoodle8.mods.galacticraft.core.entities.player.GCCorePlayerMP
+ *  net.minecraft.command.CommandBase
+ *  net.minecraft.command.CommandException
+ *  net.minecraft.command.ICommandSender
+ *  net.minecraft.entity.Entity
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.entity.player.EntityPlayerMP
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.nbt.NBTBase
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.nbt.NBTTagList
+ *  net.minecraft.server.MinecraftServer
+ *  net.minecraft.util.ChatMessageComponent
+ *  net.minecraft.util.ChunkCoordinates
+ *  net.minecraft.world.World
+ *  org.bukkit.Bukkit
+ *  org.bukkit.Location
+ *  org.bukkit.World
+ *  org.bukkit.entity.Player
+ *  org.bukkit.event.Event
+ *  org.bukkit.event.player.PlayerTeleportEvent
+ */
 package net.ilexiconn.nationsgui.forge.server.command;
 
 import fr.nationsglory.ngbridge.Bukkit2Forge;
-import java.util.Iterator;
 import micdoodle8.mods.galacticraft.core.entities.player.GCCorePlayerMP;
 import net.ilexiconn.nationsgui.forge.NationsGUI;
 import net.ilexiconn.nationsgui.forge.server.entity.data.NGPlayerData;
 import net.ilexiconn.nationsgui.forge.server.world.EventSaveData;
-import net.ilexiconn.nationsgui.forge.server.world.EventSaveData$Event;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.World;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-public class EventCommand extends CommandBase
-{
-    public String getCommandName()
-    {
+public class EventCommand
+extends CommandBase {
+    public String func_71517_b() {
         return "goevent";
     }
 
-    public String getCommandUsage(ICommandSender iCommandSender)
-    {
+    public String func_71518_a(ICommandSender iCommandSender) {
         return "";
     }
 
-    public void processCommand(ICommandSender iCommandSender, String[] strings)
-    {
-        MinecraftServer server = MinecraftServer.getServer();
-        boolean isOp = !(iCommandSender instanceof EntityPlayer) || server.getConfigurationManager().isPlayerOpped(((EntityPlayer)iCommandSender).username);
-        EventSaveData eventSaveData = EventSaveData.get(MinecraftServer.getServer().getEntityWorld());
+    public void func_71515_b(ICommandSender iCommandSender, String[] strings) {
+        EventSaveData.Event event;
+        MinecraftServer server = MinecraftServer.func_71276_C();
+        boolean isOp = !(iCommandSender instanceof EntityPlayer) || server.func_71203_ab().func_72353_e(((EntityPlayer)iCommandSender).field_71092_bJ);
+        EventSaveData eventSaveData = EventSaveData.get(MinecraftServer.func_71276_C().func_130014_f_());
         GCCorePlayerMP player = null;
-
-        if (strings.length >= 3)
-        {
-            player = (GCCorePlayerMP)MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(strings[2]);
-        }
-        else if (iCommandSender instanceof GCCorePlayerMP)
-        {
+        if (strings.length >= 3) {
+            player = (GCCorePlayerMP)MinecraftServer.func_71276_C().func_71203_ab().func_72361_f(strings[2]);
+        } else if (iCommandSender instanceof GCCorePlayerMP) {
             player = (GCCorePlayerMP)iCommandSender;
         }
-
-        EventSaveData$Event event = strings.length >= 2 ? eventSaveData.getEvent(strings[1]) : null;
-
-        if (strings.length >= 1)
-        {
-            String var8 = strings[0];
-            byte var9 = -1;
-
-            switch (var8.hashCode())
-            {
-                case -690213213:
-                    if (var8.equals("register"))
-                    {
-                        var9 = 2;
+        EventSaveData.Event event2 = event = strings.length >= 2 ? eventSaveData.getEvent(strings[1]) : null;
+        if (strings.length >= 1) {
+            switch (strings[0]) {
+                case "go": {
+                    if (event != null) {
+                        if (player == null) {
+                            throw new CommandException("event.playerNotFound", new Object[0]);
+                        }
+                        NGPlayerData ngPlayerData = NGPlayerData.get((EntityPlayer)player);
+                        if (ngPlayerData.eventSave != null) {
+                            throw new CommandException("event.alreadyInEvent", new Object[0]);
+                        }
+                        this.savePlayerData(player);
+                        this.clearPlayerData(player);
+                        this.applyWarp(player, event);
+                        break;
                     }
-
-                    break;
-
-                case 3304:
-                    if (var8.equals("go"))
-                    {
-                        var9 = 0;
-                    }
-
-                    break;
-
-                case 100571:
-                    if (var8.equals("end"))
-                    {
-                        var9 = 1;
-                    }
-
-                    break;
-
-                case 3322014:
-                    if (var8.equals("list"))
-                    {
-                        var9 = 4;
-                    }
-
-                    break;
-
-                case 836015164:
-                    if (var8.equals("unregister"))
-                    {
-                        var9 = 3;
-                    }
-            }
-
-            switch (var9)
-            {
-                case 0:
-                    if (event == null)
-                    {
-                        throw new CommandException("event.notRegistered", new Object[0]);
-                    }
-
-                    if (player == null)
-                    {
+                    throw new CommandException("event.notRegistered", new Object[0]);
+                }
+                case "end": {
+                    if (player == null) {
                         throw new CommandException("event.playerNotFound", new Object[0]);
                     }
-
-                    NGPlayerData ngPlayerData1 = NGPlayerData.get(player);
-
-                    if (ngPlayerData1.eventSave != null)
-                    {
-                        throw new CommandException("event.alreadyInEvent", new Object[0]);
-                    }
-
-                    this.savePlayerData(player);
-                    this.clearPlayerData(player);
-                    this.applyWarp(player, event);
-                    break;
-
-                case 1:
-                    if (player == null)
-                    {
-                        throw new CommandException("event.playerNotFound", new Object[0]);
-                    }
-
                     this.restorePlayerData(player);
                     break;
-
-                case 2:
-                    if (!isOp || player == null)
-                    {
-                        throw new CommandException("event.permissionDenied", new Object[0]);
-                    }
-
-                    if (event != null)
-                    {
-                        throw new CommandException("event.alreadyRegistered", new Object[0]);
-                    }
-
-                    if (strings.length < 2)
-                    {
+                }
+                case "register": {
+                    if (isOp && player != null) {
+                        if (event != null) {
+                            throw new CommandException("event.alreadyRegistered", new Object[0]);
+                        }
+                        if (strings.length >= 2) {
+                            this.saveWarp((EntityPlayer)player, eventSaveData, strings[1]);
+                            iCommandSender.func_70006_a(ChatMessageComponent.func_111077_e((String)"event.registered"));
+                            break;
+                        }
                         throw new CommandException("event.eventNameMissing", new Object[0]);
                     }
-
-                    this.saveWarp(player, eventSaveData, strings[1]);
-                    iCommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("event.registered"));
+                    throw new CommandException("event.permissionDenied", new Object[0]);
+                }
+                case "unregister": {
+                    if (isOp) {
+                        if (event == null) {
+                            throw new CommandException("event.notRegistered", new Object[0]);
+                        }
+                        eventSaveData.removeEvent(event.getName());
+                        iCommandSender.func_70006_a(ChatMessageComponent.func_111077_e((String)"event.unregistered"));
+                        break;
+                    }
+                    throw new CommandException("event.permissionDenied", new Object[0]);
+                }
+                case "list": {
+                    iCommandSender.func_70006_a(ChatMessageComponent.func_111077_e((String)"event.listHeader"));
+                    for (EventSaveData.Event eventSaved : eventSaveData.getEvents()) {
+                        iCommandSender.func_70006_a(ChatMessageComponent.func_111066_d((String)eventSaved.getName()));
+                    }
                     break;
-
-                case 3:
-                    if (!isOp)
-                    {
-                        throw new CommandException("event.permissionDenied", new Object[0]);
-                    }
-
-                    if (event == null)
-                    {
-                        throw new CommandException("event.notRegistered", new Object[0]);
-                    }
-
-                    eventSaveData.removeEvent(event.getName());
-                    iCommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("event.unregistered"));
-                    break;
-
-                case 4:
-                    iCommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("event.listHeader"));
-                    Iterator ngPlayerData = eventSaveData.getEvents().iterator();
-
-                    while (ngPlayerData.hasNext())
-                    {
-                        EventSaveData$Event eventSaved = (EventSaveData$Event)ngPlayerData.next();
-                        iCommandSender.sendChatToPlayer(ChatMessageComponent.createFromText(eventSaved.getName()));
-                    }
+                }
             }
         }
     }
 
-    private boolean canBeTeleported(EntityPlayerMP player, int dimension, ChunkCoordinates coordinates)
-    {
-        Player bukkitPlayer = Bukkit.getServer().getPlayer(player.username);
-        Iterator var5 = Bukkit.getServer().getWorlds().iterator();
-        World world;
-        net.minecraft.world.World world1;
-
-        do
-        {
-            if (!var5.hasNext())
-            {
-                return false;
-            }
-
-            world = (World)var5.next();
-            world1 = Bukkit2Forge.convertWorld(world);
+    private boolean canBeTeleported(EntityPlayerMP player, int dimension, ChunkCoordinates coordinates) {
+        Player bukkitPlayer = Bukkit.getServer().getPlayer(player.field_71092_bJ);
+        for (org.bukkit.World world : Bukkit.getServer().getWorlds()) {
+            World world1 = Bukkit2Forge.convertWorld((org.bukkit.World)world);
+            if (world1.field_73011_w.field_76574_g != dimension) continue;
+            PlayerTeleportEvent playerTeleportEvent = new PlayerTeleportEvent(bukkitPlayer, bukkitPlayer.getLocation(), new Location(world, (double)coordinates.field_71574_a, (double)coordinates.field_71572_b, (double)coordinates.field_71573_c));
+            Bukkit.getServer().getPluginManager().callEvent((Event)playerTeleportEvent);
+            return !playerTeleportEvent.isCancelled();
         }
-        while (world1.provider.dimensionId != dimension);
-
-        PlayerTeleportEvent playerTeleportEvent = new PlayerTeleportEvent(bukkitPlayer, bukkitPlayer.getLocation(), new Location(world, (double)coordinates.posX, (double)coordinates.posY, (double)coordinates.posZ));
-        Bukkit.getServer().getPluginManager().callEvent(playerTeleportEvent);
-        return !playerTeleportEvent.isCancelled();
+        return false;
     }
 
-    private void applyWarp(GCCorePlayerMP player, EventSaveData$Event event)
-    {
-        NationsGUI.teleportPlayerToLocation(player.username, event.getDimensionId() + "", event.getEventCoordinates().posX, event.getEventCoordinates().posY, event.getEventCoordinates().posZ, event.getRotationYaw(), event.getRotationPitch());
+    private void applyWarp(GCCorePlayerMP player, EventSaveData.Event event) {
+        NationsGUI.teleportPlayerToLocation(player.field_71092_bJ, event.getDimensionId() + "", event.getEventCoordinates().field_71574_a, event.getEventCoordinates().field_71572_b, event.getEventCoordinates().field_71573_c, event.getRotationYaw(), event.getRotationPitch());
     }
 
-    private void saveWarp(EntityPlayer player, EventSaveData worldData, String name)
-    {
-        EventSaveData$Event event = new EventSaveData$Event();
+    private void saveWarp(EntityPlayer player, EventSaveData worldData, String name) {
+        EventSaveData.Event event = new EventSaveData.Event();
         event.setName(name);
-        event.setDimensionId(player.dimension);
-        event.setEventCoordinates(new ChunkCoordinates((int)player.posX, (int)player.posY, (int)player.posZ));
-        event.setRotationYaw(player.rotationYaw);
-        event.setRotationPitch(player.rotationPitch);
+        event.setDimensionId(player.field_71093_bK);
+        event.setEventCoordinates(new ChunkCoordinates((int)player.field_70165_t, (int)player.field_70163_u, (int)player.field_70161_v));
+        event.setRotationYaw(player.field_70177_z);
+        event.setRotationPitch(player.field_70125_A);
         worldData.putEvent(name, event);
     }
 
-    private void savePlayerData(GCCorePlayerMP player)
-    {
+    private void savePlayerData(GCCorePlayerMP player) {
         NBTTagCompound saveStates = new NBTTagCompound();
-        saveStates.setInteger("dimension", player.dimension);
-        saveStates.setDouble("posX", player.posX);
-        saveStates.setDouble("posY", player.posY);
-        saveStates.setDouble("posZ", player.posZ);
-        saveStates.setFloat("rotationYaw", player.rotationYaw);
-        saveStates.setFloat("rotationPitch", player.rotationPitch);
-        saveStates.setInteger("experienceLevel", player.experienceLevel);
-        saveStates.setFloat("experience", player.experience);
+        saveStates.func_74768_a("dimension", player.field_71093_bK);
+        saveStates.func_74780_a("posX", player.field_70165_t);
+        saveStates.func_74780_a("posY", player.field_70163_u);
+        saveStates.func_74780_a("posZ", player.field_70161_v);
+        saveStates.func_74776_a("rotationYaw", player.field_70177_z);
+        saveStates.func_74776_a("rotationPitch", player.field_70125_A);
+        saveStates.func_74768_a("experienceLevel", player.field_71068_ca);
+        saveStates.func_74776_a("experience", player.field_71106_cc);
         NBTTagList inventory = new NBTTagList();
-        player.inventory.writeToNBT(inventory);
-        saveStates.setTag("inventory", inventory);
+        player.field_71071_by.func_70442_a(inventory);
+        saveStates.func_74782_a("inventory", (NBTBase)inventory);
         NBTTagList inventoryExtended = new NBTTagList();
         player.getExtendedInventory().writeToNBT(inventoryExtended);
-        saveStates.setTag("inventoryExtended", inventoryExtended);
-        NGPlayerData ngPlayerData = NGPlayerData.get(player);
+        saveStates.func_74782_a("inventoryExtended", (NBTBase)inventoryExtended);
+        NGPlayerData ngPlayerData = NGPlayerData.get((EntityPlayer)player);
         ngPlayerData.eventSave = saveStates;
     }
 
-    private void clearPlayerData(GCCorePlayerMP player)
-    {
-        player.clearActivePotions();
-        player.experienceLevel = 0;
-        player.experience = 0.0F;
-        player.inventory.clearInventory(-1, -1);
+    private void clearPlayerData(GCCorePlayerMP player) {
+        player.func_70674_bp();
+        player.field_71068_ca = 0;
+        player.field_71106_cc = 0.0f;
+        player.field_71071_by.func_82347_b(-1, -1);
         ItemStack[] inventoryStacks = player.getExtendedInventory().inventoryStacks;
-        int i = 0;
-
-        for (int inventoryStacksLength = inventoryStacks.length; i < inventoryStacksLength; ++i)
-        {
+        int inventoryStacksLength = inventoryStacks.length;
+        for (int i = 0; i < inventoryStacksLength; ++i) {
             inventoryStacks[i] = null;
         }
     }
 
-    private void transferToDimension(EntityPlayerMP entityPlayer, int id)
-    {
-        entityPlayer.worldObj.removeEntity(entityPlayer);
-        entityPlayer.mcServer.getConfigurationManager().transferPlayerToDimension(entityPlayer, id);
+    private void transferToDimension(EntityPlayerMP entityPlayer, int id) {
+        entityPlayer.field_70170_p.func_72900_e((Entity)entityPlayer);
+        entityPlayer.field_71133_b.func_71203_ab().func_72356_a(entityPlayer, id);
     }
 
-    protected void restorePlayerData(GCCorePlayerMP player)
-    {
-        NGPlayerData ngPlayerData = NGPlayerData.get(player);
+    protected void restorePlayerData(GCCorePlayerMP player) {
+        NGPlayerData ngPlayerData = NGPlayerData.get((EntityPlayer)player);
         NBTTagCompound eventSave = ngPlayerData.eventSave;
-
-        if (eventSave == null)
-        {
+        if (eventSave == null) {
             throw new CommandException("event.noInEvent", new Object[0]);
         }
-        else if (this.canBeTeleported(player, eventSave.getInteger("dimension"), new ChunkCoordinates((int)eventSave.getDouble("posX"), (int)eventSave.getDouble("posY"), (int)eventSave.getDouble("posZ"))))
-        {
-            this.clearPlayerData(player);
-            NationsGUI.teleportPlayerToLocation(player.username, eventSave.getInteger("dimension") + "", (int)eventSave.getDouble("posX"), (int)eventSave.getDouble("posY"), (int)eventSave.getDouble("posZ"), eventSave.getFloat("rotationYaw"), eventSave.getFloat("rotationPitch"));
-            player.inventory.readFromNBT(eventSave.getTagList("inventory"));
-            player.getExtendedInventory().readFromNBT(eventSave.getTagList("inventoryExtended"));
-            player.experienceLevel = eventSave.getInteger("experienceLevel");
-            player.experience = eventSave.getFloat("experience");
-            ngPlayerData.eventSave = null;
+        if (!this.canBeTeleported((EntityPlayerMP)player, eventSave.func_74762_e("dimension"), new ChunkCoordinates((int)eventSave.func_74769_h("posX"), (int)eventSave.func_74769_h("posY"), (int)eventSave.func_74769_h("posZ")))) {
+            return;
         }
+        this.clearPlayerData(player);
+        NationsGUI.teleportPlayerToLocation(player.field_71092_bJ, eventSave.func_74762_e("dimension") + "", (int)eventSave.func_74769_h("posX"), (int)eventSave.func_74769_h("posY"), (int)eventSave.func_74769_h("posZ"), eventSave.func_74760_g("rotationYaw"), eventSave.func_74760_g("rotationPitch"));
+        player.field_71071_by.func_70443_b(eventSave.func_74761_m("inventory"));
+        player.getExtendedInventory().readFromNBT(eventSave.func_74761_m("inventoryExtended"));
+        player.field_71068_ca = eventSave.func_74762_e("experienceLevel");
+        player.field_71106_cc = eventSave.func_74760_g("experience");
+        ngPlayerData.eventSave = null;
     }
 
-    public int compareTo(Object o)
-    {
+    public int compareTo(Object o) {
         return 0;
     }
 }
+

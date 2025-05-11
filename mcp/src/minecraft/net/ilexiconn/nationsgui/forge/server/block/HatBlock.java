@@ -1,3 +1,20 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.block.Block
+ *  net.minecraft.block.ITileEntityProvider
+ *  net.minecraft.block.material.Material
+ *  net.minecraft.entity.Entity
+ *  net.minecraft.entity.EntityLivingBase
+ *  net.minecraft.entity.item.EntityItem
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.tileentity.TileEntity
+ *  net.minecraft.util.AxisAlignedBB
+ *  net.minecraft.util.MathHelper
+ *  net.minecraft.world.World
+ */
 package net.ilexiconn.nationsgui.forge.server.block;
 
 import java.util.Random;
@@ -6,6 +23,7 @@ import net.ilexiconn.nationsgui.forge.server.block.entity.TileEntityHatBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -15,110 +33,66 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class HatBlock extends Block implements ITileEntityProvider
-{
-    public HatBlock()
-    {
-        super(3590, Material.cloth);
-        this.setResistance(Block.stone.blockResistance);
-        this.setUnlocalizedName("hatblock");
-        this.setTextureName("wool_colored_white");
+public class HatBlock
+extends Block
+implements ITileEntityProvider {
+    public HatBlock() {
+        super(3590, Material.field_76253_m);
+        this.func_71894_b(Block.field_71981_t.field_72029_cc);
+        this.func_71864_b("hatblock");
+        this.func_111022_d("wool_colored_white");
     }
 
-    /**
-     * Called when the block is placed in the world.
-     */
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack)
-    {
-        world.setBlockMetadataWithNotify(x, y, z, MathHelper.floor_double((double)(entity.rotationYaw * 16.0F / 360.0F) + 0.5D) & 15, 2);
-
-        if (world.getBlockTileEntity(x, y, z) instanceof TileEntityHatBlock)
-        {
-            TileEntityHatBlock tileEntityHatBlock = (TileEntityHatBlock)world.getBlockTileEntity(x, y, z);
-
-            if (itemStack.getTagCompound() != null && itemStack.getTagCompound().hasKey("HatID"))
-            {
-                tileEntityHatBlock.setHatID(itemStack.getTagCompound().getString("HatID"));
+    public void func_71860_a(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
+        world.func_72921_c(x, y, z, MathHelper.func_76128_c((double)((double)(entity.field_70177_z * 16.0f / 360.0f) + 0.5)) & 0xF, 2);
+        if (world.func_72796_p(x, y, z) instanceof TileEntityHatBlock) {
+            TileEntityHatBlock tileEntityHatBlock = (TileEntityHatBlock)world.func_72796_p(x, y, z);
+            if (itemStack.func_77978_p() != null && itemStack.func_77978_p().func_74764_b("HatID")) {
+                tileEntityHatBlock.setHatID(itemStack.func_77978_p().func_74779_i("HatID"));
             }
         }
     }
 
-    /**
-     * Called on server worlds only when the block has been replaced by a different block ID, or the same block with a
-     * different metadata value, but before the new metadata value is set. Args: World, x, y, z, old block ID, old
-     * metadata
-     */
-    public void breakBlock(World world, int x, int y, int z, int metadata, int fortune)
-    {
-        ItemStack is = new ItemStack(NationsGUI.HATBLOCK.blockID, 1, 0);
-
-        if (world.getBlockTileEntity(x, y, z) instanceof TileEntityHatBlock)
-        {
-            TileEntityHatBlock te = (TileEntityHatBlock)world.getBlockTileEntity(x, y, z);
-            NBTTagCompound comp = new NBTTagCompound();
-            comp.setString("HatID", te.getHatID());
-            is.stackTagCompound = comp;
-            is.setItemName("\u00a76" + te.getHatID());
-            world.spawnEntityInWorld(new EntityItem(world, (double)x, (double)y, (double)z, is));
-            super.breakBlock(world, x, y, z, metadata, fortune);
+    public void func_71852_a(World world, int x, int y, int z, int metadata, int fortune) {
+        ItemStack is = new ItemStack(NationsGUI.HATBLOCK.field_71990_ca, 1, 0);
+        if (!(world.func_72796_p(x, y, z) instanceof TileEntityHatBlock)) {
+            return;
         }
+        TileEntityHatBlock te = (TileEntityHatBlock)world.func_72796_p(x, y, z);
+        NBTTagCompound comp = new NBTTagCompound();
+        comp.func_74778_a("HatID", te.getHatID());
+        is.field_77990_d = comp;
+        is.func_82834_c("\u00a76" + te.getHatID());
+        world.func_72838_d((Entity)new EntityItem(world, (double)x, (double)y, (double)z, is));
+        super.func_71852_a(world, x, y, z, metadata, fortune);
     }
 
-    /**
-     * Returns the ID of the items to drop on destruction.
-     */
-    public int idDropped(int par1, Random par2Random, int par3)
-    {
+    public int func_71885_a(int par1, Random par2Random, int par3) {
         return 0;
     }
 
-    /**
-     * Returns the bounding box of the wired rectangular prism to render.
-     */
-    public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
-    {
-        return AxisAlignedBB.getBoundingBox((double)par2 + 0.2D, (double)par3 + 0.0D, (double)par4 + 0.2D, (double)par2 + 0.8D, (double)par3 + 0.6D, (double)par4 + 0.8D);
+    public AxisAlignedBB func_71911_a_(World par1World, int par2, int par3, int par4) {
+        return AxisAlignedBB.func_72330_a((double)((double)par2 + 0.2), (double)((double)par3 + 0.0), (double)((double)par4 + 0.2), (double)((double)par2 + 0.8), (double)((double)par3 + 0.6), (double)((double)par4 + 0.8));
     }
 
-    /**
-     * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
-     * cleared to be reused)
-     */
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
-    {
-        return AxisAlignedBB.getBoundingBox((double)par2 + 0.2D, (double)par3 + 0.0D, (double)par4 + 0.2D, (double)par2 + 0.8D, (double)par3 + 0.6D, (double)par4 + 0.8D);
+    public AxisAlignedBB func_71872_e(World par1World, int par2, int par3, int par4) {
+        return AxisAlignedBB.func_72330_a((double)((double)par2 + 0.2), (double)((double)par3 + 0.0), (double)((double)par4 + 0.2), (double)((double)par2 + 0.8), (double)((double)par3 + 0.6), (double)((double)par4 + 0.8));
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
-    public int getRenderType()
-    {
+    public int func_71857_b() {
         return -1;
     }
 
-    /**
-     * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
-     */
-    public boolean renderAsNormalBlock()
-    {
+    public boolean func_71886_c() {
         return false;
     }
 
-    /**
-     * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
-     * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
-     */
-    public boolean isOpaqueCube()
-    {
+    public boolean func_71926_d() {
         return false;
     }
 
-    /**
-     * Returns a new instance of a block's tile entity class. Called on placing the block.
-     */
-    public TileEntity createNewTileEntity(World world)
-    {
+    public TileEntity func_72274_a(World world) {
         return new TileEntityHatBlock();
     }
 }
+

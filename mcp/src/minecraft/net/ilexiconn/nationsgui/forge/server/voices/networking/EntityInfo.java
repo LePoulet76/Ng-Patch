@@ -1,13 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package net.ilexiconn.nationsgui.forge.server.voices.networking;
 
-public class EntityInfo
-{
+public class EntityInfo {
     public int entityID;
     public String address;
 
-    public EntityInfo(String address, int entityID)
-    {
+    public EntityInfo(String address, int entityID) {
         this.entityID = entityID;
         this.address = address;
     }
 }
+

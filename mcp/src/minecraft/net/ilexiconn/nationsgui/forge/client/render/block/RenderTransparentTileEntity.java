@@ -1,3 +1,23 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  fr.zeamateis.nationsglory.client.renders.RenderTransparentBlock
+ *  fr.zeamateis.nationsglory.common.tileEntity.TileEntityTransparent
+ *  net.minecraft.block.Block
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.renderer.RenderBlocks
+ *  net.minecraft.client.renderer.RenderHelper
+ *  net.minecraft.client.renderer.Tessellator
+ *  net.minecraft.client.renderer.texture.TextureMap
+ *  net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
+ *  net.minecraft.item.ItemBlock
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.tileentity.TileEntity
+ *  net.minecraft.world.IBlockAccess
+ *  net.minecraft.world.World
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.render.block;
 
 import fr.zeamateis.nationsglory.client.renders.RenderTransparentBlock;
@@ -12,56 +32,45 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
-public class RenderTransparentTileEntity extends TileEntitySpecialRenderer
-{
+public class RenderTransparentTileEntity
+extends TileEntitySpecialRenderer {
     private RenderBlocks blockRenderer;
 
-    public void renderTileEntityAt(TileEntity tileEntity, double par2, double par4, double par6, float par8)
-    {
-        ItemStack itemStack = Minecraft.getMinecraft().thePlayer.getHeldItem();
-
-        if (itemStack != null && itemStack.getItem() instanceof ItemBlock && Block.blocksList[((ItemBlock)itemStack.getItem()).getBlockID()].getRenderType() == RenderTransparentBlock.renderID)
-        {
-            Tessellator tessellator = Tessellator.instance;
-            this.bindTexture(TextureMap.locationBlocksTexture);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glDisable(GL11.GL_CULL_FACE);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-
-            if (Minecraft.isAmbientOcclusionEnabled())
-            {
-                GL11.glShadeModel(GL11.GL_SMOOTH);
+    public void func_76894_a(TileEntity tileEntity, double par2, double par4, double par6, float par8) {
+        ItemStack itemStack = Minecraft.func_71410_x().field_71439_g.func_70694_bm();
+        if (itemStack != null && itemStack.func_77973_b() instanceof ItemBlock && Block.field_71973_m[((ItemBlock)itemStack.func_77973_b()).func_77883_f()].func_71857_b() == RenderTransparentBlock.renderID) {
+            Tessellator tessellator = Tessellator.field_78398_a;
+            this.func_110628_a(TextureMap.field_110575_b);
+            RenderHelper.func_74518_a();
+            GL11.glBlendFunc((int)770, (int)771);
+            GL11.glEnable((int)3042);
+            GL11.glDisable((int)2884);
+            GL11.glDisable((int)3553);
+            if (Minecraft.func_71379_u()) {
+                GL11.glShadeModel((int)7425);
+            } else {
+                GL11.glShadeModel((int)7424);
             }
-            else
-            {
-                GL11.glShadeModel(GL11.GL_FLAT);
-            }
-
-            tessellator.startDrawingQuads();
-            tessellator.setTranslation((double)((float)par2 - (float)tileEntity.xCoord), (double)((float)par4 - (float)tileEntity.yCoord), (double)((float)par6 - (float)tileEntity.zCoord));
-            tessellator.setColorRGBA_F(1.0F, 0.0F, 0.0F, 0.5F);
+            tessellator.func_78382_b();
+            tessellator.func_78373_b((double)((float)par2 - (float)tileEntity.field_70329_l), (double)((float)par4 - (float)tileEntity.field_70330_m), (double)((float)par6 - (float)tileEntity.field_70327_n));
+            tessellator.func_78369_a(1.0f, 0.0f, 0.0f, 0.5f);
             TileEntityTransparent.rendering = true;
-            this.blockRenderer.renderBlockByRenderType(tileEntity.blockType, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
+            this.blockRenderer.func_78612_b(tileEntity.field_70324_q, tileEntity.field_70329_l, tileEntity.field_70330_m, tileEntity.field_70327_n);
             TileEntityTransparent.rendering = false;
-            tessellator.setTranslation(0.0D, 0.0D, 0.0D);
-            tessellator.setColorRGBA_F(1.0F, 0.0F, 0.0F, 0.5F);
-            tessellator.draw();
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            RenderHelper.enableStandardItemLighting();
+            tessellator.func_78373_b(0.0, 0.0, 0.0);
+            tessellator.func_78369_a(1.0f, 0.0f, 0.0f, 0.5f);
+            tessellator.func_78381_a();
+            GL11.glEnable((int)3553);
+            RenderHelper.func_74519_b();
         }
     }
 
-    /**
-     * Called when the ingame world being rendered changes (e.g. on world -> nether travel) due to using one renderer
-     * per tile entity type, rather than instance
-     */
-    public void onWorldChange(World par1World)
-    {
-        this.blockRenderer = new RenderBlocks(par1World);
+    public void func_76896_a(World par1World) {
+        this.blockRenderer = new RenderBlocks((IBlockAccess)par1World);
     }
 }
+

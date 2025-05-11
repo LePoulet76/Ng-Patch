@@ -1,13 +1,32 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.entity.AbstractClientPlayer
+ *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.renderer.RenderHelper
+ *  net.minecraft.client.renderer.Tessellator
+ *  net.minecraft.client.renderer.entity.RenderItem
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.network.packet.Packet
+ *  net.minecraft.util.ResourceLocation
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.ghost;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Map.Entry;
+import net.ilexiconn.nationsgui.forge.client.gui.ghost.GhostButton;
+import net.ilexiconn.nationsgui.forge.client.gui.ghost.GuiScrollGhost;
 import net.ilexiconn.nationsgui.forge.client.util.GUIUtils;
 import net.ilexiconn.nationsgui.forge.server.asm.NationsGUIClientHooks;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
@@ -22,12 +41,12 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-public class GhostGUI extends GuiScreen
-{
+public class GhostGUI
+extends GuiScreen {
     public static final ResourceLocation TEXTURE = new ResourceLocation("nationsgui", "textures/gui/ghost.png");
     private static final int WIDTH = 289;
     private static final int HEIGHT = 172;
@@ -35,7 +54,7 @@ public class GhostGUI extends GuiScreen
     private Map<String, Integer> playerScores;
     private int score;
     private boolean displayRank = false;
-    private List<String> rulesLines = new ArrayList();
+    private List<String> rulesLines = new ArrayList<String>();
     private ItemStack currentItem = null;
     private final RenderItem renderItem = new RenderItem();
     private int guiLeft;
@@ -44,333 +63,237 @@ public class GhostGUI extends GuiScreen
     private int itemsY;
     private GuiScrollGhost scroller;
 
-    public GhostGUI(ItemStack[] itemStacks, Map<String, Integer> playerScores, int score)
-    {
+    public GhostGUI(ItemStack[] itemStacks, Map<String, Integer> playerScores, int score) {
         this.itemStacks = itemStacks;
         this.playerScores = playerScores;
         this.score = score;
         this.buildTextRules();
     }
 
-    private void buildTextRules()
-    {
+    private void buildTextRules() {
+        String[] words;
         StringBuilder sub = new StringBuilder();
         int i = 0;
-        String line = I18n.getStringParams("ghost.rules", new Object[] {Integer.toString(this.score)});
-        String[] words = line.split(" ");
-        String[] var5 = words;
-        int var6 = words.length;
-
-        for (int var7 = 0; var7 < var6; ++var7)
-        {
-            String word = var5[var7];
+        String line = I18n.func_135052_a((String)"ghost.rules", (Object[])new Object[]{Integer.toString(this.score)});
+        for (String word : words = line.split(" ")) {
             String temp = (!Objects.equals(words[0], word) ? " " : "") + word;
-
-            if (Minecraft.getMinecraft().fontRenderer.getStringWidth(sub.toString()) + Minecraft.getMinecraft().fontRenderer.getStringWidth(temp) <= 111)
-            {
+            if (Minecraft.func_71410_x().field_71466_p.func_78256_a(sub.toString()) + Minecraft.func_71410_x().field_71466_p.func_78256_a(temp) <= 111) {
                 sub.append(temp);
+                continue;
             }
-            else
-            {
-                this.rulesLines.add(sub.toString());
-                sub = new StringBuilder(word);
-                ++i;
-            }
+            this.rulesLines.add(sub.toString());
+            sub = new StringBuilder(word);
+            ++i;
         }
-
-        if (!sub.toString().equals(""))
-        {
+        if (!sub.toString().equals("")) {
             this.rulesLines.add(sub.toString());
         }
     }
 
-    public void setItemStacks(ItemStack[] itemStacks)
-    {
+    public void setItemStacks(ItemStack[] itemStacks) {
         this.itemStacks = itemStacks;
         this.currentItem = null;
     }
 
-    /**
-     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
-     */
-    protected void actionPerformed(GuiButton par1GuiButton)
-    {
-        switch (par1GuiButton.id)
-        {
-            case 0:
+    protected void func_73875_a(GuiButton par1GuiButton) {
+        switch (par1GuiButton.field_73741_f) {
+            case 0: {
                 this.displayRank = !this.displayRank;
-                par1GuiButton.displayString = I18n.getString(this.displayRank ? "ghost.rulesbutton" : "ghost.ranks");
+                par1GuiButton.field_73744_e = I18n.func_135053_a((String)(this.displayRank ? "ghost.rulesbutton" : "ghost.ranks"));
                 break;
-
-            case 1:
-                if (this.currentItem != null && this.score >= this.currentItem.getTagCompound().getInteger("ghostPoints"))
-                {
-                    List arrayList = Arrays.asList(this.itemStacks);
-                    PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new GhostBuyPacket(arrayList.indexOf(this.currentItem))));
-                    this.mc.displayGuiScreen((GuiScreen)null);
-                }
+            }
+            case 1: {
+                if (this.currentItem == null || this.score < this.currentItem.func_77978_p().func_74762_e("ghostPoints")) break;
+                List<ItemStack> arrayList = Arrays.asList(this.itemStacks);
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new GhostBuyPacket(arrayList.indexOf(this.currentItem))));
+                this.field_73882_e.func_71373_a(null);
+            }
         }
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        this.buttonList.clear();
-        this.guiLeft = this.width / 2 - 144;
-        this.guiTop = this.height / 2 - 86;
+    public void func_73866_w_() {
+        this.field_73887_h.clear();
+        this.guiLeft = this.field_73880_f / 2 - 144;
+        this.guiTop = this.field_73881_g / 2 - 86;
         this.itemsX = this.guiLeft + 57;
         this.itemsY = this.guiTop + 39;
-        GhostButton rulesButton = new GhostButton(0, this.guiLeft + 168, this.guiTop + 135, I18n.getString(this.displayRank ? "ghost.rulesbutton" : "ghost.ranks"), false);
-        GhostButton buyButton = new GhostButton(1, this.guiLeft + 56, this.guiTop + 135, I18n.getString("ghost.buy"), true);
-        this.buttonList.add(rulesButton);
-
-        if (this.currentItem != null)
-        {
-            buyButton.enabled = this.score >= this.currentItem.getTagCompound().getInteger("ghostPoints");
-            this.buttonList.add(buyButton);
+        GhostButton rulesButton = new GhostButton(0, this.guiLeft + 168, this.guiTop + 135, I18n.func_135053_a((String)(this.displayRank ? "ghost.rulesbutton" : "ghost.ranks")), false);
+        GhostButton buyButton = new GhostButton(1, this.guiLeft + 56, this.guiTop + 135, I18n.func_135053_a((String)"ghost.buy"), true);
+        this.field_73887_h.add(rulesButton);
+        if (this.currentItem != null) {
+            buyButton.field_73742_g = this.score >= this.currentItem.func_77978_p().func_74762_e("ghostPoints");
+            this.field_73887_h.add(buyButton);
         }
-
-        this.scroller = new GuiScrollGhost((float)(this.guiLeft + 265), (float)(this.guiTop + 25), 92);
+        this.scroller = new GuiScrollGhost(this.guiLeft + 265, this.guiTop + 25, 92);
     }
 
-    public void setPlayerScores(Map<String, Integer> playerScores)
-    {
+    public void setPlayerScores(Map<String, Integer> playerScores) {
         this.playerScores = playerScores;
     }
 
-    public void setScore(int score)
-    {
+    public void setScore(int score) {
         this.score = score;
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int par1, int par2, float par3)
-    {
-        this.mc.getTextureManager().bindTexture(TEXTURE);
-        this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, 289, 172);
-        this.drawString(this.fontRenderer, I18n.getString("ghost.subtitle"), this.guiLeft + 67, this.guiTop + 25, 16777215);
+    public void func_73863_a(int par1, int par2, float par3) {
+        this.field_73882_e.func_110434_K().func_110577_a(TEXTURE);
+        this.func_73729_b(this.guiLeft, this.guiTop, 0, 0, 289, 172);
+        this.func_73731_b(this.field_73886_k, I18n.func_135053_a((String)"ghost.subtitle"), this.guiLeft + 67, this.guiTop + 25, 0xFFFFFF);
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)(this.guiLeft + 14), (float)(this.guiTop + 43), 0.0F);
-        GL11.glRotatef(-90.0F, 0.0F, 0.0F, 1.0F);
-        GL11.glTranslatef((float)(-this.fontRenderer.getStringWidth(I18n.getString("ghost.title"))) * 1.5F - 32.0F, 0.0F, 0.0F);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        this.drawScaledString(I18n.getString("ghost.title"), 0, 0, 16777215, 1.5F, false, false);
+        GL11.glTranslatef((float)(this.guiLeft + 14), (float)(this.guiTop + 43), (float)0.0f);
+        GL11.glRotatef((float)-90.0f, (float)0.0f, (float)0.0f, (float)1.0f);
+        GL11.glTranslatef((float)((float)(-this.field_73886_k.func_78256_a(I18n.func_135053_a((String)"ghost.title"))) * 1.5f - 32.0f), (float)0.0f, (float)0.0f);
+        GL11.glDisable((int)2896);
+        this.drawScaledString(I18n.func_135053_a((String)"ghost.title"), 0, 0, 0xFFFFFF, 1.5f, false, false);
         GL11.glPopMatrix();
-        int i;
-        int itemStack;
-        int var12;
-
-        if (this.displayRank)
-        {
-            this.mc.getTextureManager().bindTexture(TEXTURE);
-            this.drawTexturedModalRect(this.guiLeft + 168, this.guiTop + 22, 293, 8, 102, 98);
-            i = this.guiLeft + 168;
+        if (this.displayRank) {
+            this.field_73882_e.func_110434_K().func_110577_a(TEXTURE);
+            this.func_73729_b(this.guiLeft + 168, this.guiTop + 22, 293, 8, 102, 98);
+            int x = this.guiLeft + 168;
             GUIUtils.startGLScissor(this.guiLeft + 168, this.guiTop + 22, 102, 98);
             GL11.glPushMatrix();
-
-            if (this.scroller != null && this.playerScores.size() > 6)
-            {
-                GL11.glTranslatef(0.0F, -((float)((this.playerScores.size() - 6) * 20) * this.scroller.sliderValue), 0.0F);
+            if (this.scroller != null && this.playerScores.size() > 6) {
+                GL11.glTranslatef((float)0.0f, (float)(-((float)((this.playerScores.size() - 6) * 20) * this.scroller.sliderValue)), (float)0.0f);
             }
-
-            itemStack = 0;
-
-            for (Iterator itemX = this.playerScores.entrySet().iterator(); itemX.hasNext(); ++itemStack)
-            {
-                Entry itemY = (Entry)itemX.next();
-                int y = this.guiTop + itemStack * 18 + 26;
-                ResourceLocation skin = AbstractClientPlayer.getLocationSkull((String)itemY.getKey());
-                AbstractClientPlayer.getDownloadImageSkin(skin, (String)itemY.getKey());
-                this.mc.getTextureManager().bindTexture(skin);
-                GUIUtils.drawScaledCustomSizeModalRect(i + 11, y + 8, 8.0F, 16.0F, 8, -8, -8, -8, 64.0F, 64.0F);
-                GUIUtils.drawScaledCustomSizeModalRect(i + 11, y + 8, 40.0F, 16.0F, 8, -8, -8, -8, 64.0F, 64.0F);
+            int i = 0;
+            for (Map.Entry<String, Integer> entry : this.playerScores.entrySet()) {
+                int y = this.guiTop + i * 18 + 26;
+                ResourceLocation skin = AbstractClientPlayer.func_110305_h((String)entry.getKey());
+                AbstractClientPlayer.func_110304_a((ResourceLocation)skin, (String)entry.getKey());
+                this.field_73882_e.func_110434_K().func_110577_a(skin);
+                GUIUtils.drawScaledCustomSizeModalRect(x + 11, y + 8, 8.0f, 16.0f, 8, -8, -8, -8, 64.0f, 64.0f);
+                GUIUtils.drawScaledCustomSizeModalRect(x + 11, y + 8, 40.0f, 16.0f, 8, -8, -8, -8, 64.0f, 64.0f);
                 GL11.glPushMatrix();
-                GL11.glTranslatef((float)(i + 14), (float)(y + 2), 0.0F);
-                GL11.glScalef(0.75F, 0.75F, 0.75F);
-                this.drawString(this.fontRenderer, (String)itemY.getKey(), 0, 0, 16777215);
+                GL11.glTranslatef((float)(x + 14), (float)(y + 2), (float)0.0f);
+                GL11.glScalef((float)0.75f, (float)0.75f, (float)0.75f);
+                this.func_73731_b(this.field_73886_k, entry.getKey(), 0, 0, 0xFFFFFF);
                 GL11.glPopMatrix();
-                this.drawString(this.fontRenderer, Integer.toString(((Integer)itemY.getValue()).intValue()), i + 85 - this.fontRenderer.getStringWidth(Integer.toString(((Integer)itemY.getValue()).intValue())), y, 16777215);
-                GL11.glDisable(GL11.GL_LIGHTING);
-                this.mc.getTextureManager().bindTexture(TEXTURE);
-                this.drawTexturedModalRect(i + 87, y, 0, 182, 9, 9);
-                this.drawTexturedModalRect(i + 3, y + 12, 171, 22, 92, 1);
+                this.func_73731_b(this.field_73886_k, Integer.toString(entry.getValue()), x + 85 - this.field_73886_k.func_78256_a(Integer.toString(entry.getValue())), y, 0xFFFFFF);
+                GL11.glDisable((int)2896);
+                this.field_73882_e.func_110434_K().func_110577_a(TEXTURE);
+                this.func_73729_b(x + 87, y, 0, 182, 9, 9);
+                this.func_73729_b(x + 3, y + 12, 171, 22, 92, 1);
+                ++i;
             }
-
             GL11.glPopMatrix();
             GUIUtils.endGLScissor();
-
-            if (this.scroller != null)
-            {
+            if (this.scroller != null) {
                 this.scroller.draw(par1, par2);
             }
-        }
-        else
-        {
-            i = this.guiLeft + 169;
-            itemStack = this.guiTop + 24;
+        } else {
+            int pX = this.guiLeft + 169;
+            int pY = this.guiTop + 24;
             GL11.glPushMatrix();
-            GL11.glTranslatef((float)i, (float)itemStack, 0.0F);
-            GL11.glScalef(0.9F, 0.9F, 0.9F);
-
-            for (var12 = 0; var12 < this.rulesLines.size(); ++var12)
-            {
-                String var14 = (String)this.rulesLines.get(var12);
-                this.drawString(this.fontRenderer, var14, 0, var12 * 12, 16777215);
+            GL11.glTranslatef((float)pX, (float)pY, (float)0.0f);
+            GL11.glScalef((float)0.9f, (float)0.9f, (float)0.9f);
+            for (int i = 0; i < this.rulesLines.size(); ++i) {
+                String line = this.rulesLines.get(i);
+                this.func_73731_b(this.field_73886_k, line, 0, i * 12, 0xFFFFFF);
             }
-
             GL11.glPopMatrix();
         }
-
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        RenderHelper.enableGUIStandardItemLighting();
-        ItemStack var11;
-        int var16;
-
-        for (i = 0; i < this.itemStacks.length; ++i)
-        {
-            var11 = this.itemStacks[i];
-
-            if (var11 != null)
-            {
-                var12 = this.itemsX + i % 5 * 19;
-                var16 = this.itemsY + i / 5 * 19;
-
-                if (var11 == this.currentItem)
-                {
-                    this.mc.getTextureManager().bindTexture(TEXTURE);
-                    this.drawTexturedModalRect(var12 - 1, var16 - 1, 100, 214, 18, 18);
-                }
-
-                this.renderItem.zLevel = 5.0F;
-                this.renderItem.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var11, var12, var16);
-                this.renderItem.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), var11, var12, var16);
-            }
-        }
-
-        RenderHelper.disableStandardItemLighting();
-        GL11.glColor3f(1.0F, 1.0F, 1.0F);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        GL11.glDisable(GL11.GL_BLEND);
-
-        if (this.currentItem != null)
-        {
-            this.mc.getTextureManager().bindTexture(TEXTURE);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            RenderHelper.enableGUIStandardItemLighting();
-            this.renderItem.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), this.currentItem, this.guiLeft + 62, this.guiTop + 111);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glColor3f(1.0F, 1.0F, 1.0F);
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glPushMatrix();
-            float var10 = Math.min(0.75F, 66.0F / (float)this.fontRenderer.getStringWidth(this.currentItem.getDisplayName()));
-            GL11.glTranslatef((float)(this.guiLeft + 81 + 33) - (float)this.fontRenderer.getStringWidth(this.currentItem.getDisplayName()) / 2.0F * var10, (float)(this.guiTop + 110), 0.0F);
-            GL11.glScaled((double)var10, (double)var10, (double)var10);
-            this.drawString(this.fontRenderer, this.currentItem.getDisplayName(), 0, 0, 16777215);
-            GL11.glPopMatrix();
-            NBTTagCompound var13 = this.currentItem.getTagCompound();
-            String var15 = Integer.toString(var13.getInteger("ghostPoints"));
-            var16 = this.guiLeft + 81 + (66 - this.fontRenderer.getStringWidth(var15) - 10) / 2;
-            this.drawString(this.fontRenderer, var15, var16, this.guiTop + 120, 16777215);
-            this.mc.getTextureManager().bindTexture(TEXTURE);
-            this.drawTexturedModalRect(var16 + this.fontRenderer.getStringWidth(var15) + 1, this.guiTop + 119, 0, 182, 9, 9);
-        }
-
-        GL11.glDisable(GL11.GL_LIGHTING);
-        super.drawScreen(par1, par2, par3);
-
-        for (i = 0; i < this.itemStacks.length; ++i)
-        {
-            var11 = this.itemStacks[i];
-
-            if (var11 != null)
-            {
-                var12 = this.itemsX + i % 5 * 19;
-                var16 = this.itemsY + i / 5 * 19;
-
-                if (par1 >= var12 && par1 <= var12 + 16 && par2 >= var16 && par2 <= var16 + 16)
-                {
-                    NationsGUIClientHooks.drawItemStackTooltip(var11, par1, par2);
-                }
-            }
-        }
-
-        GL11.glEnable(GL11.GL_LIGHTING);
-    }
-
-    public void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow)
-    {
-        GL11.glPushMatrix();
-        GL11.glScalef(scale, scale, scale);
-        float newX = (float)x;
-
-        if (centered)
-        {
-            newX = (float)x - (float)this.fontRenderer.getStringWidth(text) * scale / 2.0F;
-        }
-
-        if (shadow)
-        {
-            this.fontRenderer.drawString(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 16579836) >> 2 | color & -16777216, false);
-        }
-
-        this.fontRenderer.drawString(text, (int)(newX / scale), (int)((float)y / scale), color, false);
-        GL11.glPopMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-    }
-
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int par1, int par2, int par3)
-    {
-        for (int i = 0; i < this.itemStacks.length; ++i)
-        {
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        GL11.glEnable((int)32826);
+        GL11.glEnable((int)3042);
+        GL11.glBlendFunc((int)770, (int)771);
+        RenderHelper.func_74520_c();
+        for (int i = 0; i < this.itemStacks.length; ++i) {
             ItemStack itemStack = this.itemStacks[i];
-
-            if (itemStack != null)
-            {
-                int itemX = this.itemsX + i % 5 * 19;
-                int itemY = this.itemsY + i / 5 * 19;
-
-                if (par1 >= itemX && par1 <= itemX + 16 && par2 >= itemY && par2 <= itemY + 16)
-                {
-                    this.currentItem = itemStack;
-                    this.initGui();
-                    break;
-                }
+            if (itemStack == null) continue;
+            int itemX = this.itemsX + i % 5 * 19;
+            int itemY = this.itemsY + i / 5 * 19;
+            if (itemStack == this.currentItem) {
+                this.field_73882_e.func_110434_K().func_110577_a(TEXTURE);
+                this.func_73729_b(itemX - 1, itemY - 1, 100, 214, 18, 18);
             }
+            this.renderItem.field_77023_b = 5.0f;
+            this.renderItem.func_82406_b(this.field_73886_k, this.field_73882_e.func_110434_K(), itemStack, itemX, itemY);
+            this.renderItem.func_77021_b(this.field_73886_k, this.field_73882_e.func_110434_K(), itemStack, itemX, itemY);
         }
-
-        super.mouseClicked(par1, par2, par3);
+        RenderHelper.func_74518_a();
+        GL11.glColor3f((float)1.0f, (float)1.0f, (float)1.0f);
+        GL11.glEnable((int)2929);
+        GL11.glDisable((int)32826);
+        GL11.glDisable((int)3042);
+        if (this.currentItem != null) {
+            this.field_73882_e.func_110434_K().func_110577_a(TEXTURE);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            GL11.glEnable((int)32826);
+            GL11.glEnable((int)3042);
+            GL11.glBlendFunc((int)770, (int)771);
+            RenderHelper.func_74520_c();
+            this.renderItem.func_82406_b(this.field_73886_k, this.field_73882_e.func_110434_K(), this.currentItem, this.guiLeft + 62, this.guiTop + 111);
+            RenderHelper.func_74518_a();
+            GL11.glColor3f((float)1.0f, (float)1.0f, (float)1.0f);
+            GL11.glEnable((int)2929);
+            GL11.glDisable((int)32826);
+            GL11.glDisable((int)3042);
+            GL11.glDisable((int)2896);
+            GL11.glPushMatrix();
+            float scale = Math.min(0.75f, 66.0f / (float)this.field_73886_k.func_78256_a(this.currentItem.func_82833_r()));
+            GL11.glTranslatef((float)((float)(this.guiLeft + 81 + 33) - (float)this.field_73886_k.func_78256_a(this.currentItem.func_82833_r()) / 2.0f * scale), (float)(this.guiTop + 110), (float)0.0f);
+            GL11.glScaled((double)scale, (double)scale, (double)scale);
+            this.func_73731_b(this.field_73886_k, this.currentItem.func_82833_r(), 0, 0, 0xFFFFFF);
+            GL11.glPopMatrix();
+            NBTTagCompound tagCompound = this.currentItem.func_77978_p();
+            String points = Integer.toString(tagCompound.func_74762_e("ghostPoints"));
+            int x = this.guiLeft + 81 + (66 - this.field_73886_k.func_78256_a(points) - 10) / 2;
+            this.func_73731_b(this.field_73886_k, points, x, this.guiTop + 120, 0xFFFFFF);
+            this.field_73882_e.func_110434_K().func_110577_a(TEXTURE);
+            this.func_73729_b(x + this.field_73886_k.func_78256_a(points) + 1, this.guiTop + 119, 0, 182, 9, 9);
+        }
+        GL11.glDisable((int)2896);
+        super.func_73863_a(par1, par2, par3);
+        for (int i = 0; i < this.itemStacks.length; ++i) {
+            ItemStack itemStack = this.itemStacks[i];
+            if (itemStack == null) continue;
+            int itemX = this.itemsX + i % 5 * 19;
+            int itemY = this.itemsY + i / 5 * 19;
+            if (par1 < itemX || par1 > itemX + 16 || par2 < itemY || par2 > itemY + 16) continue;
+            NationsGUIClientHooks.drawItemStackTooltip(itemStack, par1, par2);
+        }
+        GL11.glEnable((int)2896);
     }
 
-    /**
-     * Draws a textured rectangle at the stored z-value. Args: x, y, u, v, width, height
-     */
-    public void drawTexturedModalRect(int par1, int par2, int par3, int par4, int par5, int par6)
-    {
-        float f = 0.001953125F;
-        float f1 = 0.001953125F;
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV((double)(par1 + 0), (double)(par2 + par6), (double)this.zLevel, (double)((float)(par3 + 0) * f), (double)((float)(par4 + par6) * f1));
-        tessellator.addVertexWithUV((double)(par1 + par5), (double)(par2 + par6), (double)this.zLevel, (double)((float)(par3 + par5) * f), (double)((float)(par4 + par6) * f1));
-        tessellator.addVertexWithUV((double)(par1 + par5), (double)(par2 + 0), (double)this.zLevel, (double)((float)(par3 + par5) * f), (double)((float)(par4 + 0) * f1));
-        tessellator.addVertexWithUV((double)(par1 + 0), (double)(par2 + 0), (double)this.zLevel, (double)((float)(par3 + 0) * f), (double)((float)(par4 + 0) * f1));
-        tessellator.draw();
+    public void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow) {
+        GL11.glPushMatrix();
+        GL11.glScalef((float)scale, (float)scale, (float)scale);
+        float newX = x;
+        if (centered) {
+            newX = (float)x - (float)this.field_73886_k.func_78256_a(text) * scale / 2.0f;
+        }
+        if (shadow) {
+            this.field_73886_k.func_85187_a(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 0xFCFCFC) >> 2 | color & 0xFF000000, false);
+        }
+        this.field_73886_k.func_85187_a(text, (int)(newX / scale), (int)((float)y / scale), color, false);
+        GL11.glPopMatrix();
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+    }
+
+    protected void func_73864_a(int par1, int par2, int par3) {
+        for (int i = 0; i < this.itemStacks.length; ++i) {
+            ItemStack itemStack = this.itemStacks[i];
+            if (itemStack == null) continue;
+            int itemX = this.itemsX + i % 5 * 19;
+            int itemY = this.itemsY + i / 5 * 19;
+            if (par1 < itemX || par1 > itemX + 16 || par2 < itemY || par2 > itemY + 16) continue;
+            this.currentItem = itemStack;
+            this.func_73866_w_();
+            break;
+        }
+        super.func_73864_a(par1, par2, par3);
+    }
+
+    public void func_73729_b(int par1, int par2, int par3, int par4, int par5, int par6) {
+        float f = 0.001953125f;
+        float f1 = 0.001953125f;
+        Tessellator tessellator = Tessellator.field_78398_a;
+        tessellator.func_78382_b();
+        tessellator.func_78374_a((double)(par1 + 0), (double)(par2 + par6), (double)this.field_73735_i, (double)((float)(par3 + 0) * f), (double)((float)(par4 + par6) * f1));
+        tessellator.func_78374_a((double)(par1 + par5), (double)(par2 + par6), (double)this.field_73735_i, (double)((float)(par3 + par5) * f), (double)((float)(par4 + par6) * f1));
+        tessellator.func_78374_a((double)(par1 + par5), (double)(par2 + 0), (double)this.field_73735_i, (double)((float)(par3 + par5) * f), (double)((float)(par4 + 0) * f1));
+        tessellator.func_78374_a((double)(par1 + 0), (double)(par2 + 0), (double)this.field_73735_i, (double)((float)(par3 + 0) * f), (double)((float)(par4 + 0) * f1));
+        tessellator.func_78381_a();
     }
 }
+

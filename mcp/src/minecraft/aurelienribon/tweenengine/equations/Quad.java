@@ -1,13 +1,49 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package aurelienribon.tweenengine.equations;
 
 import aurelienribon.tweenengine.TweenEquation;
-import aurelienribon.tweenengine.equations.Quad$1;
-import aurelienribon.tweenengine.equations.Quad$2;
-import aurelienribon.tweenengine.equations.Quad$3;
 
-public abstract class Quad extends TweenEquation
-{
-    public static final Quad IN = new Quad$1();
-    public static final Quad OUT = new Quad$2();
-    public static final Quad INOUT = new Quad$3();
+public abstract class Quad
+extends TweenEquation {
+    public static final Quad IN = new Quad(){
+
+        @Override
+        public final float compute(float t) {
+            return t * t;
+        }
+
+        public String toString() {
+            return "Quad.IN";
+        }
+    };
+    public static final Quad OUT = new Quad(){
+
+        @Override
+        public final float compute(float t) {
+            return -t * (t - 2.0f);
+        }
+
+        public String toString() {
+            return "Quad.OUT";
+        }
+    };
+    public static final Quad INOUT = new Quad(){
+
+        @Override
+        public final float compute(float t) {
+            float f;
+            t *= 2.0f;
+            if (f < 1.0f) {
+                return 0.5f * t * t;
+            }
+            return -0.5f * ((t -= 1.0f) * (t - 2.0f) - 1.0f);
+        }
+
+        public String toString() {
+            return "Quad.INOUT";
+        }
+    };
 }
+

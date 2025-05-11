@@ -1,3 +1,12 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.item.Item
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.nbt.NBTTagCompound
+ */
 package net.ilexiconn.nationsgui.forge.server.item;
 
 import net.ilexiconn.nationsgui.forge.NationsGUI;
@@ -6,40 +15,28 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ItemBadge extends Item
-{
-    public ItemBadge(int i)
-    {
+public class ItemBadge
+extends Item {
+    public ItemBadge(int i) {
         super(i - 256);
     }
 
-    public String getItemStackDisplayName(ItemStack par1ItemStack)
-    {
-        NBTTagCompound tagCompound = par1ItemStack.getTagCompound();
-
-        if (tagCompound != null && tagCompound.hasKey("BadgeID"))
-        {
-            String badgeID = tagCompound.getString("BadgeID");
-            return I18n.getStringParams("item.badge", new Object[] {NationsGUI.BADGES_NAMES.get(badgeID)});
+    public String func_77653_i(ItemStack par1ItemStack) {
+        NBTTagCompound tagCompound = par1ItemStack.func_77978_p();
+        if (tagCompound != null && tagCompound.func_74764_b("BadgeID")) {
+            String badgeID = tagCompound.func_74779_i("BadgeID");
+            return I18n.func_135052_a((String)"item.badge", (Object[])new Object[]{NationsGUI.BADGES_NAMES.get(badgeID)});
         }
-        else
-        {
-            return super.getItemStackDisplayName(par1ItemStack);
-        }
+        return super.func_77653_i(par1ItemStack);
     }
 
-    public String getItemDisplayName(ItemStack par1ItemStack)
-    {
-        NBTTagCompound tagCompound = par1ItemStack.getTagCompound();
-
-        if (tagCompound != null && tagCompound.hasKey("BadgeID"))
-        {
-            String badgeID = tagCompound.getString("BadgeID");
-            return I18n.getStringParams("item.badge", new Object[] {NationsGUI.BADGES_NAMES.get(badgeID)});
+    public String func_77628_j(ItemStack par1ItemStack) {
+        NBTTagCompound tagCompound = par1ItemStack.func_77978_p();
+        if (tagCompound != null && tagCompound.func_74764_b("BadgeID")) {
+            String badgeID = tagCompound.func_74779_i("BadgeID");
+            return I18n.func_135052_a((String)"item.badge", (Object[])new Object[]{NationsGUI.BADGES_NAMES.get(badgeID)});
         }
-        else
-        {
-            return super.getItemDisplayName(par1ItemStack);
-        }
+        return super.func_77628_j(par1ItemStack);
     }
 }
+

@@ -1,16 +1,47 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.gson.Gson
+ *  com.google.gson.internal.LinkedTreeMap
+ *  com.google.gson.reflect.TypeToken
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.entity.AbstractClientPlayer
+ *  net.minecraft.client.gui.Gui
+ *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.GuiMainMenu
+ *  net.minecraft.client.gui.GuiMultiplayer
+ *  net.minecraft.client.gui.GuiOptions
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.gui.GuiSelectWorld
+ *  net.minecraft.client.multiplayer.GuiConnecting
+ *  net.minecraft.client.multiplayer.ServerData
+ *  net.minecraft.client.renderer.texture.DynamicTexture
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.util.ResourceLocation
+ *  net.minecraft.util.Session
+ *  org.apache.commons.io.FileUtils
+ *  org.lwjgl.input.Keyboard
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.main;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.awt.Desktop;
 import java.awt.Toolkit;
-import java.awt.Desktop.Action;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -20,17 +51,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import net.ilexiconn.nationsgui.forge.client.ClientData;
 import net.ilexiconn.nationsgui.forge.client.ClientEventHandler;
 import net.ilexiconn.nationsgui.forge.client.ClientProxy;
 import net.ilexiconn.nationsgui.forge.client.ClientSocket;
-import net.ilexiconn.nationsgui.forge.client.data.ServersData$Server;
-import net.ilexiconn.nationsgui.forge.client.data.ServersData$ServerGroup;
+import net.ilexiconn.nationsgui.forge.client.data.ServersData;
 import net.ilexiconn.nationsgui.forge.client.gui.GuiBrowser;
 import net.ilexiconn.nationsgui.forge.client.gui.WaitingSocketGui;
-import net.ilexiconn.nationsgui.forge.client.gui.main.MainGUI$1;
-import net.ilexiconn.nationsgui.forge.client.gui.main.MainGUI$2;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernScrollBar;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernServerButton;
@@ -47,6 +74,7 @@ import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.client.multiplayer.GuiConnecting;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
@@ -55,11 +83,11 @@ import org.apache.commons.io.FileUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-@SideOnly(Side.CLIENT)
-public class MainGUI extends GuiMainMenu
-{
+@SideOnly(value=Side.CLIENT)
+public class MainGUI
+extends GuiMainMenu {
     private static Gson gson = new Gson();
-    public static List<String> serverList = Arrays.asList(new String[] {"blue", "orange", "yellow", "white", "black", "cyan", "lime", "coral", "pink", "purple", "green", "red", "ruby", "mocha"});
+    public static List<String> serverList = Arrays.asList("blue", "orange", "yellow", "white", "black", "cyan", "lime", "coral", "pink", "purple", "green", "red", "ruby", "mocha");
     public static final ResourceLocation BACKGROUND = new ResourceLocation("nationsgui", "textures/gui/main/background.png");
     public static final ResourceLocation LOGO_NG = new ResourceLocation("nationsgui", "textures/gui/main/logo_ng.png");
     public static final ResourceLocation LOGO_SOLO = new ResourceLocation("nationsgui", "textures/gui/main/logo_solo.png");
@@ -103,17 +131,17 @@ public class MainGUI extends GuiMainMenu
     public static long ANIMATION_BOX_ARCADE_DURATION = 100L;
     public static long ANIMATION_BOX_ARCADE_STARTED = 0L;
     public static String ANIMATION_BOX_ARCADE_WAY = "down";
-    public static float ANIMATION_NEWS_DURATION = 400.0F;
+    public static float ANIMATION_NEWS_DURATION = 400.0f;
     public static long ANIMATION_NEWS_STARTED = 0L;
     public static String ANIMATION_NEWS_WAY = "down";
     public static String hoveredServer = "";
     public static String hoveredUrl = "";
     public static String hoveredAction = "";
-    private Map<Entry<String, ServersData$ServerGroup>, Float> serverGroups = new HashMap();
+    private Map<Map.Entry<String, ServersData.ServerGroup>, Float> serverGroups = new HashMap<Map.Entry<String, ServersData.ServerGroup>, Float>();
     private ModernScrollBar modernScrollBar;
-    List<ModernServerButton> tempServList = new ArrayList();
+    List<ModernServerButton> tempServList = new ArrayList<ModernServerButton>();
     private float decalBase;
-    public static List<GuiButton> serversButtonList = new ArrayList();
+    public static List<GuiButton> serversButtonList = new ArrayList<GuiButton>();
     public static String serverLang = "fr";
     public static HashMap<String, Object> cachedDataMainMenu = new HashMap();
     public static long lastRefreshDataMainMenu = 0L;
@@ -121,809 +149,535 @@ public class MainGUI extends GuiMainMenu
     public static ResourceLocation cacheHeadPlayer = null;
     public static HashMap<String, DynamicTexture> cachedFlagsTexture = new HashMap();
 
-    public MainGUI()
-    {
-        Iterator thread = serverList.iterator();
-
-        while (thread.hasNext())
-        {
-            String e = (String)thread.next();
-            SERVERS.put(e, new ResourceLocation("nationsgui", "textures/gui/main/servers/" + e + ".png"));
-            SERVERS_HOVER.put(e, new ResourceLocation("nationsgui", "textures/gui/main/servers_hover/" + e + ".png"));
+    public MainGUI() {
+        for (String server : serverList) {
+            SERVERS.put(server, new ResourceLocation("nationsgui", "textures/gui/main/servers/" + server + ".png"));
+            SERVERS_HOVER.put(server, new ResourceLocation("nationsgui", "textures/gui/main/servers_hover/" + server + ".png"));
         }
-
-        try
-        {
-            FileUtils.write(new File("snoopers.json"), (new Gson()).toJson(Minecraft.getMinecraft().getPlayerUsageSnooper().getCurrentStats()));
+        try {
+            FileUtils.write((File)new File("snoopers.json"), (CharSequence)new Gson().toJson((Object)Minecraft.func_71410_x().func_71378_E().func_76465_c()));
         }
-        catch (IOException var5)
-        {
-            var5.printStackTrace();
+        catch (IOException e) {
+            e.printStackTrace();
         }
-
         ClientEventHandler.modsChecked = false;
         NationsGUIClientHooks.setDone(true);
-        MainGUI$1 thread1 = new MainGUI$1(this);
-        thread1.start();
+        Thread thread = new Thread(){
 
-        if (System.currentTimeMillis() - lastRefreshDataMainMenu > 600000L)
-        {
-            try
-            {
-                Session e1 = Minecraft.getMinecraft().getSession();
-                HashMap data = (HashMap)gson.fromJson(new InputStreamReader((new URL("https://apiv2.nationsglory.fr/mods/menu?accessToken=" + e1.getSessionID() + "&cuid=" + System.getProperty("java.tweaker") + "&lang=" + serverLang)).openStream(), StandardCharsets.UTF_8), (new MainGUI$2(this)).getType());
-                cachedDataMainMenu = data;
+            @Override
+            public void run() {
+                Method method = null;
+                try {
+                    method = GuiMultiplayer.class.getDeclaredMethod("func_74017_b", ServerData.class);
+                    method.setAccessible(true);
+                }
+                catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+                HashMap<String, ServersData.Server> serverMap = new HashMap<String, ServersData.Server>();
+                for (Map.Entry<String, ServersData.ServerGroup> entry : ClientProxy.serversData.getPermanentServers().entrySet()) {
+                    serverMap.putAll(entry.getValue().getServerMap());
+                }
+                serverMap.putAll(ClientProxy.serversData.getTemporaryServers());
+                for (ServersData.Server server : serverMap.values()) {
+                    if (!server.isVisible(Minecraft.func_71410_x()) || server.getIp().contains("event.nationsglory")) continue;
+                    ServerData serverData = new ServerData("Server", server.getIp());
+                    try {
+                        method.invoke(null, serverData);
+                        server.setSlots(Integer.parseInt(MainGUI.this.clearPopulationString(serverData.field_78846_c)));
+                    }
+                    catch (IllegalAccessException | InvocationTargetException e) {
+                        server.setSlots(0);
+                    }
+                }
+            }
+        };
+        thread.start();
+        if (System.currentTimeMillis() - lastRefreshDataMainMenu > 600000L) {
+            try {
+                HashMap data;
+                Session sess = Minecraft.func_71410_x().func_110432_I();
+                cachedDataMainMenu = data = (HashMap)gson.fromJson((Reader)new InputStreamReader(new URL("https://apiv2.nationsglory.fr/mods/menu?accessToken=" + sess.func_111286_b() + "&cuid=" + System.getProperty("java.tweaker") + "&lang=" + serverLang).openStream(), StandardCharsets.UTF_8), new TypeToken<HashMap<String, Object>>(){}.getType());
                 lastRefreshDataMainMenu = System.currentTimeMillis();
             }
-            catch (IOException var4)
-            {
-                var4.printStackTrace();
+            catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
-    private String clearPopulationString(String string)
-    {
+    private String clearPopulationString(String string) {
         string = string.split("/")[0];
         StringBuilder stringBuilder = new StringBuilder();
         boolean colorType = false;
-        char[] var4 = string.toCharArray();
-        int var5 = var4.length;
-
-        for (int var6 = 0; var6 < var5; ++var6)
-        {
-            char c = var4[var6];
-
-            if (c == 167)
-            {
+        for (char c : string.toCharArray()) {
+            if (c == '\u00a7') {
                 colorType = true;
+                continue;
             }
-            else if (colorType)
-            {
+            if (colorType) {
                 colorType = false;
+                continue;
             }
-            else
-            {
-                stringBuilder.append(c);
-            }
+            stringBuilder.append(c);
         }
-
         return stringBuilder.toString();
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        this.buttonList.clear();
+    public void func_73866_w_() {
+        this.field_73887_h.clear();
         int baseY = 88;
-        int serverPerLine = (int)(((float)this.width - 139.0F - 12.0F - 16.0F) / 86.0F);
+        int serverPerLine = (int)(((float)this.field_73880_f - 139.0f - 12.0f - 16.0f) / 86.0f);
         this.serverGroups.clear();
-        Iterator size = ClientProxy.serversData.getPermanentServers().entrySet().iterator();
-        Entry entry;
-
-        while (size.hasNext())
-        {
-            entry = (Entry)size.next();
-            boolean server = false;
-            Iterator i = ((ServersData$ServerGroup)entry.getValue()).getServerMap().values().iterator();
-
-            if (i.hasNext())
-            {
-                ServersData$Server server1 = (ServersData$Server)i.next();
-                this.serverGroups.put(entry, Float.valueOf((float)baseY - 4.5F - 8.0F));
-                server = true;
+        for (Map.Entry<String, ServersData.ServerGroup> entry : ClientProxy.serversData.getPermanentServers().entrySet()) {
+            boolean flag = false;
+            Iterator<ServersData.Server> iterator = entry.getValue().getServerMap().values().iterator();
+            if (iterator.hasNext()) {
+                ServersData.Server server = iterator.next();
+                this.serverGroups.put(entry, Float.valueOf((float)baseY - 4.5f - 8.0f));
+                flag = true;
             }
-
-            int var12 = 0;
-
-            for (Iterator var13 = ((ServersData$ServerGroup)entry.getValue()).getServerMap().entrySet().iterator(); var13.hasNext(); ++var12)
-            {
-                Entry entry1 = (Entry)var13.next();
-
-                if (var12 == serverPerLine)
-                {
-                    var12 = 0;
+            int i = 0;
+            for (Map.Entry<String, ServersData.Server> entry2 : entry.getValue().getServerMap().entrySet()) {
+                if (i == serverPerLine) {
+                    i = 0;
                     baseY += 18;
                 }
-
-                ServersData$Server server2 = (ServersData$Server)entry1.getValue();
-                this.buttonList.add(new ModernServerButton(6, 147 + var12 * 88, baseY, 84, 14, server2, (String)entry1.getKey(), "permanent"));
+                ServersData.Server server = entry2.getValue();
+                this.field_73887_h.add(new ModernServerButton(6, 147 + i * 88, baseY, 84, 14, server, entry2.getKey(), "permanent"));
+                ++i;
             }
-
-            if (server)
-            {
-                baseY += 36;
-            }
+            if (!flag) continue;
+            baseY += 36;
         }
-
-        serversButtonList = this.buttonList;
+        serversButtonList = this.field_73887_h;
         baseY = 136;
         this.tempServList.clear();
-        size = ClientProxy.serversData.getTemporaryServers().entrySet().iterator();
-
-        while (size.hasNext())
-        {
-            entry = (Entry)size.next();
-            ServersData$Server var11 = (ServersData$Server)entry.getValue();
-
-            if (var11.isVisible(this.mc))
-            {
-                this.tempServList.add(new ModernServerButton(6, 20, baseY, 107, 14, var11, (String)entry.getKey(), "temporary"));
-                baseY += 18;
-            }
+        for (Map.Entry<String, Object> entry : ClientProxy.serversData.getTemporaryServers().entrySet()) {
+            ServersData.Server server = (ServersData.Server)entry.getValue();
+            if (!server.isVisible(this.field_73882_e)) continue;
+            this.tempServList.add(new ModernServerButton(6, 20, baseY, 107, 14, server, entry.getKey(), "temporary"));
+            baseY += 18;
         }
-
-        float var10 = (float)(this.height - 112 - 58 - 24 - 8);
-        this.decalBase = (float)(baseY - 136) - var10;
-
-        if ((float)(baseY - 136) > var10)
-        {
-            if (this.modernScrollBar != null)
-            {
-                this.modernScrollBar.setHeight((int)var10);
+        float size = this.field_73881_g - 112 - 58 - 24 - 8;
+        this.decalBase = (float)(baseY - 136) - size;
+        if ((float)(baseY - 136) > size) {
+            if (this.modernScrollBar != null) {
+                this.modernScrollBar.setHeight((int)size);
+            } else {
+                this.modernScrollBar = new ModernScrollBar(129.0f, 136.0f, 3, this.field_73881_g - 112 - 58 - 24 - 8, 3);
             }
-            else
-            {
-                this.modernScrollBar = new ModernScrollBar(129.0F, 136.0F, 3, this.height - 112 - 58 - 24 - 8, 3);
-            }
-        }
-        else if (this.modernScrollBar != null)
-        {
+        } else if (this.modernScrollBar != null) {
             this.modernScrollBar = null;
         }
     }
 
-    /**
-     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
-     */
-    protected void actionPerformed(GuiButton button) {}
+    protected void func_73875_a(GuiButton button) {
+    }
 
-    public static void drawWaitingQueueOverlay(int mouseX, int mouseY)
-    {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        byte positionX = 50;
-        byte positionY = 50;
-
-        if (ClientData.waitingServerName != null && !ClientData.waitingServerName.isEmpty() && !ClientData.waitingServerName.equalsIgnoreCase("null"))
-        {
-            ClientEventHandler.STYLE.bindTexture("overlay_hud");
-            ModernGui.drawScaledCustomSizeModalRect((float)positionX, (float)positionY, 813.0F, 0.0F, 216, 114, 432, 228, 1920.0F, 1033.0F, false);
-            ModernGui.drawScaledStringCustomFont(I18n.getString("waiting.server") + " " + ClientData.waitingServerName.toUpperCase(), (float)(positionX + 30), (float)(positionY + 25), 7239406, 2.5F, "left", false, "minecraftDungeons", 24);
-            ModernGui.drawScaledStringCustomFont("\u00a7o" + (ClientData.waitingPriority ? I18n.getString("waiting.list.priority") : I18n.getString("waiting.list.classic")), (float)(positionX + 30), (float)(positionY + 80), 14277081, 2.0F, "left", false, "georamaSemiBold", 24);
-            long diffTime = System.currentTimeMillis() - ClientData.waitingJoinTime.longValue();
-            diffTime = diffTime / 1000L / 60L;
-            ModernGui.drawScaledStringCustomFont(ClientData.waitingPosition + " / \u00a77" + ClientData.waitingTotal, (float)(positionX + 30), (float)(positionY + 120), 16777215, 2.0F, "left", false, "georamaSemiBold", 30);
-            ModernGui.drawScaledStringCustomFont("\u00a7o" + diffTime + " minutes", (float)(positionX + 30), (float)(positionY + 160), 14277081, 2.0F, "left", false, "georamaRegular", 20);
-            boolean hoveringQuitBtn = mouseX >= positionX && mouseX <= positionX + 198 && mouseY >= positionY + 240 && mouseY <= positionY + 240 + 48;
-            ClientEventHandler.STYLE.bindTexture("overlay_hud");
-            ModernGui.drawScaledCustomSizeModalRect((float)positionX, (float)(positionY + 240), (float)(hoveringQuitBtn ? 1345 : 1241), 88.0F, 99, 24, 198, 48, 1920.0F, 1033.0F, false);
-            ModernGui.drawScaledStringCustomFont(I18n.getString("waiting.quit"), (float)(positionX + 105), (float)(positionY + 253), 16777215, 2.0F, "center", false, "georamaSemiBold", 24);
-
-            if (hoveringQuitBtn)
-            {
-                hoveredAction = "quit_waiting";
-            }
+    public static void drawWaitingQueueOverlay(int mouseX, int mouseY) {
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        int positionX = 50;
+        int positionY = 50;
+        if (ClientData.waitingServerName == null || ClientData.waitingServerName.isEmpty() || ClientData.waitingServerName.equalsIgnoreCase("null")) {
+            return;
+        }
+        ClientEventHandler.STYLE.bindTexture("overlay_hud");
+        ModernGui.drawScaledCustomSizeModalRect(positionX, positionY, 813.0f, 0.0f, 216, 114, 432, 228, 1920.0f, 1033.0f, false);
+        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"waiting.server") + " " + ClientData.waitingServerName.toUpperCase(), positionX + 30, positionY + 25, 0x6E76EE, 2.5f, "left", false, "minecraftDungeons", 24);
+        ModernGui.drawScaledStringCustomFont("\u00a7o" + (ClientData.waitingPriority ? I18n.func_135053_a((String)"waiting.list.priority") : I18n.func_135053_a((String)"waiting.list.classic")), positionX + 30, positionY + 80, 0xD9D9D9, 2.0f, "left", false, "georamaSemiBold", 24);
+        long diffTime = System.currentTimeMillis() - ClientData.waitingJoinTime;
+        diffTime = diffTime / 1000L / 60L;
+        ModernGui.drawScaledStringCustomFont(ClientData.waitingPosition + " / \u00a77" + ClientData.waitingTotal, positionX + 30, positionY + 120, 0xFFFFFF, 2.0f, "left", false, "georamaSemiBold", 30);
+        ModernGui.drawScaledStringCustomFont("\u00a7o" + diffTime + " minutes", positionX + 30, positionY + 160, 0xD9D9D9, 2.0f, "left", false, "georamaRegular", 20);
+        boolean hoveringQuitBtn = mouseX >= positionX && mouseX <= positionX + 198 && mouseY >= positionY + 240 && mouseY <= positionY + 240 + 48;
+        ClientEventHandler.STYLE.bindTexture("overlay_hud");
+        ModernGui.drawScaledCustomSizeModalRect(positionX, positionY + 240, hoveringQuitBtn ? 1345 : 1241, 88.0f, 99, 24, 198, 48, 1920.0f, 1033.0f, false);
+        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"waiting.quit"), positionX + 105, positionY + 253, 0xFFFFFF, 2.0f, "center", false, "georamaSemiBold", 24);
+        if (hoveringQuitBtn) {
+            hoveredAction = "quit_waiting";
         }
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
-    {
+    public void func_73863_a(int mouseX, int mouseY, float partialTicks) {
+        String countryName;
+        ArrayList slides;
         hoveredServer = "";
         hoveredUrl = "";
         hoveredAction = "";
-        GL11.glDisable(GL11.GL_CULL_FACE);
+        GL11.glDisable((int)2884);
         GL11.glPushMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        int windowWidth = this.width;
-        int windowHeight = this.width * 9 / 16;
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        int windowWidth = this.field_73880_f;
+        int windowHeight = this.field_73880_f * 9 / 16;
         int screenWidth = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         int screenHeight = screenWidth * 9 / 16;
-        int mouseXScaled = (int)((float)mouseX * (3840.0F / (float)this.width));
-        int mouseYScaled = (int)((float)mouseY * (2160.0F / (float)windowHeight));
-        this.mc.getTextureManager().bindTexture(BACKGROUND);
-        ModernGui.drawScaledCustomSizeModalRect(0.0F, 0.0F, 0.0F, 0.0F, 3840, 2160, this.width, this.height, 3840.0F, 2160.0F, false);
-        GL11.glScaled((double)((float)this.width / 3840.0F), (double)((float)windowHeight / 2160.0F), 1.0D);
-        this.mc.getTextureManager().bindTexture(LOGO_NG);
-        ModernGui.drawModalRectWithCustomSizedTexture(24.0F, 34.0F, 0, 0, 148, 148, 148.0F, 148.0F, true);
-        this.mc.getTextureManager().bindTexture(MultiGUI.LOGO_HOME_HOVER);
-        ModernGui.drawModalRectWithCustomSizedTexture(72.0F, 600.0F, 0, 0, 60, 52, 60.0F, 52.0F, true);
-
-        if (mouseXScaled >= 60 && mouseXScaled <= 140 && mouseYScaled >= 720 && mouseYScaled <= 776)
-        {
-            this.mc.getTextureManager().bindTexture(LOGO_MULTI_HOVER);
+        int mouseXScaled = (int)((float)mouseX * (3840.0f / (float)this.field_73880_f));
+        int mouseYScaled = (int)((float)mouseY * (2160.0f / (float)windowHeight));
+        this.field_73882_e.func_110434_K().func_110577_a(BACKGROUND);
+        ModernGui.drawScaledCustomSizeModalRect(0.0f, 0.0f, 0.0f, 0.0f, 3840, 2160, this.field_73880_f, this.field_73881_g, 3840.0f, 2160.0f, false);
+        GL11.glScaled((double)((float)this.field_73880_f / 3840.0f), (double)((float)windowHeight / 2160.0f), (double)1.0);
+        this.field_73882_e.func_110434_K().func_110577_a(LOGO_NG);
+        ModernGui.drawModalRectWithCustomSizedTexture(24.0f, 34.0f, 0, 0, 148, 148, 148.0f, 148.0f, true);
+        this.field_73882_e.func_110434_K().func_110577_a(MultiGUI.LOGO_HOME_HOVER);
+        ModernGui.drawModalRectWithCustomSizedTexture(72.0f, 600.0f, 0, 0, 60, 52, 60.0f, 52.0f, true);
+        if (mouseXScaled >= 60 && mouseXScaled <= 140 && mouseYScaled >= 720 && mouseYScaled <= 776) {
+            this.field_73882_e.func_110434_K().func_110577_a(LOGO_MULTI_HOVER);
+        } else {
+            this.field_73882_e.func_110434_K().func_110577_a(LOGO_MULTI);
         }
-        else
-        {
-            this.mc.getTextureManager().bindTexture(LOGO_MULTI);
-        }
-
-        ModernGui.drawModalRectWithCustomSizedTexture(60.0F, 720.0F, 0, 0, 80, 56, 80.0F, 56.0F, true);
-
-        if (Minecraft.getMinecraft().thePlayer != null && (Minecraft.getMinecraft().thePlayer.username.equalsIgnoreCase("wascar") || Minecraft.getMinecraft().thePlayer.username.equalsIgnoreCase("blakonne") || Minecraft.getMinecraft().thePlayer.username.equalsIgnoreCase("ibalix")))
-        {
-            if (mouseXScaled >= 74 && mouseXScaled <= 126 && mouseYScaled >= 840 && mouseYScaled <= 892)
-            {
-                this.mc.getTextureManager().bindTexture(LOGO_SOLO_HOVER);
+        ModernGui.drawModalRectWithCustomSizedTexture(60.0f, 720.0f, 0, 0, 80, 56, 80.0f, 56.0f, true);
+        if (Minecraft.func_71410_x().field_71439_g != null && (Minecraft.func_71410_x().field_71439_g.field_71092_bJ.equalsIgnoreCase("wascar") || Minecraft.func_71410_x().field_71439_g.field_71092_bJ.equalsIgnoreCase("blakonne") || Minecraft.func_71410_x().field_71439_g.field_71092_bJ.equalsIgnoreCase("ibalix"))) {
+            if (mouseXScaled >= 74 && mouseXScaled <= 126 && mouseYScaled >= 840 && mouseYScaled <= 892) {
+                this.field_73882_e.func_110434_K().func_110577_a(LOGO_SOLO_HOVER);
+            } else {
+                this.field_73882_e.func_110434_K().func_110577_a(LOGO_SOLO);
             }
-            else
-            {
-                this.mc.getTextureManager().bindTexture(LOGO_SOLO);
-            }
-
-            ModernGui.drawModalRectWithCustomSizedTexture(74.0F, 840.0F, 0, 0, 52, 52, 52.0F, 52.0F, true);
+            ModernGui.drawModalRectWithCustomSizedTexture(74.0f, 840.0f, 0, 0, 52, 52, 52.0f, 52.0f, true);
         }
-
-        if (mouseXScaled >= 66 && mouseXScaled <= 130 && mouseYScaled >= 1280 && mouseYScaled <= 1344)
-        {
+        if (mouseXScaled >= 66 && mouseXScaled <= 130 && mouseYScaled >= 1280 && mouseYScaled <= 1344) {
             ClientProxy.loadResource("textures/gui/main/logo_wiki_hover.png");
-        }
-        else
-        {
+        } else {
             ClientProxy.loadResource("textures/gui/main/logo_wiki.png");
         }
-
-        ModernGui.drawModalRectWithCustomSizedTexture(66.0F, 1280.0F, 0, 0, 64, 64, 64.0F, 64.0F, true);
-
-        if (mouseXScaled >= 66 && mouseXScaled <= 130 && mouseYScaled >= 1400 && mouseYScaled <= 1464)
-        {
-            this.mc.getTextureManager().bindTexture(LOGO_SITE_HOVER);
+        ModernGui.drawModalRectWithCustomSizedTexture(66.0f, 1280.0f, 0, 0, 64, 64, 64.0f, 64.0f, true);
+        if (mouseXScaled >= 66 && mouseXScaled <= 130 && mouseYScaled >= 1400 && mouseYScaled <= 1464) {
+            this.field_73882_e.func_110434_K().func_110577_a(LOGO_SITE_HOVER);
+        } else {
+            this.field_73882_e.func_110434_K().func_110577_a(LOGO_SITE);
         }
-        else
-        {
-            this.mc.getTextureManager().bindTexture(LOGO_SITE);
+        ModernGui.drawModalRectWithCustomSizedTexture(66.0f, 1400.0f, 0, 0, 64, 64, 64.0f, 64.0f, true);
+        if (mouseXScaled >= 70 && mouseXScaled <= 128 && mouseYScaled >= 1520 && mouseYScaled <= 1586) {
+            this.field_73882_e.func_110434_K().func_110577_a(LOGO_DISCORD_HOVER);
+        } else {
+            this.field_73882_e.func_110434_K().func_110577_a(LOGO_DISCORD);
         }
-
-        ModernGui.drawModalRectWithCustomSizedTexture(66.0F, 1400.0F, 0, 0, 64, 64, 64.0F, 64.0F, true);
-
-        if (mouseXScaled >= 70 && mouseXScaled <= 128 && mouseYScaled >= 1520 && mouseYScaled <= 1586)
-        {
-            this.mc.getTextureManager().bindTexture(LOGO_DISCORD_HOVER);
+        ModernGui.drawModalRectWithCustomSizedTexture(70.0f, 1520.0f, 0, 0, 58, 66, 58.0f, 66.0f, false);
+        if (mouseXScaled >= 70 && mouseXScaled <= 128 && mouseYScaled >= 1640 && mouseYScaled <= 1698) {
+            this.field_73882_e.func_110434_K().func_110577_a(LOGO_TEAMSPEAK_HOVER);
+        } else {
+            this.field_73882_e.func_110434_K().func_110577_a(LOGO_TEAMSPEAK);
         }
-        else
-        {
-            this.mc.getTextureManager().bindTexture(LOGO_DISCORD);
+        ModernGui.drawModalRectWithCustomSizedTexture(70.0f, 1640.0f, 0, 0, 58, 58, 58.0f, 58.0f, false);
+        if (mouseXScaled >= 70 && mouseXScaled <= 130 && mouseYScaled >= 1760 && mouseYScaled <= 1820) {
+            this.field_73882_e.func_110434_K().func_110577_a(LOGO_SETTINGS_HOVER);
+        } else {
+            this.field_73882_e.func_110434_K().func_110577_a(LOGO_SETTINGS);
         }
-
-        ModernGui.drawModalRectWithCustomSizedTexture(70.0F, 1520.0F, 0, 0, 58, 66, 58.0F, 66.0F, false);
-
-        if (mouseXScaled >= 70 && mouseXScaled <= 128 && mouseYScaled >= 1640 && mouseYScaled <= 1698)
-        {
-            this.mc.getTextureManager().bindTexture(LOGO_TEAMSPEAK_HOVER);
-        }
-        else
-        {
-            this.mc.getTextureManager().bindTexture(LOGO_TEAMSPEAK);
-        }
-
-        ModernGui.drawModalRectWithCustomSizedTexture(70.0F, 1640.0F, 0, 0, 58, 58, 58.0F, 58.0F, false);
-
-        if (mouseXScaled >= 70 && mouseXScaled <= 130 && mouseYScaled >= 1760 && mouseYScaled <= 1820)
-        {
-            this.mc.getTextureManager().bindTexture(LOGO_SETTINGS_HOVER);
-        }
-        else
-        {
-            this.mc.getTextureManager().bindTexture(LOGO_SETTINGS);
-        }
-
-        ModernGui.drawModalRectWithCustomSizedTexture(70.0F, 1760.0F, 0, 0, 60, 60, 60.0F, 60.0F, false);
+        ModernGui.drawModalRectWithCustomSizedTexture(70.0f, 1760.0f, 0, 0, 60, 60, 60.0f, 60.0f, false);
         String offlineClient = System.getProperty("ng.offline");
-
-        if (offlineClient != null && offlineClient.equals("true"))
-        {
-            ModernGui.drawScaledStringCustomFont("DEV", 100.0F, 1880.0F, 1316402, 3.0F, "center", false, "georamaSemiBold", 28);
+        if (offlineClient != null && offlineClient.equals("true")) {
+            ModernGui.drawScaledStringCustomFont("DEV", 100.0f, 1880.0f, 1316402, 3.0f, "center", false, "georamaSemiBold", 28);
         }
-
-        int countryName;
-        int index;
-        int var23;
-
-        if (cachedDataMainMenu != null)
-        {
-            ModernGui.drawScaledStringCustomFont(I18n.getString("main.news"), 347.0F, 180.0F, 12369613, 2.0F, "left", false, "georamaMedium", 37);
-            GUIUtils.startGLScissor((int)(347.0F * ((float)this.width / 3840.0F)), (int)(52.0F * ((float)windowHeight / 2160.0F)), (int)(2298.0F * ((float)this.width / 3840.0F)), (int)(728.0F * ((float)windowHeight / 2160.0F)));
-
-            if (cachedDataMainMenu.get("news") != null)
-            {
-                ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(347, 52, 0, 0, 2298, 728, 2298, 728, 2298.0F, 728.0F, false, (String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get("background"));
-
-                if (!((String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get("hover")).isEmpty())
-                {
-                    if (mouseXScaled >= 347 && mouseXScaled <= 2645 && mouseYScaled >= 52 && mouseYScaled <= 780)
-                    {
-                        if (!ANIMATION_NEWS_WAY.equals("up"))
-                        {
+        if (cachedDataMainMenu != null) {
+            ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.news"), 347.0f, 180.0f, 12369613, 2.0f, "left", false, "georamaMedium", 37);
+            GUIUtils.startGLScissor((int)(347.0f * ((float)this.field_73880_f / 3840.0f)), (int)(52.0f * ((float)windowHeight / 2160.0f)), (int)(2298.0f * ((float)this.field_73880_f / 3840.0f)), (int)(728.0f * ((float)windowHeight / 2160.0f)));
+            if (cachedDataMainMenu.get("news") != null) {
+                ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(347, 52, 0, 0, 2298, 728, 2298, 728, 2298.0f, 728.0f, false, (String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get((Object)"background"));
+                if (!((String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get((Object)"hover")).isEmpty()) {
+                    if (mouseXScaled >= 347 && mouseXScaled <= 2645 && mouseYScaled >= 52 && mouseYScaled <= 780) {
+                        if (!ANIMATION_NEWS_WAY.equals("up")) {
                             ANIMATION_NEWS_WAY = "up";
                             ANIMATION_NEWS_STARTED = System.currentTimeMillis();
                         }
-
-                        if ((float)(System.currentTimeMillis() - ANIMATION_NEWS_STARTED) >= ANIMATION_NEWS_DURATION)
-                        {
+                        if ((float)(System.currentTimeMillis() - ANIMATION_NEWS_STARTED) >= ANIMATION_NEWS_DURATION) {
                             ANIMATION_NEWS_STARTED = -1L;
                         }
-
-                        if (ANIMATION_NEWS_STARTED != -1L)
-                        {
-                            this.mc.getTextureManager().bindTexture(BOX_NEWS_OVER);
-                            ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(347 + (int)((float)(40L * (System.currentTimeMillis() - ANIMATION_NEWS_STARTED)) / ANIMATION_NEWS_DURATION), 52, 0, 0, 2298, 728, 2298, 728, 2298.0F, 728.0F, true, (String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get("hover"));
+                        if (ANIMATION_NEWS_STARTED != -1L) {
+                            this.field_73882_e.func_110434_K().func_110577_a(BOX_NEWS_OVER);
+                            ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(347 + (int)((float)(40L * (System.currentTimeMillis() - ANIMATION_NEWS_STARTED)) / ANIMATION_NEWS_DURATION), 52, 0, 0, 2298, 728, 2298, 728, 2298.0f, 728.0f, true, (String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get((Object)"hover"));
+                        } else {
+                            this.field_73882_e.func_110434_K().func_110577_a(BOX_NEWS_OVER);
+                            ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(387, 52, 0, 0, 2298, 728, 2298, 728, 2298.0f, 728.0f, true, (String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get((Object)"hover"));
                         }
-                        else
-                        {
-                            this.mc.getTextureManager().bindTexture(BOX_NEWS_OVER);
-                            ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(387, 52, 0, 0, 2298, 728, 2298, 728, 2298.0F, 728.0F, true, (String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get("hover"));
-                        }
-                    }
-                    else
-                    {
-                        if (!ANIMATION_NEWS_WAY.equals("down"))
-                        {
+                    } else {
+                        if (!ANIMATION_NEWS_WAY.equals("down")) {
                             ANIMATION_NEWS_WAY = "down";
                             ANIMATION_NEWS_STARTED = System.currentTimeMillis();
                         }
-
-                        if ((float)(System.currentTimeMillis() - ANIMATION_NEWS_STARTED) >= ANIMATION_NEWS_DURATION)
-                        {
+                        if ((float)(System.currentTimeMillis() - ANIMATION_NEWS_STARTED) >= ANIMATION_NEWS_DURATION) {
                             ANIMATION_NEWS_STARTED = -1L;
                         }
-
-                        if (ANIMATION_NEWS_STARTED != -1L)
-                        {
-                            this.mc.getTextureManager().bindTexture(BOX_NEWS_OVER);
-                            ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(387 - (int)((float)(40L * (System.currentTimeMillis() - ANIMATION_NEWS_STARTED)) / ANIMATION_NEWS_DURATION), 52, 0, 0, 2298, 728, 2298, 728, 2298.0F, 728.0F, true, (String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get("hover"));
-                        }
-                        else
-                        {
-                            this.mc.getTextureManager().bindTexture(BOX_NEWS_OVER);
-                            ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(347, 52, 0, 0, 2298, 728, 2298, 728, 2298.0F, 728.0F, true, (String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get("hover"));
+                        if (ANIMATION_NEWS_STARTED != -1L) {
+                            this.field_73882_e.func_110434_K().func_110577_a(BOX_NEWS_OVER);
+                            ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(387 - (int)((float)(40L * (System.currentTimeMillis() - ANIMATION_NEWS_STARTED)) / ANIMATION_NEWS_DURATION), 52, 0, 0, 2298, 728, 2298, 728, 2298.0f, 728.0f, true, (String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get((Object)"hover"));
+                        } else {
+                            this.field_73882_e.func_110434_K().func_110577_a(BOX_NEWS_OVER);
+                            ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(347, 52, 0, 0, 2298, 728, 2298, 728, 2298.0f, 728.0f, true, (String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get((Object)"hover"));
                         }
                     }
                 }
-
-                if (!((String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get("text_button")).isEmpty())
-                {
-                    if (mouseXScaled >= 398 && mouseXScaled <= 720 && mouseYScaled >= 628 && mouseYScaled <= 712)
-                    {
-                        this.mc.getTextureManager().bindTexture(BUTTON_NEWS_HOVER);
-                        ModernGui.drawModalRectWithCustomSizedTexture(398.0F, 628.0F, 0, 0, 322, 84, 322.0F, 84.0F, true);
-                        ModernGui.drawScaledStringCustomFont((String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get("text_button"), 560.0F, 648.0F, 16777215, 3.0F, "center", false, "georamaSemiBold", 28);
-                        String offsetX = (String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get("link_button");
-
-                        if (offsetX.contains("#"))
-                        {
-                            hoveredServer = offsetX;
+                if (!((String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get((Object)"text_button")).isEmpty()) {
+                    if (mouseXScaled >= 398 && mouseXScaled <= 720 && mouseYScaled >= 628 && mouseYScaled <= 712) {
+                        this.field_73882_e.func_110434_K().func_110577_a(BUTTON_NEWS_HOVER);
+                        ModernGui.drawModalRectWithCustomSizedTexture(398.0f, 628.0f, 0, 0, 322, 84, 322.0f, 84.0f, true);
+                        ModernGui.drawScaledStringCustomFont((String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get((Object)"text_button"), 560.0f, 648.0f, 0xFFFFFF, 3.0f, "center", false, "georamaSemiBold", 28);
+                        String buttonTarget = (String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get((Object)"link_button");
+                        if (buttonTarget.contains("#")) {
+                            hoveredServer = buttonTarget;
+                        } else {
+                            hoveredUrl = buttonTarget;
                         }
-                        else
-                        {
-                            hoveredUrl = offsetX;
-                        }
-                    }
-                    else
-                    {
-                        this.mc.getTextureManager().bindTexture(BUTTON_NEWS);
-                        ModernGui.drawModalRectWithCustomSizedTexture(398.0F, 628.0F, 0, 0, 322, 84, 322.0F, 84.0F, true);
-                        ModernGui.drawScaledStringCustomFont((String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get("text_button"), 560.0F, 648.0F, 1316402, 3.0F, "center", false, "georamaSemiBold", 28);
+                    } else {
+                        this.field_73882_e.func_110434_K().func_110577_a(BUTTON_NEWS);
+                        ModernGui.drawModalRectWithCustomSizedTexture(398.0f, 628.0f, 0, 0, 322, 84, 322.0f, 84.0f, true);
+                        ModernGui.drawScaledStringCustomFont((String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get((Object)"text_button"), 560.0f, 648.0f, 1316402, 3.0f, "center", false, "georamaSemiBold", 28);
                     }
                 }
-
-                var23 = 0;
-                String[] server = ((String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get("text")).split("\\\\n");
-                countryName = server.length;
-
-                for (index = 0; index < countryName; ++index)
-                {
-                    String posX = server[index];
-                    ModernGui.drawScaledStringCustomFont(posX, 402.0F, (float)(351 + 40 * var23 + (var23 != 0 ? 50 : 0)), 15659004, var23 == 0 ? 4.0F : 2.0F, "left", false, var23 == 0 ? "georamaBold" : "georamaRegular", 33);
-                    ++var23;
+                int textIndex = 0;
+                for (String line : ((String)((LinkedTreeMap)cachedDataMainMenu.get("news")).get((Object)"text")).split("\\\\n")) {
+                    ModernGui.drawScaledStringCustomFont(line, 402.0f, 351 + 40 * textIndex + (textIndex != 0 ? 50 : 0), 0xEEEFFC, textIndex == 0 ? 4.0f : 2.0f, "left", false, textIndex == 0 ? "georamaBold" : "georamaRegular", 33);
+                    ++textIndex;
                 }
             }
-
             GUIUtils.endGLScissor();
         }
-
-        ModernGui.drawScaledStringCustomFont(I18n.getString("main.shortcuts"), 346.0F, 860.0F, 12369613, 2.0F, "left", false, "georamaMedium", 37);
-        short var24 = 346;
-
-        if (mouseXScaled >= var24 && mouseXScaled <= var24 + 714 && mouseYScaled >= 911 && mouseYScaled <= 1251)
-        {
-            this.mc.getTextureManager().bindTexture(BOX_HUB);
-            ModernGui.drawModalRectWithCustomSizedTexture((float)var24, 911.0F, 0, 0, 714, 340, 714.0F, 340.0F, true);
-
-            if (serverLang.equals("fr"))
-            {
+        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.shortcuts"), 346.0f, 860.0f, 12369613, 2.0f, "left", false, "georamaMedium", 37);
+        int offsetX = 346;
+        if (mouseXScaled >= offsetX && mouseXScaled <= offsetX + 714 && mouseYScaled >= 911 && mouseYScaled <= 1251) {
+            this.field_73882_e.func_110434_K().func_110577_a(BOX_HUB);
+            ModernGui.drawModalRectWithCustomSizedTexture(offsetX, 911.0f, 0, 0, 714, 340, 714.0f, 340.0f, true);
+            if (serverLang.equals("fr")) {
                 hoveredServer = "annexe#hub#hub.nationsglory.fr#25578";
             }
-        }
-        else
-        {
+        } else {
             ClientProxy.loadResource("textures/gui/main/box_shortcut.png");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)var24, 911.0F, 0, 0, 714, 340, 714.0F, 340.0F, true);
+            ModernGui.drawModalRectWithCustomSizedTexture(offsetX, 911.0f, 0, 0, 714, 340, 714.0f, 340.0f, true);
         }
-
-        if (serverLang.equals("fr"))
-        {
-            ModernGui.drawScaledStringCustomFont(I18n.getString("main.hub.title"), (float)(var24 + 60), 1020.0F, 16777215, 2.0F, "left", false, "georamaSemiBold", 50);
-            ModernGui.drawScaledStringCustomFont(I18n.getString("main.hub.subtitle1"), (float)(var24 + 60), 1100.0F, 16777215, 2.0F, "left", false, "georamaRegular", 30);
-            ModernGui.drawScaledStringCustomFont(I18n.getString("main.hub.subtitle2"), (float)(var24 + 60), 1130.0F, 16777215, 2.0F, "left", false, "georamaRegular", 30);
+        if (serverLang.equals("fr")) {
+            ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.hub.title"), offsetX + 60, 1020.0f, 0xFFFFFF, 2.0f, "left", false, "georamaSemiBold", 50);
+            ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.hub.subtitle1"), offsetX + 60, 1100.0f, 0xFFFFFF, 2.0f, "left", false, "georamaRegular", 30);
+            ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.hub.subtitle2"), offsetX + 60, 1130.0f, 0xFFFFFF, 2.0f, "left", false, "georamaRegular", 30);
         }
-
         ClientProxy.loadResource("textures/gui/main/arrow_right.png");
-        ModernGui.drawModalRectWithCustomSizedTexture((float)(var24 + 544), 1039.0F, 0, 0, 84, 84, 84.0F, 84.0F, true);
-        var24 = 1138;
-
-        if (mouseXScaled >= var24 && mouseXScaled <= var24 + 714 && mouseYScaled >= 911 && mouseYScaled <= 1251)
-        {
-            this.mc.getTextureManager().bindTexture(BOX_MINE);
-            ModernGui.drawModalRectWithCustomSizedTexture((float)var24, 911.0F, 0, 0, 714, 340, 714.0F, 340.0F, true);
-
-            if (serverLang.equals("fr"))
-            {
+        ModernGui.drawModalRectWithCustomSizedTexture(offsetX + 544, 1039.0f, 0, 0, 84, 84, 84.0f, 84.0f, true);
+        offsetX = 1138;
+        if (mouseXScaled >= offsetX && mouseXScaled <= offsetX + 714 && mouseYScaled >= 911 && mouseYScaled <= 1251) {
+            this.field_73882_e.func_110434_K().func_110577_a(BOX_MINE);
+            ModernGui.drawModalRectWithCustomSizedTexture(offsetX, 911.0f, 0, 0, 714, 340, 714.0f, 340.0f, true);
+            if (serverLang.equals("fr")) {
                 hoveredServer = "annexe#accueil#event.nationsglory.fr#25579";
             }
-        }
-        else
-        {
+        } else {
             ClientProxy.loadResource("textures/gui/main/box_shortcut.png");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)var24, 911.0F, 0, 0, 714, 340, 714.0F, 340.0F, true);
+            ModernGui.drawModalRectWithCustomSizedTexture(offsetX, 911.0f, 0, 0, 714, 340, 714.0f, 340.0f, true);
         }
-
-        ModernGui.drawScaledStringCustomFont(I18n.getString("main.tutorial.title"), (float)(var24 + 60), 1020.0F, 16777215, 2.0F, "left", false, "georamaSemiBold", 50);
-        ModernGui.drawScaledStringCustomFont(I18n.getString("main.tutorial.subtitle1"), (float)(var24 + 60), 1100.0F, 16777215, 2.0F, "left", false, "georamaRegular", 30);
-        ModernGui.drawScaledStringCustomFont(I18n.getString("main.tutorial.subtitle2"), (float)(var24 + 60), 1130.0F, 16777215, 2.0F, "left", false, "georamaRegular", 30);
+        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.tutorial.title"), offsetX + 60, 1020.0f, 0xFFFFFF, 2.0f, "left", false, "georamaSemiBold", 50);
+        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.tutorial.subtitle1"), offsetX + 60, 1100.0f, 0xFFFFFF, 2.0f, "left", false, "georamaRegular", 30);
+        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.tutorial.subtitle2"), offsetX + 60, 1130.0f, 0xFFFFFF, 2.0f, "left", false, "georamaRegular", 30);
         ClientProxy.loadResource("textures/gui/main/arrow_right.png");
-        ModernGui.drawModalRectWithCustomSizedTexture((float)(var24 + 544), 1039.0F, 0, 0, 84, 84, 84.0F, 84.0F, true);
-        var24 = 1930;
-
-        if (mouseXScaled >= var24 && mouseXScaled <= var24 + 714 && mouseYScaled >= 911 && mouseYScaled <= 1251)
-        {
-            this.mc.getTextureManager().bindTexture(BOX_ISLAND);
-            ModernGui.drawModalRectWithCustomSizedTexture((float)var24, 911.0F, 0, 0, 714, 340, 714.0F, 340.0F, true);
-
-            if (serverLang.equals("fr"))
-            {
+        ModernGui.drawModalRectWithCustomSizedTexture(offsetX + 544, 1039.0f, 0, 0, 84, 84, 84.0f, 84.0f, true);
+        offsetX = 1930;
+        if (mouseXScaled >= offsetX && mouseXScaled <= offsetX + 714 && mouseYScaled >= 911 && mouseYScaled <= 1251) {
+            this.field_73882_e.func_110434_K().func_110577_a(BOX_ISLAND);
+            ModernGui.drawModalRectWithCustomSizedTexture(offsetX, 911.0f, 0, 0, 714, 340, 714.0f, 340.0f, true);
+            if (serverLang.equals("fr")) {
                 hoveredServer = "annexe#freebuild1#event.nationsglory.fr#25580";
             }
-        }
-        else
-        {
+        } else {
             ClientProxy.loadResource("textures/gui/main/box_shortcut.png");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)var24, 911.0F, 0, 0, 714, 340, 714.0F, 340.0F, true);
+            ModernGui.drawModalRectWithCustomSizedTexture(offsetX, 911.0f, 0, 0, 714, 340, 714.0f, 340.0f, true);
         }
-
-        ModernGui.drawScaledStringCustomFont(I18n.getString("main.island.title"), (float)(var24 + 60), 1020.0F, 16777215, 2.0F, "left", false, "georamaSemiBold", 50);
-        ModernGui.drawScaledStringCustomFont(I18n.getString("main.island.subtitle1"), (float)(var24 + 60), 1100.0F, 16777215, 2.0F, "left", false, "georamaRegular", 30);
-        ModernGui.drawScaledStringCustomFont(I18n.getString("main.island.subtitle2"), (float)(var24 + 60), 1130.0F, 16777215, 2.0F, "left", false, "georamaRegular", 30);
+        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.island.title"), offsetX + 60, 1020.0f, 0xFFFFFF, 2.0f, "left", false, "georamaSemiBold", 50);
+        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.island.subtitle1"), offsetX + 60, 1100.0f, 0xFFFFFF, 2.0f, "left", false, "georamaRegular", 30);
+        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.island.subtitle2"), offsetX + 60, 1130.0f, 0xFFFFFF, 2.0f, "left", false, "georamaRegular", 30);
         ClientProxy.loadResource("textures/gui/main/arrow_right.png");
-        ModernGui.drawModalRectWithCustomSizedTexture((float)(var24 + 544), 1039.0F, 0, 0, 84, 84, 84.0F, 84.0F, true);
-        ModernGui.drawScaledStringCustomFont(I18n.getString("main.to_discover"), 347.0F, 1324.0F, 12369613, 2.0F, "left", false, "georamaMedium", 37);
-
-        if (cachedDataMainMenu != null)
-        {
-            ArrayList var25 = (ArrayList)cachedDataMainMenu.get("store");
-
-            if (var25 != null && var25.size() > 0)
-            {
-                if (var25.size() <= activeCarouselSlide)
-                {
-                    activeCarouselSlide = 0;
+        ModernGui.drawModalRectWithCustomSizedTexture(offsetX + 544, 1039.0f, 0, 0, 84, 84, 84.0f, 84.0f, true);
+        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.to_discover"), 347.0f, 1324.0f, 12369613, 2.0f, "left", false, "georamaMedium", 37);
+        if (cachedDataMainMenu != null && (slides = (ArrayList)cachedDataMainMenu.get("store")) != null && slides.size() > 0) {
+            if (slides.size() <= activeCarouselSlide) {
+                activeCarouselSlide = 0;
+            }
+            ClientProxy.loadResource("textures/gui/main/carousel_background.png");
+            ModernGui.drawModalRectWithCustomSizedTexture(345.0f, 1374.0f, 0, 0, 1508, 622, 1508.0f, 622.0f, false);
+            ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(487, 1459, 0, 0, 500, 450, 500, 450, 500.0f, 450.0f, true, (String)((LinkedTreeMap)((ArrayList)cachedDataMainMenu.get("store")).get(activeCarouselSlide)).get((Object)"image"));
+            int textIndex = 0;
+            for (String line : ((String)((LinkedTreeMap)((ArrayList)cachedDataMainMenu.get("store")).get(activeCarouselSlide)).get((Object)"text")).split("\\\\n")) {
+                ModernGui.drawScaledStringCustomFont(line, 1167.0f, 1563 + 40 * textIndex + (textIndex > 0 ? 30 : 0), 0xFFFFFF, textIndex == 0 ? 3.0f : 2.0f, "left", false, textIndex == 0 ? "georamaBold" : "georamaRegular", 33);
+                ++textIndex;
+            }
+            textIndex += 2;
+            if (mouseXScaled >= 500 && mouseXScaled <= 1720 && mouseYScaled >= 1412 && mouseYScaled <= 1912) {
+                ClientProxy.loadResource("textures/gui/main/button_shop_hover.png");
+                ModernGui.drawModalRectWithCustomSizedTexture(1158.0f, 1563 + textIndex * 40, 0, 0, 242, 78, 242.0f, 78.0f, true);
+                ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.discover"), 1279.0f, 1563 + textIndex * 40 + 22, 0, 2.0f, "center", false, "georamaBold", 33);
+                hoveredUrl = (String)((LinkedTreeMap)((ArrayList)cachedDataMainMenu.get("store")).get(activeCarouselSlide)).get((Object)"link");
+            } else {
+                ClientProxy.loadResource("textures/gui/main/button_shop.png");
+                ModernGui.drawModalRectWithCustomSizedTexture(1158.0f, 1563 + textIndex * 40, 0, 0, 242, 78, 242.0f, 78.0f, true);
+                ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.discover"), 1282.0f, 1563 + textIndex * 40 + 23, 0xFFFFFF, 2.0f, "center", false, "georamaBold", 33);
+            }
+            if (slides.size() > 1) {
+                if (mouseXScaled >= 356 && mouseXScaled <= 486 && mouseYScaled >= 1534 && mouseYScaled <= 1854) {
+                    ClientProxy.loadResource("textures/gui/main/carousel_left_hover.png");
+                    hoveredAction = "carousel_scroll#down";
+                } else {
+                    ClientProxy.loadResource("textures/gui/main/carousel_left.png");
                 }
-
-                ClientProxy.loadResource("textures/gui/main/carousel_background.png");
-                ModernGui.drawModalRectWithCustomSizedTexture(345.0F, 1374.0F, 0, 0, 1508, 622, 1508.0F, 622.0F, false);
-                ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(487, 1459, 0, 0, 500, 450, 500, 450, 500.0F, 450.0F, true, (String)((LinkedTreeMap)((ArrayList)cachedDataMainMenu.get("store")).get(activeCarouselSlide)).get("image"));
-                countryName = 0;
-                String[] var28 = ((String)((LinkedTreeMap)((ArrayList)cachedDataMainMenu.get("store")).get(activeCarouselSlide)).get("text")).split("\\\\n");
-                int var30 = var28.length;
-
-                for (int button = 0; button < var30; ++button)
-                {
-                    String offset = var28[button];
-                    ModernGui.drawScaledStringCustomFont(offset, 1167.0F, (float)(1563 + 40 * countryName + (countryName > 0 ? 30 : 0)), 16777215, countryName == 0 ? 3.0F : 2.0F, "left", false, countryName == 0 ? "georamaBold" : "georamaRegular", 33);
-                    ++countryName;
+                ModernGui.drawModalRectWithCustomSizedTexture(400.0f, 1649.0f, 0, 0, 41, 74, 41.0f, 74.0f, true);
+                if (mouseXScaled >= 1724 && mouseXScaled <= 1854 && mouseYScaled >= 1534 && mouseYScaled <= 1854) {
+                    ClientProxy.loadResource("textures/gui/main/carousel_right_hover.png");
+                    hoveredAction = "carousel_scroll#up";
+                } else {
+                    ClientProxy.loadResource("textures/gui/main/carousel_right.png");
                 }
-
-                countryName += 2;
-
-                if (mouseXScaled >= 500 && mouseXScaled <= 1720 && mouseYScaled >= 1412 && mouseYScaled <= 1912)
-                {
-                    ClientProxy.loadResource("textures/gui/main/button_shop_hover.png");
-                    ModernGui.drawModalRectWithCustomSizedTexture(1158.0F, (float)(1563 + countryName * 40), 0, 0, 242, 78, 242.0F, 78.0F, true);
-                    ModernGui.drawScaledStringCustomFont(I18n.getString("main.discover"), 1279.0F, (float)(1563 + countryName * 40 + 22), 0, 2.0F, "center", false, "georamaBold", 33);
-                    hoveredUrl = (String)((LinkedTreeMap)((ArrayList)cachedDataMainMenu.get("store")).get(activeCarouselSlide)).get("link");
-                }
-                else
-                {
-                    ClientProxy.loadResource("textures/gui/main/button_shop.png");
-                    ModernGui.drawModalRectWithCustomSizedTexture(1158.0F, (float)(1563 + countryName * 40), 0, 0, 242, 78, 242.0F, 78.0F, true);
-                    ModernGui.drawScaledStringCustomFont(I18n.getString("main.discover"), 1282.0F, (float)(1563 + countryName * 40 + 23), 16777215, 2.0F, "center", false, "georamaBold", 33);
-                }
-
-                if (var25.size() > 1)
-                {
-                    if (mouseXScaled >= 356 && mouseXScaled <= 486 && mouseYScaled >= 1534 && mouseYScaled <= 1854)
-                    {
-                        ClientProxy.loadResource("textures/gui/main/carousel_left_hover.png");
-                        hoveredAction = "carousel_scroll#down";
+                ModernGui.drawModalRectWithCustomSizedTexture(1753.0f, 1649.0f, 0, 0, 41, 74, 41.0f, 74.0f, true);
+                for (int i = 0; i < slides.size(); ++i) {
+                    if (activeCarouselSlide == i) {
+                        ClientProxy.loadResource("textures/gui/main/carousel_dot_active.png");
+                    } else {
+                        ClientProxy.loadResource("textures/gui/main/carousel_dot_inactive.png");
                     }
-                    else
-                    {
-                        ClientProxy.loadResource("textures/gui/main/carousel_left.png");
-                    }
-
-                    ModernGui.drawModalRectWithCustomSizedTexture(400.0F, 1649.0F, 0, 0, 41, 74, 41.0F, 74.0F, true);
-
-                    if (mouseXScaled >= 1724 && mouseXScaled <= 1854 && mouseYScaled >= 1534 && mouseYScaled <= 1854)
-                    {
-                        ClientProxy.loadResource("textures/gui/main/carousel_right_hover.png");
-                        hoveredAction = "carousel_scroll#up";
-                    }
-                    else
-                    {
-                        ClientProxy.loadResource("textures/gui/main/carousel_right.png");
-                    }
-
-                    ModernGui.drawModalRectWithCustomSizedTexture(1753.0F, 1649.0F, 0, 0, 41, 74, 41.0F, 74.0F, true);
-
-                    for (index = 0; index < var25.size(); ++index)
-                    {
-                        if (activeCarouselSlide == index)
-                        {
-                            ClientProxy.loadResource("textures/gui/main/carousel_dot_active.png");
-                        }
-                        else
-                        {
-                            ClientProxy.loadResource("textures/gui/main/carousel_dot_inactive.png");
-                        }
-
-                        var30 = 1096 - (var25.size() > 1 ? 25 * (var25.size() - 1) : 0);
-                        ModernGui.drawModalRectWithCustomSizedTexture((float)(var30 + index * 50 - 14), 1934.0F, 0, 0, 28, 28, 28.0F, 28.0F, true);
-
-                        if (mouseXScaled >= var30 + index * 50 - 14 && mouseXScaled <= var30 + index * 50 - 14 + 28 && mouseYScaled >= 1934 && mouseYScaled <= 1962)
-                        {
-                            hoveredAction = "carousel_change#" + index;
-                        }
-                    }
+                    int posX = 1096 - (slides.size() > 1 ? 25 * (slides.size() - 1) : 0);
+                    ModernGui.drawModalRectWithCustomSizedTexture(posX + i * 50 - 14, 1934.0f, 0, 0, 28, 28, 28.0f, 28.0f, true);
+                    if (mouseXScaled < posX + i * 50 - 14 || mouseXScaled > posX + i * 50 - 14 + 28 || mouseYScaled < 1934 || mouseYScaled > 1962) continue;
+                    hoveredAction = "carousel_change#" + i;
                 }
             }
         }
-
-        String var26 = "";
-
-        if (cachedDataMainMenu != null)
-        {
-            var26 = cachedDataMainMenu.get("userbox") != null && ((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get("last_server") != null ? (String)((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get("last_server") : "none";
-            ClientProxy.loadResource("textures/gui/main/servers_card/" + var26 + ".png");
-            ModernGui.drawModalRectWithCustomSizedTexture(1930.0F, 1374.0F, 0, 0, 714, 400, 714.0F, 400.0F, true);
-
-            if (cacheHeadPlayer == null)
-            {
-                try
-                {
-                    ResourceLocation var27 = AbstractClientPlayer.locationStevePng;
-                    var27 = AbstractClientPlayer.getLocationSkin(Minecraft.getMinecraft().getSession().getUsername());
-                    AbstractClientPlayer.getDownloadImageSkin(var27, Minecraft.getMinecraft().getSession().getUsername());
-                    cacheHeadPlayer = var27;
+        String server = "";
+        if (cachedDataMainMenu != null) {
+            server = cachedDataMainMenu.get("userbox") != null && ((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get((Object)"last_server") != null ? (String)((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get((Object)"last_server") : "none";
+            ClientProxy.loadResource("textures/gui/main/servers_card/" + server + ".png");
+            ModernGui.drawModalRectWithCustomSizedTexture(1930.0f, 1374.0f, 0, 0, 714, 400, 714.0f, 400.0f, true);
+            if (cacheHeadPlayer == null) {
+                try {
+                    ResourceLocation resourceLocation = AbstractClientPlayer.field_110314_b;
+                    resourceLocation = AbstractClientPlayer.func_110311_f((String)Minecraft.func_71410_x().func_110432_I().func_111285_a());
+                    AbstractClientPlayer.func_110304_a((ResourceLocation)resourceLocation, (String)Minecraft.func_71410_x().func_110432_I().func_111285_a());
+                    cacheHeadPlayer = resourceLocation;
                 }
-                catch (Exception var22)
-                {
-                    System.out.println(var22.getMessage());
+                catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
+            } else {
+                Minecraft.func_71410_x().field_71446_o.func_110577_a(cacheHeadPlayer);
+                this.field_73882_e.func_110434_K().func_110577_a(cacheHeadPlayer);
+                GUIUtils.drawScaledCustomSizeModalRect(2070, 1516, 8.0f, 16.0f, 8, -8, -100, -100, 64.0f, 64.0f);
             }
-            else
-            {
-                Minecraft.getMinecraft().renderEngine.bindTexture(cacheHeadPlayer);
-                this.mc.getTextureManager().bindTexture(cacheHeadPlayer);
-                GUIUtils.drawScaledCustomSizeModalRect(2070, 1516, 8.0F, 16.0F, 8, -8, -100, -100, 64.0F, 64.0F);
-            }
-
-            ModernGui.drawScaledStringCustomFont(Minecraft.getMinecraft().getSession().getUsername().toUpperCase(), 2100.0F, 1423.0F, !var26.equals("white") ? 16777215 : 2368583, 3.0F, "left", false, "georamaBold", 33);
-            ModernGui.drawScaledStringCustomFont(I18n.getString("main.server").replace("#server#", !var26.equals("none") ? var26.substring(0, 1).toUpperCase() + var26.substring(1) : "-"), 2100.0F, 1478.0F, 2368583, 2.0F, "left", false, "georamaMedium", 33);
+            ModernGui.drawScaledStringCustomFont(Minecraft.func_71410_x().func_110432_I().func_111285_a().toUpperCase(), 2100.0f, 1423.0f, !server.equals("white") ? 0xFFFFFF : 0x242447, 3.0f, "left", false, "georamaBold", 33);
+            ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.server").replace("#server#", !server.equals("none") ? server.substring(0, 1).toUpperCase() + server.substring(1) : "-"), 2100.0f, 1478.0f, 0x242447, 2.0f, "left", false, "georamaMedium", 33);
         }
-
-        if (cachedDataMainMenu != null && cachedDataMainMenu.get("userbox") != null && !cachedFlagsTexture.containsKey(var26) && ((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get("country") != null && ((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get("flag") != null)
-        {
-            BufferedImage var29 = ModernGui.decodeToImage((String)((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get("flag"));
-            cachedFlagsTexture.put(var26, new DynamicTexture(var29));
+        if (cachedDataMainMenu != null && cachedDataMainMenu.get("userbox") != null && !cachedFlagsTexture.containsKey(server) && ((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get((Object)"country") != null && ((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get((Object)"flag") != null) {
+            BufferedImage image = ModernGui.decodeToImage((String)((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get((Object)"flag"));
+            cachedFlagsTexture.put(server, new DynamicTexture(image));
         }
-
-        if (cachedFlagsTexture.containsKey(var26))
-        {
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, ((DynamicTexture)cachedFlagsTexture.get(var26)).getGlTextureId());
-            ModernGui.drawScaledCustomSizeModalRect(1998.0F, 1582.0F, 0.0F, 0.0F, 156, 78, 221, 130, 156.0F, 78.0F, false);
+        if (cachedFlagsTexture.containsKey(server)) {
+            GL11.glBindTexture((int)3553, (int)cachedFlagsTexture.get(server).func_110552_b());
+            ModernGui.drawScaledCustomSizeModalRect(1998.0f, 1582.0f, 0.0f, 0.0f, 156, 78, 221, 130, 156.0f, 78.0f, false);
+        } else {
+            Gui.func_73734_a((int)1998, (int)1582, (int)2219, (int)1712, (int)1209604377);
         }
-        else
-        {
-            Gui.drawRect(1998, 1582, 2219, 1712, 1209604377);
+        String string = countryName = ((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get((Object)"country") != null && !((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get((Object)"country").equals("") ? (String)((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get((Object)"country") : I18n.func_135053_a((String)"main.no_country");
+        if (countryName.length() > 13) {
+            countryName = countryName.substring(0, 12) + "..";
         }
-
-        String var31 = ((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get("country") != null && !((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get("country").equals("") ? (String)((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get("country") : I18n.getString("main.no_country");
-
-        if (var31.length() > 13)
-        {
-            var31 = var31.substring(0, 12) + "..";
+        ModernGui.drawScaledStringCustomFont(countryName, 2250.0f, 1600.0f, !server.equals("white") ? 0xFFFFFF : 0x242447, 3.0f, "left", false, "georamaBold", 33);
+        if (((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get((Object)"money") != null) {
+            ModernGui.drawScaledStringCustomFont(((Double)((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get((Object)"money")).intValue() + "$", 2250.0f, 1657.0f, !server.equals("white") ? 0xFFFFFF : 0x242447, 2.0f, "left", false, "georamaSemiBold", 33);
         }
-
-        ModernGui.drawScaledStringCustomFont(var31, 2250.0F, 1600.0F, !var26.equals("white") ? 16777215 : 2368583, 3.0F, "left", false, "georamaBold", 33);
-
-        if (((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get("money") != null)
-        {
-            ModernGui.drawScaledStringCustomFont(((Double)((LinkedTreeMap)cachedDataMainMenu.get("userbox")).get("money")).intValue() + "$", 2250.0F, 1657.0F, !var26.equals("white") ? 16777215 : 2368583, 2.0F, "left", false, "georamaSemiBold", 33);
-        }
-
-        if (mouseXScaled >= 1930 && mouseXScaled <= 2644 && mouseYScaled >= 1820 && mouseYScaled <= 1996)
-        {
+        if (mouseXScaled >= 1930 && mouseXScaled <= 2644 && mouseYScaled >= 1820 && mouseYScaled <= 1996) {
             ClientProxy.loadResource("textures/gui/main/box_patchnote_hover.png");
             hoveredUrl = "https://nationsglory.fr/changelogs";
-        }
-        else
-        {
+        } else {
             ClientProxy.loadResource("textures/gui/main/box_patchnote.png");
         }
-
-        ModernGui.drawModalRectWithCustomSizedTexture(1930.0F, 1820.0F, 0, 0, 714, 176, 714.0F, 176.0F, true);
+        ModernGui.drawModalRectWithCustomSizedTexture(1930.0f, 1820.0f, 0, 0, 714, 176, 714.0f, 176.0f, true);
         ClientProxy.loadResource("textures/gui/main/logo_patchnote.png");
-        ModernGui.drawModalRectWithCustomSizedTexture(1972.0F, 1879.0F, 0, 0, 94, 63, 94.0F, 63.0F, true);
-        ModernGui.drawScaledStringCustomFont(I18n.getString("main.patchnotes"), 2100.0F, 1890.0F, 16777215, 3.0F, "left", false, "georamaBold", 33);
+        ModernGui.drawModalRectWithCustomSizedTexture(1972.0f, 1879.0f, 0, 0, 94, 63, 94.0f, 63.0f, true);
+        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.patchnotes"), 2100.0f, 1890.0f, 0xFFFFFF, 3.0f, "left", false, "georamaBold", 33);
         ClientProxy.loadResource("textures/gui/main/arrow_right.png");
-        ModernGui.drawModalRectWithCustomSizedTexture(2500.0F, 1866.0F, 0, 0, 84, 84, 84.0F, 84.0F, true);
-        ModernGui.drawScaledStringCustomFont(I18n.getString("main.servers") + " - " + serverLang.toUpperCase(), 2900.0F, 120.0F, 16777215, 2.0F, "left", false, "georamaMedium", 37);
-        index = 0;
-        Iterator var32 = this.buttonList.iterator();
-
-        while (var32.hasNext())
-        {
-            GuiButton var33 = (GuiButton)var32.next();
-            int var34 = 170 * (index % 7);
-            var23 = index / 7 * 450;
-            String serverName = ((ModernServerButton)var33).getServerName();
-            String serverType = ((ModernServerButton)var33).getServerType();
-            String serverIp = ((ModernServerButton)var33).getIp();
-            String serverPort = ((ModernServerButton)var33).getPort() + "";
-
-            if (((ModernServerButton)var33).server.getZones().contains(serverLang) || serverLang.contains("fr"))
-            {
-                if (SERVERS.containsKey(serverName))
-                {
-                    if (mouseXScaled >= 2900 + var23 && mouseXScaled <= 2900 + var23 + 116 && mouseYScaled >= 230 + var34 && mouseYScaled <= 230 + var34 + 118)
-                    {
-                        this.mc.getTextureManager().bindTexture((ResourceLocation)SERVERS_HOVER.get(serverName));
-                        hoveredServer = serverType + "#" + serverName + "#" + serverIp + "#" + serverPort;
-                    }
-                    else
-                    {
-                        this.mc.getTextureManager().bindTexture((ResourceLocation)SERVERS.get(serverName));
-                    }
-
-                    ModernGui.drawModalRectWithCustomSizedTexture((float)(2900 + var23), (float)(230 + var34), 0, 0, 116, 118, 116.0F, 118.0F, false);
-                    ModernGui.drawScaledStringCustomFont(serverName.substring(0, 1).toUpperCase() + serverName.substring(1), (float)(3034 + var23), (float)(260 + var34), 16777215, 2.0F, "left", false, "georamaSemiBold", 45);
+        ModernGui.drawModalRectWithCustomSizedTexture(2500.0f, 1866.0f, 0, 0, 84, 84, 84.0f, 84.0f, true);
+        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"main.servers") + " - " + serverLang.toUpperCase(), 2900.0f, 120.0f, 0xFFFFFF, 2.0f, "left", false, "georamaMedium", 37);
+        int index = 0;
+        for (GuiButton button : this.field_73887_h) {
+            int offset = 170 * (index % 7);
+            offsetX = index / 7 * 450;
+            String serverName = ((ModernServerButton)button).getServerName();
+            String serverType = ((ModernServerButton)button).getServerType();
+            String serverIp = ((ModernServerButton)button).getIp();
+            String serverPort = ((ModernServerButton)button).getPort() + "";
+            if (!((ModernServerButton)button).server.getZones().contains(serverLang) && !serverLang.contains("fr")) continue;
+            if (SERVERS.containsKey(serverName)) {
+                if (mouseXScaled >= 2900 + offsetX && mouseXScaled <= 2900 + offsetX + 116 && mouseYScaled >= 230 + offset && mouseYScaled <= 230 + offset + 118) {
+                    this.field_73882_e.func_110434_K().func_110577_a(SERVERS_HOVER.get(serverName));
+                    hoveredServer = serverType + "#" + serverName + "#" + serverIp + "#" + serverPort;
+                } else {
+                    this.field_73882_e.func_110434_K().func_110577_a(SERVERS.get(serverName));
                 }
-
-                ++index;
+                ModernGui.drawModalRectWithCustomSizedTexture(2900 + offsetX, 230 + offset, 0, 0, 116, 118, 116.0f, 118.0f, false);
+                ModernGui.drawScaledStringCustomFont(serverName.substring(0, 1).toUpperCase() + serverName.substring(1), 3034 + offsetX, 260 + offset, 0xFFFFFF, 2.0f, "left", false, "georamaSemiBold", 45);
             }
+            ++index;
         }
-
-        drawWaitingQueueOverlay(mouseXScaled, mouseYScaled);
+        MainGUI.drawWaitingQueueOverlay(mouseXScaled, mouseYScaled);
         GL11.glPopMatrix();
     }
 
-    public static void openURL(String url)
-    {
-        if (Desktop.isDesktopSupported())
-        {
-            Desktop desktop = Desktop.getDesktop();
-
-            if (desktop.isSupported(Action.BROWSE))
-            {
-                try
-                {
-                    desktop.browse(new URI(url));
-                }
-                catch (Exception var3)
-                {
-                    var3.printStackTrace();
-                }
+    public static void openURL(String url) {
+        Desktop desktop;
+        if (Desktop.isDesktopSupported() && (desktop = Desktop.getDesktop()).isSupported(Desktop.Action.BROWSE)) {
+            try {
+                desktop.browse(new URI(url));
+            }
+            catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int par1, int par2, int par3)
-    {
-        super.mouseClicked(par1, par2, par3);
-        int windowWidth = this.width;
-        int windowHeight = this.width * 9 / 16;
-        int mouseXScaled = (int)((float)par1 * (3840.0F / (float)this.width));
-        int mouseYScaled = (int)((float)par2 * (2160.0F / (float)windowHeight));
-
-        if (mouseXScaled >= 60 && mouseXScaled <= 140 && mouseYScaled >= 720 && mouseYScaled <= 776)
-        {
-            boolean serverType1 = Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54);
-            this.mc.displayGuiScreen((GuiScreen)(!serverType1 ? new GuiMultiplayer(this) : new GuiSelectWorld(this)));
-        }
-        else if (mouseXScaled >= 74 && mouseXScaled <= 126 && mouseYScaled >= 840 && mouseYScaled <= 892)
-        {
-            if (Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.username.equalsIgnoreCase("wascar"))
-            {
-                this.mc.displayGuiScreen(new GuiSelectWorld(this));
+    protected void func_73864_a(int par1, int par2, int par3) {
+        super.func_73864_a(par1, par2, par3);
+        int windowWidth = this.field_73880_f;
+        int windowHeight = this.field_73880_f * 9 / 16;
+        int mouseXScaled = (int)((float)par1 * (3840.0f / (float)this.field_73880_f));
+        int mouseYScaled = (int)((float)par2 * (2160.0f / (float)windowHeight));
+        if (mouseXScaled >= 60 && mouseXScaled <= 140 && mouseYScaled >= 720 && mouseYScaled <= 776) {
+            boolean isShiftDown = Keyboard.isKeyDown((int)42) || Keyboard.isKeyDown((int)54);
+            this.field_73882_e.func_71373_a((GuiScreen)(!isShiftDown ? new GuiMultiplayer((GuiScreen)this) : new GuiSelectWorld((GuiScreen)this)));
+        } else if (mouseXScaled >= 74 && mouseXScaled <= 126 && mouseYScaled >= 840 && mouseYScaled <= 892) {
+            if (Minecraft.func_71410_x().field_71439_g != null && Minecraft.func_71410_x().field_71439_g.field_71092_bJ.equalsIgnoreCase("wascar")) {
+                this.field_73882_e.func_71373_a((GuiScreen)new GuiSelectWorld((GuiScreen)this));
             }
-        }
-        else if (mouseXScaled >= 66 && mouseXScaled <= 130 && mouseYScaled >= 1280 && mouseYScaled <= 1344)
-        {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiBrowser("https://wiki.nationsglory.fr/fr/"));
-        }
-        else if (mouseXScaled >= 66 && mouseXScaled <= 130 && mouseYScaled >= 1400 && mouseYScaled <= 1464)
-        {
-            openURL(serverLang.equals("fr") ? "https://nationsglory.fr" : "https://nationsglory.com");
-        }
-        else if (mouseXScaled >= 70 && mouseXScaled <= 128 && mouseYScaled >= 1520 && mouseYScaled <= 1586)
-        {
-            openURL(serverLang.equals("fr") ? "https://discord.gg/nationsglory" : "https://discord.gg/eSwrBrzAkD");
-        }
-        else if (mouseXScaled >= 70 && mouseXScaled <= 128 && mouseYScaled >= 1640 && mouseYScaled <= 1698)
-        {
-            openURL(serverLang.equals("fr") ? "ts3server://ts.nationsglory.fr" : "ts3server://ts.nationsglory.com");
-        }
-        else if (mouseXScaled >= 70 && mouseXScaled <= 130 && mouseYScaled >= 1760 && mouseYScaled <= 1820)
-        {
-            this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
-        }
-        else if (mouseXScaled >= 70 && mouseXScaled <= 130 && mouseYScaled >= 1880 && mouseYScaled <= 1940)
-        {
-            this.mc.displayGuiScreen(new GuiConnecting(this, this.mc, "127.0.0.1", 25565));
-        }
-        else if (hoveredAction.contains("carousel_scroll"))
-        {
+        } else if (mouseXScaled >= 66 && mouseXScaled <= 130 && mouseYScaled >= 1280 && mouseYScaled <= 1344) {
+            Minecraft.func_71410_x().func_71373_a((GuiScreen)new GuiBrowser("https://wiki.nationsglory.fr/fr/"));
+        } else if (mouseXScaled >= 66 && mouseXScaled <= 130 && mouseYScaled >= 1400 && mouseYScaled <= 1464) {
+            MainGUI.openURL(serverLang.equals("fr") ? "https://nationsglory.fr" : "https://nationsglory.com");
+        } else if (mouseXScaled >= 70 && mouseXScaled <= 128 && mouseYScaled >= 1520 && mouseYScaled <= 1586) {
+            MainGUI.openURL(serverLang.equals("fr") ? "https://discord.gg/nationsglory" : "https://discord.gg/eSwrBrzAkD");
+        } else if (mouseXScaled >= 70 && mouseXScaled <= 128 && mouseYScaled >= 1640 && mouseYScaled <= 1698) {
+            MainGUI.openURL(serverLang.equals("fr") ? "ts3server://ts.nationsglory.fr" : "ts3server://ts.nationsglory.com");
+        } else if (mouseXScaled >= 70 && mouseXScaled <= 130 && mouseYScaled >= 1760 && mouseYScaled <= 1820) {
+            this.field_73882_e.func_71373_a((GuiScreen)new GuiOptions((GuiScreen)this, this.field_73882_e.field_71474_y));
+        } else if (mouseXScaled >= 70 && mouseXScaled <= 130 && mouseYScaled >= 1880 && mouseYScaled <= 1940) {
+            this.field_73882_e.func_71373_a((GuiScreen)new GuiConnecting((GuiScreen)this, this.field_73882_e, "127.0.0.1", 25565));
+        } else if (hoveredAction.contains("carousel_scroll")) {
             activeCarouselSlide = hoveredAction.split("#")[1].equals("up") ? activeCarouselSlide + 1 : (activeCarouselSlide - 1 >= 0 ? activeCarouselSlide - 1 : Math.max(0, ((ArrayList)cachedDataMainMenu.get("store")).size() - 1));
-        }
-        else if (hoveredAction.contains("carousel_change"))
-        {
+        } else if (hoveredAction.contains("carousel_change")) {
             activeCarouselSlide = Integer.parseInt(hoveredAction.split("#")[1]);
-        }
-        else if (!hoveredServer.isEmpty())
-        {
+        } else if (!hoveredServer.isEmpty()) {
             String serverType = hoveredServer.split("#")[0];
             String serverName = hoveredServer.split("#")[1];
             String serverIp = hoveredServer.split("#")[2];
             String serverPort = hoveredServer.split("#")[3];
-
-            if (serverName != null && ClientProxy.getServerIpAndPort(serverName) != null)
-            {
-                if (ClientSocket.out != null)
-                {
+            if (serverName != null && ClientProxy.getServerIpAndPort(serverName) != null) {
+                if (ClientSocket.out != null) {
                     ClientSocket.out.println("MESSAGE socket ADD_WAITINGLIST " + serverName.toLowerCase());
-                    ClientData.waitingJoinTime = Long.valueOf(System.currentTimeMillis());
-                    Minecraft.getMinecraft().displayGuiScreen(new WaitingSocketGui());
+                    ClientData.waitingJoinTime = System.currentTimeMillis();
+                    Minecraft.func_71410_x().func_71373_a((GuiScreen)new WaitingSocketGui());
+                } else {
+                    this.field_73882_e.func_71373_a((GuiScreen)new GuiMultiplayer((GuiScreen)this));
                 }
-                else
-                {
-                    this.mc.displayGuiScreen(new GuiMultiplayer(this));
-                }
-            }
-            else
-            {
+            } else {
                 int port = Integer.parseInt(serverPort);
-                this.mc.displayGuiScreen(new GuiConnecting(this, this.mc, serverIp, port));
+                this.field_73882_e.func_71373_a((GuiScreen)new GuiConnecting((GuiScreen)this, this.field_73882_e, serverIp, port));
             }
-        }
-        else if (!hoveredUrl.isEmpty())
-        {
-            openURL(hoveredUrl);
-        }
-        else if (hoveredAction.equalsIgnoreCase("quit_waiting"))
-        {
+        } else if (!hoveredUrl.isEmpty()) {
+            MainGUI.openURL(hoveredUrl);
+        } else if (hoveredAction.equalsIgnoreCase("quit_waiting")) {
             ClientSocket.out.println("MESSAGE socket REMOVE_WAITINGLIST");
             ClientData.waitingServerName = null;
         }
     }
-
-    static String access$000(MainGUI x0, String x1)
-    {
-        return x0.clearPopulationString(x1);
-    }
 }
+

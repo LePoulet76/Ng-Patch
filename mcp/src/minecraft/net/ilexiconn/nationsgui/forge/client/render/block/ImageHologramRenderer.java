@@ -1,3 +1,24 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  fr.zeamateis.nationsglory.client.renders.RenderTransparentBlock
+ *  fr.zeamateis.nationsglory.common.tileEntity.TileEntityTransparent
+ *  net.minecraft.block.Block
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.renderer.RenderBlocks
+ *  net.minecraft.client.renderer.RenderHelper
+ *  net.minecraft.client.renderer.Tessellator
+ *  net.minecraft.client.renderer.entity.RenderManager
+ *  net.minecraft.client.renderer.texture.TextureMap
+ *  net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
+ *  net.minecraft.item.ItemBlock
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.tileentity.TileEntity
+ *  net.minecraft.world.IBlockAccess
+ *  net.minecraft.world.World
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.render.block;
 
 import fr.zeamateis.nationsglory.client.renders.RenderTransparentBlock;
@@ -15,82 +36,65 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
-public class ImageHologramRenderer extends TileEntitySpecialRenderer
-{
+public class ImageHologramRenderer
+extends TileEntitySpecialRenderer {
     private RenderBlocks blockRenderer;
 
-    public void renderTileEntityAt(TileEntity t, double x, double y, double z, float arg4)
-    {
-        ItemStack itemStack = Minecraft.getMinecraft().thePlayer.getHeldItem();
-
-        if (itemStack != null && itemStack.getItem() instanceof ItemBlock && Block.blocksList[((ItemBlock)itemStack.getItem()).getBlockID()].getRenderType() == RenderTransparentBlock.renderID)
-        {
-            Tessellator tile = Tessellator.instance;
-            this.bindTexture(TextureMap.locationBlocksTexture);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glDisable(GL11.GL_CULL_FACE);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-
-            if (Minecraft.isAmbientOcclusionEnabled())
-            {
-                GL11.glShadeModel(GL11.GL_SMOOTH);
+    public void func_76894_a(TileEntity t, double x, double y, double z, float arg4) {
+        ImageHologramBlockEntity tile;
+        String url;
+        ItemStack itemStack = Minecraft.func_71410_x().field_71439_g.func_70694_bm();
+        if (itemStack != null && itemStack.func_77973_b() instanceof ItemBlock && Block.field_71973_m[((ItemBlock)itemStack.func_77973_b()).func_77883_f()].func_71857_b() == RenderTransparentBlock.renderID) {
+            Tessellator tessellator = Tessellator.field_78398_a;
+            this.func_110628_a(TextureMap.field_110575_b);
+            RenderHelper.func_74518_a();
+            GL11.glBlendFunc((int)770, (int)771);
+            GL11.glEnable((int)3042);
+            GL11.glDisable((int)2884);
+            GL11.glDisable((int)3553);
+            if (Minecraft.func_71379_u()) {
+                GL11.glShadeModel((int)7425);
+            } else {
+                GL11.glShadeModel((int)7424);
             }
-            else
-            {
-                GL11.glShadeModel(GL11.GL_FLAT);
-            }
-
-            tile.startDrawingQuads();
-            tile.setTranslation((double)((float)x - (float)t.xCoord), (double)((float)y - (float)t.yCoord), (double)((float)z - (float)t.zCoord));
-            tile.setColorRGBA_F(1.0F, 0.0F, 0.0F, 0.5F);
+            tessellator.func_78382_b();
+            tessellator.func_78373_b((double)((float)x - (float)t.field_70329_l), (double)((float)y - (float)t.field_70330_m), (double)((float)z - (float)t.field_70327_n));
+            tessellator.func_78369_a(1.0f, 0.0f, 0.0f, 0.5f);
             TileEntityTransparent.rendering = true;
-            this.blockRenderer.renderBlockByRenderType(t.blockType, t.xCoord, t.yCoord, t.zCoord);
+            this.blockRenderer.func_78612_b(t.field_70324_q, t.field_70329_l, t.field_70330_m, t.field_70327_n);
             TileEntityTransparent.rendering = false;
-            tile.setTranslation(0.0D, 0.0D, 0.0D);
-            tile.setColorRGBA_F(1.0F, 0.0F, 0.0F, 0.5F);
-            tile.draw();
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            RenderHelper.enableStandardItemLighting();
+            tessellator.func_78373_b(0.0, 0.0, 0.0);
+            tessellator.func_78369_a(1.0f, 0.0f, 0.0f, 0.5f);
+            tessellator.func_78381_a();
+            GL11.glEnable((int)3553);
+            RenderHelper.func_74519_b();
         }
-
-        if (t instanceof ImageHologramBlockEntity)
-        {
-            ImageHologramBlockEntity tile1 = (ImageHologramBlockEntity)t;
-            String url = tile1.getURL();
-
-            if (!url.isEmpty())
-            {
-                GL11.glPushMatrix();
-                GL11.glTranslated(x + 0.5D, y + 0.1D, z + 0.5D);
-                GL11.glPushMatrix();
-                float scale = 0.026666673F;
-                GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-                GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
-                GL11.glRotatef(RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
-                GL11.glScalef(-scale, -scale, scale);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glDisable(GL11.GL_LIGHTING);
-                ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(-((int)((float)tile1.imgWidth * ((float)tile1.size / 100.0F))) / 2, -((int)((float)tile1.imgHeight * ((float)tile1.size / 100.0F))) / 2, 0, 0, tile1.imgWidth, tile1.imgHeight, (int)((float)tile1.imgWidth * ((float)tile1.size / 100.0F)), (int)((float)tile1.imgHeight * ((float)tile1.size / 100.0F)), (float)tile1.imgWidth, (float)tile1.imgHeight, false, url);
-                GL11.glDisable(GL11.GL_BLEND);
-                GL11.glEnable(GL11.GL_LIGHTING);
-                GL11.glPopMatrix();
-                GL11.glPopMatrix();
-            }
+        if (t instanceof ImageHologramBlockEntity && !(url = (tile = (ImageHologramBlockEntity)t).getURL()).isEmpty()) {
+            GL11.glPushMatrix();
+            GL11.glTranslated((double)(x + 0.5), (double)(y + 0.1), (double)(z + 0.5));
+            GL11.glPushMatrix();
+            float scale = 0.026666673f;
+            GL11.glNormal3f((float)0.0f, (float)1.0f, (float)0.0f);
+            GL11.glRotatef((float)(-RenderManager.field_78727_a.field_78735_i), (float)0.0f, (float)1.0f, (float)0.0f);
+            GL11.glRotatef((float)RenderManager.field_78727_a.field_78732_j, (float)1.0f, (float)0.0f, (float)0.0f);
+            GL11.glScalef((float)(-scale), (float)(-scale), (float)scale);
+            GL11.glEnable((int)3042);
+            GL11.glBlendFunc((int)770, (int)771);
+            GL11.glDisable((int)2896);
+            ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(-((int)((float)tile.imgWidth * ((float)tile.size / 100.0f))) / 2, -((int)((float)tile.imgHeight * ((float)tile.size / 100.0f))) / 2, 0, 0, tile.imgWidth, tile.imgHeight, (int)((float)tile.imgWidth * ((float)tile.size / 100.0f)), (int)((float)tile.imgHeight * ((float)tile.size / 100.0f)), tile.imgWidth, tile.imgHeight, false, url);
+            GL11.glDisable((int)3042);
+            GL11.glEnable((int)2896);
+            GL11.glPopMatrix();
+            GL11.glPopMatrix();
         }
     }
 
-    /**
-     * Called when the ingame world being rendered changes (e.g. on world -> nether travel) due to using one renderer
-     * per tile entity type, rather than instance
-     */
-    public void onWorldChange(World par1World)
-    {
-        this.blockRenderer = new RenderBlocks(par1World);
+    public void func_76896_a(World par1World) {
+        this.blockRenderer = new RenderBlocks((IBlockAccess)par1World);
     }
 }
+

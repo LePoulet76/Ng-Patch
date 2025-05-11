@@ -1,30 +1,28 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.item.crafting.ShapelessRecipes
+ */
 package net.ilexiconn.nationsgui.forge.client.recipes.watchers;
 
-import java.util.Iterator;
 import net.ilexiconn.nationsgui.forge.client.RecipeWatcher;
 import net.ilexiconn.nationsgui.forge.client.data.RecipeData;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapelessRecipes;
 
-public class ShapelessRecipesWatcher extends RecipeWatcher<ShapelessRecipes>
-{
-    public RecipeData watchRecipe(ShapelessRecipes recipe)
-    {
+public class ShapelessRecipesWatcher
+extends RecipeWatcher<ShapelessRecipes> {
+    @Override
+    public RecipeData watchRecipe(ShapelessRecipes recipe) {
         RecipeData recipeData = new RecipeData();
         int i = 0;
-
-        for (Iterator var4 = recipe.recipeItems.iterator(); var4.hasNext(); ++i)
-        {
-            ItemStack itemStack = (ItemStack)var4.next();
+        for (ItemStack itemStack : recipe.field_77579_b) {
             recipeData.getItemStacks()[i] = this.getDamagedList(itemStack);
+            ++i;
         }
-
         return recipeData;
     }
-
-    public RecipeData watchRecipe(IRecipe var1)
-    {
-        return this.watchRecipe((ShapelessRecipes)var1);
-    }
 }
+

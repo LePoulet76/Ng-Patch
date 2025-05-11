@@ -1,3 +1,18 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  cpw.mods.fml.common.network.Player
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.nbt.CompressedStreamTools
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.network.packet.Packet
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -6,6 +21,8 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import net.ilexiconn.nationsgui.forge.client.gui.faction.BadgesGUI;
 import net.ilexiconn.nationsgui.forge.server.config.NBTConfig;
@@ -16,63 +33,59 @@ import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet;
 
-public class FactionBadgeDataPacket implements IPacket, IServerPacket, IClientPacket
-{
+public class FactionBadgeDataPacket
+implements IPacket,
+IServerPacket,
+IClientPacket {
     private NBTTagCompound badges;
     private String playerName;
 
-    public FactionBadgeDataPacket(String playerName)
-    {
+    public FactionBadgeDataPacket(String playerName) {
         this.playerName = playerName;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
+        boolean client;
         this.playerName = data.readUTF();
-        boolean client = data.readByte() == 1;
-
-        if (client)
-        {
-            try
-            {
-                this.badges = CompressedStreamTools.read(data);
+        boolean bl = client = data.readByte() == 1;
+        if (client) {
+            try {
+                this.badges = CompressedStreamTools.func_74794_a((DataInput)data);
             }
-            catch (IOException var4)
-            {
-                var4.printStackTrace();
+            catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeUTF(this.playerName);
         data.writeByte(this.badges == null ? 0 : 1);
-
-        if (this.badges != null)
-        {
-            try
-            {
-                CompressedStreamTools.write(this.badges, data);
+        if (this.badges != null) {
+            try {
+                CompressedStreamTools.func_74800_a((NBTTagCompound)this.badges, (DataOutput)data);
             }
-            catch (IOException var3)
-            {
-                var3.printStackTrace();
+            catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
-    public void handleServerPacket(EntityPlayer player)
-    {
-        this.badges = ((NBTTagCompound)NBTConfig.CONFIG.getCompound().getTag("Badges")).getCompoundTag(this.playerName);
-        PacketDispatcher.sendPacketToPlayer(PacketRegistry.INSTANCE.generatePacket(this), (Player)player);
+    @Override
+    public void handleServerPacket(EntityPlayer player) {
+        this.badges = ((NBTTagCompound)NBTConfig.CONFIG.getCompound().func_74781_a("Badges")).func_74775_l(this.playerName);
+        PacketDispatcher.sendPacketToPlayer((Packet)PacketRegistry.INSTANCE.generatePacket(this), (Player)((Player)player));
     }
 
-    @SideOnly(Side.CLIENT)
-    public void handleClientPacket(EntityPlayer player)
-    {
+    @Override
+    @SideOnly(value=Side.CLIENT)
+    public void handleClientPacket(EntityPlayer player) {
         BadgesGUI.CLIENT_BADGES = this.badges;
         BadgesGUI.loaded = true;
     }
 }
+

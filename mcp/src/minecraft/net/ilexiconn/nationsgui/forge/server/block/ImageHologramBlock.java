@@ -1,9 +1,24 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  fr.zeamateis.nationsglory.client.renders.RenderTransparentBlock
+ *  fr.zeamateis.nationsglory.common.tileEntity.TileEntityTransparent
+ *  net.minecraft.block.BlockContainer
+ *  net.minecraft.block.material.Material
+ *  net.minecraft.creativetab.CreativeTabs
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.tileentity.TileEntity
+ *  net.minecraft.util.AxisAlignedBB
+ *  net.minecraft.world.World
+ */
 package net.ilexiconn.nationsgui.forge.server.block;
 
 import fr.zeamateis.nationsglory.client.renders.RenderTransparentBlock;
 import fr.zeamateis.nationsglory.common.tileEntity.TileEntityTransparent;
-import net.ilexiconn.nationsgui.forge.server.block.ImageHologramBlock$1;
+import net.ilexiconn.nationsgui.forge.NationsGUI;
 import net.ilexiconn.nationsgui.forge.server.block.entity.ImageHologramBlockEntity;
+import net.ilexiconn.nationsgui.forge.server.permission.IPermissionCallback;
 import net.ilexiconn.nationsgui.forge.server.permission.PermissionCache;
 import net.ilexiconn.nationsgui.forge.server.permission.PermissionType;
 import net.minecraft.block.BlockContainer;
@@ -14,72 +29,52 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class ImageHologramBlock extends BlockContainer
-{
-    public ImageHologramBlock()
-    {
-        super(649, Material.iron);
-        this.setUnlocalizedName("imagehologram");
-        this.setCreativeTab(CreativeTabs.tabBlock);
-        this.setBlockUnbreakable();
-        this.setHardness(2.0F);
-        this.setResistance(2.0F);
-        this.setTextureName("wool_colored_orange");
-        this.setLightOpacity(0);
+public class ImageHologramBlock
+extends BlockContainer {
+    public ImageHologramBlock() {
+        super(649, Material.field_76243_f);
+        this.func_71864_b("imagehologram");
+        this.func_71849_a(CreativeTabs.field_78030_b);
+        this.func_71875_q();
+        this.func_71848_c(2.0f);
+        this.func_71894_b(2.0f);
+        this.func_111022_d("wool_colored_orange");
+        this.func_71868_h(0);
     }
 
-    /**
-     * Called upon block activation (right click on the block.)
-     */
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float hitX, float hitY, float hitZ)
-    {
-        if (world.isRemote && player.isSneaking())
-        {
-            PermissionCache.INSTANCE.checkPermission(PermissionType.URL_ADMIN, new ImageHologramBlock$1(this, player, world, x, y, z), new String[0]);
-        }
+    public boolean func_71903_a(final World world, final int x, final int y, final int z, final EntityPlayer player, int meta, float hitX, float hitY, float hitZ) {
+        if (world.field_72995_K && player.func_70093_af()) {
+            PermissionCache.INSTANCE.checkPermission(PermissionType.URL_ADMIN, new IPermissionCallback(){
 
+                @Override
+                public void call(String permission, boolean has) {
+                    if (has) {
+                        player.openGui((Object)NationsGUI.INSTANCE, 890, world, x, y, z);
+                    }
+                }
+            }, new String[0]);
+        }
         return true;
     }
 
-    /**
-     * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
-     */
-    public boolean renderAsNormalBlock()
-    {
+    public boolean func_71886_c() {
         return false;
     }
 
-    /**
-     * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
-     * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
-     */
-    public boolean isOpaqueCube()
-    {
+    public boolean func_71926_d() {
         return false;
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
-    public int getRenderType()
-    {
-        return TileEntityTransparent.rendering ? super.getRenderType() : RenderTransparentBlock.renderID;
+    public int func_71857_b() {
+        return TileEntityTransparent.rendering ? super.func_71857_b() : RenderTransparentBlock.renderID;
     }
 
-    /**
-     * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
-     * cleared to be reused)
-     */
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
+    public AxisAlignedBB func_71872_e(World world, int x, int y, int z) {
         return null;
     }
 
-    /**
-     * Returns a new instance of a block's tile entity class. Called on placing the block.
-     */
-    public TileEntity createNewTileEntity(World world)
-    {
+    public TileEntity func_72274_a(World world) {
         return new ImageHologramBlockEntity();
     }
 }
+

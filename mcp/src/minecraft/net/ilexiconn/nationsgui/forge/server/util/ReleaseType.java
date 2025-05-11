@@ -1,22 +1,44 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package net.ilexiconn.nationsgui.forge.server.util;
 
-import net.ilexiconn.nationsgui.forge.server.util.ReleaseType$1;
+public enum ReleaseType {
+    DEVELOP{
 
-public enum ReleaseType
-{
-    DEVELOP,
-    RELEASE_CANDIDATE,
-    RELEASE;
+        @Override
+        public String getBranding() {
+            return "DEV";
+        }
+    }
+    ,
+    RELEASE_CANDIDATE{
+
+        @Override
+        public String getBranding() {
+            return "RC";
+        }
+    }
+    ,
+    RELEASE{
+
+        @Override
+        public String getBranding() {
+            return "";
+        }
+    };
+
 
     public abstract String getBranding();
 
-    public static ReleaseType parseVersion(String version)
-    {
-        return version.contains("-dev") ? DEVELOP : (version.contains("-rc") ? RELEASE_CANDIDATE : RELEASE);
-    }
-
-    ReleaseType(ReleaseType$1 x2)
-    {
-        this(x0, x1);
+    public static ReleaseType parseVersion(String version) {
+        if (version.contains("-dev")) {
+            return DEVELOP;
+        }
+        if (version.contains("-rc")) {
+            return RELEASE_CANDIDATE;
+        }
+        return RELEASE;
     }
 }
+

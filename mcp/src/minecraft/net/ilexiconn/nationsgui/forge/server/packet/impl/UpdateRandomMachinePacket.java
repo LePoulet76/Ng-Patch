@@ -1,3 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  fr.nationsglory.server.block.entity.GCRandomBlockEntity
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.network.packet.Packet
+ *  net.minecraft.tileentity.TileEntity
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -9,10 +21,13 @@ import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IServerPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 
-public class UpdateRandomMachinePacket implements IPacket, IServerPacket, IClientPacket
-{
+public class UpdateRandomMachinePacket
+implements IPacket,
+IServerPacket,
+IClientPacket {
     public String enterpriseName;
     public int posX;
     public int posY;
@@ -21,8 +36,7 @@ public class UpdateRandomMachinePacket implements IPacket, IServerPacket, IClien
     public boolean hasAuthorization;
     public boolean bukkitDone;
 
-    public UpdateRandomMachinePacket(String enterpriseName, int posX, int posY, int posZ, int percent)
-    {
+    public UpdateRandomMachinePacket(String enterpriseName, int posX, int posY, int posZ, int percent) {
         this.enterpriseName = enterpriseName;
         this.posX = posX;
         this.posY = posY;
@@ -32,8 +46,8 @@ public class UpdateRandomMachinePacket implements IPacket, IServerPacket, IClien
         this.bukkitDone = false;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.enterpriseName = data.readUTF();
         this.posX = data.readInt();
         this.posY = data.readInt();
@@ -43,8 +57,8 @@ public class UpdateRandomMachinePacket implements IPacket, IServerPacket, IClien
         this.bukkitDone = data.readBoolean();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeUTF(this.enterpriseName);
         data.writeInt(this.posX);
         data.writeInt(this.posY);
@@ -54,24 +68,19 @@ public class UpdateRandomMachinePacket implements IPacket, IServerPacket, IClien
         data.writeBoolean(this.bukkitDone);
     }
 
-    public void handleServerPacket(EntityPlayer player)
-    {
-        if (this.hasAuthorization)
-        {
-            TileEntity tileEntity = player.getEntityWorld().getBlockTileEntity(this.posX, this.posY, this.posZ);
-
-            if (tileEntity instanceof GCRandomBlockEntity)
-            {
-                ((GCRandomBlockEntity)tileEntity).percent = this.percent;
-            }
+    @Override
+    public void handleServerPacket(EntityPlayer player) {
+        TileEntity tileEntity;
+        if (this.hasAuthorization && (tileEntity = player.func_130014_f_().func_72796_p(this.posX, this.posY, this.posZ)) instanceof GCRandomBlockEntity) {
+            ((GCRandomBlockEntity)tileEntity).percent = this.percent;
         }
     }
 
-    public void handleClientPacket(EntityPlayer player)
-    {
-        if (this.hasAuthorization)
-        {
-            PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(this));
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
+        if (this.hasAuthorization) {
+            PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(this));
         }
     }
 }
+

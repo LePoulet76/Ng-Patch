@@ -1,13 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package net.ilexiconn.nationsgui.forge.server.util;
 
-public class Tuple<A extends Object, B extends Object>
-{
+public class Tuple<A, B> {
     public A a;
     public B b;
 
-    public Tuple(A a, B b)
-    {
+    public Tuple(A a, B b) {
         this.a = a;
         this.b = b;
     }
 }
+

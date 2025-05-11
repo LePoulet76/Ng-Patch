@@ -1,3 +1,19 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.gui.GuiTextField
+ *  net.minecraft.client.renderer.RenderHelper
+ *  net.minecraft.client.renderer.entity.RenderItem
+ *  net.minecraft.client.renderer.texture.DynamicTexture
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.network.packet.Packet
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.faction;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -7,11 +23,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import net.ilexiconn.nationsgui.forge.client.ClientEventHandler;
 import net.ilexiconn.nationsgui.forge.client.ClientProxy;
 import net.ilexiconn.nationsgui.forge.client.gui.GuiScrollBarFaction;
+import net.ilexiconn.nationsgui.forge.client.gui.faction.AbsenceRequestGUI;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
 import net.ilexiconn.nationsgui.forge.client.util.GUIUtils;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
@@ -25,14 +41,14 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.network.packet.Packet;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-public class AdminAbsenceRequestListGUI extends GuiScreen
-{
+public class AdminAbsenceRequestListGUI
+extends GuiScreen {
     public static ArrayList<HashMap<String, String>> absenceInfos = new ArrayList();
     public static boolean loaded = false;
-    public static List<String> availableStatus = Arrays.asList(new String[] {"all", "waiting_validation", "in_progress", "refused", "cancelled", "finished", "accepted"});
+    public static List<String> availableStatus = Arrays.asList("all", "waiting_validation", "in_progress", "refused", "cancelled", "finished", "accepted");
     public String hoveredRequest = "";
     public String hoveredStatus = "";
     public String selectedStatus = "";
@@ -45,393 +61,256 @@ public class AdminAbsenceRequestListGUI extends GuiScreen
     private GuiScrollBarFaction scrollBarRequests;
     private GuiTextField countrySearch;
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
+    public void func_73866_w_() {
+        super.func_73866_w_();
         loaded = false;
-        this.guiLeft = (this.width - this.xSize) / 2;
-        this.guiTop = (this.height - this.ySize) / 2;
+        this.guiLeft = (this.field_73880_f - this.xSize) / 2;
+        this.guiTop = (this.field_73881_g - this.ySize) / 2;
         absenceInfos.clear();
-        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new FactionAdminAbsenceListPacket()));
-        this.scrollBarRequests = new GuiScrollBarFaction((float)(this.guiLeft + 303), (float)(this.guiTop + 55), 172);
-        this.countrySearch = new GuiTextField(this.fontRenderer, this.guiLeft + 209, this.guiTop + 23, 97, 10);
-        this.countrySearch.setEnableBackgroundDrawing(false);
-        this.countrySearch.setMaxStringLength(25);
-        this.selectedStatus = (String)availableStatus.get(0);
+        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new FactionAdminAbsenceListPacket()));
+        this.scrollBarRequests = new GuiScrollBarFaction(this.guiLeft + 303, this.guiTop + 55, 172);
+        this.countrySearch = new GuiTextField(this.field_73886_k, this.guiLeft + 209, this.guiTop + 23, 97, 10);
+        this.countrySearch.func_73786_a(false);
+        this.countrySearch.func_73804_f(25);
+        this.selectedStatus = availableStatus.get(0);
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
-        this.countrySearch.updateCursorCounter();
+    public void func_73876_c() {
+        this.countrySearch.func_73780_a();
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int mouseX, int mouseY, float par3)
-    {
-        this.drawDefaultBackground();
+    public void func_73863_a(int mouseX, int mouseY, float par3) {
+        this.func_73873_v_();
         this.hoveredRequest = "";
         this.hoveredStatus = "";
         ClientEventHandler.STYLE.bindTexture("faction_war_requests");
-        ModernGui.drawModalRectWithCustomSizedTexture((float)this.guiLeft, (float)this.guiTop, 0, 0, this.xSize, this.ySize, 512.0F, 512.0F, false);
-
-        if (mouseX >= this.guiLeft + 305 && mouseX <= this.guiLeft + 305 + 9 && mouseY >= this.guiTop - 6 && mouseY <= this.guiTop - 6 + 10)
-        {
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 305), (float)(this.guiTop - 6), 46, 258, 9, 10, 512.0F, 512.0F, false);
+        ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize, 512.0f, 512.0f, false);
+        if (mouseX >= this.guiLeft + 305 && mouseX <= this.guiLeft + 305 + 9 && mouseY >= this.guiTop - 6 && mouseY <= this.guiTop - 6 + 10) {
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 305, this.guiTop - 6, 46, 258, 9, 10, 512.0f, 512.0f, false);
+        } else {
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 305, this.guiTop - 6, 46, 248, 9, 10, 512.0f, 512.0f, false);
         }
-        else
-        {
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 305), (float)(this.guiTop - 6), 46, 248, 9, 10, 512.0F, 512.0F, false);
-        }
-
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)(this.guiLeft + 14), (float)(this.guiTop + 210), 0.0F);
-        GL11.glRotatef(-90.0F, 0.0F, 0.0F, 1.0F);
-        GL11.glTranslatef((float)(-(this.guiLeft + 16)), (float)(-(this.guiTop + 210)), 0.0F);
-        this.drawScaledString(I18n.getString("faction.absence.requests.title"), this.guiLeft + 14, this.guiTop + 210, 16777215, 1.5F, false, false);
+        GL11.glTranslatef((float)(this.guiLeft + 14), (float)(this.guiTop + 210), (float)0.0f);
+        GL11.glRotatef((float)-90.0f, (float)0.0f, (float)0.0f, (float)1.0f);
+        GL11.glTranslatef((float)(-(this.guiLeft + 16)), (float)(-(this.guiTop + 210)), (float)0.0f);
+        this.drawScaledString(I18n.func_135053_a((String)"faction.absence.requests.title"), this.guiLeft + 14, this.guiTop + 210, 0xFFFFFF, 1.5f, false, false);
         GL11.glPopMatrix();
-        this.countrySearch.drawTextBox();
-
-        if (loaded && absenceInfos.size() > 0)
-        {
+        this.countrySearch.func_73795_f();
+        if (loaded && absenceInfos.size() > 0) {
             String tooltipToDraw = "";
             GUIUtils.startGLScissor(this.guiLeft + 47, this.guiTop + 53, 256, 176);
             int yOffset = 0;
-            Iterator i = absenceInfos.iterator();
-
-            while (i.hasNext())
-            {
-                HashMap countryInfos = (HashMap)i.next();
-                String countryName = (String)countryInfos.get("name");
-                String absenceStatus = (String)countryInfos.get("status");
-                String absenceReason = (String)countryInfos.get("reason");
-                String absenceStartTime = (String)countryInfos.get("startTime");
-                String absenceEndTime = (String)countryInfos.get("endTime");
-
-                if ((this.countrySearch.getText().isEmpty() || countryName.toLowerCase().contains(this.countrySearch.getText().toLowerCase())) && (this.selectedStatus.equals("all") || absenceStatus.startsWith(this.selectedStatus)))
-                {
-                    int offsetX = this.guiLeft + 47;
-                    Float offsetY = Float.valueOf((float)(this.guiTop + 53 + yOffset) + this.getSlideWars());
-                    ClientEventHandler.STYLE.bindTexture("faction_war_requests");
-                    ModernGui.drawModalRectWithCustomSizedTexture((float)offsetX, offsetY.floatValue(), 47, 53, 256, 48, 512.0F, 512.0F, false);
-
-                    if (mouseX >= this.guiLeft + 46 && mouseX <= this.guiLeft + 46 + 262 && mouseY >= this.guiTop + 53 && mouseY <= this.guiTop + 53 + 178 && mouseX >= offsetX && mouseX <= offsetX + 256 && (float)mouseY >= offsetY.floatValue() && (float)mouseY <= offsetY.floatValue() + 48.0F)
-                    {
-                        this.hoveredRequest = (String)countryInfos.get("playerName");
-                    }
-
-                    ClientEventHandler.STYLE.bindTexture("faction_war_requests");
-
-                    if (!ClientProxy.flagsTexture.containsKey(countryName))
-                    {
-                        if (!ClientProxy.base64FlagsByFactionName.containsKey(countryName))
-                        {
-                            ClientProxy.base64FlagsByFactionName.put(countryName, "");
-                            PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new FactionGetImagePacket(countryName)));
-                        }
-                        else if (ClientProxy.base64FlagsByFactionName.containsKey(countryName) && !((String)ClientProxy.base64FlagsByFactionName.get(countryName)).isEmpty())
-                        {
-                            BufferedImage startDate = ClientProxy.decodeToImage((String)ClientProxy.base64FlagsByFactionName.get(countryName));
-                            ClientProxy.flagsTexture.put(countryName, new DynamicTexture(startDate));
-                        }
-                    }
-
-                    if (ClientProxy.flagsTexture.containsKey(countryName))
-                    {
-                        GL11.glBindTexture(GL11.GL_TEXTURE_2D, ((DynamicTexture)ClientProxy.flagsTexture.get(countryName)).getGlTextureId());
-                        ModernGui.drawScaledCustomSizeModalRect((float)(offsetX + 7), (float)(offsetY.intValue() + 5), 0.0F, 0.0F, 156, 78, 18, 10, 156.0F, 78.0F, false);
-                    }
-
-                    this.drawScaledString(countryName + " \u00a77(" + (String)countryInfos.get("playerName") + ")", offsetX + 28, offsetY.intValue() + 7, 16777215, 1.0F, false, false);
-                    this.drawScaledString(I18n.getString("faction.absence.status." + absenceStatus), offsetX + 253 - this.fontRenderer.getStringWidth(I18n.getString("faction.absence.status." + absenceStatus)), offsetY.intValue() + 7, 16777215, 1.0F, false, false);
-                    this.drawScaledString(I18n.getString("faction.absence.reason." + absenceReason), offsetX + 7, offsetY.intValue() + 33, 16777215, 1.0F, false, false);
-                    Date var19 = new Date(Double.valueOf(absenceStartTime).longValue());
-                    Date endDate = new Date(Double.valueOf(absenceEndTime).longValue());
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    this.drawScaledString("\u00a7b" + dateFormat.format(var19), offsetX + 175 - this.fontRenderer.getStringWidth(dateFormat.format(var19)), offsetY.intValue() + 33, 16777215, 1.0F, false, false);
-                    this.drawScaledString("\u00a7b" + dateFormat.format(endDate), offsetX + 195 - this.fontRenderer.getStringWidth(dateFormat.format(endDate)) + this.fontRenderer.getStringWidth(dateFormat.format(var19)), offsetY.intValue() + 33, 16777215, 1.0F, false, false);
-                    yOffset += 48;
+            for (HashMap<String, String> countryInfos : absenceInfos) {
+                String countryName = countryInfos.get("name");
+                String absenceStatus = countryInfos.get("status");
+                String absenceReason = countryInfos.get("reason");
+                String absenceStartTime = countryInfos.get("startTime");
+                String absenceEndTime = countryInfos.get("endTime");
+                if (!this.countrySearch.func_73781_b().isEmpty() && !countryName.toLowerCase().contains(this.countrySearch.func_73781_b().toLowerCase()) || !this.selectedStatus.equals("all") && !absenceStatus.startsWith(this.selectedStatus)) continue;
+                int offsetX = this.guiLeft + 47;
+                Float offsetY = Float.valueOf((float)(this.guiTop + 53 + yOffset) + this.getSlideWars());
+                ClientEventHandler.STYLE.bindTexture("faction_war_requests");
+                ModernGui.drawModalRectWithCustomSizedTexture(offsetX, offsetY.floatValue(), 47, 53, 256, 48, 512.0f, 512.0f, false);
+                if (mouseX >= this.guiLeft + 46 && mouseX <= this.guiLeft + 46 + 262 && mouseY >= this.guiTop + 53 && mouseY <= this.guiTop + 53 + 178 && mouseX >= offsetX && mouseX <= offsetX + 256 && (float)mouseY >= offsetY.floatValue() && (float)mouseY <= offsetY.floatValue() + 48.0f) {
+                    this.hoveredRequest = countryInfos.get("playerName");
                 }
+                ClientEventHandler.STYLE.bindTexture("faction_war_requests");
+                if (!ClientProxy.flagsTexture.containsKey(countryName)) {
+                    if (!ClientProxy.base64FlagsByFactionName.containsKey(countryName)) {
+                        ClientProxy.base64FlagsByFactionName.put(countryName, "");
+                        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new FactionGetImagePacket(countryName)));
+                    } else if (ClientProxy.base64FlagsByFactionName.containsKey(countryName) && !ClientProxy.base64FlagsByFactionName.get(countryName).isEmpty()) {
+                        BufferedImage image = ClientProxy.decodeToImage(ClientProxy.base64FlagsByFactionName.get(countryName));
+                        ClientProxy.flagsTexture.put(countryName, new DynamicTexture(image));
+                    }
+                }
+                if (ClientProxy.flagsTexture.containsKey(countryName)) {
+                    GL11.glBindTexture((int)3553, (int)ClientProxy.flagsTexture.get(countryName).func_110552_b());
+                    ModernGui.drawScaledCustomSizeModalRect(offsetX + 7, offsetY.intValue() + 5, 0.0f, 0.0f, 156, 78, 18, 10, 156.0f, 78.0f, false);
+                }
+                this.drawScaledString(countryName + " \u00a77(" + countryInfos.get("playerName") + ")", offsetX + 28, offsetY.intValue() + 7, 0xFFFFFF, 1.0f, false, false);
+                this.drawScaledString(I18n.func_135053_a((String)("faction.absence.status." + absenceStatus)), offsetX + 253 - this.field_73886_k.func_78256_a(I18n.func_135053_a((String)("faction.absence.status." + absenceStatus))), offsetY.intValue() + 7, 0xFFFFFF, 1.0f, false, false);
+                this.drawScaledString(I18n.func_135053_a((String)("faction.absence.reason." + absenceReason)), offsetX + 7, offsetY.intValue() + 33, 0xFFFFFF, 1.0f, false, false);
+                Date startDate = new Date(Double.valueOf(absenceStartTime).longValue());
+                Date endDate = new Date(Double.valueOf(absenceEndTime).longValue());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                this.drawScaledString("\u00a7b" + dateFormat.format(startDate), offsetX + 175 - this.field_73886_k.func_78256_a(dateFormat.format(startDate)), offsetY.intValue() + 33, 0xFFFFFF, 1.0f, false, false);
+                this.drawScaledString("\u00a7b" + dateFormat.format(endDate), offsetX + 195 - this.field_73886_k.func_78256_a(dateFormat.format(endDate)) + this.field_73886_k.func_78256_a(dateFormat.format(startDate)), offsetY.intValue() + 33, 0xFFFFFF, 1.0f, false, false);
+                yOffset += 48;
             }
-
             GUIUtils.endGLScissor();
-
-            if (!this.expandStatus)
-            {
+            if (!this.expandStatus) {
                 this.scrollBarRequests.draw(mouseX, mouseY);
             }
-
-            this.drawScaledString(I18n.getString("faction.absence.status." + this.selectedStatus), this.guiLeft + 50, this.guiTop + 23, 16777215, 1.0F, false, false);
-
-            if (this.expandStatus)
-            {
+            this.drawScaledString(I18n.func_135053_a((String)("faction.absence.status." + this.selectedStatus)), this.guiLeft + 50, this.guiTop + 23, 0xFFFFFF, 1.0f, false, false);
+            if (this.expandStatus) {
                 ClientEventHandler.STYLE.bindTexture("faction_war_requests");
-
-                for (int var18 = 0; var18 < availableStatus.size(); ++var18)
-                {
+                for (int i = 0; i < availableStatus.size(); ++i) {
                     ClientEventHandler.STYLE.bindTexture("faction_war_requests");
-                    ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 46), (float)(this.guiTop + 36 + 19 * var18), 0, 311, 120, 20, 512.0F, 512.0F, false);
-                    this.drawScaledString(I18n.getString("faction.absence.status." + (String)availableStatus.get(var18)), this.guiLeft + 50, this.guiTop + 36 + 19 * var18 + 6, 16777215, 1.0F, false, false);
-
-                    if (mouseX > this.guiLeft + 46 && mouseX < this.guiLeft + 46 + 120 && mouseY > this.guiTop + 36 + 19 * var18 && mouseY < this.guiTop + 36 + 19 * var18 + 20)
-                    {
-                        this.hoveredStatus = (String)availableStatus.get(var18);
-                    }
+                    ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 46, this.guiTop + 36 + 19 * i, 0, 311, 120, 20, 512.0f, 512.0f, false);
+                    this.drawScaledString(I18n.func_135053_a((String)("faction.absence.status." + availableStatus.get(i))), this.guiLeft + 50, this.guiTop + 36 + 19 * i + 6, 0xFFFFFF, 1.0f, false, false);
+                    if (mouseX <= this.guiLeft + 46 || mouseX >= this.guiLeft + 46 + 120 || mouseY <= this.guiTop + 36 + 19 * i || mouseY >= this.guiTop + 36 + 19 * i + 20) continue;
+                    this.hoveredStatus = availableStatus.get(i);
                 }
             }
         }
     }
 
-    private float getSlideWars()
-    {
+    private float getSlideWars() {
         int countWars = 0;
-        Iterator var2 = absenceInfos.iterator();
-
-        while (var2.hasNext())
-        {
-            HashMap countryInfos = (HashMap)var2.next();
-            String countryName = (String)countryInfos.get("name");
-            String absenceStatus = (String)countryInfos.get("status");
-
-            if ((this.countrySearch.getText().isEmpty() || countryName.toLowerCase().contains(this.countrySearch.getText().toLowerCase())) && (this.selectedStatus.equals("all") || absenceStatus.startsWith(this.selectedStatus)))
-            {
-                ++countWars;
-            }
+        for (HashMap<String, String> countryInfos : absenceInfos) {
+            String countryName = countryInfos.get("name");
+            String absenceStatus = countryInfos.get("status");
+            if (!this.countrySearch.func_73781_b().isEmpty() && !countryName.toLowerCase().contains(this.countrySearch.func_73781_b().toLowerCase()) || !this.selectedStatus.equals("all") && !absenceStatus.startsWith(this.selectedStatus)) continue;
+            ++countWars;
         }
-
-        return countWars > 3 ? (float)(-(countWars - 3) * 48) * this.scrollBarRequests.getSliderValue() : 0.0F;
+        return countWars > 3 ? (float)(-(countWars - 3) * 48) * this.scrollBarRequests.getSliderValue() : 0.0f;
     }
 
-    public void drawTooltip(String text, int mouseX, int mouseY)
-    {
-        int var10000 = mouseX - this.guiLeft;
-        var10000 = mouseY - this.guiTop;
-        this.drawHoveringText(Arrays.asList(new String[] {text}), mouseX, mouseY, this.fontRenderer);
+    public void drawTooltip(String text, int mouseX, int mouseY) {
+        int mouseXGui = mouseX - this.guiLeft;
+        int mouseYGui = mouseY - this.guiTop;
+        this.drawHoveringText(Arrays.asList(text), mouseX, mouseY, this.field_73886_k);
     }
 
-    private HashMap<String, String> getCountryInfoFromName(String name)
-    {
-        Iterator var2 = absenceInfos.iterator();
-        HashMap countryInfos;
-        String playerName;
-
-        do
-        {
-            if (!var2.hasNext())
-            {
-                return null;
-            }
-
-            countryInfos = (HashMap)var2.next();
-            playerName = (String)countryInfos.get("playerName");
+    private HashMap<String, String> getCountryInfoFromName(String name) {
+        for (HashMap<String, String> countryInfos : absenceInfos) {
+            String playerName = countryInfos.get("playerName");
+            if (!name.equalsIgnoreCase(playerName)) continue;
+            return countryInfos;
         }
-        while (!name.equalsIgnoreCase(playerName));
-
-        return countryInfos;
+        return null;
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-    {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
-
-        if (mouseButton == 0)
-        {
-            if (mouseX > this.guiLeft + 305 && mouseX < this.guiLeft + 305 + 9 && mouseY > this.guiTop - 6 && mouseY < this.guiTop - 6 + 10)
-            {
-                this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-                this.mc.displayGuiScreen((GuiScreen)null);
+    protected void func_73864_a(int mouseX, int mouseY, int mouseButton) {
+        super.func_73864_a(mouseX, mouseY, mouseButton);
+        if (mouseButton == 0) {
+            if (mouseX > this.guiLeft + 305 && mouseX < this.guiLeft + 305 + 9 && mouseY > this.guiTop - 6 && mouseY < this.guiTop - 6 + 10) {
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                this.field_73882_e.func_71373_a(null);
             }
-
-            if (!this.expandStatus && this.hoveredRequest != "")
-            {
-                this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-                Minecraft.getMinecraft().displayGuiScreen(new AbsenceRequestGUI(this.hoveredRequest, this.getCountryInfoFromName(this.hoveredRequest), this));
+            if (!this.expandStatus && this.hoveredRequest != "") {
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new AbsenceRequestGUI(this.hoveredRequest, this.getCountryInfoFromName(this.hoveredRequest), this));
             }
-
-            if (mouseX >= this.guiLeft + 46 && mouseX <= this.guiLeft + 46 + 120 && mouseY >= this.guiTop + 17 && mouseY <= this.guiTop + 17 + 20)
-            {
-                this.expandStatus = !this.expandStatus;
+            if (mouseX >= this.guiLeft + 46 && mouseX <= this.guiLeft + 46 + 120 && mouseY >= this.guiTop + 17 && mouseY <= this.guiTop + 17 + 20) {
+                boolean bl = this.expandStatus = !this.expandStatus;
             }
-
-            if (this.hoveredStatus != null && !this.hoveredStatus.isEmpty())
-            {
+            if (this.hoveredStatus != null && !this.hoveredStatus.isEmpty()) {
                 this.selectedStatus = this.hoveredStatus;
                 this.hoveredStatus = "";
                 this.expandStatus = false;
                 this.scrollBarRequests.reset();
             }
         }
-
-        this.countrySearch.mouseClicked(mouseX, mouseY, mouseButton);
+        this.countrySearch.func_73793_a(mouseX, mouseY, mouseButton);
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char typedChar, int keyCode)
-    {
-        if (this.countrySearch.textboxKeyTyped(typedChar, keyCode))
-        {
+    protected void func_73869_a(char typedChar, int keyCode) {
+        if (this.countrySearch.func_73802_a(typedChar, keyCode)) {
             this.scrollBarRequests.reset();
         }
-
-        super.keyTyped(typedChar, keyCode);
+        super.func_73869_a(typedChar, keyCode);
     }
 
-    private String formatDiff(long diff)
-    {
+    private String formatDiff(long diff) {
         String date = "";
         long days = diff / 86400000L;
         long hours = 0L;
         long minutes = 0L;
         long seconds = 0L;
-
-        if (days == 0L)
-        {
+        if (days == 0L) {
             hours = diff / 3600000L;
-
-            if (hours == 0L)
-            {
+            if (hours == 0L) {
                 minutes = diff / 60000L;
-
-                if (minutes == 0L)
-                {
+                if (minutes == 0L) {
                     seconds = diff / 1000L;
-                    date = date + " " + seconds + " " + I18n.getString("faction.common.seconds") + " " + I18n.getString("faction.bank.date_2");
+                    date = date + " " + seconds + " " + I18n.func_135053_a((String)"faction.common.seconds") + " " + I18n.func_135053_a((String)"faction.bank.date_2");
+                } else {
+                    date = date + " " + minutes + " " + I18n.func_135053_a((String)"faction.common.minutes") + " " + I18n.func_135053_a((String)"faction.bank.date_2");
                 }
-                else
-                {
-                    date = date + " " + minutes + " " + I18n.getString("faction.common.minutes") + " " + I18n.getString("faction.bank.date_2");
-                }
+            } else {
+                date = date + " " + hours + " " + I18n.func_135053_a((String)"faction.common.hours") + " " + I18n.func_135053_a((String)"faction.bank.date_2");
             }
-            else
-            {
-                date = date + " " + hours + " " + I18n.getString("faction.common.hours") + " " + I18n.getString("faction.bank.date_2");
-            }
+        } else {
+            date = date + " " + days + " " + I18n.func_135053_a((String)"faction.common.days") + " " + I18n.func_135053_a((String)"faction.bank.date_2");
         }
-        else
-        {
-            date = date + " " + days + " " + I18n.getString("faction.common.days") + " " + I18n.getString("faction.bank.date_2");
-        }
-
         return date;
     }
 
-    public void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow)
-    {
+    public void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow) {
         GL11.glPushMatrix();
-        GL11.glScalef(scale, scale, scale);
-        float newX = (float)x;
-
-        if (centered)
-        {
-            newX = (float)x - (float)this.fontRenderer.getStringWidth(text) * scale / 2.0F;
+        GL11.glScalef((float)scale, (float)scale, (float)scale);
+        float newX = x;
+        if (centered) {
+            newX = (float)x - (float)this.field_73886_k.func_78256_a(text) * scale / 2.0f;
         }
-
-        if (shadow)
-        {
-            this.fontRenderer.drawString(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 16579836) >> 2 | color & -16777216, false);
+        if (shadow) {
+            this.field_73886_k.func_85187_a(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 0xFCFCFC) >> 2 | color & 0xFF000000, false);
         }
-
-        this.fontRenderer.drawString(text, (int)(newX / scale), (int)((float)y / scale), color, false);
+        this.field_73886_k.func_85187_a(text, (int)(newX / scale), (int)((float)y / scale), color, false);
         GL11.glPopMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
     }
 
-    /**
-     * Returns true if this GUI should pause the game when it is displayed in single-player
-     */
-    public boolean doesGuiPauseGame()
-    {
+    public boolean func_73868_f() {
         return false;
     }
 
-    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font)
-    {
-        if (!par1List.isEmpty())
-        {
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
+    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font) {
+        if (!par1List.isEmpty()) {
+            GL11.glDisable((int)32826);
+            RenderHelper.func_74518_a();
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
             int k = 0;
-            Iterator iterator = par1List.iterator();
-            int j1;
-
-            while (iterator.hasNext())
-            {
-                String i1 = (String)iterator.next();
-                j1 = font.getStringWidth(i1);
-
-                if (j1 > k)
-                {
-                    k = j1;
-                }
+            for (String s : par1List) {
+                int l = font.func_78256_a(s);
+                if (l <= k) continue;
+                k = l;
             }
-
-            int var15 = par2 + 12;
-            j1 = par3 - 12;
+            int i1 = par2 + 12;
+            int j1 = par3 - 12;
             int k1 = 8;
-
-            if (par1List.size() > 1)
-            {
+            if (par1List.size() > 1) {
                 k1 += 2 + (par1List.size() - 1) * 10;
             }
-
-            if (var15 + k > this.width)
-            {
-                var15 -= 28 + k;
+            if (i1 + k > this.field_73880_f) {
+                i1 -= 28 + k;
             }
-
-            if (j1 + k1 + 6 > this.height)
-            {
-                j1 = this.height - k1 - 6;
+            if (j1 + k1 + 6 > this.field_73881_g) {
+                j1 = this.field_73881_g - k1 - 6;
             }
-
-            this.zLevel = 300.0F;
-            this.itemRenderer.zLevel = 300.0F;
+            this.field_73735_i = 300.0f;
+            this.itemRenderer.field_77023_b = 300.0f;
             int l1 = -267386864;
-            this.drawGradientRect(var15 - 3, j1 - 4, var15 + k + 3, j1 - 3, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 3, var15 + k + 3, j1 + k1 + 4, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 - 4, j1 - 3, var15 - 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 + k + 3, j1 - 3, var15 + k + 4, j1 + k1 + 3, l1, l1);
-            int i2 = 1347420415;
-            int j2 = (i2 & 16711422) >> 1 | i2 & -16777216;
-            this.drawGradientRect(var15 - 3, j1 - 3 + 1, var15 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 + k + 2, j1 - 3 + 1, var15 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 - 3 + 1, i2, i2);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 2, var15 + k + 3, j1 + k1 + 3, j2, j2);
-
-            for (int k2 = 0; k2 < par1List.size(); ++k2)
-            {
+            this.func_73733_a(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
+            this.func_73733_a(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
+            int i2 = 0x505000FF;
+            int j2 = (i2 & 0xFEFEFE) >> 1 | i2 & 0xFF000000;
+            this.func_73733_a(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+            this.func_73733_a(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+            for (int k2 = 0; k2 < par1List.size(); ++k2) {
                 String s1 = (String)par1List.get(k2);
-                font.drawStringWithShadow(s1, var15, j1, -1);
-
-                if (k2 == 0)
-                {
+                font.func_78261_a(s1, i1, j1, -1);
+                if (k2 == 0) {
                     j1 += 2;
                 }
-
                 j1 += 10;
             }
-
-            this.zLevel = 0.0F;
-            this.itemRenderer.zLevel = 0.0F;
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.field_73735_i = 0.0f;
+            this.itemRenderer.field_77023_b = 0.0f;
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
+            GL11.glEnable((int)32826);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         }
     }
 }
+

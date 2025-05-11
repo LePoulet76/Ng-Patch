@@ -1,19 +1,25 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
 
-public class EnterprisePetrolPricePacket implements IPacket
-{
+public class EnterprisePetrolPricePacket
+implements IPacket {
     public String enterpriseName;
     public Integer amount;
     public boolean allowAll;
     public boolean allowCountry;
     public boolean allowAlly;
 
-    public EnterprisePetrolPricePacket(String enterpriseName, Integer amount, boolean allowAll, boolean allowCountry, boolean allowAlly)
-    {
+    public EnterprisePetrolPricePacket(String enterpriseName, Integer amount, boolean allowAll, boolean allowCountry, boolean allowAlly) {
         this.enterpriseName = enterpriseName;
         this.amount = amount;
         this.allowAll = allowAll;
@@ -21,13 +27,13 @@ public class EnterprisePetrolPricePacket implements IPacket
         this.allowAlly = allowAlly;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.enterpriseName = data.readUTF();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeUTF(this.enterpriseName);
         data.writeInt(this.amount.intValue());
         data.writeBoolean(this.allowAll);
@@ -35,3 +41,4 @@ public class EnterprisePetrolPricePacket implements IPacket
         data.writeBoolean(this.allowAlly);
     }
 }
+

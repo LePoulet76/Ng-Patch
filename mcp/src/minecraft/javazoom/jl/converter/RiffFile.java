@@ -1,11 +1,12 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package javazoom.jl.converter;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import javazoom.jl.converter.RiffFile$RiffChunkHeader;
 
-public class RiffFile
-{
+public class RiffFile {
     public static final int DDC_SUCCESS = 0;
     public static final int DDC_FAILURE = 1;
     public static final int DDC_OUT_OF_MEMORY = 2;
@@ -16,453 +17,342 @@ public class RiffFile
     public static final int RFM_UNKNOWN = 0;
     public static final int RFM_WRITE = 1;
     public static final int RFM_READ = 2;
-    private RiffFile$RiffChunkHeader riff_header = new RiffFile$RiffChunkHeader(this);
+    private RiffChunkHeader riff_header = new RiffChunkHeader();
     protected int fmode = 0;
     protected RandomAccessFile file = null;
 
-    public RiffFile()
-    {
-        this.riff_header.ckID = FourCC("RIFF");
+    public RiffFile() {
+        this.riff_header.ckID = RiffFile.FourCC("RIFF");
         this.riff_header.ckSize = 0;
     }
 
-    public int CurrentFileMode()
-    {
+    public int CurrentFileMode() {
         return this.fmode;
     }
 
-    public int Open(String Filename, int NewMode)
-    {
+    public int Open(String Filename, int NewMode) {
         int retcode = 0;
-
-        if (this.fmode != 0)
-        {
+        if (this.fmode != 0) {
             retcode = this.Close();
         }
-
-        if (retcode == 0)
-        {
-            byte[] ioe;
-
-            switch (NewMode)
-            {
-                case 1:
-                    try
-                    {
+        if (retcode == 0) {
+            switch (NewMode) {
+                case 1: {
+                    try {
                         this.file = new RandomAccessFile(Filename, "rw");
-
-                        try
-                        {
-                            ioe = new byte[8];
-                            ioe[0] = (byte)(this.riff_header.ckID >>> 24 & 255);
-                            ioe[1] = (byte)(this.riff_header.ckID >>> 16 & 255);
-                            ioe[2] = (byte)(this.riff_header.ckID >>> 8 & 255);
-                            ioe[3] = (byte)(this.riff_header.ckID & 255);
-                            byte br4 = (byte)(this.riff_header.ckSize >>> 24 & 255);
-                            byte br5 = (byte)(this.riff_header.ckSize >>> 16 & 255);
-                            byte br6 = (byte)(this.riff_header.ckSize >>> 8 & 255);
-                            byte br7 = (byte)(this.riff_header.ckSize & 255);
-                            ioe[4] = br7;
-                            ioe[5] = br6;
-                            ioe[6] = br5;
-                            ioe[7] = br4;
-                            this.file.write(ioe, 0, 8);
+                        try {
+                            byte br7;
+                            byte[] br = new byte[8];
+                            br[0] = (byte)(this.riff_header.ckID >>> 24 & 0xFF);
+                            br[1] = (byte)(this.riff_header.ckID >>> 16 & 0xFF);
+                            br[2] = (byte)(this.riff_header.ckID >>> 8 & 0xFF);
+                            br[3] = (byte)(this.riff_header.ckID & 0xFF);
+                            byte br4 = (byte)(this.riff_header.ckSize >>> 24 & 0xFF);
+                            byte br5 = (byte)(this.riff_header.ckSize >>> 16 & 0xFF);
+                            byte br6 = (byte)(this.riff_header.ckSize >>> 8 & 0xFF);
+                            br[4] = br7 = (byte)(this.riff_header.ckSize & 0xFF);
+                            br[5] = br6;
+                            br[6] = br5;
+                            br[7] = br4;
+                            this.file.write(br, 0, 8);
                             this.fmode = 1;
                         }
-                        catch (IOException var11)
-                        {
+                        catch (IOException ioe) {
                             this.file.close();
                             this.fmode = 0;
                         }
                     }
-                    catch (IOException var12)
-                    {
+                    catch (IOException ioe) {
                         this.fmode = 0;
                         retcode = 3;
                     }
-
                     break;
-
-                case 2:
-                    try
-                    {
+                }
+                case 2: {
+                    try {
                         this.file = new RandomAccessFile(Filename, "r");
-
-                        try
-                        {
-                            ioe = new byte[8];
-                            this.file.read(ioe, 0, 8);
+                        try {
+                            byte[] br = new byte[8];
+                            this.file.read(br, 0, 8);
                             this.fmode = 2;
-                            this.riff_header.ckID = ioe[0] << 24 & -16777216 | ioe[1] << 16 & 16711680 | ioe[2] << 8 & 65280 | ioe[3] & 255;
-                            this.riff_header.ckSize = ioe[4] << 24 & -16777216 | ioe[5] << 16 & 16711680 | ioe[6] << 8 & 65280 | ioe[7] & 255;
+                            this.riff_header.ckID = br[0] << 24 & 0xFF000000 | br[1] << 16 & 0xFF0000 | br[2] << 8 & 0xFF00 | br[3] & 0xFF;
+                            this.riff_header.ckSize = br[4] << 24 & 0xFF000000 | br[5] << 16 & 0xFF0000 | br[6] << 8 & 0xFF00 | br[7] & 0xFF;
                         }
-                        catch (IOException var9)
-                        {
+                        catch (IOException ioe) {
                             this.file.close();
                             this.fmode = 0;
                         }
                     }
-                    catch (IOException var10)
-                    {
+                    catch (IOException ioe) {
                         this.fmode = 0;
                         retcode = 3;
                     }
-
                     break;
-
-                default:
+                }
+                default: {
                     retcode = 4;
+                }
             }
         }
-
         return retcode;
     }
 
-    public int Write(byte[] Data, int NumBytes)
-    {
-        if (this.fmode != 1)
-        {
+    public int Write(byte[] Data2, int NumBytes) {
+        if (this.fmode != 1) {
             return 4;
         }
-        else
-        {
-            try
-            {
-                this.file.write(Data, 0, NumBytes);
-                this.fmode = 1;
-            }
-            catch (IOException var4)
-            {
-                return 3;
-            }
-
-            this.riff_header.ckSize += NumBytes;
-            return 0;
+        try {
+            this.file.write(Data2, 0, NumBytes);
+            this.fmode = 1;
         }
+        catch (IOException ioe) {
+            return 3;
+        }
+        this.riff_header.ckSize += NumBytes;
+        return 0;
     }
 
-    public int Write(short[] Data, int NumBytes)
-    {
+    public int Write(short[] Data2, int NumBytes) {
         byte[] theData = new byte[NumBytes];
         int yc = 0;
-
-        for (int ioe = 0; ioe < NumBytes; ioe += 2)
-        {
-            theData[ioe] = (byte)(Data[yc] & 255);
-            theData[ioe + 1] = (byte)(Data[yc++] >>> 8 & 255);
+        for (int y = 0; y < NumBytes; y += 2) {
+            theData[y] = (byte)(Data2[yc] & 0xFF);
+            theData[y + 1] = (byte)(Data2[yc++] >>> 8 & 0xFF);
         }
-
-        if (this.fmode != 1)
-        {
+        if (this.fmode != 1) {
             return 4;
         }
-        else
-        {
-            try
-            {
-                this.file.write(theData, 0, NumBytes);
-                this.fmode = 1;
-            }
-            catch (IOException var6)
-            {
-                return 3;
-            }
-
-            this.riff_header.ckSize += NumBytes;
-            return 0;
+        try {
+            this.file.write(theData, 0, NumBytes);
+            this.fmode = 1;
         }
+        catch (IOException ioe) {
+            return 3;
+        }
+        this.riff_header.ckSize += NumBytes;
+        return 0;
     }
 
-    public int Write(RiffFile$RiffChunkHeader Triff_header, int NumBytes)
-    {
+    public int Write(RiffChunkHeader Triff_header, int NumBytes) {
+        byte br7;
         byte[] br = new byte[8];
-        br[0] = (byte)(Triff_header.ckID >>> 24 & 255);
-        br[1] = (byte)(Triff_header.ckID >>> 16 & 255);
-        br[2] = (byte)(Triff_header.ckID >>> 8 & 255);
-        br[3] = (byte)(Triff_header.ckID & 255);
-        byte br4 = (byte)(Triff_header.ckSize >>> 24 & 255);
-        byte br5 = (byte)(Triff_header.ckSize >>> 16 & 255);
-        byte br6 = (byte)(Triff_header.ckSize >>> 8 & 255);
-        byte br7 = (byte)(Triff_header.ckSize & 255);
-        br[4] = br7;
+        br[0] = (byte)(Triff_header.ckID >>> 24 & 0xFF);
+        br[1] = (byte)(Triff_header.ckID >>> 16 & 0xFF);
+        br[2] = (byte)(Triff_header.ckID >>> 8 & 0xFF);
+        br[3] = (byte)(Triff_header.ckID & 0xFF);
+        byte br4 = (byte)(Triff_header.ckSize >>> 24 & 0xFF);
+        byte br5 = (byte)(Triff_header.ckSize >>> 16 & 0xFF);
+        byte br6 = (byte)(Triff_header.ckSize >>> 8 & 0xFF);
+        br[4] = br7 = (byte)(Triff_header.ckSize & 0xFF);
         br[5] = br6;
         br[6] = br5;
         br[7] = br4;
-
-        if (this.fmode != 1)
-        {
+        if (this.fmode != 1) {
             return 4;
         }
-        else
-        {
-            try
-            {
-                this.file.write(br, 0, NumBytes);
-                this.fmode = 1;
-            }
-            catch (IOException var9)
-            {
-                return 3;
-            }
-
-            this.riff_header.ckSize += NumBytes;
-            return 0;
+        try {
+            this.file.write(br, 0, NumBytes);
+            this.fmode = 1;
         }
+        catch (IOException ioe) {
+            return 3;
+        }
+        this.riff_header.ckSize += NumBytes;
+        return 0;
     }
 
-    public int Write(short Data, int NumBytes)
-    {
-        short theData = (short)(Data >>> 8 & 255 | Data << 8 & 65280);
-
-        if (this.fmode != 1)
-        {
+    public int Write(short Data2, int NumBytes) {
+        short theData = (short)(Data2 >>> 8 & 0xFF | Data2 << 8 & 0xFF00);
+        if (this.fmode != 1) {
             return 4;
         }
-        else
-        {
-            try
-            {
-                this.file.writeShort(theData);
-                this.fmode = 1;
-            }
-            catch (IOException var5)
-            {
-                return 3;
-            }
-
-            this.riff_header.ckSize += NumBytes;
-            return 0;
+        try {
+            this.file.writeShort(theData);
+            this.fmode = 1;
         }
+        catch (IOException ioe) {
+            return 3;
+        }
+        this.riff_header.ckSize += NumBytes;
+        return 0;
     }
 
-    public int Write(int Data, int NumBytes)
-    {
-        short theDataL = (short)(Data >>> 16 & 65535);
-        short theDataR = (short)(Data & 65535);
-        short theDataLI = (short)(theDataL >>> 8 & 255 | theDataL << 8 & 65280);
-        short theDataRI = (short)(theDataR >>> 8 & 255 | theDataR << 8 & 65280);
-        int theData = theDataRI << 16 & -65536 | theDataLI & 65535;
-
-        if (this.fmode != 1)
-        {
+    public int Write(int Data2, int NumBytes) {
+        short theDataL = (short)(Data2 >>> 16 & 0xFFFF);
+        short theDataR = (short)(Data2 & 0xFFFF);
+        short theDataLI = (short)(theDataL >>> 8 & 0xFF | theDataL << 8 & 0xFF00);
+        short theDataRI = (short)(theDataR >>> 8 & 0xFF | theDataR << 8 & 0xFF00);
+        int theData = theDataRI << 16 & 0xFFFF0000 | theDataLI & 0xFFFF;
+        if (this.fmode != 1) {
             return 4;
         }
-        else
-        {
-            try
-            {
-                this.file.writeInt(theData);
-                this.fmode = 1;
-            }
-            catch (IOException var9)
-            {
-                return 3;
-            }
-
-            this.riff_header.ckSize += NumBytes;
-            return 0;
+        try {
+            this.file.writeInt(theData);
+            this.fmode = 1;
         }
+        catch (IOException ioe) {
+            return 3;
+        }
+        this.riff_header.ckSize += NumBytes;
+        return 0;
     }
 
-    public int Read(byte[] Data, int NumBytes)
-    {
-        byte retcode = 0;
-
-        try
-        {
-            this.file.read(Data, 0, NumBytes);
+    public int Read(byte[] Data2, int NumBytes) {
+        int retcode = 0;
+        try {
+            this.file.read(Data2, 0, NumBytes);
         }
-        catch (IOException var5)
-        {
+        catch (IOException ioe) {
             retcode = 3;
         }
-
         return retcode;
     }
 
-    public int Expect(String Data, int NumBytes)
-    {
-        boolean target = false;
+    public int Expect(String Data2, int NumBytes) {
+        byte target = 0;
         int cnt = 0;
-
-        try
-        {
-            byte var7;
-
-            do
-            {
-                if (NumBytes-- == 0)
-                {
-                    return 0;
-                }
-
-                var7 = this.file.readByte();
+        try {
+            while (NumBytes-- != 0) {
+                target = this.file.readByte();
+                if (target == Data2.charAt(cnt++)) continue;
+                return 3;
             }
-            while (var7 == Data.charAt(cnt++));
-
+        }
+        catch (IOException ioe) {
             return 3;
         }
-        catch (IOException var6)
-        {
-            return 3;
-        }
+        return 0;
     }
 
-    public int Close()
-    {
-        byte retcode = 0;
-
-        switch (this.fmode)
-        {
-            case 1:
-                try
-                {
+    public int Close() {
+        int retcode = 0;
+        switch (this.fmode) {
+            case 1: {
+                try {
                     this.file.seek(0L);
-
-                    try
-                    {
-                        byte[] ioe = new byte[] {(byte)(this.riff_header.ckID >>> 24 & 255), (byte)(this.riff_header.ckID >>> 16 & 255), (byte)(this.riff_header.ckID >>> 8 & 255), (byte)(this.riff_header.ckID & 255), (byte)(this.riff_header.ckSize & 255), (byte)(this.riff_header.ckSize >>> 8 & 255), (byte)(this.riff_header.ckSize >>> 16 & 255), (byte)(this.riff_header.ckSize >>> 24 & 255)};
-                        this.file.write(ioe, 0, 8);
+                    try {
+                        byte[] br = new byte[8];
+                        br[0] = (byte)(this.riff_header.ckID >>> 24 & 0xFF);
+                        br[1] = (byte)(this.riff_header.ckID >>> 16 & 0xFF);
+                        br[2] = (byte)(this.riff_header.ckID >>> 8 & 0xFF);
+                        br[3] = (byte)(this.riff_header.ckID & 0xFF);
+                        br[7] = (byte)(this.riff_header.ckSize >>> 24 & 0xFF);
+                        br[6] = (byte)(this.riff_header.ckSize >>> 16 & 0xFF);
+                        br[5] = (byte)(this.riff_header.ckSize >>> 8 & 0xFF);
+                        br[4] = (byte)(this.riff_header.ckSize & 0xFF);
+                        this.file.write(br, 0, 8);
                         this.file.close();
                     }
-                    catch (IOException var4)
-                    {
+                    catch (IOException ioe) {
                         retcode = 3;
                     }
                 }
-                catch (IOException var5)
-                {
+                catch (IOException ioe) {
                     retcode = 3;
                 }
-
                 break;
-
-            case 2:
-                try
-                {
+            }
+            case 2: {
+                try {
                     this.file.close();
+                    break;
                 }
-                catch (IOException var3)
-                {
+                catch (IOException ioe) {
                     retcode = 3;
                 }
+            }
         }
-
         this.file = null;
         this.fmode = 0;
         return retcode;
     }
 
-    public long CurrentFilePosition()
-    {
+    public long CurrentFilePosition() {
         long position;
-
-        try
-        {
+        try {
             position = this.file.getFilePointer();
         }
-        catch (IOException var4)
-        {
+        catch (IOException ioe) {
             position = -1L;
         }
-
         return position;
     }
 
-    public int Backpatch(long FileOffset, RiffFile$RiffChunkHeader Data, int NumBytes)
-    {
-        if (this.file == null)
-        {
+    public int Backpatch(long FileOffset, RiffChunkHeader Data2, int NumBytes) {
+        if (this.file == null) {
             return 4;
         }
-        else
-        {
-            try
-            {
-                this.file.seek(FileOffset);
-            }
-            catch (IOException var6)
-            {
-                return 3;
-            }
-
-            return this.Write(Data, NumBytes);
+        try {
+            this.file.seek(FileOffset);
         }
+        catch (IOException ioe) {
+            return 3;
+        }
+        return this.Write(Data2, NumBytes);
     }
 
-    public int Backpatch(long FileOffset, byte[] Data, int NumBytes)
-    {
-        if (this.file == null)
-        {
+    public int Backpatch(long FileOffset, byte[] Data2, int NumBytes) {
+        if (this.file == null) {
             return 4;
         }
-        else
-        {
-            try
-            {
-                this.file.seek(FileOffset);
-            }
-            catch (IOException var6)
-            {
-                return 3;
-            }
-
-            return this.Write(Data, NumBytes);
+        try {
+            this.file.seek(FileOffset);
         }
+        catch (IOException ioe) {
+            return 3;
+        }
+        return this.Write(Data2, NumBytes);
     }
 
-    protected int Seek(long offset)
-    {
-        byte rc;
-
-        try
-        {
+    protected int Seek(long offset) {
+        int rc;
+        try {
             this.file.seek(offset);
             rc = 0;
         }
-        catch (IOException var5)
-        {
+        catch (IOException ioe) {
             rc = 3;
         }
-
         return rc;
     }
 
-    private String DDCRET_String(int retcode)
-    {
-        switch (retcode)
-        {
-            case 0:
+    private String DDCRET_String(int retcode) {
+        switch (retcode) {
+            case 0: {
                 return "DDC_SUCCESS";
-
-            case 1:
+            }
+            case 1: {
                 return "DDC_FAILURE";
-
-            case 2:
+            }
+            case 2: {
                 return "DDC_OUT_OF_MEMORY";
-
-            case 3:
+            }
+            case 3: {
                 return "DDC_FILE_ERROR";
-
-            case 4:
+            }
+            case 4: {
                 return "DDC_INVALID_CALL";
-
-            case 5:
+            }
+            case 5: {
                 return "DDC_USER_ABORT";
-
-            case 6:
+            }
+            case 6: {
                 return "DDC_INVALID_FILE";
-
-            default:
-                return "Unknown Error";
+            }
         }
+        return "Unknown Error";
     }
 
-    public static int FourCC(String ChunkName)
-    {
-        byte[] p = new byte[] {(byte)32, (byte)32, (byte)32, (byte)32};
+    public static int FourCC(String ChunkName) {
+        byte[] p = new byte[]{32, 32, 32, 32};
         ChunkName.getBytes(0, 4, p, 0);
-        int ret = p[0] << 24 & -16777216 | p[1] << 16 & 16711680 | p[2] << 8 & 65280 | p[3] & 255;
+        int ret = p[0] << 24 & 0xFF000000 | p[1] << 16 & 0xFF0000 | p[2] << 8 & 0xFF00 | p[3] & 0xFF;
         return ret;
     }
+
+    class RiffChunkHeader {
+        public int ckID = 0;
+        public int ckSize = 0;
+    }
 }
+

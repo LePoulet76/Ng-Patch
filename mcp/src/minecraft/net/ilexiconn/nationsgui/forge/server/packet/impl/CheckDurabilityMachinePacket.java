@@ -1,3 +1,16 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  cpw.mods.fml.common.network.Player
+ *  micdoodle8.mods.galacticraft.core.tile.GCCoreTileEntityUniversalElectrical
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.network.packet.Packet
+ *  net.minecraft.tileentity.TileEntity
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -10,18 +23,20 @@ import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IServerPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 
-public class CheckDurabilityMachinePacket implements IPacket, IServerPacket, IClientPacket
-{
+public class CheckDurabilityMachinePacket
+implements IPacket,
+IServerPacket,
+IClientPacket {
     private String playerName;
     public int posX;
     public int posY;
     public int posZ;
     public String target;
 
-    public CheckDurabilityMachinePacket(String playerName, int posX, int posY, int posZ, String target)
-    {
+    public CheckDurabilityMachinePacket(String playerName, int posX, int posY, int posZ, String target) {
         this.playerName = playerName;
         this.posX = posX;
         this.posY = posY;
@@ -29,8 +44,8 @@ public class CheckDurabilityMachinePacket implements IPacket, IServerPacket, ICl
         this.target = target;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.playerName = data.readUTF();
         this.posX = data.readInt();
         this.posY = data.readInt();
@@ -38,8 +53,8 @@ public class CheckDurabilityMachinePacket implements IPacket, IServerPacket, ICl
         this.target = data.readUTF();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeUTF(this.playerName);
         data.writeInt(this.posX);
         data.writeInt(this.posY);
@@ -47,27 +62,19 @@ public class CheckDurabilityMachinePacket implements IPacket, IServerPacket, ICl
         data.writeUTF(this.target);
     }
 
-    public void handleServerPacket(EntityPlayer player)
-    {
-        if (this.target.equalsIgnoreCase("forge"))
-        {
-            TileEntity tileEntity = player.getEntityWorld().getBlockTileEntity(this.posX, this.posY, this.posZ);
-
-            if (tileEntity instanceof GCCoreTileEntityUniversalElectrical)
-            {
-                int dura = ((GCCoreTileEntityUniversalElectrical)tileEntity).durability;
-
-                if (dura < 100)
-                {
-                    this.target = "bukkit";
-                    PacketDispatcher.sendPacketToPlayer(PacketRegistry.INSTANCE.generatePacket(this), (Player)player);
-                }
-            }
+    @Override
+    public void handleServerPacket(EntityPlayer player) {
+        int dura;
+        TileEntity tileEntity;
+        if (this.target.equalsIgnoreCase("forge") && (tileEntity = player.func_130014_f_().func_72796_p(this.posX, this.posY, this.posZ)) instanceof GCCoreTileEntityUniversalElectrical && (dura = ((GCCoreTileEntityUniversalElectrical)tileEntity).durability) < 100) {
+            this.target = "bukkit";
+            PacketDispatcher.sendPacketToPlayer((Packet)PacketRegistry.INSTANCE.generatePacket(this), (Player)((Player)player));
         }
     }
 
-    public void handleClientPacket(EntityPlayer player)
-    {
-        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(this));
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
+        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(this));
     }
 }
+

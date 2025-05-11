@@ -1,112 +1,68 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.gui.GuiScreen
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.advanced;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import net.ilexiconn.nationsgui.forge.client.gui.advanced.ComponentContainer;
+import net.ilexiconn.nationsgui.forge.client.gui.advanced.GuiComponent;
 import net.minecraft.client.gui.GuiScreen;
 
-public abstract class AdvancedGui extends GuiScreen implements ComponentContainer
-{
-    private final List<GuiComponent> components = new ArrayList();
+public abstract class AdvancedGui
+extends GuiScreen
+implements ComponentContainer {
+    private final List<GuiComponent> components = new ArrayList<GuiComponent>();
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
+    public void func_73866_w_() {
+        super.func_73866_w_();
         this.components.clear();
     }
 
-    protected void addComponent(GuiComponent guiComponent)
-    {
-        if (!this.components.contains(guiComponent))
-        {
+    protected void addComponent(GuiComponent guiComponent) {
+        if (!this.components.contains(guiComponent)) {
             this.components.add(guiComponent);
         }
-
         guiComponent.init(this);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int par1, int par2, float par3)
-    {
-        Iterator var4 = this.components.iterator();
-
-        while (var4.hasNext())
-        {
-            GuiComponent component = (GuiComponent)var4.next();
+    public void func_73863_a(int par1, int par2, float par3) {
+        for (GuiComponent component : this.components) {
             component.draw(par1, par2, par3);
         }
-
-        super.drawScreen(par1, par2, par3);
+        super.func_73863_a(par1, par2, par3);
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char par1, int par2)
-    {
-        Iterator var3 = this.components.iterator();
-
-        while (var3.hasNext())
-        {
-            GuiComponent component = (GuiComponent)var3.next();
+    protected void func_73869_a(char par1, int par2) {
+        for (GuiComponent component : this.components) {
             component.keyTyped(par1, par2);
         }
-
-        super.keyTyped(par1, par2);
+        super.func_73869_a(par1, par2);
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int par1, int par2, int par3)
-    {
+    protected void func_73864_a(int par1, int par2, int par3) {
         boolean clickSkipped = false;
-        Iterator var5 = this.components.iterator();
-        GuiComponent component;
-
-        while (var5.hasNext())
-        {
-            component = (GuiComponent)var5.next();
-
-            if (component.isPriorityClick())
-            {
-                component.onClick(par1, par2, par3);
-                clickSkipped = true;
-            }
+        for (GuiComponent component : this.components) {
+            if (!component.isPriorityClick()) continue;
+            component.onClick(par1, par2, par3);
+            clickSkipped = true;
         }
-
-        if (!clickSkipped)
-        {
-            var5 = this.components.iterator();
-
-            while (var5.hasNext())
-            {
-                component = (GuiComponent)var5.next();
+        if (!clickSkipped) {
+            for (GuiComponent component : this.components) {
                 component.onClick(par1, par2, par3);
             }
         }
-
-        super.mouseClicked(par1, par2, par3);
+        super.func_73864_a(par1, par2, par3);
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
-        Iterator var1 = this.components.iterator();
-
-        while (var1.hasNext())
-        {
-            GuiComponent component = (GuiComponent)var1.next();
+    public void func_73876_c() {
+        for (GuiComponent component : this.components) {
             component.update();
         }
-
-        super.updateScreen();
+        super.func_73876_c();
     }
 }
+

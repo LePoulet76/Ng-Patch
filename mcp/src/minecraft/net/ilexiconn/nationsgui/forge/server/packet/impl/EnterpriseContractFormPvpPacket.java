@@ -1,38 +1,49 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  com.google.gson.Gson
+ *  com.google.gson.reflect.TypeToken
+ *  net.minecraft.entity.player.EntityPlayer
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.util.HashMap;
 import net.ilexiconn.nationsgui.forge.client.gui.enterprise.EnterpriseContractForm_Pvp_Gui;
 import net.ilexiconn.nationsgui.forge.server.packet.IClientPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
-import net.ilexiconn.nationsgui.forge.server.packet.impl.EnterpriseContractFormPvpPacket$1;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class EnterpriseContractFormPvpPacket implements IPacket, IClientPacket
-{
+public class EnterpriseContractFormPvpPacket
+implements IPacket,
+IClientPacket {
     public HashMap<String, String> infos = new HashMap();
     public String enterpriseName;
 
-    public EnterpriseContractFormPvpPacket(String enterpriseName)
-    {
+    public EnterpriseContractFormPvpPacket(String enterpriseName) {
         this.enterpriseName = enterpriseName;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
-        this.infos = (HashMap)(new Gson()).fromJson(data.readUTF(), (new EnterpriseContractFormPvpPacket$1(this)).getType());
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
+        this.infos = (HashMap)new Gson().fromJson(data.readUTF(), new TypeToken<HashMap<String, String>>(){}.getType());
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeUTF(this.enterpriseName);
     }
 
-    public void handleClientPacket(EntityPlayer player)
-    {
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
         EnterpriseContractForm_Pvp_Gui.data = this.infos;
         EnterpriseContractForm_Pvp_Gui.loaded = true;
     }
 }
+

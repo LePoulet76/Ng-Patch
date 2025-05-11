@@ -1,3 +1,18 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.gui.GuiTextField
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.network.packet.Packet
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.island;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -14,10 +29,11 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.packet.Packet;
 
-@SideOnly(Side.CLIENT)
-public class IslandPasswordGui extends ModalGui
-{
+@SideOnly(value=Side.CLIENT)
+public class IslandPasswordGui
+extends ModalGui {
     private GuiButton cancelButton;
     private GuiButton confirmButton;
     private GuiTextField passwordInput;
@@ -28,8 +44,7 @@ public class IslandPasswordGui extends ModalGui
     private String serverNumber = "";
     public static boolean hasError = false;
 
-    public IslandPasswordGui(EntityPlayer entityPlayer, GuiScreen guiFrom, String islandId, String passwordValue, String serverNumber)
-    {
+    public IslandPasswordGui(EntityPlayer entityPlayer, GuiScreen guiFrom, String islandId, String passwordValue, String serverNumber) {
         super(guiFrom);
         this.entityPlayer = entityPlayer;
         this.islandId = islandId;
@@ -38,83 +53,58 @@ public class IslandPasswordGui extends ModalGui
         hasError = false;
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
-        this.passwordInput.updateCursorCounter();
+    public void func_73876_c() {
+        this.passwordInput.func_73780_a();
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
-        this.cancelButton = new GuiButton(0, this.guiLeft + 53, this.guiTop + 95, 118, 20, I18n.getString("island.password.cancel"));
-        this.confirmButton = new GuiButton(1, this.guiLeft + 183, this.guiTop + 95, 118, 20, I18n.getString("island.password.confirm"));
-        this.passwordInput = new GuiTextField(this.fontRenderer, this.guiLeft + 56, this.guiTop + 68, 247, 10);
-        this.passwordInput.setEnableBackgroundDrawing(false);
-        this.passwordInput.setMaxStringLength(20);
+    @Override
+    public void func_73866_w_() {
+        super.func_73866_w_();
+        this.cancelButton = new GuiButton(0, this.guiLeft + 53, this.guiTop + 95, 118, 20, I18n.func_135053_a((String)"island.password.cancel"));
+        this.confirmButton = new GuiButton(1, this.guiLeft + 183, this.guiTop + 95, 118, 20, I18n.func_135053_a((String)"island.password.confirm"));
+        this.passwordInput = new GuiTextField(this.field_73886_k, this.guiLeft + 56, this.guiTop + 68, 247, 10);
+        this.passwordInput.func_73786_a(false);
+        this.passwordInput.func_73804_f(20);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int mouseX, int mouseY, float par3)
-    {
-        super.drawScreen(mouseX, mouseY, par3);
-        this.drawScaledString(I18n.getString("island.password.title"), this.guiLeft + 53, this.guiTop + 16, 1644825, 1.3F, false, false);
-
-        if (hasError)
-        {
-            this.drawScaledString(I18n.getString("island.password.error"), this.guiLeft + 53, this.guiTop + 30, 1644825, 1.0F, false, false);
+    @Override
+    public void func_73863_a(int mouseX, int mouseY, float par3) {
+        super.func_73863_a(mouseX, mouseY, par3);
+        this.drawScaledString(I18n.func_135053_a((String)"island.password.title"), this.guiLeft + 53, this.guiTop + 16, 0x191919, 1.3f, false, false);
+        if (hasError) {
+            this.drawScaledString(I18n.func_135053_a((String)"island.password.error"), this.guiLeft + 53, this.guiTop + 30, 0x191919, 1.0f, false, false);
+        } else {
+            this.drawScaledString(I18n.func_135053_a((String)"island.password.description_1"), this.guiLeft + 53, this.guiTop + 30, 0x191919, 1.0f, false, false);
+            this.drawScaledString(I18n.func_135053_a((String)"island.password.description_2"), this.guiLeft + 53, this.guiTop + 40, 0x191919, 1.0f, false, false);
         }
-        else
-        {
-            this.drawScaledString(I18n.getString("island.password.description_1"), this.guiLeft + 53, this.guiTop + 30, 1644825, 1.0F, false, false);
-            this.drawScaledString(I18n.getString("island.password.description_2"), this.guiLeft + 53, this.guiTop + 40, 1644825, 1.0F, false, false);
-        }
-
         ClientEventHandler.STYLE.bindTexture("faction_modal");
-        ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 53), (float)(this.guiTop + 62), 0, 158, 249, 20, 512.0F, 512.0F, false);
-        this.passwordInput.drawTextBox();
-        this.cancelButton.drawButton(Minecraft.getMinecraft(), mouseX, mouseY);
-        this.confirmButton.drawButton(Minecraft.getMinecraft(), mouseX, mouseY);
+        ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 53, this.guiTop + 62, 0, 158, 249, 20, 512.0f, 512.0f, false);
+        this.passwordInput.func_73795_f();
+        this.cancelButton.func_73737_a(Minecraft.func_71410_x(), mouseX, mouseY);
+        this.confirmButton.func_73737_a(Minecraft.func_71410_x(), mouseX, mouseY);
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char typedChar, int keyCode)
-    {
-        this.passwordInput.setText(this.passwordTyped);
-        this.passwordInput.textboxKeyTyped(typedChar, keyCode);
-        super.keyTyped(typedChar, keyCode);
-        this.passwordTyped = this.passwordInput.getText();
-        this.passwordInput.setText(this.passwordInput.getText().replaceAll(".", "*"));
+    protected void func_73869_a(char typedChar, int keyCode) {
+        this.passwordInput.func_73782_a(this.passwordTyped);
+        this.passwordInput.func_73802_a(typedChar, keyCode);
+        super.func_73869_a(typedChar, keyCode);
+        this.passwordTyped = this.passwordInput.func_73781_b();
+        this.passwordInput.func_73782_a(this.passwordInput.func_73781_b().replaceAll(".", "*"));
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-    {
-        if (mouseX > this.guiLeft + 53 && mouseX < this.guiLeft + 53 + 118 && mouseY > this.guiTop + 95 && mouseY < this.guiTop + 95 + 20)
-        {
-            this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-            Minecraft.getMinecraft().displayGuiScreen(this.guiFrom);
+    @Override
+    protected void func_73864_a(int mouseX, int mouseY, int mouseButton) {
+        if (mouseX > this.guiLeft + 53 && mouseX < this.guiLeft + 53 + 118 && mouseY > this.guiTop + 95 && mouseY < this.guiTop + 95 + 20) {
+            this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+            Minecraft.func_71410_x().func_71373_a(this.guiFrom);
         }
-
-        if (!this.passwordInput.getText().isEmpty() && mouseX > this.guiLeft + 183 && mouseX < this.guiLeft + 183 + 118 && mouseY > this.guiTop + 95 && mouseY < this.guiTop + 95 + 20)
-        {
-            this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+        if (!this.passwordInput.func_73781_b().isEmpty() && mouseX > this.guiLeft + 183 && mouseX < this.guiLeft + 183 + 118 && mouseY > this.guiTop + 95 && mouseY < this.guiTop + 95 + 20) {
+            this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
             hasError = false;
-            PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new IslandPasswordPacket(this.islandId, this.passwordTyped, this.passwordValue, this.serverNumber)));
+            PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new IslandPasswordPacket(this.islandId, this.passwordTyped, this.passwordValue, this.serverNumber)));
         }
-
-        this.passwordInput.mouseClicked(mouseX, mouseY, mouseButton);
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+        this.passwordInput.func_73793_a(mouseX, mouseY, mouseButton);
+        super.func_73864_a(mouseX, mouseY, mouseButton);
     }
 }
+

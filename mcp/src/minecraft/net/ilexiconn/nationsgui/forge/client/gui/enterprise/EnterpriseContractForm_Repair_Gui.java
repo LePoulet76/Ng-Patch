@@ -1,3 +1,21 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.gui.GuiTextField
+ *  net.minecraft.client.renderer.RenderHelper
+ *  net.minecraft.client.renderer.entity.RenderItem
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.network.packet.Packet
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.enterprise;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -5,9 +23,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import net.ilexiconn.nationsgui.forge.client.ClientEventHandler;
+import net.ilexiconn.nationsgui.forge.client.gui.enterprise.EnterpriseGui;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
 import net.ilexiconn.nationsgui.forge.server.packet.impl.EnterpriseContractCreate_Repair_Packet;
@@ -20,12 +38,12 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.network.packet.Packet;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-@SideOnly(Side.CLIENT)
-public class EnterpriseContractForm_Repair_Gui extends GuiScreen
-{
+@SideOnly(value=Side.CLIENT)
+public class EnterpriseContractForm_Repair_Gui
+extends GuiScreen {
     private GuiButton cancelButton;
     private GuiButton validButton;
     private GuiTextField priceInput;
@@ -38,281 +56,186 @@ public class EnterpriseContractForm_Repair_Gui extends GuiScreen
     public static boolean loaded = false;
     public static HashMap<String, String> data = new HashMap();
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
-        this.priceInput.updateCursorCounter();
-        this.qteInput.updateCursorCounter();
+    public void func_73876_c() {
+        this.priceInput.func_73780_a();
+        this.qteInput.func_73780_a();
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
+    public void func_73866_w_() {
+        super.func_73866_w_();
         loaded = false;
-        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new EnterpriseContractFormRepairPacket((String)EnterpriseGui.enterpriseInfos.get("name"))));
-        this.guiLeft = (this.width - this.xSize) / 2;
-        this.guiTop = (this.height - this.ySize) / 2;
-        this.cancelButton = new GuiButton(0, this.guiLeft + 197, this.guiTop + 197, 80, 20, I18n.getString("enterprise.contract.action.cancel"));
-        this.validButton = new GuiButton(1, this.guiLeft + 282, this.guiTop + 197, 80, 20, I18n.getString("enterprise.contract.action.valid"));
-        this.priceInput = new GuiTextField(this.fontRenderer, this.guiLeft + 219, this.guiTop + 146, 58, 10);
-        this.priceInput.setEnableBackgroundDrawing(false);
-        this.priceInput.setMaxStringLength(4);
-        this.priceInput.setText("0");
-        this.qteInput = new GuiTextField(this.fontRenderer, this.guiLeft + 286, this.guiTop + 146, 58, 10);
-        this.qteInput.setEnableBackgroundDrawing(false);
-        this.qteInput.setMaxStringLength(5);
-        this.qteInput.setText("0");
+        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new EnterpriseContractFormRepairPacket((String)EnterpriseGui.enterpriseInfos.get("name"))));
+        this.guiLeft = (this.field_73880_f - this.xSize) / 2;
+        this.guiTop = (this.field_73881_g - this.ySize) / 2;
+        this.cancelButton = new GuiButton(0, this.guiLeft + 197, this.guiTop + 197, 80, 20, I18n.func_135053_a((String)"enterprise.contract.action.cancel"));
+        this.validButton = new GuiButton(1, this.guiLeft + 282, this.guiTop + 197, 80, 20, I18n.func_135053_a((String)"enterprise.contract.action.valid"));
+        this.priceInput = new GuiTextField(this.field_73886_k, this.guiLeft + 219, this.guiTop + 146, 58, 10);
+        this.priceInput.func_73786_a(false);
+        this.priceInput.func_73804_f(4);
+        this.priceInput.func_73782_a("0");
+        this.qteInput = new GuiTextField(this.field_73886_k, this.guiLeft + 286, this.guiTop + 146, 58, 10);
+        this.qteInput.func_73786_a(false);
+        this.qteInput.func_73804_f(5);
+        this.qteInput.func_73782_a("0");
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int mouseX, int mouseY, float par3)
-    {
-        this.drawDefaultBackground();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+    public void func_73863_a(int mouseX, int mouseY, float par3) {
+        this.func_73873_v_();
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-        ModernGui.drawModalRectWithCustomSizedTextureWithTransparency((float)this.guiLeft, (float)this.guiTop, 0, 0, this.xSize, this.ySize, 512.0F, 512.0F, false);
-        List tooltipToDraw = null;
+        ModernGui.drawModalRectWithCustomSizedTextureWithTransparency(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize, 512.0f, 512.0f, false);
+        List<String> tooltipToDraw = null;
         ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-        ModernGui.drawModalRectWithCustomSizedTexture((float)((int)((double)(this.guiLeft + 91) - (double)this.fontRenderer.getStringWidth(I18n.getString("enterprise.contract.title.services")) * 1.2D / 2.0D - 8.0D - 2.0D)), (float)(this.guiTop + 16), 0, 276, 16, 16, 512.0F, 512.0F, false);
-        this.drawScaledString(I18n.getString("enterprise.contract.title.services"), this.guiLeft + 91 + 8, this.guiTop + 21, 16777215, 1.2F, true, false);
+        ModernGui.drawModalRectWithCustomSizedTexture((int)((double)(this.guiLeft + 91) - (double)this.field_73886_k.func_78256_a(I18n.func_135053_a((String)"enterprise.contract.title.services")) * 1.2 / 2.0 - 8.0 - 2.0), this.guiTop + 16, 0, 276, 16, 16, 512.0f, 512.0f, false);
+        this.drawScaledString(I18n.func_135053_a((String)"enterprise.contract.title.services"), this.guiLeft + 91 + 8, this.guiTop + 21, 0xFFFFFF, 1.2f, true, false);
         int index = 0;
-        String[] type = ((String)EnterpriseGui.enterpriseInfos.get("services")).split("##");
-        int totalPrice = type.length;
-
-        for (int var8 = 0; var8 < totalPrice; ++var8)
-        {
-            String serviceLine = type[var8];
-            this.drawScaledString(serviceLine.replace("&", "\u00a7"), this.guiLeft + 6, this.guiTop + 54 + index * 9, 16777215, 0.8F, false, false);
+        for (String serviceLine : ((String)EnterpriseGui.enterpriseInfos.get("services")).split("##")) {
+            this.drawScaledString(serviceLine.replace("&", "\u00a7"), this.guiLeft + 6, this.guiTop + 54 + index * 9, 0xFFFFFF, 0.8f, false, false);
             ++index;
         }
-
-        this.drawScaledString((String)EnterpriseGui.enterpriseInfos.get("name"), this.guiLeft + 280, this.guiTop + 11, 16777215, 1.7F, true, true);
-        String var10 = I18n.getString("enterprise.type." + ((String)EnterpriseGui.enterpriseInfos.get("type")).toLowerCase());
+        this.drawScaledString((String)EnterpriseGui.enterpriseInfos.get("name"), this.guiLeft + 280, this.guiTop + 11, 0xFFFFFF, 1.7f, true, true);
+        String type = I18n.func_135053_a((String)("enterprise.type." + ((String)EnterpriseGui.enterpriseInfos.get("type")).toLowerCase()));
         ClientEventHandler.STYLE.bindTexture("enterprise_main");
-        ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 280 - this.fontRenderer.getStringWidth(var10) / 2 - 7 - 4), (float)(this.guiTop + 23), EnterpriseGui.getTypeOffsetX((String)EnterpriseGui.enterpriseInfos.get("type")), 442, 16, 16, 512.0F, 512.0F, false);
-        this.drawScaledString(I18n.getString("enterprise.type." + ((String)EnterpriseGui.enterpriseInfos.get("type")).toLowerCase()), this.guiLeft + 280 + 7, this.guiTop + 29, 11842740, 1.0F, true, false);
-
-        if (loaded)
-        {
-            if (data.containsKey("error"))
-            {
-                this.validButton.enabled = false;
-
-                if (mouseX >= this.guiLeft + 282 && mouseX <= this.guiLeft + 282 + 80 && mouseY >= this.guiTop + 197 && mouseY <= this.guiTop + 197 + 20)
-                {
-                    tooltipToDraw = Arrays.asList(new String[] {I18n.getString("enterprise.contract.error." + (String)data.get("error"))});
+        ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 280 - this.field_73886_k.func_78256_a(type) / 2 - 7 - 4, this.guiTop + 23, EnterpriseGui.getTypeOffsetX((String)EnterpriseGui.enterpriseInfos.get("type")), 442, 16, 16, 512.0f, 512.0f, false);
+        this.drawScaledString(I18n.func_135053_a((String)("enterprise.type." + ((String)EnterpriseGui.enterpriseInfos.get("type")).toLowerCase())), this.guiLeft + 280 + 7, this.guiTop + 29, 0xB4B4B4, 1.0f, true, false);
+        if (loaded) {
+            if (data.containsKey("error")) {
+                this.validButton.field_73742_g = false;
+                if (mouseX >= this.guiLeft + 282 && mouseX <= this.guiLeft + 282 + 80 && mouseY >= this.guiTop + 197 && mouseY <= this.guiTop + 197 + 20) {
+                    tooltipToDraw = Arrays.asList(I18n.func_135053_a((String)("enterprise.contract.error." + data.get("error"))));
                 }
             }
-
-            this.drawScaledString(I18n.getString("enterprise.contract.label.concerned_country"), this.guiLeft + 197, this.guiTop + 53, 1644825, 1.0F, false, false);
+            this.drawScaledString(I18n.func_135053_a((String)"enterprise.contract.label.concerned_country"), this.guiLeft + 197, this.guiTop + 53, 0x191919, 1.0f, false, false);
             ModernGui.drawNGBlackSquare(this.guiLeft + 197, this.guiTop + 62, 165, 40);
-
-            if (data.containsKey("factionName"))
-            {
-                this.drawScaledString("\u00a7a" + (String)data.get("factionName"), this.guiLeft + 280, this.guiTop + 77, 16777215, 1.0F, true, false);
+            if (data.containsKey("factionName")) {
+                this.drawScaledString("\u00a7a" + data.get("factionName"), this.guiLeft + 280, this.guiTop + 77, 0xFFFFFF, 1.0f, true, false);
             }
-
-            this.drawScaledString(I18n.getString("enterprise.contract.label.price_repair"), this.guiLeft + 197, this.guiTop + 131, 1644825, 1.0F, false, false);
+            this.drawScaledString(I18n.func_135053_a((String)"enterprise.contract.label.price_repair"), this.guiLeft + 197, this.guiTop + 131, 0x191919, 1.0f, false, false);
             ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 197), (float)(this.guiTop + 140), 0, 234, 80, 20, 512.0F, 512.0F, false);
-            this.drawScaledString("\u00a7a$", this.guiLeft + 207, this.guiTop + 145, 16777215, 1.3F, true, false);
-            this.priceInput.drawTextBox();
-            this.drawScaledString(I18n.getString("enterprise.contract.label.amount_repair"), this.guiLeft + 282, this.guiTop + 131, 1644825, 1.0F, false, false);
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 197, this.guiTop + 140, 0, 234, 80, 20, 512.0f, 512.0f, false);
+            this.drawScaledString("\u00a7a$", this.guiLeft + 207, this.guiTop + 145, 0xFFFFFF, 1.3f, true, false);
+            this.priceInput.func_73795_f();
+            this.drawScaledString(I18n.func_135053_a((String)"enterprise.contract.label.amount_repair"), this.guiLeft + 282, this.guiTop + 131, 0x191919, 1.0f, false, false);
             ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 282), (float)(this.guiTop + 140), 0, 294, 80, 20, 512.0F, 512.0F, false);
-            this.qteInput.drawTextBox();
-            totalPrice = 0;
-
-            if (this.isNumeric(this.priceInput.getText()) && this.isNumeric(this.qteInput.getText()))
-            {
-                totalPrice = Integer.parseInt(this.priceInput.getText()) * Integer.parseInt(this.qteInput.getText());
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 282, this.guiTop + 140, 0, 294, 80, 20, 512.0f, 512.0f, false);
+            this.qteInput.func_73795_f();
+            int totalPrice = 0;
+            if (this.isNumeric(this.priceInput.func_73781_b()) && this.isNumeric(this.qteInput.func_73781_b())) {
+                totalPrice = Integer.parseInt(this.priceInput.func_73781_b()) * Integer.parseInt(this.qteInput.func_73781_b());
             }
-
-            this.drawScaledString("\u00a74" + I18n.getString("enterprise.contract.label.total_price") + " \u00a7c" + totalPrice + "$", this.guiLeft + 197, this.guiTop + 166, 1644825, 1.0F, false, false);
-            this.cancelButton.drawButton(Minecraft.getMinecraft(), mouseX, mouseY);
-            this.validButton.drawButton(Minecraft.getMinecraft(), mouseX, mouseY);
-
-            if (tooltipToDraw != null)
-            {
-                this.drawHoveringText(tooltipToDraw, mouseX, mouseY, this.fontRenderer);
+            this.drawScaledString("\u00a74" + I18n.func_135053_a((String)"enterprise.contract.label.total_price") + " \u00a7c" + totalPrice + "$", this.guiLeft + 197, this.guiTop + 166, 0x191919, 1.0f, false, false);
+            this.cancelButton.func_73737_a(Minecraft.func_71410_x(), mouseX, mouseY);
+            this.validButton.func_73737_a(Minecraft.func_71410_x(), mouseX, mouseY);
+            if (tooltipToDraw != null) {
+                this.drawHoveringText(tooltipToDraw, mouseX, mouseY, this.field_73886_k);
             }
         }
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char typedChar, int keyCode)
-    {
-        this.priceInput.textboxKeyTyped(typedChar, keyCode);
-        this.qteInput.textboxKeyTyped(typedChar, keyCode);
-        super.keyTyped(typedChar, keyCode);
+    protected void func_73869_a(char typedChar, int keyCode) {
+        this.priceInput.func_73802_a(typedChar, keyCode);
+        this.qteInput.func_73802_a(typedChar, keyCode);
+        super.func_73869_a(typedChar, keyCode);
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-    {
-        if (mouseButton == 0)
-        {
-            if (mouseX > this.guiLeft + 197 && mouseX < this.guiLeft + 197 + 80 && mouseY > this.guiTop + 197 && mouseY < this.guiTop + 197 + 20)
-            {
-                this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-                Minecraft.getMinecraft().displayGuiScreen(new EnterpriseGui((String)EnterpriseGui.enterpriseInfos.get("name")));
+    protected void func_73864_a(int mouseX, int mouseY, int mouseButton) {
+        if (mouseButton == 0) {
+            if (mouseX > this.guiLeft + 197 && mouseX < this.guiLeft + 197 + 80 && mouseY > this.guiTop + 197 && mouseY < this.guiTop + 197 + 20) {
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new EnterpriseGui((String)EnterpriseGui.enterpriseInfos.get("name")));
             }
-
-            if (loaded && this.validButton.enabled && this.isNumeric(this.priceInput.getText()) && this.isNumeric(this.qteInput.getText()) && mouseX > this.guiLeft + 282 && mouseX < this.guiLeft + 282 + 80 && mouseY > this.guiTop + 197 && mouseY < this.guiTop + 197 + 20)
-            {
-                this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-                String description = "REPAIR##" + (String)data.get("factionName") + "##" + this.priceInput.getText() + "##" + this.qteInput.getText();
-                EnterpriseGui.lastContractDemand = Long.valueOf(System.currentTimeMillis());
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new EnterpriseContractCreate_Repair_Packet((String)EnterpriseGui.enterpriseInfos.get("name"), description, Integer.valueOf(Integer.parseInt(this.priceInput.getText().replaceAll("^0", "")) * Integer.parseInt(this.qteInput.getText().replaceAll("^0", ""))), Integer.valueOf(Integer.parseInt(this.qteInput.getText().replaceAll("^0", ""))))));
-                Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
+            if (loaded && this.validButton.field_73742_g && this.isNumeric(this.priceInput.func_73781_b()) && this.isNumeric(this.qteInput.func_73781_b()) && mouseX > this.guiLeft + 282 && mouseX < this.guiLeft + 282 + 80 && mouseY > this.guiTop + 197 && mouseY < this.guiTop + 197 + 20) {
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                String description = "REPAIR##" + data.get("factionName") + "##" + this.priceInput.func_73781_b() + "##" + this.qteInput.func_73781_b();
+                EnterpriseGui.lastContractDemand = System.currentTimeMillis();
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new EnterpriseContractCreate_Repair_Packet((String)EnterpriseGui.enterpriseInfos.get("name"), description, Integer.parseInt(this.priceInput.func_73781_b().replaceAll("^0", "")) * Integer.parseInt(this.qteInput.func_73781_b().replaceAll("^0", "")), Integer.parseInt(this.qteInput.func_73781_b().replaceAll("^0", "")))));
+                Minecraft.func_71410_x().func_71373_a(null);
             }
         }
-
-        this.priceInput.mouseClicked(mouseX, mouseY, mouseButton);
-        this.qteInput.mouseClicked(mouseX, mouseY, mouseButton);
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+        this.priceInput.func_73793_a(mouseX, mouseY, mouseButton);
+        this.qteInput.func_73793_a(mouseX, mouseY, mouseButton);
+        super.func_73864_a(mouseX, mouseY, mouseButton);
     }
 
-    public boolean isNumeric(String str)
-    {
-        if (str != null && str.length() != 0)
-        {
-            char[] var2 = str.toCharArray();
-            int var3 = var2.length;
-
-            for (int var4 = 0; var4 < var3; ++var4)
-            {
-                char c = var2[var4];
-
-                if (!Character.isDigit(c))
-                {
-                    return false;
-                }
-            }
-
-            if (Integer.parseInt(str) < 1)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        else
-        {
+    public boolean isNumeric(String str) {
+        if (str == null || str.length() == 0) {
             return false;
         }
+        for (char c : str.toCharArray()) {
+            if (Character.isDigit(c)) continue;
+            return false;
+        }
+        return Integer.parseInt(str) >= 1;
     }
 
-    public void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow)
-    {
+    public void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow) {
         GL11.glPushMatrix();
-        GL11.glScalef(scale, scale, scale);
-        float newX = (float)x;
-
-        if (centered)
-        {
-            newX = (float)x - (float)this.fontRenderer.getStringWidth(text) * scale / 2.0F;
+        GL11.glScalef((float)scale, (float)scale, (float)scale);
+        float newX = x;
+        if (centered) {
+            newX = (float)x - (float)this.field_73886_k.func_78256_a(text) * scale / 2.0f;
         }
-
-        if (shadow)
-        {
-            this.fontRenderer.drawString(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 16579836) >> 2 | color & -16777216, false);
+        if (shadow) {
+            this.field_73886_k.func_85187_a(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 0xFCFCFC) >> 2 | color & 0xFF000000, false);
         }
-
-        this.fontRenderer.drawString(text, (int)(newX / scale), (int)((float)y / scale), color, false);
+        this.field_73886_k.func_85187_a(text, (int)(newX / scale), (int)((float)y / scale), color, false);
         GL11.glPopMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
     }
 
-    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font)
-    {
-        if (!par1List.isEmpty())
-        {
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
+    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font) {
+        if (!par1List.isEmpty()) {
+            GL11.glDisable((int)32826);
+            RenderHelper.func_74518_a();
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
             int k = 0;
-            Iterator iterator = par1List.iterator();
-            int j1;
-
-            while (iterator.hasNext())
-            {
-                String i1 = (String)iterator.next();
-                j1 = font.getStringWidth(i1);
-
-                if (j1 > k)
-                {
-                    k = j1;
-                }
+            for (String s : par1List) {
+                int l = font.func_78256_a(s);
+                if (l <= k) continue;
+                k = l;
             }
-
-            int var15 = par2 + 12;
-            j1 = par3 - 12;
+            int i1 = par2 + 12;
+            int j1 = par3 - 12;
             int k1 = 8;
-
-            if (par1List.size() > 1)
-            {
+            if (par1List.size() > 1) {
                 k1 += 2 + (par1List.size() - 1) * 10;
             }
-
-            if (var15 + k > this.width)
-            {
-                var15 -= 28 + k;
+            if (i1 + k > this.field_73880_f) {
+                i1 -= 28 + k;
             }
-
-            if (j1 + k1 + 6 > this.height)
-            {
-                j1 = this.height - k1 - 6;
+            if (j1 + k1 + 6 > this.field_73881_g) {
+                j1 = this.field_73881_g - k1 - 6;
             }
-
-            this.zLevel = 300.0F;
-            this.itemRenderer.zLevel = 300.0F;
+            this.field_73735_i = 300.0f;
+            this.itemRenderer.field_77023_b = 300.0f;
             int l1 = -267386864;
-            this.drawGradientRect(var15 - 3, j1 - 4, var15 + k + 3, j1 - 3, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 3, var15 + k + 3, j1 + k1 + 4, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 - 4, j1 - 3, var15 - 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 + k + 3, j1 - 3, var15 + k + 4, j1 + k1 + 3, l1, l1);
-            int i2 = 1347420415;
-            int j2 = (i2 & 16711422) >> 1 | i2 & -16777216;
-            this.drawGradientRect(var15 - 3, j1 - 3 + 1, var15 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 + k + 2, j1 - 3 + 1, var15 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 - 3 + 1, i2, i2);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 2, var15 + k + 3, j1 + k1 + 3, j2, j2);
-
-            for (int k2 = 0; k2 < par1List.size(); ++k2)
-            {
+            this.func_73733_a(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
+            this.func_73733_a(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
+            int i2 = 0x505000FF;
+            int j2 = (i2 & 0xFEFEFE) >> 1 | i2 & 0xFF000000;
+            this.func_73733_a(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+            this.func_73733_a(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+            for (int k2 = 0; k2 < par1List.size(); ++k2) {
                 String s1 = (String)par1List.get(k2);
-                font.drawStringWithShadow(s1, var15, j1, -1);
-
-                if (k2 == 0)
-                {
+                font.func_78261_a(s1, i1, j1, -1);
+                if (k2 == 0) {
                     j1 += 2;
                 }
-
                 j1 += 10;
             }
-
-            this.zLevel = 0.0F;
-            this.itemRenderer.zLevel = 0.0F;
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.field_73735_i = 0.0f;
+            this.itemRenderer.field_77023_b = 0.0f;
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
+            GL11.glEnable((int)32826);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         }
     }
 }
+

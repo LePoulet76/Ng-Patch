@@ -1,10 +1,18 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package javazoom.jl.decoder;
 
-public class Manager
-{
-    public void addControl(Control c) {}
+import javazoom.jl.decoder.Control;
 
-    public void removeControl(Control c) {}
+public class Manager {
+    public void addControl(Control c) {
+    }
 
-    public void removeAll() {}
+    public void removeControl(Control c) {
+    }
+
+    public void removeAll() {
+    }
 }
+

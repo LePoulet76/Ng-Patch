@@ -1,18 +1,34 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  fr.zeamateis.nationsglory.client.renders.RenderTransparentBlock
+ *  fr.zeamateis.nationsglory.common.tileEntity.TileEntityTransparent
+ *  net.minecraft.block.BlockContainer
+ *  net.minecraft.block.material.Material
+ *  net.minecraft.creativetab.CreativeTabs
+ *  net.minecraft.entity.EntityLivingBase
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.network.packet.Packet
+ *  net.minecraft.tileentity.TileEntity
+ *  net.minecraft.world.World
+ */
 package net.ilexiconn.nationsgui.forge.server.block;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import fr.zeamateis.nationsglory.client.renders.RenderTransparentBlock;
 import fr.zeamateis.nationsglory.common.tileEntity.TileEntityTransparent;
 import java.awt.Desktop;
-import java.awt.Desktop.Action;
 import java.net.URI;
 import net.ilexiconn.nationsgui.forge.NationsGUI;
 import net.ilexiconn.nationsgui.forge.client.ClientProxy;
 import net.ilexiconn.nationsgui.forge.client.gui.url.URLGUI;
-import net.ilexiconn.nationsgui.forge.server.block.URLBlock$1;
 import net.ilexiconn.nationsgui.forge.server.block.entity.URLBlockEntity;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
 import net.ilexiconn.nationsgui.forge.server.packet.impl.URLSavePacket;
+import net.ilexiconn.nationsgui.forge.server.permission.IPermissionCallback;
 import net.ilexiconn.nationsgui.forge.server.permission.PermissionCache;
 import net.ilexiconn.nationsgui.forge.server.permission.PermissionType;
 import net.minecraft.block.BlockContainer;
@@ -21,123 +37,80 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class URLBlock extends BlockContainer
-{
-    public URLBlock()
-    {
-        super(648, Material.iron);
-        this.setUnlocalizedName("url");
-        this.setCreativeTab(CreativeTabs.tabBlock);
-        this.setBlockUnbreakable();
-        this.setHardness(2.0F);
-        this.setResistance(2.0F);
-        this.setTextureName("wool_colored_orange");
-        this.setLightOpacity(0);
+public class URLBlock
+extends BlockContainer {
+    public URLBlock() {
+        super(648, Material.field_76243_f);
+        this.func_71864_b("url");
+        this.func_71849_a(CreativeTabs.field_78030_b);
+        this.func_71875_q();
+        this.func_71848_c(2.0f);
+        this.func_71894_b(2.0f);
+        this.func_111022_d("wool_colored_orange");
+        this.func_71868_h(0);
     }
 
-    /**
-     * Called upon block activation (right click on the block.)
-     */
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float hitX, float hitY, float hitZ)
-    {
+    public boolean func_71903_a(final World world, final int x, final int y, final int z, final EntityPlayer player, int meta, float hitX, float hitY, float hitZ) {
         URLBlockEntity blockEntity;
-
-        if (world.isRemote)
-        {
-            if (!player.isSneaking())
-            {
-                blockEntity = (URLBlockEntity)world.getBlockTileEntity(x, y, z);
-
-                if (blockEntity != null && !blockEntity.url.isEmpty() && blockEntity.url.startsWith("http"))
-                {
-                    Desktop desktop = Desktop.getDesktop();
-
-                    if (desktop.isSupported(Action.BROWSE))
-                    {
-                        try
-                        {
-                            String e = blockEntity.url;
-                            e = e.replaceAll("<player>", player.username);
-                            e = e.replaceAll("<server>", ClientProxy.currentServerName.toLowerCase());
-                            desktop.browse(new URI(e));
-                        }
-                        catch (Exception var13)
-                        {
-                            var13.printStackTrace();
-                        }
+        if (world.field_72995_K) {
+            if (!player.func_70093_af()) {
+                Desktop desktop;
+                URLBlockEntity blockEntity2 = (URLBlockEntity)world.func_72796_p(x, y, z);
+                if (blockEntity2 != null && !blockEntity2.url.isEmpty() && blockEntity2.url.startsWith("http") && (desktop = Desktop.getDesktop()).isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        String cmd = blockEntity2.url;
+                        cmd = cmd.replaceAll("<player>", player.field_71092_bJ);
+                        cmd = cmd.replaceAll("<server>", ClientProxy.currentServerName.toLowerCase());
+                        desktop.browse(new URI(cmd));
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
-            }
-            else
-            {
-                PermissionCache.INSTANCE.checkPermission(PermissionType.URL_ADMIN, new URLBlock$1(this, player, world, x, y, z), new String[0]);
-            }
-        }
-        else if (!player.isSneaking())
-        {
-            blockEntity = (URLBlockEntity)world.getBlockTileEntity(x, y, z);
+            } else {
+                PermissionCache.INSTANCE.checkPermission(PermissionType.URL_ADMIN, new IPermissionCallback(){
 
-            if (blockEntity != null && !blockEntity.url.isEmpty() && (blockEntity.url.startsWith("<") || blockEntity.url.startsWith("/") || blockEntity.url.startsWith("*")))
-            {
-                NationsGUI.executePlayerCmd(player.username, blockEntity.url);
+                    @Override
+                    public void call(String permission, boolean has) {
+                        if (has) {
+                            player.openGui((Object)NationsGUI.INSTANCE, 889, world, x, y, z);
+                        }
+                    }
+                }, new String[0]);
             }
+        } else if (!player.func_70093_af() && (blockEntity = (URLBlockEntity)world.func_72796_p(x, y, z)) != null && !blockEntity.url.isEmpty() && (blockEntity.url.startsWith("<") || blockEntity.url.startsWith("/") || blockEntity.url.startsWith("*"))) {
+            NationsGUI.executePlayerCmd(player.field_71092_bJ, blockEntity.url);
         }
-
         return true;
     }
 
-    /**
-     * Called when the block is placed in the world.
-     */
-    public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
-    {
-        if (par1World.isRemote)
-        {
-            URLBlockEntity blockEntity = (URLBlockEntity)par1World.getBlockTileEntity(par2, par3, par4);
-
-            if (blockEntity != null && !URLGUI.savedClientURL.isEmpty() && System.currentTimeMillis() - URLGUI.savedClientTime.longValue() < 60000L)
-            {
-                blockEntity.url = URLGUI.savedClientURL;
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new URLSavePacket(blockEntity)));
-            }
+    public void func_71860_a(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack) {
+        URLBlockEntity blockEntity;
+        if (par1World.field_72995_K && (blockEntity = (URLBlockEntity)par1World.func_72796_p(par2, par3, par4)) != null && !URLGUI.savedClientURL.isEmpty() && System.currentTimeMillis() - URLGUI.savedClientTime < 60000L) {
+            blockEntity.url = URLGUI.savedClientURL;
+            PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new URLSavePacket(blockEntity)));
         }
-
-        super.onBlockPlacedBy(par1World, par2, par3, par4, par5EntityLivingBase, par6ItemStack);
+        super.func_71860_a(par1World, par2, par3, par4, par5EntityLivingBase, par6ItemStack);
     }
 
-    /**
-     * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
-     */
-    public boolean renderAsNormalBlock()
-    {
+    public boolean func_71886_c() {
         return false;
     }
 
-    /**
-     * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
-     * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
-     */
-    public boolean isOpaqueCube()
-    {
+    public boolean func_71926_d() {
         return false;
     }
 
-    /**
-     * The type of render function that is called for this block
-     */
-    public int getRenderType()
-    {
-        return TileEntityTransparent.rendering ? super.getRenderType() : RenderTransparentBlock.renderID;
+    public int func_71857_b() {
+        return TileEntityTransparent.rendering ? super.func_71857_b() : RenderTransparentBlock.renderID;
     }
 
-    /**
-     * Returns a new instance of a block's tile entity class. Called on placing the block.
-     */
-    public TileEntity createNewTileEntity(World world)
-    {
+    public TileEntity func_72274_a(World world) {
         return new URLBlockEntity();
     }
 }
+

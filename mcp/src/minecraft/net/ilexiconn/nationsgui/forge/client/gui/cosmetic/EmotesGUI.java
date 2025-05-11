@@ -1,13 +1,27 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.util.EnumChatFormatting
+ *  net.minecraft.util.ResourceLocation
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.cosmetic;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import net.ilexiconn.nationsgui.forge.client.ClientEventHandler;
 import net.ilexiconn.nationsgui.forge.client.gui.GuiScreenTab;
 import net.ilexiconn.nationsgui.forge.client.gui.InventoryGUI;
 import net.ilexiconn.nationsgui.forge.client.gui.TexturedButtonGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.cosmetic.CosmeticGUI_OLD;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
 import net.ilexiconn.nationsgui.forge.server.entity.data.NGPlayerData;
 import net.minecraft.client.Minecraft;
@@ -15,13 +29,13 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-public class EmotesGUI extends GuiScreen
-{
+public class EmotesGUI
+extends GuiScreen {
     public static final ResourceLocation TEXTURE = new ResourceLocation("nationsgui", "emotes/gui/cosmetic.png");
     private int guiLeft = 0;
     private int guiTop = 0;
@@ -35,509 +49,361 @@ public class EmotesGUI extends GuiScreen
     private GuiButton removeButton;
     public static boolean loaded = false;
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
+    public void func_73866_w_() {
+        super.func_73866_w_();
         loaded = false;
         this.selectedSlot = -1;
-        this.guiLeft = this.width / 2 - 128;
-        this.guiTop = this.height / 2 - 105;
-        this.ownedEmotes = NGPlayerData.get(this.mc.thePlayer).getEmotes();
-        this.currentEmotes = NGPlayerData.get(this.mc.thePlayer).getCurrentEmotes();
-        this.selectedEmote = (String)this.ownedEmotes.get(0);
+        this.guiLeft = this.field_73880_f / 2 - 128;
+        this.guiTop = this.field_73881_g / 2 - 105;
+        this.ownedEmotes = NGPlayerData.get((EntityPlayer)this.field_73882_e.field_71439_g).getEmotes();
+        this.currentEmotes = NGPlayerData.get((EntityPlayer)this.field_73882_e.field_71439_g).getCurrentEmotes();
+        this.selectedEmote = this.ownedEmotes.get(0);
         this.removeButton = new TexturedButtonGUI(0, this.guiLeft + 165, this.guiTop + 175, 74, 19, "cosmetic_btns", 0, 0, "Retirer");
-        this.buttonList.add(this.removeButton);
+        this.field_73887_h.add(this.removeButton);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int mouseX, int mouseY, float partialsTicks)
-    {
-        this.drawDefaultBackground();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+    public void func_73863_a(int mouseX, int mouseY, float partialsTicks) {
+        int y;
+        int x;
+        GuiScreenTab type;
+        int i;
+        this.func_73873_v_();
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         this.bindTexture(TEXTURE);
-        this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        this.func_73729_b(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
         String tooltipToDraw = "";
         ClientEventHandler.STYLE.bindTexture("cosmetic");
-        int offsetX;
-        GuiScreenTab offsetY;
-        int i;
-        int c;
-
-        for (offsetX = 0; offsetX <= 3; ++offsetX)
-        {
-            offsetY = (GuiScreenTab)CosmeticGUI_OLD.TABS.get(offsetX);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            i = offsetX % 4;
-            c = offsetX / 4;
-
-            if (this.getClass() == offsetY.getClassReferent())
-            {
-                this.drawTexturedModalRect(this.guiLeft - 23, this.guiTop + 50 + offsetX * 31, 125, 210, 29, 30);
-                this.drawTexturedModalRect(this.guiLeft - 23 + 3, this.guiTop + 50 + offsetX * 31 + 5, 154 + i * 20, 210 + c * 20, 20, 20);
+        for (i = 0; i <= 3; ++i) {
+            type = CosmeticGUI_OLD.TABS.get(i);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            x = i % 4;
+            y = i / 4;
+            if (((Object)((Object)this)).getClass() == type.getClassReferent()) {
+                this.func_73729_b(this.guiLeft - 23, this.guiTop + 50 + i * 31, 125, 210, 29, 30);
+                this.func_73729_b(this.guiLeft - 23 + 3, this.guiTop + 50 + i * 31 + 5, 154 + x * 20, 210 + y * 20, 20, 20);
+                continue;
             }
-            else
-            {
-                this.drawTexturedModalRect(this.guiLeft - 20, this.guiTop + 50 + offsetX * 31, 102, 210, 23, 30);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
-                this.drawTexturedModalRect(this.guiLeft - 20 + 3, this.guiTop + 50 + offsetX * 31 + 5, 154 + i * 20, 210 + c * 20, 20, 20);
-                GL11.glDisable(GL11.GL_BLEND);
-            }
+            this.func_73729_b(this.guiLeft - 20, this.guiTop + 50 + i * 31, 102, 210, 23, 30);
+            GL11.glBlendFunc((int)770, (int)771);
+            GL11.glEnable((int)3042);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)0.75f);
+            this.func_73729_b(this.guiLeft - 20 + 3, this.guiTop + 50 + i * 31 + 5, 154 + x * 20, 210 + y * 20, 20, 20);
+            GL11.glDisable((int)3042);
         }
-
-        for (offsetX = 4; offsetX < CosmeticGUI_OLD.TABS.size(); ++offsetX)
-        {
-            offsetY = (GuiScreenTab)CosmeticGUI_OLD.TABS.get(offsetX);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            i = offsetX % 4;
-            c = offsetX / 4;
-
-            if (this.getClass() == offsetY.getClassReferent())
-            {
-                this.drawTexturedModalRect(this.guiLeft + 250, this.guiTop + 50 + (offsetX - 4) * 31, 51, 210, 29, 30);
-                this.drawTexturedModalRect(this.guiLeft + 250 + 3, this.guiTop + 50 + (offsetX - 4) * 31 + 5, 154 + i * 20, 210 + c * 20, 20, 20);
+        for (i = 4; i < CosmeticGUI_OLD.TABS.size(); ++i) {
+            type = CosmeticGUI_OLD.TABS.get(i);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            x = i % 4;
+            y = i / 4;
+            if (((Object)((Object)this)).getClass() == type.getClassReferent()) {
+                this.func_73729_b(this.guiLeft + 250, this.guiTop + 50 + (i - 4) * 31, 51, 210, 29, 30);
+                this.func_73729_b(this.guiLeft + 250 + 3, this.guiTop + 50 + (i - 4) * 31 + 5, 154 + x * 20, 210 + y * 20, 20, 20);
+                continue;
             }
-            else
-            {
-                this.drawTexturedModalRect(this.guiLeft + 252, this.guiTop + 50 + (offsetX - 4) * 31, 80, 210, 23, 30);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
-                this.drawTexturedModalRect(this.guiLeft + 250 + 3, this.guiTop + 50 + (offsetX - 4) * 31 + 5, 154 + i * 20, 210 + c * 20, 20, 20);
-                GL11.glDisable(GL11.GL_BLEND);
+            this.func_73729_b(this.guiLeft + 252, this.guiTop + 50 + (i - 4) * 31, 80, 210, 23, 30);
+            GL11.glBlendFunc((int)770, (int)771);
+            GL11.glEnable((int)3042);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)0.75f);
+            this.func_73729_b(this.guiLeft + 250 + 3, this.guiTop + 50 + (i - 4) * 31 + 5, 154 + x * 20, 210 + y * 20, 20, 20);
+            GL11.glDisable((int)3042);
+        }
+        EmotesGUI.drawScaledString("Emotes", this.guiLeft + 20, this.guiTop + 15, 0xFFFFFF, 2.0f, false);
+        if (this.selectedSlot == -1 || this.currentEmotes.get(this.selectedSlot).isEmpty()) {
+            if (this.field_73887_h.contains(this.removeButton)) {
+                this.field_73887_h.remove(this.removeButton);
             }
+        } else if (!this.field_73887_h.contains(this.removeButton)) {
+            this.field_73887_h.add(this.removeButton);
         }
-
-        drawScaledString("Emotes", this.guiLeft + 20, this.guiTop + 15, 16777215, 2.0F, false);
-
-        if (this.selectedSlot != -1 && !((String)this.currentEmotes.get(this.selectedSlot)).isEmpty())
-        {
-            if (!this.buttonList.contains(this.removeButton))
-            {
-                this.buttonList.add(this.removeButton);
-            }
-        }
-        else if (this.buttonList.contains(this.removeButton))
-        {
-            this.buttonList.remove(this.removeButton);
-        }
-
         this.hoveredEmote = null;
-        boolean var13 = false;
-        boolean var14 = false;
-        i = 0;
-        int w;
-
-        for (Iterator var16 = this.ownedEmotes.iterator(); var16.hasNext(); ++i)
-        {
-            String emote = (String)var16.next();
-            int emote1 = i % 7;
-            w = i / 7;
-            offsetX = this.guiLeft + 11 + emote1 * 18;
-            int var15 = this.guiTop + 53 + w * 18;
-            this.drawIcon(emote, offsetX, var15, -1);
-
-            if (this.selectedEmote != null && this.selectedEmote.equals(emote))
-            {
+        int offsetX = 0;
+        int offsetY = 0;
+        int i2 = 0;
+        for (String emote : this.ownedEmotes) {
+            int j = i2 % 7;
+            int k = i2 / 7;
+            offsetX = this.guiLeft + 11 + j * 18;
+            offsetY = this.guiTop + 53 + k * 18;
+            this.drawIcon(emote, offsetX, offsetY, -1);
+            if (this.selectedEmote != null && this.selectedEmote.equals(emote)) {
                 this.bindTexture(TEXTURE);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                this.drawTexturedModalRect(offsetX - 4, var15 - 4, 9, 210, 24, 24);
-                GL11.glDisable(GL11.GL_BLEND);
+                GL11.glEnable((int)3042);
+                GL11.glBlendFunc((int)770, (int)771);
+                GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+                this.func_73729_b(offsetX - 4, offsetY - 4, 9, 210, 24, 24);
+                GL11.glDisable((int)3042);
             }
-
-            if (mouseX >= offsetX && mouseX <= offsetX + 16 && mouseY >= var15 && mouseY <= var15 + 16)
-            {
+            if (mouseX >= offsetX && mouseX <= offsetX + 16 && mouseY >= offsetY && mouseY <= offsetY + 16) {
                 this.hoveredEmote = emote;
-                tooltipToDraw = I18n.getString("emotes." + this.hoveredEmote + ".name");
+                tooltipToDraw = I18n.func_135053_a((String)("emotes." + this.hoveredEmote + ".name"));
             }
+            ++i2;
         }
-
-        c = 0;
-
-        for (Iterator var17 = this.currentEmotes.iterator(); var17.hasNext(); ++c)
-        {
-            String var18 = (String)var17.next();
-
-            switch (c)
-            {
-                case 0:
-                    this.drawIcon(var18, this.guiLeft + 180, this.guiTop + 76, 0);
+        int c = 0;
+        for (String emote : this.currentEmotes) {
+            switch (c) {
+                case 0: {
+                    this.drawIcon(emote, this.guiLeft + 180, this.guiTop + 76, 0);
                     break;
-
-                case 1:
-                    this.drawIcon(var18, this.guiLeft + 204, this.guiTop + 76, 1);
+                }
+                case 1: {
+                    this.drawIcon(emote, this.guiLeft + 204, this.guiTop + 76, 1);
                     break;
-
-                case 2:
-                    this.drawIcon(var18, this.guiLeft + 166, this.guiTop + 98, 2);
+                }
+                case 2: {
+                    this.drawIcon(emote, this.guiLeft + 166, this.guiTop + 98, 2);
                     break;
-
-                case 3:
-                    this.drawIcon(var18, this.guiLeft + 218, this.guiTop + 98, 3);
+                }
+                case 3: {
+                    this.drawIcon(emote, this.guiLeft + 218, this.guiTop + 98, 3);
                     break;
-
-                case 4:
-                    this.drawIcon(var18, this.guiLeft + 180, this.guiTop + 120, 4);
+                }
+                case 4: {
+                    this.drawIcon(emote, this.guiLeft + 180, this.guiTop + 120, 4);
                     break;
-
-                case 5:
-                    this.drawIcon(var18, this.guiLeft + 204, this.guiTop + 120, 5);
+                }
+                case 5: {
+                    this.drawIcon(emote, this.guiLeft + 204, this.guiTop + 120, 5);
+                }
             }
-
-            if (this.selectedSlot != -1 && this.selectedSlot == c && this.currentEmotes.get(this.selectedSlot) != null && !((String)this.currentEmotes.get(this.selectedSlot)).isEmpty())
-            {
+            if (this.selectedSlot != -1 && this.selectedSlot == c && this.currentEmotes.get(this.selectedSlot) != null && !this.currentEmotes.get(this.selectedSlot).isEmpty()) {
                 this.bindTexture(TEXTURE);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                w = this.guiLeft;
+                GL11.glEnable((int)3042);
+                GL11.glBlendFunc((int)770, (int)771);
+                GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+                int w = this.guiLeft;
                 int h = this.guiTop;
-
-                switch (c)
-                {
-                    case 0:
+                switch (c) {
+                    case 0: {
                         w += 180;
                         h += 76;
                         break;
-
-                    case 1:
+                    }
+                    case 1: {
                         w += 204;
                         h += 76;
                         break;
-
-                    case 2:
+                    }
+                    case 2: {
                         w += 166;
                         h += 98;
                         break;
-
-                    case 3:
+                    }
+                    case 3: {
                         w += 218;
                         h += 98;
                         break;
-
-                    case 4:
+                    }
+                    case 4: {
                         w += 180;
                         h += 120;
                         break;
-
-                    case 5:
+                    }
+                    case 5: {
                         w += 204;
                         h += 120;
+                    }
                 }
-
-                this.drawTexturedModalRect(w - 4, h - 4, 9, 210, 24, 24);
-                GL11.glDisable(GL11.GL_BLEND);
+                this.func_73729_b(w - 4, h - 4, 9, 210, 24, 24);
+                GL11.glDisable((int)3042);
             }
+            ++c;
         }
-
-        if (this.selectedSlot != -1 && this.currentEmotes.get(this.selectedSlot) != null && !((String)this.currentEmotes.get(this.selectedSlot)).isEmpty())
-        {
-            drawScaledString(I18n.getString("emotes." + (String)this.currentEmotes.get(this.selectedSlot) + ".name"), this.guiLeft + 23, this.guiTop + 180, 16777215, 1.2F, false);
+        if (this.selectedSlot != -1 && this.currentEmotes.get(this.selectedSlot) != null && !this.currentEmotes.get(this.selectedSlot).isEmpty()) {
+            EmotesGUI.drawScaledString(I18n.func_135053_a((String)("emotes." + this.currentEmotes.get(this.selectedSlot) + ".name")), this.guiLeft + 23, this.guiTop + 180, 0xFFFFFF, 1.2f, false);
         }
-
-        super.drawScreen(mouseX, mouseY, partialsTicks);
-
-        if (mouseX >= this.guiLeft + 165 && mouseX <= this.guiLeft + 165 + 74 && mouseY >= this.guiTop + 175 && mouseY <= this.guiTop + 175 + 19 && this.selectedSlot != -1 && this.currentEmotes.get(this.selectedSlot) != "")
-        {
-            this.drawHoveringText(Arrays.asList(new String[] {I18n.getString("emotes.gui.label.remove")}), mouseX, mouseY, this.fontRenderer);
+        super.func_73863_a(mouseX, mouseY, partialsTicks);
+        if (mouseX >= this.guiLeft + 165 && mouseX <= this.guiLeft + 165 + 74 && mouseY >= this.guiTop + 175 && mouseY <= this.guiTop + 175 + 19 && this.selectedSlot != -1 && this.currentEmotes.get(this.selectedSlot) != "") {
+            this.drawHoveringText(Arrays.asList(I18n.func_135053_a((String)"emotes.gui.label.remove")), mouseX, mouseY, this.field_73886_k);
         }
-
-        for (i = 0; i <= 3; ++i)
-        {
-            if (mouseX >= this.guiLeft - (this.getClass() == ((GuiScreenTab)InventoryGUI.TABS.get(i)).getClassReferent() ? 23 : 20) && mouseX <= this.guiLeft + 3 && mouseY >= this.guiTop + 50 + i * 31 && mouseY <= this.guiTop + 85 + i * 31)
-            {
-                this.drawHoveringText(Collections.singletonList(I18n.getString("gui.cosmetic.tab." + i)), mouseX, mouseY, this.fontRenderer);
-            }
+        for (i2 = 0; i2 <= 3; ++i2) {
+            if (mouseX < this.guiLeft - (((Object)((Object)this)).getClass() == InventoryGUI.TABS.get(i2).getClassReferent() ? 23 : 20) || mouseX > this.guiLeft + 3 || mouseY < this.guiTop + 50 + i2 * 31 || mouseY > this.guiTop + 85 + i2 * 31) continue;
+            this.drawHoveringText(Collections.singletonList(I18n.func_135053_a((String)("gui.cosmetic.tab." + i2))), mouseX, mouseY, this.field_73886_k);
         }
-
-        for (i = 4; i < CosmeticGUI_OLD.TABS.size(); ++i)
-        {
-            if (mouseX >= this.guiLeft + 252 && mouseX <= this.guiLeft + 278 && mouseY >= this.guiTop + 50 + (i - 4) * 31 && mouseY <= this.guiTop + 85 + (i - 4) * 31)
-            {
-                this.drawHoveringText(Collections.singletonList(I18n.getString("gui.cosmetic.tab." + i)), mouseX, mouseY, this.fontRenderer);
-            }
+        for (i2 = 4; i2 < CosmeticGUI_OLD.TABS.size(); ++i2) {
+            if (mouseX < this.guiLeft + 252 || mouseX > this.guiLeft + 278 || mouseY < this.guiTop + 50 + (i2 - 4) * 31 || mouseY > this.guiTop + 85 + (i2 - 4) * 31) continue;
+            this.drawHoveringText(Collections.singletonList(I18n.func_135053_a((String)("gui.cosmetic.tab." + i2))), mouseX, mouseY, this.field_73886_k);
         }
-
-        if (!tooltipToDraw.isEmpty())
-        {
-            this.drawHoveringText(Arrays.asList(new String[] {tooltipToDraw}), mouseX, mouseY, this.fontRenderer);
+        if (!tooltipToDraw.isEmpty()) {
+            this.drawHoveringText(Arrays.asList(tooltipToDraw), mouseX, mouseY, this.field_73886_k);
         }
     }
 
-    private void drawIcon(String emote, int offsetX, int offsetY, int id)
-    {
+    private void drawIcon(String emote, int offsetX, int offsetY, int id) {
         ResourceLocation rl = new ResourceLocation("nationsgui", "emotes/icons/" + emote + ".png");
-
-        if (this.iconExist(rl))
-        {
+        if (this.iconExist(rl)) {
             this.bindTexture(rl);
-            ModernGui.drawModalRectWithCustomSizedTexture((float)offsetX, (float)offsetY, 0, 0, 16, 16, 16.0F, 16.0F, false);
-        }
-        else
-        {
+            ModernGui.drawModalRectWithCustomSizedTexture(offsetX, offsetY, 0, 0, 16, 16, 16.0f, 16.0f, false);
+        } else {
             this.bindTexture(TEXTURE);
-            this.drawTexturedModalRect(offsetX, offsetY, 11, 53, 16, 16);
-
-            if (id > -1 && !((String)this.currentEmotes.get(id)).isEmpty())
-            {
+            this.func_73729_b(offsetX, offsetY, 11, 53, 16, 16);
+            if (id > -1 && !this.currentEmotes.get(id).isEmpty()) {
                 this.bindTexture(new ResourceLocation("nationsgui", "emotes/icons/custom.png"));
-                ModernGui.drawModalRectWithCustomSizedTexture((float)offsetX, (float)offsetY, 0, 0, 16, 16, 16.0F, 16.0F, false);
+                ModernGui.drawModalRectWithCustomSizedTexture(offsetX, offsetY, 0, 0, 16, 16, 16.0f, 16.0f, false);
             }
-
-            if (id == -1)
-            {
+            if (id == -1) {
                 this.bindTexture(new ResourceLocation("nationsgui", "emotes/icons/custom.png"));
-                ModernGui.drawModalRectWithCustomSizedTexture((float)offsetX, (float)offsetY, 0, 0, 16, 16, 16.0F, 16.0F, false);
+                ModernGui.drawModalRectWithCustomSizedTexture(offsetX, offsetY, 0, 0, 16, 16, 16.0f, 16.0f, false);
             }
         }
     }
 
-    public void drawHoveringText(List<String> text, int mouseX, int mouseY, FontRenderer fontRenderer)
-    {
-        if (!text.isEmpty())
-        {
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
+    public void drawHoveringText(List<String> text, int mouseX, int mouseY, FontRenderer fontRenderer) {
+        if (!text.isEmpty()) {
+            GL11.glDisable((int)32826);
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
             int width = 0;
-            int offsetY;
-
-            for (Iterator posX = text.iterator(); posX.hasNext(); width = Math.max(width, offsetY))
-            {
-                String posY = (String)posX.next();
-                offsetY = fontRenderer.getStringWidth(posY);
+            for (String line : text) {
+                int lineWidth = fontRenderer.func_78256_a(line);
+                width = Math.max(width, lineWidth);
             }
-
-            int var14 = mouseX + 12;
-            int var15 = mouseY - 12;
-            offsetY = 8;
-
-            if (text.size() > 1)
-            {
+            int posX = mouseX + 12;
+            int posY = mouseY - 12;
+            int offsetY = 8;
+            if (text.size() > 1) {
                 offsetY += 2 + (text.size() - 1) * 10;
             }
-
-            if (var14 + width > this.width)
-            {
-                var14 -= 28 + width;
+            if (posX + width > this.field_73880_f) {
+                posX -= 28 + width;
             }
-
-            if (var15 + offsetY + 6 > this.height)
-            {
-                var15 = this.height - offsetY - 6;
+            if (posY + offsetY + 6 > this.field_73881_g) {
+                posY = this.field_73881_g - offsetY - 6;
             }
-
-            this.zLevel = 300.0F;
+            this.field_73735_i = 300.0f;
             int color1 = -267386864;
-            this.drawGradientRect(var14 - 3, var15 - 4, var14 + width + 3, var15 - 3, color1, color1);
-            this.drawGradientRect(var14 - 3, var15 + offsetY + 3, var14 + width + 3, var15 + offsetY + 4, color1, color1);
-            this.drawGradientRect(var14 - 3, var15 - 3, var14 + width + 3, var15 + offsetY + 3, color1, color1);
-            this.drawGradientRect(var14 - 4, var15 - 3, var14 - 3, var15 + offsetY + 3, color1, color1);
-            this.drawGradientRect(var14 + width + 3, var15 - 3, var14 + width + 4, var15 + offsetY + 3, color1, color1);
-            int color2 = 1347420415;
-            int color3 = (color2 & 16711422) >> 1 | color2 & -16777216;
-            this.drawGradientRect(var14 - 3, var15 - 3 + 1, var14 - 3 + 1, var15 + offsetY + 3 - 1, color2, color3);
-            this.drawGradientRect(var14 + width + 2, var15 - 3 + 1, var14 + width + 3, var15 + offsetY + 3 - 1, color2, color3);
-            this.drawGradientRect(var14 - 3, var15 - 3, var14 + width + 3, var15 - 3 + 1, color2, color2);
-            this.drawGradientRect(var14 - 3, var15 + offsetY + 2, var14 + width + 3, var15 + offsetY + 3, color3, color3);
-
-            for (int i = 0; i < text.size(); ++i)
-            {
-                String line = (String)text.get(i);
-
-                if (i == 0)
-                {
-                    fontRenderer.drawStringWithShadow(line, var14, var15, -1);
-                    var15 += 2;
+            this.func_73733_a(posX - 3, posY - 4, posX + width + 3, posY - 3, color1, color1);
+            this.func_73733_a(posX - 3, posY + offsetY + 3, posX + width + 3, posY + offsetY + 4, color1, color1);
+            this.func_73733_a(posX - 3, posY - 3, posX + width + 3, posY + offsetY + 3, color1, color1);
+            this.func_73733_a(posX - 4, posY - 3, posX - 3, posY + offsetY + 3, color1, color1);
+            this.func_73733_a(posX + width + 3, posY - 3, posX + width + 4, posY + offsetY + 3, color1, color1);
+            int color2 = 0x505000FF;
+            int color3 = (color2 & 0xFEFEFE) >> 1 | color2 & 0xFF000000;
+            this.func_73733_a(posX - 3, posY - 3 + 1, posX - 3 + 1, posY + offsetY + 3 - 1, color2, color3);
+            this.func_73733_a(posX + width + 2, posY - 3 + 1, posX + width + 3, posY + offsetY + 3 - 1, color2, color3);
+            this.func_73733_a(posX - 3, posY - 3, posX + width + 3, posY - 3 + 1, color2, color2);
+            this.func_73733_a(posX - 3, posY + offsetY + 2, posX + width + 3, posY + offsetY + 3, color3, color3);
+            for (int i = 0; i < text.size(); ++i) {
+                String line = text.get(i);
+                if (i == 0) {
+                    fontRenderer.func_78261_a(line, posX, posY, -1);
+                    posY += 2;
+                } else {
+                    fontRenderer.func_78261_a(EnumChatFormatting.GOLD + line, posX + width - fontRenderer.func_78256_a(line), posY, 0xFFFFFF);
                 }
-                else
-                {
-                    fontRenderer.drawStringWithShadow(EnumChatFormatting.GOLD + line, var14 + width - fontRenderer.getStringWidth(line), var15, 16777215);
-                }
-
-                var15 += 10;
+                posY += 10;
             }
-
-            this.zLevel = 0.0F;
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.field_73735_i = 0.0f;
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
+            GL11.glEnable((int)32826);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         }
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-    {
-        if (mouseButton == 0)
-        {
-            int slot;
+    protected void func_73864_a(int mouseX, int mouseY, int mouseButton) {
+        if (mouseButton == 0) {
             GuiScreenTab type;
-
-            for (slot = 0; slot <= 3; ++slot)
-            {
-                type = (GuiScreenTab)CosmeticGUI_OLD.TABS.get(slot);
-
-                if (mouseX >= this.guiLeft - 20 && mouseX <= this.guiLeft + 3 && mouseY >= this.guiTop + 50 + slot * 31 && mouseY <= this.guiTop + 85 + slot * 31)
-                {
-                    this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-
-                    if (this.getClass() != type.getClassReferent())
-                    {
-                        try
-                        {
-                            type.call();
-                        }
-                        catch (Exception var8)
-                        {
-                            var8.printStackTrace();
-                        }
-                    }
+            int i;
+            for (i = 0; i <= 3; ++i) {
+                type = CosmeticGUI_OLD.TABS.get(i);
+                if (mouseX < this.guiLeft - 20 || mouseX > this.guiLeft + 3 || mouseY < this.guiTop + 50 + i * 31 || mouseY > this.guiTop + 85 + i * 31) continue;
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                if (((Object)((Object)this)).getClass() == type.getClassReferent()) continue;
+                try {
+                    type.call();
+                    continue;
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-
-            for (slot = 4; slot < CosmeticGUI_OLD.TABS.size(); ++slot)
-            {
-                type = (GuiScreenTab)CosmeticGUI_OLD.TABS.get(slot);
-
-                if (mouseX >= this.guiLeft + 252 && mouseX <= this.guiLeft + 278 && mouseY >= this.guiTop + 50 + (slot - 4) * 31 && mouseY <= this.guiTop + 85 + (slot - 4) * 31)
-                {
-                    this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-
-                    if (this.getClass() != type.getClassReferent())
-                    {
-                        try
-                        {
-                            type.call();
-                        }
-                        catch (Exception var7)
-                        {
-                            var7.printStackTrace();
-                        }
-                    }
+            for (i = 4; i < CosmeticGUI_OLD.TABS.size(); ++i) {
+                type = CosmeticGUI_OLD.TABS.get(i);
+                if (mouseX < this.guiLeft + 252 || mouseX > this.guiLeft + 278 || mouseY < this.guiTop + 50 + (i - 4) * 31 || mouseY > this.guiTop + 85 + (i - 4) * 31) continue;
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                if (((Object)((Object)this)).getClass() == type.getClassReferent()) continue;
+                try {
+                    type.call();
+                    continue;
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-
-            if (mouseX >= this.guiLeft + 236 && mouseX <= this.guiLeft + 236 + 9 && mouseY >= this.guiTop + 17 && mouseY <= this.guiTop + 17 + 10)
-            {
-                this.mc.displayGuiScreen((GuiScreen)null);
-                this.mc.setIngameFocus();
-                this.mc.sndManager.resumeAllSounds();
+            if (mouseX >= this.guiLeft + 236 && mouseX <= this.guiLeft + 236 + 9 && mouseY >= this.guiTop + 17 && mouseY <= this.guiTop + 17 + 10) {
+                this.field_73882_e.func_71373_a(null);
+                this.field_73882_e.func_71381_h();
+                this.field_73882_e.field_71416_A.func_82461_f();
             }
-
-            if (this.hoveredEmote != null)
-            {
+            if (this.hoveredEmote != null) {
                 this.selectedEmote = this.hoveredEmote;
                 this.selectedSlot = -1;
             }
-
-            if (mouseX >= this.guiLeft + 154 && mouseX <= this.guiLeft + 154 + 92 && mouseY >= this.guiTop + 52 && mouseY <= this.guiTop + 52 + 107)
-            {
+            if (mouseX >= this.guiLeft + 154 && mouseX <= this.guiLeft + 154 + 92 && mouseY >= this.guiTop + 52 && mouseY <= this.guiTop + 52 + 107) {
                 this.selectedSlot = -1;
             }
-
-            boolean var9 = true;
-
-            if ((slot = this.mouseClickedInCurentSlots(mouseX, mouseY)) != -1)
-            {
+            int slot = -1;
+            slot = this.mouseClickedInCurentSlots(mouseX, mouseY);
+            if (slot != -1) {
                 this.selectedSlot = slot;
-
-                if (this.selectedEmote != null)
-                {
-                    if (!this.currentEmotes.contains(this.selectedEmote))
-                    {
+                if (this.selectedEmote != null) {
+                    if (!this.currentEmotes.contains(this.selectedEmote)) {
                         this.currentEmotes.set(this.selectedSlot, this.selectedEmote);
                     }
-
                     this.selectedEmote = null;
                 }
             }
         }
-
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+        super.func_73864_a(mouseX, mouseY, mouseButton);
     }
 
-    /**
-     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
-     */
-    protected void actionPerformed(GuiButton button)
-    {
-        switch (button.id)
-        {
-            case 0:
-                if (this.selectedSlot != -1)
-                {
-                    this.currentEmotes.set(this.selectedSlot, "");
-                    this.selectedSlot = -1;
-                }
-
-            default:
-        }
-    }
-
-    private int mouseClickedInCurentSlots(int mouseX, int mouseY)
-    {
-        byte slotLenght = 16;
-        int[][] slots = new int[][] {{180, 76}, {204, 76}, {166, 98}, {218, 98}, {180, 120}, {204, 120}};
-
-        for (int i = 0; i < slots.length; ++i)
-        {
-            int[] slot = slots[i];
-
-            if (mouseX >= this.guiLeft + slot[0] && mouseX <= this.guiLeft + slot[0] + slotLenght && mouseY >= this.guiTop + slot[1] && mouseY <= this.guiTop + slot[1] + slotLenght)
-            {
-                return i;
+    protected void func_73875_a(GuiButton button) {
+        switch (button.field_73741_f) {
+            case 0: {
+                if (this.selectedSlot == -1) break;
+                this.currentEmotes.set(this.selectedSlot, "");
+                this.selectedSlot = -1;
             }
         }
+    }
 
+    private int mouseClickedInCurentSlots(int mouseX, int mouseY) {
+        int slotLenght = 16;
+        int[][] slots = new int[][]{{180, 76}, {204, 76}, {166, 98}, {218, 98}, {180, 120}, {204, 120}};
+        for (int i = 0; i < slots.length; ++i) {
+            int[] slot = slots[i];
+            if (mouseX < this.guiLeft + slot[0] || mouseX > this.guiLeft + slot[0] + slotLenght || mouseY < this.guiTop + slot[1] || mouseY > this.guiTop + slot[1] + slotLenght) continue;
+            return i;
+        }
         return -1;
     }
 
-    /**
-     * Called when the screen is unloaded. Used to disable keyboard repeat events
-     */
-    public void onGuiClosed()
-    {
-        if (this.currentEmotes.size() < 7)
-        {
-            NGPlayerData.get(this.mc.thePlayer).setCurrentEmotes(this.currentEmotes);
+    public void func_73874_b() {
+        if (this.currentEmotes.size() < 7) {
+            NGPlayerData.get((EntityPlayer)this.field_73882_e.field_71439_g).setCurrentEmotes(this.currentEmotes);
             System.out.println("GuiClosed + sending current emotes");
         }
     }
 
-    private void bindTexture(ResourceLocation texture)
-    {
-        Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+    private void bindTexture(ResourceLocation texture) {
+        Minecraft.func_71410_x().field_71446_o.func_110577_a(texture);
     }
 
-    private boolean iconExist(ResourceLocation rl)
-    {
-        return EmotesGUI.class.getResourceAsStream("/assets/" + rl.getResourceDomain() + "/" + rl.getResourcePath()) != null;
+    private boolean iconExist(ResourceLocation rl) {
+        return EmotesGUI.class.getResourceAsStream("/assets/" + rl.func_110624_b() + "/" + rl.func_110623_a()) != null;
     }
 
-    public static void drawScaledString(String text, int x, int y, int color, float scale, boolean centered)
-    {
+    public static void drawScaledString(String text, int x, int y, int color, float scale, boolean centered) {
         GL11.glPushMatrix();
-        GL11.glScalef(scale, scale, scale);
-        float newX = (float)x;
-
-        if (centered)
-        {
-            newX = (float)x - (float)Minecraft.getMinecraft().fontRenderer.getStringWidth(text) * scale / 2.0F;
+        GL11.glScalef((float)scale, (float)scale, (float)scale);
+        float newX = x;
+        if (centered) {
+            newX = (float)x - (float)Minecraft.func_71410_x().field_71466_p.func_78256_a(text) * scale / 2.0f;
         }
-
-        Minecraft.getMinecraft().fontRenderer.drawString(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 16579836) >> 2 | color & -16777216, false);
-        Minecraft.getMinecraft().fontRenderer.drawString(text, (int)(newX / scale), (int)((float)y / scale), color, false);
+        Minecraft.func_71410_x().field_71466_p.func_85187_a(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 0xFCFCFC) >> 2 | color & 0xFF000000, false);
+        Minecraft.func_71410_x().field_71466_p.func_85187_a(text, (int)(newX / scale), (int)((float)y / scale), color, false);
         GL11.glPopMatrix();
     }
 }
+

@@ -1,3 +1,17 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.hash.Hashing
+ *  com.google.gson.JsonElement
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.renderer.entity.RenderBiped
+ *  net.minecraft.client.renderer.texture.DynamicTexture
+ *  net.minecraft.util.ResourceLocation
+ *  org.bouncycastle.util.encoders.Base64
+ */
 package net.ilexiconn.nationsgui.forge.server.json.registry.armor.property;
 
 import com.google.common.hash.Hashing;
@@ -5,6 +19,7 @@ import com.google.gson.JsonElement;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -20,100 +35,67 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
 import org.bouncycastle.util.encoders.Base64;
 
-@SideOnly(Side.CLIENT)
-public class TextureProperty implements JSONProperty<JSONArmorSet>
-{
+@SideOnly(value=Side.CLIENT)
+public class TextureProperty
+implements JSONProperty<JSONArmorSet> {
     private File parent = new File(".", "nationsgui");
     private Field field;
 
-    public TextureProperty()
-    {
-        try
-        {
+    public TextureProperty() {
+        try {
             this.field = RenderBiped.class.getDeclaredField("field_110859_k");
             this.field.setAccessible(true);
         }
-        catch (NoSuchFieldException var2)
-        {
-            var2.printStackTrace();
+        catch (NoSuchFieldException e) {
+            e.printStackTrace();
         }
     }
 
-    public boolean isApplicable(String name, JsonElement element, JSONArmorSet armorSet)
-    {
+    @Override
+    public boolean isApplicable(String name, JsonElement element, JSONArmorSet armorSet) {
         return name.equals("texture") || name.equals("texture_overlay");
     }
 
-    public void setProperty(String name, JsonElement element, JSONArmorSet armorSet)
-    {
+    @Override
+    public void setProperty(String name, JsonElement element, JSONArmorSet armorSet) {
         String texture = element.getAsString();
-        byte[] data = Base64.decode(texture.substring(texture.indexOf(",") + 1));
+        byte[] data = Base64.decode((String)texture.substring(texture.indexOf(",") + 1));
         String hash = Hashing.sha1().hashBytes(data).toString();
         File imageFile = new File(this.parent, hash.substring(0, 2) + File.separator + hash);
         BufferedImage image = null;
-
-        if (!imageFile.exists())
-        {
+        if (!imageFile.exists()) {
             imageFile.getParentFile().mkdirs();
-
-            try
-            {
+            try {
                 image = ImageIO.read(new ByteArrayInputStream(data));
-                ImageIO.write(image, "png", imageFile);
+                ImageIO.write((RenderedImage)image, "png", imageFile);
             }
-            catch (IOException var13)
-            {
-                var13.printStackTrace();
+            catch (IOException e) {
+                e.printStackTrace();
             }
-        }
-        else
-        {
-            try
-            {
+        } else {
+            try {
                 image = ImageIO.read(imageFile);
             }
-            catch (IOException var12)
-            {
-                var12.printStackTrace();
+            catch (IOException e) {
+                e.printStackTrace();
             }
         }
-
-        for (int location = 0; location < armorSet.getArmorSet().length; ++location)
-        {
-            JSONArmor e = armorSet.getArmorSet()[location];
-
-            if (e != null)
-            {
-                if (name.equals("texture_overlay"))
-                {
-                    e.textureOverlayHash = "nationsgui/armor/" + hash;
-                }
-                else
-                {
-                    e.textureHash = "nationsgui/armor/" + hash;
-                }
+        for (int i = 0; i < armorSet.getArmorSet().length; ++i) {
+            JSONArmor armor = armorSet.getArmorSet()[i];
+            if (armor == null) continue;
+            if (name.equals("texture_overlay")) {
+                armor.textureOverlayHash = "nationsgui/armor/" + hash;
+                continue;
             }
+            armor.textureHash = "nationsgui/armor/" + hash;
         }
-
-        ResourceLocation var14 = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("nationsgui/" + hash, new DynamicTexture(image));
-
-        try
-        {
-            ((Map)this.field.get((Object)null)).put("nationsgui/armor/" + hash, var14);
+        ResourceLocation location = Minecraft.func_71410_x().func_110434_K().func_110578_a("nationsgui/" + hash, new DynamicTexture(image));
+        try {
+            ((Map)this.field.get(null)).put("nationsgui/armor/" + hash, location);
         }
-        catch (IllegalAccessException var11)
-        {
-            var11.printStackTrace();
+        catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
-    }
-
-    public void setProperty(String var1, JsonElement var2, Object var3)
-    {
-        this.setProperty(var1, var2, (JSONArmorSet)var3);
-    }
-
-    public boolean isApplicable(String var1, JsonElement var2, Object var3)
-    {
-        return this.isApplicable(var1, var2, (JSONArmorSet)var3);
     }
 }
+

@@ -1,21 +1,33 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.gson.Gson
+ *  cpw.mods.fml.relauncher.IFMLLoadingPlugin
+ *  cpw.mods.fml.relauncher.IFMLLoadingPlugin$DependsOn
+ *  cpw.mods.fml.relauncher.IFMLLoadingPlugin$MCVersion
+ *  cpw.mods.fml.relauncher.IFMLLoadingPlugin$Name
+ *  cpw.mods.fml.relauncher.IFMLLoadingPlugin$SortingIndex
+ *  cpw.mods.fml.relauncher.IFMLLoadingPlugin$TransformerExclusions
+ *  net.minecraft.launchwrapper.IClassTransformer
+ *  org.objectweb.asm.ClassReader
+ *  org.objectweb.asm.ClassVisitor
+ *  org.objectweb.asm.ClassWriter
+ *  org.objectweb.asm.tree.ClassNode
+ */
 package net.ilexiconn.nationsgui.forge.server.asm;
 
 import com.google.gson.Gson;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.DependsOn;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.Name;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.SortingIndex;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 import fr.nationsglory.itemmanager.asm.GameRegistryTransformer;
 import fr.nationsglory.itemmanager.data.Config;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import net.ilexiconn.nationsgui.forge.server.asm.transformer.AbstractClientPlayerTransformer;
@@ -75,24 +87,25 @@ import net.ilexiconn.nationsgui.forge.server.asm.transformer.loading.ModDiscover
 import net.ilexiconn.nationsgui.forge.server.asm.transformer.loading.ResourceManagerTransformer;
 import net.minecraft.launchwrapper.IClassTransformer;
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
-@Name("NationsGUI")
-@SortingIndex(1001)
-@MCVersion("1.6.4")
-@DependsOn( {"NEICorePlugin"})
-@TransformerExclusions( {"net.ilexiconn.nationsgui.forge.server.asm."})
-public class NationsGUITransformer implements IFMLLoadingPlugin, IClassTransformer
-{
-    private List<Transformer> transformerList = new ArrayList();
+@IFMLLoadingPlugin.Name(value="NationsGUI")
+@IFMLLoadingPlugin.SortingIndex(value=1001)
+@IFMLLoadingPlugin.MCVersion(value="1.6.4")
+@IFMLLoadingPlugin.DependsOn(value={"NEICorePlugin"})
+@IFMLLoadingPlugin.TransformerExclusions(value={"net.ilexiconn.nationsgui.forge.server.asm."})
+public class NationsGUITransformer
+implements IFMLLoadingPlugin,
+IClassTransformer {
+    private List<Transformer> transformerList = new ArrayList<Transformer>();
     public static boolean inDevelopment;
     public static Config config;
-    public static boolean isServer = false;
-    public static boolean optifine = false;
+    public static boolean isServer;
+    public static boolean optifine;
 
-    public NationsGUITransformer()
-    {
+    public NationsGUITransformer() {
         this.transformerList.add(new MethodAndFieldsDebugTransformer());
         this.transformerList.add(new ServerListenThreadTransformer());
         this.transformerList.add(new LocaleTransformer());
@@ -149,97 +162,76 @@ public class NationsGUITransformer implements IFMLLoadingPlugin, IClassTransform
         this.transformerList.add(new ModContainerTransformer());
         this.transformerList.add(new FMLNetworkHandlerTransformer());
         Gson gson = new Gson();
-
-        try
-        {
-            config = (Config)gson.fromJson(new InputStreamReader((new URL("https://apiv2.nationsglory.fr/json/item_manager.json")).openStream()), Config.class);
+        try {
+            config = (Config)gson.fromJson((Reader)new InputStreamReader(new URL("https://apiv2.nationsglory.fr/json/item_manager.json").openStream()), Config.class);
         }
-        catch (IOException var3)
-        {
+        catch (IOException e) {
             config = new Config();
-            var3.printStackTrace();
+            e.printStackTrace();
         }
     }
 
-    public String[] getASMTransformerClass()
-    {
-        return new String[] {this.getClass().getName()};
+    public String[] getASMTransformerClass() {
+        return new String[]{this.getClass().getName()};
     }
 
-    public String getModContainerClass()
-    {
+    public String getModContainerClass() {
         return null;
     }
 
-    public String getSetupClass()
-    {
+    public String getSetupClass() {
         return null;
     }
 
-    public void injectData(Map<String, Object> data)
-    {
-        inDevelopment = !((Boolean)data.get("runtimeDeobfuscationEnabled")).booleanValue();
-
-        if (data.get("coremodLocation") != null)
-        {
+    public void injectData(Map<String, Object> data) {
+        boolean bl = inDevelopment = (Boolean)data.get("runtimeDeobfuscationEnabled") == false;
+        if (data.get("coremodLocation") != null) {
             isServer = ((File)data.get("coremodLocation")).getName().contains("nationsgui-server-1.8.0");
         }
-
-        try
-        {
+        try {
             Class.forName("optifine.OptiFineClassTransformer");
             optifine = true;
         }
-        catch (ClassNotFoundException var3)
-        {
-            ;
+        catch (ClassNotFoundException classNotFoundException) {
+            // empty catch block
         }
     }
 
-    public byte[] transform(String name, String transformedName, byte[] bytes)
-    {
-        Iterator var4 = this.transformerList.iterator();
-
-        while (var4.hasNext())
-        {
-            Transformer transformer = (Transformer)var4.next();
-
-            if (transformedName.equals(transformer.getTarget()))
-            {
-                ClassReader classReader = new ClassReader(bytes);
-                ClassNode classNode = new ClassNode();
-                classReader.accept(classNode, 0);
-                transformer.transform(classNode, inDevelopment);
-                ClassWriter classWriter = new ClassWriter(classReader, 1);
-                classNode.accept(classWriter);
-                this.saveBytecode(transformedName, classWriter);
-                bytes = classWriter.toByteArray();
-            }
+    public byte[] transform(String name, String transformedName, byte[] bytes) {
+        for (Transformer transformer : this.transformerList) {
+            if (!transformedName.equals(transformer.getTarget())) continue;
+            ClassReader classReader = new ClassReader(bytes);
+            ClassNode classNode = new ClassNode();
+            classReader.accept((ClassVisitor)classNode, 0);
+            transformer.transform(classNode, inDevelopment);
+            ClassWriter classWriter = new ClassWriter(classReader, 1);
+            classNode.accept((ClassVisitor)classWriter);
+            this.saveBytecode(transformedName, classWriter);
+            bytes = classWriter.toByteArray();
         }
-
         return bytes;
     }
 
-    private void saveBytecode(String name, ClassWriter cw)
-    {
-        try
-        {
-            File e = new File("debug/");
-
-            if (e.exists())
-            {
-                e.delete();
+    private void saveBytecode(String name, ClassWriter cw) {
+        try {
+            File debugDir = new File("debug/");
+            if (debugDir.exists()) {
+                debugDir.delete();
             }
-
-            e.mkdirs();
-            File output = new File(e, name + ".class");
+            debugDir.mkdirs();
+            File output = new File(debugDir, name + ".class");
             FileOutputStream out = new FileOutputStream(output);
             out.write(cw.toByteArray());
             out.close();
         }
-        catch (IOException var6)
-        {
-            var6.printStackTrace();
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
+
+    static {
+        isServer = false;
+        optifine = false;
+    }
 }
+

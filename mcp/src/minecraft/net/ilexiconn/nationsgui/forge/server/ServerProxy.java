@@ -1,34 +1,53 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.collect.Lists
+ *  com.google.common.collect.Maps
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.reflect.TypeToken
+ *  com.google.gson.Gson
+ *  cpw.mods.fml.common.network.IGuiHandler
+ *  cpw.mods.fml.common.network.NetworkRegistry
+ *  cpw.mods.fml.common.registry.EntityRegistry
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.item.crafting.CraftingManager
+ *  net.minecraft.item.crafting.IRecipe
+ *  net.minecraftforge.common.MinecraftForge
+ */
 package net.ilexiconn.nationsgui.forge.server;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import net.ilexiconn.nationsgui.forge.NationsGUI;
 import net.ilexiconn.nationsgui.forge.client.cache.CacheManager;
-import net.ilexiconn.nationsgui.forge.server.ServerProxy$1;
-import net.ilexiconn.nationsgui.forge.server.ServerProxy$2;
+import net.ilexiconn.nationsgui.forge.server.ServerEventHandler;
+import net.ilexiconn.nationsgui.forge.server.ServerGUIHandler;
 import net.ilexiconn.nationsgui.forge.server.entity.EntityPictureFrame;
 import net.ilexiconn.nationsgui.forge.server.entity.data.NGPlayerData;
 import net.ilexiconn.nationsgui.forge.server.json.registry.JSONRegistries;
 import net.ilexiconn.nationsgui.forge.server.json.registry.JSONRegistry;
 import net.ilexiconn.nationsgui.forge.server.json.registry.armor.JSONArmorSet;
 import net.ilexiconn.nationsgui.forge.server.json.registry.armor.property.EffectProperty;
+import net.ilexiconn.nationsgui.forge.server.json.registry.armor.property.LanguageProperty;
 import net.ilexiconn.nationsgui.forge.server.json.registry.armor.property.RepairProperty;
 import net.ilexiconn.nationsgui.forge.server.json.registry.armor.property.TooltipProperty;
 import net.ilexiconn.nationsgui.forge.server.json.registry.block.JSONBlock;
 import net.ilexiconn.nationsgui.forge.server.json.registry.block.property.DropProperty;
 import net.ilexiconn.nationsgui.forge.server.json.registry.block.property.HardnessProperty;
-import net.ilexiconn.nationsgui.forge.server.json.registry.block.property.LanguageProperty;
 import net.ilexiconn.nationsgui.forge.server.json.registry.block.property.ParticleProperty;
 import net.ilexiconn.nationsgui.forge.server.json.registry.block.property.TranslucentProperty;
 import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
@@ -424,14 +443,12 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.common.MinecraftForge;
 
-public class ServerProxy
-{
-    public static List<String> emotesName = new ArrayList();
+public class ServerProxy {
+    public static List<String> emotesName = new ArrayList<String>();
     public static List<String> mobilePlayers;
     private static CacheManager cacheManager;
 
-    public void onPreInit()
-    {
+    public void onPreInit() {
         PacketRegistry.INSTANCE.registerPacket(BuyPacket.class);
         PacketRegistry.INSTANCE.registerPacket(SnackbarPacket.class);
         PacketRegistry.INSTANCE.registerPacket(BlockEntityPacket.class);
@@ -818,85 +835,64 @@ public class ServerProxy
         PacketRegistry.INSTANCE.registerPacket(RemoteOpenNoelGiftPacket.class);
         PacketRegistry.INSTANCE.registerPacket(NoelMegaGiftOverlayDataPacket.class);
         PacketRegistry.INSTANCE.registerPacket(FactionNewMembersDataPacket.class);
-        MinecraftForge.EVENT_BUS.register(new NGPlayerData());
-        MinecraftForge.EVENT_BUS.register(ServerEventHandler.INSTANCE);
-        NetworkRegistry.instance().registerGuiHandler(NationsGUI.INSTANCE, ServerGUIHandler.INSTANCE);
+        MinecraftForge.EVENT_BUS.register((Object)new NGPlayerData());
+        MinecraftForge.EVENT_BUS.register((Object)ServerEventHandler.INSTANCE);
+        NetworkRegistry.instance().registerGuiHandler((Object)NationsGUI.INSTANCE, (IGuiHandler)ServerGUIHandler.INSTANCE);
         Gson gson = new Gson();
-
-        try
-        {
-            NationsGUI.CONTROL_BLACKLIST = (Map)gson.fromJson(new InputStreamReader((new URL("https://apiv2.nationsglory.fr/json/keybind_blacklist.json")).openStream()), (new ServerProxy$1(this)).getType());
-            NationsGUI.CRAFTING_BLACKLIST = (List)gson.fromJson(new InputStreamReader((new URL("https://apiv2.nationsglory.fr/json/recipe_blacklist.json")).openStream()), (new ServerProxy$2(this)).getType());
+        try {
+            NationsGUI.CONTROL_BLACKLIST = (Map)gson.fromJson((Reader)new InputStreamReader(new URL("https://apiv2.nationsglory.fr/json/keybind_blacklist.json").openStream()), new TypeToken<Map<String, List<String>>>(){}.getType());
+            NationsGUI.CRAFTING_BLACKLIST = (List)gson.fromJson((Reader)new InputStreamReader(new URL("https://apiv2.nationsglory.fr/json/recipe_blacklist.json").openStream()), new TypeToken<List<String>>(){}.getType());
             NationsGUI.CRAFTING_BLACKLIST.remove("3893");
         }
-        catch (IOException var4)
-        {
+        catch (IOException e) {
             NationsGUI.CONTROL_BLACKLIST = Maps.newHashMap();
             NationsGUI.CRAFTING_BLACKLIST = Lists.newArrayList();
         }
-
-        JSONRegistry blockRegistry = JSONRegistries.getRegistry(JSONBlock.class);
-        blockRegistry.addProperty(new LanguageProperty());
+        JSONRegistry<JSONBlock> blockRegistry = JSONRegistries.getRegistry(JSONBlock.class);
+        blockRegistry.addProperty(new net.ilexiconn.nationsgui.forge.server.json.registry.block.property.LanguageProperty());
         blockRegistry.addProperty(new HardnessProperty());
         blockRegistry.addProperty(new TranslucentProperty());
         blockRegistry.addProperty(new DropProperty());
         blockRegistry.addProperty(new ParticleProperty());
-        JSONRegistry armorRegistry = JSONRegistries.getRegistry(JSONArmorSet.class);
-        armorRegistry.addProperty(new net.ilexiconn.nationsgui.forge.server.json.registry.armor.property.LanguageProperty());
+        JSONRegistry<JSONArmorSet> armorRegistry = JSONRegistries.getRegistry(JSONArmorSet.class);
+        armorRegistry.addProperty(new LanguageProperty());
         armorRegistry.addProperty(new RepairProperty());
         armorRegistry.addProperty(new EffectProperty());
         armorRegistry.addProperty(new TooltipProperty());
     }
 
-    public void setupSkinPictureFrame(EntityPictureFrame entityPictureFrame) {}
-
-    public void onInit()
-    {
-        EntityRegistry.registerModEntity(EntityPictureFrame.class, "PictureFame", EntityRegistry.findGlobalUniqueEntityId(), NationsGUI.INSTANCE, 160, Integer.MAX_VALUE, false);
+    public void setupSkinPictureFrame(EntityPictureFrame entityPictureFrame) {
     }
 
-    public void onPostInit()
-    {
-        List recipes = CraftingManager.getInstance().getRecipeList();
+    public void onInit() {
+        EntityRegistry.registerModEntity(EntityPictureFrame.class, (String)"PictureFame", (int)EntityRegistry.findGlobalUniqueEntityId(), (Object)NationsGUI.INSTANCE, (int)160, (int)Integer.MAX_VALUE, (boolean)false);
+    }
+
+    public void onPostInit() {
+        List recipes = CraftingManager.func_77594_a().func_77592_b();
         ArrayList remove = Lists.newArrayList();
-        Iterator var3 = NationsGUI.CRAFTING_BLACKLIST.iterator();
-
-        while (var3.hasNext())
-        {
-            String id = (String)var3.next();
+        for (String id : NationsGUI.CRAFTING_BLACKLIST) {
             String[] sl = id.split(":");
-            Iterator var6 = recipes.iterator();
-
-            while (var6.hasNext())
-            {
-                IRecipe recipe = (IRecipe)var6.next();
-
-                if (recipe.getRecipeOutput() != null && recipe.getRecipeOutput().itemID == Integer.parseInt(sl[0]) && (sl.length == 1 || recipe.getRecipeOutput().getItemDamage() == Integer.parseInt(sl[1])))
-                {
-                    remove.add(recipe);
-                }
+            for (IRecipe recipe : recipes) {
+                if (recipe.func_77571_b() == null || recipe.func_77571_b().field_77993_c != Integer.parseInt(sl[0]) || sl.length != 1 && recipe.func_77571_b().func_77960_j() != Integer.parseInt(sl[1])) continue;
+                remove.add(recipe);
             }
         }
-
-        CraftingManager.getInstance().getRecipeList().removeAll(remove);
+        CraftingManager.func_77594_a().func_77592_b().removeAll(remove);
     }
 
-    public void handlePacket(ByteArrayDataInput data, IPacket packet, EntityPlayer player)
-    {
-        if (packet instanceof IServerPacket)
-        {
+    public void handlePacket(ByteArrayDataInput data, IPacket packet, EntityPlayer player) {
+        if (packet instanceof IServerPacket) {
             packet.fromBytes(data);
-            ((IServerPacket)packet).handleServerPacket(player);
+            ((IServerPacket)((Object)packet)).handleServerPacket(player);
         }
     }
 
-    public static CacheManager getCacheManager()
-    {
+    public static CacheManager getCacheManager() {
         return cacheManager;
     }
 
-    static
-    {
+    static {
         emotesName.add("airguitar");
         emotesName.add("cheer");
         emotesName.add("clap");
@@ -925,7 +921,8 @@ public class ServerProxy
         emotesName.add("awaken");
         emotesName.add("wry");
         emotesName.add("joseph");
-        mobilePlayers = new ArrayList();
+        mobilePlayers = new ArrayList<String>();
         cacheManager = new CacheManager();
     }
 }
+

@@ -1,5 +1,21 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.gui.ScaledResolution
+ *  net.minecraft.client.renderer.RenderHelper
+ *  net.minecraft.client.renderer.entity.RenderItem
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.util.ResourceLocation
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.hdv;
 
+import net.ilexiconn.nationsgui.forge.client.gui.hdv.MarketSimpleButton;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
 import net.ilexiconn.nationsgui.forge.client.gui.shop.ShopGUI;
 import net.ilexiconn.nationsgui.forge.server.asm.NationsGUIClientHooks;
@@ -14,10 +30,9 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-public class StatsGui extends GuiScreen
-{
+public class StatsGui
+extends GuiScreen {
     private static final ResourceLocation BACKGROUND = new ResourceLocation("nationsgui", "textures/gui/market_stats.png");
     private GuiScreen previousGui;
     private int posX;
@@ -27,99 +42,79 @@ public class StatsGui extends GuiScreen
     public static final ResourceLocation CHART1_TEXTURE = new ResourceLocation("nationsgui", "tmp/chart1");
     public static final ResourceLocation CHART2_TEXTURE = new ResourceLocation("nationsgui", "tmp/chart2");
 
-    public StatsGui(GuiScreen previousGui, ItemStack itemStack)
-    {
+    public StatsGui(GuiScreen previousGui, ItemStack itemStack) {
         this.previousGui = previousGui;
         this.itemStack = itemStack;
         PacketCallbacks.MONEY.send(new String[0]);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int par1, int par2, float par3)
-    {
-        this.drawDefaultBackground();
-        this.mc.getTextureManager().bindTexture(BACKGROUND);
-        ModernGui.drawModalRectWithCustomSizedTexture((float)this.posX, (float)this.posY, 0, 0, 343, 256, 372.0F, 400.0F, false);
+    public void func_73863_a(int par1, int par2, float par3) {
+        this.func_73873_v_();
+        this.field_73882_e.func_110434_K().func_110577_a(BACKGROUND);
+        ModernGui.drawModalRectWithCustomSizedTexture(this.posX, this.posY, 0, 0, 343, 256, 372.0f, 400.0f, false);
         String money = (int)ShopGUI.CURRENT_MONEY + " $";
-        this.fontRenderer.drawString(money, this.posX + 312 - this.fontRenderer.getStringWidth(money), this.posY + 9, 16777215);
-        this.fontRenderer.drawString(I18n.getStringParams("hdv.stats.name", new Object[] {this.itemStack.getDisplayName().replaceAll("^\\\u00a7[0-9a-z]", "")}), this.posX + 75, this.posY + 80, 16777215);
+        this.field_73886_k.func_78276_b(money, this.posX + 312 - this.field_73886_k.func_78256_a(money), this.posY + 9, 0xFFFFFF);
+        this.field_73886_k.func_78276_b(I18n.func_135052_a((String)"hdv.stats.name", (Object[])new Object[]{this.itemStack.func_82833_r().replaceAll("^\\\u00a7[0-9a-z]", "")}), this.posX + 75, this.posY + 80, 0xFFFFFF);
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)(this.posX + 28), (float)(this.posY + 3), 0.0F);
-        GL11.glScalef(2.0F, 2.0F, 2.0F);
-        this.fontRenderer.drawStringWithShadow(I18n.getString("hdv.title"), 0, 0, 16777215);
+        GL11.glTranslatef((float)(this.posX + 28), (float)(this.posY + 3), (float)0.0f);
+        GL11.glScalef((float)2.0f, (float)2.0f, (float)2.0f);
+        this.field_73886_k.func_78261_a(I18n.func_135053_a((String)"hdv.title"), 0, 0, 0xFFFFFF);
         GL11.glPopMatrix();
-        RenderHelper.enableGUIStandardItemLighting();
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        RenderHelper.func_74520_c();
+        GL11.glEnable((int)32826);
         GL11.glPushMatrix();
-        float size = 3.0F;
-        GL11.glTranslatef((float)(this.posX + 37) - 8.0F * size, (float)(this.posY + 117) - 8.0F * size, 0.0F);
-        GL11.glScalef(size, size, size);
-        this.renderItem.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), this.itemStack, 0, 0);
+        float size = 3.0f;
+        GL11.glTranslatef((float)((float)(this.posX + 37) - 8.0f * size), (float)((float)(this.posY + 117) - 8.0f * size), (float)0.0f);
+        GL11.glScalef((float)size, (float)size, (float)size);
+        this.renderItem.func_82406_b(this.field_73886_k, this.field_73882_e.func_110434_K(), this.itemStack, 0, 0);
         GL11.glPopMatrix();
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        RenderHelper.disableStandardItemLighting();
-        super.drawScreen(par1, par2, par3);
-        GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
-        GL11.glMatrixMode(GL11.GL_PROJECTION);
+        GL11.glDisable((int)2896);
+        GL11.glDisable((int)32826);
+        RenderHelper.func_74518_a();
+        super.func_73863_a(par1, par2, par3);
+        GL11.glClear((int)256);
+        GL11.glMatrixMode((int)5889);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0.0D, (double)this.mc.displayWidth, (double)this.mc.displayHeight, 0.0D, 1000.0D, 3000.0D);
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GL11.glOrtho((double)0.0, (double)this.field_73882_e.field_71443_c, (double)this.field_73882_e.field_71440_d, (double)0.0, (double)1000.0, (double)3000.0);
+        GL11.glMatrixMode((int)5888);
         GL11.glLoadIdentity();
-        GL11.glTranslatef(0.0F, 0.0F, -2000.0F);
-        GL11.glColor3f(1.0F, 1.0F, 1.0F);
-        Minecraft.getMinecraft().getTextureManager().bindTexture(CHART1_TEXTURE);
+        GL11.glTranslatef((float)0.0f, (float)0.0f, (float)-2000.0f);
+        GL11.glColor3f((float)1.0f, (float)1.0f, (float)1.0f);
+        Minecraft.func_71410_x().func_110434_K().func_110577_a(CHART1_TEXTURE);
         this.drawPriceChart(this.posX + 70, this.posY + 90, 260, 75);
-        Minecraft.getMinecraft().getTextureManager().bindTexture(CHART2_TEXTURE);
+        Minecraft.func_71410_x().func_110434_K().func_110577_a(CHART2_TEXTURE);
         this.drawPriceChart(this.posX + 70, this.posY + 170, 260, 75);
-
-        if (par1 >= this.posX + 7 && par1 <= this.posX + 7 + 60 && par2 >= this.posY + 75 && par2 <= this.posY + 75 + 83)
-        {
-            ScaledResolution scaledresolution = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
-            GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
-            GL11.glMatrixMode(GL11.GL_PROJECTION);
+        if (par1 >= this.posX + 7 && par1 <= this.posX + 7 + 60 && par2 >= this.posY + 75 && par2 <= this.posY + 75 + 83) {
+            ScaledResolution scaledresolution = new ScaledResolution(this.field_73882_e.field_71474_y, this.field_73882_e.field_71443_c, this.field_73882_e.field_71440_d);
+            GL11.glClear((int)256);
+            GL11.glMatrixMode((int)5889);
             GL11.glLoadIdentity();
-            GL11.glOrtho(0.0D, scaledresolution.getScaledWidth_double(), scaledresolution.getScaledHeight_double(), 0.0D, 1000.0D, 3000.0D);
-            GL11.glMatrixMode(GL11.GL_MODELVIEW);
+            GL11.glOrtho((double)0.0, (double)scaledresolution.func_78327_c(), (double)scaledresolution.func_78324_d(), (double)0.0, (double)1000.0, (double)3000.0);
+            GL11.glMatrixMode((int)5888);
             GL11.glLoadIdentity();
-            GL11.glTranslatef(0.0F, 0.0F, -2000.0F);
+            GL11.glTranslatef((float)0.0f, (float)0.0f, (float)-2000.0f);
             NationsGUIClientHooks.drawItemStackTooltip(this.itemStack, par1, par2);
-            GL11.glDisable(GL11.GL_LIGHTING);
+            GL11.glDisable((int)2896);
         }
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
-        this.posX = this.width / 2 - 171;
-        this.posY = this.height / 2 - 126;
-        this.buttonList.clear();
-        this.buttonList.add(new MarketSimpleButton(0, this.posX + 6, this.posY + 35, 75, 15, I18n.getString("hdv.return")));
+    public void func_73866_w_() {
+        super.func_73866_w_();
+        this.posX = this.field_73880_f / 2 - 171;
+        this.posY = this.field_73881_g / 2 - 126;
+        this.field_73887_h.clear();
+        this.field_73887_h.add(new MarketSimpleButton(0, this.posX + 6, this.posY + 35, 75, 15, I18n.func_135053_a((String)"hdv.return")));
     }
 
-    /**
-     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
-     */
-    protected void actionPerformed(GuiButton par1GuiButton)
-    {
-        if (par1GuiButton.id == 0)
-        {
-            this.mc.displayGuiScreen(this.previousGui);
+    protected void func_73875_a(GuiButton par1GuiButton) {
+        if (par1GuiButton.field_73741_f == 0) {
+            this.field_73882_e.func_71373_a(this.previousGui);
         }
     }
 
-    private void drawPriceChart(int x, int y, int width, int height)
-    {
-        ScaledResolution scaledresolution = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
-        x *= scaledresolution.getScaleFactor();
-        y *= scaledresolution.getScaleFactor();
-        width *= scaledresolution.getScaleFactor();
-        height *= scaledresolution.getScaleFactor();
-        ModernGui.drawModalRectWithCustomSizedTexture((float)x, (float)y, 0, 0, width, height, (float)width, (float)height, true);
+    private void drawPriceChart(int x, int y, int width, int height) {
+        ScaledResolution scaledresolution = new ScaledResolution(this.field_73882_e.field_71474_y, this.field_73882_e.field_71443_c, this.field_73882_e.field_71440_d);
+        ModernGui.drawModalRectWithCustomSizedTexture(x *= scaledresolution.func_78325_e(), y *= scaledresolution.func_78325_e(), 0, 0, width *= scaledresolution.func_78325_e(), height *= scaledresolution.func_78325_e(), width, height, true);
     }
 }
+

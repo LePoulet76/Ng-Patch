@@ -1,29 +1,37 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.IPlayerTracker
+ *  net.minecraft.entity.player.EntityPlayer
+ */
 package net.ilexiconn.nationsgui.forge.client.voices.networking.game;
 
 import cpw.mods.fml.common.IPlayerTracker;
 import net.ilexiconn.nationsgui.forge.client.voices.VoiceChatClient;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class ClientPlayerTracker implements IPlayerTracker
-{
+public class ClientPlayerTracker
+implements IPlayerTracker {
     VoiceChatClient voiceChat;
 
-    public ClientPlayerTracker(VoiceChatClient voiceChatClient)
-    {
+    public ClientPlayerTracker(VoiceChatClient voiceChatClient) {
         this.voiceChat = voiceChatClient;
     }
 
-    public void onPlayerLogin(EntityPlayer player) {}
+    public void onPlayerLogin(EntityPlayer player) {
+    }
 
-    public void onPlayerLogout(EntityPlayer player)
-    {
-        if (player != null && VoiceChatClient.getSoundManager() != null)
-        {
-            VoiceChatClient.getSoundManager().killStream(player.entityId);
+    public void onPlayerLogout(EntityPlayer player) {
+        if (player != null && VoiceChatClient.getSoundManager() != null) {
+            VoiceChatClient.getSoundManager().killStream(player.field_70157_k);
         }
     }
 
-    public void onPlayerChangedDimension(EntityPlayer player) {}
+    public void onPlayerChangedDimension(EntityPlayer player) {
+    }
 
-    public void onPlayerRespawn(EntityPlayer player) {}
+    public void onPlayerRespawn(EntityPlayer player) {
+    }
 }
+

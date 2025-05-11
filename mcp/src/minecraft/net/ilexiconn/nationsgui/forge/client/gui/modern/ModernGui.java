@@ -1,3 +1,18 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  fr.nationsglory.ngupgrades.common.CommonEventHandler
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.Gui
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.renderer.Tessellator
+ *  net.minecraft.client.renderer.entity.RenderItem
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.util.ResourceLocation
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.modern;
 
 import fr.nationsglory.ngupgrades.common.CommonEventHandler;
@@ -12,7 +27,7 @@ import net.ilexiconn.nationsgui.forge.client.ClientData;
 import net.ilexiconn.nationsgui.forge.client.ClientEventHandler;
 import net.ilexiconn.nationsgui.forge.client.ClientProxy;
 import net.ilexiconn.nationsgui.forge.client.gui.SliderHelpGui;
-import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui$1;
+import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernResourceLocation;
 import net.ilexiconn.nationsgui.forge.client.gui.override.GenericOverride;
 import net.ilexiconn.nationsgui.forge.client.render.texture.DownloadableTexture;
 import net.ilexiconn.nationsgui.forge.client.util.FontManager;
@@ -22,13 +37,13 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import sun.misc.BASE64Decoder;
 
-public class ModernGui extends Gui
-{
+public class ModernGui
+extends Gui {
     public static final ResourceLocation INFO_ICON = new ModernResourceLocation("ic_info");
     public static final ResourceLocation CART = new ModernResourceLocation("ic_cart_white");
     public static final ResourceLocation NO_MUSIC = new ModernResourceLocation("ic_mute");
@@ -40,807 +55,562 @@ public class ModernGui extends Gui
     private static HashMap<Integer, CFontRenderer> georamaExtraBold;
     private static HashMap<Integer, CFontRenderer> georamaBold;
     private static HashMap<Integer, CFontRenderer> minecraftDungeons;
-    public static String cachedOverlayMainTexture = "overlay_main";
-    private static long lastResetCachedOverlayMainTexture = 0L;
-    public static LinkedHashMap<String, Integer> ngColors = new ModernGui$1();
-    public static RenderItem itemRenderer = new RenderItem();
-    public static String hoveredCommonAction = "";
+    public static String cachedOverlayMainTexture;
+    private static long lastResetCachedOverlayMainTexture;
+    public static LinkedHashMap<String, Integer> ngColors;
+    public static RenderItem itemRenderer;
+    public static String hoveredCommonAction;
 
-    public static CFontRenderer getCustomFont(String fontName, Integer fontSize)
-    {
-        try
-        {
-            if (ModernGui.class.getDeclaredField(fontName).get(ModernGui.class) != null && ((HashMap)ModernGui.class.getDeclaredField(fontName).get(ModernGui.class)).containsKey(fontSize))
-            {
-                return (CFontRenderer)((HashMap)ModernGui.class.getDeclaredField(fontName).get(ModernGui.class)).get(fontSize);
+    public static CFontRenderer getCustomFont(String fontName, Integer fontSize) {
+        try {
+            if (ModernGui.class.getDeclaredField(fontName).get(ModernGui.class) == null || !((HashMap)ModernGui.class.getDeclaredField(fontName).get(ModernGui.class)).containsKey(fontSize)) {
+                CFontRenderer cFontRenderer = null;
+                cFontRenderer = fontName.equalsIgnoreCase("georamabold") ? FontManager.createFont("nationsgui", fontName + ".otf") : FontManager.createFont("nationsgui", fontName + ".ttf");
+                cFontRenderer.setFontSize(fontSize.intValue());
+                cFontRenderer.setAntiAlias(true);
+                HashMap hashMap = new HashMap();
+                if (ModernGui.class.getDeclaredField(fontName).get(ModernGui.class) != null) {
+                    hashMap = (HashMap)ModernGui.class.getDeclaredField(fontName).get(ModernGui.class);
+                }
+                hashMap.put(fontSize, cFontRenderer);
+                ModernGui.class.getDeclaredField(fontName).set(ModernGui.class, hashMap);
+                return cFontRenderer;
             }
-
-            CFontRenderer e = null;
-
-            if (fontName.equalsIgnoreCase("georamabold"))
-            {
-                e = FontManager.createFont("nationsgui", fontName + ".otf");
-            }
-            else
-            {
-                e = FontManager.createFont("nationsgui", fontName + ".ttf");
-            }
-
-            e.setFontSize((float)fontSize.intValue());
-            e.setAntiAlias(true);
-            HashMap hashMap = new HashMap();
-
-            if (ModernGui.class.getDeclaredField(fontName).get(ModernGui.class) != null)
-            {
-                hashMap = (HashMap)ModernGui.class.getDeclaredField(fontName).get(ModernGui.class);
-            }
-
-            hashMap.put(fontSize, e);
-            ModernGui.class.getDeclaredField(fontName).set(ModernGui.class, hashMap);
-            return e;
+            return (CFontRenderer)((HashMap)ModernGui.class.getDeclaredField(fontName).get(ModernGui.class)).get(fontSize);
         }
-        catch (NoSuchFieldException var4)
-        {
-            var4.printStackTrace();
+        catch (NoSuchFieldException e) {
+            e.printStackTrace();
         }
-        catch (IllegalAccessException var5)
-        {
-            var5.printStackTrace();
+        catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
-
         return null;
     }
 
-    public static void drawSectionStringCustomFont(String text, float x, float y, int color, float scale, String align, boolean shadow, String customFont, int fontSize, int interLign, int maxWidth)
-    {
-        CFontRenderer cFontRenderer = getCustomFont(customFont, Integer.valueOf(fontSize));
+    public static void drawSectionStringCustomFont(String text, float x, float y, int color, float scale, String align, boolean shadow, String customFont, int fontSize, int interLign, int maxWidth) {
+        CFontRenderer cFontRenderer = ModernGui.getCustomFont(customFont, fontSize);
         String[] words = text.split(" ");
         String line = "";
         int lineNumber = 0;
         int offsetOnLine = 0;
-        String[] var16 = words;
-        int var17 = words.length;
-
-        for (int var18 = 0; var18 < var17; ++var18)
-        {
-            String word = var16[var18];
-
-            if (word.equals("##"))
-            {
-                drawScaledStringCustomFont(line, x + (float)offsetOnLine, y + (float)(lineNumber * interLign), color, scale, align, shadow, customFont, fontSize);
+        for (String word : words) {
+            if (word.equals("##")) {
+                ModernGui.drawScaledStringCustomFont(line, x + (float)offsetOnLine, y + (float)(lineNumber * interLign), color, scale, align, shadow, customFont, fontSize);
                 lineNumber += 2;
                 line = "";
                 offsetOnLine = 0;
+                continue;
             }
-            else if (word.equals("#"))
-            {
-                drawScaledStringCustomFont(line, x + (float)offsetOnLine, y + (float)(lineNumber * interLign), color, scale, align, shadow, customFont, fontSize);
+            if (word.equals("#")) {
+                ModernGui.drawScaledStringCustomFont(line, x + (float)offsetOnLine, y + (float)(lineNumber * interLign), color, scale, align, shadow, customFont, fontSize);
                 ++lineNumber;
                 line = "";
                 offsetOnLine = 0;
+                continue;
             }
-            else if (cFontRenderer.getStringWidth(line + word) + (float)offsetOnLine / scale > (float)maxWidth)
-            {
-                drawScaledStringCustomFont(line, x + (float)offsetOnLine, y + (float)(lineNumber * interLign), color, scale, align, shadow, customFont, fontSize);
+            StringBuilder stringBuilder = new StringBuilder();
+            if (cFontRenderer.getStringWidth(stringBuilder.append(line).append(word).toString()) + (float)offsetOnLine / scale > (float)maxWidth) {
+                ModernGui.drawScaledStringCustomFont(line, x + (float)offsetOnLine, y + (float)(lineNumber * interLign), color, scale, align, shadow, customFont, fontSize);
                 ++lineNumber;
                 offsetOnLine = 0;
                 line = word;
-
-                if (word.matches("#.*#"))
-                {
-                    drawScaledStringCustomFont(word.replaceAll("#", ""), x + (float)offsetOnLine, y + (float)(lineNumber * interLign), 7239406, scale, align, shadow, customFont, fontSize);
-                    offsetOnLine = (int)((float)offsetOnLine + cFontRenderer.getStringWidth(word.replaceAll("#", "")) * scale);
-                    line = "";
-                }
+                if (!word.matches("#.*#")) continue;
+                ModernGui.drawScaledStringCustomFont(word.replaceAll("#", ""), x + (float)offsetOnLine, y + (float)(lineNumber * interLign), 0x6E76EE, scale, align, shadow, customFont, fontSize);
+                offsetOnLine = (int)((float)offsetOnLine + cFontRenderer.getStringWidth(word.replaceAll("#", "")) * scale);
+                line = "";
+                continue;
             }
-            else if (word.matches("#.*#"))
-            {
-                drawScaledStringCustomFont(line, x + (float)offsetOnLine, y + (float)(lineNumber * interLign), color, scale, align, shadow, customFont, fontSize);
-                drawScaledStringCustomFont(" " + word.replaceAll("#", ""), x + (float)offsetOnLine + (float)((int)(cFontRenderer.getStringWidth(line) * scale)), y + (float)(lineNumber * interLign), 7239406, scale, align, shadow, customFont, fontSize);
+            if (word.matches("#.*#")) {
+                ModernGui.drawScaledStringCustomFont(line, x + (float)offsetOnLine, y + (float)(lineNumber * interLign), color, scale, align, shadow, customFont, fontSize);
+                ModernGui.drawScaledStringCustomFont(" " + word.replaceAll("#", ""), x + (float)offsetOnLine + (float)((int)(cFontRenderer.getStringWidth(line) * scale)), y + (float)(lineNumber * interLign), 0x6E76EE, scale, align, shadow, customFont, fontSize);
                 offsetOnLine = (int)((float)offsetOnLine + cFontRenderer.getStringWidth(line + " " + word.replaceAll("#", "")) * scale);
                 line = "";
+                continue;
             }
-            else
-            {
-                line = line + " " + word;
-
-                if (offsetOnLine == 0)
-                {
-                    line = line.trim();
-                }
-            }
+            line = line + " " + word;
+            if (offsetOnLine != 0) continue;
+            line = line.trim();
         }
-
-        drawScaledStringCustomFont(line, x + (float)offsetOnLine, y + (float)(lineNumber * interLign), color, scale, align, shadow, customFont, fontSize);
+        ModernGui.drawScaledStringCustomFont(line, x + (float)offsetOnLine, y + (float)(lineNumber * interLign), color, scale, align, shadow, customFont, fontSize);
     }
 
-    public static void drawScaledStringCustomFont(String text, float x, float y, int color, float scale, String align, boolean shadow, String customFont, int fontSize)
-    {
-        CFontRenderer cFontRenderer = getCustomFont(customFont, Integer.valueOf(fontSize));
+    public static void drawScaledStringCustomFont(String text, float x, float y, int color, float scale, String align, boolean shadow, String customFont, int fontSize) {
+        CFontRenderer cFontRenderer = ModernGui.getCustomFont(customFont, fontSize);
         GL11.glPushMatrix();
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glScalef(scale, scale, scale);
-        float newX;
-
-        if (cFontRenderer != null)
-        {
-            newX = x;
-
-            if (align.equals("center"))
-            {
-                newX = x - cFontRenderer.getStringWidth(text) * scale / 2.0F;
-            }
-            else if (align.equals("right"))
-            {
+        GL11.glEnable((int)3042);
+        GL11.glBlendFunc((int)770, (int)771);
+        GL11.glDisable((int)2896);
+        GL11.glEnable((int)3553);
+        GL11.glScalef((float)scale, (float)scale, (float)scale);
+        if (cFontRenderer != null) {
+            float newX = x;
+            if (align.equals("center")) {
+                newX = x - cFontRenderer.getStringWidth(text) * scale / 2.0f;
+            } else if (align.equals("right")) {
                 newX = x - cFontRenderer.getStringWidth(text) * scale;
             }
-
-            if (shadow)
-            {
-                cFontRenderer.drawString(text.replaceAll("\u00a7.{1}", ""), (double)((int)(newX / scale)), (double)((int)((y + 1.0F) / scale)), 1908021, false);
+            if (shadow) {
+                cFontRenderer.drawString(text.replaceAll("\u00a7.{1}", ""), (int)(newX / scale), (int)((y + 1.0f) / scale), 1908021, false);
             }
-
-            cFontRenderer.drawString(text, (double)((int)(newX / scale)), (double)((int)(y / scale)), color, false);
+            cFontRenderer.drawString(text, (int)(newX / scale), (int)(y / scale), color, false);
+        } else {
+            float newX = x;
+            if (align.equals("center")) {
+                newX = x - (float)Minecraft.func_71410_x().field_71466_p.func_78256_a(text) * scale / 2.0f;
+            } else if (align.equals("right")) {
+                newX = x - (float)Minecraft.func_71410_x().field_71466_p.func_78256_a(text) * scale;
+            }
+            if (shadow) {
+                Minecraft.func_71410_x().field_71466_p.func_85187_a(text, (int)(newX / scale), (int)((y + 1.0f) / scale), (color & 0xFCFCFC) >> 2 | color & 0xFF000000, false);
+            }
+            Minecraft.func_71410_x().field_71466_p.func_85187_a(text, (int)(newX / scale), (int)(y / scale), color, false);
         }
-        else
-        {
-            newX = x;
-
-            if (align.equals("center"))
-            {
-                newX = x - (float)Minecraft.getMinecraft().fontRenderer.getStringWidth(text) * scale / 2.0F;
-            }
-            else if (align.equals("right"))
-            {
-                newX = x - (float)Minecraft.getMinecraft().fontRenderer.getStringWidth(text) * scale;
-            }
-
-            if (shadow)
-            {
-                Minecraft.getMinecraft().fontRenderer.drawString(text, (int)(newX / scale), (int)((y + 1.0F) / scale), (color & 16579836) >> 2 | color & -16777216, false);
-            }
-
-            Minecraft.getMinecraft().fontRenderer.drawString(text, (int)(newX / scale), (int)(y / scale), color, false);
-        }
-
         GL11.glPopMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
     }
 
-    public static void drawModalRectWithCustomSizedTexture(float x, float y, int u, int v, int width, int height, float textureWidth, float textureHeight, boolean filter)
-    {
-        textureWidth = 1.0F / textureWidth;
-        textureHeight = 1.0F / textureHeight;
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV((double)x, (double)(y + (float)height), 0.0D, (double)((float)u * textureWidth), (double)((float)(v + height) * textureHeight));
-        tessellator.addVertexWithUV((double)(x + (float)width), (double)(y + (float)height), 0.0D, (double)((float)(u + width) * textureWidth), (double)((float)(v + height) * textureHeight));
-        tessellator.addVertexWithUV((double)(x + (float)width), (double)y, 0.0D, (double)((float)(u + width) * textureWidth), (double)((float)v * textureHeight));
-        tessellator.addVertexWithUV((double)x, (double)y, 0.0D, (double)((float)u * textureWidth), (double)((float)v * textureHeight));
-        tessellator.draw();
+    public static void drawModalRectWithCustomSizedTexture(float x, float y, int u, int v, int width, int height, float textureWidth, float textureHeight, boolean filter) {
+        textureWidth = 1.0f / textureWidth;
+        textureHeight = 1.0f / textureHeight;
+        Tessellator tessellator = Tessellator.field_78398_a;
+        tessellator.func_78382_b();
+        tessellator.func_78374_a((double)x, (double)(y + (float)height), 0.0, (double)((float)u * textureWidth), (double)((float)(v + height) * textureHeight));
+        tessellator.func_78374_a((double)(x + (float)width), (double)(y + (float)height), 0.0, (double)((float)(u + width) * textureWidth), (double)((float)(v + height) * textureHeight));
+        tessellator.func_78374_a((double)(x + (float)width), (double)y, 0.0, (double)((float)(u + width) * textureWidth), (double)((float)v * textureHeight));
+        tessellator.func_78374_a((double)x, (double)y, 0.0, (double)((float)u * textureWidth), (double)((float)v * textureHeight));
+        tessellator.func_78381_a();
     }
 
-    public static void drawModalRectWithCustomSizedTextureWithTransparency(float x, float y, int u, int v, int width, int height, float textureWidth, float textureHeight, boolean filter)
-    {
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(false);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
-        drawModalRectWithCustomSizedTexture(x, y, u, v, width, height, textureWidth, textureHeight, filter);
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(true);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
+    public static void drawModalRectWithCustomSizedTextureWithTransparency(float x, float y, int u, int v, int width, int height, float textureWidth, float textureHeight, boolean filter) {
+        GL11.glEnable((int)3042);
+        GL11.glDisable((int)2929);
+        GL11.glDepthMask((boolean)false);
+        GL11.glBlendFunc((int)770, (int)771);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        GL11.glDisable((int)3008);
+        ModernGui.drawModalRectWithCustomSizedTexture(x, y, u, v, width, height, textureWidth, textureHeight, filter);
+        GL11.glDisable((int)3042);
+        GL11.glEnable((int)2929);
+        GL11.glDepthMask((boolean)true);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        GL11.glEnable((int)3008);
     }
 
-    public static void drawExtendedCircle(float x, float y, float width, float height)
-    {
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_BLEND);
-        float radius = width / 2.0F;
-        drawFilledCircle(x + width / 2.0F, y + radius, radius, 180, 180);
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertex((double)x, (double)(y + radius), 0.0D);
-        tessellator.addVertex((double)(x + width), (double)(y + radius), 0.0D);
-        tessellator.addVertex((double)(x + width), (double)(y + height - radius), 0.0D);
-        tessellator.addVertex((double)x, (double)(y + height - radius), 0.0D);
-        tessellator.draw();
-        drawFilledCircle(x + width / 2.0F, y + height - radius, radius, 0, 180);
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+    public static void drawExtendedCircle(float x, float y, float width, float height) {
+        GL11.glDisable((int)3553);
+        GL11.glEnable((int)3042);
+        float radius = width / 2.0f;
+        ModernGui.drawFilledCircle(x + width / 2.0f, y + radius, radius, 180, 180);
+        Tessellator tessellator = Tessellator.field_78398_a;
+        tessellator.func_78382_b();
+        tessellator.func_78377_a((double)x, (double)(y + radius), 0.0);
+        tessellator.func_78377_a((double)(x + width), (double)(y + radius), 0.0);
+        tessellator.func_78377_a((double)(x + width), (double)(y + height - radius), 0.0);
+        tessellator.func_78377_a((double)x, (double)(y + height - radius), 0.0);
+        tessellator.func_78381_a();
+        ModernGui.drawFilledCircle(x + width / 2.0f, y + height - radius, radius, 0, 180);
+        GL11.glDisable((int)3042);
+        GL11.glEnable((int)3553);
     }
 
-    public static void drawFilledCircle(float x, float y, float radius, int startAngle, int angle)
-    {
-        GL11.glShadeModel(GL11.GL_SMOOTH);
-        GL11.glDisable(GL11.GL_CULL_FACE);
-        GL11.glBegin(GL11.GL_TRIANGLE_FAN);
+    public static void drawFilledCircle(float x, float y, float radius, int startAngle, int angle) {
+        GL11.glShadeModel((int)7425);
+        GL11.glDisable((int)2884);
+        GL11.glBegin((int)6);
         float y1 = y;
         float x1 = x;
-
-        for (int i = 0; i <= angle; ++i)
-        {
-            float degInRad = (float)(i + startAngle) * (float)Math.PI / 180.0F;
-            float x2 = x + (float)Math.cos((double)degInRad) * radius;
-            float y2 = y + (float)Math.sin((double)degInRad) * radius;
-            GL11.glVertex2f(x, y);
-            GL11.glVertex2f(x1, y1);
-            GL11.glVertex2f(x2, y2);
+        for (int i = 0; i <= angle; ++i) {
+            float degInRad = (float)(i + startAngle) * (float)Math.PI / 180.0f;
+            float x2 = x + (float)Math.cos(degInRad) * radius;
+            float y2 = y + (float)Math.sin(degInRad) * radius;
+            GL11.glVertex2f((float)x, (float)y);
+            GL11.glVertex2f((float)x1, (float)y1);
+            GL11.glVertex2f((float)x2, (float)y2);
             y1 = y2;
             x1 = x2;
         }
-
         GL11.glEnd();
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GL11.glEnable((int)32826);
     }
 
-    public static void drawRoundedRectangle(float xPosition, float yPosition, float zLevel, float width, float height)
-    {
-        Tessellator tessellator = Tessellator.instance;
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        float radius = 2.0F;
-        drawFilledCircle(xPosition + radius, yPosition + radius, radius, 180, 90);
-        drawFilledCircle(xPosition + width - radius, yPosition + radius, radius, 270, 90);
-        drawFilledCircle(xPosition + width - radius, yPosition - radius + height, radius, 0, 90);
-        drawFilledCircle(xPosition + radius, yPosition - radius + height, radius, 90, 90);
-        tessellator.startDrawing(7);
-        tessellator.addVertex((double)(xPosition + radius), (double)yPosition, (double)zLevel);
-        tessellator.addVertex((double)(xPosition + radius), (double)(yPosition + height), (double)zLevel);
-        tessellator.addVertex((double)(xPosition + width - radius), (double)(yPosition + height), (double)zLevel);
-        tessellator.addVertex((double)(xPosition + width - radius), (double)yPosition, (double)zLevel);
-        tessellator.draw();
-        tessellator.startDrawing(7);
-        tessellator.addVertex((double)xPosition, (double)(yPosition + radius), (double)zLevel);
-        tessellator.addVertex((double)xPosition, (double)(yPosition + height - radius), (double)zLevel);
-        tessellator.addVertex((double)(xPosition + radius), (double)(yPosition + height - radius), (double)zLevel);
-        tessellator.addVertex((double)(xPosition + radius), (double)(yPosition + radius), (double)zLevel);
-        tessellator.draw();
-        tessellator.startDrawing(7);
-        tessellator.addVertex((double)(xPosition + width - radius), (double)(yPosition + radius), (double)zLevel);
-        tessellator.addVertex((double)(xPosition + width - radius), (double)(yPosition + height - radius), (double)zLevel);
-        tessellator.addVertex((double)(xPosition + width), (double)(yPosition + height - radius), (double)zLevel);
-        tessellator.addVertex((double)(xPosition + width), (double)(yPosition + radius), (double)zLevel);
-        tessellator.draw();
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+    public static void drawRoundedRectangle(float xPosition, float yPosition, float zLevel, float width, float height) {
+        Tessellator tessellator = Tessellator.field_78398_a;
+        GL11.glDisable((int)3553);
+        GL11.glEnable((int)3042);
+        GL11.glBlendFunc((int)770, (int)771);
+        float radius = 2.0f;
+        ModernGui.drawFilledCircle(xPosition + radius, yPosition + radius, radius, 180, 90);
+        ModernGui.drawFilledCircle(xPosition + width - radius, yPosition + radius, radius, 270, 90);
+        ModernGui.drawFilledCircle(xPosition + width - radius, yPosition - radius + height, radius, 0, 90);
+        ModernGui.drawFilledCircle(xPosition + radius, yPosition - radius + height, radius, 90, 90);
+        tessellator.func_78371_b(7);
+        tessellator.func_78377_a((double)(xPosition + radius), (double)yPosition, (double)zLevel);
+        tessellator.func_78377_a((double)(xPosition + radius), (double)(yPosition + height), (double)zLevel);
+        tessellator.func_78377_a((double)(xPosition + width - radius), (double)(yPosition + height), (double)zLevel);
+        tessellator.func_78377_a((double)(xPosition + width - radius), (double)yPosition, (double)zLevel);
+        tessellator.func_78381_a();
+        tessellator.func_78371_b(7);
+        tessellator.func_78377_a((double)xPosition, (double)(yPosition + radius), (double)zLevel);
+        tessellator.func_78377_a((double)xPosition, (double)(yPosition + height - radius), (double)zLevel);
+        tessellator.func_78377_a((double)(xPosition + radius), (double)(yPosition + height - radius), (double)zLevel);
+        tessellator.func_78377_a((double)(xPosition + radius), (double)(yPosition + radius), (double)zLevel);
+        tessellator.func_78381_a();
+        tessellator.func_78371_b(7);
+        tessellator.func_78377_a((double)(xPosition + width - radius), (double)(yPosition + radius), (double)zLevel);
+        tessellator.func_78377_a((double)(xPosition + width - radius), (double)(yPosition + height - radius), (double)zLevel);
+        tessellator.func_78377_a((double)(xPosition + width), (double)(yPosition + height - radius), (double)zLevel);
+        tessellator.func_78377_a((double)(xPosition + width), (double)(yPosition + radius), (double)zLevel);
+        tessellator.func_78381_a();
+        GL11.glDisable((int)3042);
+        GL11.glEnable((int)3553);
     }
 
-    public static void drawRectangle(float xPosition, float yPosition, float zLevel, float width, float height)
-    {
-        Tessellator tessellator = Tessellator.instance;
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        tessellator.startDrawing(7);
-        tessellator.addVertex((double)xPosition, (double)yPosition, (double)zLevel);
-        tessellator.addVertex((double)xPosition, (double)(yPosition + height), (double)zLevel);
-        tessellator.addVertex((double)(xPosition + width), (double)(yPosition + height), (double)zLevel);
-        tessellator.addVertex((double)(xPosition + width), (double)yPosition, (double)zLevel);
-        tessellator.draw();
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+    public static void drawRectangle(float xPosition, float yPosition, float zLevel, float width, float height) {
+        Tessellator tessellator = Tessellator.field_78398_a;
+        GL11.glEnable((int)3042);
+        GL11.glBlendFunc((int)770, (int)771);
+        GL11.glDisable((int)3553);
+        tessellator.func_78371_b(7);
+        tessellator.func_78377_a((double)xPosition, (double)yPosition, (double)zLevel);
+        tessellator.func_78377_a((double)xPosition, (double)(yPosition + height), (double)zLevel);
+        tessellator.func_78377_a((double)(xPosition + width), (double)(yPosition + height), (double)zLevel);
+        tessellator.func_78377_a((double)(xPosition + width), (double)yPosition, (double)zLevel);
+        tessellator.func_78381_a();
+        GL11.glDisable((int)3042);
+        GL11.glEnable((int)3553);
     }
 
-    public static void drawScaledCustomSizeModalRect(float x, float y, float u, float v, int uWidth, int vHeight, int width, int height, float tileWidth, float tileHeight, boolean transparency)
-    {
-        if (transparency)
-        {
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glDepthMask(false);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glDisable(GL11.GL_ALPHA_TEST);
+    public static void drawScaledCustomSizeModalRect(float x, float y, float u, float v, int uWidth, int vHeight, int width, int height, float tileWidth, float tileHeight, boolean transparency) {
+        if (transparency) {
+            GL11.glDisable((int)2929);
+            GL11.glDepthMask((boolean)false);
+            GL11.glBlendFunc((int)770, (int)771);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            GL11.glDisable((int)3008);
         }
-
-        GL11.glEnable(GL11.GL_BLEND);
-        float f = 1.0F / tileWidth;
-        float f1 = 1.0F / tileHeight;
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawing(7);
-        tessellator.addVertexWithUV((double)x, (double)(y + (float)height), 0.0D, (double)(u * f), (double)((v + (float)vHeight) * f1));
-        tessellator.addVertexWithUV((double)(x + (float)width), (double)(y + (float)height), 0.0D, (double)((u + (float)uWidth) * f), (double)((v + (float)vHeight) * f1));
-        tessellator.addVertexWithUV((double)(x + (float)width), (double)y, 0.0D, (double)((u + (float)uWidth) * f), (double)(v * f1));
-        tessellator.addVertexWithUV((double)x, (double)y, 0.0D, (double)(u * f), (double)(v * f1));
-        tessellator.draw();
-        GL11.glDisable(GL11.GL_BLEND);
-
-        if (transparency)
-        {
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
-            GL11.glDepthMask(true);
-            GL11.glEnable(GL11.GL_ALPHA_TEST);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glEnable((int)3042);
+        float f = 1.0f / tileWidth;
+        float f1 = 1.0f / tileHeight;
+        Tessellator tessellator = Tessellator.field_78398_a;
+        tessellator.func_78371_b(7);
+        tessellator.func_78374_a((double)x, (double)(y + (float)height), 0.0, (double)(u * f), (double)((v + (float)vHeight) * f1));
+        tessellator.func_78374_a((double)(x + (float)width), (double)(y + (float)height), 0.0, (double)((u + (float)uWidth) * f), (double)((v + (float)vHeight) * f1));
+        tessellator.func_78374_a((double)(x + (float)width), (double)y, 0.0, (double)((u + (float)uWidth) * f), (double)(v * f1));
+        tessellator.func_78374_a((double)x, (double)y, 0.0, (double)(u * f), (double)(v * f1));
+        tessellator.func_78381_a();
+        GL11.glDisable((int)3042);
+        if (transparency) {
+            GL11.glEnable((int)2929);
+            GL11.glDepthMask((boolean)true);
+            GL11.glEnable((int)3008);
+            GL11.glBlendFunc((int)770, (int)771);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         }
     }
 
-    public static void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow)
-    {
+    public static void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow) {
         GL11.glPushMatrix();
-        GL11.glScalef(scale, scale, scale);
-        float newX = (float)x;
-
-        if (centered)
-        {
-            newX = (float)x - (float)Minecraft.getMinecraft().fontRenderer.getStringWidth(text) * scale / 2.0F;
+        GL11.glScalef((float)scale, (float)scale, (float)scale);
+        float newX = x;
+        if (centered) {
+            newX = (float)x - (float)Minecraft.func_71410_x().field_71466_p.func_78256_a(text) * scale / 2.0f;
         }
-
-        if (shadow)
-        {
-            Minecraft.getMinecraft().fontRenderer.drawString(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 16579836) >> 2 | color & -16777216, false);
+        if (shadow) {
+            Minecraft.func_71410_x().field_71466_p.func_85187_a(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 0xFCFCFC) >> 2 | color & 0xFF000000, false);
         }
-
-        Minecraft.getMinecraft().fontRenderer.drawString(text, (int)(newX / scale), (int)((float)y / scale), color, false);
+        Minecraft.func_71410_x().field_71466_p.func_85187_a(text, (int)(newX / scale), (int)((float)y / scale), color, false);
         GL11.glPopMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
     }
 
-    public static void drawNGBlackSquare(int posX, int posY, int width, int height)
-    {
-        Gui.drawRect(posX, posY, posX + width, posY + height, -16777216);
-        Gui.drawRect(posX + 1, posY + 1, posX + width - 1, posY + height - 1, -15132391);
+    public static void drawNGBlackSquare(int posX, int posY, int width, int height) {
+        Gui.func_73734_a((int)posX, (int)posY, (int)(posX + width), (int)(posY + height), (int)-16777216);
+        Gui.func_73734_a((int)(posX + 1), (int)(posY + 1), (int)(posX + width - 1), (int)(posY + height - 1), (int)-15132391);
     }
 
-    public static void drawScaledModalRectWithCustomSizedRemoteTexture(int x, int y, int u, int v, int uWidth, int vHeight, int width, int height, float textureWidth, float textureHeight, boolean filter, String url)
-    {
+    public static void drawScaledModalRectWithCustomSizedRemoteTexture(int x, int y, int u, int v, int uWidth, int vHeight, int width, int height, float textureWidth, float textureHeight, boolean filter, String url) {
         DownloadableTexture downloadableTexture = ClientProxy.getRemoteResource(url);
-
-        if (downloadableTexture != null && downloadableTexture.isTextureUploaded())
-        {
-            Minecraft.getMinecraft().getTextureManager().bindTexture(ClientProxy.getLocationRemoteResource(url));
-            drawScaledCustomSizeModalRect((float)x, (float)y, (float)u, (float)v, uWidth, vHeight, width, height, textureWidth, textureHeight, filter);
+        if (downloadableTexture != null && downloadableTexture.isTextureUploaded()) {
+            Minecraft.func_71410_x().func_110434_K().func_110577_a(ClientProxy.getLocationRemoteResource(url));
+            ModernGui.drawScaledCustomSizeModalRect(x, y, u, v, uWidth, vHeight, width, height, textureWidth, textureHeight, filter);
         }
     }
 
-    public static void bindRemoteTexture(String url)
-    {
+    public static void bindRemoteTexture(String url) {
         DownloadableTexture downloadableTexture = ClientProxy.getRemoteResource(url);
-
-        if (downloadableTexture != null && downloadableTexture.isTextureUploaded())
-        {
-            Minecraft.getMinecraft().getTextureManager().bindTexture(ClientProxy.getLocationRemoteResource(url));
-        }
-        else
-        {
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+        if (downloadableTexture != null && downloadableTexture.isTextureUploaded()) {
+            Minecraft.func_71410_x().func_110434_K().func_110577_a(ClientProxy.getLocationRemoteResource(url));
+        } else {
+            GL11.glBindTexture((int)3553, (int)0);
         }
     }
 
-    public static boolean isRemoteTextureLoaded(String url)
-    {
+    public static boolean isRemoteTextureLoaded(String url) {
         DownloadableTexture downloadableTexture = ClientProxy.getRemoteResource(url);
         return downloadableTexture != null && downloadableTexture.isTextureUploaded();
     }
 
-    public static BufferedImage decodeToImage(String imageString)
-    {
+    public static BufferedImage decodeToImage(String imageString) {
         BufferedImage image = null;
-
-        try
-        {
-            BASE64Decoder e = new BASE64Decoder();
-            byte[] imageByte = e.decodeBuffer(imageString);
+        try {
+            BASE64Decoder decoder = new BASE64Decoder();
+            byte[] imageByte = decoder.decodeBuffer(imageString);
             ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
             image = ImageIO.read(bis);
             bis.close();
         }
-        catch (Exception var5)
-        {
-            var5.printStackTrace();
+        catch (Exception e) {
+            e.printStackTrace();
         }
-
         return image;
     }
 
-    public static String formatDelayTime(Long time)
-    {
+    public static String formatDelayTime(Long time) {
         long now = System.currentTimeMillis();
-        long diff = now - time.longValue();
+        long diff = now - time;
         String date = "";
         long days = diff / 86400000L;
         long hours = 0L;
         long minutes = 0L;
         long seconds = 0L;
-
-        if (days == 0L)
-        {
+        if (days == 0L) {
             hours = diff / 3600000L;
-
-            if (hours == 0L)
-            {
+            if (hours == 0L) {
                 minutes = diff / 60000L;
-
-                if (minutes == 0L)
-                {
+                if (minutes == 0L) {
                     seconds = diff / 1000L;
-                    date = date + " " + seconds + I18n.getString("faction.common.seconds.short");
+                    date = date + " " + seconds + I18n.func_135053_a((String)"faction.common.seconds.short");
+                } else {
+                    date = date + " " + minutes + I18n.func_135053_a((String)"faction.common.minutes.short");
                 }
-                else
-                {
-                    date = date + " " + minutes + I18n.getString("faction.common.minutes.short");
-                }
+            } else {
+                date = date + " " + hours + I18n.func_135053_a((String)"faction.common.hours.short");
             }
-            else
-            {
-                date = date + " " + hours + I18n.getString("faction.common.hours.short");
-            }
+        } else {
+            date = date + " " + days + I18n.func_135053_a((String)"faction.common.days.short");
         }
-        else
-        {
-            date = date + " " + days + I18n.getString("faction.common.days.short");
-        }
-
         return date.trim();
     }
 
-    public static String formatMillisToDaysHoursMinutesSeconds(Long time)
-    {
+    public static String formatMillisToDaysHoursMinutesSeconds(Long time) {
         String date = "";
-        long days = time.longValue() / 86400000L;
+        long days = time / 86400000L;
         long hours = 0L;
         long minutes = 0L;
         long seconds = 0L;
-
-        if (days == 0L)
-        {
-            hours = time.longValue() / 3600000L;
-
-            if (hours == 0L)
-            {
-                minutes = time.longValue() / 60000L;
-
-                if (minutes == 0L)
-                {
-                    seconds = time.longValue() / 1000L;
-                    date = date + " " + seconds + I18n.getString("faction.common.seconds.short");
+        if (days == 0L) {
+            hours = time / 3600000L;
+            if (hours == 0L) {
+                minutes = time / 60000L;
+                if (minutes == 0L) {
+                    seconds = time / 1000L;
+                    date = date + " " + seconds + I18n.func_135053_a((String)"faction.common.seconds.short");
+                } else {
+                    date = date + " " + minutes + I18n.func_135053_a((String)"faction.common.minutes.short");
                 }
-                else
-                {
-                    date = date + " " + minutes + I18n.getString("faction.common.minutes.short");
-                }
+            } else {
+                date = date + " " + hours + I18n.func_135053_a((String)"faction.common.hours.short");
             }
-            else
-            {
-                date = date + " " + hours + I18n.getString("faction.common.hours.short");
-            }
+        } else {
+            date = date + " " + days + I18n.func_135053_a((String)"faction.common.days.short");
         }
-        else
-        {
-            date = date + " " + days + I18n.getString("faction.common.days.short");
-        }
-
         return date.trim();
     }
 
-    public static String formatMillisToChrono(Long timeInMillis, boolean millis)
-    {
+    public static String formatMillisToChrono(Long timeInMillis, boolean millis) {
         StringBuilder formattedTime = new StringBuilder();
-        long hours = timeInMillis.longValue() / 3600000L;
-        timeInMillis = Long.valueOf(timeInMillis.longValue() % 3600000L);
-        long minutes = timeInMillis.longValue() / 60000L;
-        timeInMillis = Long.valueOf(timeInMillis.longValue() % 60000L);
-        long seconds = timeInMillis.longValue() / 1000L;
-        timeInMillis = Long.valueOf(timeInMillis.longValue() % 1000L);
-        long milliseconds = timeInMillis.longValue();
-        formattedTime.append(String.format("%02d", new Object[] {Long.valueOf(hours)})).append(":").append(String.format("%02d", new Object[] {Long.valueOf(minutes)})).append(":").append(String.format("%02d", new Object[] {Long.valueOf(seconds)}));
-
-        if (millis)
-        {
-            formattedTime.append(":").append(String.format("%03d", new Object[] {Long.valueOf(milliseconds)}));
+        long hours = timeInMillis / 3600000L;
+        timeInMillis = timeInMillis % 3600000L;
+        long minutes = timeInMillis / 60000L;
+        timeInMillis = timeInMillis % 60000L;
+        long seconds = timeInMillis / 1000L;
+        timeInMillis = timeInMillis % 1000L;
+        long milliseconds = timeInMillis;
+        formattedTime.append(String.format("%02d", hours)).append(":").append(String.format("%02d", minutes)).append(":").append(String.format("%02d", seconds));
+        if (millis) {
+            formattedTime.append(":").append(String.format("%03d", milliseconds));
         }
-
         return formattedTime.toString();
     }
 
-    public static String formatDuration(Long duration)
-    {
+    public static String formatDuration(Long duration) {
         String date = "";
-        long days = duration.longValue() / 86400L;
+        long days = duration / 86400L;
         long hours = 0L;
         long minutes = 0L;
         long seconds = 0L;
-
-        if (days == 0L)
-        {
-            hours = duration.longValue() / 3600L;
-            date = date + " " + hours + " " + I18n.getString("faction.common.hours");
+        if (days == 0L) {
+            hours = duration / 3600L;
+            date = date + " " + hours + " " + I18n.func_135053_a((String)"faction.common.hours");
+        } else {
+            date = date + " " + days + " " + I18n.func_135053_a((String)"faction.common.days");
         }
-        else
-        {
-            date = date + " " + days + " " + I18n.getString("faction.common.days");
-        }
-
         return date;
     }
 
-    public static String getRankColor(String rank)
-    {
+    public static String getRankColor(String rank) {
         String res = "\u00a7f";
-        String var2 = rank.toLowerCase();
-        byte var3 = -1;
-
-        switch (var2.hashCode())
-        {
-            case -2016291104:
-                if (var2.equals("moderateur"))
-                {
-                    var3 = 3;
-                }
-
-                break;
-
-            case -1996099632:
-                if (var2.equals("fondateur"))
-                {
-                    var3 = 9;
-                }
-
-                break;
-
-            case -1973319297:
-                if (var2.equals("respadmin"))
-                {
-                    var3 = 8;
-                }
-
-                break;
-
-            case -332106840:
-                if (var2.equals("supermodo"))
-                {
-                    var3 = 6;
-                }
-
-                break;
-
-            case -318452137:
-                if (var2.equals("premium"))
-                {
-                    var3 = 2;
-                }
-
-                break;
-
-            case 55934456:
-                if (var2.equals("legende"))
-                {
-                    var3 = 1;
-                }
-
-                break;
-
-            case 92668751:
-                if (var2.equals("admin"))
-                {
-                    var3 = 7;
-                }
-
-                break;
-
-            case 99168185:
-                if (var2.equals("heros"))
-                {
-                    var3 = 0;
-                }
-
-                break;
-
-            case 1670429593:
-                if (var2.equals("moderateur_plus"))
-                {
-                    var3 = 4;
-                }
-
-                break;
-
-            case 1670541969:
-                if (var2.equals("moderateur_test"))
-                {
-                    var3 = 5;
-                }
-
-                break;
-
-            case 1854118753:
-                if (var2.equals("co-fonda"))
-                {
-                    var3 = 10;
-                }
-        }
-
-        switch (var3)
-        {
-            case 0:
+        switch (rank.toLowerCase()) {
+            case "heros": {
                 res = "\u00a77";
                 break;
-
-            case 1:
+            }
+            case "legende": {
                 res = "\u00a73";
                 break;
-
-            case 2:
+            }
+            case "premium": {
                 res = "\u00a76";
                 break;
-
-            case 3:
-            case 4:
-            case 5:
+            }
+            case "moderateur": 
+            case "moderateur_plus": 
+            case "moderateur_test": {
                 res = "\u00a7a";
                 break;
-
-            case 6:
+            }
+            case "supermodo": {
                 res = "\u00a79";
                 break;
-
-            case 7:
+            }
+            case "admin": {
                 res = "\u00a7c";
                 break;
-
-            case 8:
+            }
+            case "respadmin": {
                 res = "\u00a74";
                 break;
-
-            case 9:
-            case 10:
+            }
+            case "fondateur": 
+            case "co-fonda": {
                 res = "\u00a7b";
+            }
         }
-
         return res;
     }
 
-    public static void glColorHex(int hex, float coeffBrightness)
-    {
-        float red = (float)(hex >> 16 & 255) / 255.0F;
-        float blue = (float)(hex >> 8 & 255) / 255.0F;
-        float green = (float)(hex & 255) / 255.0F;
-        float alpha = (float)(hex >> 24 & 255) / 255.0F;
-        GL11.glColor4f(red * coeffBrightness, blue * coeffBrightness, green * coeffBrightness, alpha);
+    public static void glColorHex(int hex, float coeffBrightness) {
+        float red = (float)(hex >> 16 & 0xFF) / 255.0f;
+        float blue = (float)(hex >> 8 & 0xFF) / 255.0f;
+        float green = (float)(hex & 0xFF) / 255.0f;
+        float alpha = (float)(hex >> 24 & 0xFF) / 255.0f;
+        GL11.glColor4f((float)(red * coeffBrightness), (float)(blue * coeffBrightness), (float)(green * coeffBrightness), (float)alpha);
     }
 
-    public static void glColorHexFromNgColor(String color, float coeffBrightness)
-    {
-        int hex = ngColors.containsKey(color) ? ((Integer)ngColors.get(color)).intValue() : -1;
-        float red = (float)(hex >> 16 & 255) / 255.0F;
-        float blue = (float)(hex >> 8 & 255) / 255.0F;
-        float green = (float)(hex & 255) / 255.0F;
-        float alpha = (float)(hex >> 24 & 255) / 255.0F;
-        GL11.glColor4f(red * coeffBrightness, blue * coeffBrightness, green * coeffBrightness, alpha);
+    public static void glColorHexFromNgColor(String color, float coeffBrightness) {
+        int hex = ngColors.containsKey(color) ? ngColors.get(color) : -1;
+        float red = (float)(hex >> 16 & 0xFF) / 255.0f;
+        float blue = (float)(hex >> 8 & 0xFF) / 255.0f;
+        float green = (float)(hex & 0xFF) / 255.0f;
+        float alpha = (float)(hex >> 24 & 0xFF) / 255.0f;
+        GL11.glColor4f((float)(red * coeffBrightness), (float)(blue * coeffBrightness), (float)(green * coeffBrightness), (float)alpha);
     }
 
-    public static String formatIntToDevise(int value)
-    {
+    public static String formatIntToDevise(int value) {
         String res = "";
-
-        for (int i = (value + "").length() - 1; i >= 0; --i)
-        {
+        for (int i = new StringBuilder().append(value).append("").toString().length() - 1; i >= 0; --i) {
             char c = (value + "").charAt(i);
-
-            if (res.length() != 0 && res.replaceAll("\\.", "").length() % 3 == 0)
-            {
+            if (res.length() != 0 && res.replaceAll("\\.", "").length() % 3 == 0) {
                 res = "." + res;
             }
-
             res = c + res;
         }
-
         return res;
     }
 
-    public static String chronoTimeToStr(Long chrono, boolean millis)
-    {
-        if (chrono != null && chrono.longValue() >= 0L)
-        {
-            long hours = TimeUnit.MILLISECONDS.toHours(chrono.longValue());
-            chrono = Long.valueOf(chrono.longValue() - TimeUnit.HOURS.toMillis(hours));
-            long minutes = TimeUnit.MILLISECONDS.toMinutes(chrono.longValue());
-            chrono = Long.valueOf(chrono.longValue() - TimeUnit.MINUTES.toMillis(minutes));
-            long seconds = TimeUnit.MILLISECONDS.toSeconds(chrono.longValue());
-            chrono = Long.valueOf(chrono.longValue() - TimeUnit.SECONDS.toMillis(seconds));
-            long left = chrono.longValue() / 10L;
-            String chronoStr = "";
-
-            if (hours > 0L)
-            {
-                chronoStr = chronoStr + (hours < 10L ? "0" + hours : Long.valueOf(hours));
-            }
-
-            chronoStr = chronoStr + (!chronoStr.isEmpty() ? ":" : "") + (minutes < 10L ? "0" + minutes : Long.valueOf(minutes));
-            chronoStr = chronoStr + (!chronoStr.isEmpty() ? ":" : "") + (seconds < 10L ? "0" + seconds : Long.valueOf(seconds));
-
-            if (millis)
-            {
-                chronoStr = chronoStr + (!chronoStr.isEmpty() ? ":" : "") + (left < 10L ? "0" + left : Long.valueOf(left));
-            }
-
-            return chronoStr;
-        }
-        else
-        {
+    public static String chronoTimeToStr(Long chrono, boolean millis) {
+        if (chrono == null || chrono < 0L) {
             return "00:00";
         }
+        long hours = TimeUnit.MILLISECONDS.toHours(chrono);
+        chrono = chrono - TimeUnit.HOURS.toMillis(hours);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(chrono);
+        chrono = chrono - TimeUnit.MINUTES.toMillis(minutes);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(chrono);
+        chrono = chrono - TimeUnit.SECONDS.toMillis(seconds);
+        long left = chrono / 10L;
+        String chronoStr = "";
+        if (hours > 0L) {
+            chronoStr = chronoStr + (hours < 10L ? "0" + hours : Long.valueOf(hours));
+        }
+        chronoStr = chronoStr + (!chronoStr.isEmpty() ? ":" : "") + (minutes < 10L ? "0" + minutes : Long.valueOf(minutes));
+        chronoStr = chronoStr + (!chronoStr.isEmpty() ? ":" : "") + (seconds < 10L ? "0" + seconds : Long.valueOf(seconds));
+        if (millis) {
+            chronoStr = chronoStr + (!chronoStr.isEmpty() ? ":" : "") + (left < 10L ? "0" + left : Long.valueOf(left));
+        }
+        return chronoStr;
     }
 
-    public static String getFormattedTimeDiff(long timestamp1, long timestamp2)
-    {
+    public static String getFormattedTimeDiff(long timestamp1, long timestamp2) {
         long diffInMilliseconds = Math.max(0L, timestamp1 - timestamp2);
         long hours = TimeUnit.MILLISECONDS.toHours(diffInMilliseconds);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(diffInMilliseconds) - TimeUnit.HOURS.toMinutes(hours);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(diffInMilliseconds) - TimeUnit.MINUTES.toSeconds(minutes) - TimeUnit.HOURS.toSeconds(hours);
-        return String.format("%02d:%02d:%02d", new Object[] {Long.valueOf(hours), Long.valueOf(minutes), Long.valueOf(seconds)});
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
-    public static void drawDefaultBackground(GuiScreen gui, int width, int height, int mouseX, int mouseY)
-    {
+    public static void drawDefaultBackground(GuiScreen gui, int width, int height, int mouseX, int mouseY) {
         hoveredCommonAction = "";
         String GUIClass = gui.getClass().getSimpleName();
-        Gui.drawRect(0, 0, width, height, -435023335);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        bindTextureOverlayMain();
-        boolean hoveringClose;
-
-        if (ClientData.GUIWithHelp.containsKey(GUIClass) && !((String)ClientData.GUIWithHelp.get(GUIClass)).isEmpty())
-        {
-            bindTextureOverlayMain();
-            hoveringClose = mouseX >= width - 82 && mouseX < width - 82 + 54 && mouseY >= 10 && mouseY < 24;
-            drawScaledCustomSizeModalRect((float)(width - 82), 10.0F, (float)(1727 * GenericOverride.GUI_SCALE), (float)((hoveringClose ? 215 : 153) * GenericOverride.GUI_SCALE), 189 * GenericOverride.GUI_SCALE, 52 * GenericOverride.GUI_SCALE, 54, 14, (float)(1920 * GenericOverride.GUI_SCALE), (float)(1033 * GenericOverride.GUI_SCALE), false);
-            drawScaledStringCustomFont(I18n.getString("gui.common.help"), (float)(width - 82 + 24), 14.0F, hoveringClose ? 0 : 16777215, 0.5F, "left", false, "georamaSemiBold", 24);
-
-            if (hoveringClose)
-            {
+        Gui.func_73734_a((int)0, (int)0, (int)width, (int)height, (int)-435023335);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        ModernGui.bindTextureOverlayMain();
+        if (ClientData.GUIWithHelp.containsKey(GUIClass) && !ClientData.GUIWithHelp.get(GUIClass).isEmpty()) {
+            ModernGui.bindTextureOverlayMain();
+            boolean hoveringReturn = mouseX >= width - 82 && mouseX < width - 82 + 54 && mouseY >= 10 && mouseY < 24;
+            ModernGui.drawScaledCustomSizeModalRect(width - 82, 10.0f, 1727 * GenericOverride.GUI_SCALE, (hoveringReturn ? 215 : 153) * GenericOverride.GUI_SCALE, 189 * GenericOverride.GUI_SCALE, 52 * GenericOverride.GUI_SCALE, 54, 14, 1920 * GenericOverride.GUI_SCALE, 1033 * GenericOverride.GUI_SCALE, false);
+            ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"gui.common.help"), width - 82 + 24, 14.0f, hoveringReturn ? 0 : 0xFFFFFF, 0.5f, "left", false, "georamaSemiBold", 24);
+            if (hoveringReturn) {
                 hoveredCommonAction = "help";
             }
         }
-
-        bindTextureOverlayMain();
-        hoveringClose = mouseX >= width - 25 && mouseX < width - 25 + 14 && mouseY >= 10 && mouseY < 24;
-        drawScaledCustomSizeModalRect((float)(width - 25), 10.0F, (float)(1658 * GenericOverride.GUI_SCALE), (float)((hoveringClose ? 215 : 153) * GenericOverride.GUI_SCALE), 52 * GenericOverride.GUI_SCALE, 52 * GenericOverride.GUI_SCALE, 14, 14, (float)(1920 * GenericOverride.GUI_SCALE), (float)(1033 * GenericOverride.GUI_SCALE), false);
-
-        if (hoveringClose)
-        {
+        ModernGui.bindTextureOverlayMain();
+        boolean hoveringClose = mouseX >= width - 25 && mouseX < width - 25 + 14 && mouseY >= 10 && mouseY < 24;
+        ModernGui.drawScaledCustomSizeModalRect(width - 25, 10.0f, 1658 * GenericOverride.GUI_SCALE, (hoveringClose ? 215 : 153) * GenericOverride.GUI_SCALE, 52 * GenericOverride.GUI_SCALE, 52 * GenericOverride.GUI_SCALE, 14, 14, 1920 * GenericOverride.GUI_SCALE, 1033 * GenericOverride.GUI_SCALE, false);
+        if (hoveringClose) {
             hoveredCommonAction = "close";
         }
     }
 
-    public static void mouseClickedCommon(GuiScreen gui, int mouseX, int mouseY, int mouseButton)
-    {
-        if (mouseButton == 0)
-        {
-            if (hoveredCommonAction.equals("close"))
-            {
-                Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
-            }
-            else if (hoveredCommonAction.equals("help"))
-            {
-                Minecraft.getMinecraft().displayGuiScreen(new SliderHelpGui((String)ClientData.GUIWithHelp.get(gui.getClass().getSimpleName()), gui));
+    public static void mouseClickedCommon(GuiScreen gui, int mouseX, int mouseY, int mouseButton) {
+        if (mouseButton == 0) {
+            if (hoveredCommonAction.equals("close")) {
+                Minecraft.func_71410_x().func_71373_a(null);
+            } else if (hoveredCommonAction.equals("help")) {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new SliderHelpGui(ClientData.GUIWithHelp.get(gui.getClass().getSimpleName()), gui));
             }
         }
     }
 
-    public static void bindTextureOverlayMain()
-    {
-        if (System.currentTimeMillis() - lastResetCachedOverlayMainTexture > 1000L)
-        {
-            if (CommonEventHandler.isWearingFullSpartanWhiteArmor(Minecraft.getMinecraft().thePlayer))
-            {
-                cachedOverlayMainTexture = "overlay_main_spartan_white";
-            }
-            else
-            {
-                cachedOverlayMainTexture = "overlay_main";
-            }
-
+    public static void bindTextureOverlayMain() {
+        if (System.currentTimeMillis() - lastResetCachedOverlayMainTexture > 1000L) {
+            cachedOverlayMainTexture = CommonEventHandler.isWearingFullSpartanWhiteArmor((EntityPlayer)Minecraft.func_71410_x().field_71439_g) ? "overlay_main_spartan_white" : "overlay_main";
             lastResetCachedOverlayMainTexture = System.currentTimeMillis();
         }
-
         ClientEventHandler.STYLE.bindTexture(cachedOverlayMainTexture);
     }
+
+    static {
+        cachedOverlayMainTexture = "overlay_main";
+        lastResetCachedOverlayMainTexture = 0L;
+        ngColors = new LinkedHashMap<String, Integer>(){
+            {
+                this.put("yellow", -407550);
+                this.put("red", -1760196);
+                this.put("orange", -2323131);
+                this.put("green", -8730273);
+                this.put("dark_green", -15175913);
+                this.put("blue", -9537810);
+                this.put("cyan", -9518866);
+                this.put("purple", -5345554);
+                this.put("pink", -1867845);
+                this.put("white", -1314054);
+                this.put("blue_grey", -10453363);
+                this.put("brown_light", -6452109);
+            }
+        };
+        itemRenderer = new RenderItem();
+        hoveredCommonAction = "";
+    }
 }
+

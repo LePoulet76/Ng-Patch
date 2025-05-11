@@ -1,3 +1,28 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.common.registry.IEntityAdditionalSpawnData
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.block.material.Material
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.renderer.IImageBuffer
+ *  net.minecraft.client.renderer.ImageBufferDownload
+ *  net.minecraft.client.renderer.texture.TextureManager
+ *  net.minecraft.entity.Entity
+ *  net.minecraft.entity.EntityHanging
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.server.MinecraftServer
+ *  net.minecraft.util.DamageSource
+ *  net.minecraft.util.Direction
+ *  net.minecraft.util.MathHelper
+ *  net.minecraft.util.ResourceLocation
+ *  net.minecraft.world.World
+ */
 package net.ilexiconn.nationsgui.forge.server.entity;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -16,7 +41,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ImageBufferDownload;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureObject;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,8 +52,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class EntityPictureFrame extends Entity implements IEntityAdditionalSpawnData
-{
+public class EntityPictureFrame
+extends Entity
+implements IEntityAdditionalSpawnData {
     private String url;
     private int pictureWidth;
     private int pictureHeigth;
@@ -43,31 +68,23 @@ public class EntityPictureFrame extends Entity implements IEntityAdditionalSpawn
     private boolean allowRender;
     private DownloadableTexture downloadImageSkin;
 
-    public EntityPictureFrame(World world)
-    {
+    public EntityPictureFrame(World world) {
         super(world);
-        this.yOffset = 0.0F;
-        this.setSize(0.5F, 0.5F);
-
-        if (world.isRemote)
-        {
+        this.field_70129_M = 0.0f;
+        this.func_70105_a(0.5f, 0.5f);
+        if (world.field_72995_K) {
             this.allowRender = ClientProxy.clientConfig.displayPictureFrame;
         }
     }
 
-    protected void entityInit() {}
-
-    /**
-     * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge
-     * length * 64 * renderDistanceWeight Args: distance
-     */
-    public boolean isInRangeToRenderDist(double d)
-    {
-        return d < 16384.0D;
+    protected void func_70088_a() {
     }
 
-    public EntityPictureFrame(World world, int posX, int posY, int posZ, int direction, int width, int height, boolean refresh, String url)
-    {
+    public boolean func_70112_a(double d) {
+        return d < 16384.0;
+    }
+
+    public EntityPictureFrame(World world, int posX, int posY, int posZ, int direction, int width, int height, boolean refresh, String url) {
         this(world);
         this.xPosition = posX;
         this.yPosition = posY;
@@ -81,191 +98,149 @@ public class EntityPictureFrame extends Entity implements IEntityAdditionalSpawn
         this.initLastUpdate();
     }
 
-    private void initLastUpdate()
-    {
-        if (!lastUpdate.containsKey(this.url))
-        {
-            lastUpdate.put(this.url, Long.valueOf(System.currentTimeMillis()));
+    private void initLastUpdate() {
+        if (!lastUpdate.containsKey(this.url)) {
+            lastUpdate.put(this.url, System.currentTimeMillis());
         }
     }
 
-    @SideOnly(Side.CLIENT)
-    public void setupSkin()
-    {
-        this.downloadImageSkin = this.getDownloadImage(this.getLocationSkin(), this.url, (ResourceLocation)null, new ImageBufferDownload());
+    @SideOnly(value=Side.CLIENT)
+    public void setupSkin() {
+        this.downloadImageSkin = this.getDownloadImage(this.getLocationSkin(), this.url, null, (IImageBuffer)new ImageBufferDownload());
     }
 
-    @SideOnly(Side.CLIENT)
-    public ResourceLocation getLocationSkin()
-    {
+    @SideOnly(value=Side.CLIENT)
+    public ResourceLocation getLocationSkin() {
         return new ResourceLocation("nationsgui", "pictureframe/" + this.url);
     }
 
-    @SideOnly(Side.CLIENT)
-    public DownloadableTexture getDownloadImageSkin()
-    {
+    @SideOnly(value=Side.CLIENT)
+    public DownloadableTexture getDownloadImageSkin() {
         return this.downloadImageSkin;
     }
 
-    @SideOnly(Side.CLIENT)
-    private DownloadableTexture getDownloadImage(ResourceLocation par0ResourceLocation, String par1Str, ResourceLocation par2ResourceLocation, IImageBuffer par3IImageBuffer)
-    {
-        TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
-        Object object = texturemanager.getTexture(par0ResourceLocation);
-
-        if (object == null)
-        {
-            object = new DownloadableTexture(par1Str.replaceAll("PLAYER", Minecraft.getMinecraft().thePlayer.username), par2ResourceLocation, par3IImageBuffer);
-            texturemanager.loadTexture(par0ResourceLocation, (TextureObject)object);
+    @SideOnly(value=Side.CLIENT)
+    private DownloadableTexture getDownloadImage(ResourceLocation par0ResourceLocation, String par1Str, ResourceLocation par2ResourceLocation, IImageBuffer par3IImageBuffer) {
+        TextureManager texturemanager = Minecraft.func_71410_x().func_110434_K();
+        Object object = texturemanager.func_110581_b(par0ResourceLocation);
+        if (object == null) {
+            object = new DownloadableTexture(par1Str.replaceAll("PLAYER", Minecraft.func_71410_x().field_71439_g.field_71092_bJ), par2ResourceLocation, par3IImageBuffer);
+            texturemanager.func_110579_a(par0ResourceLocation, object);
         }
-
-        return (DownloadableTexture)object;
+        return (DownloadableTexture)((Object)object);
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
-    public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
-    {
-        par1NBTTagCompound.setInteger("width", this.pictureWidth);
-        par1NBTTagCompound.setInteger("height", this.pictureHeigth);
-        par1NBTTagCompound.setString("url", this.url);
-        par1NBTTagCompound.setByte("Direction", (byte)this.hangingDirection);
-        par1NBTTagCompound.setInteger("TileX", this.xPosition);
-        par1NBTTagCompound.setInteger("TileY", this.yPosition);
-        par1NBTTagCompound.setInteger("TileZ", this.zPosition);
-        par1NBTTagCompound.setBoolean("refresh", this.refresh);
-
-        switch (this.hangingDirection)
-        {
-            case 0:
-                par1NBTTagCompound.setByte("Dir", (byte)2);
+    public void func_70014_b(NBTTagCompound par1NBTTagCompound) {
+        par1NBTTagCompound.func_74768_a("width", this.pictureWidth);
+        par1NBTTagCompound.func_74768_a("height", this.pictureHeigth);
+        par1NBTTagCompound.func_74778_a("url", this.url);
+        par1NBTTagCompound.func_74774_a("Direction", (byte)this.hangingDirection);
+        par1NBTTagCompound.func_74768_a("TileX", this.xPosition);
+        par1NBTTagCompound.func_74768_a("TileY", this.yPosition);
+        par1NBTTagCompound.func_74768_a("TileZ", this.zPosition);
+        par1NBTTagCompound.func_74757_a("refresh", this.refresh);
+        switch (this.hangingDirection) {
+            case 0: {
+                par1NBTTagCompound.func_74774_a("Dir", (byte)2);
                 break;
-
-            case 1:
-                par1NBTTagCompound.setByte("Dir", (byte)1);
+            }
+            case 1: {
+                par1NBTTagCompound.func_74774_a("Dir", (byte)1);
                 break;
-
-            case 2:
-                par1NBTTagCompound.setByte("Dir", (byte)0);
+            }
+            case 2: {
+                par1NBTTagCompound.func_74774_a("Dir", (byte)0);
                 break;
-
-            case 3:
-                par1NBTTagCompound.setByte("Dir", (byte)3);
-        }
-    }
-
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
-    public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
-    {
-        this.pictureWidth = par1NBTTagCompound.getInteger("width");
-        this.pictureHeigth = par1NBTTagCompound.getInteger("height");
-        this.url = par1NBTTagCompound.getString("url");
-
-        if (par1NBTTagCompound.hasKey("Direction"))
-        {
-            this.hangingDirection = par1NBTTagCompound.getByte("Direction");
-        }
-        else
-        {
-            switch (par1NBTTagCompound.getByte("Dir"))
-            {
-                case 0:
-                    this.hangingDirection = 2;
-                    break;
-
-                case 1:
-                    this.hangingDirection = 1;
-                    break;
-
-                case 2:
-                    this.hangingDirection = 0;
-                    break;
-
-                case 3:
-                    this.hangingDirection = 3;
+            }
+            case 3: {
+                par1NBTTagCompound.func_74774_a("Dir", (byte)3);
             }
         }
+    }
 
-        this.xPosition = par1NBTTagCompound.getInteger("TileX");
-        this.yPosition = par1NBTTagCompound.getInteger("TileY");
-        this.zPosition = par1NBTTagCompound.getInteger("TileZ");
-        this.refresh = par1NBTTagCompound.getBoolean("refresh");
+    public void func_70037_a(NBTTagCompound par1NBTTagCompound) {
+        this.pictureWidth = par1NBTTagCompound.func_74762_e("width");
+        this.pictureHeigth = par1NBTTagCompound.func_74762_e("height");
+        this.url = par1NBTTagCompound.func_74779_i("url");
+        if (par1NBTTagCompound.func_74764_b("Direction")) {
+            this.hangingDirection = par1NBTTagCompound.func_74771_c("Direction");
+        } else {
+            switch (par1NBTTagCompound.func_74771_c("Dir")) {
+                case 0: {
+                    this.hangingDirection = 2;
+                    break;
+                }
+                case 1: {
+                    this.hangingDirection = 1;
+                    break;
+                }
+                case 2: {
+                    this.hangingDirection = 0;
+                    break;
+                }
+                case 3: {
+                    this.hangingDirection = 3;
+                }
+            }
+        }
+        this.xPosition = par1NBTTagCompound.func_74762_e("TileX");
+        this.yPosition = par1NBTTagCompound.func_74762_e("TileY");
+        this.zPosition = par1NBTTagCompound.func_74762_e("TileZ");
+        this.refresh = par1NBTTagCompound.func_74767_n("refresh");
         this.setDirection(this.hangingDirection);
     }
 
-    public int getWidthPixels()
-    {
+    public int getWidthPixels() {
         return this.pictureWidth;
     }
 
-    public int getHeightPixels()
-    {
+    public int getHeightPixels() {
         return this.pictureHeigth;
     }
 
-    public void onBroken(Entity entity) {}
+    public void onBroken(Entity entity) {
+    }
 
-    public String getUrl()
-    {
+    public String getUrl() {
         return this.url;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
-    public void onUpdate()
-    {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-
-        if (this.tickCounter1++ == 100 && !this.worldObj.isRemote)
-        {
+    public void func_70071_h_() {
+        this.field_70169_q = this.field_70165_t;
+        this.field_70167_r = this.field_70163_u;
+        this.field_70166_s = this.field_70161_v;
+        if (this.tickCounter1++ == 100 && !this.field_70170_p.field_72995_K) {
             this.tickCounter1 = 0;
-
-            if (!this.isDead && !this.onValidSurface())
-            {
-                this.setDead();
-                this.onBroken((Entity)null);
+            if (!this.field_70128_L && !this.onValidSurface()) {
+                this.func_70106_y();
+                this.onBroken(null);
             }
         }
-
-        if (this.worldObj.isRemote && (ClientProxy.clientConfig.displayPictureFrame && !this.allowRender || ClientProxy.clientConfig.displayPictureFrame && this.refresh && this.canUpdateTexture()))
-        {
-            if (this.downloadImageSkin == null)
-            {
+        if (this.field_70170_p.field_72995_K && (ClientProxy.clientConfig.displayPictureFrame && !this.allowRender || ClientProxy.clientConfig.displayPictureFrame && this.refresh && this.canUpdateTexture())) {
+            if (this.downloadImageSkin == null) {
                 this.setupSkin();
-            }
-            else
-            {
+            } else {
                 this.downloadImageSkin.reloadTexture();
             }
-
             lastUpdate.remove(this.url);
-            lastUpdate.put(this.url, Long.valueOf(System.currentTimeMillis()));
+            lastUpdate.put(this.url, System.currentTimeMillis());
             this.allowRender = true;
         }
     }
 
-    private boolean canUpdateTexture()
-    {
+    private boolean canUpdateTexture() {
         long currentTime = System.currentTimeMillis();
-        return currentTime - ((Long)lastUpdate.get(this.url)).longValue() > 60000L;
+        return currentTime - lastUpdate.get(this.url) > 60000L;
     }
 
-    public void writeSpawnData(ByteArrayDataOutput data)
-    {
+    public void writeSpawnData(ByteArrayDataOutput data) {
         data.writeInt(this.pictureWidth);
         data.writeInt(this.pictureHeigth);
         data.writeUTF(this.url);
         data.writeBoolean(this.refresh);
     }
 
-    public void readSpawnData(ByteArrayDataInput data)
-    {
+    public void readSpawnData(ByteArrayDataInput data) {
         this.pictureWidth = data.readInt();
         this.pictureHeigth = data.readInt();
         this.url = data.readUTF();
@@ -274,240 +249,143 @@ public class EntityPictureFrame extends Entity implements IEntityAdditionalSpawn
         this.initLastUpdate();
     }
 
-    public void setDirection(int par1)
-    {
+    public void setDirection(int par1) {
         this.hangingDirection = par1;
-        this.prevRotationYaw = this.rotationYaw = (float)(par1 * 90);
-        float f = (float)this.getWidthPixels();
-        float f1 = (float)this.getHeightPixels();
-        float f2 = (float)this.getWidthPixels();
-
-        if (par1 != 2 && par1 != 0)
-        {
-            f = 0.5F;
+        this.field_70126_B = this.field_70177_z = (float)(par1 * 90);
+        float f = this.getWidthPixels();
+        float f1 = this.getHeightPixels();
+        float f2 = this.getWidthPixels();
+        if (par1 != 2 && par1 != 0) {
+            f = 0.5f;
+        } else {
+            f2 = 0.5f;
+            this.field_70177_z = this.field_70126_B = (float)(Direction.field_71580_e[par1] * 90);
         }
-        else
-        {
-            f2 = 0.5F;
-            this.rotationYaw = this.prevRotationYaw = (float)(Direction.rotateOpposite[par1] * 90);
-        }
-
-        f /= 32.0F;
-        f1 /= 32.0F;
-        f2 /= 32.0F;
-        float f3 = (float)this.xPosition + 0.5F;
-        float f4 = (float)this.yPosition + 0.5F;
-        float f5 = (float)this.zPosition + 0.5F;
-        float f6 = 0.5625F;
-
-        if (par1 == 2)
-        {
+        f /= 32.0f;
+        f1 /= 32.0f;
+        f2 /= 32.0f;
+        float f3 = (float)this.xPosition + 0.5f;
+        float f4 = (float)this.yPosition + 0.5f;
+        float f5 = (float)this.zPosition + 0.5f;
+        float f6 = 0.5625f;
+        if (par1 == 2) {
             f5 -= f6;
         }
-
-        if (par1 == 1)
-        {
+        if (par1 == 1) {
             f3 -= f6;
         }
-
-        if (par1 == 0)
-        {
+        if (par1 == 0) {
             f5 += f6;
         }
-
-        if (par1 == 3)
-        {
+        if (par1 == 3) {
             f3 += f6;
         }
-
-        if (par1 == 2)
-        {
+        if (par1 == 2) {
             f3 -= this.func_70517_b(this.getWidthPixels());
         }
-
-        if (par1 == 1)
-        {
+        if (par1 == 1) {
             f5 += this.func_70517_b(this.getWidthPixels());
         }
-
-        if (par1 == 0)
-        {
+        if (par1 == 0) {
             f3 += this.func_70517_b(this.getWidthPixels());
         }
-
-        if (par1 == 3)
-        {
+        if (par1 == 3) {
             f5 -= this.func_70517_b(this.getWidthPixels());
         }
-
-        f4 += this.func_70517_b(this.getHeightPixels());
-        this.setPosition((double)f3, (double)f4, (double)f5);
-        float f7 = -0.03125F;
-        this.boundingBox.setBounds((double)(f3 - f - f7), (double)(f4 - f1 - f7), (double)(f5 - f2 - f7), (double)(f3 + f + f7), (double)(f4 + f1 + f7), (double)(f5 + f2 + f7));
+        this.func_70107_b(f3, f4 += this.func_70517_b(this.getHeightPixels()), f5);
+        float f7 = -0.03125f;
+        this.field_70121_D.func_72324_b((double)(f3 - f - f7), (double)(f4 - f1 - f7), (double)(f5 - f2 - f7), (double)(f3 + f + f7), (double)(f4 + f1 + f7), (double)(f5 + f2 + f7));
     }
 
-    private float func_70517_b(int par1)
-    {
-        return par1 == 32 ? 0.5F : (par1 == 64 ? 0.5F : 0.0F);
+    private float func_70517_b(int par1) {
+        return par1 == 32 ? 0.5f : (par1 == 64 ? 0.5f : 0.0f);
     }
 
-    protected boolean shouldSetPosAfterLoading()
-    {
+    protected boolean func_142008_O() {
         return false;
     }
 
-    /**
-     * Returns true if other Entities should be prevented from moving through this Entity.
-     */
-    public boolean canBeCollidedWith()
-    {
+    public boolean func_70067_L() {
         return true;
     }
 
-    /**
-     * Called when a player attacks an entity. If this returns true the attack will not happen.
-     */
-    public boolean hitByEntity(Entity par1Entity)
-    {
-        return par1Entity instanceof EntityPlayer ? this.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)par1Entity), 0.0F) : false;
+    public boolean func_85031_j(Entity par1Entity) {
+        return par1Entity instanceof EntityPlayer ? this.func_70097_a(DamageSource.func_76365_a((EntityPlayer)((EntityPlayer)par1Entity)), 0.0f) : false;
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
-    public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
-    {
-        if (this.isEntityInvulnerable())
-        {
+    public boolean func_70097_a(DamageSource par1DamageSource, float par2) {
+        if (this.func_85032_ar()) {
             return false;
         }
-        else
-        {
-            if (par1DamageSource.getSourceOfDamage() != null && par1DamageSource.getSourceOfDamage() instanceof EntityPlayer)
-            {
-                EntityPlayer entityPlayer = (EntityPlayer)par1DamageSource.getSourceOfDamage();
-
-                if (!this.isDead && !this.worldObj.isRemote && MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(entityPlayer.getDisplayName()))
-                {
-                    this.setDead();
-                    this.setBeenAttacked();
-                    this.onBroken(par1DamageSource.getSourceOfDamage());
-                    return true;
-                }
+        if (par1DamageSource.func_76364_f() != null && par1DamageSource.func_76364_f() instanceof EntityPlayer) {
+            EntityPlayer entityPlayer = (EntityPlayer)par1DamageSource.func_76364_f();
+            if (!this.field_70128_L && !this.field_70170_p.field_72995_K && MinecraftServer.func_71276_C().func_71203_ab().func_72353_e(entityPlayer.getDisplayName())) {
+                this.func_70106_y();
+                this.func_70018_K();
+                this.onBroken(par1DamageSource.func_76364_f());
+                return true;
             }
+        }
+        return false;
+    }
 
+    public boolean func_130002_c(EntityPlayer par1EntityPlayer) {
+        if (!par1EntityPlayer.field_70170_p.field_72995_K && MinecraftServer.func_71276_C().func_71203_ab().func_72353_e(par1EntityPlayer.getDisplayName())) {
+            par1EntityPlayer.func_71035_c("\u00a76Picture URL: \u00a7e" + this.url);
+        }
+        return super.func_130002_c(par1EntityPlayer);
+    }
+
+    public void func_70091_d(double par1, double par3, double par5) {
+        if (!this.field_70170_p.field_72995_K && !this.field_70128_L && par1 * par1 + par3 * par3 + par5 * par5 > 0.0) {
+            this.func_70106_y();
+            this.onBroken(null);
+        }
+    }
+
+    public void func_70024_g(double par1, double par3, double par5) {
+        if (!this.field_70170_p.field_72995_K && !this.field_70128_L && par1 * par1 + par3 * par3 + par5 * par5 > 0.0) {
+            this.func_70106_y();
+            this.onBroken(null);
+        }
+    }
+
+    public boolean onValidSurface() {
+        Entity entity;
+        if (!this.field_70170_p.func_72945_a((Entity)this, this.field_70121_D).isEmpty()) {
             return false;
         }
-    }
-
-    /**
-     * First layer of player interaction
-     */
-    public boolean interactFirst(EntityPlayer par1EntityPlayer)
-    {
-        if (!par1EntityPlayer.worldObj.isRemote && MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(par1EntityPlayer.getDisplayName()))
-        {
-            par1EntityPlayer.addChatMessage("\u00a76Picture URL: \u00a7e" + this.url);
+        int i = Math.max(1, this.getWidthPixels() / 16);
+        int j = Math.max(1, this.getHeightPixels() / 16);
+        int k = this.xPosition;
+        int i1 = this.zPosition;
+        if (this.hangingDirection == 2) {
+            k = MathHelper.func_76128_c((double)(this.field_70165_t - (double)((float)this.getWidthPixels() / 32.0f)));
         }
-
-        return super.interactFirst(par1EntityPlayer);
-    }
-
-    /**
-     * Tries to moves the entity by the passed in displacement. Args: x, y, z
-     */
-    public void moveEntity(double par1, double par3, double par5)
-    {
-        if (!this.worldObj.isRemote && !this.isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D)
-        {
-            this.setDead();
-            this.onBroken((Entity)null);
+        if (this.hangingDirection == 1) {
+            i1 = MathHelper.func_76128_c((double)(this.field_70161_v - (double)((float)this.getWidthPixels() / 32.0f)));
         }
-    }
-
-    /**
-     * Adds to the current velocity of the entity. Args: x, y, z
-     */
-    public void addVelocity(double par1, double par3, double par5)
-    {
-        if (!this.worldObj.isRemote && !this.isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D)
-        {
-            this.setDead();
-            this.onBroken((Entity)null);
+        if (this.hangingDirection == 0) {
+            k = MathHelper.func_76128_c((double)(this.field_70165_t - (double)((float)this.getWidthPixels() / 32.0f)));
         }
-    }
-
-    public boolean onValidSurface()
-    {
-        if (!this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty())
-        {
-            return false;
+        if (this.hangingDirection == 3) {
+            i1 = MathHelper.func_76128_c((double)(this.field_70161_v - (double)((float)this.getWidthPixels() / 32.0f)));
         }
-        else
-        {
-            int i = Math.max(1, this.getWidthPixels() / 16);
-            int j = Math.max(1, this.getHeightPixels() / 16);
-            int k = this.xPosition;
-            int i1 = this.zPosition;
-
-            if (this.hangingDirection == 2)
-            {
-                k = MathHelper.floor_double(this.posX - (double)((float)this.getWidthPixels() / 32.0F));
+        int l = MathHelper.func_76128_c((double)(this.field_70163_u - (double)((float)this.getHeightPixels() / 32.0f)));
+        for (int j1 = 0; j1 < i; ++j1) {
+            for (int k1 = 0; k1 < j; ++k1) {
+                Material material = this.hangingDirection != 2 && this.hangingDirection != 0 ? this.field_70170_p.func_72803_f(this.xPosition, l + k1, i1 + j1) : this.field_70170_p.func_72803_f(k + j1, l + k1, this.zPosition);
+                if (material.func_76220_a()) continue;
+                return false;
             }
-
-            if (this.hangingDirection == 1)
-            {
-                i1 = MathHelper.floor_double(this.posZ - (double)((float)this.getWidthPixels() / 32.0F));
-            }
-
-            if (this.hangingDirection == 0)
-            {
-                k = MathHelper.floor_double(this.posX - (double)((float)this.getWidthPixels() / 32.0F));
-            }
-
-            if (this.hangingDirection == 3)
-            {
-                i1 = MathHelper.floor_double(this.posZ - (double)((float)this.getWidthPixels() / 32.0F));
-            }
-
-            int l = MathHelper.floor_double(this.posY - (double)((float)this.getHeightPixels() / 32.0F));
-
-            for (int list = 0; list < i; ++list)
-            {
-                for (int iterator = 0; iterator < j; ++iterator)
-                {
-                    Material entity;
-
-                    if (this.hangingDirection != 2 && this.hangingDirection != 0)
-                    {
-                        entity = this.worldObj.getBlockMaterial(this.xPosition, l + iterator, i1 + list);
-                    }
-                    else
-                    {
-                        entity = this.worldObj.getBlockMaterial(k + list, l + iterator, this.zPosition);
-                    }
-
-                    if (!entity.isSolid())
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            List var9 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox);
-            Iterator var10 = var9.iterator();
-
-            while (var10.hasNext())
-            {
-                Entity var11 = (Entity)var10.next();
-
-                if (var11 instanceof EntityHanging)
-                {
-                    return false;
-                }
-            }
-
+        }
+        List list = this.field_70170_p.func_72839_b((Entity)this, this.field_70121_D);
+        Iterator iterator = list.iterator();
+        do {
+            if (iterator.hasNext()) continue;
             return true;
-        }
+        } while (!((entity = (Entity)iterator.next()) instanceof EntityHanging));
+        return false;
     }
 }
+

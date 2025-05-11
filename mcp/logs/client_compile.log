@@ -1,758 +1,737 @@
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Timeline.java:383: error: method start() is already defined in class Timeline
-    public Object start()
-                  ^
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Timeline.java:388: error: method build() is already defined in class Timeline
-    public Object build()
-                  ^
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Tween.java:528: error: method build() is already defined in class Tween
-    public Object build()
-                  ^
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Timeline$2.java:18: error: method create() is already defined in class Timeline$2
-    protected Object create()
-                     ^
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Tween$2.java:18: error: method create() is already defined in class Tween$2
-    protected Object create()
-                     ^
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\client\renderer\texture\CustomAtlas.java:17: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\client\renderer\texture\CustomAtlas.java:29: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\util\ReleaseType.java:3: error: cannot find symbol
-import net.ilexiconn.nationsgui.forge.server.util.ReleaseType$1;
-                                                 ^
-  symbol:   class ReleaseType$1
-  location: package net.ilexiconn.nationsgui.forge.server.util
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\util\ReleaseType.java:18: error: cannot find symbol
-    ReleaseType(ReleaseType$1 x2)
-                ^
-  symbol:   class ReleaseType$1
-  location: class ReleaseType
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\ClientEventHandler.java:9: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\notifications\NotificationManager.java:18: error: package net.ilexiconn.nationsgui.bukkit.util does not exist
+import net.ilexiconn.nationsgui.bukkit.util.Translation;
+                                           ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\ClientEventHandler.java:127: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\PlayerListGUI.java:3: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\PlayerListGUI.java:23: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\ClientProxy.java:127: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\ClientProxy.java:198: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\BossEdoraGui.java:3: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\BossEdoraGui.java:20: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\CustomizationGUI$1.java:35: error: method getData() is already defined in class CustomizationGUI$1
-    public Object getData()
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\CustomizationGUI$10.java:35: error: method getData() is already defined in class CustomizationGUI$10
-    public Object getData()
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\CustomizationGUI$11.java:35: error: method getData() is already defined in class CustomizationGUI$11
-    public Object getData()
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\CustomizationGUI$12.java:28: error: method getData() is already defined in class CustomizationGUI$12
-    public Object getData()
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\CustomizationGUI$13.java:35: error: method getData() is already defined in class CustomizationGUI$13
-    public Object getData()
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\CustomizationGUI$2.java:35: error: method getData() is already defined in class CustomizationGUI$2
-    public Object getData()
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\CustomizationGUI$3.java:45: error: method getData() is already defined in class CustomizationGUI$3
-    public Object getData()
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\CustomizationGUI$4.java:45: error: method getData() is already defined in class CustomizationGUI$4
-    public Object getData()
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\CustomizationGUI$5.java:35: error: method getData() is already defined in class CustomizationGUI$5
-    public Object getData()
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\CustomizationGUI$6.java:35: error: method getData() is already defined in class CustomizationGUI$6
-    public Object getData()
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\CustomizationGUI$7.java:35: error: method getData() is already defined in class CustomizationGUI$7
-    public Object getData()
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\CustomizationGUI$8.java:35: error: method getData() is already defined in class CustomizationGUI$8
-    public Object getData()
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\CustomizationGUI$9.java:37: error: method getData() is already defined in class CustomizationGUI$9
-    public Object getData()
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\modern\ModernGui.java:28: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\modern\ModernGui.java:43: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\LotoAdminGui.java:3: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\LotoAdminGui.java:24: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\LotoAdminGui.java:43: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\LotoAdminGui.java:65: error: cannot find symbol
     public LinkedTreeMap<String, Object> dataToEdit = new LinkedTreeMap();
            ^
   symbol:   class LinkedTreeMap
   location: class LotoAdminGui
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\LotoGui.java:3: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\LotoGui.java:28: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\LotoGui.java:67: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\LotoGui.java:134: error: cannot find symbol
     private LinkedTreeMap<String, Object> selectedLottery = null;
             ^
   symbol:   class LinkedTreeMap
   location: class LotoGui
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\cosmetic\CommonCosmeticGUI.java:4: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\cosmetic\CommonCosmeticGUI.java:23: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\cosmetic\CosmeticGUI.java:4: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\cosmetic\CosmeticGUI.java:22: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseFlagGui.java:32: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseFlagGui.java:53: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Encoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseGui.java:41: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseGui.java:65: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseSettingsGUI.java:24: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseSettingsGUI.java:43: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\ActionsGUI.java:25: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\ActionsGUI.java:45: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieGUI.java:3: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieGUI.java:17: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieGUI_OLD.java:24: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieGUI_OLD.java:43: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieWishGUI.java:31: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieWishGUI.java:51: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FactionGUI.java:3: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FactionGUI.java:26: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FactionGui_OLD.java:51: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FactionGui_OLD.java:86: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FactionResearchGUI.java:3: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FactionResearchGUI.java:13: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FlagGui.java:33: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FlagGui.java:55: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Encoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\MembersGUI.java:3: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\MembersGUI.java:22: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\ProfilGui.java:38: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\ProfilGui.java:62: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI.java:3: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI.java:18: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI.java:43: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI.java:62: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Encoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI_OLD.java:25: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI_OLD.java:46: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\WarGUI.java:3: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\WarGUI.java:20: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandBackupGui.java:33: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandBackupGui.java:50: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandCreateGui.java:29: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandCreateGui.java:45: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandFlagGui.java:31: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandFlagGui.java:51: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Encoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandListGui.java:33: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandListGui.java:53: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandMainGui.java:34: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandMainGui.java:51: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandMembersGui.java:38: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandMembersGui.java:57: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandPermsGui.java:29: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandPermsGui.java:45: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandPropertiesGui.java:30: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandPropertiesGui.java:47: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandSettingsGui.java:29: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandSettingsGui.java:49: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler.java:10: error: cannot find symbol
-import net.ilexiconn.nationsgui.forge.client.gui.main.ButtonPositionHandler$1;
-                                                     ^
-  symbol:   class ButtonPositionHandler$1
-  location: package net.ilexiconn.nationsgui.forge.client.gui.main
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler.java:11: error: cannot find symbol
-import net.ilexiconn.nationsgui.forge.client.gui.main.ButtonPositionHandler$State;
-                                                     ^
-  symbol:   class ButtonPositionHandler$State
-  location: package net.ilexiconn.nationsgui.forge.client.gui.main
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\main\component\MenuButtonGUI.java:6: error: cannot find symbol
-import net.ilexiconn.nationsgui.forge.client.gui.main.ButtonPositionHandler$State;
-                                                     ^
-  symbol:   class ButtonPositionHandler$State
-  location: package net.ilexiconn.nationsgui.forge.client.gui.main
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler.java:57: error: cannot find symbol
-    public abstract void handleTransform(MenuButtonGUI var1, ButtonPositionHandler$State var2);
-                                                             ^
-  symbol:   class ButtonPositionHandler$State
-  location: class ButtonPositionHandler
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\main\ButtonPositionHandler.java:59: error: cannot find symbol
-    ButtonPositionHandler(ButtonPositionHandler$1 x2)
-                          ^
-  symbol:   class ButtonPositionHandler$1
-  location: class ButtonPositionHandler
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\main\MainGUI.java:4: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\main\MainGUI.java:32: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\AssaultOverride.java:26: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\AssaultOverride.java:44: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\BuildOverride.java:24: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\BuildOverride.java:39: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\EdoraAutelAndBossOverride.java:19: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\EdoraAutelAndBossOverride.java:34: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\EventOverride.java:25: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\EventOverride.java:40: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\FootOverride.java:17: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\FootOverride.java:32: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\LobbyOverride.java:15: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\LobbyOverride.java:28: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\SpecVersusOverride.java:3: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\SpecVersusOverride.java:19: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\SpecVersusOverride.java:25: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\SpecVersusOverride.java:42: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\WarzoneOverride.java:18: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\WarzoneOverride.java:34: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
 import sun.misc.BASE64Decoder;
                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\render\gecko\CosmeticAnimatable.java:8: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\render\gecko\CosmeticAnimatable.java:23: error: cannot find symbol
 import software.bernie.geckolib3.core.SimpleAnimatable;
                                      ^
   symbol:   class SimpleAnimatable
   location: package software.bernie.geckolib3.core
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\render\gecko\CosmeticAnimatable.java:13: error: cannot find symbol
-public class CosmeticAnimatable extends SimpleAnimatable
-                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\render\gecko\CosmeticAnimatable.java:31: error: cannot find symbol
+extends SimpleAnimatable {
+        ^
   symbol: class SimpleAnimatable
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\asm\NationsGUIHooks.java:23: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\asm\NationsGUIHooks.java:58: error: cannot find symbol
 import jds.bibliocraft.items.ItemClipboard;
                             ^
   symbol:   class ItemClipboard
   location: package jds.bibliocraft.items
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\command\EventCommand.java:3: error: package fr.nationsglory.ngbridge does not exist
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\command\EventCommand.java:30: error: package fr.nationsglory.ngbridge does not exist
 import fr.nationsglory.ngbridge.Bukkit2Forge;
                                ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\json\DateDeserializer.java:32: error: method deserialize(JsonElement,Type,JsonDeserializationContext) is already defined in class DateDeserializer
-    public Object deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\json\registry\armor\JSONArmorRegistry.java:106: error: method constructNew(String,JsonObject) is already defined in class JSONArmorRegistry
-    public Object constructNew(String var1, JsonObject var2)
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\json\registry\block\JSONBlockRegistry.java:38: error: method constructNew(String,JsonObject) is already defined in class JSONBlockRegistry
-    public Object constructNew(String var1, JsonObject var2)
-                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\notifications\NotificationManager.java:6: error: package net.ilexiconn.nationsgui.bukkit.util does not exist
-import net.ilexiconn.nationsgui.bukkit.util.Translation;
-                                           ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks.java:7: error: cannot find symbol
-import net.ilexiconn.nationsgui.forge.server.packet.PacketCallbacks$1;
-                                                   ^
-  symbol:   class PacketCallbacks$1
-  location: package net.ilexiconn.nationsgui.forge.server.packet
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\packet\PacketCallbacks.java:40: error: cannot find symbol
-    PacketCallbacks(PacketCallbacks$1 x2)
-                    ^
-  symbol:   class PacketCallbacks$1
-  location: class PacketCallbacks
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\packet\impl\FactionSaveSettingsDataPacket.java:6: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\packet\impl\FactionSaveSettingsDataPacket.java:16: error: cannot find symbol
 import com.google.gson.internal.LinkedTreeMap;
                                ^
   symbol:   class LinkedTreeMap
   location: package com.google.gson.internal
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\packet\impl\FactionSaveSettingsDataPacket.java:22: error: cannot find symbol
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\packet\impl\FactionSaveSettingsDataPacket.java:33: error: cannot find symbol
     private final LinkedTreeMap<String, String> rolesName;
                   ^
   symbol:   class LinkedTreeMap
   location: class FactionSaveSettingsDataPacket
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\packet\impl\FactionSaveSettingsDataPacket.java:27: error: cannot find symbol
-    public FactionSaveSettingsDataPacket(String factionName, String description, String motd, String entryMsg, String discord, ArrayList<String> tags, boolean isOpen, boolean recruitmentOpen, LinkedTreeMap<String, String> rolesName, HashMap<String, Object> perms, boolean kickWarRecruit)
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\packet\impl\FactionSaveSettingsDataPacket.java:38: error: cannot find symbol
+    public FactionSaveSettingsDataPacket(String factionName, String description, String motd, String entryMsg, String discord, ArrayList<String> tags, boolean isOpen, boolean recruitmentOpen, LinkedTreeMap<String, String> rolesName, HashMap<String, Object> perms, boolean kickWarRecruit) {
                                                                                                                                                                                                 ^
   symbol:   class LinkedTreeMap
   location: class FactionSaveSettingsDataPacket
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\permission\PermissionType.java:3: error: cannot find symbol
-import net.ilexiconn.nationsgui.forge.server.permission.PermissionType$1;
-                                                       ^
-  symbol:   class PermissionType$1
-  location: package net.ilexiconn.nationsgui.forge.server.permission
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\permission\PermissionType.java:18: error: cannot find symbol
-    PermissionType(PermissionType$1 x2)
+C:\forge\mcp\src\minecraft\acs\tabbychat\BackgroundChatThread.java:21: error: cannot find symbol
+        Minecraft.func_71410_x().field_71456_v.func_73827_b().func_73767_b(this.sendChat);
+                 ^
+  symbol:   method func_71410_x()
+  location: class Minecraft
+C:\forge\mcp\src\minecraft\acs\tabbychat\BackgroundChatThread.java:25: error: cannot find symbol
+        Minecraft.func_71410_x().field_71439_g.func_71165_d(this.sendChat);
+                 ^
+  symbol:   method func_71410_x()
+  location: class Minecraft
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:41: error: cannot find symbol
+        return this.field_73747_a;
                    ^
-  symbol:   class PermissionType$1
-  location: class PermissionType
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\BaseTween.java:40: error: incompatible types: BaseTween<T> cannot be converted to T
-        return this;
-               ^
-  where T is a type-variable:
-    T extends Object declared in class BaseTween
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\BaseTween.java:48: error: incompatible types: BaseTween<T> cannot be converted to T
-        return this;
-               ^
-  where T is a type-variable:
-    T extends Object declared in class BaseTween
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\BaseTween.java:54: error: incompatible types: BaseTween<T> cannot be converted to T
-        return this;
-               ^
-  where T is a type-variable:
-    T extends Object declared in class BaseTween
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\BaseTween.java:60: error: incompatible types: BaseTween<T> cannot be converted to T
-        return this;
-               ^
-  where T is a type-variable:
-    T extends Object declared in class BaseTween
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\BaseTween.java:91: error: incompatible types: BaseTween<T> cannot be converted to T
-            return this;
+  symbol: variable field_73747_a
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:45: error: cannot find symbol
+        this.field_73747_a = _w;
+            ^
+  symbol: variable field_73747_a
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:49: error: cannot find symbol
+        return this.field_73745_b;
                    ^
-  where T is a type-variable:
-    T extends Object declared in class BaseTween
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\BaseTween.java:106: error: incompatible types: BaseTween<T> cannot be converted to T
-            return this;
-                   ^
-  where T is a type-variable:
-    T extends Object declared in class BaseTween
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\BaseTween.java:113: error: incompatible types: BaseTween<T> cannot be converted to T
-        return this;
-               ^
-  where T is a type-variable:
-    T extends Object declared in class BaseTween
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\BaseTween.java:119: error: incompatible types: BaseTween<T> cannot be converted to T
-        return this;
-               ^
-  where T is a type-variable:
-    T extends Object declared in class BaseTween
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\BaseTween.java:125: error: incompatible types: BaseTween<T> cannot be converted to T
-        return this;
-               ^
-  where T is a type-variable:
-    T extends Object declared in class BaseTween
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Pool.java:25: error: incompatible types: Object cannot be converted to T
-            this.callback.onUnPool(obj);
+  symbol: variable field_73745_b
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:53: error: cannot find symbol
+        this.field_73745_b = _h;
+            ^
+  symbol: variable field_73745_b
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:62: error: cannot find symbol
+        int adjY = (int)((float)(mc.field_71462_r.field_73881_g - this.field_73743_d - 28) * (1.0f - scaleSetting)) + this.field_73743_d;
                                    ^
-  where T is a type-variable:
-    T extends Object declared in class Pool
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Pool.java:28: error: incompatible types: Object cannot be converted to T
-        return obj;
-               ^
-  where T is a type-variable:
-    T extends Object declared in class Pool
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Timeline$1.java:7: error: name clash: onPool(Timeline) in Timeline$1 overrides a method whose erasure is the same as another method, yet neither overrides the other
-    public void onPool(Timeline obj)
-                ^
-  first method:  onPool(Object) in Timeline$1
-  second method: onPool(T) in Pool$Callback
-  where T is a type-variable:
-    T extends Object declared in interface Pool$Callback
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Timeline$1.java:12: error: name clash: onUnPool(Timeline) in Timeline$1 overrides a method whose erasure is the same as another method, yet neither overrides the other
-    public void onUnPool(Timeline obj)
-                ^
-  first method:  onUnPool(Object) in Timeline$1
-  second method: onUnPool(T) in Pool$Callback
-  where T is a type-variable:
-    T extends Object declared in interface Pool$Callback
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Timeline$1.java:17: error: name clash: onUnPool(Object) in Timeline$1 and onUnPool(T) in Pool$Callback have the same erasure, yet neither overrides the other
-    public void onUnPool(Object var1)
-                ^
-  where T is a type-variable:
-    T extends Object declared in interface Pool$Callback
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Timeline$1.java:22: error: name clash: onPool(Object) in Timeline$1 and onPool(T) in Pool$Callback have the same erasure, yet neither overrides the other
-    public void onPool(Object var1)
-                ^
-  where T is a type-variable:
-    T extends Object declared in interface Pool$Callback
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Tween$1.java:7: error: name clash: onPool(Tween) in Tween$1 overrides a method whose erasure is the same as another method, yet neither overrides the other
-    public void onPool(Tween obj)
-                ^
-  first method:  onPool(Object) in Tween$1
-  second method: onPool(T) in Pool$Callback
-  where T is a type-variable:
-    T extends Object declared in interface Pool$Callback
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Tween$1.java:12: error: name clash: onUnPool(Tween) in Tween$1 overrides a method whose erasure is the same as another method, yet neither overrides the other
-    public void onUnPool(Tween obj)
-                ^
-  first method:  onUnPool(Object) in Tween$1
-  second method: onUnPool(T) in Pool$Callback
-  where T is a type-variable:
-    T extends Object declared in interface Pool$Callback
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Tween$1.java:17: error: name clash: onUnPool(Object) in Tween$1 and onUnPool(T) in Pool$Callback have the same erasure, yet neither overrides the other
-    public void onUnPool(Object var1)
-                ^
-  where T is a type-variable:
-    T extends Object declared in interface Pool$Callback
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\Tween$1.java:22: error: name clash: onPool(Object) in Tween$1 and onPool(T) in Pool$Callback have the same erasure, yet neither overrides the other
-    public void onPool(Object var1)
-                ^
-  where T is a type-variable:
-    T extends Object declared in interface Pool$Callback
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\primitives\MutableFloat.java:39: error: name clash: getValues(MutableFloat,int,float[]) in MutableFloat overrides a method whose erasure is the same as another method, yet neither overrides the other
-    public int getValues(MutableFloat target, int tweenType, float[] returnValues)
-               ^
-  first method:  getValues(Object,int,float[]) in MutableFloat
-  second method: getValues(T,int,float[]) in TweenAccessor
-  where T is a type-variable:
-    T extends Object declared in interface TweenAccessor
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\primitives\MutableFloat.java:45: error: name clash: setValues(MutableFloat,int,float[]) in MutableFloat overrides a method whose erasure is the same as another method, yet neither overrides the other
-    public void setValues(MutableFloat target, int tweenType, float[] newValues)
-                ^
-  first method:  setValues(Object,int,float[]) in MutableFloat
-  second method: setValues(T,int,float[]) in TweenAccessor
-  where T is a type-variable:
-    T extends Object declared in interface TweenAccessor
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\primitives\MutableFloat.java:50: error: name clash: setValues(Object,int,float[]) in MutableFloat and setValues(T,int,float[]) in TweenAccessor have the same erasure, yet neither overrides the other
-    public void setValues(Object var1, int var2, float[] var3)
-                ^
-  where T is a type-variable:
-    T extends Object declared in interface TweenAccessor
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\primitives\MutableFloat.java:55: error: name clash: getValues(Object,int,float[]) in MutableFloat and getValues(T,int,float[]) in TweenAccessor have the same erasure, yet neither overrides the other
-    public int getValues(Object var1, int var2, float[] var3)
-               ^
-  where T is a type-variable:
-    T extends Object declared in interface TweenAccessor
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\primitives\MutableInteger.java:39: error: name clash: getValues(MutableInteger,int,float[]) in MutableInteger overrides a method whose erasure is the same as another method, yet neither overrides the other
-    public int getValues(MutableInteger target, int tweenType, float[] returnValues)
-               ^
-  first method:  getValues(Object,int,float[]) in MutableInteger
-  second method: getValues(T,int,float[]) in TweenAccessor
-  where T is a type-variable:
-    T extends Object declared in interface TweenAccessor
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\primitives\MutableInteger.java:45: error: name clash: setValues(MutableInteger,int,float[]) in MutableInteger overrides a method whose erasure is the same as another method, yet neither overrides the other
-    public void setValues(MutableInteger target, int tweenType, float[] newValues)
-                ^
-  first method:  setValues(Object,int,float[]) in MutableInteger
-  second method: setValues(T,int,float[]) in TweenAccessor
-  where T is a type-variable:
-    T extends Object declared in interface TweenAccessor
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\primitives\MutableInteger.java:50: error: name clash: setValues(Object,int,float[]) in MutableInteger and setValues(T,int,float[]) in TweenAccessor have the same erasure, yet neither overrides the other
-    public void setValues(Object var1, int var2, float[] var3)
-                ^
-  where T is a type-variable:
-    T extends Object declared in interface TweenAccessor
-C:\forge\mcp\src\minecraft\aurelienribon\tweenengine\primitives\MutableInteger.java:55: error: name clash: getValues(Object,int,float[]) in MutableInteger and getValues(T,int,float[]) in TweenAccessor have the same erasure, yet neither overrides the other
-    public int getValues(Object var1, int var2, float[] var3)
-               ^
-  where T is a type-variable:
-    T extends Object declared in interface TweenAccessor
-C:\forge\mcp\src\minecraft\fr\nationsglory\itemmanager\CommonProxy.java:118: error: no suitable method found for addRecipe(SkippedShapedRecipes)
-                        GameRegistry.addRecipe(new SkippedShapedRecipes(w, h, (ItemStack[])var14.toArray(new ItemStack[w * h]), new ItemStack(var16.getId(), var16.getCount(), var16.getMetadata())));
+  symbol:   variable field_71462_r
+  location: variable mc of type Minecraft
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:62: error: cannot find symbol
+        int adjY = (int)((float)(mc.field_71462_r.field_73881_g - this.field_73743_d - 28) * (1.0f - scaleSetting)) + this.field_73743_d;
+                                                                      ^
+  symbol: variable field_73743_d
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:62: error: cannot find symbol
+        int adjY = (int)((float)(mc.field_71462_r.field_73881_g - this.field_73743_d - 28) * (1.0f - scaleSetting)) + this.field_73743_d;
+                                                                                                                          ^
+  symbol: variable field_73743_d
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:63: error: cannot find symbol
+        int adjX = (int)((float)(this.field_73746_c - 5) * scaleSetting) + 5;
+                                     ^
+  symbol: variable field_73746_c
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:64: error: cannot find symbol
+        int adjW = (int)((float)this.field_73747_a * scaleSetting);
                                     ^
-    method GameRegistry.addRecipe(ye,Object...) is not applicable
-      (argument mismatch; SkippedShapedRecipes cannot be converted to ye)
-    method GameRegistry.addRecipe(aah) is not applicable
-      (argument mismatch; SkippedShapedRecipes cannot be converted to aah)
-C:\forge\mcp\src\minecraft\net\minecraft\util\ChatMessageComponent.java:270: warning: non-varargs call of varargs method with inexact argument type for last parameter;
-                var7.append(StatCollector.translateToLocalFormatted(this.translationKey, var13));
-                                                                                         ^
-  cast to Object for a varargs call
-  cast to Object[] for a non-varargs call and to suppress this warning
-C:\forge\mcp\src\minecraft\fr\nationsglory\itemmanager\asm\GameRegistryTransformer.java:37: warning: [deprecation] MethodInsnNode(int,String,String,String) in MethodInsnNode has been deprecated
-                methodNode.instructions.insertBefore(first, new MethodInsnNode(184, "fr/nationsglory/itemmanager/RegisterHook", "blockIsBlacklisted", "(Ljava/lang/Object;Ljava/lang/String;)Z"));
-                                                            ^
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\RemoteItem.java:68: error: incompatible types: Item cannot be converted to yc
-                GameRegistry.registerItem(e, "remoteitem." + name);
-                                          ^
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\RemoteItem.java:92: error: incompatible types: Item cannot be converted to yc
-        GameRegistry.registerItem(CustomCreativeTab.creativeItem, "ngitem");
-                                                   ^
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\client\creativetab\CustomCreativeTab.java:13: error: constructor CreativeTabs in class CreativeTabs cannot be applied to given types;
-        super(label);
-        ^
-  required: int,String
-  found: String
-  reason: actual and formal argument lists differ in length
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\client\renderer\texture\CustomAtlas.java:36: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+  symbol: variable field_73747_a
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:65: error: cannot find symbol
+        int adjH = (int)((float)this.field_73745_b * scaleSetting);
+                                    ^
+  symbol: variable field_73745_b
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:66: error: cannot find symbol
+        return this.field_73742_g && this.field_73748_h && par2 >= adjX && par3 >= adjY && par2 < adjX + adjW && par3 < adjY + adjH;
+                   ^
+  symbol: variable field_73742_g
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:66: error: cannot find symbol
+        return this.field_73742_g && this.field_73748_h && par2 >= adjX && par3 >= adjY && par2 < adjX + adjW && par3 < adjY + adjH;
+                                         ^
+  symbol: variable field_73748_h
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:70: error: cannot find symbol
+        if (this.field_73748_h) {
+                ^
+  symbol: variable field_73748_h
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:70: error: illegal start of type
+        if (this.field_73748_h) {
+           ^
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:71: error: cannot find symbol
+            FontRenderer fr = mc.field_71466_p;
+                                ^
+  symbol:   variable field_71466_p
+  location: variable mc of type Minecraft
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:72: error: cannot find symbol
+            float _mult = mc.field_71474_y.field_74357_r * 0.9f + 0.1f;
+                            ^
+  symbol:   variable field_71474_y
+  location: variable mc of type Minecraft
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:75: error: cannot find symbol
+            int adjY = (int)((float)(mc.field_71462_r.field_73881_g - this.field_73743_d - 28) * (1.0f - scaleSetting)) + this.field_73743_d;
+                                       ^
+  symbol:   variable field_71462_r
+  location: variable mc of type Minecraft
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:75: error: cannot find symbol
+            int adjY = (int)((float)(mc.field_71462_r.field_73881_g - this.field_73743_d - 28) * (1.0f - scaleSetting)) + this.field_73743_d;
+                                                                          ^
+  symbol: variable field_73743_d
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:75: error: cannot find symbol
+            int adjY = (int)((float)(mc.field_71462_r.field_73881_g - this.field_73743_d - 28) * (1.0f - scaleSetting)) + this.field_73743_d;
+                                                                                                                              ^
+  symbol: variable field_73743_d
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:76: error: cannot find symbol
+            int adjX = (int)((float)(this.field_73746_c - 5) * scaleSetting) + 5;
+                                         ^
+  symbol: variable field_73746_c
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:77: error: cannot find symbol
+            int adjW = (int)((float)this.field_73747_a * scaleSetting);
+                                        ^
+  symbol: variable field_73747_a
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:78: error: cannot find symbol
+            int adjH = (int)((float)this.field_73745_b * scaleSetting);
+                                        ^
+  symbol: variable field_73745_b
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:82: error: cannot find symbol
+            if (!this.field_73742_g) {
+                     ^
+  symbol: variable field_73742_g
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:94: error: cannot find symbol
+            ChatButton.func_73734_a((int)this.field_73746_c, (int)this.field_73743_d, (int)(this.field_73746_c + this.field_73747_a), (int)(this.field_73743_d + this.field_73745_b), (int)(var8 + (_opacity / 2 << 24)));
+                                             ^
+  symbol: variable field_73746_c
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:94: error: cannot find symbol
+            ChatButton.func_73734_a((int)this.field_73746_c, (int)this.field_73743_d, (int)(this.field_73746_c + this.field_73747_a), (int)(this.field_73743_d + this.field_73745_b), (int)(var8 + (_opacity / 2 << 24)));
+                                                                      ^
+  symbol: variable field_73743_d
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:94: error: cannot find symbol
+            ChatButton.func_73734_a((int)this.field_73746_c, (int)this.field_73743_d, (int)(this.field_73746_c + this.field_73747_a), (int)(this.field_73743_d + this.field_73745_b), (int)(var8 + (_opacity / 2 << 24)));
+                                                                                                ^
+  symbol: variable field_73746_c
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:94: error: cannot find symbol
+            ChatButton.func_73734_a((int)this.field_73746_c, (int)this.field_73743_d, (int)(this.field_73746_c + this.field_73747_a), (int)(this.field_73743_d + this.field_73745_b), (int)(var8 + (_opacity / 2 << 24)));
+                                                                                                                     ^
+  symbol: variable field_73747_a
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:94: error: cannot find symbol
+            ChatButton.func_73734_a((int)this.field_73746_c, (int)this.field_73743_d, (int)(this.field_73746_c + this.field_73747_a), (int)(this.field_73743_d + this.field_73745_b), (int)(var8 + (_opacity / 2 << 24)));
+                                                                                                                                                ^
+  symbol: variable field_73743_d
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:94: error: cannot find symbol
+            ChatButton.func_73734_a((int)this.field_73746_c, (int)this.field_73743_d, (int)(this.field_73746_c + this.field_73747_a), (int)(this.field_73743_d + this.field_73745_b), (int)(var8 + (_opacity / 2 << 24)));
+                                                                                                                                                                     ^
+  symbol: variable field_73745_b
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:94: error: cannot find symbol
+            ChatButton.func_73734_a((int)this.field_73746_c, (int)this.field_73743_d, (int)(this.field_73746_c + this.field_73747_a), (int)(this.field_73743_d + this.field_73745_b), (int)(var8 + (_opacity / 2 << 24)));
+                      ^
+  symbol:   method func_73734_a(int,int,int,int,int)
+  location: class ChatButton
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:96: error: cannot find symbol
+            String label = this.field_73744_e;
+                               ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:97: error: cannot find symbol
+            boolean hasBracket = this.field_73744_e.contains("[");
+                                     ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:98: error: cannot find symbol
+            boolean hasChevron = this.field_73744_e.contains("<");
+                                     ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:99: error: cannot find symbol
+            String customLabel = I18n.func_135053_a((String)("chat.tab." + this.field_73744_e.toLowerCase().replace(" ", "_").replace("[", "").replace("]", "").replace("<", "").replace(">", "")));
+                                                                               ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:99: error: cannot find symbol
+            String customLabel = I18n.func_135053_a((String)("chat.tab." + this.field_73744_e.toLowerCase().replace(" ", "_").replace("[", "").replace("]", "").replace("<", "").replace(">", "")));
+                                     ^
+  symbol:   method func_135053_a(String)
+  location: class I18n
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:106: error: cannot find symbol
+            if (this.field_73744_e.contains("ALL")) {
+                    ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:108: error: cannot find symbol
+            } else if (this.field_73744_e.contains("ENE")) {
+                           ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:110: error: cannot find symbol
+            } else if (this.field_73744_e.contains("Mon pays")) {
+                           ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:112: error: cannot find symbol
+            } else if (this.field_73744_e.contains("ADMIN")) {
+                           ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:114: error: cannot find symbol
+            } else if (this.field_73744_e.contains("MODO")) {
+                           ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:116: error: cannot find symbol
+            } else if (this.field_73744_e.contains("Police")) {
+                           ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:118: error: cannot find symbol
+            } else if (this.field_73744_e.contains("Mafia")) {
+                           ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:120: error: cannot find symbol
+            } else if (this.field_73744_e.contains("Guide")) {
+                           ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:122: error: cannot find symbol
+            } else if (this.field_73744_e.contains("Journal")) {
+                           ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:124: error: cannot find symbol
+            } else if (this.field_73744_e.contains("Avocat")) {
+                           ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:126: error: cannot find symbol
+            } else if (this.field_73744_e.contains("Logs")) {
+                           ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:128: error: cannot find symbol
+            } else if (this.field_73744_e.contains("RP")) {
+                           ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:131: error: cannot find symbol
+            this.func_73732_a(fr, label, this.field_73746_c + this.field_73747_a / 2, this.field_73743_d + (this.field_73745_b - 8) / 2, var7 + (_opacity << 24));
+                                             ^
+  symbol: variable field_73746_c
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:131: error: cannot find symbol
+            this.func_73732_a(fr, label, this.field_73746_c + this.field_73747_a / 2, this.field_73743_d + (this.field_73745_b - 8) / 2, var7 + (_opacity << 24));
+                                                                  ^
+  symbol: variable field_73747_a
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:131: error: cannot find symbol
+            this.func_73732_a(fr, label, this.field_73746_c + this.field_73747_a / 2, this.field_73743_d + (this.field_73745_b - 8) / 2, var7 + (_opacity << 24));
+                                                                                          ^
+  symbol: variable field_73743_d
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:131: error: cannot find symbol
+            this.func_73732_a(fr, label, this.field_73746_c + this.field_73747_a / 2, this.field_73743_d + (this.field_73745_b - 8) / 2, var7 + (_opacity << 24));
+                                                                                                                ^
+  symbol: variable field_73745_b
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:132: error: cannot find symbol
+            if (hovered && !this.field_73744_e.contains("Global")) {
+                                ^
+  symbol: variable field_73744_e
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:133: error: cannot find symbol
+                this.drawHoveringText(Arrays.asList("\u00a77Shift + Click", I18n.func_135053_a((String)"chat.label.to_close")), this.field_73746_c + 3, this.field_73743_d - 25, fr);
+                                                                                ^
+  symbol:   method func_135053_a(String)
+  location: class I18n
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:133: error: cannot find symbol
+                this.drawHoveringText(Arrays.asList("\u00a77Shift + Click", I18n.func_135053_a((String)"chat.label.to_close")), this.field_73746_c + 3, this.field_73743_d - 25, fr);
+                                                                                                                                    ^
+  symbol: variable field_73746_c
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:133: error: cannot find symbol
+                this.drawHoveringText(Arrays.asList("\u00a77Shift + Click", I18n.func_135053_a((String)"chat.label.to_close")), this.field_73746_c + 3, this.field_73743_d - 25, fr);
+                                                                                                                                                            ^
+  symbol: variable field_73743_d
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:141: error: cannot find symbol
+            RenderHelper.func_74518_a();
+                        ^
+  symbol:   method func_74518_a()
+  location: class RenderHelper
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:145: error: incompatible types: Object cannot be converted to String
+            for (String s : par1List) {
+                            ^
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:146: error: cannot find symbol
+                int l = font.func_78256_a(s);
+                            ^
+  symbol:   method func_78256_a(String)
+  location: variable font of type FontRenderer
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:156: error: cannot find symbol
+            if (i1 + k > Minecraft.func_71410_x().field_71462_r.field_73880_f) {
+                                  ^
+  symbol:   method func_71410_x()
+  location: class Minecraft
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:159: error: cannot find symbol
+            if (j1 + k1 + 6 > Minecraft.func_71410_x().field_71462_r.field_73881_g) {
+                                       ^
+  symbol:   method func_71410_x()
+  location: class Minecraft
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:160: error: cannot find symbol
+                j1 = Minecraft.func_71410_x().field_71462_r.field_73881_g - k1 - 6;
+                              ^
+  symbol:   method func_71410_x()
+  location: class Minecraft
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:162: error: cannot find symbol
+            this.field_73735_i = 500.0f;
+                ^
+  symbol: variable field_73735_i
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:163: error: cannot find symbol
+            ChatButton.itemRenderer.field_77023_b = 500.0f;
+                                   ^
+  symbol:   variable field_77023_b
+  location: variable itemRenderer of type RenderItem
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:165: error: cannot find symbol
+            this.func_73733_a(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
+                ^
+  symbol: method func_73733_a(int,int,int,int,int,int)
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:166: error: cannot find symbol
+            this.func_73733_a(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
+                ^
+  symbol: method func_73733_a(int,int,int,int,int,int)
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:167: error: cannot find symbol
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
+                ^
+  symbol: method func_73733_a(int,int,int,int,int,int)
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:168: error: cannot find symbol
+            this.func_73733_a(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
+                ^
+  symbol: method func_73733_a(int,int,int,int,int,int)
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:169: error: cannot find symbol
+            this.func_73733_a(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
+                ^
+  symbol: method func_73733_a(int,int,int,int,int,int)
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:172: error: cannot find symbol
+            this.func_73733_a(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+                ^
+  symbol: method func_73733_a(int,int,int,int,int,int)
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:173: error: cannot find symbol
+            this.func_73733_a(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+                ^
+  symbol: method func_73733_a(int,int,int,int,int,int)
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:174: error: cannot find symbol
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+                ^
+  symbol: method func_73733_a(int,int,int,int,int,int)
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:175: error: cannot find symbol
+            this.func_73733_a(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+                ^
+  symbol: method func_73733_a(int,int,int,int,int,int)
+C:\forge\mcp\src\minecraft\acs\tabbychat\ChatButton.java:178: error: cannot find symbol
+                font.func_78261_a(s1, i1, j1, -1);
+                    ^
+  symbol:   method func_78261_a(String,int,int,int)
+  location: variable font of type FontRenderer
+C:\forge\mcp\src\minecraft\fr\nationsglory\itemmanager\asm\GameRegistryTransformer.java:45: warning: [deprecation] MethodInsnNode(int,String,String,String) in MethodInsnNode has been deprecated
+            methodNode.instructions.insertBefore(first, (AbstractInsnNode)new MethodInsnNode(184, "fr/nationsglory/itemmanager/RegisterHook", "blockIsBlacklisted", "(Ljava/lang/Object;Ljava/lang/String;)Z"));
+                                                                          ^
+C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\client\renderer\texture\CustomAtlas.java:45: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
         BASE64Decoder decoder = new BASE64Decoder();
         ^
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\client\renderer\texture\CustomAtlas.java:36: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\client\renderer\texture\CustomAtlas.java:45: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
         BASE64Decoder decoder = new BASE64Decoder();
                                     ^
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\client\renderer\texture\CustomAtlas.java:56: error: cannot find symbol
-        CustomAtlas customAtlas = (CustomAtlas)textureMap.getTextureExtry(textureName);
-                                                         ^
-  symbol:   method getTextureExtry(String)
-  location: variable textureMap of type TextureMap
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\client\renderer\texture\CustomAtlas.java:63: error: cannot find symbol
-        textureMap.setTextureEntry(textureName, customAtlas);
-                  ^
-  symbol:   method setTextureEntry(String,CustomAtlas)
-  location: variable textureMap of type TextureMap
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\common\item\CustomAxe.java:28: error: incompatible types: yd cannot be converted to EnumToolMaterial
-        super(data.getId(), EnumHelper.addToolMaterial(name, data.getHarvestLevel(), data.getDurability(), data.getMiningSpeed(), data.getDamageVsEntities() - 3.0F, data.getEnchantability()));
-                                                      ^
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\common\item\CustomAxe.java:98: error: method hasEffect in class Item cannot be applied to given types;
-        return this.data.isGfxEffet() || super.hasEffect(par1ItemStack, pass);
-                                              ^
-  required: ItemStack
-  found: ItemStack,int
-  reason: actual and formal argument lists differ in length
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\common\item\CustomHoe.java:28: error: incompatible types: yd cannot be converted to EnumToolMaterial
-        super(data.getId(), EnumHelper.addToolMaterial(name, data.getHarvestLevel(), data.getDurability(), data.getMiningSpeed(), data.getDamageVsEntities(), data.getEnchantability()));
-                                                      ^
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\common\item\CustomPickaxe.java:28: error: incompatible types: yd cannot be converted to EnumToolMaterial
-        super(data.getId(), EnumHelper.addToolMaterial(name, data.getHarvestLevel(), data.getDurability(), data.getMiningSpeed(), data.getDamageVsEntities() - 2.0F, data.getEnchantability()));
-                                                      ^
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\common\item\CustomShovel.java:28: error: incompatible types: yd cannot be converted to EnumToolMaterial
-        super(data.getId(), EnumHelper.addToolMaterial(name, data.getHarvestLevel(), data.getDurability(), data.getMiningSpeed(), data.getDamageVsEntities() - 1.0F, data.getEnchantability()));
-                                                      ^
-C:\forge\mcp\src\minecraft\fr\nationsglory\remoteitem\common\item\CustomSword.java:28: error: incompatible types: yd cannot be converted to EnumToolMaterial
-        super(data.getId(), EnumHelper.addToolMaterial(name, data.getHarvestLevel(), data.getDurability(), data.getMiningSpeed(), data.getDamageVsEntities() - 4.0F, data.getEnchantability()));
-                                                      ^
-C:\forge\mcp\src\minecraft\javazoom\jl\converter\RiffFile.java:464: warning: [deprecation] getBytes(int,int,byte[],int) in String has been deprecated
+C:\forge\mcp\src\minecraft\javazoom\jl\converter\RiffFile.java:348: warning: [deprecation] getBytes(int,int,byte[],int) in String has been deprecated
         ChunkName.getBytes(0, 4, p, 0);
                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\NationsGUI.java:539: error: incompatible types: Packet cannot be converted to ey
-        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new IslandsSaveJumpPlayerPacket(position, positionType, time.longValue())));
-                                                                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\NationsGUI.java:582: error: incompatible types: Packet cannot be converted to ey
-        PacketDispatcher.sendPacketToPlayer(PacketRegistry.INSTANCE.generatePacket(new TitlePacket(new Title(title.replace('&', '\u00a7'), subtitle.replace('&', '\u00a7'), (float)(duration * 20)))), player);
-                                                                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\NationsGUI.java:589: error: incompatible types: Packet cannot be converted to ey
-            PacketDispatcher.sendPacketToPlayer(PacketRegistry.INSTANCE.generatePacket(new PacketEmote(emote, (String)playersName.get(i))), (Player)players.get(i));
-                                                                                      ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\NationsGUI.java:729: error: cannot find symbol
-                    RemoteOpenFactionChestPacket.openedChestsByPlayer.put(factionId, player.getDisplayName());
-                                                                                           ^
-  symbol:   method getDisplayName()
-  location: variable player of type EntityPlayer
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\voices\networking\ClientNetwork.java:40: warning: [deprecation] stop() in Thread has been deprecated
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\voices\networking\ClientNetwork.java:47: warning: [deprecation] stop() in Thread has been deprecated
         this.voiceClientThread.stop();
                               ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\ClientProxy.java:537: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\ClientProxy.java:471: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\ClientProxy.java:537: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\cache\CachedObjResource.java:18: warning: [deprecation] toURL() in File has been deprecated
-            return (new ObjModelLoader()).loadInstance(this.file.getName(), this.file.toURL());
-                                                                                     ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\modern\ModernGui.java:430: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\ClientProxy.java:471: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\cache\CachedObjResource.java:25: warning: [deprecation] toURL() in File has been deprecated
+            return new ObjModelLoader().loadInstance(this.file.getName(), this.file.toURL());
+                                                                                   ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\modern\ModernGui.java:356: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\modern\ModernGui.java:430: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseFlagGui.java:281: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\modern\ModernGui.java:356: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseFlagGui.java:224: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
             BASE64Encoder encoder = new BASE64Encoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseFlagGui.java:281: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseFlagGui.java:224: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
             BASE64Encoder encoder = new BASE64Encoder();
                                         ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseGui.java:761: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseGui.java:563: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseGui.java:761: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseSettingsGUI.java:331: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseGui.java:563: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseSettingsGUI.java:242: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseSettingsGUI.java:331: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\ActionsGUI.java:417: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\enterprise\EnterpriseSettingsGUI.java:242: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\ActionsGUI.java:321: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\ActionsGUI.java:417: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieGUI_OLD.java:289: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\ActionsGUI.java:321: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieGUI_OLD.java:231: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieGUI_OLD.java:289: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieWishGUI.java:284: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieGUI_OLD.java:231: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieWishGUI.java:219: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieWishGUI.java:284: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FactionGui_OLD.java:1041: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\DiplomatieWishGUI.java:219: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FactionGui_OLD.java:813: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FactionGui_OLD.java:1041: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FlagGui.java:285: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FactionGui_OLD.java:813: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FlagGui.java:229: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
             BASE64Encoder encoder = new BASE64Encoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FlagGui.java:285: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\FlagGui.java:229: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
             BASE64Encoder encoder = new BASE64Encoder();
                                         ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\ProfilGui.java:488: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\ProfilGui.java:363: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\ProfilGui.java:488: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI.java:111: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\ProfilGui.java:363: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI.java:142: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
             BASE64Encoder encoder = new BASE64Encoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI.java:111: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI.java:142: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
             BASE64Encoder encoder = new BASE64Encoder();
                                         ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI_OLD.java:49: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI_OLD.java:65: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI_OLD.java:49: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandBackupGui.java:482: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\faction\SettingsGUI_OLD.java:65: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandBackupGui.java:352: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandBackupGui.java:482: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandCreateGui.java:494: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandBackupGui.java:352: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandCreateGui.java:366: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandCreateGui.java:494: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandFlagGui.java:278: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandCreateGui.java:366: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandFlagGui.java:223: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
             BASE64Encoder encoder = new BASE64Encoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandFlagGui.java:278: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandFlagGui.java:223: warning: BASE64Encoder is internal proprietary API and may be removed in a future release
             BASE64Encoder encoder = new BASE64Encoder();
                                         ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandListGui.java:619: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandListGui.java:446: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandListGui.java:619: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandMainGui.java:616: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandListGui.java:446: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandMainGui.java:451: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandMainGui.java:616: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandMembersGui.java:930: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandMainGui.java:451: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandMembersGui.java:667: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandMembersGui.java:930: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandPermsGui.java:409: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandMembersGui.java:667: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandPermsGui.java:305: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandPermsGui.java:409: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandPropertiesGui.java:676: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandPermsGui.java:305: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandPropertiesGui.java:483: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandPropertiesGui.java:676: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandSettingsGui.java:525: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandPropertiesGui.java:483: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandSettingsGui.java:385: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandSettingsGui.java:525: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\AssaultOverride.java:294: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\island\IslandSettingsGui.java:385: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\AssaultOverride.java:250: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\AssaultOverride.java:294: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\BuildOverride.java:234: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\AssaultOverride.java:250: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\BuildOverride.java:187: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\BuildOverride.java:234: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\EdoraAutelAndBossOverride.java:31: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\BuildOverride.java:187: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\EdoraAutelAndBossOverride.java:44: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\EdoraAutelAndBossOverride.java:31: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\EventOverride.java:39: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\EdoraAutelAndBossOverride.java:44: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\EventOverride.java:52: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\EventOverride.java:39: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\FootOverride.java:110: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\EventOverride.java:52: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\FootOverride.java:114: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\FootOverride.java:110: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\LobbyOverride.java:160: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\FootOverride.java:114: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\LobbyOverride.java:133: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\LobbyOverride.java:160: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\SpecVersusOverride.java:45: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\LobbyOverride.java:133: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\SpecVersusOverride.java:59: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\SpecVersusOverride.java:45: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\WarzoneOverride.java:105: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\SpecVersusOverride.java:59: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\WarzoneOverride.java:110: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
             ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\WarzoneOverride.java:105: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
-            BASE64Decoder e = new BASE64Decoder();
-                                  ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\asm\transformer\BlockChestTransformer.java:36: warning: [deprecation] MethodInsnNode(int,String,String,String) in MethodInsnNode has been deprecated
-                list.add(new MethodInsnNode(184, BlockChestTransformer.class.getName().replace('.', '/'), "checkCast", "(Lnet/minecraft/tileentity/TileEntityChest;III)Z"));
-                         ^
-C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\asm\transformer\BlockSpawnerTransformer.java:45: warning: [deprecation] MethodInsnNode(int,String,String,String) in MethodInsnNode has been deprecated
-        insnList2.add(new MethodInsnNode(182, "net/ilexiconn/nationsgui/forge/server/asm/NationsGUIHooks", "getSpawnerMeta", "(Lnet/minecraft/world/World;III)I"));
-                      ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\client\gui\override\WarzoneOverride.java:110: warning: BASE64Decoder is internal proprietary API and may be removed in a future release
+            BASE64Decoder decoder = new BASE64Decoder();
+                                        ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\asm\transformer\BlockChestTransformer.java:46: warning: [deprecation] MethodInsnNode(int,String,String,String) in MethodInsnNode has been deprecated
+            list.add((AbstractInsnNode)new MethodInsnNode(184, BlockChestTransformer.class.getName().replace('.', '/'), "checkCast", "(Lnet/minecraft/tileentity/TileEntityChest;III)Z"));
+                                       ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\asm\transformer\BlockSpawnerTransformer.java:51: warning: [deprecation] MethodInsnNode(int,String,String,String) in MethodInsnNode has been deprecated
+        insnList.add((AbstractInsnNode)new MethodInsnNode(182, "net/ilexiconn/nationsgui/forge/server/asm/NationsGUIHooks", "getSpawnerMeta", "(Lnet/minecraft/world/World;III)I"));
+                                       ^
+C:\forge\mcp\src\minecraft\net\ilexiconn\nationsgui\forge\server\asm\transformer\BlockTransformer.java:49: warning: [deprecation] MethodInsnNode(int,String,String,String) in MethodInsnNode has been deprecated
+            insnList.insertBefore(targetNode, (AbstractInsnNode)new MethodInsnNode(184, "net/ilexiconn/nationsgui/forge/server/asm/NationsGUIHooks", "isBlocBypassCheckNormalCube", "(Lnet/minecraft/block/Block;)Z"));
+                                                                ^
 Note: Some input files additionally use or override a deprecated API.
 Note: Some input files use unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.

@@ -1,3 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  micdoodle8.mods.galacticraft.edora.client.gui.GCEdoraGuiGasExtractor
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.entity.player.EntityPlayer
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -8,47 +20,44 @@ import micdoodle8.mods.galacticraft.edora.client.gui.GCEdoraGuiGasExtractor;
 import net.ilexiconn.nationsgui.forge.server.packet.IClientPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class GasExtractorInfosMachinePacket implements IPacket, IClientPacket
-{
+public class GasExtractorInfosMachinePacket
+implements IPacket,
+IClientPacket {
     private int posX;
     private int posZ;
     private String zone;
     private float gasPercent;
     private boolean canOpen;
 
-    public GasExtractorInfosMachinePacket(int posX, int posZ)
-    {
+    public GasExtractorInfosMachinePacket(int posX, int posZ) {
         this.posX = posX;
         this.posZ = posZ;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.zone = data.readUTF();
         this.gasPercent = data.readFloat();
         this.canOpen = data.readBoolean();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeInt(this.posX);
         data.writeInt(this.posZ);
     }
 
-    @SideOnly(Side.CLIENT)
-    public void handleClientPacket(EntityPlayer player)
-    {
-        if (this.canOpen)
-        {
+    @Override
+    @SideOnly(value=Side.CLIENT)
+    public void handleClientPacket(EntityPlayer player) {
+        if (this.canOpen) {
             GCEdoraGuiGasExtractor.zoneName = this.zone;
             GCEdoraGuiGasExtractor.zonePercent = this.gasPercent;
-        }
-        else
-        {
-            Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
+        } else {
+            Minecraft.func_71410_x().func_71373_a(null);
         }
     }
 }
+

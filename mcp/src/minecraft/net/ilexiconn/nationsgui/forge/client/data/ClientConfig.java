@@ -1,10 +1,12 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package net.ilexiconn.nationsgui.forge.client.data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientConfig
-{
+public class ClientConfig {
     public boolean specialEnabled = false;
     public boolean blockInfoEnabled = false;
     public boolean displayPictureFrame = true;
@@ -16,9 +18,9 @@ public class ClientConfig
     public boolean enableUnicode = false;
     public boolean enableTimestamp = false;
     public boolean enableTag = true;
-    public Long currentServerTime = Long.valueOf(0L);
+    public Long currentServerTime = 0L;
     public boolean TPToTutorial = true;
-    public Long lastBonusStartTime = Long.valueOf(0L);
+    public Long lastBonusStartTime = 0L;
     public boolean FirstSetupClient = true;
     public boolean render3DSkins = true;
     public boolean renderFurnitures = true;
@@ -33,5 +35,6 @@ public class ClientConfig
     public boolean azimutBottom = true;
     public boolean enableAzimut = true;
     public boolean armorInfosRight = true;
-    public List<String> openedHelp = new ArrayList();
+    public List<String> openedHelp = new ArrayList<String>();
 }
+

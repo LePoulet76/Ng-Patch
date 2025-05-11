@@ -1,174 +1,117 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.command.CommandBase
+ *  net.minecraft.command.ICommandSender
+ *  net.minecraft.util.ChatMessageComponent
+ */
 package net.ilexiconn.nationsgui.forge.client.commands;
 
+import java.io.IOException;
 import net.ilexiconn.nationsgui.forge.client.ClientProxy;
-import net.ilexiconn.nationsgui.forge.client.commands.SkinDebugCommand$1;
 import net.ilexiconn.nationsgui.forge.client.itemskin.AbstractSkin;
 import net.ilexiconn.nationsgui.forge.client.util.Transform;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatMessageComponent;
+import org.json.simple.parser.ParseException;
 
-public class SkinDebugCommand extends CommandBase
-{
-    public String getCommandName()
-    {
+public class SkinDebugCommand
+extends CommandBase {
+    public String func_71517_b() {
         return "skindebug";
     }
 
-    public String getCommandUsage(ICommandSender icommandsender)
-    {
+    public String func_71518_a(ICommandSender icommandsender) {
         return null;
     }
 
-    public void processCommand(ICommandSender icommandsender, String[] astring)
-    {
-        if (astring.length >= 1 && astring[0].equals("reload"))
-        {
-            icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Reloading skins..."));
-            Thread skin1 = new Thread(new SkinDebugCommand$1(this, icommandsender));
-            skin1.start();
+    public void func_71515_b(final ICommandSender icommandsender, String[] astring) {
+        if (astring.length >= 1 && astring[0].equals("reload")) {
+            icommandsender.func_70006_a(ChatMessageComponent.func_111066_d((String)"Reloading skins..."));
+            Thread thread = new Thread(new Runnable(){
+
+                @Override
+                public void run() {
+                    try {
+                        ClientProxy.SKIN_MANAGER.loadSkins();
+                        icommandsender.func_70006_a(ChatMessageComponent.func_111066_d((String)"Skins reloaded"));
+                    }
+                    catch (IOException | ParseException e) {
+                        e.printStackTrace();
+                        icommandsender.func_70006_a(ChatMessageComponent.func_111066_d((String)"Skins reload failed"));
+                    }
+                }
+            });
+            thread.start();
+            return;
         }
-        else
-        {
-            AbstractSkin skin = ClientProxy.SKIN_MANAGER.getSkinFromID(astring[0]);
-
-            if (skin == null)
-            {
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Skin not found"));
+        AbstractSkin skin = ClientProxy.SKIN_MANAGER.getSkinFromID(astring[0]);
+        if (skin == null) {
+            icommandsender.func_70006_a(ChatMessageComponent.func_111066_d((String)"Skin not found"));
+            return;
+        }
+        if (astring.length >= 2 && astring[1].equals("reload")) {
+            skin.reload();
+            icommandsender.func_70006_a(ChatMessageComponent.func_111066_d((String)"Skin reloaded"));
+            return;
+        }
+        if (astring.length < 3) {
+            return;
+        }
+        Transform transform = skin.getTransform(astring[1]);
+        switch (astring[2]) {
+            case "scale": {
+                transform.setScale(Double.parseDouble(astring[3]));
+                break;
             }
-            else if (astring.length >= 2 && astring[1].equals("reload"))
-            {
-                skin.reload();
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Skin reloaded"));
+            case "offsetX": {
+                transform.setOffsetX(Double.parseDouble(astring[3]));
+                break;
             }
-            else if (astring.length >= 3)
-            {
-                Transform transform = skin.getTransform(astring[1]);
-                String var5 = astring[2];
-                byte var6 = -1;
-
-                switch (var5.hashCode())
-                {
-                    case -1548407259:
-                        if (var5.equals("offsetX"))
-                        {
-                            var6 = 1;
-                        }
-
-                        break;
-
-                    case -1548407258:
-                        if (var5.equals("offsetY"))
-                        {
-                            var6 = 2;
-                        }
-
-                        break;
-
-                    case -1548407257:
-                        if (var5.equals("offsetZ"))
-                        {
-                            var6 = 3;
-                        }
-
-                        break;
-
-                    case 3237038:
-                        if (var5.equals("info"))
-                        {
-                            var6 = 7;
-                        }
-
-                        break;
-
-                    case 109250890:
-                        if (var5.equals("scale"))
-                        {
-                            var6 = 0;
-                        }
-
-                        break;
-
-                    case 1384173149:
-                        if (var5.equals("rotateX"))
-                        {
-                            var6 = 4;
-                        }
-
-                        break;
-
-                    case 1384173150:
-                        if (var5.equals("rotateY"))
-                        {
-                            var6 = 5;
-                        }
-
-                        break;
-
-                    case 1384173151:
-                        if (var5.equals("rotateZ"))
-                        {
-                            var6 = 6;
-                        }
-                }
-
-                switch (var6)
-                {
-                    case 0:
-                        transform.setScale(Double.parseDouble(astring[3]));
-                        break;
-
-                    case 1:
-                        transform.setOffsetX(Double.parseDouble(astring[3]));
-                        break;
-
-                    case 2:
-                        transform.setOffsetY(Double.parseDouble(astring[3]));
-                        break;
-
-                    case 3:
-                        transform.setOffsetZ(Double.parseDouble(astring[3]));
-                        break;
-
-                    case 4:
-                        transform.setRotateX(Double.parseDouble(astring[3]));
-                        break;
-
-                    case 5:
-                        transform.setRotateY(Double.parseDouble(astring[3]));
-                        break;
-
-                    case 6:
-                        transform.setRotateZ(Double.parseDouble(astring[3]));
-                        break;
-
-                    case 7:
-                        icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("S : " + transform.getScale()));
-                        icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("oX : " + transform.getOffsetX()));
-                        icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("oY : " + transform.getOffsetY()));
-                        icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("oZ : " + transform.getOffsetZ()));
-                        icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("rX : " + transform.getRotateX()));
-                        icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("rY : " + transform.getRotateY()));
-                        icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("rZ : " + transform.getRotateZ()));
-                        break;
-
-                    default:
-                        icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Parameter invalid"));
-                }
+            case "offsetY": {
+                transform.setOffsetY(Double.parseDouble(astring[3]));
+                break;
+            }
+            case "offsetZ": {
+                transform.setOffsetZ(Double.parseDouble(astring[3]));
+                break;
+            }
+            case "rotateX": {
+                transform.setRotateX(Double.parseDouble(astring[3]));
+                break;
+            }
+            case "rotateY": {
+                transform.setRotateY(Double.parseDouble(astring[3]));
+                break;
+            }
+            case "rotateZ": {
+                transform.setRotateZ(Double.parseDouble(astring[3]));
+                break;
+            }
+            case "info": {
+                icommandsender.func_70006_a(ChatMessageComponent.func_111066_d((String)("S : " + transform.getScale())));
+                icommandsender.func_70006_a(ChatMessageComponent.func_111066_d((String)("oX : " + transform.getOffsetX())));
+                icommandsender.func_70006_a(ChatMessageComponent.func_111066_d((String)("oY : " + transform.getOffsetY())));
+                icommandsender.func_70006_a(ChatMessageComponent.func_111066_d((String)("oZ : " + transform.getOffsetZ())));
+                icommandsender.func_70006_a(ChatMessageComponent.func_111066_d((String)("rX : " + transform.getRotateX())));
+                icommandsender.func_70006_a(ChatMessageComponent.func_111066_d((String)("rY : " + transform.getRotateY())));
+                icommandsender.func_70006_a(ChatMessageComponent.func_111066_d((String)("rZ : " + transform.getRotateZ())));
+                break;
+            }
+            default: {
+                icommandsender.func_70006_a(ChatMessageComponent.func_111066_d((String)"Parameter invalid"));
             }
         }
     }
 
-    public int compareTo(Object o)
-    {
+    public int compareTo(Object o) {
         return 0;
     }
 
-    /**
-     * Returns true if the given command sender is allowed to use this command.
-     */
-    public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
-    {
+    public boolean func_71519_b(ICommandSender par1ICommandSender) {
         return true;
     }
 }
+

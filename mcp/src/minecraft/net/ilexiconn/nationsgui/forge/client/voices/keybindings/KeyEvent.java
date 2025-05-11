@@ -1,18 +1,25 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.settings.KeyBinding
+ */
 package net.ilexiconn.nationsgui.forge.client.voices.keybindings;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.ilexiconn.nationsgui.forge.client.voices.keybindings.EnumBinding;
 import net.minecraft.client.settings.KeyBinding;
 
-@SideOnly(Side.CLIENT)
-public abstract class KeyEvent
-{
+@SideOnly(value=Side.CLIENT)
+public abstract class KeyEvent {
     public EnumBinding keyBind;
     public int keyID = -1;
     public boolean repeating;
 
-    public KeyEvent(EnumBinding keyBind, int keyID, boolean repeating)
-    {
+    public KeyEvent(EnumBinding keyBind, int keyID, boolean repeating) {
         this.keyBind = keyBind;
         this.keyID = keyID;
         this.repeating = repeating;
@@ -22,3 +29,4 @@ public abstract class KeyEvent
 
     public abstract void keyUp(KeyBinding var1, boolean var2);
 }
+

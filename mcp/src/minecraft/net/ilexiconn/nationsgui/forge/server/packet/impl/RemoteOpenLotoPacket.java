@@ -1,3 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.entity.player.EntityPlayer
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -7,28 +17,30 @@ import net.ilexiconn.nationsgui.forge.client.gui.LotoGui;
 import net.ilexiconn.nationsgui.forge.server.packet.IClientPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class RemoteOpenLotoPacket implements IPacket, IClientPacket
-{
+public class RemoteOpenLotoPacket
+implements IPacket,
+IClientPacket {
     private boolean admin;
 
-    public void handleClientPacket(EntityPlayer player)
-    {
-        if (this.admin)
-        {
-            Minecraft.getMinecraft().displayGuiScreen(new LotoAdminGui());
-        }
-        else
-        {
-            Minecraft.getMinecraft().displayGuiScreen(new LotoGui());
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
+        if (this.admin) {
+            Minecraft.func_71410_x().func_71373_a((GuiScreen)new LotoAdminGui());
+        } else {
+            Minecraft.func_71410_x().func_71373_a((GuiScreen)new LotoGui());
         }
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.admin = data.readBoolean();
     }
 
-    public void toBytes(ByteArrayDataOutput data) {}
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
+    }
 }
+

@@ -1,3 +1,6 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package javazoom.jl.player;
 
 import java.io.InputStream;
@@ -7,157 +10,114 @@ import javazoom.jl.decoder.Decoder;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.decoder.SampleBuffer;
+import javazoom.jl.player.AudioDevice;
+import javazoom.jl.player.FactoryRegistry;
 
-public class Player
-{
-    private int frame;
+public class Player {
+    private int frame = 0;
     private Bitstream bitstream;
     private Decoder decoder;
     private AudioDevice audio;
-    private boolean closed;
-    private boolean complete;
-    private int lastPosition;
+    private boolean closed = false;
+    private boolean complete = false;
+    private int lastPosition = 0;
 
-    public Player(InputStream stream) throws JavaLayerException
-    {
-        this(stream, (AudioDevice)null);
+    public Player(InputStream stream) throws JavaLayerException {
+        this(stream, null);
     }
 
-    public Player(InputStream stream, AudioDevice device) throws JavaLayerException
-    {
-        this.frame = 0;
-        this.closed = false;
-        this.complete = false;
-        this.lastPosition = 0;
+    public Player(InputStream stream, AudioDevice device) throws JavaLayerException {
         this.bitstream = new Bitstream(stream);
         this.decoder = new Decoder();
-
-        if (device != null)
-        {
+        if (device != null) {
             this.audio = device;
-        }
-        else
-        {
+        } else {
             FactoryRegistry r = FactoryRegistry.systemRegistry();
             this.audio = r.createAudioDevice();
         }
-
         this.audio.open(this.decoder);
     }
 
-    public void play() throws JavaLayerException
-    {
+    public void play() throws JavaLayerException {
         this.play(Integer.MAX_VALUE);
     }
 
-    public boolean play(int frames) throws JavaLayerException
-    {
-        boolean ret;
-
-        for (ret = true; frames-- > 0 && ret; ret = this.decodeFrame())
-        {
-            ;
+    /*
+     * WARNING - Removed try catching itself - possible behaviour change.
+     */
+    public boolean play(int frames) throws JavaLayerException {
+        AudioDevice out;
+        boolean ret = true;
+        while (frames-- > 0 && ret) {
+            ret = this.decodeFrame();
         }
-
-        if (!ret)
-        {
-            AudioDevice out = this.audio;
-
-            if (out != null)
-            {
-                out.flush();
-
-                synchronized (this)
-                {
-                    this.complete = !this.closed;
-                    this.close();
-                }
+        if (!ret && (out = this.audio) != null) {
+            out.flush();
+            Player player = this;
+            synchronized (player) {
+                this.complete = !this.closed;
+                this.close();
             }
         }
-
         return ret;
     }
 
-    public synchronized void close()
-    {
+    public synchronized void close() {
         AudioDevice out = this.audio;
-
-        if (out != null)
-        {
+        if (out != null) {
             this.closed = true;
             this.audio = null;
             out.close();
             this.lastPosition = out.getPosition();
-
-            try
-            {
+            try {
                 this.bitstream.close();
             }
-            catch (BitstreamException var3)
-            {
-                ;
+            catch (BitstreamException bitstreamException) {
+                // empty catch block
             }
         }
     }
 
-    public synchronized boolean isComplete()
-    {
+    public synchronized boolean isComplete() {
         return this.complete;
     }
 
-    public int getPosition()
-    {
+    public int getPosition() {
         int position = this.lastPosition;
         AudioDevice out = this.audio;
-
-        if (out != null)
-        {
+        if (out != null) {
             position = out.getPosition();
         }
-
         return position;
     }
 
-    protected boolean decodeFrame() throws JavaLayerException
-    {
-        try
-        {
-            AudioDevice ex = this.audio;
-
-            if (ex == null)
-            {
+    /*
+     * WARNING - Removed try catching itself - possible behaviour change.
+     */
+    protected boolean decodeFrame() throws JavaLayerException {
+        try {
+            AudioDevice out = this.audio;
+            if (out == null) {
                 return false;
             }
-            else
-            {
-                Header h = this.bitstream.readFrame();
-
-                if (h == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    SampleBuffer output = (SampleBuffer)this.decoder.decodeFrame(h, this.bitstream);
-
-                    synchronized (this)
-                    {
-                        ex = this.audio;
-
-                        if (ex != null)
-                        {
-                            ex.write(output.getBuffer(), 0, output.getBufferLength());
-                        }
-                    }
-
-                    this.bitstream.closeFrame();
-                    return true;
+            Header h = this.bitstream.readFrame();
+            if (h == null) {
+                return false;
+            }
+            SampleBuffer output = (SampleBuffer)this.decoder.decodeFrame(h, this.bitstream);
+            Player player = this;
+            synchronized (player) {
+                out = this.audio;
+                if (out != null) {
+                    out.write(output.getBuffer(), 0, output.getBufferLength());
                 }
             }
+            this.bitstream.closeFrame();
         }
-        catch (RuntimeException var7)
-        {
-            throw new JavaLayerException("Exception decoding audio frame", var7);
+        catch (RuntimeException ex) {
+            throw new JavaLayerException("Exception decoding audio frame", ex);
         }
+        return true;
     }
 }
+

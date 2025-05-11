@@ -1,3 +1,24 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.collect.HashMultimap
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.renderer.texture.IconRegister
+ *  net.minecraft.creativetab.CreativeTabs
+ *  net.minecraft.enchantment.Enchantment
+ *  net.minecraft.entity.EntityLivingBase
+ *  net.minecraft.entity.ai.attributes.Attribute
+ *  net.minecraft.entity.ai.attributes.AttributeModifier
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.item.Item
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.potion.Potion
+ *  net.minecraft.potion.PotionEffect
+ *  net.minecraft.util.EnumChatFormatting
+ *  net.minecraft.util.StatCollector
+ */
 package fr.nationsglory.remoteitem.common.item;
 
 import com.google.common.collect.HashMultimap;
@@ -9,10 +30,8 @@ import fr.nationsglory.remoteitem.common.data.EnchantData;
 import fr.nationsglory.remoteitem.common.data.ItemData;
 import fr.nationsglory.remoteitem.common.data.PotionEffectData;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
@@ -27,195 +46,114 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
-public class CustomItem extends Item
-{
+public class CustomItem
+extends Item {
     private ItemData data;
 
-    public CustomItem(String name, ItemData data)
-    {
+    public CustomItem(String name, ItemData data) {
         super(data.getId());
         this.data = data;
-        this.setUnlocalizedName("remoteitem." + name);
-        this.setTextureName(name);
-        this.setMaxDamage(data.getDurability());
-        this.setCreativeTab(CreativeTabs.tabAllSearch);
-        this.setMaxStackSize(data.getStackSize());
+        this.func_77655_b("remoteitem." + name);
+        this.func_111206_d(name);
+        this.func_77656_e(data.getDurability());
+        this.func_77637_a(CreativeTabs.field_78027_g);
+        this.func_77625_d(data.getStackSize());
         RemoteItem.proxy.setCreativeTabItem(this, data);
-        this.bFull3D = data.isFull3D();
+        this.field_77789_bW = data.isFull3D();
     }
 
-    /**
-     * allows items to add custom lines of information to the mouseover description
-     */
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
-    {
-        super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
-        generateDescription(par3List, this, this.data);
+    public void func_77624_a(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+        super.func_77624_a(par1ItemStack, par2EntityPlayer, par3List, par4);
+        CustomItem.generateDescription(par3List, this, this.data);
     }
 
-    /**
-     * Return whether this item is repairable in an anvil.
-     */
-    public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
-    {
-        return par2ItemStack.itemID == this.data.getRepairItemID();
+    public boolean func_82789_a(ItemStack par1ItemStack, ItemStack par2ItemStack) {
+        return par2ItemStack.field_77993_c == this.data.getRepairItemID();
     }
 
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister)
-    {
-        this.itemIcon = CustomAtlas.registerIcon(par1IconRegister, this.iconString);
+    @SideOnly(value=Side.CLIENT)
+    public void func_94581_a(IconRegister par1IconRegister) {
+        this.field_77791_bV = CustomAtlas.registerIcon(par1IconRegister, this.field_111218_cA);
     }
 
-    /**
-     * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise
-     * the damage on the stack.
-     */
-    public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
-    {
-        Iterator var4 = this.data.getEffects().iterator();
-
-        while (var4.hasNext())
-        {
-            PotionEffectData potionEffectData = (PotionEffectData)var4.next();
-            par2EntityLivingBase.addPotionEffect(new PotionEffect(potionEffectData.getId(), potionEffectData.getDuration(), potionEffectData.getAmplifier()));
+    public boolean func_77644_a(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase) {
+        for (PotionEffectData potionEffectData : this.data.getEffects()) {
+            par2EntityLivingBase.func_70690_d(new PotionEffect(potionEffectData.getId(), potionEffectData.getDuration(), potionEffectData.getAmplifier()));
         }
-
-        return super.hitEntity(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
+        return super.func_77644_a(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
     }
 
-    /**
-     * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
-     */
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
-    {
+    public void func_77633_a(int par1, CreativeTabs par2CreativeTabs, List par3List) {
         ItemStack itemStack = new ItemStack(par1, 1, 0);
-
-        if (!this.data.getEnchants().isEmpty())
-        {
-            Iterator var5 = this.data.getEnchants().iterator();
-
-            while (var5.hasNext())
-            {
-                EnchantData enchantData = (EnchantData)var5.next();
-                itemStack.addEnchantment(Enchantment.enchantmentsList[enchantData.getId()], enchantData.getLevel());
+        if (!this.data.getEnchants().isEmpty()) {
+            for (EnchantData enchantData : this.data.getEnchants()) {
+                itemStack.func_77966_a(Enchantment.field_77331_b[enchantData.getId()], enchantData.getLevel());
             }
         }
-
         par3List.add(itemStack);
     }
 
-    public boolean hasEffect(ItemStack par1ItemStack, int pass)
-    {
+    public boolean hasEffect(ItemStack par1ItemStack, int pass) {
         return this.data.isGfxEffet();
     }
 
-    public static void generateDescription(List list, Item item, ItemData data)
-    {
-        if (!data.getDescription().isEmpty())
-        {
-            list.add(StatCollector.translateToLocal(item.getUnlocalizedName() + ".description").trim());
+    public static void generateDescription(List list, Item item, ItemData data) {
+        if (!data.getDescription().isEmpty()) {
+            list.add(StatCollector.func_74838_a((String)(item.func_77658_a() + ".description")).trim());
         }
-
-        ArrayList list1 = new ArrayList();
-        Iterator hashmultimap = data.getEffects().iterator();
-
-        while (hashmultimap.hasNext())
-        {
-            PotionEffectData iterator = (PotionEffectData)hashmultimap.next();
-            list1.add(new PotionEffect(iterator.getId(), iterator.getDuration(), iterator.getAmplifier()));
+        ArrayList<PotionEffect> list1 = new ArrayList<PotionEffect>();
+        for (PotionEffectData potionEffectData : data.getEffects()) {
+            list1.add(new PotionEffect(potionEffectData.getId(), potionEffectData.getDuration(), potionEffectData.getAmplifier()));
         }
-
-        HashMultimap hashmultimap1 = HashMultimap.create();
-        Iterator iterator1;
-
-        if (list1 != null && !list1.isEmpty())
-        {
-            iterator1 = list1.iterator();
-
-            while (iterator1.hasNext())
-            {
-                PotionEffect entry1 = (PotionEffect)iterator1.next();
-                String attributemodifier2 = StatCollector.translateToLocal(entry1.getEffectName()).trim();
-                Potion d0 = Potion.potionTypes[entry1.getPotionID()];
-                Map map = d0.func_111186_k();
-
-                if (map != null && map.size() > 0)
-                {
-                    Iterator d1 = map.entrySet().iterator();
-
-                    while (d1.hasNext())
-                    {
-                        Entry entry = (Entry)d1.next();
+        HashMultimap hashmultimap = HashMultimap.create();
+        if (list1 != null && !list1.isEmpty()) {
+            for (PotionEffect potioneffect : list1) {
+                String s = StatCollector.func_74838_a((String)potioneffect.func_76453_d()).trim();
+                Potion potion = Potion.field_76425_a[potioneffect.func_76456_a()];
+                Map map = potion.func_111186_k();
+                if (map != null && map.size() > 0) {
+                    for (Map.Entry entry : map.entrySet()) {
                         AttributeModifier attributemodifier = (AttributeModifier)entry.getValue();
-                        AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(), d0.func_111183_a(entry1.getAmplifier(), attributemodifier), attributemodifier.getOperation());
-                        hashmultimap1.put(((Attribute)entry.getKey()).getAttributeUnlocalizedName(), attributemodifier1);
+                        AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.func_111166_b(), potion.func_111183_a(potioneffect.func_76458_c(), attributemodifier), attributemodifier.func_111169_c());
+                        hashmultimap.put((Object)((Attribute)entry.getKey()).func_111108_a(), (Object)attributemodifier1);
                     }
                 }
-
-                if (entry1.getAmplifier() > 0)
-                {
-                    attributemodifier2 = attributemodifier2 + " " + StatCollector.translateToLocal("potion.potency." + entry1.getAmplifier()).trim();
+                if (potioneffect.func_76458_c() > 0) {
+                    s = s + " " + StatCollector.func_74838_a((String)("potion.potency." + potioneffect.func_76458_c())).trim();
                 }
-
-                if (entry1.getDuration() > 20)
-                {
-                    attributemodifier2 = attributemodifier2 + " (" + Potion.getDurationString(entry1) + ")";
+                if (potioneffect.func_76459_b() > 20) {
+                    s = s + " (" + Potion.func_76389_a((PotionEffect)potioneffect) + ")";
                 }
-
-                if (d0.isBadEffect())
-                {
-                    list.add(EnumChatFormatting.RED + attributemodifier2);
+                if (potion.func_76398_f()) {
+                    list.add(EnumChatFormatting.RED + s);
+                    continue;
                 }
-                else
-                {
-                    list.add(EnumChatFormatting.GRAY + attributemodifier2);
-                }
+                list.add(EnumChatFormatting.GRAY + s);
             }
         }
-
-        if (!hashmultimap1.isEmpty())
-        {
+        if (!hashmultimap.isEmpty()) {
             list.add("");
-            list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("potion.effects.whenDrank"));
-            iterator1 = hashmultimap1.entries().iterator();
-
-            while (iterator1.hasNext())
-            {
-                Entry entry11 = (Entry)iterator1.next();
-                AttributeModifier attributemodifier21 = (AttributeModifier)entry11.getValue();
-                double d01 = attributemodifier21.getAmount();
-                double d11;
-
-                if (attributemodifier21.getOperation() != 1 && attributemodifier21.getOperation() != 2)
-                {
-                    d11 = attributemodifier21.getAmount();
+            list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.func_74838_a((String)"potion.effects.whenDrank"));
+            for (Map.Entry entry1 : hashmultimap.entries()) {
+                AttributeModifier attributemodifier2 = (AttributeModifier)entry1.getValue();
+                double d0 = attributemodifier2.func_111164_d();
+                double d1 = attributemodifier2.func_111169_c() != 1 && attributemodifier2.func_111169_c() != 2 ? attributemodifier2.func_111164_d() : attributemodifier2.func_111164_d() * 100.0;
+                if (d0 > 0.0) {
+                    list.add(EnumChatFormatting.BLUE + StatCollector.func_74837_a((String)("attribute.modifier.plus." + attributemodifier2.func_111169_c()), (Object[])new Object[]{ItemStack.field_111284_a.format(d1), StatCollector.func_74838_a((String)("attribute.name." + (String)entry1.getKey()))}));
+                    continue;
                 }
-                else
-                {
-                    d11 = attributemodifier21.getAmount() * 100.0D;
-                }
-
-                if (d01 > 0.0D)
-                {
-                    list.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted("attribute.modifier.plus." + attributemodifier21.getOperation(), new Object[] {ItemStack.field_111284_a.format(d11), StatCollector.translateToLocal("attribute.name." + (String)entry11.getKey())}));
-                }
-                else if (d01 < 0.0D)
-                {
-                    d11 *= -1.0D;
-                    list.add(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted("attribute.modifier.take." + attributemodifier21.getOperation(), new Object[] {ItemStack.field_111284_a.format(d11), StatCollector.translateToLocal("attribute.name." + (String)entry11.getKey())}));
-                }
+                if (!(d0 < 0.0)) continue;
+                list.add(EnumChatFormatting.RED + StatCollector.func_74837_a((String)("attribute.modifier.take." + attributemodifier2.func_111169_c()), (Object[])new Object[]{ItemStack.field_111284_a.format(d1 *= -1.0), StatCollector.func_74838_a((String)("attribute.name." + (String)entry1.getKey()))}));
             }
         }
     }
 
-    public int getTooltipColor()
-    {
+    public int getTooltipColor() {
         return this.data.getTooltipColor();
     }
 
-    public int getTooltipBackgroundColor()
-    {
+    public int getTooltipBackgroundColor() {
         return this.data.getTooltipBackgroundColor();
     }
 }
+

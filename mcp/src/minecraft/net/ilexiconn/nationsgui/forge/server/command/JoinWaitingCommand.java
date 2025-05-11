@@ -1,3 +1,14 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  cpw.mods.fml.common.network.Player
+ *  net.minecraft.command.CommandBase
+ *  net.minecraft.command.ICommandSender
+ *  net.minecraft.entity.player.EntityPlayerMP
+ *  net.minecraft.network.packet.Packet
+ */
 package net.ilexiconn.nationsgui.forge.server.command;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -7,38 +18,31 @@ import net.ilexiconn.nationsgui.forge.server.packet.impl.JoinWaitingPacket;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.packet.Packet;
 
-public class JoinWaitingCommand extends CommandBase
-{
-    public String getCommandName()
-    {
+public class JoinWaitingCommand
+extends CommandBase {
+    public String func_71517_b() {
         return "joinwaiting";
     }
 
-    public String getCommandUsage(ICommandSender icommandsender)
-    {
+    public String func_71518_a(ICommandSender icommandsender) {
         return "/joinwaiting <Server> <IP> <Port>";
     }
 
-    public void processCommand(ICommandSender icommandsender, String[] astring)
-    {
-        if (astring.length == 3)
-        {
-            EntityPlayerMP target = getPlayer(icommandsender, icommandsender.getCommandSenderName());
-            PacketDispatcher.sendPacketToPlayer(PacketRegistry.INSTANCE.generatePacket(new JoinWaitingPacket(astring[0], astring[1], Integer.parseInt(astring[2]))), (Player)target);
+    public void func_71515_b(ICommandSender icommandsender, String[] astring) {
+        if (astring.length == 3) {
+            EntityPlayerMP target = JoinWaitingCommand.func_82359_c((ICommandSender)icommandsender, (String)icommandsender.func_70005_c_());
+            PacketDispatcher.sendPacketToPlayer((Packet)PacketRegistry.INSTANCE.generatePacket(new JoinWaitingPacket(astring[0], astring[1], Integer.parseInt(astring[2]))), (Player)((Player)target));
         }
     }
 
-    public int compareTo(Object o)
-    {
+    public int compareTo(Object o) {
         return 0;
     }
 
-    /**
-     * Return whether the specified command parameter index is a username parameter.
-     */
-    public boolean isUsernameIndex(String[] par1ArrayOfStr, int par2)
-    {
+    public boolean func_82358_a(String[] par1ArrayOfStr, int par2) {
         return par2 == 0;
     }
 }
+

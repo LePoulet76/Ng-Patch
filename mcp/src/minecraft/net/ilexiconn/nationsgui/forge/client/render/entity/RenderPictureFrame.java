@@ -1,3 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.renderer.Tessellator
+ *  net.minecraft.client.renderer.entity.RenderEntity
+ *  net.minecraft.entity.Entity
+ *  net.minecraft.util.ResourceLocation
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.render.entity;
 
 import net.ilexiconn.nationsgui.forge.client.ClientProxy;
@@ -7,67 +17,51 @@ import net.minecraft.client.renderer.entity.RenderEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-public class RenderPictureFrame extends RenderEntity
-{
+public class RenderPictureFrame
+extends RenderEntity {
     private static final ResourceLocation TEXTURE = new ResourceLocation("nationsgui", "textures/entity/pictureframeoff.png");
 
-    private void renderEntityPicture(EntityPictureFrame par1EntityPainting, int par2, int par3)
-    {
-        Tessellator tessellator = Tessellator.instance;
-
-        if ((par1EntityPainting.getDownloadImageSkin() == null || !par1EntityPainting.getDownloadImageSkin().isTextureUploaded()) && ClientProxy.clientConfig.displayPictureFrame)
-        {
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            tessellator.startDrawingQuads();
-            tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1.0F);
-            tessellator.setNormal(1.0F, 0.0F, 0.0F);
-            tessellator.addVertex((double)(par2 / 2), (double)(par3 / 2), 0.0D);
-            tessellator.addVertex((double)(par2 / 2), (double)(-par3 / 2), 0.0D);
-            tessellator.addVertex((double)(-par2 / 2), (double)(-par3 / 2), 0.0D);
-            tessellator.addVertex((double)(-par2 / 2), (double)(par3 / 2), 0.0D);
-            tessellator.draw();
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-        }
-        else
-        {
-            this.bindTexture(ClientProxy.clientConfig.displayPictureFrame ? par1EntityPainting.getLocationSkin() : TEXTURE);
-            tessellator.startDrawingQuads();
-            tessellator.setNormal(1.0F, 0.0F, 0.0F);
-            tessellator.addVertexWithUV((double)(par2 / 2), (double)(par3 / 2), 0.0D, 0.0D, 0.0D);
-            tessellator.addVertexWithUV((double)(par2 / 2), (double)(-par3 / 2), 0.0D, 0.0D, 1.0D);
-            tessellator.addVertexWithUV((double)(-par2 / 2), (double)(-par3 / 2), 0.0D, 1.0D, 1.0D);
-            tessellator.addVertexWithUV((double)(-par2 / 2), (double)(par3 / 2), 0.0D, 1.0D, 0.0D);
-            tessellator.draw();
+    private void renderEntityPicture(EntityPictureFrame par1EntityPainting, int par2, int par3) {
+        Tessellator tessellator = Tessellator.field_78398_a;
+        if (par1EntityPainting.getDownloadImageSkin() != null && par1EntityPainting.getDownloadImageSkin().isTextureUploaded() || !ClientProxy.clientConfig.displayPictureFrame) {
+            this.func_110776_a(ClientProxy.clientConfig.displayPictureFrame ? par1EntityPainting.getLocationSkin() : TEXTURE);
+            tessellator.func_78382_b();
+            tessellator.func_78375_b(1.0f, 0.0f, 0.0f);
+            tessellator.func_78374_a((double)(par2 / 2), (double)(par3 / 2), 0.0, 0.0, 0.0);
+            tessellator.func_78374_a((double)(par2 / 2), (double)(-par3 / 2), 0.0, 0.0, 1.0);
+            tessellator.func_78374_a((double)(-par2 / 2), (double)(-par3 / 2), 0.0, 1.0, 1.0);
+            tessellator.func_78374_a((double)(-par2 / 2), (double)(par3 / 2), 0.0, 1.0, 0.0);
+            tessellator.func_78381_a();
+        } else {
+            GL11.glDisable((int)3553);
+            tessellator.func_78382_b();
+            tessellator.func_78369_a(1.0f, 1.0f, 1.0f, 1.0f);
+            tessellator.func_78375_b(1.0f, 0.0f, 0.0f);
+            tessellator.func_78377_a((double)(par2 / 2), (double)(par3 / 2), 0.0);
+            tessellator.func_78377_a((double)(par2 / 2), (double)(-par3 / 2), 0.0);
+            tessellator.func_78377_a((double)(-par2 / 2), (double)(-par3 / 2), 0.0);
+            tessellator.func_78377_a((double)(-par2 / 2), (double)(par3 / 2), 0.0);
+            tessellator.func_78381_a();
+            GL11.glEnable((int)3553);
         }
     }
 
-    /**
-     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
-     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
-     * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
-     * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
-     */
-    public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
-    {
+    public void func_76986_a(Entity par1Entity, double par2, double par4, double par6, float par8, float par9) {
         GL11.glPushMatrix();
-        GL11.glTranslated(par2, par4, par6);
-        GL11.glRotatef(par8, 0.0F, 1.0F, 0.0F);
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        float f2 = 0.0625F;
-        GL11.glScalef(f2, f2, f2);
+        GL11.glTranslated((double)par2, (double)par4, (double)par6);
+        GL11.glRotatef((float)par8, (float)0.0f, (float)1.0f, (float)0.0f);
+        GL11.glEnable((int)32826);
+        float f2 = 0.0625f;
+        GL11.glScalef((float)f2, (float)f2, (float)f2);
         EntityPictureFrame entityPictureFrame = (EntityPictureFrame)par1Entity;
         this.renderEntityPicture(entityPictureFrame, entityPictureFrame.getWidthPixels(), entityPictureFrame.getHeightPixels());
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+        GL11.glDisable((int)32826);
         GL11.glPopMatrix();
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
-    protected ResourceLocation getEntityTexture(Entity par1Entity)
-    {
+    protected ResourceLocation func_110775_a(Entity par1Entity) {
         return TEXTURE;
     }
 }
+

@@ -1,8 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package javazoom.jl.player.advanced;
 
-public abstract class PlaybackListener
-{
-    public void playbackStarted(PlaybackEvent evt) {}
+import javazoom.jl.player.advanced.PlaybackEvent;
 
-    public void playbackFinished(PlaybackEvent evt) {}
+public abstract class PlaybackListener {
+    public void playbackStarted(PlaybackEvent evt) {
+    }
+
+    public void playbackFinished(PlaybackEvent evt) {
+    }
 }
+

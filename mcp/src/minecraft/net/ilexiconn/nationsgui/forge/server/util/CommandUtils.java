@@ -1,8 +1,20 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.command.CommandException
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.nbt.CompressedStreamTools
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.server.MinecraftServer
+ *  net.minecraft.world.storage.SaveHandler
+ */
 package net.ilexiconn.nationsgui.forge.server.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,82 +27,54 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.storage.SaveHandler;
 
-public class CommandUtils
-{
-    public static void writePlayerData(SaveHandler saveHandler, String username, NBTTagCompound playerData) throws IOException
-    {
+public class CommandUtils {
+    public static void writePlayerData(SaveHandler saveHandler, String username, NBTTagCompound playerData) throws IOException {
         File playersDirectory;
-
-        try
-        {
-            Field file1 = SaveHandler.class.getDeclaredField(NationsGUITransformer.inDevelopment ? "playersDirectory" : "playersDirectory");
-            file1.setAccessible(true);
-            playersDirectory = (File)file1.get(saveHandler);
+        try {
+            Field field = SaveHandler.class.getDeclaredField(NationsGUITransformer.inDevelopment ? "playersDirectory" : "field_75771_c");
+            field.setAccessible(true);
+            playersDirectory = (File)field.get(saveHandler);
         }
-        catch (Exception var6)
-        {
-            var6.printStackTrace();
+        catch (Exception e) {
+            e.printStackTrace();
             throw new CommandException("Unable to get save directory", new Object[0]);
         }
-
-        File file11 = new File(playersDirectory, username + ".dat.tmp");
+        File file1 = new File(playersDirectory, username + ".dat.tmp");
         File file2 = new File(playersDirectory, username + ".dat");
-        CompressedStreamTools.writeCompressed(playerData, new FileOutputStream(file11));
-
-        if (file2.exists())
-        {
+        CompressedStreamTools.func_74799_a((NBTTagCompound)playerData, (OutputStream)new FileOutputStream(file1));
+        if (file2.exists()) {
             file2.delete();
         }
-
-        file11.renameTo(file2);
+        file1.renameTo(file2);
     }
 
-    public static boolean isPlayerOnline(String username)
-    {
-        return Arrays.asList(MinecraftServer.getServer().getAllUsernames()).contains(username);
+    public static boolean isPlayerOnline(String username) {
+        return Arrays.asList(MinecraftServer.func_71276_C().func_71213_z()).contains(username);
     }
 
-    public static boolean isPlayerOp(String player)
-    {
-        return getAllOps().contains(player);
+    public static boolean isPlayerOp(String player) {
+        return CommandUtils.getAllOps().contains(player);
     }
 
-    public static List<String> getAllOps()
-    {
-        ArrayList ops = new ArrayList();
-        String[] var1 = MinecraftServer.getServer().getAllUsernames();
-        int var2 = var1.length;
-
-        for (int var3 = 0; var3 < var2; ++var3)
-        {
-            String p = var1[var3];
-
-            if (MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(p))
-            {
-                ops.add(p);
-            }
+    public static List<String> getAllOps() {
+        ArrayList<String> ops = new ArrayList<String>();
+        for (String p : MinecraftServer.func_71276_C().func_71213_z()) {
+            if (!MinecraftServer.func_71276_C().func_71203_ab().func_72353_e(p)) continue;
+            ops.add(p);
         }
-
         return ops;
     }
 
-    public static List<EntityPlayer> getAllPlayers()
-    {
-        ArrayList players = new ArrayList();
-        String[] var1 = MinecraftServer.getServer().getAllUsernames();
-        int var2 = var1.length;
-
-        for (int var3 = 0; var3 < var2; ++var3)
-        {
-            String p = var1[var3];
-            players.add(getPlayer(p));
+    public static List<EntityPlayer> getAllPlayers() {
+        ArrayList<EntityPlayer> players = new ArrayList<EntityPlayer>();
+        for (String p : MinecraftServer.func_71276_C().func_71213_z()) {
+            players.add(CommandUtils.getPlayer(p));
         }
-
         return players;
     }
 
-    public static EntityPlayer getPlayer(String player)
-    {
-        return MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(player);
+    public static EntityPlayer getPlayer(String player) {
+        return MinecraftServer.func_71276_C().func_71203_ab().func_72361_f(player);
     }
 }
+

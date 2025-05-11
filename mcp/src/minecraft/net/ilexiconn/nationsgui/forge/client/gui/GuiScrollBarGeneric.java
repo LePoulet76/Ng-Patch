@@ -1,3 +1,12 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.Gui
+ *  net.minecraft.util.ResourceLocation
+ *  org.lwjgl.input.Mouse
+ */
 package net.ilexiconn.nationsgui.forge.client.gui;
 
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
@@ -6,8 +15,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 
-public class GuiScrollBarGeneric extends Gui
-{
+public class GuiScrollBarGeneric
+extends Gui {
     protected float x;
     protected float y;
     private final ResourceLocation resourceLocation;
@@ -16,13 +25,12 @@ public class GuiScrollBarGeneric extends Gui
     protected int width;
     protected int height;
     private boolean dragging;
-    protected float sliderValue = 0.0F;
+    protected float sliderValue = 0.0f;
     private boolean selected;
     private boolean isPressed = false;
-    private float increment = 0.05F;
+    private float increment = 0.05f;
 
-    public GuiScrollBarGeneric(float x, float y, int height, ResourceLocation resourceLocation, int cursorWidth, int cursorHeight)
-    {
+    public GuiScrollBarGeneric(float x, float y, int height, ResourceLocation resourceLocation, int cursorWidth, int cursorHeight) {
         this.x = x;
         this.y = y;
         this.width = cursorWidth;
@@ -32,136 +40,93 @@ public class GuiScrollBarGeneric extends Gui
         this.cursorHeight = cursorHeight;
     }
 
-    public void setScrollIncrement(float i)
-    {
+    public void setScrollIncrement(float i) {
         this.increment = i;
     }
 
-    protected void drawScroller()
-    {
-        Minecraft.getMinecraft().getTextureManager().bindTexture(this.resourceLocation);
-        ModernGui.drawModalRectWithCustomSizedTexture((float)((int)this.x), (float)((int)(this.y + (float)(this.height - this.cursorHeight) * this.sliderValue)), 0, 0, this.cursorWidth, this.cursorHeight, (float)this.cursorWidth, (float)this.cursorHeight, true);
+    protected void drawScroller() {
+        Minecraft.func_71410_x().func_110434_K().func_110577_a(this.resourceLocation);
+        ModernGui.drawModalRectWithCustomSizedTexture((int)this.x, (int)(this.y + (float)(this.height - this.cursorHeight) * this.sliderValue), 0, 0, this.cursorWidth, this.cursorHeight, this.cursorWidth, this.cursorHeight, true);
     }
 
-    public void draw(int mouseX, int mouseY)
-    {
+    public void draw(int mouseX, int mouseY) {
         this.drawScroller();
-
-        if (!Mouse.isButtonDown(0))
-        {
-            if (this.isPressed)
-            {
+        if (!Mouse.isButtonDown((int)0)) {
+            if (this.isPressed) {
                 this.mouseReleased(mouseX, mouseY);
                 this.isPressed = false;
             }
-
-            while (!Minecraft.getMinecraft().gameSettings.touchscreen && Mouse.next())
-            {
+            while (!Minecraft.func_71410_x().field_71474_y.field_85185_A && Mouse.next()) {
                 int l2 = Mouse.getEventDWheel();
-
-                if (l2 != 0)
-                {
-                    if (l2 > 0)
-                    {
-                        l2 = -1;
-                    }
-                    else if (l2 < 0)
-                    {
-                        l2 = 1;
-                    }
-
-                    this.sliderValue += (float)l2 * this.increment;
-
-                    if (this.sliderValue < 0.0F)
-                    {
-                        this.sliderValue = 0.0F;
-                    }
-
-                    if (this.sliderValue > 1.0F)
-                    {
-                        this.sliderValue = 1.0F;
-                    }
+                if (l2 == 0) continue;
+                if (l2 > 0) {
+                    l2 = -1;
+                } else if (l2 < 0) {
+                    l2 = 1;
                 }
+                this.sliderValue += (float)l2 * this.increment;
+                if (this.sliderValue < 0.0f) {
+                    this.sliderValue = 0.0f;
+                }
+                if (!(this.sliderValue > 1.0f)) continue;
+                this.sliderValue = 1.0f;
             }
-        }
-        else if (!this.isPressed)
-        {
+        } else if (!this.isPressed) {
             this.isPressed = true;
-            this.mousePressed(Minecraft.getMinecraft(), mouseX, mouseY);
+            this.mousePressed(Minecraft.func_71410_x(), mouseX, mouseY);
         }
-
-        this.mouseDragged(Minecraft.getMinecraft(), mouseX, mouseY);
+        this.mouseDragged(Minecraft.func_71410_x(), mouseX, mouseY);
     }
 
-    protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
-    {
-        if (this.dragging)
-        {
+    protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
+        if (this.dragging) {
             this.sliderValue = ((float)mouseY - this.y) / (float)this.height;
-
-            if (this.sliderValue < 0.0F)
-            {
-                this.sliderValue = 0.0F;
+            if (this.sliderValue < 0.0f) {
+                this.sliderValue = 0.0f;
             }
-
-            if (this.sliderValue > 1.0F)
-            {
-                this.sliderValue = 1.0F;
+            if (this.sliderValue > 1.0f) {
+                this.sliderValue = 1.0f;
             }
         }
     }
 
-    public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
-    {
-        if ((float)mouseX >= this.x - 2.0F && (float)mouseX <= this.x + (float)this.width + 2.0F && (float)mouseY >= this.y && (float)mouseY <= this.y + (float)this.height)
-        {
+    public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
+        if ((float)mouseX >= this.x - 2.0f && (float)mouseX <= this.x + (float)this.width + 2.0f && (float)mouseY >= this.y && (float)mouseY <= this.y + (float)this.height) {
             this.selected = true;
             this.sliderValue = ((float)mouseY - this.y) / (float)this.height;
-
-            if (this.sliderValue < 0.0F)
-            {
-                this.sliderValue = 0.0F;
+            if (this.sliderValue < 0.0f) {
+                this.sliderValue = 0.0f;
             }
-
-            if (this.sliderValue > 1.0F)
-            {
-                this.sliderValue = 1.0F;
+            if (this.sliderValue > 1.0f) {
+                this.sliderValue = 1.0f;
             }
-
             this.dragging = true;
             return true;
         }
-        else
-        {
-            return false;
+        return false;
+    }
+
+    public void mouseReleased(int mouseX, int mouseY) {
+        if (this.selected) {
+            this.selected = false;
+            this.dragging = false;
         }
     }
 
-    public void mouseReleased(int mouseX, int mouseY)
-    {
-        if (this.selected)
-        {
-            this.dragging = this.selected = false;
-        }
-    }
-
-    public float getSliderValue()
-    {
+    public float getSliderValue() {
         return this.sliderValue;
     }
 
-    public void setHeight(int height)
-    {
+    public void setHeight(int height) {
         this.height = height;
     }
 
-    public void reset()
-    {
-        this.sliderValue = 0.0F;
+    public void reset() {
+        this.sliderValue = 0.0f;
     }
 
-    public void setSliderValue(float sliderValue)
-    {
+    public void setSliderValue(float sliderValue) {
         this.sliderValue = sliderValue;
     }
 }
+

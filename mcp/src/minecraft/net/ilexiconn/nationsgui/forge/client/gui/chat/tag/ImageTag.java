@@ -1,104 +1,87 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  net.minecraft.network.packet.Packet
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.chat.tag;
 
 import acs.tabbychat.TabbyChat;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
+import net.ilexiconn.nationsgui.forge.client.gui.chat.tag.AbstractActionTag;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
 import net.ilexiconn.nationsgui.forge.server.packet.impl.PlayerExecCmdPacket;
+import net.minecraft.network.packet.Packet;
 
-public class ImageTag extends AbstractActionTag
-{
+public class ImageTag
+extends AbstractActionTag {
     private String url;
     private URL actionUrl = null;
     private String cmd = null;
 
-    public ImageTag(Map<String, String> parameters) throws Exception
-    {
+    public ImageTag(Map<String, String> parameters) throws Exception {
         super(parameters);
-        this.url = (String)parameters.get("src");
-
-        if (this.url == null)
-        {
+        this.url = parameters.get("src");
+        if (this.url == null) {
             throw new Exception("[ChatEngin] No URL defined to image");
         }
-        else
-        {
-            if (parameters.get("action") != null)
-            {
-                if (!((String)parameters.get("action")).matches("https://glor\\.cc/.*") && !((String)parameters.get("action")).matches("https://nationsglory.fr/.*"))
-                {
-                    if (((String)parameters.get("action")).equals("cmd"))
-                    {
-                        this.cmd = (String)parameters.get("value");
-                    }
+        if (parameters.get("action") != null) {
+            if (parameters.get("action").matches("https://glor\\.cc/.*") || parameters.get("action").matches("https://nationsglory.fr/.*")) {
+                try {
+                    this.actionUrl = new URL(parameters.get("action"));
                 }
-                else
-                {
-                    try
-                    {
-                        this.actionUrl = new URL((String)parameters.get("action"));
-                    }
-                    catch (MalformedURLException var3)
-                    {
-                        ;
-                    }
-                }
+                catch (MalformedURLException malformedURLException) {}
+            } else if (parameters.get("action").equals("cmd")) {
+                this.cmd = parameters.get("value");
             }
         }
     }
 
-    public void render(int mouseX, int mouseY)
-    {
-        if (this.url.matches("https://static\\.nationsglory\\.fr/.*\\.png.*") || this.url.matches("http://localhost/.*\\.png") || this.url.matches("https://apiv2.nationsglory.fr/.*"))
-        {
+    @Override
+    public void render(int mouseX, int mouseY) {
+        if (this.url.matches("https://static\\.nationsglory\\.fr/.*\\.png.*") || this.url.matches("http://localhost/.*\\.png") || this.url.matches("https://apiv2.nationsglory.fr/.*")) {
             int offsetX = 320 - TabbyChat.gnc.chatWidth;
-            offsetX /= 2;
-            ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(0 - offsetX, 0, 0, 0, 1280, 128, 320, 32, 1280.0F, 128.0F, false, this.url);
+            ModernGui.drawScaledModalRectWithCustomSizedRemoteTexture(0 - (offsetX /= 2), 0, 0, 0, 1280, 128, 320, 32, 1280.0f, 128.0f, false, this.url);
         }
     }
 
-    public void onClick(int mouseX, int mouseY)
-    {
+    @Override
+    public void onClick(int mouseX, int mouseY) {
         int width = TabbyChat.gnc.chatWidth;
-
-        if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= this.getLineHeight() * 8)
-        {
-            if (this.actionUrl != null)
-            {
-                try
-                {
-                    Class e = Class.forName("java.awt.Desktop");
-                    Object object = e.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-                    e.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {this.actionUrl.toURI()});
+        if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= this.getLineHeight() * 8) {
+            if (this.actionUrl != null) {
+                try {
+                    Class<?> oclass = Class.forName("java.awt.Desktop");
+                    Object object = oclass.getMethod("getDesktop", new Class[0]).invoke(null, new Object[0]);
+                    oclass.getMethod("browse", URI.class).invoke(object, this.actionUrl.toURI());
                 }
-                catch (URISyntaxException var6)
-                {
-                    var6.printStackTrace();
+                catch (ClassNotFoundException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | URISyntaxException e) {
+                    e.printStackTrace();
                 }
-            }
-            else if (this.cmd != null)
-            {
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new PlayerExecCmdPacket(this.cmd, 0)));
-            }
-            else
-            {
+            } else if (this.cmd != null) {
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new PlayerExecCmdPacket(this.cmd, 0)));
+            } else {
                 this.doAction();
             }
         }
     }
 
-    public int getLineHeight()
-    {
+    @Override
+    public int getLineHeight() {
         return 4;
     }
 
-    public int getWidth()
-    {
+    @Override
+    public int getWidth() {
         return 0;
     }
 }
+

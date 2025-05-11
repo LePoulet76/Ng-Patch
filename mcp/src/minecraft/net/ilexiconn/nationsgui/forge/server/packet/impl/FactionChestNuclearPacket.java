@@ -1,3 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.network.packet.Packet
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -7,17 +17,18 @@ import net.ilexiconn.nationsgui.forge.server.packet.IClientPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.packet.Packet;
 
-public class FactionChestNuclearPacket implements IPacket, IClientPacket
-{
+public class FactionChestNuclearPacket
+implements IPacket,
+IClientPacket {
     public String factionId;
     public boolean hasT4;
     public boolean hasRed;
     public boolean hasFusee;
     private boolean hasT5;
 
-    public FactionChestNuclearPacket(String factionId, boolean hasT4, boolean hasRed, boolean hasFusee, boolean hasT5)
-    {
+    public FactionChestNuclearPacket(String factionId, boolean hasT4, boolean hasRed, boolean hasFusee, boolean hasT5) {
         this.factionId = factionId;
         this.hasT4 = hasT4;
         this.hasRed = hasRed;
@@ -25,8 +36,8 @@ public class FactionChestNuclearPacket implements IPacket, IClientPacket
         this.hasT5 = hasT5;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.factionId = data.readUTF();
         this.hasT4 = data.readBoolean();
         this.hasRed = data.readBoolean();
@@ -34,8 +45,8 @@ public class FactionChestNuclearPacket implements IPacket, IClientPacket
         this.hasT5 = data.readBoolean();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeUTF(this.factionId);
         data.writeBoolean(this.hasT4);
         data.writeBoolean(this.hasRed);
@@ -43,8 +54,9 @@ public class FactionChestNuclearPacket implements IPacket, IClientPacket
         data.writeBoolean(this.hasT5);
     }
 
-    public void handleClientPacket(EntityPlayer player)
-    {
-        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(this));
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
+        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(this));
     }
 }
+

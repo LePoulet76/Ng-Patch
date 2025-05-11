@@ -1,20 +1,44 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package aurelienribon.tweenengine;
 
-import aurelienribon.tweenengine.Pool$Callback;
-import aurelienribon.tweenengine.Tween$1;
-import aurelienribon.tweenengine.Tween$2;
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Pool;
+import aurelienribon.tweenengine.TweenAccessor;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenEquation;
+import aurelienribon.tweenengine.TweenPath;
+import aurelienribon.tweenengine.TweenPaths;
 import aurelienribon.tweenengine.equations.Quad;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class Tween extends BaseTween<Tween>
-{
+public final class Tween
+extends BaseTween<Tween> {
     public static final int INFINITY = -1;
     private static int combinedAttrsLimit = 3;
     private static int waypointsLimit = 0;
-    private static final Pool$Callback<Tween> poolCallback = new Tween$1();
-    private static final Pool<Tween> pool = new Tween$2(20, poolCallback);
-    private static final Map < Class<?>, TweenAccessor<? >> registeredAccessors = new HashMap();
+    private static final Pool.Callback<Tween> poolCallback = new Pool.Callback<Tween>(){
+
+        @Override
+        public void onPool(Tween obj) {
+            obj.reset();
+        }
+
+        @Override
+        public void onUnPool(Tween obj) {
+            obj.reset();
+        }
+    };
+    private static final Pool<Tween> pool = new Pool<Tween>(20, poolCallback){
+
+        @Override
+        protected Tween create() {
+            return new Tween();
+        }
+    };
+    private static final Map<Class<?>, TweenAccessor<?>> registeredAccessors = new HashMap();
     private Object target;
     private Class<?> targetClass;
     private TweenAccessor<Object> accessor;
@@ -25,59 +49,50 @@ public final class Tween extends BaseTween<Tween>
     private boolean isRelative;
     private int combinedAttrsCnt;
     private int waypointsCnt;
-    private final float[] startValues;
-    private final float[] targetValues;
-    private final float[] waypoints;
-    private float[] accessorBuffer;
-    private float[] pathBuffer;
+    private final float[] startValues = new float[combinedAttrsLimit];
+    private final float[] targetValues = new float[combinedAttrsLimit];
+    private final float[] waypoints = new float[waypointsLimit * combinedAttrsLimit];
+    private float[] accessorBuffer = new float[combinedAttrsLimit];
+    private float[] pathBuffer = new float[(2 + waypointsLimit) * combinedAttrsLimit];
 
-    public static void setCombinedAttributesLimit(int limit)
-    {
+    public static void setCombinedAttributesLimit(int limit) {
         combinedAttrsLimit = limit;
     }
 
-    public static void setWaypointsLimit(int limit)
-    {
+    public static void setWaypointsLimit(int limit) {
         waypointsLimit = limit;
     }
 
-    public static String getVersion()
-    {
+    public static String getVersion() {
         return "6.3.3";
     }
 
-    public static int getPoolSize()
-    {
+    public static int getPoolSize() {
         return pool.size();
     }
 
-    public static void ensurePoolCapacity(int minCapacity)
-    {
+    public static void ensurePoolCapacity(int minCapacity) {
         pool.ensureCapacity(minCapacity);
     }
 
-    public static void registerAccessor(Class<?> someClass, TweenAccessor<?> defaultAccessor)
-    {
+    public static void registerAccessor(Class<?> someClass, TweenAccessor<?> defaultAccessor) {
         registeredAccessors.put(someClass, defaultAccessor);
     }
 
-    public static TweenAccessor<?> getRegisteredAccessor(Class<?> someClass)
-    {
-        return (TweenAccessor)registeredAccessors.get(someClass);
+    public static TweenAccessor<?> getRegisteredAccessor(Class<?> someClass) {
+        return registeredAccessors.get(someClass);
     }
 
-    public static Tween to(Object target, int tweenType, float duration)
-    {
-        Tween tween = (Tween)pool.get();
+    public static Tween to(Object target, int tweenType, float duration) {
+        Tween tween = pool.get();
         tween.setup(target, tweenType, duration);
         tween.ease(Quad.INOUT);
         tween.path(TweenPaths.catmullRom);
         return tween;
     }
 
-    public static Tween from(Object target, int tweenType, float duration)
-    {
-        Tween tween = (Tween)pool.get();
+    public static Tween from(Object target, int tweenType, float duration) {
+        Tween tween = pool.get();
         tween.setup(target, tweenType, duration);
         tween.ease(Quad.INOUT);
         tween.path(TweenPaths.catmullRom);
@@ -85,42 +100,33 @@ public final class Tween extends BaseTween<Tween>
         return tween;
     }
 
-    public static Tween set(Object target, int tweenType)
-    {
-        Tween tween = (Tween)pool.get();
-        tween.setup(target, tweenType, 0.0F);
+    public static Tween set(Object target, int tweenType) {
+        Tween tween = pool.get();
+        tween.setup(target, tweenType, 0.0f);
         tween.ease(Quad.INOUT);
         return tween;
     }
 
-    public static Tween call(TweenCallback callback)
-    {
-        Tween tween = (Tween)pool.get();
-        tween.setup((Object)null, -1, 0.0F);
+    public static Tween call(TweenCallback callback) {
+        Tween tween = pool.get();
+        tween.setup(null, -1, 0.0f);
         tween.setCallback(callback);
         tween.setCallbackTriggers(2);
         return tween;
     }
 
-    public static Tween mark()
-    {
-        Tween tween = (Tween)pool.get();
-        tween.setup((Object)null, -1, 0.0F);
+    public static Tween mark() {
+        Tween tween = pool.get();
+        tween.setup(null, -1, 0.0f);
         return tween;
     }
 
-    private Tween()
-    {
-        this.startValues = new float[combinedAttrsLimit];
-        this.targetValues = new float[combinedAttrsLimit];
-        this.waypoints = new float[waypointsLimit * combinedAttrsLimit];
-        this.accessorBuffer = new float[combinedAttrsLimit];
-        this.pathBuffer = new float[(2 + waypointsLimit) * combinedAttrsLimit];
+    private Tween() {
         this.reset();
     }
 
-    protected void reset()
-    {
+    @Override
+    protected void reset() {
         super.reset();
         this.target = null;
         this.targetClass = null;
@@ -128,126 +134,94 @@ public final class Tween extends BaseTween<Tween>
         this.type = -1;
         this.equation = null;
         this.path = null;
-        this.isFrom = this.isRelative = false;
-        this.combinedAttrsCnt = this.waypointsCnt = 0;
-
-        if (this.accessorBuffer.length != combinedAttrsLimit)
-        {
+        this.isRelative = false;
+        this.isFrom = false;
+        this.waypointsCnt = 0;
+        this.combinedAttrsCnt = 0;
+        if (this.accessorBuffer.length != combinedAttrsLimit) {
             this.accessorBuffer = new float[combinedAttrsLimit];
         }
-
-        if (this.pathBuffer.length != (2 + waypointsLimit) * combinedAttrsLimit)
-        {
+        if (this.pathBuffer.length != (2 + waypointsLimit) * combinedAttrsLimit) {
             this.pathBuffer = new float[(2 + waypointsLimit) * combinedAttrsLimit];
         }
     }
 
-    private void setup(Object target, int tweenType, float duration)
-    {
-        if (duration < 0.0F)
-        {
-            throw new RuntimeException("Duration can\'t be negative");
+    private void setup(Object target, int tweenType, float duration) {
+        if (duration < 0.0f) {
+            throw new RuntimeException("Duration can't be negative");
         }
-        else
-        {
-            this.target = target;
-            this.targetClass = target != null ? this.findTargetClass() : null;
-            this.type = tweenType;
-            this.duration = duration;
-        }
+        this.target = target;
+        this.targetClass = target != null ? this.findTargetClass() : null;
+        this.type = tweenType;
+        this.duration = duration;
     }
 
-    private Class<?> findTargetClass()
-    {
-        if (registeredAccessors.containsKey(this.target.getClass()))
-        {
+    private Class<?> findTargetClass() {
+        Class<?> parentClass;
+        if (registeredAccessors.containsKey(this.target.getClass())) {
             return this.target.getClass();
         }
-        else if (this.target instanceof TweenAccessor)
-        {
+        if (this.target instanceof TweenAccessor) {
             return this.target.getClass();
         }
-        else
-        {
-            Class parentClass;
-
-            for (parentClass = this.target.getClass().getSuperclass(); parentClass != null && !registeredAccessors.containsKey(parentClass); parentClass = parentClass.getSuperclass())
-            {
-                ;
-            }
-
-            return parentClass;
+        for (parentClass = this.target.getClass().getSuperclass(); parentClass != null && !registeredAccessors.containsKey(parentClass); parentClass = parentClass.getSuperclass()) {
         }
+        return parentClass;
     }
 
-    public Tween ease(TweenEquation easeEquation)
-    {
+    public Tween ease(TweenEquation easeEquation) {
         this.equation = easeEquation;
         return this;
     }
 
-    public Tween cast(Class<?> targetClass)
-    {
-        if (this.isStarted())
-        {
-            throw new RuntimeException("You can\'t cast the target of a tween once it is started");
+    public Tween cast(Class<?> targetClass) {
+        if (this.isStarted()) {
+            throw new RuntimeException("You can't cast the target of a tween once it is started");
         }
-        else
-        {
-            this.targetClass = targetClass;
-            return this;
-        }
+        this.targetClass = targetClass;
+        return this;
     }
 
-    public Tween target(float targetValue)
-    {
+    public Tween target(float targetValue) {
         this.targetValues[0] = targetValue;
         return this;
     }
 
-    public Tween target(float targetValue1, float targetValue2)
-    {
+    public Tween target(float targetValue1, float targetValue2) {
         this.targetValues[0] = targetValue1;
         this.targetValues[1] = targetValue2;
         return this;
     }
 
-    public Tween target(float targetValue1, float targetValue2, float targetValue3)
-    {
+    public Tween target(float targetValue1, float targetValue2, float targetValue3) {
         this.targetValues[0] = targetValue1;
         this.targetValues[1] = targetValue2;
         this.targetValues[2] = targetValue3;
         return this;
     }
 
-    public Tween target(float ... targetValues)
-    {
-        if (targetValues.length > combinedAttrsLimit)
-        {
+    public Tween target(float ... targetValues) {
+        if (targetValues.length > combinedAttrsLimit) {
             this.throwCombinedAttrsLimitReached();
         }
-
         System.arraycopy(targetValues, 0, this.targetValues, 0, targetValues.length);
         return this;
     }
 
-    public Tween targetRelative(float targetValue)
-    {
+    public Tween targetRelative(float targetValue) {
         this.isRelative = true;
         this.targetValues[0] = this.isInitialized() ? targetValue + this.startValues[0] : targetValue;
         return this;
     }
 
-    public Tween targetRelative(float targetValue1, float targetValue2)
-    {
+    public Tween targetRelative(float targetValue1, float targetValue2) {
         this.isRelative = true;
         this.targetValues[0] = this.isInitialized() ? targetValue1 + this.startValues[0] : targetValue1;
         this.targetValues[1] = this.isInitialized() ? targetValue2 + this.startValues[1] : targetValue2;
         return this;
     }
 
-    public Tween targetRelative(float targetValue1, float targetValue2, float targetValue3)
-    {
+    public Tween targetRelative(float targetValue1, float targetValue2, float targetValue3) {
         this.isRelative = true;
         this.targetValues[0] = this.isInitialized() ? targetValue1 + this.startValues[0] : targetValue1;
         this.targetValues[1] = this.isInitialized() ? targetValue2 + this.startValues[1] : targetValue2;
@@ -255,54 +229,40 @@ public final class Tween extends BaseTween<Tween>
         return this;
     }
 
-    public Tween targetRelative(float ... targetValues)
-    {
-        if (targetValues.length > combinedAttrsLimit)
-        {
+    public Tween targetRelative(float ... targetValues) {
+        if (targetValues.length > combinedAttrsLimit) {
             this.throwCombinedAttrsLimitReached();
         }
-
-        for (int i = 0; i < targetValues.length; ++i)
-        {
+        for (int i = 0; i < targetValues.length; ++i) {
             this.targetValues[i] = this.isInitialized() ? targetValues[i] + this.startValues[i] : targetValues[i];
         }
-
         this.isRelative = true;
         return this;
     }
 
-    public Tween waypoint(float targetValue)
-    {
-        if (this.waypointsCnt == waypointsLimit)
-        {
+    public Tween waypoint(float targetValue) {
+        if (this.waypointsCnt == waypointsLimit) {
             this.throwWaypointsLimitReached();
         }
-
         this.waypoints[this.waypointsCnt] = targetValue;
         ++this.waypointsCnt;
         return this;
     }
 
-    public Tween waypoint(float targetValue1, float targetValue2)
-    {
-        if (this.waypointsCnt == waypointsLimit)
-        {
+    public Tween waypoint(float targetValue1, float targetValue2) {
+        if (this.waypointsCnt == waypointsLimit) {
             this.throwWaypointsLimitReached();
         }
-
         this.waypoints[this.waypointsCnt * 2] = targetValue1;
         this.waypoints[this.waypointsCnt * 2 + 1] = targetValue2;
         ++this.waypointsCnt;
         return this;
     }
 
-    public Tween waypoint(float targetValue1, float targetValue2, float targetValue3)
-    {
-        if (this.waypointsCnt == waypointsLimit)
-        {
+    public Tween waypoint(float targetValue1, float targetValue2, float targetValue3) {
+        if (this.waypointsCnt == waypointsLimit) {
             this.throwWaypointsLimitReached();
         }
-
         this.waypoints[this.waypointsCnt * 3] = targetValue1;
         this.waypoints[this.waypointsCnt * 3 + 1] = targetValue2;
         this.waypoints[this.waypointsCnt * 3 + 2] = targetValue3;
@@ -310,228 +270,169 @@ public final class Tween extends BaseTween<Tween>
         return this;
     }
 
-    public Tween waypoint(float ... targetValues)
-    {
-        if (this.waypointsCnt == waypointsLimit)
-        {
+    public Tween waypoint(float ... targetValues) {
+        if (this.waypointsCnt == waypointsLimit) {
             this.throwWaypointsLimitReached();
         }
-
         System.arraycopy(targetValues, 0, this.waypoints, this.waypointsCnt * targetValues.length, targetValues.length);
         ++this.waypointsCnt;
         return this;
     }
 
-    public Tween path(TweenPath path)
-    {
+    public Tween path(TweenPath path) {
         this.path = path;
         return this;
     }
 
-    public Object getTarget()
-    {
+    public Object getTarget() {
         return this.target;
     }
 
-    public int getType()
-    {
+    public int getType() {
         return this.type;
     }
 
-    public TweenEquation getEasing()
-    {
+    public TweenEquation getEasing() {
         return this.equation;
     }
 
-    public float[] getTargetValues()
-    {
+    public float[] getTargetValues() {
         return this.targetValues;
     }
 
-    public int getCombinedAttributesCount()
-    {
+    public int getCombinedAttributesCount() {
         return this.combinedAttrsCnt;
     }
 
-    public TweenAccessor<?> getAccessor()
-    {
+    public TweenAccessor<?> getAccessor() {
         return this.accessor;
     }
 
-    public Class<?> getTargetClass()
-    {
+    public Class<?> getTargetClass() {
         return this.targetClass;
     }
 
-    public Tween build()
-    {
-        if (this.target == null)
-        {
+    @Override
+    public Tween build() {
+        if (this.target == null) {
             return this;
         }
-        else
-        {
-            this.accessor = (TweenAccessor)registeredAccessors.get(this.targetClass);
-
-            if (this.accessor == null && this.target instanceof TweenAccessor)
-            {
-                this.accessor = (TweenAccessor)this.target;
-            }
-
-            if (this.accessor != null)
-            {
-                this.combinedAttrsCnt = this.accessor.getValues(this.target, this.type, this.accessorBuffer);
-
-                if (this.combinedAttrsCnt > combinedAttrsLimit)
-                {
-                    this.throwCombinedAttrsLimitReached();
-                }
-
-                return this;
-            }
-            else
-            {
-                throw new RuntimeException("No TweenAccessor was found for the target");
-            }
+        this.accessor = registeredAccessors.get(this.targetClass);
+        if (this.accessor == null && this.target instanceof TweenAccessor) {
+            this.accessor = (TweenAccessor)this.target;
         }
+        if (this.accessor == null) {
+            throw new RuntimeException("No TweenAccessor was found for the target");
+        }
+        this.combinedAttrsCnt = this.accessor.getValues(this.target, this.type, this.accessorBuffer);
+        if (this.combinedAttrsCnt > combinedAttrsLimit) {
+            this.throwCombinedAttrsLimitReached();
+        }
+        return this;
     }
 
-    public void free()
-    {
+    @Override
+    public void free() {
         pool.free(this);
     }
 
-    protected void initializeOverride()
-    {
-        if (this.target != null)
-        {
-            this.accessor.getValues(this.target, this.type, this.startValues);
-
-            for (int i = 0; i < this.combinedAttrsCnt; ++i)
-            {
-                this.targetValues[i] += this.isRelative ? this.startValues[i] : 0.0F;
-
-                for (int tmp = 0; tmp < this.waypointsCnt; ++tmp)
-                {
-                    this.waypoints[tmp * this.combinedAttrsCnt + i] += this.isRelative ? this.startValues[i] : 0.0F;
-                }
-
-                if (this.isFrom)
-                {
-                    float var3 = this.startValues[i];
-                    this.startValues[i] = this.targetValues[i];
-                    this.targetValues[i] = var3;
-                }
+    @Override
+    protected void initializeOverride() {
+        if (this.target == null) {
+            return;
+        }
+        this.accessor.getValues(this.target, this.type, this.startValues);
+        for (int i = 0; i < this.combinedAttrsCnt; ++i) {
+            int n = i;
+            this.targetValues[n] = this.targetValues[n] + (this.isRelative ? this.startValues[i] : 0.0f);
+            for (int ii = 0; ii < this.waypointsCnt; ++ii) {
+                int n2 = ii * this.combinedAttrsCnt + i;
+                this.waypoints[n2] = this.waypoints[n2] + (this.isRelative ? this.startValues[i] : 0.0f);
             }
+            if (!this.isFrom) continue;
+            float tmp = this.startValues[i];
+            this.startValues[i] = this.targetValues[i];
+            this.targetValues[i] = tmp;
         }
     }
 
-    protected void updateOverride(int step, int lastStep, boolean isIterationStep, float delta)
-    {
-        if (this.target != null && this.equation != null)
-        {
-            if (!isIterationStep && step > lastStep)
-            {
-                this.accessor.setValues(this.target, this.type, this.isReverse(lastStep) ? this.startValues : this.targetValues);
+    @Override
+    protected void updateOverride(int step, int lastStep, boolean isIterationStep, float delta) {
+        if (this.target == null || this.equation == null) {
+            return;
+        }
+        if (!isIterationStep && step > lastStep) {
+            this.accessor.setValues(this.target, this.type, this.isReverse(lastStep) ? this.startValues : this.targetValues);
+            return;
+        }
+        if (!isIterationStep && step < lastStep) {
+            this.accessor.setValues(this.target, this.type, this.isReverse(lastStep) ? this.targetValues : this.startValues);
+            return;
+        }
+        assert (isIterationStep);
+        assert (this.getCurrentTime() >= 0.0f);
+        assert (this.getCurrentTime() <= this.duration);
+        if (this.duration < 1.0E-11f && delta > -1.0E-11f) {
+            this.accessor.setValues(this.target, this.type, this.isReverse(step) ? this.targetValues : this.startValues);
+            return;
+        }
+        if (this.duration < 1.0E-11f && delta < 1.0E-11f) {
+            this.accessor.setValues(this.target, this.type, this.isReverse(step) ? this.startValues : this.targetValues);
+            return;
+        }
+        float time = this.isReverse(step) ? this.duration - this.getCurrentTime() : this.getCurrentTime();
+        float t = this.equation.compute(time / this.duration);
+        if (this.waypointsCnt == 0 || this.path == null) {
+            for (int i = 0; i < this.combinedAttrsCnt; ++i) {
+                this.accessorBuffer[i] = this.startValues[i] + t * (this.targetValues[i] - this.startValues[i]);
             }
-            else if (!isIterationStep && step < lastStep)
-            {
-                this.accessor.setValues(this.target, this.type, this.isReverse(lastStep) ? this.targetValues : this.startValues);
-            }
-            else
-            {
-                assert isIterationStep;
-                assert this.getCurrentTime() >= 0.0F;
-                assert this.getCurrentTime() <= this.duration;
-
-                if (this.duration < 1.0E-11F && delta > -1.0E-11F)
-                {
-                    this.accessor.setValues(this.target, this.type, this.isReverse(step) ? this.targetValues : this.startValues);
+        } else {
+            for (int i = 0; i < this.combinedAttrsCnt; ++i) {
+                this.pathBuffer[0] = this.startValues[i];
+                this.pathBuffer[1 + this.waypointsCnt] = this.targetValues[i];
+                for (int ii = 0; ii < this.waypointsCnt; ++ii) {
+                    this.pathBuffer[ii + 1] = this.waypoints[ii * this.combinedAttrsCnt + i];
                 }
-                else if (this.duration < 1.0E-11F && delta < 1.0E-11F)
-                {
-                    this.accessor.setValues(this.target, this.type, this.isReverse(step) ? this.startValues : this.targetValues);
-                }
-                else
-                {
-                    float time = this.isReverse(step) ? this.duration - this.getCurrentTime() : this.getCurrentTime();
-                    float t = this.equation.compute(time / this.duration);
-                    int i;
-
-                    if (this.waypointsCnt != 0 && this.path != null)
-                    {
-                        for (i = 0; i < this.combinedAttrsCnt; ++i)
-                        {
-                            this.pathBuffer[0] = this.startValues[i];
-                            this.pathBuffer[1 + this.waypointsCnt] = this.targetValues[i];
-
-                            for (int ii = 0; ii < this.waypointsCnt; ++ii)
-                            {
-                                this.pathBuffer[ii + 1] = this.waypoints[ii * this.combinedAttrsCnt + i];
-                            }
-
-                            this.accessorBuffer[i] = this.path.compute(t, this.pathBuffer, this.waypointsCnt + 2);
-                        }
-                    }
-                    else
-                    {
-                        for (i = 0; i < this.combinedAttrsCnt; ++i)
-                        {
-                            this.accessorBuffer[i] = this.startValues[i] + t * (this.targetValues[i] - this.startValues[i]);
-                        }
-                    }
-
-                    this.accessor.setValues(this.target, this.type, this.accessorBuffer);
-                }
+                this.accessorBuffer[i] = this.path.compute(t, this.pathBuffer, this.waypointsCnt + 2);
             }
         }
+        this.accessor.setValues(this.target, this.type, this.accessorBuffer);
     }
 
-    protected void forceStartValues()
-    {
-        if (this.target != null)
-        {
-            this.accessor.setValues(this.target, this.type, this.startValues);
+    @Override
+    protected void forceStartValues() {
+        if (this.target == null) {
+            return;
         }
+        this.accessor.setValues(this.target, this.type, this.startValues);
     }
 
-    protected void forceEndValues()
-    {
-        if (this.target != null)
-        {
-            this.accessor.setValues(this.target, this.type, this.targetValues);
+    @Override
+    protected void forceEndValues() {
+        if (this.target == null) {
+            return;
         }
+        this.accessor.setValues(this.target, this.type, this.targetValues);
     }
 
-    protected boolean containsTarget(Object target)
-    {
+    @Override
+    protected boolean containsTarget(Object target) {
         return this.target == target;
     }
 
-    protected boolean containsTarget(Object target, int tweenType)
-    {
+    @Override
+    protected boolean containsTarget(Object target, int tweenType) {
         return this.target == target && this.type == tweenType;
     }
 
-    private void throwCombinedAttrsLimitReached()
-    {
+    private void throwCombinedAttrsLimitReached() {
         String msg = "You cannot combine more than " + combinedAttrsLimit + " attributes in a tween. You can raise this limit with Tween.setCombinedAttributesLimit(), which should be called once in application initialization code.";
         throw new RuntimeException(msg);
     }
 
-    private void throwWaypointsLimitReached()
-    {
+    private void throwWaypointsLimitReached() {
         String msg = "You cannot add more than " + waypointsLimit + " waypoints to a tween. You can raise this limit with Tween.setWaypointsLimit(), which should be called once in application initialization code.";
         throw new RuntimeException(msg);
     }
-
-    public Object build()
-    {
-        return this.build();
-    }
-
-    Tween(Tween$1 x0)
-    {
-        this();
-    }
 }
+

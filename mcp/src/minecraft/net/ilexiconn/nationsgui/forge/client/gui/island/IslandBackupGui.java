@@ -1,3 +1,20 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.gui.GuiTextField
+ *  net.minecraft.client.renderer.RenderHelper
+ *  net.minecraft.client.renderer.entity.RenderItem
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.network.packet.Packet
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.island;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -9,12 +26,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.imageio.ImageIO;
 import net.ilexiconn.nationsgui.forge.client.ClientEventHandler;
 import net.ilexiconn.nationsgui.forge.client.gui.GuiScreenTab;
 import net.ilexiconn.nationsgui.forge.client.gui.GuiScrollBarFaction;
+import net.ilexiconn.nationsgui.forge.client.gui.island.IslandMainGui;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
 import net.ilexiconn.nationsgui.forge.client.util.GUIUtils;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
@@ -28,13 +45,13 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.network.packet.Packet;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import sun.misc.BASE64Decoder;
 
-@SideOnly(Side.CLIENT)
-public class IslandBackupGui extends GuiScreen
-{
+@SideOnly(value=Side.CLIENT)
+public class IslandBackupGui
+extends GuiScreen {
     protected int xSize = 289;
     protected int ySize = 248;
     private int guiLeft;
@@ -50,446 +67,298 @@ public class IslandBackupGui extends GuiScreen
     private String hoveredDelete = "";
     private String hoveredRestore = "";
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
-        this.guiLeft = (this.width - this.xSize) / 2;
-        this.guiTop = (this.height - this.ySize) / 2;
-        this.nameTextField = new GuiTextField(this.fontRenderer, this.guiLeft + 59, this.guiTop + 36, 92, 10);
-        this.nameTextField.setEnableBackgroundDrawing(false);
-        this.nameTextField.setMaxStringLength(25);
-        this.scrollBar = new GuiScrollBarFaction((float)(this.guiLeft + 270), (float)(this.guiTop + 116), 108);
+    public void func_73866_w_() {
+        super.func_73866_w_();
+        this.guiLeft = (this.field_73880_f - this.xSize) / 2;
+        this.guiTop = (this.field_73881_g - this.ySize) / 2;
+        this.nameTextField = new GuiTextField(this.field_73886_k, this.guiLeft + 59, this.guiTop + 36, 92, 10);
+        this.nameTextField.func_73786_a(false);
+        this.nameTextField.func_73804_f(25);
+        this.scrollBar = new GuiScrollBarFaction(this.guiLeft + 270, this.guiTop + 116, 108);
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
-        this.nameTextField.updateCursorCounter();
+    public void func_73876_c() {
+        this.nameTextField.func_73780_a();
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int mouseX, int mouseY, float par3)
-    {
-        this.drawDefaultBackground();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+    public void func_73863_a(int mouseX, int mouseY, float par3) {
+        this.func_73873_v_();
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         ClientEventHandler.STYLE.bindTexture("island_backup");
-        ModernGui.drawModalRectWithCustomSizedTexture((float)this.guiLeft, (float)this.guiTop, 0, 0, this.xSize, this.ySize, 512.0F, 512.0F, false);
-        Object tooltipToDraw = new ArrayList();
+        ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize, 512.0f, 512.0f, false);
+        List<Object> tooltipToDraw = new ArrayList();
         ClientEventHandler.STYLE.bindTexture("island_main");
-
-        for (int titleOffsetY = 0; titleOffsetY < IslandMainGui.TABS.size(); ++titleOffsetY)
-        {
-            GuiScreenTab l = (GuiScreenTab)IslandMainGui.TABS.get(titleOffsetY);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            int backupId = IslandMainGui.getTabIndex((GuiScreenTab)IslandMainGui.TABS.get(titleOffsetY));
-
-            if (this.getClass() == l.getClassReferent())
-            {
-                ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft - 23), (float)(this.guiTop + 47 + titleOffsetY * 31), 23, 249, 29, 30, 512.0F, 512.0F, false);
-                ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft - 23 + 4), (float)(this.guiTop + 47 + titleOffsetY * 31 + 5), backupId * 20, 331, 20, 20, 512.0F, 512.0F, false);
+        for (int i = 0; i < IslandMainGui.TABS.size(); ++i) {
+            GuiScreenTab type = IslandMainGui.TABS.get(i);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            int x = IslandMainGui.getTabIndex(IslandMainGui.TABS.get(i));
+            if (((Object)((Object)this)).getClass() == type.getClassReferent()) {
+                ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft - 23, this.guiTop + 47 + i * 31, 23, 249, 29, 30, 512.0f, 512.0f, false);
+                ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft - 23 + 4, this.guiTop + 47 + i * 31 + 5, x * 20, 331, 20, 20, 512.0f, 512.0f, false);
+                continue;
             }
-            else
-            {
-                ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft - 23), (float)(this.guiTop + 47 + titleOffsetY * 31), 0, 249, 23, 30, 512.0F, 512.0F, false);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
-                ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft - 23 + 4), (float)(this.guiTop + 47 + titleOffsetY * 31 + 5), backupId * 20, 331, 20, 20, 512.0F, 512.0F, false);
-                GL11.glDisable(GL11.GL_BLEND);
-
-                if (mouseX >= this.guiLeft - 23 && mouseX <= this.guiLeft - 23 + 29 && mouseY >= this.guiTop + 47 + titleOffsetY * 31 && mouseY <= this.guiTop + 47 + 30 + titleOffsetY * 31)
-                {
-                    tooltipToDraw = Arrays.asList(new String[] {I18n.getString("island.tab." + backupId)});
-                }
-            }
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft - 23, this.guiTop + 47 + i * 31, 0, 249, 23, 30, 512.0f, 512.0f, false);
+            GL11.glBlendFunc((int)770, (int)771);
+            GL11.glEnable((int)3042);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)0.75f);
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft - 23 + 4, this.guiTop + 47 + i * 31 + 5, x * 20, 331, 20, 20, 512.0f, 512.0f, false);
+            GL11.glDisable((int)3042);
+            if (mouseX < this.guiLeft - 23 || mouseX > this.guiLeft - 23 + 29 || mouseY < this.guiTop + 47 + i * 31 || mouseY > this.guiTop + 47 + 30 + i * 31) continue;
+            tooltipToDraw = Arrays.asList(I18n.func_135053_a((String)("island.tab." + x)));
         }
-
         ClientEventHandler.STYLE.bindTexture("island_backup");
-
-        if (mouseX >= this.guiLeft + 276 && mouseX <= this.guiLeft + 276 + 9 && mouseY >= this.guiTop - 8 && mouseY <= this.guiTop - 8 + 10)
-        {
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 276), (float)(this.guiTop - 8), 84, 254, 9, 10, 512.0F, 512.0F, false);
+        if (mouseX >= this.guiLeft + 276 && mouseX <= this.guiLeft + 276 + 9 && mouseY >= this.guiTop - 8 && mouseY <= this.guiTop - 8 + 10) {
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 276, this.guiTop - 8, 84, 254, 9, 10, 512.0f, 512.0f, false);
+        } else {
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 276, this.guiTop - 8, 84, 264, 9, 10, 512.0f, 512.0f, false);
         }
-        else
-        {
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 276), (float)(this.guiTop - 8), 84, 264, 9, 10, 512.0F, 512.0F, false);
-        }
-
         GL11.glPushMatrix();
-        Double var17 = Double.valueOf((double)(this.guiTop + 45) + (double)this.fontRenderer.getStringWidth((String)IslandMainGui.islandInfos.get("name")) * 1.5D);
-        GL11.glTranslatef((float)(this.guiLeft + 14), (float)var17.intValue(), 0.0F);
-        GL11.glRotatef(-90.0F, 0.0F, 0.0F, 1.0F);
-        GL11.glTranslatef((float)(-(this.guiLeft + 14)), (float)(-var17.intValue()), 0.0F);
-        this.drawScaledString((String)IslandMainGui.islandInfos.get("name"), this.guiLeft + 14, var17.intValue(), 16777215, 1.5F, false, false);
+        Double titleOffsetY = (double)(this.guiTop + 45) + (double)this.field_73886_k.func_78256_a((String)IslandMainGui.islandInfos.get("name")) * 1.5;
+        GL11.glTranslatef((float)(this.guiLeft + 14), (float)titleOffsetY.intValue(), (float)0.0f);
+        GL11.glRotatef((float)-90.0f, (float)0.0f, (float)0.0f, (float)1.0f);
+        GL11.glTranslatef((float)(-(this.guiLeft + 14)), (float)(-titleOffsetY.intValue()), (float)0.0f);
+        this.drawScaledString((String)IslandMainGui.islandInfos.get("name"), this.guiLeft + 14, titleOffsetY.intValue(), 0xFFFFFF, 1.5f, false, false);
         GL11.glPopMatrix();
-        this.drawScaledString(I18n.getString("island.backup.save_name"), this.guiLeft + 57, this.guiTop + 22, 16777215, 1.0F, false, false);
-        this.nameTextField.drawTextBox();
+        this.drawScaledString(I18n.func_135053_a((String)"island.backup.save_name"), this.guiLeft + 57, this.guiTop + 22, 0xFFFFFF, 1.0f, false, false);
+        this.nameTextField.func_73795_f();
         ClientEventHandler.STYLE.bindTexture("island_backup");
-
-        if (!this.saveStarted)
-        {
-            if (System.currentTimeMillis() - Long.parseLong((String)IslandMainGui.islandInfos.get("regenTime")) < 300000L || mouseX >= this.guiLeft + 56 && mouseX <= this.guiLeft + 56 + 98 && mouseY >= this.guiTop + 54 && mouseY <= this.guiTop + 54 + 18)
-            {
+        if (!this.saveStarted) {
+            if (System.currentTimeMillis() - Long.parseLong((String)IslandMainGui.islandInfos.get("regenTime")) < 300000L || mouseX >= this.guiLeft + 56 && mouseX <= this.guiLeft + 56 + 98 && mouseY >= this.guiTop + 54 && mouseY <= this.guiTop + 54 + 18) {
                 ClientEventHandler.STYLE.bindTexture("island_backup");
-                ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 56), (float)(this.guiTop + 54), 0, 314, 98, 18, 512.0F, 512.0F, false);
-
-                if (System.currentTimeMillis() - Long.parseLong((String)IslandMainGui.islandInfos.get("regenTime")) < 300000L && mouseX >= this.guiLeft + 56 && mouseX <= this.guiLeft + 56 + 98 && mouseY >= this.guiTop + 54 && mouseY <= this.guiTop + 54 + 18)
-                {
-                    tooltipToDraw = Arrays.asList(new String[] {I18n.getString("island.global.cooldown_1"), I18n.getString("island.global.cooldown_2")});
-                }
-                else if (((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).size() >= 6 && mouseX >= this.guiLeft + 56 && mouseX <= this.guiLeft + 56 + 98 && mouseY >= this.guiTop + 54 && mouseY <= this.guiTop + 54 + 18)
-                {
-                    tooltipToDraw = Arrays.asList(new String[] {I18n.getString("island.backup.limit_1"), I18n.getString("island.backup.limit_2"), I18n.getString("island.backup.limit_3")});
+                ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 56, this.guiTop + 54, 0, 314, 98, 18, 512.0f, 512.0f, false);
+                if (System.currentTimeMillis() - Long.parseLong((String)IslandMainGui.islandInfos.get("regenTime")) < 300000L && mouseX >= this.guiLeft + 56 && mouseX <= this.guiLeft + 56 + 98 && mouseY >= this.guiTop + 54 && mouseY <= this.guiTop + 54 + 18) {
+                    tooltipToDraw = Arrays.asList(I18n.func_135053_a((String)"island.global.cooldown_1"), I18n.func_135053_a((String)"island.global.cooldown_2"));
+                } else if (((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).size() >= 6 && mouseX >= this.guiLeft + 56 && mouseX <= this.guiLeft + 56 + 98 && mouseY >= this.guiTop + 54 && mouseY <= this.guiTop + 54 + 18) {
+                    tooltipToDraw = Arrays.asList(I18n.func_135053_a((String)"island.backup.limit_1"), I18n.func_135053_a((String)"island.backup.limit_2"), I18n.func_135053_a((String)"island.backup.limit_3"));
                 }
             }
-
-            this.drawScaledString(I18n.getString("island.global.save"), this.guiLeft + 105, this.guiTop + 59, 16777215, 1.0F, true, false);
-        }
-        else
-        {
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 57), (float)(this.guiTop + 66), 0, 284, 96, 5, 512.0F, 512.0F, false);
-            long var18 = System.currentTimeMillis() - this.actionTime;
-
-            for (int backupName = 0; (long)backupName <= var18 / (long)(this.actionWaitingSec * 1000 / 48); backupName += 2)
-            {
-                ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 57 + backupName * 2), (float)(this.guiTop + 67), 97, 284, 2, 4, 512.0F, 512.0F, false);
+            this.drawScaledString(I18n.func_135053_a((String)"island.global.save"), this.guiLeft + 105, this.guiTop + 59, 0xFFFFFF, 1.0f, true, false);
+        } else {
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 57, this.guiTop + 66, 0, 284, 96, 5, 512.0f, 512.0f, false);
+            long timeSinceActionStarted = System.currentTimeMillis() - this.actionTime;
+            int i = 0;
+            while ((long)i <= timeSinceActionStarted / (long)(this.actionWaitingSec * 1000 / 48)) {
+                ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 57 + i * 2, this.guiTop + 67, 97, 284, 2, 4, 512.0f, 512.0f, false);
+                i += 2;
             }
-
-            if (var18 >= (long)(this.actionWaitingSec * 1000))
-            {
+            if (timeSinceActionStarted >= (long)(this.actionWaitingSec * 1000)) {
                 this.saveStarted = false;
             }
-
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 60), (float)(this.guiTop + 56), 118, 253, 14, 14, 512.0F, 512.0F, false);
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 60, this.guiTop + 56, 118, 253, 14, 14, 512.0f, 512.0f, false);
         }
-
-        this.drawScaledString(I18n.getString("island.backup.last_save"), this.guiLeft + 54, this.guiTop + 84, 16777215, 1.0F, false, false);
-        String var23;
-
-        if (!IslandMainGui.islandInfos.get("lastBackup").equals("0"))
-        {
-            Date var19 = new Date(Long.parseLong((String)IslandMainGui.islandInfos.get("lastBackup")));
-            SimpleDateFormat var21 = new SimpleDateFormat("dd/MM/yyy HH:mm");
-            var23 = var21.format(var19);
-            this.drawScaledString(var23, this.guiLeft + 181, this.guiTop + 84, 16777215, 1.0F, false, false);
+        this.drawScaledString(I18n.func_135053_a((String)"island.backup.last_save"), this.guiLeft + 54, this.guiTop + 84, 0xFFFFFF, 1.0f, false, false);
+        if (!IslandMainGui.islandInfos.get("lastBackup").equals("0")) {
+            Date date = new Date(Long.parseLong((String)IslandMainGui.islandInfos.get("lastBackup")));
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyy HH:mm");
+            String dateFormated = simpleDateFormat.format(date);
+            this.drawScaledString(dateFormated, this.guiLeft + 181, this.guiTop + 84, 0xFFFFFF, 1.0f, false, false);
         }
-
-        this.drawScaledString(I18n.getString("island.backup.my_saves"), this.guiLeft + 49, this.guiTop + 102, 0, 1.0F, false, false);
+        this.drawScaledString(I18n.func_135053_a((String)"island.backup.my_saves"), this.guiLeft + 49, this.guiTop + 102, 0, 1.0f, false, false);
         this.hoveredDelete = "";
         this.hoveredRestore = "";
         ClientEventHandler.STYLE.bindTexture("island_backup");
         GUIUtils.startGLScissor(this.guiLeft + 50, this.guiTop + 112, 220, 116);
-
-        for (int var20 = 0; var20 < ((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).size(); ++var20)
-        {
-            String var22 = ((String)((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).get(var20)).split("###")[0];
-            var23 = ((String)((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).get(var20)).split("###")[1];
-            String backupTime = ((String)((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).get(var20)).split("###")[2];
+        for (int l = 0; l < ((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).size(); ++l) {
+            String backupId = ((String)((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).get(l)).split("###")[0];
+            String backupName = ((String)((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).get(l)).split("###")[1];
+            String backupTime = ((String)((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).get(l)).split("###")[2];
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyy HH:mm");
             String backupDate = simpleDateFormat.format(new Date(Long.parseLong(backupTime)));
             int offsetX = this.guiLeft + 50;
-            Float offsetY = Float.valueOf((float)(this.guiTop + 112 + var20 * 21) + this.getSlide());
+            Float offsetY = Float.valueOf((float)(this.guiTop + 112 + l * 21) + this.getSlide());
             ClientEventHandler.STYLE.bindTexture("island_backup");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)offsetX, (float)offsetY.intValue(), 50, 112, 220, 21, 512.0F, 512.0F, false);
-            this.drawScaledString("\u00a77" + var23, offsetX + 4, offsetY.intValue() + 6, 16777215, 1.0F, false, false);
+            ModernGui.drawModalRectWithCustomSizedTexture(offsetX, offsetY.intValue(), 50, 112, 220, 21, 512.0f, 512.0f, false);
+            this.drawScaledString("\u00a77" + backupName, offsetX + 4, offsetY.intValue() + 6, 0xFFFFFF, 1.0f, false, false);
             ClientEventHandler.STYLE.bindTexture("island_backup");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(offsetX + 136), (float)(offsetY.intValue() + 4), 68, 255, 10, 11, 512.0F, 512.0F, false);
-
-            if (mouseX >= offsetX + 136 && mouseX <= offsetX + 136 + 10 && mouseY >= offsetY.intValue() + 4 && mouseY <= offsetY.intValue() + 4 + 11)
-            {
-                tooltipToDraw = Arrays.asList(new String[] {backupDate});
+            ModernGui.drawModalRectWithCustomSizedTexture(offsetX + 136, offsetY.intValue() + 4, 68, 255, 10, 11, 512.0f, 512.0f, false);
+            if (mouseX >= offsetX + 136 && mouseX <= offsetX + 136 + 10 && mouseY >= offsetY.intValue() + 4 && mouseY <= offsetY.intValue() + 4 + 11) {
+                tooltipToDraw = Arrays.asList(backupDate);
             }
-
-            if (!this.restoreStarted && !this.saveStarted && (mouseX < offsetX + 152 || mouseX > offsetX + 152 + 32 || mouseY < offsetY.intValue() + 2 || mouseY > offsetY.intValue() + 2 + 15))
-            {
-                ModernGui.drawModalRectWithCustomSizedTexture((float)(offsetX + 152), (float)(offsetY.intValue() + 2), 0, 253, 32, 15, 512.0F, 512.0F, false);
-            }
-            else
-            {
-                ModernGui.drawModalRectWithCustomSizedTexture((float)(offsetX + 152), (float)(offsetY.intValue() + 2), 0, 267, 32, 15, 512.0F, 512.0F, false);
-
-                if (!this.restoreStarted && !this.saveStarted)
-                {
-                    this.hoveredDelete = var22;
+            if (this.restoreStarted || this.saveStarted || mouseX >= offsetX + 152 && mouseX <= offsetX + 152 + 32 && mouseY >= offsetY.intValue() + 2 && mouseY <= offsetY.intValue() + 2 + 15) {
+                ModernGui.drawModalRectWithCustomSizedTexture(offsetX + 152, offsetY.intValue() + 2, 0, 267, 32, 15, 512.0f, 512.0f, false);
+                if (!this.restoreStarted && !this.saveStarted) {
+                    this.hoveredDelete = backupId;
                 }
+            } else {
+                ModernGui.drawModalRectWithCustomSizedTexture(offsetX + 152, offsetY.intValue() + 2, 0, 253, 32, 15, 512.0f, 512.0f, false);
             }
-
             ClientEventHandler.STYLE.bindTexture("island_backup");
-
-            if (!this.restoreStarted && (System.currentTimeMillis() - Long.parseLong((String)IslandMainGui.islandInfos.get("regenTime")) < 300000L || this.saveStarted || mouseX >= offsetX + 186 && mouseX <= offsetX + 186 + 32 && mouseY >= offsetY.intValue() + 2 && mouseY <= offsetY.intValue() + 2 + 15))
-            {
-                ModernGui.drawModalRectWithCustomSizedTexture((float)(offsetX + 186), (float)(offsetY.intValue() + 2), 32, 267, 32, 15, 512.0F, 512.0F, false);
-
-                if (!this.restoreStarted && !this.saveStarted && mouseX >= offsetX + 186 && mouseX <= offsetX + 186 + 32 && mouseY >= offsetY.intValue() + 2 && mouseY <= offsetY.intValue() + 2 + 15)
-                {
-                    this.hoveredRestore = var22;
+            if (!this.restoreStarted && (System.currentTimeMillis() - Long.parseLong((String)IslandMainGui.islandInfos.get("regenTime")) < 300000L || this.saveStarted || mouseX >= offsetX + 186 && mouseX <= offsetX + 186 + 32 && mouseY >= offsetY.intValue() + 2 && mouseY <= offsetY.intValue() + 2 + 15)) {
+                ModernGui.drawModalRectWithCustomSizedTexture(offsetX + 186, offsetY.intValue() + 2, 32, 267, 32, 15, 512.0f, 512.0f, false);
+                if (!this.restoreStarted && !this.saveStarted && mouseX >= offsetX + 186 && mouseX <= offsetX + 186 + 32 && mouseY >= offsetY.intValue() + 2 && mouseY <= offsetY.intValue() + 2 + 15) {
+                    this.hoveredRestore = backupId;
                 }
-
-                if (System.currentTimeMillis() - Long.parseLong((String)IslandMainGui.islandInfos.get("regenTime")) < 300000L && mouseX >= offsetX + 186 && mouseX <= offsetX + 186 + 32 && mouseY >= offsetY.intValue() + 2 && mouseY <= offsetY.intValue() + 2 + 15)
-                {
-                    tooltipToDraw = Arrays.asList(new String[] {I18n.getString("island.global.cooldown_1"), I18n.getString("island.global.cooldown_2")});
-                }
+                if (System.currentTimeMillis() - Long.parseLong((String)IslandMainGui.islandInfos.get("regenTime")) >= 300000L || mouseX < offsetX + 186 || mouseX > offsetX + 186 + 32 || mouseY < offsetY.intValue() + 2 || mouseY > offsetY.intValue() + 2 + 15) continue;
+                tooltipToDraw = Arrays.asList(I18n.func_135053_a((String)"island.global.cooldown_1"), I18n.func_135053_a((String)"island.global.cooldown_2"));
+                continue;
             }
-            else
-            {
-                ModernGui.drawModalRectWithCustomSizedTexture((float)(offsetX + 186), (float)(offsetY.intValue() + 2), 32, 253, 32, 15, 512.0F, 512.0F, false);
-
-                if (this.restoreStarted && var22.equals(this.restoreStartedId))
-                {
-                    ModernGui.drawModalRectWithCustomSizedTexture((float)(offsetX + 187), (float)(offsetY.intValue() + 12), 0, 290, 30, 4, 512.0F, 512.0F, false);
-                    long timeSinceActionStarted = System.currentTimeMillis() - this.actionTime;
-
-                    for (int i = 0; (long)i <= timeSinceActionStarted / (long)(this.actionWaitingSec * 1000 / 15); ++i)
-                    {
-                        ModernGui.drawModalRectWithCustomSizedTexture((float)(offsetX + 188 + i * 2), (float)(offsetY.intValue() + 13), 31, 290, 1, 3, 512.0F, 512.0F, false);
-                    }
-
-                    if (timeSinceActionStarted >= (long)(this.actionWaitingSec * 1000))
-                    {
-                        this.restoreStarted = false;
-                    }
-                }
+            ModernGui.drawModalRectWithCustomSizedTexture(offsetX + 186, offsetY.intValue() + 2, 32, 253, 32, 15, 512.0f, 512.0f, false);
+            if (!this.restoreStarted || !backupId.equals(this.restoreStartedId)) continue;
+            ModernGui.drawModalRectWithCustomSizedTexture(offsetX + 187, offsetY.intValue() + 12, 0, 290, 30, 4, 512.0f, 512.0f, false);
+            long timeSinceActionStarted = System.currentTimeMillis() - this.actionTime;
+            int i = 0;
+            while ((long)i <= timeSinceActionStarted / (long)(this.actionWaitingSec * 1000 / 15)) {
+                ModernGui.drawModalRectWithCustomSizedTexture(offsetX + 188 + i * 2, offsetY.intValue() + 13, 31, 290, 1, 3, 512.0f, 512.0f, false);
+                ++i;
             }
+            if (timeSinceActionStarted < (long)(this.actionWaitingSec * 1000)) continue;
+            this.restoreStarted = false;
         }
-
         GUIUtils.endGLScissor();
-
-        if (mouseX > this.guiLeft + 49 && mouseX < this.guiLeft + 49 + 226 && mouseY > this.guiTop + 111 && mouseY < this.guiTop + 111 + 118)
-        {
+        if (mouseX > this.guiLeft + 49 && mouseX < this.guiLeft + 49 + 226 && mouseY > this.guiTop + 111 && mouseY < this.guiTop + 111 + 118) {
             this.scrollBar.draw(mouseX, mouseY);
         }
-
-        if (!IslandMainGui.isPremium)
-        {
-            drawRect(this.guiLeft + 40, this.guiTop + 6, this.guiLeft + 40 + 247, this.guiTop + 6 + 236, -1157627904);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        if (!IslandMainGui.isPremium) {
+            IslandBackupGui.func_73734_a((int)(this.guiLeft + 40), (int)(this.guiTop + 6), (int)(this.guiLeft + 40 + 247), (int)(this.guiTop + 6 + 236), (int)-1157627904);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
             ClientEventHandler.STYLE.bindTexture("island_properties");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 155), (float)(this.guiTop + 111), 293, 57, 16, 26, 512.0F, 512.0F, false);
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 155 + 9), (float)(this.guiTop + 111 + 19), 75, 331, 10, 12, 512.0F, 512.0F, false);
-
-            if (mouseX >= this.guiLeft + 155 && mouseX <= this.guiLeft + 155 + 16 && mouseY >= this.guiTop + 111 && mouseY <= this.guiTop + 111 + 26)
-            {
-                tooltipToDraw = Arrays.asList(new String[] {I18n.getString("island.global.premium_required")});
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 155, this.guiTop + 111, 293, 57, 16, 26, 512.0f, 512.0f, false);
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 155 + 9, this.guiTop + 111 + 19, 75, 331, 10, 12, 512.0f, 512.0f, false);
+            if (mouseX >= this.guiLeft + 155 && mouseX <= this.guiLeft + 155 + 16 && mouseY >= this.guiTop + 111 && mouseY <= this.guiTop + 111 + 26) {
+                tooltipToDraw = Arrays.asList(I18n.func_135053_a((String)"island.global.premium_required"));
             }
         }
-
-        if (!((List)tooltipToDraw).isEmpty())
-        {
-            this.drawHoveringText((List)tooltipToDraw, mouseX, mouseY, this.fontRenderer);
+        if (!tooltipToDraw.isEmpty()) {
+            this.drawHoveringText(tooltipToDraw, mouseX, mouseY, this.field_73886_k);
         }
-
-        super.drawScreen(mouseX, mouseY, par3);
-        GL11.glEnable(GL11.GL_LIGHTING);
-        RenderHelper.enableStandardItemLighting();
+        super.func_73863_a(mouseX, mouseY, par3);
+        GL11.glEnable((int)2896);
+        RenderHelper.func_74519_b();
     }
 
-    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font)
-    {
-        if (!par1List.isEmpty())
-        {
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
+    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font) {
+        if (!par1List.isEmpty()) {
+            GL11.glDisable((int)32826);
+            RenderHelper.func_74518_a();
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
             int k = 0;
-            Iterator iterator = par1List.iterator();
-            int j1;
-
-            while (iterator.hasNext())
-            {
-                String i1 = (String)iterator.next();
-                j1 = font.getStringWidth(i1);
-
-                if (j1 > k)
-                {
-                    k = j1;
-                }
+            for (String s : par1List) {
+                int l = font.func_78256_a(s);
+                if (l <= k) continue;
+                k = l;
             }
-
-            int var15 = par2 + 12;
-            j1 = par3 - 12;
+            int i1 = par2 + 12;
+            int j1 = par3 - 12;
             int k1 = 8;
-
-            if (par1List.size() > 1)
-            {
+            if (par1List.size() > 1) {
                 k1 += 2 + (par1List.size() - 1) * 10;
             }
-
-            if (var15 + k > this.width)
-            {
-                var15 -= 28 + k;
+            if (i1 + k > this.field_73880_f) {
+                i1 -= 28 + k;
             }
-
-            if (j1 + k1 + 6 > this.height)
-            {
-                j1 = this.height - k1 - 6;
+            if (j1 + k1 + 6 > this.field_73881_g) {
+                j1 = this.field_73881_g - k1 - 6;
             }
-
-            this.zLevel = 300.0F;
-            this.itemRenderer.zLevel = 300.0F;
+            this.field_73735_i = 300.0f;
+            this.itemRenderer.field_77023_b = 300.0f;
             int l1 = -267386864;
-            this.drawGradientRect(var15 - 3, j1 - 4, var15 + k + 3, j1 - 3, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 3, var15 + k + 3, j1 + k1 + 4, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 - 4, j1 - 3, var15 - 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 + k + 3, j1 - 3, var15 + k + 4, j1 + k1 + 3, l1, l1);
-            int i2 = 1347420415;
-            int j2 = (i2 & 16711422) >> 1 | i2 & -16777216;
-            this.drawGradientRect(var15 - 3, j1 - 3 + 1, var15 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 + k + 2, j1 - 3 + 1, var15 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 - 3 + 1, i2, i2);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 2, var15 + k + 3, j1 + k1 + 3, j2, j2);
-
-            for (int k2 = 0; k2 < par1List.size(); ++k2)
-            {
+            this.func_73733_a(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
+            this.func_73733_a(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
+            int i2 = 0x505000FF;
+            int j2 = (i2 & 0xFEFEFE) >> 1 | i2 & 0xFF000000;
+            this.func_73733_a(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+            this.func_73733_a(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+            for (int k2 = 0; k2 < par1List.size(); ++k2) {
                 String s1 = (String)par1List.get(k2);
-                font.drawStringWithShadow(s1, var15, j1, -1);
-
-                if (k2 == 0)
-                {
+                font.func_78261_a(s1, i1, j1, -1);
+                if (k2 == 0) {
                     j1 += 2;
                 }
-
                 j1 += 10;
             }
-
-            this.zLevel = 0.0F;
-            this.itemRenderer.zLevel = 0.0F;
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.field_73735_i = 0.0f;
+            this.itemRenderer.field_77023_b = 0.0f;
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
+            GL11.glEnable((int)32826);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         }
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-    {
-        if (mouseButton == 0)
-        {
-            for (int i = 0; i < IslandMainGui.TABS.size(); ++i)
-            {
-                GuiScreenTab type = (GuiScreenTab)IslandMainGui.TABS.get(i);
-
-                if (mouseX >= this.guiLeft - 20 && mouseX <= this.guiLeft + 3 && mouseY >= this.guiTop + 47 + i * 31 && mouseY <= this.guiTop + 47 + 30 + i * 31)
-                {
-                    this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-
-                    if (this.getClass() != type.getClassReferent())
-                    {
-                        try
-                        {
-                            type.call();
-                        }
-                        catch (Exception var7)
-                        {
-                            var7.printStackTrace();
-                        }
-                    }
+    protected void func_73864_a(int mouseX, int mouseY, int mouseButton) {
+        if (mouseButton == 0) {
+            for (int i = 0; i < IslandMainGui.TABS.size(); ++i) {
+                GuiScreenTab type = IslandMainGui.TABS.get(i);
+                if (mouseX < this.guiLeft - 20 || mouseX > this.guiLeft + 3 || mouseY < this.guiTop + 47 + i * 31 || mouseY > this.guiTop + 47 + 30 + i * 31) continue;
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                if (((Object)((Object)this)).getClass() == type.getClassReferent()) continue;
+                try {
+                    type.call();
+                    continue;
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-
-            if (mouseX > this.guiLeft + 276 && mouseX < this.guiLeft + 276 + 9 && mouseY > this.guiTop - 8 && mouseY < this.guiTop - 8 + 10)
-            {
-                this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-                Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
-            }
-            else if (IslandMainGui.isPremium && ((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).size() < 6 && System.currentTimeMillis() - Long.parseLong((String)IslandMainGui.islandInfos.get("regenTime")) > 300000L && !this.nameTextField.getText().isEmpty() && !this.saveStarted && !this.restoreStarted && mouseX >= this.guiLeft + 56 && mouseX <= this.guiLeft + 56 + 98 && mouseY >= this.guiTop + 54 && mouseY <= this.guiTop + 54 + 18)
-            {
+            if (mouseX > this.guiLeft + 276 && mouseX < this.guiLeft + 276 + 9 && mouseY > this.guiTop - 8 && mouseY < this.guiTop - 8 + 10) {
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                Minecraft.func_71410_x().func_71373_a(null);
+            } else if (IslandMainGui.isPremium && ((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).size() < 6 && System.currentTimeMillis() - Long.parseLong((String)IslandMainGui.islandInfos.get("regenTime")) > 300000L && !this.nameTextField.func_73781_b().isEmpty() && !this.saveStarted && !this.restoreStarted && mouseX >= this.guiLeft + 56 && mouseX <= this.guiLeft + 56 + 98 && mouseY >= this.guiTop + 54 && mouseY <= this.guiTop + 54 + 18) {
                 this.saveStarted = true;
                 this.actionTime = System.currentTimeMillis();
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new IslandSaveBackupPacket((String)IslandMainGui.islandInfos.get("id"), this.nameTextField.getText())));
-            }
-            else if (IslandMainGui.isPremium && !this.saveStarted && !this.restoreStarted && !this.hoveredDelete.isEmpty())
-            {
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new IslandDeleteBackupPacket((String)IslandMainGui.islandInfos.get("id"), this.hoveredDelete)));
-            }
-            else if (IslandMainGui.isPremium && System.currentTimeMillis() - Long.parseLong((String)IslandMainGui.islandInfos.get("regenTime")) > 300000L && !this.saveStarted && !this.restoreStarted && !this.hoveredRestore.isEmpty())
-            {
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new IslandSaveBackupPacket((String)IslandMainGui.islandInfos.get("id"), this.nameTextField.func_73781_b())));
+            } else if (IslandMainGui.isPremium && !this.saveStarted && !this.restoreStarted && !this.hoveredDelete.isEmpty()) {
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new IslandDeleteBackupPacket((String)IslandMainGui.islandInfos.get("id"), this.hoveredDelete)));
+            } else if (IslandMainGui.isPremium && System.currentTimeMillis() - Long.parseLong((String)IslandMainGui.islandInfos.get("regenTime")) > 300000L && !this.saveStarted && !this.restoreStarted && !this.hoveredRestore.isEmpty()) {
                 this.restoreStartedId = this.hoveredRestore;
                 this.restoreStarted = true;
                 this.actionTime = System.currentTimeMillis();
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new IslandRestoreBackupPacket((String)IslandMainGui.islandInfos.get("id"), this.hoveredRestore)));
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new IslandRestoreBackupPacket((String)IslandMainGui.islandInfos.get("id"), this.hoveredRestore)));
             }
         }
-
-        if (IslandMainGui.isPremium)
-        {
-            this.nameTextField.mouseClicked(mouseX, mouseY, mouseButton);
+        if (IslandMainGui.isPremium) {
+            this.nameTextField.func_73793_a(mouseX, mouseY, mouseButton);
         }
-
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+        super.func_73864_a(mouseX, mouseY, mouseButton);
     }
 
-    private float getSlide()
-    {
-        return ((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).size() > 5 ? (float)(-(((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).size() - 5) * 21) * this.scrollBar.getSliderValue() : 0.0F;
+    private float getSlide() {
+        return ((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).size() > 5 ? (float)(-(((ArrayList)IslandMainGui.islandInfos.get("backupsInfos")).size() - 5) * 21) * this.scrollBar.getSliderValue() : 0.0f;
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char typedChar, int keyCode)
-    {
-        this.nameTextField.textboxKeyTyped(typedChar, keyCode);
-        super.keyTyped(typedChar, keyCode);
+    protected void func_73869_a(char typedChar, int keyCode) {
+        this.nameTextField.func_73802_a(typedChar, keyCode);
+        super.func_73869_a(typedChar, keyCode);
     }
 
-    public void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow)
-    {
+    public void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow) {
         GL11.glPushMatrix();
-        GL11.glScalef(scale, scale, scale);
-        float newX = (float)x;
-
-        if (centered)
-        {
-            newX = (float)x - (float)this.fontRenderer.getStringWidth(text) * scale / 2.0F;
+        GL11.glScalef((float)scale, (float)scale, (float)scale);
+        float newX = x;
+        if (centered) {
+            newX = (float)x - (float)this.field_73886_k.func_78256_a(text) * scale / 2.0f;
         }
-
-        if (shadow)
-        {
-            this.fontRenderer.drawString(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 16579836) >> 2 | color & -16777216, false);
+        if (shadow) {
+            this.field_73886_k.func_85187_a(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 0xFCFCFC) >> 2 | color & 0xFF000000, false);
         }
-
-        this.fontRenderer.drawString(text, (int)(newX / scale), (int)((float)y / scale), color, false);
+        this.field_73886_k.func_85187_a(text, (int)(newX / scale), (int)((float)y / scale), color, false);
         GL11.glPopMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
     }
 
-    /**
-     * Returns true if this GUI should pause the game when it is displayed in single-player
-     */
-    public boolean doesGuiPauseGame()
-    {
+    public boolean func_73868_f() {
         return false;
     }
 
-    public static BufferedImage decodeToImage(String imageString)
-    {
+    public static BufferedImage decodeToImage(String imageString) {
         BufferedImage image = null;
-
-        try
-        {
-            BASE64Decoder e = new BASE64Decoder();
-            byte[] imageByte = e.decodeBuffer(imageString);
+        try {
+            BASE64Decoder decoder = new BASE64Decoder();
+            byte[] imageByte = decoder.decodeBuffer(imageString);
             ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
             image = ImageIO.read(bis);
             bis.close();
         }
-        catch (Exception var5)
-        {
-            var5.printStackTrace();
+        catch (Exception e) {
+            e.printStackTrace();
         }
-
         return image;
     }
 }
+

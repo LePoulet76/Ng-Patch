@@ -1,3 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.gui.GuiTextField
+ */
 package net.ilexiconn.nationsgui.forge.client.gui;
 
 import cpw.mods.fml.relauncher.Side;
@@ -6,107 +16,67 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
 
-@SideOnly(Side.CLIENT)
-public class TextAreaGUI extends GuiTextField
-{
+@SideOnly(value=Side.CLIENT)
+public class TextAreaGUI
+extends GuiTextField {
     private final int posX;
     private final int posY;
     private final int width;
     private final FontRenderer fontRenderer;
     private int cursorCounter;
 
-    public TextAreaGUI(int x, int y, int width)
-    {
-        super(Minecraft.getMinecraft().fontRenderer, x, y, width, 73);
+    public TextAreaGUI(int x, int y, int width) {
+        super(Minecraft.func_71410_x().field_71466_p, x, y, width, 73);
         this.posX = x;
         this.posY = y;
         this.width = width;
-        this.fontRenderer = Minecraft.getMinecraft().fontRenderer;
+        this.fontRenderer = Minecraft.func_71410_x().field_71466_p;
     }
 
-    /**
-     * Increments the cursor counter
-     */
-    public void updateCursorCounter()
-    {
+    public void func_73780_a() {
         ++this.cursorCounter;
     }
 
-    /**
-     * Draws the textbox
-     */
-    public void drawTextBox()
-    {
+    public void func_73795_f() {
         int x = 0;
         String line = "";
-        char[] flag = this.getText().toCharArray();
-        int i = flag.length;
-
-        for (int var5 = 0; var5 < i; ++var5)
-        {
-            char character = flag[var5];
-
-            if (character != 13 && character != 10)
-            {
-                if (this.fontRenderer.getStringWidth(line + (char)character) > this.width)
-                {
-                    this.drawString(this.fontRenderer, line, this.posX + 4, this.posY + 4 + x * this.fontRenderer.FONT_HEIGHT, 14737632);
-                    line = "";
-                    ++x;
-                }
-
-                line = line + (char)character;
+        for (char character : this.func_73781_b().toCharArray()) {
+            if (character == '\r' || character == '\n') {
+                this.func_73731_b(this.fontRenderer, line, this.posX + 4, this.posY + 4 + x * this.fontRenderer.field_78288_b, 0xE0E0E0);
+                line = "";
+                ++x;
+                continue;
             }
-            else
-            {
-                this.drawString(this.fontRenderer, line, this.posX + 4, this.posY + 4 + x * this.fontRenderer.FONT_HEIGHT, 14737632);
+            if (this.fontRenderer.func_78256_a(line + (char)character) > this.width) {
+                this.func_73731_b(this.fontRenderer, line, this.posX + 4, this.posY + 4 + x * this.fontRenderer.field_78288_b, 0xE0E0E0);
                 line = "";
                 ++x;
             }
+            line = line + (char)character;
         }
-
-        this.drawString(this.fontRenderer, line, this.posX + 4, this.posY + 4 + x * this.fontRenderer.FONT_HEIGHT, 14737632);
-        boolean var9 = this.isFocused() && this.cursorCounter / 6 % 2 == 0;
-        i = 0;
+        this.func_73731_b(this.fontRenderer, line, this.posX + 4, this.posY + 4 + x * this.fontRenderer.field_78288_b, 0xE0E0E0);
+        boolean flag = this.func_73806_l() && this.cursorCounter / 6 % 2 == 0;
+        int i = 0;
         x = 0;
         line = "";
-
-        if (var9 && 0 == this.getText().length())
-        {
-            this.fontRenderer.drawString("_", this.posX + 3 + this.fontRenderer.getStringWidth(line), this.posY + 4 + x * this.fontRenderer.FONT_HEIGHT, 14737632);
+        if (flag && 0 == this.func_73781_b().length()) {
+            this.fontRenderer.func_78276_b("_", this.posX + 3 + this.fontRenderer.func_78256_a(line), this.posY + 4 + x * this.fontRenderer.field_78288_b, 0xE0E0E0);
         }
-
-        char[] var10 = this.getText().toCharArray();
-        int var11 = var10.length;
-
-        for (int var7 = 0; var7 < var11; ++var7)
-        {
-            char character1 = var10[var7];
+        for (char character : this.func_73781_b().toCharArray()) {
             ++i;
-
-            if (character1 != 13 && character1 != 10)
-            {
-                if (this.fontRenderer.getStringWidth(line + character1) > this.width)
-                {
-                    line = "";
-                    ++x;
-                    line = line + character1;
-                }
-                else
-                {
-                    line = line + character1;
-                }
-            }
-            else
-            {
+            if (character == '\r' || character == '\n') {
                 line = "";
                 ++x;
+            } else if (this.fontRenderer.func_78256_a(line + character) > this.width) {
+                line = "";
+                ++x;
+                line = line + character;
+            } else {
+                line = line + character;
             }
-
-            if (var9 && i == this.getText().length())
-            {
-                this.fontRenderer.drawString("_", this.posX + 3 + this.fontRenderer.getStringWidth(line), this.posY + 4 + x * this.fontRenderer.FONT_HEIGHT, 14737632);
-            }
+            if (!flag || i != this.func_73781_b().length()) continue;
+            this.fontRenderer.func_78276_b("_", this.posX + 3 + this.fontRenderer.func_78256_a(line), this.posY + 4 + x * this.fontRenderer.field_78288_b, 0xE0E0E0);
         }
     }
 }
+

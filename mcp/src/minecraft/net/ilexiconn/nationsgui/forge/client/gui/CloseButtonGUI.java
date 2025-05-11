@@ -1,3 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.GuiButton
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui;
 
 import cpw.mods.fml.relauncher.Side;
@@ -7,25 +17,21 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import org.lwjgl.opengl.GL11;
 
-@SideOnly(Side.CLIENT)
-public class CloseButtonGUI extends GuiButton
-{
-    public CloseButtonGUI(int id, int x, int y)
-    {
+@SideOnly(value=Side.CLIENT)
+public class CloseButtonGUI
+extends GuiButton {
+    public CloseButtonGUI(int id, int x, int y) {
         super(id, x, y, 9, 10, "");
     }
 
-    /**
-     * Draws this button to the screen.
-     */
-    public void drawButton(Minecraft mc, int mouseX, int mouseY)
-    {
-        this.field_82253_i = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
-        mc.getTextureManager().bindTexture(ShopGUI.TEXTURE);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        this.drawTexturedModalRect(this.xPosition, this.yPosition, 204, 18 + (this.field_82253_i ? this.height : 0), this.width, this.height);
-        GL11.glDisable(GL11.GL_BLEND);
+    public void func_73737_a(Minecraft mc, int mouseX, int mouseY) {
+        this.field_82253_i = mouseX >= this.field_73746_c && mouseY >= this.field_73743_d && mouseX < this.field_73746_c + this.field_73747_a && mouseY < this.field_73743_d + this.field_73745_b;
+        mc.func_110434_K().func_110577_a(ShopGUI.TEXTURE);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        GL11.glEnable((int)3042);
+        GL11.glBlendFunc((int)770, (int)771);
+        this.func_73729_b(this.field_73746_c, this.field_73743_d, 204, 18 + (this.field_82253_i ? this.field_73745_b : 0), this.field_73747_a, this.field_73745_b);
+        GL11.glDisable((int)3042);
     }
 }
+

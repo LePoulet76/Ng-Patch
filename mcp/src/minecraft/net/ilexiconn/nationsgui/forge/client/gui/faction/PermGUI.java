@@ -1,3 +1,12 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.network.packet.Packet
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.faction;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -6,10 +15,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Map;
 import net.ilexiconn.nationsgui.forge.client.ClientEventHandler;
 import net.ilexiconn.nationsgui.forge.client.gui.GuiScrollBarFaction;
 import net.ilexiconn.nationsgui.forge.client.gui.TabbedFactionGUI_OLD;
+import net.ilexiconn.nationsgui.forge.client.gui.faction.FactionGui_OLD;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
 import net.ilexiconn.nationsgui.forge.client.util.GUIUtils;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
@@ -17,196 +27,149 @@ import net.ilexiconn.nationsgui.forge.server.packet.impl.FactionSavePermDataPack
 import net.ilexiconn.nationsgui.forge.server.packet.impl.FactionSettingsDataPacket;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.packet.Packet;
 
-public class PermGUI extends TabbedFactionGUI_OLD
-{
+public class PermGUI
+extends TabbedFactionGUI_OLD {
     public static boolean loaded = false;
     public boolean saved = false;
     public static HashMap<String, HashMap<String, Object>> factionPermInfos;
     public HashMap<String, String> availableActions = new HashMap();
     public String hoveredAction = "";
-    public static List<String> rolesIds = Arrays.asList(new String[] {"70", "60", "50", "45", "40", "35", "30", "20", "10"});
-    public static String rolesNames = "\u00a72LEA \u00a72OFF \u00a72MEM \u00a72REC \u00a73COL \u00a75ALL \u00a7dTRU \u00a70NEU \u00a7cENE";
+    public static List<String> rolesIds;
+    public static String rolesNames;
     private GuiScrollBarFaction scrollBar;
 
-    public PermGUI(EntityPlayer player)
-    {
+    public PermGUI(EntityPlayer player) {
         super(player);
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
+    @Override
+    public void func_73866_w_() {
+        super.func_73866_w_();
         loaded = false;
-        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new FactionSettingsDataPacket((String)FactionGui_OLD.factionInfos.get("name"))));
-        this.scrollBar = new GuiScrollBarFaction((float)(this.guiLeft + 377), (float)(this.guiTop + 49), 161);
+        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new FactionSettingsDataPacket((String)FactionGui_OLD.factionInfos.get("name"))));
+        this.scrollBar = new GuiScrollBarFaction(this.guiLeft + 377, this.guiTop + 49, 161);
     }
 
-    public void drawScreen(int mouseX, int mouseY)
-    {
+    @Override
+    public void drawScreen(int mouseX, int mouseY) {
         this.hoveredAction = "";
         ClientEventHandler.STYLE.bindTexture("faction_perm");
-        ModernGui.drawModalRectWithCustomSizedTexture((float)this.guiLeft, (float)this.guiTop, 0, 0, this.xSize, this.ySize, 512.0F, 512.0F, false);
-
-        if (loaded)
-        {
-            this.drawScaledString(I18n.getString("faction.perm.title"), this.guiLeft + 131, this.guiTop + 16, 1644825, 1.4F, false, false);
-            this.drawScaledString(rolesNames, this.guiLeft + 218, this.guiTop + 35, 16777215, 0.8F, false, false);
-
-            if (factionPermInfos.size() > 0)
-            {
+        ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize, 512.0f, 512.0f, false);
+        if (loaded) {
+            this.drawScaledString(I18n.func_135053_a((String)"faction.perm.title"), this.guiLeft + 131, this.guiTop + 16, 0x191919, 1.4f, false, false);
+            this.drawScaledString(rolesNames, this.guiLeft + 218, this.guiTop + 35, 0xFFFFFF, 0.8f, false, false);
+            if (factionPermInfos.size() > 0) {
                 String tooltipToDraw = "";
                 GUIUtils.startGLScissor(this.guiLeft + 132, this.guiTop + 45, 245, 161);
                 int index = 0;
-
-                for (Iterator it = factionPermInfos.entrySet().iterator(); it.hasNext(); ++index)
-                {
+                Iterator<Map.Entry<String, HashMap<String, Object>>> it = factionPermInfos.entrySet().iterator();
+                while (it.hasNext()) {
                     int offsetX = this.guiLeft + 132;
                     Float offsetY = Float.valueOf((float)(this.guiTop + 45 + index * 22) + this.getSlide());
-                    Entry pair = (Entry)it.next();
-                    String permName = (String)pair.getKey();
-                    HashMap infos = (HashMap)pair.getValue();
+                    Map.Entry<String, HashMap<String, Object>> pair = it.next();
+                    String permName = pair.getKey();
+                    HashMap<String, Object> infos = pair.getValue();
                     ArrayList authorizedRoleIds = (ArrayList)infos.get("permissions");
                     ClientEventHandler.STYLE.bindTexture("faction_perm");
-                    ModernGui.drawModalRectWithCustomSizedTexture((float)offsetX, (float)offsetY.intValue(), 132, 45, 245, 22, 512.0F, 512.0F, false);
-                    this.drawScaledString(permName.substring(0, 1).toUpperCase() + permName.substring(1), offsetX + 4, offsetY.intValue() + 6, 16777215, 1.0F, false, false);
+                    ModernGui.drawModalRectWithCustomSizedTexture(offsetX, offsetY.intValue(), 132, 45, 245, 22, 512.0f, 512.0f, false);
+                    this.drawScaledString(permName.substring(0, 1).toUpperCase() + permName.substring(1), offsetX + 4, offsetY.intValue() + 6, 0xFFFFFF, 1.0f, false, false);
                     ClientEventHandler.STYLE.bindTexture("faction_perm");
-                    ModernGui.drawModalRectWithCustomSizedTexture((float)(offsetX + 65), (float)(offsetY.intValue() + 5), 148, 250, 10, 11, 512.0F, 512.0F, false);
-
-                    if (mouseX > offsetX + 65 && mouseX < offsetX + 65 + 10 && (float)mouseY > offsetY.floatValue() + 5.0F && (float)mouseY < offsetY.floatValue() + 5.0F + 11.0F)
-                    {
+                    ModernGui.drawModalRectWithCustomSizedTexture(offsetX + 65, offsetY.intValue() + 5, 148, 250, 10, 11, 512.0f, 512.0f, false);
+                    if (mouseX > offsetX + 65 && mouseX < offsetX + 65 + 10 && (float)mouseY > offsetY.floatValue() + 5.0f && (float)mouseY < offsetY.floatValue() + 5.0f + 11.0f) {
                         tooltipToDraw = (String)infos.get("description");
                     }
-
                     ClientEventHandler.STYLE.bindTexture("faction_perm");
                     int indexRole = 0;
-
-                    for (Iterator var13 = rolesIds.iterator(); var13.hasNext(); ++indexRole)
-                    {
-                        String roleId = (String)var13.next();
-
-                        if (authorizedRoleIds.contains(roleId))
-                        {
-                            ModernGui.drawModalRectWithCustomSizedTexture((float)(offsetX + 83 + indexRole * 18), (float)(offsetY.intValue() + 3), 179, 250, 14, 15, 512.0F, 512.0F, false);
-
-                            if (mouseX >= offsetX + 83 + indexRole * 18 && mouseX <= offsetX + 83 + indexRole * 18 + 14 && mouseY >= offsetY.intValue() + 3 && mouseY <= offsetY.intValue() + 3 + 15 && (!roleId.equals("70") || ((Boolean)FactionGui_OLD.factionInfos.get("isLeader")).booleanValue()))
-                            {
+                    for (String roleId : rolesIds) {
+                        if (authorizedRoleIds.contains(roleId)) {
+                            ModernGui.drawModalRectWithCustomSizedTexture(offsetX + 83 + indexRole * 18, offsetY.intValue() + 3, 179, 250, 14, 15, 512.0f, 512.0f, false);
+                            if (mouseX >= offsetX + 83 + indexRole * 18 && mouseX <= offsetX + 83 + indexRole * 18 + 14 && mouseY >= offsetY.intValue() + 3 && mouseY <= offsetY.intValue() + 3 + 15 && (!roleId.equals("70") || ((Boolean)FactionGui_OLD.factionInfos.get("isLeader")).booleanValue())) {
                                 this.hoveredAction = permName + "#" + roleId + "#no";
                                 this.saved = false;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             boolean forbidden = false;
-
-                            if (Integer.parseInt(roleId) <= 45)
-                            {
-                                if (Arrays.asList(new String[] {"assault", "join assault", "wars", "relations", "actions", "territory", "locations", "perms", "taxes", "access", "setwarp", "sethome", "settings", "kick"}).contains(permName))
-                                {
+                            if (Integer.parseInt(roleId) <= 45) {
+                                if (Arrays.asList("assault", "join assault", "wars", "relations", "actions", "territory", "locations", "perms", "taxes", "access", "setwarp", "sethome", "settings", "kick").contains(permName)) {
                                     forbidden = true;
                                 }
-                            }
-                            else if (Integer.parseInt(roleId) <= 50 && Arrays.asList(new String[] {"wars", "actions", "relations", "locations", "perms", "setwarp", "sethome", "settings", "kick"}).contains(permName))
-                            {
+                            } else if (Integer.parseInt(roleId) <= 50 && Arrays.asList("wars", "actions", "relations", "locations", "perms", "setwarp", "sethome", "settings", "kick").contains(permName)) {
                                 forbidden = true;
                             }
-
-                            if (!forbidden)
-                            {
-                                ModernGui.drawModalRectWithCustomSizedTexture((float)(offsetX + 83 + indexRole * 18), (float)(offsetY.intValue() + 3), 164, 250, 14, 15, 512.0F, 512.0F, false);
-
-                                if (mouseX >= offsetX + 83 + indexRole * 18 && mouseX <= offsetX + 83 + indexRole * 18 + 14 && mouseY >= offsetY.intValue() + 3 && mouseY <= offsetY.intValue() + 3 + 15 && (!roleId.equals("70") || ((Boolean)FactionGui_OLD.factionInfos.get("isLeader")).booleanValue()))
-                                {
+                            if (!forbidden) {
+                                ModernGui.drawModalRectWithCustomSizedTexture(offsetX + 83 + indexRole * 18, offsetY.intValue() + 3, 164, 250, 14, 15, 512.0f, 512.0f, false);
+                                if (mouseX >= offsetX + 83 + indexRole * 18 && mouseX <= offsetX + 83 + indexRole * 18 + 14 && mouseY >= offsetY.intValue() + 3 && mouseY <= offsetY.intValue() + 3 + 15 && (!roleId.equals("70") || ((Boolean)FactionGui_OLD.factionInfos.get("isLeader")).booleanValue())) {
                                     this.hoveredAction = permName + "#" + roleId + "#yes";
                                     this.saved = false;
                                 }
                             }
                         }
+                        ++indexRole;
                     }
+                    ++index;
                 }
-
                 GUIUtils.endGLScissor();
                 this.scrollBar.draw(mouseX, mouseY);
-
-                if (!tooltipToDraw.isEmpty())
-                {
+                if (!tooltipToDraw.isEmpty()) {
                     this.drawTooltip(tooltipToDraw, mouseX, mouseY);
                 }
-
-                if (FactionGui_OLD.hasPermissions("perms"))
-                {
+                if (FactionGui_OLD.hasPermissions("perms")) {
                     ClientEventHandler.STYLE.bindTexture("faction_perm");
-                    ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 284), (float)(this.guiTop + 216), 300, 248, 100, 15, 512.0F, 512.0F, false);
-                    this.drawScaledString(I18n.getString("faction.perm.save"), this.guiLeft + 334, this.guiTop + 220, 16777215, 1.1F, true, false);
+                    ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 284, this.guiTop + 216, 300, 248, 100, 15, 512.0f, 512.0f, false);
+                    this.drawScaledString(I18n.func_135053_a((String)"faction.perm.save"), this.guiLeft + 334, this.guiTop + 220, 0xFFFFFF, 1.1f, true, false);
                 }
             }
         }
     }
 
-    private float getSlide()
-    {
-        return factionPermInfos.size() > 7 ? (float)(-(factionPermInfos.size() - 7) * 22) * this.scrollBar.getSliderValue() : 0.0F;
+    private float getSlide() {
+        return factionPermInfos.size() > 7 ? (float)(-(factionPermInfos.size() - 7) * 22) * this.scrollBar.getSliderValue() : 0.0f;
     }
 
-    public void drawTooltip(String text, int mouseX, int mouseY)
-    {
-        int var10000 = mouseX - this.guiLeft;
-        var10000 = mouseY - this.guiTop;
-        this.drawHoveringText(Arrays.asList(new String[] {text.substring(0, 1).toUpperCase() + text.substring(1)}), mouseX, mouseY, this.fontRenderer);
+    public void drawTooltip(String text, int mouseX, int mouseY) {
+        int mouseXGui = mouseX - this.guiLeft;
+        int mouseYGui = mouseY - this.guiTop;
+        this.drawHoveringText(Arrays.asList(text.substring(0, 1).toUpperCase() + text.substring(1)), mouseX, mouseY, this.field_73886_k);
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-    {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
-
-        if (mouseButton == 0)
-        {
-            if (!this.saved && !this.hoveredAction.isEmpty() && FactionGui_OLD.hasPermissions("perms") && mouseY > this.guiTop + 45 && mouseY < this.guiTop + 45 + 161)
-            {
-                String hashMapForPacket = this.hoveredAction.split("#")[0];
-                String it = this.hoveredAction.split("#")[1];
-                String pair = this.hoveredAction.split("#")[2];
-                HashMap permInfos = (HashMap)factionPermInfos.get(hashMapForPacket);
+    @Override
+    protected void func_73864_a(int mouseX, int mouseY, int mouseButton) {
+        super.func_73864_a(mouseX, mouseY, mouseButton);
+        if (mouseButton == 0) {
+            if (!this.saved && !this.hoveredAction.isEmpty() && FactionGui_OLD.hasPermissions("perms") && mouseY > this.guiTop + 45 && mouseY < this.guiTop + 45 + 161) {
+                String permName = this.hoveredAction.split("#")[0];
+                String roleId = this.hoveredAction.split("#")[1];
+                String state = this.hoveredAction.split("#")[2];
+                HashMap<String, Object> permInfos = factionPermInfos.get(permName);
                 List permissions = (List)permInfos.get("permissions");
-
-                if (pair.equals("yes"))
-                {
-                    if (!permissions.contains(it))
-                    {
-                        permissions.add(it);
+                if (state.equals("yes")) {
+                    if (!permissions.contains(roleId)) {
+                        permissions.add(roleId);
                     }
+                } else if (permissions.contains(roleId)) {
+                    permissions.remove(roleId);
                 }
-                else if (permissions.contains(it))
-                {
-                    permissions.remove(it);
-                }
-
-                this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-                ((HashMap)factionPermInfos.get(hashMapForPacket)).put("permissions", permissions);
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                factionPermInfos.get(permName).put("permissions", permissions);
             }
-
-            if (!this.saved && mouseX > this.guiLeft + 284 && mouseX < this.guiLeft + 284 + 100 && mouseY > this.guiTop + 216 && mouseY < this.guiTop + 216 + 15 && FactionGui_OLD.hasPermissions("perms"))
-            {
-                HashMap hashMapForPacket1 = new HashMap();
-                Iterator it1 = factionPermInfos.entrySet().iterator();
-
-                while (it1.hasNext())
-                {
-                    Entry pair1 = (Entry)it1.next();
-                    hashMapForPacket1.put((String)pair1.getKey(), (ArrayList)((ArrayList)((HashMap)pair1.getValue()).get("permissions")));
+            if (!this.saved && mouseX > this.guiLeft + 284 && mouseX < this.guiLeft + 284 + 100 && mouseY > this.guiTop + 216 && mouseY < this.guiTop + 216 + 15 && FactionGui_OLD.hasPermissions("perms")) {
+                HashMap<String, Object> hashMapForPacket = new HashMap<String, Object>();
+                for (Map.Entry<String, HashMap<String, Object>> pair : factionPermInfos.entrySet()) {
+                    hashMapForPacket.put(pair.getKey(), (ArrayList)pair.getValue().get("permissions"));
                 }
-
-                hashMapForPacket1.put("factionName", FactionGui_OLD.factionInfos.get("name"));
-                this.mc.sndManager.playSoundFX("random.successful_hit", 1.0F, 1.0F);
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new FactionSavePermDataPacket(hashMapForPacket1)));
+                hashMapForPacket.put("factionName", FactionGui_OLD.factionInfos.get("name"));
+                this.field_73882_e.field_71416_A.func_77366_a("random.successful_hit", 1.0f, 1.0f);
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new FactionSavePermDataPacket(hashMapForPacket)));
                 this.saved = true;
             }
         }
     }
+
+    static {
+        rolesIds = Arrays.asList("70", "60", "50", "45", "40", "35", "30", "20", "10");
+        rolesNames = "\u00a72LEA \u00a72OFF \u00a72MEM \u00a72REC \u00a73COL \u00a75ALL \u00a7dTRU \u00a70NEU \u00a7cENE";
+    }
 }
+

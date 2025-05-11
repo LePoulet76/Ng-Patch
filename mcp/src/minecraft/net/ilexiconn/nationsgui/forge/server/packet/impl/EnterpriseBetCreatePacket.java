@@ -1,11 +1,18 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
 
-public class EnterpriseBetCreatePacket implements IPacket
-{
+public class EnterpriseBetCreatePacket
+implements IPacket {
     public String enterpriseName;
     private String question;
     private String option1;
@@ -13,8 +20,7 @@ public class EnterpriseBetCreatePacket implements IPacket
     private Integer duration;
     private Integer minBet;
 
-    public EnterpriseBetCreatePacket(String enterpriseName, String question, String option1, String option2, Integer duration, Integer minBet)
-    {
+    public EnterpriseBetCreatePacket(String enterpriseName, String question, String option1, String option2, Integer duration, Integer minBet) {
         this.enterpriseName = enterpriseName;
         this.question = question;
         this.option1 = option1;
@@ -23,18 +29,18 @@ public class EnterpriseBetCreatePacket implements IPacket
         this.minBet = minBet;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.enterpriseName = data.readUTF();
         this.question = data.readUTF();
         this.option1 = data.readUTF();
         this.option2 = data.readUTF();
-        this.duration = Integer.valueOf(data.readInt());
-        this.minBet = Integer.valueOf(data.readInt());
+        this.duration = data.readInt();
+        this.minBet = data.readInt();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeUTF(this.enterpriseName);
         data.writeUTF(this.question);
         data.writeUTF(this.option1);
@@ -43,3 +49,4 @@ public class EnterpriseBetCreatePacket implements IPacket
         data.writeInt(this.minBet.intValue());
     }
 }
+

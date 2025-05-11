@@ -1,12 +1,16 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.collect.Maps
+ */
 package net.ilexiconn.nationsgui.forge.server.command.utils;
 
 import com.google.common.collect.Maps;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public enum EnumParticleTypes
-{
+public enum EnumParticleTypes {
     EXPLOSION_NORMAL("explode", true),
     EXPLOSION_LARGE("largeexplode", true),
     EXPLOSION_HUGE("hugeexplosion", true),
@@ -41,55 +45,44 @@ public enum EnumParticleTypes
     SNOW_SHOVEL("snowshovel", false),
     SLIME("slime", false),
     HEART("heart", false);
+
     private final String particleName;
     private final boolean shouldIgnoreRange;
-    private static final Map<String, EnumParticleTypes> PARTICLES = Maps.newHashMap();
+    private static final Map<String, EnumParticleTypes> PARTICLES;
 
-    private EnumParticleTypes(String particleNameIn, boolean shouldIgnoreRangeIn)
-    {
+    private EnumParticleTypes(String particleNameIn, boolean shouldIgnoreRangeIn) {
         this.particleName = particleNameIn;
         this.shouldIgnoreRange = shouldIgnoreRangeIn;
     }
 
-    public static String[] getParticleNames()
-    {
-        Set s = PARTICLES.keySet();
+    public static String[] getParticleNames() {
+        Set<String> s = PARTICLES.keySet();
         int n = s.size();
         String[] arr = new String[n];
         int i = 0;
-        String x;
-
-        for (Iterator var4 = s.iterator(); var4.hasNext(); arr[i++] = x)
-        {
-            x = (String)var4.next();
+        for (String x : s) {
+            arr[i++] = x;
         }
-
         return arr;
     }
 
-    public String getParticleName()
-    {
+    public String getParticleName() {
         return this.particleName;
     }
 
-    public boolean getShouldIgnoreRange()
-    {
+    public boolean getShouldIgnoreRange() {
         return this.shouldIgnoreRange;
     }
 
-    public static EnumParticleTypes getParticleFromId(String particleId)
-    {
-        return (EnumParticleTypes)PARTICLES.get(particleId);
+    public static EnumParticleTypes getParticleFromId(String particleId) {
+        return PARTICLES.get(particleId);
     }
 
     static {
-        EnumParticleTypes[] var0 = values();
-        int var1 = var0.length;
-
-        for (int var2 = 0; var2 < var1; ++var2)
-        {
-            EnumParticleTypes enumparticletypes = var0[var2];
+        PARTICLES = Maps.newHashMap();
+        for (EnumParticleTypes enumparticletypes : EnumParticleTypes.values()) {
             PARTICLES.put(enumparticletypes.getParticleName(), enumparticletypes);
         }
     }
 }
+

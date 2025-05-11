@@ -1,18 +1,24 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.Player
+ */
 package net.ilexiconn.nationsgui.forge.server.voices.networking.voiceservers;
 
 import cpw.mods.fml.common.network.Player;
+import net.ilexiconn.nationsgui.forge.server.voices.networking.voiceservers.EnumVoiceNetworkType;
 
-public abstract class VoiceServer implements Runnable
-{
+public abstract class VoiceServer
+implements Runnable {
     protected EnumVoiceNetworkType type;
 
-    public VoiceServer(EnumVoiceNetworkType enumVoiceServer)
-    {
+    public VoiceServer(EnumVoiceNetworkType enumVoiceServer) {
         this.type = enumVoiceServer;
     }
 
-    public final void run()
-    {
+    @Override
+    public final void run() {
         this.start();
     }
 
@@ -30,8 +36,8 @@ public abstract class VoiceServer implements Runnable
 
     public abstract void sendVoiceEnd(Player var1, int var2);
 
-    public final EnumVoiceNetworkType getType()
-    {
+    public final EnumVoiceNetworkType getType() {
         return this.type;
     }
 }
+

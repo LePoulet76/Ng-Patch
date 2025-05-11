@@ -1,3 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  com.google.gson.Gson
+ *  com.google.gson.internal.LinkedTreeMap
+ *  net.minecraft.entity.player.EntityPlayer
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -10,8 +20,9 @@ import net.ilexiconn.nationsgui.forge.server.packet.IClientPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class FactionSaveSettingsDataPacket implements IPacket, IClientPacket
-{
+public class FactionSaveSettingsDataPacket
+implements IPacket,
+IClientPacket {
     public String factionName;
     private final String motd;
     private final String entryMsg;
@@ -24,8 +35,7 @@ public class FactionSaveSettingsDataPacket implements IPacket, IClientPacket
     private HashMap<String, Object> perms;
     private boolean kickWarRecruit;
 
-    public FactionSaveSettingsDataPacket(String factionName, String description, String motd, String entryMsg, String discord, ArrayList<String> tags, boolean isOpen, boolean recruitmentOpen, LinkedTreeMap<String, String> rolesName, HashMap<String, Object> perms, boolean kickWarRecruit)
-    {
+    public FactionSaveSettingsDataPacket(String factionName, String description, String motd, String entryMsg, String discord, ArrayList<String> tags, boolean isOpen, boolean recruitmentOpen, LinkedTreeMap<String, String> rolesName, HashMap<String, Object> perms, boolean kickWarRecruit) {
         this.factionName = factionName;
         this.description = description;
         this.motd = motd;
@@ -39,22 +49,27 @@ public class FactionSaveSettingsDataPacket implements IPacket, IClientPacket
         this.kickWarRecruit = kickWarRecruit;
     }
 
-    public void fromBytes(ByteArrayDataInput data) {}
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
+    }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeUTF(this.factionName);
         data.writeUTF(this.description);
         data.writeUTF(this.motd);
         data.writeUTF(this.entryMsg);
         data.writeUTF(this.discord);
-        data.writeUTF((new Gson()).toJson(this.tags));
+        data.writeUTF(new Gson().toJson(this.tags));
         data.writeBoolean(this.isOpen);
         data.writeBoolean(this.recruitmentOpen);
-        data.writeUTF((new Gson()).toJson(this.rolesName));
-        data.writeUTF((new Gson()).toJson(this.perms));
+        data.writeUTF(new Gson().toJson(this.rolesName));
+        data.writeUTF(new Gson().toJson(this.perms));
         data.writeBoolean(this.kickWarRecruit);
     }
 
-    public void handleClientPacket(EntityPlayer player) {}
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
+    }
 }
+

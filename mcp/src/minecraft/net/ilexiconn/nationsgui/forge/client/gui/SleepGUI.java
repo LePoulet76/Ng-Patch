@@ -1,66 +1,59 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.multiplayer.NetClientHandler
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.entity.Entity
+ *  net.minecraft.network.packet.Packet
+ *  net.minecraft.network.packet.Packet19EntityAction
+ */
 package net.ilexiconn.nationsgui.forge.client.gui;
 
+import net.ilexiconn.nationsgui.forge.client.gui.ChatGUI;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.multiplayer.NetClientHandler;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.Entity;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet19EntityAction;
 
-public class SleepGUI extends ChatGUI
-{
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
-        this.buttonList.add(new GuiButton(256, this.width / 2 - 100, this.height - 40, I18n.getString("multiplayer.stopSleeping")));
+public class SleepGUI
+extends ChatGUI {
+    @Override
+    public void func_73866_w_() {
+        super.func_73866_w_();
+        this.field_73887_h.add(new GuiButton(256, this.field_73880_f / 2 - 100, this.field_73881_g - 40, I18n.func_135053_a((String)"multiplayer.stopSleeping")));
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char par1, int par2)
-    {
-        if (par2 == 1)
-        {
+    protected void func_73869_a(char par1, int par2) {
+        if (par2 == 1) {
             this.wakeEntity();
-        }
-        else if (par2 != 28 && par2 != 156)
-        {
-            super.keyTyped(par1, par2);
-        }
-        else
-        {
-            String s = this.inputField.getText().trim();
-
-            if (s.length() > 0)
-            {
-                this.mc.thePlayer.sendChatMessage(s);
+        } else if (par2 != 28 && par2 != 156) {
+            super.func_73869_a(par1, par2);
+        } else {
+            String s = this.field_73901_a.func_73781_b().trim();
+            if (s.length() > 0) {
+                this.field_73882_e.field_71439_g.func_71165_d(s);
             }
-
-            this.inputField.setText("");
-            this.mc.ingameGUI.getChatGUI().resetScroll();
+            this.field_73901_a.func_73782_a("");
+            this.field_73882_e.field_71456_v.func_73827_b().func_73764_c();
         }
     }
 
-    /**
-     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
-     */
-    protected void actionPerformed(GuiButton par1GuiButton)
-    {
-        if (par1GuiButton.id == 256)
-        {
+    @Override
+    protected void func_73875_a(GuiButton par1GuiButton) {
+        if (par1GuiButton.field_73741_f == 256) {
             this.wakeEntity();
-        }
-        else
-        {
-            super.actionPerformed(par1GuiButton);
+        } else {
+            super.func_73875_a(par1GuiButton);
         }
     }
 
-    private void wakeEntity()
-    {
-        NetClientHandler netclienthandler = this.mc.thePlayer.sendQueue;
-        netclienthandler.addToSendQueue(new Packet19EntityAction(this.mc.thePlayer, 3));
+    private void wakeEntity() {
+        NetClientHandler netclienthandler = this.field_73882_e.field_71439_g.field_71174_a;
+        netclienthandler.func_72552_c((Packet)new Packet19EntityAction((Entity)this.field_73882_e.field_71439_g, 3));
     }
 }
+

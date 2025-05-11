@@ -1,37 +1,36 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package net.ilexiconn.nationsgui.forge.client.cache;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import net.ilexiconn.nationsgui.forge.client.cache.CachedResource;
 
-public class CachedTextureResource extends CachedResource
-{
+public class CachedTextureResource
+extends CachedResource {
     private int width;
     private int height;
 
-    public CachedTextureResource(String url)
-    {
+    public CachedTextureResource(String url) {
         super(url);
-
-        try
-        {
+        try {
             BufferedImage ima = ImageIO.read(this.file);
             this.width = ima.getWidth();
             this.height = ima.getHeight();
         }
-        catch (IOException var4)
-        {
-            var4.printStackTrace();
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public int getWidth()
-    {
+    public int getWidth() {
         return this.width;
     }
 
-    public int getHeight()
-    {
+    public int getHeight() {
         return this.height;
     }
 }
+

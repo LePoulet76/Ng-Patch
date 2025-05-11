@@ -1,42 +1,40 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.gson.JsonObject
+ *  cpw.mods.fml.common.registry.GameRegistry
+ *  net.minecraft.block.Block
+ */
 package net.ilexiconn.nationsgui.forge.server.json.registry.block;
 
 import com.google.gson.JsonObject;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.ilexiconn.nationsgui.forge.server.json.registry.JSONRegistry;
+import net.ilexiconn.nationsgui.forge.server.json.registry.block.JSONBlock;
+import net.ilexiconn.nationsgui.forge.server.json.registry.block.JSONMaterial;
+import net.minecraft.block.Block;
 
-public class JSONBlockRegistry extends JSONRegistry<JSONBlock>
-{
-    public JSONBlock constructNew(String name, JsonObject object)
-    {
-        if (!object.has("id"))
-        {
+public class JSONBlockRegistry
+extends JSONRegistry<JSONBlock> {
+    @Override
+    public JSONBlock constructNew(String name, JsonObject object) {
+        if (!object.has("id")) {
             return null;
         }
-        else
-        {
-            JSONBlock block = new JSONBlock(object.get("id").getAsInt(), JSONMaterial.parseMaterial(object.get("material").getAsString()));
-            block.setUnlocalizedName("nationsgui." + name);
-            return block;
-        }
+        JSONBlock block = new JSONBlock(object.get("id").getAsInt(), JSONMaterial.parseMaterial(object.get("material").getAsString()));
+        block.func_71864_b("nationsgui." + name);
+        return block;
     }
 
-    public void register(String name, JSONBlock block)
-    {
-        GameRegistry.registerBlock(block, "nationsgui." + name);
+    @Override
+    public void register(String name, JSONBlock block) {
+        GameRegistry.registerBlock((Block)block, (String)("nationsgui." + name));
     }
 
-    public Class<JSONBlock> getType()
-    {
+    @Override
+    public Class<JSONBlock> getType() {
         return JSONBlock.class;
     }
-
-    public void register(String var1, Object var2)
-    {
-        this.register(var1, (JSONBlock)var2);
-    }
-
-    public Object constructNew(String var1, JsonObject var2)
-    {
-        return this.constructNew(var1, var2);
-    }
 }
+

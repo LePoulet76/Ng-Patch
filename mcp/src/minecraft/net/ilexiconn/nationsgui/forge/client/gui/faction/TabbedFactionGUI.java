@@ -1,23 +1,32 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.renderer.RenderHelper
+ *  net.minecraft.client.renderer.entity.RenderItem
+ *  net.minecraft.client.resources.I18n
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.faction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import net.ilexiconn.nationsgui.forge.client.ClientEventHandler;
 import net.ilexiconn.nationsgui.forge.client.gui.GuiScreenTab;
-import net.ilexiconn.nationsgui.forge.client.gui.faction.TabbedFactionGUI$1;
-import net.ilexiconn.nationsgui.forge.client.gui.faction.TabbedFactionGUI$10;
-import net.ilexiconn.nationsgui.forge.client.gui.faction.TabbedFactionGUI$11;
-import net.ilexiconn.nationsgui.forge.client.gui.faction.TabbedFactionGUI$2;
-import net.ilexiconn.nationsgui.forge.client.gui.faction.TabbedFactionGUI$3;
-import net.ilexiconn.nationsgui.forge.client.gui.faction.TabbedFactionGUI$4;
-import net.ilexiconn.nationsgui.forge.client.gui.faction.TabbedFactionGUI$5;
-import net.ilexiconn.nationsgui.forge.client.gui.faction.TabbedFactionGUI$6;
-import net.ilexiconn.nationsgui.forge.client.gui.faction.TabbedFactionGUI$7;
-import net.ilexiconn.nationsgui.forge.client.gui.faction.TabbedFactionGUI$8;
-import net.ilexiconn.nationsgui.forge.client.gui.faction.TabbedFactionGUI$9;
+import net.ilexiconn.nationsgui.forge.client.gui.faction.BankGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.faction.DiplomatieGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.faction.FactionGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.faction.FactionResearchGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.faction.FactionSkillsGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.faction.FactionStatsGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.faction.GalleryGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.faction.MembersGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.faction.WarGUI;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -26,257 +35,296 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-public abstract class TabbedFactionGUI extends GuiScreen
-{
-    public static final List<GuiScreenTab> TABS = new ArrayList();
+public abstract class TabbedFactionGUI
+extends GuiScreen {
+    public static final List<GuiScreenTab> TABS = new ArrayList<GuiScreenTab>();
     public static int GUI_SCALE = 3;
     protected int xSize = 463;
     protected int ySize = 235;
     protected int guiLeft;
     protected int guiTop;
     private RenderItem itemRenderer = new RenderItem();
-    public static List<String> tooltipToDraw = new ArrayList();
+    public static List<String> tooltipToDraw = new ArrayList<String>();
     protected String hoveredAction = "";
-    public static HashMap<String, Integer> tabIconsPositionX = new TabbedFactionGUI$1();
-    public static HashMap<String, Integer> tabIconsY = new TabbedFactionGUI$2();
+    public static HashMap<String, Integer> tabIconsPositionX = new HashMap<String, Integer>(){
+        {
+            this.put("FactionGUI", 0);
+            this.put("MembersGUI", 19);
+            this.put("WarGUI", 38);
+            this.put("BankGUI", 57);
+            this.put("DiplomatieGUI", 76);
+            this.put("FactionStatsGUI", 95);
+            this.put("FactionSkillsGUI", 114);
+            this.put("SettingsGUI", 133);
+            this.put("GalleryGUI", 152);
+            this.put("FactionResearchGUI", 171);
+            this.put("FactionPlotsGUI", 190);
+        }
+    };
+    public static HashMap<String, Integer> tabIconsY = new HashMap<String, Integer>(){
+        {
+            this.put("neutral", 110);
+            this.put("enemy", 91);
+            this.put("colony", 72);
+            this.put("ally", 53);
+            this.put("hover", 34);
+        }
+    };
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        this.guiLeft = (this.width - this.xSize) / 2;
-        this.guiTop = (this.height - this.ySize) / 2;
+    public void func_73866_w_() {
+        this.guiLeft = (this.field_73880_f - this.xSize) / 2;
+        this.guiTop = (this.field_73881_g - this.ySize) / 2;
     }
 
-    public static void initTabs()
-    {
+    public static void initTabs() {
         TABS.clear();
-        TABS.add(new TabbedFactionGUI$3());
-        TABS.add(new TabbedFactionGUI$4());
-        TABS.add(new TabbedFactionGUI$5());
-        TABS.add(new TabbedFactionGUI$6());
-        TABS.add(new TabbedFactionGUI$7());
-        TABS.add(new TabbedFactionGUI$8());
-        TABS.add(new TabbedFactionGUI$9());
-        TABS.add(new TabbedFactionGUI$10());
-        TABS.add(new TabbedFactionGUI$11());
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return FactionGUI.class;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new FactionGUI((String)FactionGUI.factionInfos.get("name")));
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return BankGUI.class;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new BankGUI());
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return MembersGUI.class;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new MembersGUI());
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return FactionSkillsGUI.class;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new FactionSkillsGUI());
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return WarGUI.class;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new WarGUI());
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return DiplomatieGUI.class;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new DiplomatieGUI());
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return GalleryGUI.class;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new GalleryGUI());
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return FactionStatsGUI.class;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new FactionStatsGUI());
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return FactionResearchGUI.class;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new FactionResearchGUI());
+            }
+        });
     }
 
     public abstract void drawScreen(int var1, int var2);
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-    {
-        if (mouseButton == 0)
-        {
-            for (int i = 0; i < TABS.size(); ++i)
-            {
-                GuiScreenTab type = (GuiScreenTab)TABS.get(i);
-
-                if (mouseX >= this.guiLeft + 11 && mouseX <= this.guiLeft + 11 + 19 && mouseY >= this.guiTop + 1 + i * 19 && mouseY <= this.guiTop + 1 + i * 19 + 19)
-                {
-                    this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-
-                    if (this.getClass() != type.getClassReferent())
-                    {
-                        try
-                        {
-                            type.call();
-                        }
-                        catch (Exception var7)
-                        {
-                            var7.printStackTrace();
-                        }
-                    }
+    protected void func_73864_a(int mouseX, int mouseY, int mouseButton) {
+        if (mouseButton == 0) {
+            for (int i = 0; i < TABS.size(); ++i) {
+                GuiScreenTab type = TABS.get(i);
+                if (mouseX < this.guiLeft + 11 || mouseX > this.guiLeft + 11 + 19 || mouseY < this.guiTop + 1 + i * 19 || mouseY > this.guiTop + 1 + i * 19 + 19) continue;
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                if (((Object)((Object)this)).getClass() == type.getClassReferent()) continue;
+                try {
+                    type.call();
+                    continue;
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-
-            if (mouseX > this.guiLeft + 445 && mouseX < this.guiLeft + 445 + 8 && mouseY > this.guiTop + 9 && mouseY < this.guiTop + 9 + 8)
-            {
-                this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-                Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
+            if (mouseX > this.guiLeft + 445 && mouseX < this.guiLeft + 445 + 8 && mouseY > this.guiTop + 9 && mouseY < this.guiTop + 9 + 8) {
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                Minecraft.func_71410_x().func_71373_a(null);
             }
         }
-
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+        super.func_73864_a(mouseX, mouseY, mouseButton);
     }
 
-    /**
-     * Returns true if this GUI should pause the game when it is displayed in single-player
-     */
-    public boolean doesGuiPauseGame()
-    {
+    public boolean func_73868_f() {
         return false;
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
-    {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        ClientEventHandler.STYLE.bindTexture("faction_global");
-
-        if (mouseX > this.guiLeft + 445 && mouseX < this.guiLeft + 445 + 8 && mouseY > this.guiTop + 9 && mouseY < this.guiTop + 9 + 8)
-        {
-            ModernGui.drawScaledCustomSizeModalRect((float)(this.guiLeft + 445), (float)(this.guiTop + 8), (float)(0 * GUI_SCALE), (float)(18 * GUI_SCALE), 12 * GUI_SCALE, 12 * GUI_SCALE, 12, 12, 1536.0F, 1536.0F, false);
-        }
-        else
-        {
-            ModernGui.drawScaledCustomSizeModalRect((float)(this.guiLeft + 445), (float)(this.guiTop + 8), (float)(0 * GUI_SCALE), (float)(2 * GUI_SCALE), 12 * GUI_SCALE, 12 * GUI_SCALE, 12, 12, 1536.0F, 1536.0F, false);
-        }
-
-        if (FactionGUI.factionInfos != null && (this instanceof FactionGUI && !FactionGUI.displayLevels || this instanceof MembersGUI || this instanceof FactionSkillsGUI || this instanceof WarGUI || this instanceof FactionStatsGUI || this instanceof DiplomatieGUI) && ((Boolean)FactionGUI.factionInfos.get("isLeader")).booleanValue())
-        {
-            ClientEventHandler.STYLE.bindTexture("faction_global");
-
-            if (mouseX >= this.guiLeft + 430 && mouseX <= this.guiLeft + 430 + 9 && mouseY >= this.guiTop + 8 && mouseY <= this.guiTop + 8 + 8)
-            {
-                ModernGui.drawScaledCustomSizeModalRect((float)(this.guiLeft + 430), (float)(this.guiTop + 8), (float)(30 * GUI_SCALE), (float)(18 * GUI_SCALE), 12 * GUI_SCALE, 12 * GUI_SCALE, 12, 12, (float)(512 * GUI_SCALE), (float)(512 * GUI_SCALE), false);
-
-                if (FactionGUI.getResearchLevel("general") >= 11)
-                {
-                    this.hoveredAction = "edit_photo";
-                }
-                else
-                {
-                    tooltipToDraw = Arrays.asList(I18n.getString("gui.faction.not_enough_research").split("##"));
-                }
-            }
-            else
-            {
-                ModernGui.drawScaledCustomSizeModalRect((float)(this.guiLeft + 430), (float)(this.guiTop + 8), (float)(30 * GUI_SCALE), (float)(2 * GUI_SCALE), 12 * GUI_SCALE, 12 * GUI_SCALE, 12, 12, (float)(512 * GUI_SCALE), (float)(512 * GUI_SCALE), false);
-            }
-        }
-
-        ClientEventHandler.STYLE.bindTexture("faction_global");
-        ModernGui.drawScaledCustomSizeModalRect((float)(this.guiLeft + 11), (float)this.guiTop, (float)(0 * GUI_SCALE), (float)(280 * GUI_SCALE), 19 * GUI_SCALE, 209 * GUI_SCALE, 19, 209, (float)(512 * GUI_SCALE), (float)(512 * GUI_SCALE), false);
-        int i;
+    public void func_73863_a(int mouseX, int mouseY, float partialTicks) {
         GuiScreenTab type;
-
-        for (i = 0; i < TABS.size(); ++i)
-        {
-            type = (GuiScreenTab)TABS.get(i);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        int i;
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        ClientEventHandler.STYLE.bindTexture("faction_global");
+        if (mouseX > this.guiLeft + 445 && mouseX < this.guiLeft + 445 + 8 && mouseY > this.guiTop + 9 && mouseY < this.guiTop + 9 + 8) {
+            ModernGui.drawScaledCustomSizeModalRect(this.guiLeft + 445, this.guiTop + 8, 0 * GUI_SCALE, 18 * GUI_SCALE, 12 * GUI_SCALE, 12 * GUI_SCALE, 12, 12, 1536.0f, 1536.0f, false);
+        } else {
+            ModernGui.drawScaledCustomSizeModalRect(this.guiLeft + 445, this.guiTop + 8, 0 * GUI_SCALE, 2 * GUI_SCALE, 12 * GUI_SCALE, 12 * GUI_SCALE, 12, 12, 1536.0f, 1536.0f, false);
+        }
+        if (FactionGUI.factionInfos != null && (this instanceof FactionGUI && !FactionGUI.displayLevels || this instanceof MembersGUI || this instanceof FactionSkillsGUI || this instanceof WarGUI || this instanceof FactionStatsGUI || this instanceof DiplomatieGUI) && ((Boolean)FactionGUI.factionInfos.get("isLeader")).booleanValue()) {
+            ClientEventHandler.STYLE.bindTexture("faction_global");
+            if (mouseX >= this.guiLeft + 430 && mouseX <= this.guiLeft + 430 + 9 && mouseY >= this.guiTop + 8 && mouseY <= this.guiTop + 8 + 8) {
+                ModernGui.drawScaledCustomSizeModalRect(this.guiLeft + 430, this.guiTop + 8, 30 * GUI_SCALE, 18 * GUI_SCALE, 12 * GUI_SCALE, 12 * GUI_SCALE, 12, 12, 512 * GUI_SCALE, 512 * GUI_SCALE, false);
+                if (FactionGUI.getResearchLevel("general") >= 11) {
+                    this.hoveredAction = "edit_photo";
+                } else {
+                    tooltipToDraw = Arrays.asList(I18n.func_135053_a((String)"gui.faction.not_enough_research").split("##"));
+                }
+            } else {
+                ModernGui.drawScaledCustomSizeModalRect(this.guiLeft + 430, this.guiTop + 8, 30 * GUI_SCALE, 2 * GUI_SCALE, 12 * GUI_SCALE, 12 * GUI_SCALE, 12, 12, 512 * GUI_SCALE, 512 * GUI_SCALE, false);
+            }
+        }
+        ClientEventHandler.STYLE.bindTexture("faction_global");
+        ModernGui.drawScaledCustomSizeModalRect(this.guiLeft + 11, this.guiTop, 0 * GUI_SCALE, 280 * GUI_SCALE, 19 * GUI_SCALE, 209 * GUI_SCALE, 19, 209, 512 * GUI_SCALE, 512 * GUI_SCALE, false);
+        for (i = 0; i < TABS.size(); ++i) {
+            type = TABS.get(i);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
             int x = i % 9;
             int y = i / 9;
-
-            if (this.getClass() == type.getClassReferent())
-            {
-                ModernGui.drawScaledCustomSizeModalRect((float)(this.guiLeft + 11), (float)(this.guiTop + i * 19), (float)(399 * GUI_SCALE), (float)(64 * GUI_SCALE + i * 19 * GUI_SCALE), 19 * GUI_SCALE, 19 * GUI_SCALE, 19, 19, (float)(512 * GUI_SCALE), (float)(512 * GUI_SCALE), false);
-                ModernGui.drawScaledCustomSizeModalRect((float)(this.guiLeft + 11), (float)(this.guiTop + 1 + i * 19), (float)(((Integer)tabIconsPositionX.get(type.getClassReferent().getSimpleName())).intValue() * GUI_SCALE), (float)((FactionGUI.factionInfos != null ? ((Integer)tabIconsY.get(FactionGUI.factionInfos.get("actualRelation"))).intValue() : 129) * GUI_SCALE), 19 * GUI_SCALE, 19 * GUI_SCALE, 19, 19, (float)(512 * GUI_SCALE), (float)(512 * GUI_SCALE), false);
+            if (((Object)((Object)this)).getClass() == type.getClassReferent()) {
+                ModernGui.drawScaledCustomSizeModalRect(this.guiLeft + 11, this.guiTop + i * 19, 399 * GUI_SCALE, 64 * GUI_SCALE + i * 19 * GUI_SCALE, 19 * GUI_SCALE, 19 * GUI_SCALE, 19, 19, 512 * GUI_SCALE, 512 * GUI_SCALE, false);
+                ModernGui.drawScaledCustomSizeModalRect(this.guiLeft + 11, this.guiTop + 1 + i * 19, tabIconsPositionX.get(type.getClassReferent().getSimpleName()) * GUI_SCALE, (FactionGUI.factionInfos != null ? tabIconsY.get(FactionGUI.factionInfos.get("actualRelation")) : 129) * GUI_SCALE, 19 * GUI_SCALE, 19 * GUI_SCALE, 19, 19, 512 * GUI_SCALE, 512 * GUI_SCALE, false);
+                continue;
             }
-            else if (mouseX > this.guiLeft + 11 && mouseX < this.guiLeft + 11 + 19 && mouseY > this.guiTop + 1 + i * 19 && mouseY < this.guiTop + 1 + i * 19 + 19)
-            {
-                ModernGui.drawScaledCustomSizeModalRect((float)(this.guiLeft + 11), (float)(this.guiTop + 1 + i * 19), (float)(((Integer)tabIconsPositionX.get(type.getClassReferent().getSimpleName())).intValue() * GUI_SCALE), (float)(34 * GUI_SCALE), 19 * GUI_SCALE, 19 * GUI_SCALE, 19, 19, (float)(512 * GUI_SCALE), (float)(512 * GUI_SCALE), false);
+            if (mouseX > this.guiLeft + 11 && mouseX < this.guiLeft + 11 + 19 && mouseY > this.guiTop + 1 + i * 19 && mouseY < this.guiTop + 1 + i * 19 + 19) {
+                ModernGui.drawScaledCustomSizeModalRect(this.guiLeft + 11, this.guiTop + 1 + i * 19, tabIconsPositionX.get(type.getClassReferent().getSimpleName()) * GUI_SCALE, 34 * GUI_SCALE, 19 * GUI_SCALE, 19 * GUI_SCALE, 19, 19, 512 * GUI_SCALE, 512 * GUI_SCALE, false);
+                continue;
             }
-            else
-            {
-                ModernGui.drawScaledCustomSizeModalRect((float)(this.guiLeft + 11), (float)(this.guiTop + 1 + i * 19), (float)(((Integer)tabIconsPositionX.get(type.getClassReferent().getSimpleName())).intValue() * GUI_SCALE), (float)(129 * GUI_SCALE), 19 * GUI_SCALE, 19 * GUI_SCALE, 19, 19, (float)(512 * GUI_SCALE), (float)(512 * GUI_SCALE), false);
-            }
+            ModernGui.drawScaledCustomSizeModalRect(this.guiLeft + 11, this.guiTop + 1 + i * 19, tabIconsPositionX.get(type.getClassReferent().getSimpleName()) * GUI_SCALE, 129 * GUI_SCALE, 19 * GUI_SCALE, 19 * GUI_SCALE, 19, 19, 512 * GUI_SCALE, 512 * GUI_SCALE, false);
         }
-
-        for (i = 0; i < TABS.size(); ++i)
-        {
-            type = (GuiScreenTab)TABS.get(i);
-
-            if (mouseX > this.guiLeft + 11 && mouseX < this.guiLeft + 11 + 19 && mouseY > this.guiTop + 1 + i * 19 && mouseY < this.guiTop + 1 + i * 19 + 19)
-            {
-                this.drawHoveringText(Arrays.asList(new String[] {I18n.getString("faction.tab." + type.getClassReferent().getSimpleName())}), mouseX, mouseY, this.fontRenderer);
-            }
+        for (i = 0; i < TABS.size(); ++i) {
+            type = TABS.get(i);
+            if (mouseX <= this.guiLeft + 11 || mouseX >= this.guiLeft + 11 + 19 || mouseY <= this.guiTop + 1 + i * 19 || mouseY >= this.guiTop + 1 + i * 19 + 19) continue;
+            this.drawHoveringText(Arrays.asList(I18n.func_135053_a((String)("faction.tab." + type.getClassReferent().getSimpleName()))), mouseX, mouseY, this.field_73886_k);
         }
-
-        if (tooltipToDraw != null && !tooltipToDraw.isEmpty())
-        {
-            this.drawHoveringText(tooltipToDraw, mouseX, mouseY, this.fontRenderer);
+        if (tooltipToDraw != null && !tooltipToDraw.isEmpty()) {
+            this.drawHoveringText(tooltipToDraw, mouseX, mouseY, this.field_73886_k);
         }
-
-        super.drawScreen(mouseX, mouseY, partialTicks);
-        GL11.glEnable(GL11.GL_LIGHTING);
-        RenderHelper.enableStandardItemLighting();
+        super.func_73863_a(mouseX, mouseY, partialTicks);
+        GL11.glEnable((int)2896);
+        RenderHelper.func_74519_b();
     }
 
-    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font)
-    {
-        if (!par1List.isEmpty())
-        {
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
+    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font) {
+        if (!par1List.isEmpty()) {
+            GL11.glDisable((int)32826);
+            RenderHelper.func_74518_a();
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
             int k = 0;
-            Iterator iterator = par1List.iterator();
-            int j1;
-
-            while (iterator.hasNext())
-            {
-                String i1 = (String)iterator.next();
-                j1 = font.getStringWidth(i1);
-
-                if (j1 > k)
-                {
-                    k = j1;
-                }
+            for (String s : par1List) {
+                int l = font.func_78256_a(s);
+                if (l <= k) continue;
+                k = l;
             }
-
-            int var15 = par2 + 12;
-            j1 = par3 - 12;
+            int i1 = par2 + 12;
+            int j1 = par3 - 12;
             int k1 = 8;
-
-            if (par1List.size() > 1)
-            {
+            if (par1List.size() > 1) {
                 k1 += 2 + (par1List.size() - 1) * 10;
             }
-
-            if (var15 + k > this.width)
-            {
-                var15 -= 28 + k;
+            if (i1 + k > this.field_73880_f) {
+                i1 -= 28 + k;
             }
-
-            if (j1 + k1 + 6 > this.height)
-            {
-                j1 = this.height - k1 - 6;
+            if (j1 + k1 + 6 > this.field_73881_g) {
+                j1 = this.field_73881_g - k1 - 6;
             }
-
-            this.zLevel = 300.0F;
-            this.itemRenderer.zLevel = 300.0F;
+            this.field_73735_i = 300.0f;
+            this.itemRenderer.field_77023_b = 300.0f;
             int l1 = -267386864;
-            this.drawGradientRect(var15 - 3, j1 - 4, var15 + k + 3, j1 - 3, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 3, var15 + k + 3, j1 + k1 + 4, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 - 4, j1 - 3, var15 - 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 + k + 3, j1 - 3, var15 + k + 4, j1 + k1 + 3, l1, l1);
-            int i2 = 1347420415;
-            int j2 = (i2 & 16711422) >> 1 | i2 & -16777216;
-            this.drawGradientRect(var15 - 3, j1 - 3 + 1, var15 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 + k + 2, j1 - 3 + 1, var15 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 - 3 + 1, i2, i2);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 2, var15 + k + 3, j1 + k1 + 3, j2, j2);
-
-            for (int k2 = 0; k2 < par1List.size(); ++k2)
-            {
+            this.func_73733_a(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
+            this.func_73733_a(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
+            int i2 = 0x505000FF;
+            int j2 = (i2 & 0xFEFEFE) >> 1 | i2 & 0xFF000000;
+            this.func_73733_a(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+            this.func_73733_a(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+            for (int k2 = 0; k2 < par1List.size(); ++k2) {
                 String s1 = (String)par1List.get(k2);
-                font.drawStringWithShadow(s1, var15, j1, -1);
-
-                if (k2 == 0)
-                {
+                font.func_78261_a(s1, i1, j1, -1);
+                if (k2 == 0) {
                     j1 += 2;
                 }
-
                 j1 += 10;
             }
-
-            this.zLevel = 0.0F;
-            this.itemRenderer.zLevel = 0.0F;
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.field_73735_i = 0.0f;
+            this.itemRenderer.field_77023_b = 0.0f;
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
+            GL11.glEnable((int)32826);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         }
     }
 }
+

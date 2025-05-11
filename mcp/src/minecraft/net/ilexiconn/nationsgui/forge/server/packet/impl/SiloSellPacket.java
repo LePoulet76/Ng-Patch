@@ -1,3 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.network.packet.Packet
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -6,10 +16,13 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import net.ilexiconn.nationsgui.forge.server.packet.IClientPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
+import net.ilexiconn.nationsgui.forge.server.packet.impl.SiloInfosMachinePacket;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.packet.Packet;
 
-public class SiloSellPacket implements IPacket, IClientPacket
-{
+public class SiloSellPacket
+implements IPacket,
+IClientPacket {
     private String cereal;
     private int amount;
     private int price;
@@ -18,8 +31,7 @@ public class SiloSellPacket implements IPacket, IClientPacket
     private int blockZ;
     private boolean valid;
 
-    public SiloSellPacket(String cereal, int amount, int price, int blockX, int blockY, int blockZ, boolean valid)
-    {
+    public SiloSellPacket(String cereal, int amount, int price, int blockX, int blockY, int blockZ, boolean valid) {
         this.cereal = cereal;
         this.amount = amount;
         this.price = price;
@@ -29,8 +41,8 @@ public class SiloSellPacket implements IPacket, IClientPacket
         this.valid = valid;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.cereal = data.readUTF();
         this.amount = data.readInt();
         this.price = data.readInt();
@@ -40,8 +52,8 @@ public class SiloSellPacket implements IPacket, IClientPacket
         this.valid = data.readBoolean();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeUTF(this.cereal);
         data.writeInt(this.amount);
         data.writeInt(this.price);
@@ -51,8 +63,9 @@ public class SiloSellPacket implements IPacket, IClientPacket
         data.writeBoolean(this.valid);
     }
 
-    public void handleClientPacket(EntityPlayer player)
-    {
-        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new SiloInfosMachinePacket(this.blockX, this.blockY, this.blockZ)));
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
+        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new SiloInfosMachinePacket(this.blockX, this.blockY, this.blockZ)));
     }
 }
+

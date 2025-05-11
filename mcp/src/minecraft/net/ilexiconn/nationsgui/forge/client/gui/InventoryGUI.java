@@ -1,3 +1,26 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  micdoodle8.mods.galacticraft.core.network.GCCorePacketHandlerServer$EnumPacketServer
+ *  micdoodle8.mods.galacticraft.core.util.PacketUtil
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.gui.inventory.GuiContainer
+ *  net.minecraft.client.gui.inventory.GuiInventory
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.entity.EntityLivingBase
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.inventory.Slot
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.network.packet.Packet
+ *  org.lwjgl.input.Mouse
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -8,33 +31,33 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import micdoodle8.mods.galacticraft.core.network.GCCorePacketHandlerServer.EnumPacketServer;
+import micdoodle8.mods.galacticraft.core.network.GCCorePacketHandlerServer;
 import micdoodle8.mods.galacticraft.core.util.PacketUtil;
 import net.ilexiconn.nationsgui.forge.client.ClientData;
 import net.ilexiconn.nationsgui.forge.client.ClientEventHandler;
 import net.ilexiconn.nationsgui.forge.client.ClientKeyHandler;
 import net.ilexiconn.nationsgui.forge.client.ClientProxy;
-import net.ilexiconn.nationsgui.forge.client.gui.InventoryGUI$1;
-import net.ilexiconn.nationsgui.forge.client.gui.InventoryGUI$2;
-import net.ilexiconn.nationsgui.forge.client.gui.InventoryGUI$3;
-import net.ilexiconn.nationsgui.forge.client.gui.InventoryGUI$4;
-import net.ilexiconn.nationsgui.forge.client.gui.InventoryGUI$5;
-import net.ilexiconn.nationsgui.forge.client.gui.InventoryGUI$6;
-import net.ilexiconn.nationsgui.forge.client.gui.InventoryGUI$7;
-import net.ilexiconn.nationsgui.forge.client.gui.InventoryGUI$8;
-import net.ilexiconn.nationsgui.forge.client.gui.InventoryGUI$9;
-import net.ilexiconn.nationsgui.forge.client.gui.InventoryGUI$EdoraBossButton;
-import net.ilexiconn.nationsgui.forge.client.gui.InventoryGUI$GalacticraftButton;
-import net.ilexiconn.nationsgui.forge.client.gui.RecipeListGUI$BookButton;
+import net.ilexiconn.nationsgui.forge.client.gui.BossEdoraGui;
+import net.ilexiconn.nationsgui.forge.client.gui.GuiScreenTab;
+import net.ilexiconn.nationsgui.forge.client.gui.MailGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.QuestGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.RecipeListGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.SkillsGui;
+import net.ilexiconn.nationsgui.forge.client.gui.cosmetic.CosmeticGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.enterprise.EnterpriseListGui;
 import net.ilexiconn.nationsgui.forge.client.gui.faction.FactionCreateGUI;
 import net.ilexiconn.nationsgui.forge.client.gui.faction.FactionGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.faction.FactionListGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.hdv.MarketGui;
 import net.ilexiconn.nationsgui.forge.client.gui.hdv.SellItemGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.island.IslandListGui;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
 import net.ilexiconn.nationsgui.forge.client.gui.shop.ShopGUI;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketCallbacks;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
 import net.ilexiconn.nationsgui.forge.server.packet.impl.FactionNamePacket;
 import net.ilexiconn.nationsgui.forge.server.packet.impl.IncrementObjectivePacket;
+import net.ilexiconn.nationsgui.forge.server.packet.impl.MarketPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.impl.OpenRecipeGUIPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -42,335 +65,373 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.Packet;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-@SideOnly(Side.CLIENT)
-public class InventoryGUI extends GuiContainer
-{
-    public static final List<GuiScreenTab> TABS = new ArrayList();
-    private final Map < Class <? extends GuiScreen > , Integer > tabAlerts = new HashMap();
+@SideOnly(value=Side.CLIENT)
+public class InventoryGUI
+extends GuiContainer {
+    public static final List<GuiScreenTab> TABS = new ArrayList<GuiScreenTab>();
+    private final Map<Class<? extends GuiScreen>, Integer> tabAlerts = new HashMap<Class<? extends GuiScreen>, Integer>();
     private final EntityPlayer player;
     public static boolean isInAssault;
-    public static boolean achievementDone = false;
+    public static boolean achievementDone;
 
-    public InventoryGUI(EntityPlayer player)
-    {
-        super(player.inventoryContainer);
+    public InventoryGUI(EntityPlayer player) {
+        super(player.field_71069_bz);
         this.player = player;
-        this.xSize = 182;
-        this.ySize = 223;
-
-        if (ClientProxy.serverType.equals("ng"))
-        {
-            PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new FactionNamePacket()));
+        this.field_74194_b = 182;
+        this.field_74195_c = 223;
+        if (ClientProxy.serverType.equals("ng")) {
+            PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new FactionNamePacket()));
         }
-
         PacketCallbacks.MONEY.send(new String[0]);
-
-        if (System.currentTimeMillis() - ClientEventHandler.joinTime > 300000L && !achievementDone)
-        {
+        if (System.currentTimeMillis() - ClientEventHandler.joinTime > 300000L && !achievementDone) {
             achievementDone = true;
-            PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new IncrementObjectivePacket("player_5_minutes", 1)));
+            PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new IncrementObjectivePacket("player_5_minutes", 1)));
         }
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char par1, int par2)
-    {
-        if (par2 == ClientKeyHandler.KEY_SELL.keyCode)
-        {
-            try
-            {
-                Method e = GuiContainer.class.getDeclaredMethod("getSlotAtPosition", new Class[] {Integer.TYPE, Integer.TYPE});
-                e.setAccessible(true);
-                Slot slot = (Slot)e.invoke(this, new Object[] {Integer.valueOf(Mouse.getEventX() * this.width / Minecraft.getMinecraft().displayWidth), Integer.valueOf(this.height - Mouse.getEventY() * this.height / Minecraft.getMinecraft().displayHeight - 1)});
-
-                if (slot != null)
-                {
-                    ItemStack itemStack = slot.getStack();
-
-                    if (itemStack != null)
-                    {
-                        this.mc.displayGuiScreen(new SellItemGUI(itemStack, slot.slotNumber));
-                    }
+    protected void func_73869_a(char par1, int par2) {
+        if (par2 == ClientKeyHandler.KEY_SELL.field_74512_d) {
+            try {
+                ItemStack itemStack;
+                Method method = GuiContainer.class.getDeclaredMethod("getSlotAtPosition", Integer.TYPE, Integer.TYPE);
+                method.setAccessible(true);
+                Slot slot = (Slot)method.invoke((Object)this, Mouse.getEventX() * this.field_73880_f / Minecraft.func_71410_x().field_71443_c, this.field_73881_g - Mouse.getEventY() * this.field_73881_g / Minecraft.func_71410_x().field_71440_d - 1);
+                if (slot != null && (itemStack = slot.func_75211_c()) != null) {
+                    this.field_73882_e.func_71373_a((GuiScreen)new SellItemGUI(itemStack, slot.field_75222_d));
                 }
             }
-            catch (Exception var6)
-            {
-                var6.printStackTrace();
+            catch (Exception e) {
+                e.printStackTrace();
             }
         }
-
-        super.keyTyped(par1, par2);
+        super.func_73869_a(par1, par2);
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
-        this.buttonList.add(new RecipeListGUI$BookButton(0, this.width / 2 - 6, this.height / 2 - 29));
-        this.buttonList.add(new InventoryGUI$GalacticraftButton(1, this.width / 2 - 6, this.height / 2 - 29 - 21));
-        this.buttonList.add(new InventoryGUI$EdoraBossButton(2, this.width / 2 - 6, this.height / 2 - 29 + 21));
+    public void func_73866_w_() {
+        super.func_73866_w_();
+        this.field_73887_h.add(new RecipeListGUI.BookButton(0, this.field_73880_f / 2 - 6, this.field_73881_g / 2 - 29));
+        this.field_73887_h.add(new GalacticraftButton(1, this.field_73880_f / 2 - 6, this.field_73881_g / 2 - 29 - 21));
+        this.field_73887_h.add(new EdoraBossButton(2, this.field_73880_f / 2 - 6, this.field_73881_g / 2 - 29 + 21));
     }
 
-    /**
-     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
-     */
-    protected void actionPerformed(GuiButton par1GuiButton)
-    {
-        if (par1GuiButton.id == 0)
-        {
-            PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new OpenRecipeGUIPacket()));
-        }
-        else if (par1GuiButton.id == 1)
-        {
-            PacketDispatcher.sendPacketToServer(PacketUtil.createPacket("GalacticraftCore", EnumPacketServer.OPEN_EXTENDED_INVENTORY, new Object[0]));
-        }
-        else if (par1GuiButton.id == 2)
-        {
-            Minecraft.getMinecraft().displayGuiScreen(new BossEdoraGui(false));
+    protected void func_73875_a(GuiButton par1GuiButton) {
+        if (par1GuiButton.field_73741_f == 0) {
+            PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new OpenRecipeGUIPacket()));
+        } else if (par1GuiButton.field_73741_f == 1) {
+            PacketDispatcher.sendPacketToServer((Packet)PacketUtil.createPacket((String)"GalacticraftCore", (GCCorePacketHandlerServer.EnumPacketServer)GCCorePacketHandlerServer.EnumPacketServer.OPEN_EXTENDED_INVENTORY, (Object[])new Object[0]));
+        } else if (par1GuiButton.field_73741_f == 2) {
+            Minecraft.func_71410_x().func_71373_a((GuiScreen)new BossEdoraGui(false));
         }
     }
 
-    /**
-     * Draw the foreground layer for the GuiContainer (everything in front of the items)
-     */
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
-    {
+    protected void func_74189_g(int mouseX, int mouseY) {
         int i;
-
-        for (i = 0; i <= 4; ++i)
-        {
-            if (mouseX >= this.guiLeft - (this.getClass() == ((GuiScreenTab)TABS.get(i)).getClassReferent() ? 23 : 20) && mouseX <= this.guiLeft + 3 && mouseY >= this.guiTop + 55 + i * 31 && mouseY <= this.guiTop + 85 + i * 31)
-            {
-                this.drawCreativeTabHoveringText(I18n.getString("gui.inventory.tab." + i), mouseX - this.guiLeft, mouseY - this.guiTop);
-            }
+        for (i = 0; i <= 4; ++i) {
+            if (mouseX < this.field_74198_m - (((Object)((Object)this)).getClass() == TABS.get(i).getClassReferent() ? 23 : 20) || mouseX > this.field_74198_m + 3 || mouseY < this.field_74197_n + 55 + i * 31 || mouseY > this.field_74197_n + 85 + i * 31) continue;
+            this.func_74190_a(I18n.func_135053_a((String)("gui.inventory.tab." + i)), mouseX - this.field_74198_m, mouseY - this.field_74197_n);
         }
-
-        for (i = 5; i < TABS.size(); ++i)
-        {
-            if ((i != 5 || !isInAssault) && mouseX >= this.guiLeft + 178 && mouseX <= this.guiLeft + 201 && mouseY >= this.guiTop + 55 + (i - 4) * 31 && mouseY <= this.guiTop + 55 + 31 + (i - 4) * 31)
-            {
-                this.drawCreativeTabHoveringText(I18n.getString("gui.inventory.tab." + i), mouseX - this.guiLeft, mouseY - this.guiTop);
-            }
+        for (i = 5; i < TABS.size(); ++i) {
+            if (i == 5 && isInAssault || mouseX < this.field_74198_m + 178 || mouseX > this.field_74198_m + 201 || mouseY < this.field_74197_n + 55 + (i - 4) * 31 || mouseY > this.field_74197_n + 55 + 31 + (i - 4) * 31) continue;
+            this.func_74190_a(I18n.func_135053_a((String)("gui.inventory.tab." + i)), mouseX - this.field_74198_m, mouseY - this.field_74197_n);
         }
-
-        if (mouseX >= this.guiLeft + 109 && mouseX <= this.guiLeft + 109 + 13 && mouseY >= this.guiTop + 51 && mouseY <= this.guiTop + 51 + 14)
-        {
-            this.drawCreativeTabHoveringText("Money", mouseX - this.guiLeft, mouseY - this.guiTop);
+        if (mouseX >= this.field_74198_m + 109 && mouseX <= this.field_74198_m + 109 + 13 && mouseY >= this.field_74197_n + 51 && mouseY <= this.field_74197_n + 51 + 14) {
+            this.func_74190_a("Money", mouseX - this.field_74198_m, mouseY - this.field_74197_n);
         }
     }
 
-    /**
-     * Draw the background layer for the GuiContainer (everything behind the items)
-     */
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
-    {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        ClientEventHandler.STYLE.bindTexture("inventory");
-        this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-        int text;
-        GuiScreenTab pX;
-        int w;
+    protected void func_74185_a(float partialTicks, int mouseX, int mouseY) {
         int y;
-
-        for (text = 0; text <= 4; ++text)
-        {
-            pX = (GuiScreenTab)TABS.get(text);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            w = text % 3;
-            y = text / 3;
-
-            if (this.getClass() == pX.getClassReferent())
-            {
-                this.drawTexturedModalRect(this.guiLeft - 23, this.guiTop + 55 + text * 31, 23, 223, 29, 30);
-                this.drawTexturedModalRect(this.guiLeft - 23 + 3, this.guiTop + 55 + text * 31 + 5, 182 + w * 20, y * 20, 20, 20);
+        int x;
+        GuiScreenTab type;
+        int i;
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        ClientEventHandler.STYLE.bindTexture("inventory");
+        this.func_73729_b(this.field_74198_m, this.field_74197_n, 0, 0, this.field_74194_b, this.field_74195_c);
+        for (i = 0; i <= 4; ++i) {
+            type = TABS.get(i);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            x = i % 3;
+            y = i / 3;
+            if (((Object)((Object)this)).getClass() == type.getClassReferent()) {
+                this.func_73729_b(this.field_74198_m - 23, this.field_74197_n + 55 + i * 31, 23, 223, 29, 30);
+                this.func_73729_b(this.field_74198_m - 23 + 3, this.field_74197_n + 55 + i * 31 + 5, 182 + x * 20, y * 20, 20, 20);
+                continue;
             }
-            else
-            {
-                this.drawTexturedModalRect(this.guiLeft - 20, this.guiTop + 55 + text * 31, 0, 223, 23, 30);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
-                this.drawTexturedModalRect(this.guiLeft - 20 + 3, this.guiTop + 55 + text * 31 + 5, 182 + w * 20, y * 20, 20, 20);
-                GL11.glDisable(GL11.GL_BLEND);
-            }
+            this.func_73729_b(this.field_74198_m - 20, this.field_74197_n + 55 + i * 31, 0, 223, 23, 30);
+            GL11.glBlendFunc((int)770, (int)771);
+            GL11.glEnable((int)3042);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)0.75f);
+            this.func_73729_b(this.field_74198_m - 20 + 3, this.field_74197_n + 55 + i * 31 + 5, 182 + x * 20, y * 20, 20, 20);
+            GL11.glDisable((int)3042);
         }
-
-        for (text = 5; text < TABS.size(); ++text)
-        {
-            pX = (GuiScreenTab)TABS.get(text);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            w = text % 3;
-            y = text / 3;
-
-            if (this.getClass() == pX.getClassReferent())
-            {
-                this.drawTexturedModalRect(this.guiLeft + 178, this.guiTop + 55 + (text - 4) * 31, 85, 223, 29, 30);
-                this.drawTexturedModalRect(this.guiLeft + 175, this.guiTop + 55 + (text - 4) * 31 + 5, 182 + w * 20, y * 20, 20, 20);
+        for (i = 5; i < TABS.size(); ++i) {
+            type = TABS.get(i);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            x = i % 3;
+            y = i / 3;
+            if (((Object)((Object)this)).getClass() == type.getClassReferent()) {
+                this.func_73729_b(this.field_74198_m + 178, this.field_74197_n + 55 + (i - 4) * 31, 85, 223, 29, 30);
+                this.func_73729_b(this.field_74198_m + 175, this.field_74197_n + 55 + (i - 4) * 31 + 5, 182 + x * 20, y * 20, 20, 20);
+                continue;
             }
-            else
-            {
-                this.drawTexturedModalRect(this.guiLeft + 178, this.guiTop + 55 + (text - 4) * 31, 114, 223, 23, 30);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
-                this.drawTexturedModalRect(this.guiLeft + 179, this.guiTop + 55 + (text - 4) * 31 + 5, 182 + w * 20, y * 20, 20, 20);
-                GL11.glDisable(GL11.GL_BLEND);
-            }
+            this.func_73729_b(this.field_74198_m + 178, this.field_74197_n + 55 + (i - 4) * 31, 114, 223, 23, 30);
+            GL11.glBlendFunc((int)770, (int)771);
+            GL11.glEnable((int)3042);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)0.75f);
+            this.func_73729_b(this.field_74198_m + 179, this.field_74197_n + 55 + (i - 4) * 31 + 5, 182 + x * 20, y * 20, 20, 20);
+            GL11.glDisable((int)3042);
         }
-
         ClientData.currentFaction = ClientData.currentFaction.replaceAll("^\\\u00a7[0-9a-z]", "");
-
-        if (ClientProxy.serverType.equals("ng") && ClientData.currentFaction != null)
-        {
+        if (ClientProxy.serverType.equals("ng") && ClientData.currentFaction != null) {
             ClientEventHandler.STYLE.bindTexture("faction_btn");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 7), (float)(this.guiTop + 223), 0, 233, 169, 23, 256.0F, 256.0F, false);
+            ModernGui.drawModalRectWithCustomSizedTexture(this.field_74198_m + 7, this.field_74197_n + 223, 0, 233, 169, 23, 256.0f, 256.0f, false);
             ClientEventHandler.STYLE.bindTexture("inventory");
-            Double var8;
-
-            if (!ClientData.currentFaction.contains("Wilderness"))
-            {
-                var8 = Double.valueOf((double)this.fontRenderer.getStringWidth(I18n.getString("gui.inventory.tab.country")) * 1.2D / 2.0D);
-                this.drawTexturedModalRect(this.guiLeft + 91 - var8.intValue() - 17, this.guiTop + 225, 201, 107, 12, 17);
-                this.drawScaledString(I18n.getString("gui.inventory.tab.country"), this.guiLeft + 93 - var8.intValue(), this.guiTop + 230, 16777215, 1.2F, false, true);
-            }
-            else
-            {
-                var8 = Double.valueOf((double)this.fontRenderer.getStringWidth(I18n.getString("gui.inventory.tab.create")) * 1.2D / 2.0D);
-                this.drawTexturedModalRect(this.guiLeft + 91 - var8.intValue() - 17, this.guiTop + 225, 185, 107, 12, 17);
-                this.drawScaledString(I18n.getString("gui.inventory.tab.create"), this.guiLeft + 93 - var8.intValue(), this.guiTop + 230, 16777215, 1.2F, false, true);
+            if (!ClientData.currentFaction.contains("Wilderness")) {
+                Double stringWidth = (double)this.field_73886_k.func_78256_a(I18n.func_135053_a((String)"gui.inventory.tab.country")) * 1.2 / 2.0;
+                this.func_73729_b(this.field_74198_m + 91 - stringWidth.intValue() - 17, this.field_74197_n + 225, 201, 107, 12, 17);
+                this.drawScaledString(I18n.func_135053_a((String)"gui.inventory.tab.country"), this.field_74198_m + 93 - stringWidth.intValue(), this.field_74197_n + 230, 0xFFFFFF, 1.2f, false, true);
+            } else {
+                Double stringWidth = (double)this.field_73886_k.func_78256_a(I18n.func_135053_a((String)"gui.inventory.tab.create")) * 1.2 / 2.0;
+                this.func_73729_b(this.field_74198_m + 91 - stringWidth.intValue() - 17, this.field_74197_n + 225, 185, 107, 12, 17);
+                this.drawScaledString(I18n.func_135053_a((String)"gui.inventory.tab.create"), this.field_74198_m + 93 - stringWidth.intValue(), this.field_74197_n + 230, 0xFFFFFF, 1.2f, false, true);
             }
         }
-
-        this.drawScaledString(this.player.getDisplayName(), this.guiLeft + 90, this.guiTop + 10, 16777215, 1.7F, true, true);
-        this.fontRenderer.drawString(ClientData.currentFaction, this.guiLeft + 90 - this.fontRenderer.getStringWidth(ClientData.currentFaction) / 2, this.guiTop + 28, 13027014);
-        this.mc.fontRenderer.drawString((int)ShopGUI.CURRENT_MONEY + " $", this.guiLeft + 128, this.guiTop + 54, 16777215, true);
-        GuiInventory.func_110423_a(this.guiLeft + 55, this.guiTop + 114, 30, (float)(this.guiLeft + 55 - mouseX), (float)(this.guiTop + 64 - mouseY), this.mc.thePlayer);
-        String var10 = I18n.getString("key.inventory");
-        int var9 = this.guiLeft + 10 + 81;
-        w = this.fontRenderer.getStringWidth(var10);
-        this.mc.fontRenderer.drawString(var10, var9 - w / 2, this.guiTop + 128, 16777215, true);
-        drawRect(this.guiLeft + 10, this.guiTop + 134, var9 - w / 2 - 3, this.guiTop + 135, -1);
-        drawRect(var9 + w / 2 + 3, this.guiTop + 134, this.guiLeft + 171, this.guiTop + 135, -1);
-        drawRect(this.guiLeft + 10, this.guiTop + 135, var9 - w / 2 - 3, this.guiTop + 136, -10197916);
-        drawRect(var9 + w / 2 + 3, this.guiTop + 135, this.guiLeft + 171, this.guiTop + 136, -10197916);
+        this.drawScaledString(this.player.getDisplayName(), this.field_74198_m + 90, this.field_74197_n + 10, 0xFFFFFF, 1.7f, true, true);
+        this.field_73886_k.func_78276_b(ClientData.currentFaction, this.field_74198_m + 90 - this.field_73886_k.func_78256_a(ClientData.currentFaction) / 2, this.field_74197_n + 28, 0xC6C6C6);
+        this.field_73882_e.field_71466_p.func_85187_a((int)ShopGUI.CURRENT_MONEY + " $", this.field_74198_m + 128, this.field_74197_n + 54, 0xFFFFFF, true);
+        GuiInventory.func_110423_a((int)(this.field_74198_m + 55), (int)(this.field_74197_n + 114), (int)30, (float)(this.field_74198_m + 55 - mouseX), (float)(this.field_74197_n + 64 - mouseY), (EntityLivingBase)this.field_73882_e.field_71439_g);
+        String text = I18n.func_135053_a((String)"key.inventory");
+        int pX = this.field_74198_m + 10 + 81;
+        int w = this.field_73886_k.func_78256_a(text);
+        this.field_73882_e.field_71466_p.func_85187_a(text, pX - w / 2, this.field_74197_n + 128, 0xFFFFFF, true);
+        InventoryGUI.func_73734_a((int)(this.field_74198_m + 10), (int)(this.field_74197_n + 134), (int)(pX - w / 2 - 3), (int)(this.field_74197_n + 135), (int)-1);
+        InventoryGUI.func_73734_a((int)(pX + w / 2 + 3), (int)(this.field_74197_n + 134), (int)(this.field_74198_m + 171), (int)(this.field_74197_n + 135), (int)-1);
+        InventoryGUI.func_73734_a((int)(this.field_74198_m + 10), (int)(this.field_74197_n + 135), (int)(pX - w / 2 - 3), (int)(this.field_74197_n + 136), (int)-10197916);
+        InventoryGUI.func_73734_a((int)(pX + w / 2 + 3), (int)(this.field_74197_n + 135), (int)(this.field_74198_m + 171), (int)(this.field_74197_n + 136), (int)-10197916);
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-    {
-        if (mouseButton == 0)
-        {
-            int i;
+    protected void func_73864_a(int mouseX, int mouseY, int mouseButton) {
+        if (mouseButton == 0) {
             GuiScreenTab type;
-
-            for (i = 0; i <= 4; ++i)
-            {
-                type = (GuiScreenTab)TABS.get(i);
-
-                if (mouseX >= this.guiLeft - 20 && mouseX <= this.guiLeft + 3 && mouseY >= this.guiTop + 55 + i * 31 && mouseY <= this.guiTop + 85 + i * 31)
-                {
-                    this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-
-                    if (this.getClass() != type.getClassReferent())
-                    {
-                        try
-                        {
-                            this.mc.thePlayer.closeScreen();
-                            type.call();
-                        }
-                        catch (Exception var8)
-                        {
-                            var8.printStackTrace();
-                        }
-                    }
+            int i;
+            for (i = 0; i <= 4; ++i) {
+                type = TABS.get(i);
+                if (mouseX < this.field_74198_m - 20 || mouseX > this.field_74198_m + 3 || mouseY < this.field_74197_n + 55 + i * 31 || mouseY > this.field_74197_n + 85 + i * 31) continue;
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                if (((Object)((Object)this)).getClass() == type.getClassReferent()) continue;
+                try {
+                    this.field_73882_e.field_71439_g.func_71053_j();
+                    type.call();
+                    continue;
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-
-            for (i = 5; i < TABS.size(); ++i)
-            {
-                if (i != 5 || !isInAssault)
-                {
-                    type = (GuiScreenTab)TABS.get(i);
-
-                    if (mouseX >= this.guiLeft + 178 && mouseX <= this.guiLeft + 201 && mouseY >= this.guiTop + 55 + (i - 4) * 31 && mouseY <= this.guiTop + 55 + 31 + (i - 4) * 31)
-                    {
-                        this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-
-                        if (this.getClass() != type.getClassReferent())
-                        {
-                            try
-                            {
-                                this.mc.thePlayer.closeScreen();
-                                type.call();
-                            }
-                            catch (Exception var7)
-                            {
-                                var7.printStackTrace();
-                            }
-                        }
-                    }
+            for (i = 5; i < TABS.size(); ++i) {
+                if (i == 5 && isInAssault) continue;
+                type = TABS.get(i);
+                if (mouseX < this.field_74198_m + 178 || mouseX > this.field_74198_m + 201 || mouseY < this.field_74197_n + 55 + (i - 4) * 31 || mouseY > this.field_74197_n + 55 + 31 + (i - 4) * 31) continue;
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                if (((Object)((Object)this)).getClass() == type.getClassReferent()) continue;
+                try {
+                    this.field_73882_e.field_71439_g.func_71053_j();
+                    type.call();
+                    continue;
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-
-            if (ClientProxy.serverType.equals("ng") && mouseX >= this.guiLeft + 7 && mouseX <= this.guiLeft + 7 + 169 && mouseY >= this.guiTop + 223 && mouseY <= this.guiTop + 223 + 23 && ClientData.currentFaction != null)
-            {
-                if (!ClientData.currentFaction.contains("Wilderness"))
-                {
-                    Minecraft.getMinecraft().displayGuiScreen(new FactionGUI(ClientData.currentFaction));
-                }
-                else
-                {
-                    Minecraft.getMinecraft().displayGuiScreen(new FactionCreateGUI());
+            if (ClientProxy.serverType.equals("ng") && mouseX >= this.field_74198_m + 7 && mouseX <= this.field_74198_m + 7 + 169 && mouseY >= this.field_74197_n + 223 && mouseY <= this.field_74197_n + 223 + 23 && ClientData.currentFaction != null) {
+                if (!ClientData.currentFaction.contains("Wilderness")) {
+                    Minecraft.func_71410_x().func_71373_a((GuiScreen)new FactionGUI(ClientData.currentFaction));
+                } else {
+                    Minecraft.func_71410_x().func_71373_a((GuiScreen)new FactionCreateGUI());
                 }
             }
         }
-
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+        super.func_73864_a(mouseX, mouseY, mouseButton);
     }
 
-    public void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow)
-    {
+    public void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow) {
         GL11.glPushMatrix();
-        GL11.glScalef(scale, scale, scale);
-        float newX = (float)x;
-
-        if (centered)
-        {
-            newX = (float)x - (float)this.fontRenderer.getStringWidth(text) * scale / 2.0F;
+        GL11.glScalef((float)scale, (float)scale, (float)scale);
+        float newX = x;
+        if (centered) {
+            newX = (float)x - (float)this.field_73886_k.func_78256_a(text) * scale / 2.0f;
         }
-
-        if (shadow)
-        {
-            this.fontRenderer.drawString(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 16579836) >> 2 | color & -16777216, false);
+        if (shadow) {
+            this.field_73886_k.func_85187_a(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 0xFCFCFC) >> 2 | color & 0xFF000000, false);
         }
-
-        this.fontRenderer.drawString(text, (int)(newX / scale), (int)((float)y / scale), color, false);
+        this.field_73886_k.func_85187_a(text, (int)(newX / scale), (int)((float)y / scale), color, false);
         GL11.glPopMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
     }
 
-    static
-    {
-        TABS.add(new InventoryGUI$1());
-        TABS.add(new InventoryGUI$2());
-        TABS.add(new InventoryGUI$3());
-        TABS.add(new InventoryGUI$4());
-        TABS.add(new InventoryGUI$5());
-        TABS.add(new InventoryGUI$6());
-        TABS.add(new InventoryGUI$7());
-        TABS.add(new InventoryGUI$8());
-        TABS.add(new InventoryGUI$9());
+    static {
+        achievementDone = false;
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return InventoryGUI.class;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new InventoryGUI((EntityPlayer)Minecraft.func_71410_x().field_71439_g));
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return MailGUI.class;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new MailGUI((EntityPlayer)Minecraft.func_71410_x().field_71439_g));
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return null;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new CosmeticGUI(Minecraft.func_71410_x().field_71439_g.field_71092_bJ));
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return null;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new QuestGUI((EntityPlayer)Minecraft.func_71410_x().field_71439_g));
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return SkillsGui.class;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new SkillsGui(Minecraft.func_71410_x().field_71439_g.field_71092_bJ));
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return null;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new MarketGui());
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new MarketPacket("", "", 0, false)));
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return null;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new FactionListGUI());
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return null;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new EnterpriseListGui());
+            }
+        });
+        TABS.add(new GuiScreenTab(){
+
+            @Override
+            public Class<? extends GuiScreen> getClassReferent() {
+                return null;
+            }
+
+            @Override
+            public void call() {
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new IslandListGui((EntityPlayer)Minecraft.func_71410_x().field_71439_g));
+            }
+        });
+    }
+
+    public static class EdoraBossButton
+    extends GuiButton {
+        public EdoraBossButton(int id, int posX, int posY) {
+            super(id, posX, posY, 20, 18, "");
+        }
+
+        protected int func_73738_a(boolean par1) {
+            return par1 ? 220 : 238;
+        }
+
+        public void func_73737_a(Minecraft par1Minecraft, int par2, int par3) {
+            if (this.field_73748_h) {
+                ClientEventHandler.STYLE.bindTexture("inventory");
+                GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+                this.field_82253_i = par2 >= this.field_73746_c && par3 >= this.field_73743_d && par2 < this.field_73746_c + this.field_73747_a && par3 < this.field_73743_d + this.field_73745_b;
+                int k = this.func_73738_a(this.field_82253_i);
+                this.func_73729_b(this.field_73746_c, this.field_73743_d, 216, k, 20, 18);
+                this.func_73739_b(par1Minecraft, par2, par3);
+            }
+        }
+    }
+
+    public static class GalacticraftButton
+    extends GuiButton {
+        public GalacticraftButton(int id, int posX, int posY) {
+            super(id, posX, posY, 20, 18, "");
+        }
+
+        protected int func_73738_a(boolean par1) {
+            return par1 ? 220 : 238;
+        }
+
+        public void func_73737_a(Minecraft par1Minecraft, int par2, int par3) {
+            if (this.field_73748_h) {
+                ClientEventHandler.STYLE.bindTexture("inventory");
+                GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+                this.field_82253_i = par2 >= this.field_73746_c && par3 >= this.field_73743_d && par2 < this.field_73746_c + this.field_73747_a && par3 < this.field_73743_d + this.field_73745_b;
+                int k = this.func_73738_a(this.field_82253_i);
+                this.func_73729_b(this.field_73746_c, this.field_73743_d, 236, k, 20, 18);
+                this.func_73739_b(par1Minecraft, par2, par3);
+            }
+        }
     }
 }
+

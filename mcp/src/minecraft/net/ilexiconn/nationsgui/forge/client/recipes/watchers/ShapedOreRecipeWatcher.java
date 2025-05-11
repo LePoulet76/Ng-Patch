@@ -1,87 +1,64 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.item.ItemStack
+ *  net.minecraftforge.oredict.ShapedOreRecipe
+ */
 package net.ilexiconn.nationsgui.forge.client.recipes.watchers;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Iterator;
 import net.ilexiconn.nationsgui.forge.client.RecipeWatcher;
 import net.ilexiconn.nationsgui.forge.client.data.RecipeData;
-import net.ilexiconn.nationsgui.forge.client.data.RecipeData$RecipeItemStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-public class ShapedOreRecipeWatcher extends RecipeWatcher<ShapedOreRecipe>
-{
-    public RecipeData watchRecipe(ShapedOreRecipe recipe)
-    {
-        int width;
+public class ShapedOreRecipeWatcher
+extends RecipeWatcher<ShapedOreRecipe> {
+    @Override
+    public RecipeData watchRecipe(ShapedOreRecipe recipe) {
         int height;
-
-        try
-        {
-            Field recipeData = recipe.getClass().getDeclaredField("width");
-            recipeData.setAccessible(true);
-            width = recipeData.getInt(recipe);
-            recipeData = recipe.getClass().getDeclaredField("height");
-            recipeData.setAccessible(true);
-            height = recipeData.getInt(recipe);
+        int width;
+        try {
+            Field field = recipe.getClass().getDeclaredField("width");
+            field.setAccessible(true);
+            width = field.getInt(recipe);
+            field = recipe.getClass().getDeclaredField("height");
+            field.setAccessible(true);
+            height = field.getInt(recipe);
         }
-        catch (IllegalAccessException var11)
-        {
-            var11.printStackTrace();
+        catch (IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
             return new RecipeData();
         }
-
-        RecipeData var12 = new RecipeData();
-
-        for (int y = 0; y < 3; ++y)
-        {
-            if (y > height - 1)
-            {
-                return var12;
+        RecipeData recipeData = new RecipeData();
+        for (int y = 0; y < 3; ++y) {
+            if (y > height - 1) {
+                return recipeData;
             }
-
-            for (int x = 0; x < 3; ++x)
-            {
-                if (x > width - 1)
-                {
-                    var12.getItemStacks()[x + y * 3] = null;
+            for (int x = 0; x < 3; ++x) {
+                if (x > width - 1) {
+                    recipeData.getItemStacks()[x + y * 3] = null;
+                    continue;
                 }
-                else
-                {
-                    Object object = recipe.getInput()[x + y * width];
-
-                    if (object != null)
-                    {
-                        if (object instanceof ItemStack)
-                        {
-                            ItemStack itemStackList = ((ItemStack)object).copy();
-                            itemStackList.stackSize = 1;
-                            var12.getItemStacks()[x + y * 3] = this.getDamagedList(itemStackList);
-                        }
-                        else if (object instanceof ArrayList)
-                        {
-                            ArrayList var13 = new ArrayList();
-                            Iterator var9 = ((ArrayList)object).iterator();
-
-                            while (var9.hasNext())
-                            {
-                                ItemStack itemStack = (ItemStack)var9.next();
-                                var13.addAll(new ArrayList(this.getDamagedList(itemStack).getItemStacks()));
-                            }
-
-                            var12.getItemStacks()[x + y * 3] = new RecipeData$RecipeItemStack(var13);
-                        }
-                    }
+                Object object = recipe.getInput()[x + y * width];
+                if (object == null) continue;
+                if (object instanceof ItemStack) {
+                    ItemStack itemStack = ((ItemStack)object).func_77946_l();
+                    itemStack.field_77994_a = 1;
+                    recipeData.getItemStacks()[x + y * 3] = this.getDamagedList(itemStack);
+                    continue;
                 }
+                if (!(object instanceof ArrayList)) continue;
+                ArrayList<ItemStack> itemStackList = new ArrayList<ItemStack>();
+                for (ItemStack itemStack : (ArrayList)object) {
+                    itemStackList.addAll(new ArrayList<ItemStack>(this.getDamagedList(itemStack).getItemStacks()));
+                }
+                recipeData.getItemStacks()[x + y * 3] = new RecipeData.RecipeItemStack(itemStackList);
             }
         }
-
-        return var12;
-    }
-
-    public RecipeData watchRecipe(IRecipe var1)
-    {
-        return this.watchRecipe((ShapedOreRecipe)var1);
+        return recipeData;
     }
 }
+

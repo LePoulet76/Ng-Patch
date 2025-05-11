@@ -1,24 +1,36 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.gui.GuiTextField
+ *  net.minecraft.client.renderer.RenderHelper
+ *  net.minecraft.client.renderer.entity.RenderItem
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.network.packet.Packet
+ *  org.apache.commons.lang3.StringUtils
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.auction;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import net.ilexiconn.nationsgui.forge.client.ClientEventHandler;
 import net.ilexiconn.nationsgui.forge.client.data.Auction;
 import net.ilexiconn.nationsgui.forge.client.gui.GuiScrollBar;
 import net.ilexiconn.nationsgui.forge.client.gui.SuffixedNumberField;
-import net.ilexiconn.nationsgui.forge.client.gui.auction.AuctionGui$1;
-import net.ilexiconn.nationsgui.forge.client.gui.auction.AuctionGui$2;
-import net.ilexiconn.nationsgui.forge.client.gui.auction.AuctionGui$3;
-import net.ilexiconn.nationsgui.forge.client.gui.auction.AuctionGui$4;
-import net.ilexiconn.nationsgui.forge.client.gui.auction.AuctionGui$5;
-import net.ilexiconn.nationsgui.forge.client.gui.auction.AuctionGui$6;
-import net.ilexiconn.nationsgui.forge.client.gui.auction.AuctionGui$7;
+import net.ilexiconn.nationsgui.forge.client.gui.auction.AuctionFilterSelectorGui;
+import net.ilexiconn.nationsgui.forge.client.gui.auction.AuctionRemoveGui;
+import net.ilexiconn.nationsgui.forge.client.gui.auction.AuctionSimpleButton;
 import net.ilexiconn.nationsgui.forge.client.gui.hdv.ChangePageButton;
 import net.ilexiconn.nationsgui.forge.client.gui.hdv.MarketGui;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
@@ -40,506 +52,346 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.Packet;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-public class AuctionGui extends GuiScreen
-{
-    private List<Auction> auctions = new ArrayList();
-    private List<Auction> filteredAuctions = new ArrayList();
+public class AuctionGui
+extends GuiScreen {
+    private List<Auction> auctions = new ArrayList<Auction>();
+    private List<Auction> filteredAuctions = new ArrayList<Auction>();
     private int posX;
     private int posY;
-    private RenderItem renderItem = new RenderItem();
+    private RenderItem renderItem;
     private GuiScrollBar guiScrollBar;
     private Auction selected = null;
     private GuiButton bidButton;
     private SuffixedNumberField bidField;
     public static int currentPage = 1;
-    private List<Auction> currentAuctions = new ArrayList();
+    private List<Auction> currentAuctions = new ArrayList<Auction>();
     public static GuiTextField search;
-    public static boolean myAuctionsOnly = false;
+    public static boolean myAuctionsOnly;
     private AuctionFilterSelectorGui<Comparator<Auction>> filterSelector;
     private boolean openBid;
-    private static Map<String, Comparator<Auction>> filters = new LinkedHashMap();
-    private static long lastBuy = 0L;
+    private static Map<String, Comparator<Auction>> filters;
+    private static long lastBuy;
     private RenderItem itemRenderer = new RenderItem();
-    public static int totalResults = 0;
-    public static boolean canRemoveAll = false;
-    public static boolean achievementDone = false;
+    public static int totalResults;
+    public static boolean canRemoveAll;
+    public static boolean achievementDone;
 
-    public AuctionGui()
-    {
+    public AuctionGui() {
+        this.renderItem = new RenderItem();
         search = null;
         this.bidField = null;
         currentPage = 1;
         myAuctionsOnly = false;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
+    public void func_73866_w_() {
         PacketCallbacks.MONEY.send(new String[0]);
-        this.posX = (this.width - 342) / 2;
-        this.posY = (this.height - 256) / 2;
-        this.buttonList.clear();
+        this.posX = (this.field_73880_f - 342) / 2;
+        this.posY = (this.field_73881_g - 256) / 2;
+        this.field_73887_h.clear();
         ChangePageButton b1 = new ChangePageButton(0, this.posX + 270, this.posY + 235, false);
-        b1.enabled = currentPage > 1;
-        this.buttonList.add(b1);
+        b1.field_73742_g = currentPage > 1;
+        this.field_73887_h.add(b1);
         ChangePageButton b2 = new ChangePageButton(1, this.posX + 322, this.posY + 235, true);
-        b2.enabled = currentPage < totalResults / 10 + 1;
-        this.buttonList.add(b2);
-        this.buttonList.add(new AuctionSimpleButton(2, this.posX + 230, this.posY + 35, 100, 17, I18n.getString(myAuctionsOnly ? "auctions.othersales" : "auctions.mysales")));
-        Entry s = null;
-
-        if (this.filterSelector != null)
-        {
+        b2.field_73742_g = currentPage < totalResults / 10 + 1;
+        this.field_73887_h.add(b2);
+        this.field_73887_h.add(new AuctionSimpleButton(2, this.posX + 230, this.posY + 35, 100, 17, I18n.func_135053_a((String)(myAuctionsOnly ? "auctions.othersales" : "auctions.mysales"))));
+        Map.Entry<String, Comparator<Auction>> s = null;
+        if (this.filterSelector != null) {
             s = this.filterSelector.saveSelection();
         }
-
-        this.filterSelector = new AuctionFilterSelectorGui(this.posX + 128, this.posY + 36, 82, filters);
-
-        if (s != null)
-        {
+        this.filterSelector = new AuctionFilterSelectorGui<Comparator<Auction>>(this.posX + 128, this.posY + 36, 82, filters);
+        if (s != null) {
             this.filterSelector.restoreSelection(s);
         }
-
-        if (search == null)
-        {
-            search = new GuiTextField(this.fontRenderer, this.posX + 29, this.posY + 40, 90, 16);
-            search.setEnableBackgroundDrawing(false);
+        if (search == null) {
+            search = new GuiTextField(this.field_73886_k, this.posX + 29, this.posY + 40, 90, 16);
+            search.func_73786_a(false);
         }
-
-        float save = 0.0F;
-
-        if (this.guiScrollBar != null)
-        {
+        float save = 0.0f;
+        if (this.guiScrollBar != null) {
             save = this.guiScrollBar.getSliderValue();
         }
+        this.guiScrollBar = new GuiScrollBar(this.posX + 324, this.posY + 80, 148){
 
-        this.guiScrollBar = new AuctionGui$7(this, (float)(this.posX + 324), (float)(this.posY + 80), 148);
+            @Override
+            protected void drawScroller() {
+                ClientEventHandler.STYLE.bindTexture("auction_house");
+                ModernGui.drawModalRectWithCustomSizedTexture((int)this.x, (int)(this.y + (float)(this.height - 15) * this.sliderValue), 343, 70, 9, 14, 372.0f, 400.0f, false);
+            }
+        };
         this.guiScrollBar.setSliderValue(save);
         this.bidButton = null;
         this.bidField = null;
-
-        if (this.filteredAuctions != null)
-        {
+        if (this.filteredAuctions != null) {
             int i = 0;
-
-            for (Iterator var6 = this.currentAuctions.iterator(); var6.hasNext(); ++i)
-            {
-                Auction auction = (Auction)var6.next();
+            for (Auction auction : this.currentAuctions) {
                 int y = i * 20;
-
-                if (auction.equals(this.selected))
-                {
-                    if (auction.getCreator().equals(Minecraft.getMinecraft().thePlayer.username))
-                    {
+                if (auction.equals(this.selected)) {
+                    if (auction.getCreator().equals(Minecraft.func_71410_x().field_71439_g.field_71092_bJ)) {
                         this.bidButton = null;
                         this.bidField = null;
-                    }
-                    else if (auction.getExpiry() > System.currentTimeMillis() && this.openBid)
-                    {
-                        this.bidButton = new GuiButton(1, this.posX + 6 + 69 + 109 + 1, this.posY + 79 + y + 63, 50, 20, I18n.getString("auctions.bid"));
-                        this.bidField = new SuffixedNumberField(this.fontRenderer, this.posX + 6 + 68, this.posY + 79 + y + 65, 110, 17, " $");
-                        this.bidField.setText((int)Math.ceil((double)auction.getCurrentAuction() * 1.05D) + "");
-                        this.bidField.setMin((int)Math.ceil((double)auction.getCurrentAuction() * 1.05D));
+                    } else if (auction.getExpiry() > System.currentTimeMillis() && this.openBid) {
+                        this.bidButton = new GuiButton(1, this.posX + 6 + 69 + 109 + 1, this.posY + 79 + y + 63, 50, 20, I18n.func_135053_a((String)"auctions.bid"));
+                        this.bidField = new SuffixedNumberField(this.field_73886_k, this.posX + 6 + 68, this.posY + 79 + y + 65, 110, 17, " $");
+                        this.bidField.setText((int)Math.ceil((double)auction.getCurrentAuction() * 1.05) + "");
+                        this.bidField.setMin((int)Math.ceil((double)auction.getCurrentAuction() * 1.05));
                     }
                 }
+                ++i;
             }
         }
-
-        super.initGui();
+        super.func_73866_w_();
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
-        if (this.bidField != null)
-        {
+    public void func_73876_c() {
+        if (this.bidField != null) {
             this.bidField.updateCursorCounter();
         }
-
-        if (this.selected != null && !this.selected.getCreator().equals(Minecraft.getMinecraft().thePlayer.username) && this.bidButton != null)
-        {
+        if (this.selected != null && !this.selected.getCreator().equals(Minecraft.func_71410_x().field_71439_g.field_71092_bJ) && this.bidButton != null) {
             long buyDiff = (System.currentTimeMillis() - lastBuy) / 1000L;
-            this.bidButton.enabled = this.selected.getExpiry() > System.currentTimeMillis() && (double)this.getNumber() >= Math.ceil((double)this.selected.getCurrentAuction() * 1.05D) && ShopGUI.CURRENT_MONEY >= (double)this.getNumber() && buyDiff >= 3L;
-
-            if (buyDiff < 3L)
-            {
-                this.bidButton.displayString = 3L - buyDiff + " s";
-            }
-            else
-            {
-                this.bidButton.displayString = I18n.getString("auctions.bid");
-            }
+            this.bidButton.field_73742_g = this.selected.getExpiry() > System.currentTimeMillis() && (double)this.getNumber() >= Math.ceil((double)this.selected.getCurrentAuction() * 1.05) && ShopGUI.CURRENT_MONEY >= (double)this.getNumber() && buyDiff >= 3L;
+            this.bidButton.field_73744_e = buyDiff < 3L ? 3L - buyDiff + " s" : I18n.func_135053_a((String)"auctions.bid");
         }
-
-        if (search != null)
-        {
-            search.updateCursorCounter();
+        if (search != null) {
+            search.func_73780_a();
         }
-
-        super.updateScreen();
+        super.func_73876_c();
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int par1, int par2, float par3)
-    {
-        this.drawDefaultBackground();
-        ArrayList biddersToDraw = new ArrayList();
-        ClientEventHandler.STYLE.bindTexture("auction_house");
-        ModernGui.drawModalRectWithCustomSizedTexture((float)this.posX, (float)this.posY, 0, 0, 343, 256, 372.0F, 400.0F, false);
-        this.mc.getTextureManager().bindTexture(MarketGui.BACKGROUND);
-        ModernGui.drawModalRectWithCustomSizedTexture((float)(this.posX + 217), (float)(this.posY + 259), 244, 373, 125, 26, 372.0F, 400.0F, false);
-        int textWidth = (int)((double)this.fontRenderer.getStringWidth(I18n.getString("hdv.title.short")) * 1.2D);
-        ModernGui.drawModalRectWithCustomSizedTexture((float)(this.posX + 217 + 5), (float)(this.posY + 264), 6, 2, 17, 19, 372.0F, 400.0F, false);
-        ModernGui.drawScaledString(I18n.getString("hdv.title.short"), this.posX + 288, this.posY + 269, 16777215, 1.2F, true, true);
-        ClientEventHandler.STYLE.bindTexture("auction_house");
-        GL11.glColor3f(1.0F, 1.0F, 1.0F);
-
-        if (search != null)
-        {
-            search.drawTextBox();
-        }
-
-        String page = currentPage + "";
-        this.drawCenteredString(this.fontRenderer, page, this.posX + 269 + 33, this.posY + 238, 16777215);
-        String money = (int)ShopGUI.CURRENT_MONEY + " $";
-        this.fontRenderer.drawString(money, this.posX + 312 - this.fontRenderer.getStringWidth(money), this.posY + 10, 16777215);
-        GL11.glPushMatrix();
-        GL11.glTranslatef((float)(this.posX + 40), (float)(this.posY + 3), 0.0F);
-        GL11.glScalef(2.0F, 2.0F, 2.0F);
-        this.fontRenderer.drawStringWithShadow(I18n.getString("auctions.title"), 0, 0, 16777215);
-        GL11.glPopMatrix();
-        int offset;
-        int i;
-        byte add;
-        Iterator var12;
-        Auction auction;
-        ItemStack itemStack;
+    public void func_73863_a(int par1, int par2, float par3) {
         int y;
-        int var25;
-
-        if (this.auctions != null && this.filteredAuctions != null && !this.filteredAuctions.isEmpty())
-        {
+        ItemStack itemStack;
+        int add;
+        int i;
+        int offset;
+        int a;
+        this.func_73873_v_();
+        ArrayList<String> biddersToDraw = new ArrayList<String>();
+        ClientEventHandler.STYLE.bindTexture("auction_house");
+        ModernGui.drawModalRectWithCustomSizedTexture(this.posX, this.posY, 0, 0, 343, 256, 372.0f, 400.0f, false);
+        this.field_73882_e.func_110434_K().func_110577_a(MarketGui.BACKGROUND);
+        ModernGui.drawModalRectWithCustomSizedTexture(this.posX + 217, this.posY + 259, 244, 373, 125, 26, 372.0f, 400.0f, false);
+        int textWidth = (int)((double)this.field_73886_k.func_78256_a(I18n.func_135053_a((String)"hdv.title.short")) * 1.2);
+        ModernGui.drawModalRectWithCustomSizedTexture(this.posX + 217 + 5, this.posY + 264, 6, 2, 17, 19, 372.0f, 400.0f, false);
+        ModernGui.drawScaledString(I18n.func_135053_a((String)"hdv.title.short"), this.posX + 288, this.posY + 269, 0xFFFFFF, 1.2f, true, true);
+        ClientEventHandler.STYLE.bindTexture("auction_house");
+        GL11.glColor3f((float)1.0f, (float)1.0f, (float)1.0f);
+        if (search != null) {
+            search.func_73795_f();
+        }
+        String page = currentPage + "";
+        this.func_73732_a(this.field_73886_k, page, this.posX + 269 + 33, this.posY + 238, 0xFFFFFF);
+        String money = (int)ShopGUI.CURRENT_MONEY + " $";
+        this.field_73886_k.func_78276_b(money, this.posX + 312 - this.field_73886_k.func_78256_a(money), this.posY + 10, 0xFFFFFF);
+        GL11.glPushMatrix();
+        GL11.glTranslatef((float)(this.posX + 40), (float)(this.posY + 3), (float)0.0f);
+        GL11.glScalef((float)2.0f, (float)2.0f, (float)2.0f);
+        this.field_73886_k.func_78261_a(I18n.func_135053_a((String)"auctions.title"), 0, 0, 0xFFFFFF);
+        GL11.glPopMatrix();
+        if (this.auctions != null && this.filteredAuctions != null && !this.filteredAuctions.isEmpty()) {
             GUIUtils.startGLScissor(this.posX + 6, this.posY + 79, 317, 149);
             GL11.glPushMatrix();
-            var25 = this.selected == null ? 0 : 67;
-            offset = this.currentAuctions.size() <= 7 && (this.selected == null || this.currentAuctions.size() <= 4) ? 0 : (int)((float)((this.currentAuctions.size() - 7) * 20 + var25) * -this.guiScrollBar.getSliderValue());
-            GL11.glTranslatef((float)(this.posX + 6), (float)(this.posY + 79 + offset), 0.0F);
+            a = this.selected == null ? 0 : 67;
+            offset = this.currentAuctions.size() > 7 || this.selected != null && this.currentAuctions.size() > 4 ? (int)((float)((this.currentAuctions.size() - 7) * 20 + a) * -this.guiScrollBar.getSliderValue()) : 0;
+            GL11.glTranslatef((float)(this.posX + 6), (float)(this.posY + 79 + offset), (float)0.0f);
             i = 0;
             add = 0;
-
-            for (var12 = this.currentAuctions.iterator(); var12.hasNext(); ++i)
-            {
-                auction = (Auction)var12.next();
+            for (Auction auction : this.currentAuctions) {
                 itemStack = auction.getItemStack();
-
-                if (itemStack != null)
-                {
-                    itemStack.stackSize = 1;
+                if (itemStack != null) {
+                    itemStack.field_77994_a = 1;
                     y = i * 20 + add;
                     int price = auction.getCurrentAuction();
-                    String priceString;
-
-                    if (auction.getExpiry() > System.currentTimeMillis())
-                    {
-                        priceString = (price < 100000 ? Integer.valueOf(price) : String.format("%.0f", new Object[] {Double.valueOf((double)price / 1000.0D)}) + "k") + "\u00a72$";
-                    }
-                    else if (auction.getSuperExpiry() > System.currentTimeMillis())
-                    {
-                        priceString = I18n.getString("hdv.expired");
-                    }
-                    else
-                    {
-                        priceString = I18n.getString("hdv.superexpired");
-                    }
-
+                    String priceString = auction.getExpiry() > System.currentTimeMillis() ? (price < 100000 ? Integer.valueOf(price) : String.format("%.0f", (double)price / 1000.0) + "k") + "\u00a72$" : (auction.getSuperExpiry() > System.currentTimeMillis() ? I18n.func_135053_a((String)"hdv.expired") : I18n.func_135053_a((String)"hdv.superexpired"));
                     ClientEventHandler.STYLE.bindTexture("auction_house");
-
-                    if (!auction.equals(this.selected))
-                    {
-                        if (par1 >= this.posX + 6 && par1 <= this.posX + 6 + 317 && par2 >= this.posY + 79 + y + offset && par2 <= this.posY + y + 79 + 18 + offset && this.cursorOnMarket(par1, par2))
-                        {
-                            GL11.glColor3f(0.7F, 0.7F, 0.7F);
+                    if (!auction.equals(this.selected)) {
+                        if (par1 >= this.posX + 6 && par1 <= this.posX + 6 + 317 && par2 >= this.posY + 79 + y + offset && par2 <= this.posY + y + 79 + 18 + offset && this.cursorOnMarket(par1, par2)) {
+                            GL11.glColor3f((float)0.7f, (float)0.7f, (float)0.7f);
                         }
-
-                        ModernGui.drawModalRectWithCustomSizedTexture(0.0F, (float)y, 1, 262, 317, 18, 372.0F, 400.0F, false);
-                        GL11.glColor3f(1.0F, 1.0F, 1.0F);
-                        this.fontRenderer.drawString(itemStack.getDisplayName().replaceAll("^\\\u00a7[0-9a-z]", ""), 22, y + 5, -6381922);
-                        this.fontRenderer.drawString(priceString, 267 + (63 - this.fontRenderer.getStringWidth(priceString)) / 2, y + 5, -1);
+                        ModernGui.drawModalRectWithCustomSizedTexture(0.0f, y, 1, 262, 317, 18, 372.0f, 400.0f, false);
+                        GL11.glColor3f((float)1.0f, (float)1.0f, (float)1.0f);
+                        this.field_73886_k.func_78276_b(itemStack.func_82833_r().replaceAll("^\\\u00a7[0-9a-z]", ""), 22, y + 5, -6381922);
+                        this.field_73886_k.func_78276_b(priceString, 267 + (63 - this.field_73886_k.func_78256_a(priceString)) / 2, y + 5, -1);
                         this.drawDeleteButton(auction, 242, y + 1, par1, par2);
-                        RenderHelper.enableGUIStandardItemLighting();
-                        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-                        this.renderItem.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), itemStack, 1, y + 1);
-                        this.renderItem.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), itemStack, 1, y + 1, "\u00a77" + Integer.toString(auction.getQuantity()));
-                        GL11.glColor3f(1.0F, 1.0F, 1.0F);
-                        GL11.glDisable(GL11.GL_LIGHTING);
-                        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-                        RenderHelper.disableStandardItemLighting();
-                        GL11.glColor3f(1.0F, 1.0F, 1.0F);
-                    }
-                    else
-                    {
+                        RenderHelper.func_74520_c();
+                        GL11.glEnable((int)32826);
+                        this.renderItem.func_82406_b(this.field_73886_k, this.field_73882_e.func_110434_K(), itemStack, 1, y + 1);
+                        this.renderItem.func_94148_a(this.field_73886_k, this.field_73882_e.func_110434_K(), itemStack, 1, y + 1, "\u00a77" + Integer.toString(auction.getQuantity()));
+                        GL11.glColor3f((float)1.0f, (float)1.0f, (float)1.0f);
+                        GL11.glDisable((int)2896);
+                        GL11.glDisable((int)32826);
+                        RenderHelper.func_74518_a();
+                        GL11.glColor3f((float)1.0f, (float)1.0f, (float)1.0f);
+                    } else {
+                        String output;
                         add = 67;
-                        ModernGui.drawModalRectWithCustomSizedTexture(0.0F, (float)y, 1, 283, 317, 85, 372.0F, 400.0F, false);
-                        this.fontRenderer.drawString(priceString, 267 + (63 - this.fontRenderer.getStringWidth(priceString)) / 2, y + 5, -1);
-                        String itemName = itemStack.getDisplayName().replaceAll("^\\\u00a7[0-9a-z]", "");
-
-                        if (itemName.length() > (itemName.contains("\u00a7l") ? 15 : 25))
-                        {
+                        ModernGui.drawModalRectWithCustomSizedTexture(0.0f, y, 1, 283, 317, 85, 372.0f, 400.0f, false);
+                        this.field_73886_k.func_78276_b(priceString, 267 + (63 - this.field_73886_k.func_78256_a(priceString)) / 2, y + 5, -1);
+                        String itemName = itemStack.func_82833_r().replaceAll("^\\\u00a7[0-9a-z]", "");
+                        if (itemName.length() > (itemName.contains("\u00a7l") ? 15 : 25)) {
                             itemName = itemName.substring(0, itemName.contains("\u00a7l") ? 14 : 24) + "...";
                         }
-
-                        this.fontRenderer.drawString("\u00a7l" + itemName, 65, y + 5, -6381922);
-                        this.fontRenderer.drawString(I18n.getStringParams("hdv.seller", new Object[] {auction.getCreator()}), 65, y + 20, -1);
-                        this.fontRenderer.drawString((!auction.getBidders().isEmpty() ? auction.getBidders().split(";").length - 1 : 0) + "", 238, y + 5, -1);
-                        String text = auction.getLastBidder().equals(this.mc.thePlayer.username) ? (auction.getLastBidder().equals(auction.getCreator()) ? I18n.getString("auctions.noBidder") : I18n.getString("auctions.isLastBidder")) : (auction.getLastBidder().equals(auction.getCreator()) ? I18n.getString("auctions.noBidder") : I18n.getStringParams("auctions.lastBidder", new Object[] {auction.getLastBidder()}));
-                        ModernGui.drawScaledString(text, 152, y + 58, -1, 0.5F, true, true);
-
-                        if (!this.openBid)
-                        {
-                            if (auction.getCreator().equals(this.mc.thePlayer.username))
-                            {
-                                this.drawCenteredString(this.fontRenderer, I18n.getString("auctions.isCreator"), 152, y + 69, -1);
-                            }
-                            else
-                            {
-                                this.drawCenteredString(this.fontRenderer, I18n.getString("auctions.bid"), 152, y + 69, -1);
+                        this.field_73886_k.func_78276_b("\u00a7l" + itemName, 65, y + 5, -6381922);
+                        this.field_73886_k.func_78276_b(I18n.func_135052_a((String)"hdv.seller", (Object[])new Object[]{auction.getCreator()}), 65, y + 20, -1);
+                        this.field_73886_k.func_78276_b((!auction.getBidders().isEmpty() ? auction.getBidders().split(";").length - 1 : 0) + "", 238, y + 5, -1);
+                        String text = auction.getLastBidder().equals(this.field_73882_e.field_71439_g.field_71092_bJ) ? (auction.getLastBidder().equals(auction.getCreator()) ? I18n.func_135053_a((String)"auctions.noBidder") : I18n.func_135053_a((String)"auctions.isLastBidder")) : (auction.getLastBidder().equals(auction.getCreator()) ? I18n.func_135053_a((String)"auctions.noBidder") : I18n.func_135052_a((String)"auctions.lastBidder", (Object[])new Object[]{auction.getLastBidder()}));
+                        ModernGui.drawScaledString(text, 152, y + 58, -1, 0.5f, true, true);
+                        if (!this.openBid) {
+                            if (auction.getCreator().equals(this.field_73882_e.field_71439_g.field_71092_bJ)) {
+                                this.func_73732_a(this.field_73886_k, I18n.func_135053_a((String)"auctions.isCreator"), 152, y + 69, -1);
+                            } else {
+                                this.func_73732_a(this.field_73886_k, I18n.func_135053_a((String)"auctions.bid"), 152, y + 69, -1);
                             }
                         }
-
-                        String size;
-                        String output;
-
-                        if (auction.getExpiry() > System.currentTimeMillis())
-                        {
-                            size = I18n.getString("hdv.expiry.time");
-                            this.fontRenderer.drawString(size, 314 - this.fontRenderer.getStringWidth(size), y + 40, -1);
+                        if (auction.getExpiry() > System.currentTimeMillis()) {
+                            String msg = I18n.func_135053_a((String)"hdv.expiry.time");
+                            this.field_73886_k.func_78276_b(msg, 314 - this.field_73886_k.func_78256_a(msg), y + 40, -1);
                             output = this.getCountdownString(auction.getExpiry());
-                            this.fontRenderer.drawString(output, 314 - this.fontRenderer.getStringWidth(output), y + 50, -1);
-                        }
-                        else if (auction.getCreator().equals(this.mc.thePlayer.username) && auction.getSuperExpiry() > System.currentTimeMillis())
-                        {
-                            size = I18n.getString("hdv.superexpiry.time");
-                            this.fontRenderer.drawString(size, 314 - this.fontRenderer.getStringWidth(size), y + 40, -1);
+                            this.field_73886_k.func_78276_b(output, 314 - this.field_73886_k.func_78256_a(output), y + 50, -1);
+                        } else if (auction.getCreator().equals(this.field_73882_e.field_71439_g.field_71092_bJ) && auction.getSuperExpiry() > System.currentTimeMillis()) {
+                            String msg = I18n.func_135053_a((String)"hdv.superexpiry.time");
+                            this.field_73886_k.func_78276_b(msg, 314 - this.field_73886_k.func_78256_a(msg), y + 40, -1);
                             output = this.getCountdownString(auction.getSuperExpiry());
-                            this.fontRenderer.drawString(output, 314 - this.fontRenderer.getStringWidth(output), y + 50, -1);
+                            this.field_73886_k.func_78276_b(output, 314 - this.field_73886_k.func_78256_a(output), y + 50, -1);
                         }
-
                         this.drawDeleteButton(auction, 192, y + 1, par1, par2);
-
-                        if (par1 >= this.posX + 6 + 212 && par1 <= this.posX + 6 + 212 + 45 && par2 >= this.posY + 79 + offset + y && par2 <= this.posY + 79 + offset + y + 16)
-                        {
-                            String[] var26 = auction.getBidders().split(";");
-                            String[] var28 = var26;
-                            int var22 = var26.length;
-
-                            for (int var23 = 0; var23 < var22; ++var23)
-                            {
-                                String bidder = var28[var23];
-
-                                if (!bidder.isEmpty())
-                                {
-                                    biddersToDraw.add(bidder);
-                                }
+                        if (par1 >= this.posX + 6 + 212 && par1 <= this.posX + 6 + 212 + 45 && par2 >= this.posY + 79 + offset + y && par2 <= this.posY + 79 + offset + y + 16) {
+                            String[] biddersStr;
+                            for (String bidder : biddersStr = auction.getBidders().split(";")) {
+                                if (bidder.isEmpty()) continue;
+                                biddersToDraw.add(bidder);
                             }
                         }
-
-                        RenderHelper.enableGUIStandardItemLighting();
-                        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+                        RenderHelper.func_74520_c();
+                        GL11.glEnable((int)32826);
                         GL11.glPushMatrix();
-                        float var27 = 3.0F;
-                        GL11.glTranslatef(30.0F - 8.0F * var27 + 1.0F, (float)(y + 42) - 8.0F * var27, 0.0F);
-                        GL11.glScalef(var27, var27, var27);
-                        this.renderItem.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.getTextureManager(), itemStack, 0, 0);
-                        this.renderItem.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.getTextureManager(), itemStack, 0, 0, "\u00a77" + Integer.toString(auction.getQuantity()));
-                        GL11.glColor3f(1.0F, 1.0F, 1.0F);
+                        float size = 3.0f;
+                        GL11.glTranslatef((float)(30.0f - 8.0f * size + 1.0f), (float)((float)(y + 42) - 8.0f * size), (float)0.0f);
+                        GL11.glScalef((float)size, (float)size, (float)size);
+                        this.renderItem.func_82406_b(this.field_73886_k, this.field_73882_e.func_110434_K(), itemStack, 0, 0);
+                        this.renderItem.func_94148_a(this.field_73886_k, this.field_73882_e.func_110434_K(), itemStack, 0, 0, "\u00a77" + Integer.toString(auction.getQuantity()));
+                        GL11.glColor3f((float)1.0f, (float)1.0f, (float)1.0f);
                         GL11.glPopMatrix();
-                        GL11.glDisable(GL11.GL_LIGHTING);
-                        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-                        RenderHelper.disableStandardItemLighting();
+                        GL11.glDisable((int)2896);
+                        GL11.glDisable((int)32826);
+                        RenderHelper.func_74518_a();
                     }
                 }
+                ++i;
             }
-
             GL11.glPopMatrix();
             GL11.glPushMatrix();
-            GL11.glTranslatef(0.0F, (float)offset, 0.0F);
-
-            if (this.openBid)
-            {
-                if (this.bidButton != null)
-                {
-                    this.bidButton.drawButton(this.mc, par1, par2 - offset);
+            GL11.glTranslatef((float)0.0f, (float)offset, (float)0.0f);
+            if (this.openBid) {
+                if (this.bidButton != null) {
+                    this.bidButton.func_73737_a(this.field_73882_e, par1, par2 - offset);
                 }
-
-                if (this.bidField != null)
-                {
-                    GL11.glColor3f(1.0F, 1.0F, 1.0F);
+                if (this.bidField != null) {
+                    GL11.glColor3f((float)1.0f, (float)1.0f, (float)1.0f);
                     this.bidField.drawTextBox();
                 }
             }
-
-            GL11.glColor3f(1.0F, 1.0F, 1.0F);
+            GL11.glColor3f((float)1.0f, (float)1.0f, (float)1.0f);
             GL11.glPopMatrix();
             GUIUtils.endGLScissor();
+        } else {
+            String text = I18n.func_135053_a((String)"auctions.unavailable");
+            this.func_73732_a(this.field_73886_k, text, this.posX + 170, this.posY + 78, 0xFFFFFF);
         }
-        else
-        {
-            String a = I18n.getString("auctions.unavailable");
-            this.drawCenteredString(this.fontRenderer, a, this.posX + 170, this.posY + 78, 16777215);
-        }
-
-        if (this.guiScrollBar != null)
-        {
+        if (this.guiScrollBar != null) {
             this.guiScrollBar.draw(par1, par2);
         }
-
-        if (this.filterSelector != null)
-        {
+        if (this.filterSelector != null) {
             this.filterSelector.draw(par1, par2);
         }
-
-        if (this.auctions != null && this.filteredAuctions != null && !this.filteredAuctions.isEmpty() && par1 >= this.posX + 9 && par1 <= this.posX + 9 + 317 && par2 >= this.posY + 79 && par2 <= this.posY + 79 + 149)
-        {
-            var25 = this.selected == null ? 0 : 67;
-            offset = this.currentAuctions.size() <= 7 && (this.selected == null || this.currentAuctions.size() <= 4) ? 0 : (int)((float)((this.currentAuctions.size() - 7) * 20 + var25) * -this.guiScrollBar.getSliderValue());
+        if (this.auctions != null && this.filteredAuctions != null && !this.filteredAuctions.isEmpty() && par1 >= this.posX + 9 && par1 <= this.posX + 9 + 317 && par2 >= this.posY + 79 && par2 <= this.posY + 79 + 149) {
+            a = this.selected == null ? 0 : 67;
+            offset = this.currentAuctions.size() > 7 || this.selected != null && this.currentAuctions.size() > 4 ? (int)((float)((this.currentAuctions.size() - 7) * 20 + a) * -this.guiScrollBar.getSliderValue()) : 0;
             i = 0;
             add = 0;
-
-            for (var12 = this.currentAuctions.iterator(); var12.hasNext(); ++i)
-            {
-                auction = (Auction)var12.next();
+            for (Auction auction : this.currentAuctions) {
                 itemStack = auction.getItemStack();
-
-                if (itemStack != null)
-                {
-                    itemStack.stackSize = 1;
+                if (itemStack != null) {
+                    itemStack.field_77994_a = 1;
                     y = i * 20 + add;
-
-                    if (this.selected != null && this.selected.equals(auction))
-                    {
+                    if (this.selected != null && this.selected.equals(auction)) {
                         add = 67;
                     }
-
-                    if (par1 >= this.posX + 7 && par2 >= this.posY + 79 + offset + y + 1)
-                    {
-                        if (auction.equals(this.selected))
-                        {
-                            if (par1 > this.posX + 7 + 60 || par2 > this.posY + 79 + offset + y + 84)
-                            {
-                                continue;
-                            }
-                        }
-                        else if (par1 > this.posX + 7 + 16 || par2 > this.posY + 79 + offset + y + 17)
-                        {
-                            continue;
-                        }
-
+                    if (par1 >= this.posX + 7 && par2 >= this.posY + 79 + offset + y + 1 && (auction.equals(this.selected) ? par1 <= this.posX + 7 + 60 && par2 <= this.posY + 79 + offset + y + 84 : par1 <= this.posX + 7 + 16 && par2 <= this.posY + 79 + offset + y + 17)) {
                         NationsGUIClientHooks.drawItemStackTooltip(itemStack, par1, par2);
-                        GL11.glDisable(GL11.GL_LIGHTING);
+                        GL11.glDisable((int)2896);
                     }
                 }
+                ++i;
             }
         }
-
-        if (!biddersToDraw.isEmpty())
-        {
-            this.drawHoveringText(biddersToDraw, par1, par2, this.fontRenderer);
+        if (!biddersToDraw.isEmpty()) {
+            this.drawHoveringText(biddersToDraw, par1, par2, this.field_73886_k);
         }
-
-        super.drawScreen(par1, par2, par3);
+        super.func_73863_a(par1, par2, par3);
     }
 
-    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font)
-    {
-        if (!par1List.isEmpty())
-        {
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
+    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font) {
+        if (!par1List.isEmpty()) {
+            GL11.glDisable((int)32826);
+            RenderHelper.func_74518_a();
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
             int k = 0;
-            Iterator iterator = par1List.iterator();
-            int j1;
-
-            while (iterator.hasNext())
-            {
-                String i1 = (String)iterator.next();
-                j1 = font.getStringWidth(i1);
-
-                if (j1 > k)
-                {
-                    k = j1;
-                }
+            for (String s : par1List) {
+                int l = font.func_78256_a(s);
+                if (l <= k) continue;
+                k = l;
             }
-
-            int var15 = par2 + 12;
-            j1 = par3 - 12;
+            int i1 = par2 + 12;
+            int j1 = par3 - 12;
             int k1 = 8;
-
-            if (par1List.size() > 1)
-            {
+            if (par1List.size() > 1) {
                 k1 += 2 + (par1List.size() - 1) * 10;
             }
-
-            if (var15 + k > this.width)
-            {
-                var15 -= 28 + k;
+            if (i1 + k > this.field_73880_f) {
+                i1 -= 28 + k;
             }
-
-            if (j1 + k1 + 6 > this.height)
-            {
-                j1 = this.height - k1 - 6;
+            if (j1 + k1 + 6 > this.field_73881_g) {
+                j1 = this.field_73881_g - k1 - 6;
             }
-
-            this.zLevel = 300.0F;
-            this.itemRenderer.zLevel = 300.0F;
+            this.field_73735_i = 300.0f;
+            this.itemRenderer.field_77023_b = 300.0f;
             int l1 = -267386864;
-            this.drawGradientRect(var15 - 3, j1 - 4, var15 + k + 3, j1 - 3, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 3, var15 + k + 3, j1 + k1 + 4, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 - 4, j1 - 3, var15 - 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 + k + 3, j1 - 3, var15 + k + 4, j1 + k1 + 3, l1, l1);
-            int i2 = 1347420415;
-            int j2 = (i2 & 16711422) >> 1 | i2 & -16777216;
-            this.drawGradientRect(var15 - 3, j1 - 3 + 1, var15 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 + k + 2, j1 - 3 + 1, var15 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 - 3 + 1, i2, i2);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 2, var15 + k + 3, j1 + k1 + 3, j2, j2);
-
-            for (int k2 = 0; k2 < par1List.size(); ++k2)
-            {
+            this.func_73733_a(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
+            this.func_73733_a(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
+            int i2 = 0x505000FF;
+            int j2 = (i2 & 0xFEFEFE) >> 1 | i2 & 0xFF000000;
+            this.func_73733_a(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+            this.func_73733_a(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+            for (int k2 = 0; k2 < par1List.size(); ++k2) {
                 String s1 = (String)par1List.get(k2);
-                font.drawStringWithShadow(s1, var15, j1, -1);
-
-                if (k2 == 0)
-                {
+                font.func_78261_a(s1, i1, j1, -1);
+                if (k2 == 0) {
                     j1 += 2;
                 }
-
                 j1 += 10;
             }
-
-            this.zLevel = 0.0F;
-            this.itemRenderer.zLevel = 0.0F;
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.field_73735_i = 0.0f;
+            this.itemRenderer.field_77023_b = 0.0f;
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
+            GL11.glEnable((int)32826);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         }
     }
 
-    private String getCountdownString(long time)
-    {
+    private String getCountdownString(long time) {
         int SECONDS_IN_A_DAY = 86400;
         long diff = time - System.currentTimeMillis();
         long diffSec = diff / 1000L;
@@ -548,398 +400,293 @@ public class AuctionGui extends GuiScreen
         long minutes = secondsDay / 60L % 60L;
         long hours = diffSec / 3600L;
         String output = "";
-
-        if (hours > 0L)
-        {
+        if (hours > 0L) {
             output = output + hours + "h ";
         }
-
-        if (minutes > 0L)
-        {
+        if (minutes > 0L) {
             output = output + minutes + "m ";
         }
-
         output = output + seconds + "s";
         return output;
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char par1, int par2)
-    {
-        if (search.textboxKeyTyped(par1, par2))
-        {
+    protected void func_73869_a(char par1, int par2) {
+        if (search.func_73802_a(par1, par2)) {
             this.resetSelection();
             currentPage = 1;
-            PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new AuctionDataPacket(search.getText(), this.filterSelector.getSelectedFilterString(), currentPage - 1, myAuctionsOnly)));
+            PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new AuctionDataPacket(search.func_73781_b(), this.filterSelector.getSelectedFilterString(), currentPage - 1, myAuctionsOnly)));
         }
-
-        if (this.bidField != null && this.openBid)
-        {
+        if (this.bidField != null && this.openBid) {
             this.bidField.textboxKeyTyped(par1, par2);
         }
-
-        super.keyTyped(par1, par2);
+        super.func_73869_a(par1, par2);
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int par1, int par2, int par3)
-    {
-        search.mouseClicked(par1, par2, par3);
-        byte add = 0;
+    protected void func_73864_a(int par1, int par2, int par3) {
+        int offset;
+        search.func_73793_a(par1, par2, par3);
+        int add = 0;
         int i = 0;
         int a = this.selected == null ? 0 : 67;
-        int offset = this.currentAuctions.size() <= 7 && (this.selected == null || this.currentAuctions.size() <= 4) ? 0 : (int)((float)((this.currentAuctions.size() - 7) * 20 + a) * -this.guiScrollBar.getSliderValue());
-
-        if (this.bidField != null && this.openBid)
-        {
+        int n = offset = this.currentAuctions.size() > 7 || this.selected != null && this.currentAuctions.size() > 4 ? (int)((float)((this.currentAuctions.size() - 7) * 20 + a) * -this.guiScrollBar.getSliderValue()) : 0;
+        if (this.bidField != null && this.openBid) {
             this.bidField.mouseClicked(par1, par2 - offset, par3);
         }
-
-        if (this.filterSelector != null && this.filterSelector.mousePressed(par1, par2))
-        {
+        if (this.filterSelector != null && this.filterSelector.mousePressed(par1, par2)) {
             this.resetSelection();
         }
-
-        if (this.bidButton != null && this.bidButton.mousePressed(this.mc, par1, par2 - offset) && this.openBid && this.bidField != null && par1 > this.posX + 3 && par1 < this.posX + 336 && par2 > this.posY + 79 && par2 < this.posY + 228)
-        {
-            if (this.getNumber() >= this.bidField.getMin())
-            {
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new AuctionBidPacket(this.selected.getUuid(), this.getNumber())));
+        if (this.bidButton != null && this.bidButton.func_73736_c(this.field_73882_e, par1, par2 - offset) && this.openBid && this.bidField != null && par1 > this.posX + 3 && par1 < this.posX + 336 && par2 > this.posY + 79 && par2 < this.posY + 228) {
+            if (this.getNumber() >= this.bidField.getMin()) {
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new AuctionBidPacket(this.selected.getUuid(), this.getNumber())));
                 this.openBid = false;
                 PacketCallbacks.MONEY.send(new String[0]);
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new AuctionDataPacket(search.getText(), this.filterSelector.getSelectedFilterString(), currentPage - 1, myAuctionsOnly)));
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new AuctionDataPacket(search.func_73781_b(), this.filterSelector.getSelectedFilterString(), currentPage - 1, myAuctionsOnly)));
                 lastBuy = System.currentTimeMillis();
-                this.initGui();
-            }
-            else
-            {
+                this.func_73866_w_();
+            } else {
                 this.bidField.setText(Integer.toString(this.bidField.getMin()));
             }
         }
-
-        if (this.cursorOnMarket(par1, par2))
-        {
-            for (Iterator var8 = this.currentAuctions.iterator(); var8.hasNext(); ++i)
-            {
-                Auction auction = (Auction)var8.next();
+        if (this.cursorOnMarket(par1, par2)) {
+            for (Auction auction : this.currentAuctions) {
                 int y = i * 20 + add;
-
-                if (auction.equals(this.selected))
-                {
+                if (auction.equals(this.selected)) {
                     add = 67;
                 }
-
-                if (auction.equals(this.selected) && par1 >= this.posX + 6 && par1 <= this.posX + 6 + 317 && par2 >= this.posY + 79 + y + offset && par2 <= this.posY + y + 79 + 18 + 67 + offset || !auction.equals(this.selected) && par1 >= this.posX + 6 && par1 <= this.posX + 6 + 317 && par2 >= this.posY + 79 + y + offset && par2 <= this.posY + y + 79 + 18 + offset)
-                {
-                    label195:
-                    {
-                        if ((auction.getCreator().equals(Minecraft.getMinecraft().thePlayer.username) && auction.getLastBidder().equals(this.mc.thePlayer.username) || canRemoveAll) && auction.equals(this.selected))
-                        {
-                            if (par1 < this.posX + 6 + 192 || par1 > this.posX + 6 + 192 + 19 || par2 < this.posY + 79 + y + offset + 1 || par2 > this.posY + 79 + y + offset + 20)
-                            {
-                                break label195;
-                            }
-                        }
-                        else if (par1 < this.posX + 6 + 242 || par1 > this.posX + 6 + 242 + 19 || par2 < this.posY + 79 + y + offset + 1 || par2 > this.posY + 79 + y + offset + 20)
-                        {
-                            break label195;
-                        }
-
-                        if (this.canRemove(auction))
-                        {
-                            PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new AuctionRemovePacket(auction.getUuid())));
-
-                            if (auction == this.selected)
-                            {
+                if (auction.equals(this.selected) && par1 >= this.posX + 6 && par1 <= this.posX + 6 + 317 && par2 >= this.posY + 79 + y + offset && par2 <= this.posY + y + 79 + 18 + 67 + offset || !auction.equals(this.selected) && par1 >= this.posX + 6 && par1 <= this.posX + 6 + 317 && par2 >= this.posY + 79 + y + offset && par2 <= this.posY + y + 79 + 18 + offset) {
+                    if ((auction.getCreator().equals(Minecraft.func_71410_x().field_71439_g.field_71092_bJ) && auction.getLastBidder().equals(this.field_73882_e.field_71439_g.field_71092_bJ) || canRemoveAll) && auction.equals(this.selected) ? par1 >= this.posX + 6 + 192 && par1 <= this.posX + 6 + 192 + 19 && par2 >= this.posY + 79 + y + offset + 1 && par2 <= this.posY + 79 + y + offset + 20 : par1 >= this.posX + 6 + 242 && par1 <= this.posX + 6 + 242 + 19 && par2 >= this.posY + 79 + y + offset + 1 && par2 <= this.posY + 79 + y + offset + 20) {
+                        if (this.canRemove(auction)) {
+                            PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new AuctionRemovePacket(auction.getUuid())));
+                            if (auction == this.selected) {
                                 this.resetSelection();
                             }
-
                             this.removeAuction(auction);
-                            PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new AuctionDataPacket(search.getText(), this.filterSelector.getSelectedFilterString(), currentPage - 1, myAuctionsOnly)));
+                            PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new AuctionDataPacket(search.func_73781_b(), this.filterSelector.getSelectedFilterString(), currentPage - 1, myAuctionsOnly)));
+                            break;
                         }
-                        else
-                        {
-                            this.mc.displayGuiScreen(new AuctionRemoveGui(this, auction));
-                        }
-
+                        this.field_73882_e.func_71373_a((GuiScreen)new AuctionRemoveGui(this, auction));
                         break;
                     }
-
-                    if (!this.openBid && auction.equals(this.selected) && par1 >= this.posX + 6 + 69 && par1 <= this.posX + 6 + 69 + 160 && par2 >= this.posY + 79 + y + offset + 66 && par2 <= this.posY + 79 + y + offset + 66 + 15)
-                    {
-                        if (!auction.getCreator().equals(this.mc.thePlayer.username))
-                        {
-                            this.openBid = true;
-                            this.initGui();
-                        }
-
+                    if (!this.openBid && auction.equals(this.selected) && par1 >= this.posX + 6 + 69 && par1 <= this.posX + 6 + 69 + 160 && par2 >= this.posY + 79 + y + offset + 66 && par2 <= this.posY + 79 + y + offset + 66 + 15) {
+                        if (auction.getCreator().equals(this.field_73882_e.field_71439_g.field_71092_bJ)) break;
+                        this.openBid = true;
+                        this.func_73866_w_();
                         break;
                     }
-
-                    if (this.selected == null || !this.selected.equals(auction))
-                    {
-                        this.selected = auction;
-                        this.openBid = false;
-                        this.initGui();
-                    }
-
+                    if (this.selected != null && this.selected.equals(auction)) break;
+                    this.selected = auction;
+                    this.openBid = false;
+                    this.func_73866_w_();
                     break;
                 }
+                ++i;
             }
         }
-
-        if (par1 > this.posX + 217 && par1 < this.posX + 217 + 125 && par2 > this.posY + 259 && par2 < this.posY + 259 + 26)
-        {
-            this.mc.displayGuiScreen(new MarketGui());
-            PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new MarketPacket("", "", 0, false)));
+        if (par1 > this.posX + 217 && par1 < this.posX + 217 + 125 && par2 > this.posY + 259 && par2 < this.posY + 259 + 26) {
+            this.field_73882_e.func_71373_a((GuiScreen)new MarketGui());
+            PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new MarketPacket("", "", 0, false)));
         }
-
-        super.mouseClicked(par1, par2, par3);
+        super.func_73864_a(par1, par2, par3);
     }
 
-    public void setAuctions(List<Auction> auctions)
-    {
+    public void setAuctions(List<Auction> auctions) {
         this.auctions = auctions;
         this.currentAuctions = this.getCurrentList();
     }
 
-    public List<Auction> getAuctions()
-    {
+    public List<Auction> getAuctions() {
         return this.auctions;
     }
 
-    public void resetSelection()
-    {
+    public void resetSelection() {
         this.selected = null;
         this.openBid = false;
         this.bidButton = null;
         this.bidField = null;
     }
 
-    public Auction getSelected()
-    {
+    public Auction getSelected() {
         return this.selected;
     }
 
-    private void drawDeleteButton(Auction auction, int x, int y, int mouseX, int mouseY)
-    {
-        if ((auction.getCreator().equals(Minecraft.getMinecraft().thePlayer.username) && auction.getLastBidder().equals(this.mc.thePlayer.username) || canRemoveAll) && auction.getSuperExpiry() > System.currentTimeMillis())
-        {
-            GL11.glColor3f(1.0F, 1.0F, 1.0F);
+    private void drawDeleteButton(Auction auction, int x, int y, int mouseX, int mouseY) {
+        if ((auction.getCreator().equals(Minecraft.func_71410_x().field_71439_g.field_71092_bJ) && auction.getLastBidder().equals(this.field_73882_e.field_71439_g.field_71092_bJ) || canRemoveAll) && auction.getSuperExpiry() > System.currentTimeMillis()) {
+            GL11.glColor3f((float)1.0f, (float)1.0f, (float)1.0f);
             ClientEventHandler.STYLE.bindTexture("auction_house");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)x, (float)y, 0, 371, 17, 16, 372.0F, 400.0F, false);
+            ModernGui.drawModalRectWithCustomSizedTexture(x, y, 0, 371, 17, 16, 372.0f, 400.0f, false);
         }
     }
 
-    private boolean canRemove(Auction auction)
-    {
-        if (auction.getSuperExpiry() < System.currentTimeMillis())
-        {
+    private boolean canRemove(Auction auction) {
+        if (auction.getSuperExpiry() < System.currentTimeMillis()) {
             return false;
         }
-        else
-        {
-            int quantity = auction.getQuantity();
-
-            if (quantity <= 0)
-            {
+        int quantity = auction.getQuantity();
+        if (quantity > 0) {
+            for (ItemStack itemStack : Minecraft.func_71410_x().field_71439_g.field_71071_by.field_70462_a) {
+                if (itemStack != null && itemStack.func_77969_a(auction.getItemStack()) && ItemStack.func_77970_a((ItemStack)itemStack, (ItemStack)auction.getItemStack())) {
+                    int o = itemStack.func_77976_d() - itemStack.field_77994_a;
+                    if ((quantity -= o) > 0) continue;
+                    return true;
+                }
+                if (itemStack != null) continue;
+                if (quantity > auction.getItemStack().func_77976_d()) {
+                    quantity -= auction.getItemStack().func_77976_d();
+                    continue;
+                }
                 return true;
             }
-            else
-            {
-                ItemStack[] var3 = Minecraft.getMinecraft().thePlayer.inventory.mainInventory;
-                int var4 = var3.length;
-
-                for (int var5 = 0; var5 < var4; ++var5)
-                {
-                    ItemStack itemStack = var3[var5];
-
-                    if (itemStack != null && itemStack.isItemEqual(auction.getItemStack()) && ItemStack.areItemStackTagsEqual(itemStack, auction.getItemStack()))
-                    {
-                        int o = itemStack.getMaxStackSize() - itemStack.stackSize;
-                        quantity -= o;
-
-                        if (quantity <= 0)
-                        {
-                            return true;
-                        }
-                    }
-                    else if (itemStack == null)
-                    {
-                        if (quantity <= auction.getItemStack().getMaxStackSize())
-                        {
-                            return true;
-                        }
-
-                        quantity -= auction.getItemStack().getMaxStackSize();
-                    }
-                }
-
-                return false;
-            }
+        } else {
+            return true;
         }
+        return false;
     }
 
-    public void updateList()
-    {
+    public void updateList() {
         this.currentAuctions = this.getCurrentList();
     }
 
-    private List<Auction> getCurrentList()
-    {
-        this.filteredAuctions = new ArrayList();
-
-        if (this.auctions != null)
-        {
-            Iterator var1 = this.auctions.iterator();
-
-            while (var1.hasNext())
-            {
-                Auction auction = (Auction)var1.next();
-
-                if (auction.getSuperExpiry() > System.currentTimeMillis())
-                {
-                    if (auction.getCreator().equals(this.mc.thePlayer.username) && myAuctionsOnly)
-                    {
-                        this.filteredAuctions.add(auction);
-                    }
-                    else if (!auction.getCreator().equals(this.mc.thePlayer.username) && !myAuctionsOnly)
-                    {
-                        this.filteredAuctions.add(auction);
-                    }
+    private List<Auction> getCurrentList() {
+        this.filteredAuctions = new ArrayList<Auction>();
+        if (this.auctions != null) {
+            for (Auction auction : this.auctions) {
+                if (auction.getSuperExpiry() <= System.currentTimeMillis()) continue;
+                if (auction.getCreator().equals(this.field_73882_e.field_71439_g.field_71092_bJ) && myAuctionsOnly) {
+                    this.filteredAuctions.add(auction);
+                    continue;
                 }
+                if (auction.getCreator().equals(this.field_73882_e.field_71439_g.field_71092_bJ) || myAuctionsOnly) continue;
+                this.filteredAuctions.add(auction);
             }
         }
-
-        return (List)(this.filteredAuctions.size() > 0 ? this.filteredAuctions.subList(10 * (currentPage - 1), this.filteredAuctions.size() / 10 + 1 == currentPage ? this.filteredAuctions.size() : 10 * currentPage) : new ArrayList());
+        if (this.filteredAuctions.size() > 0) {
+            return this.filteredAuctions.subList(10 * (currentPage - 1), this.filteredAuctions.size() / 10 + 1 == currentPage ? this.filteredAuctions.size() : 10 * currentPage);
+        }
+        return new ArrayList<Auction>();
     }
 
-    private List<Auction> searchFilter(List<Auction> target)
-    {
-        Object result = new ArrayList();
-
-        if (search != null && !search.getText().equals(""))
-        {
-            Iterator var3 = target.iterator();
-
-            while (var3.hasNext())
-            {
-                Auction auction = (Auction)var3.next();
-
-                if (search.getText().startsWith("@"))
-                {
-                    String id1 = search.getText().substring(1, search.getText().length());
-
-                    if (StringUtils.containsIgnoreCase(auction.getCreator(), id1))
-                    {
-                        ((List)result).add(auction);
-                    }
+    private List<Auction> searchFilter(List<Auction> target) {
+        ArrayList<Auction> result = new ArrayList();
+        if (search != null && !search.func_73781_b().equals("")) {
+            for (Auction auction : target) {
+                if (search.func_73781_b().startsWith("@")) {
+                    String pseudo = search.func_73781_b().substring(1, search.func_73781_b().length());
+                    if (!StringUtils.containsIgnoreCase((CharSequence)auction.getCreator(), (CharSequence)pseudo)) continue;
+                    result.add(auction);
+                    continue;
                 }
-                else
-                {
-                    int id = -1;
-
-                    try
-                    {
-                        id = Integer.parseInt(search.getText());
-                    }
-                    catch (NumberFormatException var7)
-                    {
-                        ;
-                    }
-
-                    if (auction != null && auction.getItemStack() != null && (StringUtils.containsIgnoreCase(auction.getItemStack().getDisplayName(), search.getText()) || id != -1 && id == auction.getItemStack().getItem().itemID))
-                    {
-                        ((List)result).add(auction);
-                    }
+                int id = -1;
+                try {
+                    id = Integer.parseInt(search.func_73781_b());
                 }
+                catch (NumberFormatException numberFormatException) {
+                    // empty catch block
+                }
+                if (auction == null || auction.getItemStack() == null || !StringUtils.containsIgnoreCase((CharSequence)auction.getItemStack().func_82833_r(), (CharSequence)search.func_73781_b()) && (id == -1 || id != auction.getItemStack().func_77973_b().field_77779_bT)) continue;
+                result.add(auction);
             }
-        }
-        else
-        {
+        } else {
             result = target;
         }
-
-        return (List)result;
+        return result;
     }
 
-    private boolean cursorOnMarket(int mouseX, int mouseY)
-    {
+    private boolean cursorOnMarket(int mouseX, int mouseY) {
         return mouseX >= this.posX + 6 && mouseX <= this.posX + 6 + 317 && mouseY >= this.posY + 79 && mouseY <= this.posY + 79 + 149;
     }
 
-    public void removeAuction(Auction auction)
-    {
-        if (auction.equals(this.selected))
-        {
+    public void removeAuction(Auction auction) {
+        if (auction.equals(this.selected)) {
             this.resetSelection();
         }
-
         this.currentAuctions.remove(auction);
         this.filteredAuctions.remove(auction);
         this.auctions.remove(auction);
     }
 
-    /**
-     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
-     */
-    protected void actionPerformed(GuiButton par1GuiButton)
-    {
-        switch (par1GuiButton.id)
-        {
-            case 0:
-                if (currentPage - 1 >= 1)
-                {
-                    --currentPage;
-                    this.resetSelection();
-                    this.guiScrollBar.setSliderValue(0.0F);
-                    PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new AuctionDataPacket(search.getText(), this.filterSelector.getSelectedFilterString(), currentPage - 1, myAuctionsOnly)));
-                }
-
+    protected void func_73875_a(GuiButton par1GuiButton) {
+        switch (par1GuiButton.field_73741_f) {
+            case 1: {
+                if (currentPage + 1 > this.filteredAuctions.size() / 10 + 1) break;
+                this.resetSelection();
+                this.guiScrollBar.setSliderValue(0.0f);
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new AuctionDataPacket(search.func_73781_b(), this.filterSelector.getSelectedFilterString(), ++currentPage - 1, myAuctionsOnly)));
                 break;
-
-            case 1:
-                if (currentPage + 1 <= this.filteredAuctions.size() / 10 + 1)
-                {
-                    ++currentPage;
-                    this.resetSelection();
-                    this.guiScrollBar.setSliderValue(0.0F);
-                    PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new AuctionDataPacket(search.getText(), this.filterSelector.getSelectedFilterString(), currentPage - 1, myAuctionsOnly)));
-                }
-
+            }
+            case 0: {
+                if (currentPage - 1 < 1) break;
+                this.resetSelection();
+                this.guiScrollBar.setSliderValue(0.0f);
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new AuctionDataPacket(search.func_73781_b(), this.filterSelector.getSelectedFilterString(), --currentPage - 1, myAuctionsOnly)));
                 break;
-
-            case 2:
+            }
+            case 2: {
                 myAuctionsOnly = !myAuctionsOnly;
                 currentPage = 1;
                 this.resetSelection();
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new AuctionDataPacket(search.getText(), this.filterSelector.getSelectedFilterString(), currentPage - 1, myAuctionsOnly)));
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new AuctionDataPacket(search.func_73781_b(), this.filterSelector.getSelectedFilterString(), currentPage - 1, myAuctionsOnly)));
+            }
         }
     }
 
-    public int getNumber()
-    {
-        try
-        {
+    public int getNumber() {
+        try {
             return Integer.parseInt(this.bidField.getText());
         }
-        catch (NumberFormatException var2)
-        {
+        catch (NumberFormatException numberFormatException) {
             return 0;
         }
     }
 
-    static
-    {
-        filters.put(I18n.getString("hdv.filter.price.increasing"), new AuctionGui$1());
-        filters.put(I18n.getString("hdv.filter.price.declining"), new AuctionGui$2());
-        filters.put(I18n.getString("hdv.filter.quantity.increasing"), new AuctionGui$3());
-        filters.put(I18n.getString("hdv.filter.quantity.declining"), new AuctionGui$4());
-        filters.put(I18n.getString("hdv.filter.date.increasing"), new AuctionGui$5());
-        filters.put(I18n.getString("hdv.filter.date.declining"), new AuctionGui$6());
+    static {
+        myAuctionsOnly = false;
+        filters = new LinkedHashMap<String, Comparator<Auction>>();
+        lastBuy = 0L;
+        totalResults = 0;
+        canRemoveAll = false;
+        achievementDone = false;
+        filters.put(I18n.func_135053_a((String)"hdv.filter.price.increasing"), new Comparator<Auction>(){
+
+            @Override
+            public int compare(Auction o1, Auction o2) {
+                return o1.getCurrentAuction() - o2.getCurrentAuction();
+            }
+        });
+        filters.put(I18n.func_135053_a((String)"hdv.filter.price.declining"), new Comparator<Auction>(){
+
+            @Override
+            public int compare(Auction o1, Auction o2) {
+                return o2.getCurrentAuction() - o1.getCurrentAuction();
+            }
+        });
+        filters.put(I18n.func_135053_a((String)"hdv.filter.quantity.increasing"), new Comparator<Auction>(){
+
+            @Override
+            public int compare(Auction o1, Auction o2) {
+                return o1.getQuantity() - o2.getQuantity();
+            }
+        });
+        filters.put(I18n.func_135053_a((String)"hdv.filter.quantity.declining"), new Comparator<Auction>(){
+
+            @Override
+            public int compare(Auction o1, Auction o2) {
+                return o2.getQuantity() - o1.getQuantity();
+            }
+        });
+        filters.put(I18n.func_135053_a((String)"hdv.filter.date.increasing"), new Comparator<Auction>(){
+
+            @Override
+            public int compare(Auction o1, Auction o2) {
+                return (int)(o1.getStartingTime() + o1.getDuration() - (o2.getStartingTime() + o2.getDuration()));
+            }
+        });
+        filters.put(I18n.func_135053_a((String)"hdv.filter.date.declining"), new Comparator<Auction>(){
+
+            @Override
+            public int compare(Auction o1, Auction o2) {
+                return (int)(o2.getStartingTime() + o2.getDuration() - (o1.getStartingTime() + o1.getDuration()));
+            }
+        });
     }
 }
+

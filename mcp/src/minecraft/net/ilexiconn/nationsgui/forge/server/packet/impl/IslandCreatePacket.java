@@ -1,3 +1,12 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraftforge.common.DimensionManager
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -9,8 +18,10 @@ import net.ilexiconn.nationsgui.forge.server.packet.IServerPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.DimensionManager;
 
-public class IslandCreatePacket implements IPacket, IClientPacket, IServerPacket
-{
+public class IslandCreatePacket
+implements IPacket,
+IClientPacket,
+IServerPacket {
     public String name;
     public String description;
     public String size;
@@ -18,8 +29,7 @@ public class IslandCreatePacket implements IPacket, IClientPacket, IServerPacket
     public boolean isPrivate;
     public int islandId;
 
-    public IslandCreatePacket(String name, String description, String size, String biome, boolean isPrivate)
-    {
+    public IslandCreatePacket(String name, String description, String size, String biome, boolean isPrivate) {
         this.name = name;
         this.description = description;
         this.size = size;
@@ -27,13 +37,13 @@ public class IslandCreatePacket implements IPacket, IClientPacket, IServerPacket
         this.isPrivate = isPrivate;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.islandId = data.readInt();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeUTF(this.name);
         data.writeUTF(this.description);
         data.writeUTF(this.size);
@@ -41,14 +51,15 @@ public class IslandCreatePacket implements IPacket, IClientPacket, IServerPacket
         data.writeBoolean(this.isPrivate);
     }
 
-    public void handleClientPacket(EntityPlayer player)
-    {
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
         IslandCreateGui.creationIslandId = this.islandId;
     }
 
-    public void handleServerPacket(EntityPlayer player)
-    {
+    @Override
+    public void handleServerPacket(EntityPlayer player) {
         System.out.println("SAVE DIMENSION DATAMAP");
         DimensionManager.saveDimensionDataMap();
     }
 }
+

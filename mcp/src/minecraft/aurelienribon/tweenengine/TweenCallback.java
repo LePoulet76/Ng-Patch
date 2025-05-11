@@ -1,18 +1,23 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package aurelienribon.tweenengine;
 
-public interface TweenCallback
-{
-    int BEGIN = 1;
-    int START = 2;
-    int END = 4;
-    int COMPLETE = 8;
-    int BACK_BEGIN = 16;
-    int BACK_START = 32;
-    int BACK_END = 64;
-    int BACK_COMPLETE = 128;
-    int ANY_FORWARD = 15;
-    int ANY_BACKWARD = 240;
-    int ANY = 255;
+import aurelienribon.tweenengine.BaseTween;
 
-    void onEvent(int var1, BaseTween<?> var2);
+public interface TweenCallback {
+    public static final int BEGIN = 1;
+    public static final int START = 2;
+    public static final int END = 4;
+    public static final int COMPLETE = 8;
+    public static final int BACK_BEGIN = 16;
+    public static final int BACK_START = 32;
+    public static final int BACK_END = 64;
+    public static final int BACK_COMPLETE = 128;
+    public static final int ANY_FORWARD = 15;
+    public static final int ANY_BACKWARD = 240;
+    public static final int ANY = 255;
+
+    public void onEvent(int var1, BaseTween<?> var2);
 }
+

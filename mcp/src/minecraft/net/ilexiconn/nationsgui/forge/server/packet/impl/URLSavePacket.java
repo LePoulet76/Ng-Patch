@@ -1,3 +1,14 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  fr.nationsglory.ngupgrades.common.block.entity.GenericGeckoTileEntity
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.server.MinecraftServer
+ *  net.minecraft.tileentity.TileEntity
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -10,63 +21,52 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 
-public class URLSavePacket implements IPacket, IServerPacket
-{
+public class URLSavePacket
+implements IPacket,
+IServerPacket {
     private int x;
     private int y;
     private int z;
     private String url;
 
-    public URLSavePacket(TileEntity blockEntity)
-    {
-        this.x = blockEntity.xCoord;
-        this.y = blockEntity.yCoord;
-        this.z = blockEntity.zCoord;
-
-        if (blockEntity instanceof URLBlockEntity)
-        {
+    public URLSavePacket(TileEntity blockEntity) {
+        this.x = blockEntity.field_70329_l;
+        this.y = blockEntity.field_70330_m;
+        this.z = blockEntity.field_70327_n;
+        if (blockEntity instanceof URLBlockEntity) {
             this.url = ((URLBlockEntity)blockEntity).url;
         }
-
-        if (blockEntity instanceof GenericGeckoTileEntity)
-        {
+        if (blockEntity instanceof GenericGeckoTileEntity) {
             this.url = ((GenericGeckoTileEntity)blockEntity).url;
         }
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.x = data.readInt();
         this.y = data.readInt();
         this.z = data.readInt();
         this.url = data.readUTF();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeInt(this.x);
         data.writeInt(this.y);
         data.writeInt(this.z);
         data.writeUTF(this.url);
     }
 
-    public void handleServerPacket(EntityPlayer player)
-    {
-        if (MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(player.username))
-        {
-            TileEntity tileEntity = player.worldObj.getBlockTileEntity(this.x, this.y, this.z);
-
-            if (tileEntity != null)
-            {
-                if (tileEntity instanceof URLBlockEntity)
-                {
-                    ((URLBlockEntity)tileEntity).url = this.url;
-                }
-                else if (tileEntity instanceof GenericGeckoTileEntity)
-                {
-                    ((GenericGeckoTileEntity)tileEntity).url = this.url;
-                }
+    @Override
+    public void handleServerPacket(EntityPlayer player) {
+        TileEntity tileEntity;
+        if (MinecraftServer.func_71276_C().func_71203_ab().func_72353_e(player.field_71092_bJ) && (tileEntity = player.field_70170_p.func_72796_p(this.x, this.y, this.z)) != null) {
+            if (tileEntity instanceof URLBlockEntity) {
+                ((URLBlockEntity)tileEntity).url = this.url;
+            } else if (tileEntity instanceof GenericGeckoTileEntity) {
+                ((GenericGeckoTileEntity)tileEntity).url = this.url;
             }
         }
     }
 }
+

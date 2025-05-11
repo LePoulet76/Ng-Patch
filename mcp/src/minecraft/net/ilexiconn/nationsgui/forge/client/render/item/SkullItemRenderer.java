@@ -1,24 +1,35 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.entity.AbstractClientPlayer
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.util.ResourceLocation
+ *  net.minecraftforge.client.IItemRenderer
+ *  net.minecraftforge.client.IItemRenderer$ItemRenderType
+ *  net.minecraftforge.client.IItemRenderer$ItemRendererHelper
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.render.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.ilexiconn.nationsgui.forge.client.model.block.SkullModel;
-import net.ilexiconn.nationsgui.forge.client.render.item.SkullItemRenderer$1;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-@SideOnly(Side.CLIENT)
-public class SkullItemRenderer implements IItemRenderer
-{
+@SideOnly(value=Side.CLIENT)
+public class SkullItemRenderer
+implements IItemRenderer {
     public static final ResourceLocation STEVE_TEXTURE = new ResourceLocation("textures/entity/steve.png");
     public static final ResourceLocation SKELETON_TEXTURE = new ResourceLocation("textures/entity/skeleton/skeleton.png");
     public static final ResourceLocation WITHER_SKELETON_TEXTURE = new ResourceLocation("textures/entity/skeleton/wither_skeleton.png");
@@ -27,97 +38,84 @@ public class SkullItemRenderer implements IItemRenderer
     public static final SkullModel MODEL_SKULL = new SkullModel();
     public static final SkullModel MODEL_SKULL_LARGE = new SkullModel(64, 64);
 
-    public boolean handleRenderType(ItemStack item, ItemRenderType type)
-    {
+    public boolean handleRenderType(ItemStack item, IItemRenderer.ItemRenderType type) {
         return true;
     }
 
-    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
-    {
+    public boolean shouldUseRenderHelper(IItemRenderer.ItemRenderType type, ItemStack item, IItemRenderer.ItemRendererHelper helper) {
         return true;
     }
 
-    public void renderItem(ItemRenderType type, ItemStack item, Object ... data)
-    {
-        switch (SkullItemRenderer$1.$SwitchMap$net$minecraftforge$client$IItemRenderer$ItemRenderType[type.ordinal()])
-        {
-            case 1:
-                this.renderSkull(item, 0.5F, 0.0F, 0.5F, 2.0F, 0.0F);
+    public void renderItem(IItemRenderer.ItemRenderType type, ItemStack item, Object ... data) {
+        switch (type) {
+            case EQUIPPED_FIRST_PERSON: {
+                this.renderSkull(item, 0.5f, 0.0f, 0.5f, 2.0f, 0.0f);
                 break;
-
-            case 2:
-                this.renderSkull(item, 0.5F, 0.0F, 0.5F, 2.0F, -90.0F);
+            }
+            case EQUIPPED: {
+                this.renderSkull(item, 0.5f, 0.0f, 0.5f, 2.0f, -90.0f);
                 break;
-
-            case 3:
-                this.renderSkull(item, 0.0F, -0.5F, 0.0F, 1.8F, 90.0F);
+            }
+            case INVENTORY: {
+                this.renderSkull(item, 0.0f, -0.5f, 0.0f, 1.8f, 90.0f);
                 break;
-
-            default:
-                this.renderSkull(item, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F);
+            }
+            default: {
+                this.renderSkull(item, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+            }
         }
     }
 
-    public void renderSkull(ItemStack itemStack, float x, float y, float z, float scale, float rotation)
-    {
-        NBTTagCompound tagCompound = itemStack.getTagCompound();
+    public void renderSkull(ItemStack itemStack, float x, float y, float z, float scale, float rotation) {
+        NBTTagCompound tagCompound = itemStack.func_77978_p();
         String skullOwner = null;
-
-        if (tagCompound != null && tagCompound.hasKey("SkullOwner"))
-        {
-            skullOwner = tagCompound.getString("SkullOwner");
+        if (tagCompound != null && tagCompound.func_74764_b("SkullOwner")) {
+            skullOwner = tagCompound.func_74779_i("SkullOwner");
         }
-
         GL11.glPushMatrix();
-        GL11.glDisable(GL11.GL_CULL_FACE);
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        GL11.glTranslatef(x, y, z);
-        GL11.glScalef(-scale, -scale, scale);
-        GL11.glRotatef(rotation, 0.0F, 1.0F, 0.0F);
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
-
-        switch (itemStack.getItemDamage())
-        {
-            case 1:
-                Minecraft.getMinecraft().renderEngine.bindTexture(WITHER_SKELETON_TEXTURE);
+        GL11.glDisable((int)2884);
+        GL11.glEnable((int)32826);
+        GL11.glTranslatef((float)x, (float)y, (float)z);
+        GL11.glScalef((float)(-scale), (float)(-scale), (float)scale);
+        GL11.glRotatef((float)rotation, (float)0.0f, (float)1.0f, (float)0.0f);
+        GL11.glEnable((int)3008);
+        switch (itemStack.func_77960_j()) {
+            case 1: {
+                Minecraft.func_71410_x().field_71446_o.func_110577_a(WITHER_SKELETON_TEXTURE);
                 break;
-
-            case 2:
-                Minecraft.getMinecraft().renderEngine.bindTexture(ZOMBIE_TEXTURE);
-                MODEL_SKULL_LARGE.render((Entity)null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+            }
+            case 2: {
+                Minecraft.func_71410_x().field_71446_o.func_110577_a(ZOMBIE_TEXTURE);
+                MODEL_SKULL_LARGE.func_78088_a(null, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f);
                 GL11.glPopMatrix();
                 return;
-
-            case 3:
-                ResourceLocation resourceLocation = AbstractClientPlayer.locationStevePng;
-
-                try
-                {
-                    if (skullOwner != null && skullOwner.length() > 0)
-                    {
-                        resourceLocation = AbstractClientPlayer.getLocationSkull(skullOwner);
-                        AbstractClientPlayer.getDownloadImageSkin(resourceLocation, skullOwner);
+            }
+            case 3: {
+                ResourceLocation resourceLocation = AbstractClientPlayer.field_110314_b;
+                try {
+                    if (skullOwner != null && skullOwner.length() > 0) {
+                        resourceLocation = AbstractClientPlayer.func_110305_h((String)skullOwner);
+                        AbstractClientPlayer.func_110304_a((ResourceLocation)resourceLocation, (String)skullOwner);
                     }
                 }
-                catch (Exception var11)
-                {
-                    resourceLocation = AbstractClientPlayer.locationStevePng;
+                catch (Exception e) {
+                    resourceLocation = AbstractClientPlayer.field_110314_b;
                 }
-
-                Minecraft.getMinecraft().renderEngine.bindTexture(resourceLocation);
-                MODEL_SKULL_LARGE.render((Entity)null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+                Minecraft.func_71410_x().field_71446_o.func_110577_a(resourceLocation);
+                MODEL_SKULL_LARGE.func_78088_a(null, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f);
                 GL11.glPopMatrix();
                 return;
-
-            case 4:
-                Minecraft.getMinecraft().renderEngine.bindTexture(CREEPER_TEXTURE);
+            }
+            case 4: {
+                Minecraft.func_71410_x().field_71446_o.func_110577_a(CREEPER_TEXTURE);
                 break;
-
-            default:
-                Minecraft.getMinecraft().renderEngine.bindTexture(SKELETON_TEXTURE);
+            }
+            default: {
+                Minecraft.func_71410_x().field_71446_o.func_110577_a(SKELETON_TEXTURE);
+            }
         }
-
-        MODEL_SKULL.render((Entity)null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+        MODEL_SKULL.func_78088_a(null, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f);
         GL11.glPopMatrix();
     }
 }
+

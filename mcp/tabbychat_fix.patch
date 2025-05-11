@@ -1,0 +1,23 @@
+--- a/GuiChatTC.java
++++ b/GuiChatTC.java
+@@ -1,4 +1,4 @@
+-for (GuiButton _guibutton : this.buttonList)
+-for (String s : par1List)
+-for (ArrayList arrayList : tooltipsToDraw)
+-thePlayer.getDisplayName()
++for (GuiButton _guibutton : (List<GuiButton>) this.buttonList)
++for (String s : (List<String>) par1List)
++for (ArrayList<?> arrayList : (List<ArrayList<?>>) tooltipsToDraw)
++thePlayer.username
+--- a/TCSettingsFilters.java
++++ b/TCSettingsFilters.java
+@@ -1 +1 @@
+-for (String key : (List<String>) filterKeys)
++import java.util.List;
+
+for (String key : (List<String>) filterKeys)
+--- a/ChatMessageComponent.java
++++ b/ChatMessageComponent.java
+@@ -1 +1 @@
+-StatCollector.translateToLocalFormatted(this.translationKey, var13)
++StatCollector.translateToLocalFormatted(this.translationKey, (Object[]) var13)

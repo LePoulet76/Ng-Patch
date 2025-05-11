@@ -1,154 +1,135 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package fr.nationsglory.remoteitem.common.data;
 
+import fr.nationsglory.remoteitem.common.data.EnchantData;
+import fr.nationsglory.remoteitem.common.data.PotionEffectData;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ItemData
-{
+public class ItemData {
     private int id = 0;
     private String type = "item";
     private String texture = "";
-    private Map<String, String> lang = new HashMap();
+    private Map<String, String> lang = new HashMap<String, String>();
     private boolean full3D = false;
     private int repairItemID = 0;
     private int durability = 0;
     private int harvestLevel = 0;
-    private float miningSpeed = 0.0F;
-    private float damageVsEntities = 0.0F;
+    private float miningSpeed = 0.0f;
+    private float damageVsEntities = 0.0f;
     private int enchantability = 0;
     private int potionCusumedID = 0;
-    private List<PotionEffectData> effects = new ArrayList();
+    private List<PotionEffectData> effects = new ArrayList<PotionEffectData>();
     private boolean gfxEffet = false;
-    private Map<String, String> description = new HashMap();
+    private Map<String, String> description = new HashMap<String, String>();
     private int stackSize = 64;
-    private List<EnchantData> enchants = new ArrayList();
+    private List<EnchantData> enchants = new ArrayList<EnchantData>();
     private int feedAmount = 0;
-    private float saturationAmplifier = 0.0F;
+    private float saturationAmplifier = 0.0f;
     private boolean wolfsFavoriteMeat = false;
     private String tab = "";
     private String tooltipColor = "";
     private String tooltipBackgroundColor = "";
 
-    public int getId()
-    {
+    public int getId() {
         return this.id - 256;
     }
 
-    public String getTexture()
-    {
+    public String getTexture() {
         return this.texture;
     }
 
-    public Map<String, String> getLocaleMap()
-    {
+    public Map<String, String> getLocaleMap() {
         return this.lang;
     }
 
-    public boolean isFull3D()
-    {
+    public boolean isFull3D() {
         return this.full3D;
     }
 
-    public int getRepairItemID()
-    {
+    public int getRepairItemID() {
         return this.repairItemID;
     }
 
-    public int getDurability()
-    {
+    public int getDurability() {
         return this.durability;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return this.type;
     }
 
-    public Map<String, String> getLang()
-    {
+    public Map<String, String> getLang() {
         return this.lang;
     }
 
-    public int getHarvestLevel()
-    {
+    public int getHarvestLevel() {
         return this.harvestLevel;
     }
 
-    public float getMiningSpeed()
-    {
+    public float getMiningSpeed() {
         return this.miningSpeed;
     }
 
-    public float getDamageVsEntities()
-    {
+    public float getDamageVsEntities() {
         return this.damageVsEntities;
     }
 
-    public int getEnchantability()
-    {
+    public int getEnchantability() {
         return this.enchantability;
     }
 
-    public int getPotionCusumedID()
-    {
+    public int getPotionCusumedID() {
         return this.potionCusumedID;
     }
 
-    public List<PotionEffectData> getEffects()
-    {
+    public List<PotionEffectData> getEffects() {
         return this.effects;
     }
 
-    public boolean isGfxEffet()
-    {
+    public boolean isGfxEffet() {
         return this.gfxEffet;
     }
 
-    public Map<String, String> getDescription()
-    {
+    public Map<String, String> getDescription() {
         return this.description;
     }
 
-    public int getStackSize()
-    {
+    public int getStackSize() {
         return this.stackSize;
     }
 
-    public List<EnchantData> getEnchants()
-    {
+    public List<EnchantData> getEnchants() {
         return this.enchants;
     }
 
-    public int getFeedAmount()
-    {
+    public int getFeedAmount() {
         return this.feedAmount;
     }
 
-    public float getSaturationAmplifier()
-    {
+    public float getSaturationAmplifier() {
         return this.saturationAmplifier;
     }
 
-    public boolean isWolfsFavoriteMeat()
-    {
+    public boolean isWolfsFavoriteMeat() {
         return this.wolfsFavoriteMeat;
     }
 
-    public String getCreativeTab()
-    {
+    public String getCreativeTab() {
         return this.tab;
     }
 
-    public int getTooltipColor()
-    {
-        return (new BigInteger("FF" + this.tooltipColor, 16)).intValue();
+    public int getTooltipColor() {
+        return new BigInteger("FF" + this.tooltipColor, 16).intValue();
     }
 
-    public int getTooltipBackgroundColor()
-    {
-        return (new BigInteger("FF" + this.tooltipBackgroundColor, 16)).intValue();
+    public int getTooltipBackgroundColor() {
+        return new BigInteger("FF" + this.tooltipBackgroundColor, 16).intValue();
     }
 }
+

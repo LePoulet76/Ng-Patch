@@ -1,14 +1,29 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.gui.Gui
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.gui.GuiTextField
+ *  net.minecraft.client.renderer.RenderHelper
+ *  net.minecraft.client.renderer.entity.RenderItem
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.util.ResourceLocation
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.wiki;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.awt.Desktop;
 import java.awt.Toolkit;
-import java.awt.Desktop.Action;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import net.ilexiconn.nationsgui.forge.client.ClientProxy;
 import net.ilexiconn.nationsgui.forge.client.gui.GuiScrollBarGeneric;
@@ -26,11 +41,10 @@ import net.minecraft.util.ResourceLocation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-@SideOnly(Side.CLIENT)
-public class WikiGUI extends GuiScreen
-{
+@SideOnly(value=Side.CLIENT)
+public class WikiGUI
+extends GuiScreen {
     public static final ResourceLocation SCROLLBAR_CURSOR = new ResourceLocation("nationsgui", "textures/gui/multi/scrollbar_cursor.png");
     public static String selectedMainCategory = "";
     public static String selectedCategory = "";
@@ -45,430 +59,277 @@ public class WikiGUI extends GuiScreen
     public static HashMap<String, Integer> categoryScrollOffset = new HashMap();
     private GuiScreen guiFrom;
 
-    public WikiGUI(GuiScreen guiFrom)
-    {
+    public WikiGUI(GuiScreen guiFrom) {
         this.guiFrom = guiFrom;
         selectedMainCategoryFullHeight = 0;
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
-        super.updateScreen();
-        this.inputSearch.updateCursorCounter();
+    public void func_73876_c() {
+        super.func_73876_c();
+        this.inputSearch.func_73780_a();
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char typedChar, int keyCode)
-    {
-        this.inputSearch.textboxKeyTyped(typedChar, keyCode);
-
-        if (keyCode == 1)
-        {
-            this.mc.displayGuiScreen(this.guiFrom);
-
-            if (this.guiFrom == null)
-            {
-                this.mc.setIngameFocus();
+    protected void func_73869_a(char typedChar, int keyCode) {
+        this.inputSearch.func_73802_a(typedChar, keyCode);
+        if (keyCode == 1) {
+            this.field_73882_e.func_71373_a(this.guiFrom);
+            if (this.guiFrom == null) {
+                this.field_73882_e.func_71381_h();
             }
         }
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
-        this.scrollBar = new GuiScrollBarGeneric(3780.0F, 440.0F, 1500, SCROLLBAR_CURSOR, 24, 179);
-        int windowHeight = this.width * 9 / 16;
-        this.inputSearch = new GuiTextField(this.fontRenderer, (int)(1650.0F / (3840.0F / (float)this.width)), (int)(880.0F / (2160.0F / (float)windowHeight)), (int)(530.0F / (3840.0F / (float)this.width)), 20);
-        this.inputSearch.setEnableBackgroundDrawing(false);
-        this.inputSearch.setMaxStringLength(40);
+    public void func_73866_w_() {
+        super.func_73866_w_();
+        this.scrollBar = new GuiScrollBarGeneric(3780.0f, 440.0f, 1500, SCROLLBAR_CURSOR, 24, 179);
+        int windowHeight = this.field_73880_f * 9 / 16;
+        this.inputSearch = new GuiTextField(this.field_73886_k, (int)(1650.0f / (3840.0f / (float)this.field_73880_f)), (int)(880.0f / (2160.0f / (float)windowHeight)), (int)(530.0f / (3840.0f / (float)this.field_73880_f)), 20);
+        this.inputSearch.func_73786_a(false);
+        this.inputSearch.func_73804_f(40);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
-    {
+    public void func_73863_a(int mouseX, int mouseY, float partialTicks) {
         ArrayList toolTipLines = new ArrayList();
         hoveredCategory = "";
         hoveredMainCategory = "";
         hoveredAction = "";
-        GL11.glDisable(GL11.GL_CULL_FACE);
+        GL11.glDisable((int)2884);
         GL11.glPushMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        int windowWidth = this.width;
-        int windowHeight = this.width * 9 / 16;
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        int windowWidth = this.field_73880_f;
+        int windowHeight = this.field_73880_f * 9 / 16;
         int screenWidth = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         int screenHeight = screenWidth * 9 / 16;
-        int mouseXScaled = (int)((float)mouseX * (3840.0F / (float)this.width));
-        int mouseYScaled = (int)((float)mouseY * (2160.0F / (float)windowHeight));
-        Gui.drawRect(0, 0, (int)(950.0F * ((float)this.width / 3840.0F)), this.height, -13749417);
-        Gui.drawRect((int)(950.0F * ((float)this.width / 3840.0F)), 0, this.width, this.height, -15197637);
-        GL11.glScaled((double)((float)this.width / 3840.0F), (double)((float)windowHeight / 2160.0F), 1.0D);
-        ModernGui.drawScaledStringCustomFont(I18n.getString("wiki.title"), 82.0F, 50.0F, 15659004, 4.0F, "left", false, "georamaSemiBold", 50);
-        ModernGui.drawSectionStringCustomFont(I18n.getString("wiki.description"), 82.0F, 185.0F, 15659004, 4.0F, "left", false, "georamaRegular", 18, 40, 200);
+        int mouseXScaled = (int)((float)mouseX * (3840.0f / (float)this.field_73880_f));
+        int mouseYScaled = (int)((float)mouseY * (2160.0f / (float)windowHeight));
+        Gui.func_73734_a((int)0, (int)0, (int)((int)(950.0f * ((float)this.field_73880_f / 3840.0f))), (int)this.field_73881_g, (int)-13749417);
+        Gui.func_73734_a((int)((int)(950.0f * ((float)this.field_73880_f / 3840.0f))), (int)0, (int)this.field_73880_f, (int)this.field_73881_g, (int)-15197637);
+        GL11.glScaled((double)((float)this.field_73880_f / 3840.0f), (double)((float)windowHeight / 2160.0f), (double)1.0);
+        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)"wiki.title"), 82.0f, 50.0f, 0xEEEFFC, 4.0f, "left", false, "georamaSemiBold", 50);
+        ModernGui.drawSectionStringCustomFont(I18n.func_135053_a((String)"wiki.description"), 82.0f, 185.0f, 0xEEEFFC, 4.0f, "left", false, "georamaRegular", 18, 40, 200);
         ClientProxy.loadResource("textures/gui/wiki/search.png");
-        ModernGui.drawModalRectWithCustomSizedTexture(80.0F, 300.0F, 0, 0, 794, 92, 794.0F, 92.0F, true);
-        Gui.drawRect(56, 450, 894, 452, -12170642);
-        short initialCategoriesOffset = 520;
+        ModernGui.drawModalRectWithCustomSizedTexture(80.0f, 300.0f, 0, 0, 794, 92, 794.0f, 92.0f, true);
+        Gui.func_73734_a((int)56, (int)450, (int)894, (int)452, (int)-12170642);
+        int initialCategoriesOffset = 520;
         int offsetCategories = 0;
-        Iterator offsetContent = ((ArrayList)ClientProxy.wiki.clone()).iterator();
-        Iterator var15;
-        HashMap mainCategory;
-
-        while (offsetContent.hasNext())
-        {
-            HashMap currentSliderValue = (HashMap)offsetContent.next();
-
-            if (mouseXScaled >= 200 && mouseXScaled <= 800 && mouseYScaled >= initialCategoriesOffset + offsetCategories && mouseYScaled <= initialCategoriesOffset + offsetCategories + 60)
-            {
-                hoveredMainCategory = (String)currentSliderValue.get("name");
+        for (HashMap mainCategory : (ArrayList)ClientProxy.wiki.clone()) {
+            if (mouseXScaled >= 200 && mouseXScaled <= 800 && mouseYScaled >= initialCategoriesOffset + offsetCategories && mouseYScaled <= initialCategoriesOffset + offsetCategories + 60) {
+                hoveredMainCategory = (String)mainCategory.get("name");
             }
-
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            ClientProxy.loadResource("textures/gui/wiki/icons/" + currentSliderValue.get("name") + (selectedMainCategory.equals(currentSliderValue.get("name")) ? "_purple" : (hoveredMainCategory.equals(currentSliderValue.get("name")) ? "_white" : "_gray")) + ".png");
-            ModernGui.drawModalRectWithCustomSizedTexture(120.0F, (float)(initialCategoriesOffset + offsetCategories), 0, 0, 60, 63, 60.0F, 63.0F, true);
-            ModernGui.drawScaledStringCustomFont(I18n.getString("wiki.text." + currentSliderValue.get("name") + ".title"), 200.0F, (float)(initialCategoriesOffset + offsetCategories), selectedMainCategory.equals(currentSliderValue.get("name")) ? 7239406 : (hoveredMainCategory.equals(currentSliderValue.get("name")) ? 16777215 : 12895428), 4.0F, "left", false, "georamaSemiBold", 30);
-
-            if (currentSliderValue.containsKey("children") && (selectedMainCategory.isEmpty() || selectedMainCategory.equals(currentSliderValue.get("name"))))
-            {
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+            ClientProxy.loadResource("textures/gui/wiki/icons/" + mainCategory.get("name") + (selectedMainCategory.equals(mainCategory.get("name")) ? "_purple" : (hoveredMainCategory.equals(mainCategory.get("name")) ? "_white" : "_gray")) + ".png");
+            ModernGui.drawModalRectWithCustomSizedTexture(120.0f, initialCategoriesOffset + offsetCategories, 0, 0, 60, 63, 60.0f, 63.0f, true);
+            ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)("wiki.text." + mainCategory.get("name") + ".title")), 200.0f, initialCategoriesOffset + offsetCategories, selectedMainCategory.equals(mainCategory.get("name")) ? 0x6E76EE : (hoveredMainCategory.equals(mainCategory.get("name")) ? 0xFFFFFF : 0xC4C4C4), 4.0f, "left", false, "georamaSemiBold", 30);
+            if (mainCategory.containsKey("children") && (selectedMainCategory.isEmpty() || selectedMainCategory.equals(mainCategory.get("name")))) {
                 offsetCategories += 10;
-
-                for (var15 = ((ArrayList)((ArrayList)currentSliderValue.get("children")).clone()).iterator(); var15.hasNext(); ModernGui.drawScaledStringCustomFont(I18n.getString("wiki.text." + mainCategory.get("name") + ".title"), 230.0F, (float)(initialCategoriesOffset + 10 + offsetCategories), selectedCategory.equals((String)mainCategory.get("name")) ? 16777215 : (hoveredCategory.equals((String)mainCategory.get("name")) ? 7239406 : 12895428), 3.0F, "left", false, selectedCategory.equals((String)mainCategory.get("name")) ? "georamaBold" : "georamaRegular", 30))
-                {
-                    mainCategory = (HashMap)var15.next();
-
-                    if (selectedCategory.isEmpty())
-                    {
-                        selectedCategory = (String)mainCategory.get("name");
-                        defaultCategory = (String)mainCategory.get("name");
-                        selectedMainCategory = (String)currentSliderValue.get("name");
+                for (HashMap childCategory : (ArrayList)((ArrayList)mainCategory.get("children")).clone()) {
+                    if (selectedCategory.isEmpty()) {
+                        selectedCategory = (String)childCategory.get("name");
+                        defaultCategory = (String)childCategory.get("name");
+                        selectedMainCategory = (String)mainCategory.get("name");
                     }
-
-                    offsetCategories += 70;
-
-                    if (mouseXScaled >= 230 && mouseXScaled <= 800 && mouseYScaled >= initialCategoriesOffset + 10 + offsetCategories && mouseYScaled <= initialCategoriesOffset + 10 + offsetCategories + 40)
-                    {
-                        hoveredCategory = (String)mainCategory.get("name");
+                    if (mouseXScaled >= 230 && mouseXScaled <= 800 && mouseYScaled >= initialCategoriesOffset + 10 + (offsetCategories += 70) && mouseYScaled <= initialCategoriesOffset + 10 + offsetCategories + 40) {
+                        hoveredCategory = (String)childCategory.get("name");
                     }
+                    ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)("wiki.text." + childCategory.get("name") + ".title")), 230.0f, initialCategoriesOffset + 10 + offsetCategories, selectedCategory.equals((String)childCategory.get("name")) ? 0xFFFFFF : (hoveredCategory.equals((String)childCategory.get("name")) ? 0x6E76EE : 0xC4C4C4), 3.0f, "left", false, selectedCategory.equals((String)childCategory.get("name")) ? "georamaBold" : "georamaRegular", 30);
                 }
-
-                Gui.drawRect(108, initialCategoriesOffset + offsetCategories + 70 + 30, 848, initialCategoriesOffset + offsetCategories + 70 + 30 + 2, -15197637);
+                Gui.func_73734_a((int)108, (int)(initialCategoriesOffset + offsetCategories + 70 + 30), (int)848, (int)(initialCategoriesOffset + offsetCategories + 70 + 30 + 2), (int)-15197637);
                 offsetCategories += 140;
+                continue;
             }
-            else
-            {
-                offsetCategories += 100;
-            }
+            offsetCategories += 100;
         }
-
-        if (!selectedMainCategory.isEmpty())
-        {
-            int var25 = 0;
-            float var26 = this.scrollBar.getSliderValue() * (float)selectedMainCategoryFullHeight;
-            var15 = ((ArrayList)ClientProxy.wiki.clone()).iterator();
-
-            while (var15.hasNext())
-            {
-                mainCategory = (HashMap)var15.next();
-
-                if (((String)mainCategory.get("name")).equals(selectedMainCategory) && mainCategory.containsKey("children"))
-                {
-                    String tempSelectedCategory = "";
-                    GUIUtils.startGLScissor((int)(950.0F * ((float)this.width / 3840.0F)), (int)(0.0F * ((float)this.height / 2160.0F)), (int)(2890.0F * ((float)this.width / 3840.0F)), (int)(2160.0F * ((float)this.height - 0.0F * ((float)windowHeight / 2160.0F) / 2160.0F)));
-                    Float offsetY = Float.valueOf((float)(0 + var25) + this.getSlide());
-                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                    ClientProxy.loadResource("textures/gui/wiki/images/" + mainCategory.get("name") + "/top.png");
-                    ModernGui.drawModalRectWithCustomSizedTexture(950.0F, offsetY.floatValue(), 0, 0, 2890, 396, 2890.0F, 396.0F, false);
-                    ModernGui.drawScaledStringCustomFont(I18n.getString("wiki.text." + mainCategory.get("name") + ".title").toUpperCase(), 1110.0F, (float)(offsetY.intValue() + 110), 16777215, 4.0F, "left", false, "georamaSemiBold", 35);
-
-                    if (mainCategory.containsKey("tags"))
-                    {
-                        int tagIndex = 0;
-
-                        for (Iterator childCategory = ((List)mainCategory.get("tags")).iterator(); childCategory.hasNext(); ++tagIndex)
-                        {
-                            String tag = (String)childCategory.next();
-                            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                            ClientProxy.loadResource("textures/gui/wiki/tag.png");
-                            ModernGui.drawModalRectWithCustomSizedTexture((float)(1110 + tagIndex * 205), (float)(offsetY.intValue() + 190), 0, 0, 186, 44, 186.0F, 44.0F, false);
-                            ModernGui.drawScaledStringCustomFont(I18n.getString("wiki.tag." + tag).toUpperCase(), (float)(1110 + tagIndex * 205 + 93), (float)(offsetY.intValue() + 198), 16777215, 2.0F, "center", false, "georamaMedium", 30);
-                        }
+        if (!selectedMainCategory.isEmpty()) {
+            int offsetContent = 0;
+            float currentSliderValue = this.scrollBar.getSliderValue() * (float)selectedMainCategoryFullHeight;
+            for (HashMap mainCategory : (ArrayList)ClientProxy.wiki.clone()) {
+                if (!((String)mainCategory.get("name")).equals(selectedMainCategory) || !mainCategory.containsKey("children")) continue;
+                String tempSelectedCategory = "";
+                GUIUtils.startGLScissor((int)(950.0f * ((float)this.field_73880_f / 3840.0f)), (int)(0.0f * ((float)this.field_73881_g / 2160.0f)), (int)(2890.0f * ((float)this.field_73880_f / 3840.0f)), (int)(2160.0f * ((float)this.field_73881_g - 0.0f * ((float)windowHeight / 2160.0f) / 2160.0f)));
+                Float offsetY = Float.valueOf((float)(0 + offsetContent) + this.getSlide());
+                GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+                ClientProxy.loadResource("textures/gui/wiki/images/" + mainCategory.get("name") + "/top.png");
+                ModernGui.drawModalRectWithCustomSizedTexture(950.0f, offsetY.floatValue(), 0, 0, 2890, 396, 2890.0f, 396.0f, false);
+                ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)("wiki.text." + mainCategory.get("name") + ".title")).toUpperCase(), 1110.0f, offsetY.intValue() + 110, 0xFFFFFF, 4.0f, "left", false, "georamaSemiBold", 35);
+                if (mainCategory.containsKey("tags")) {
+                    int tagIndex = 0;
+                    for (String tag : (List)mainCategory.get("tags")) {
+                        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+                        ClientProxy.loadResource("textures/gui/wiki/tag.png");
+                        ModernGui.drawModalRectWithCustomSizedTexture(1110 + tagIndex * 205, offsetY.intValue() + 190, 0, 0, 186, 44, 186.0f, 44.0f, false);
+                        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)("wiki.tag." + tag)).toUpperCase(), 1110 + tagIndex * 205 + 93, offsetY.intValue() + 198, 0xFFFFFF, 2.0f, "center", false, "georamaMedium", 30);
+                        ++tagIndex;
                     }
-
-                    ModernGui.drawSectionStringCustomFont(I18n.getString("wiki.text." + mainCategory.get("name") + ".description"), 1110.0F, (float)(offsetY.intValue() + 260), 12895428, 2.0F, "left", false, "georamaMedium", 33, 20, 600);
-                    var25 += 396;
-                    HashMap var28;
-
-                    for (Iterator var27 = ((ArrayList)((ArrayList)mainCategory.get("children")).clone()).iterator(); var27.hasNext(); var25 = (int)((long)var25 + ((Long)var28.get("height")).longValue()))
-                    {
-                        var28 = (HashMap)var27.next();
-                        offsetY = Float.valueOf((float)(0 + var25) + this.getSlide());
-
-                        if (!categoryScrollOffset.containsKey(mainCategory.get("name") + "#" + var28.get("name")))
-                        {
-                            categoryScrollOffset.put(mainCategory.get("name") + "#" + var28.get("name"), Integer.valueOf(var25));
-                        }
-
-                        if (tempSelectedCategory.isEmpty() && offsetY.floatValue() > (float)(-(((Long)var28.get("height")).longValue() / 2L)) && offsetY.floatValue() < 1800.0F || (long)selectedMainCategoryFullHeight == (long)var25 + ((Long)var28.get("height")).longValue() && this.scrollBar.getSliderValue() == 1.0F)
-                        {
-                            tempSelectedCategory = (String)var28.get("name");
-                        }
-
-                        Gui.drawRect(950, offsetY.intValue(), 3840, offsetY.intValue() + ((Long)var28.get("height")).intValue(), var28.containsKey("color") ? (int)Long.parseLong(((String)var28.get("color")).replace("0x", ""), 16) : -15197637);
-                        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                        Object imgObj;
-                        JSONObject img;
-                        Iterator var29;
-
-                        if (var28.containsKey("texts"))
-                        {
-                            var29 = ((JSONArray)var28.get("texts")).iterator();
-
-                            while (var29.hasNext())
-                            {
-                                imgObj = var29.next();
-
-                                if (imgObj instanceof JSONObject)
-                                {
-                                    img = (JSONObject)imgObj;
-                                    String textTrad;
-
-                                    if (((String)img.get("name")).equals("title"))
-                                    {
-                                        textTrad = I18n.getString("wiki.text." + var28.get("name") + ".title");
-
-                                        if (textTrad.equals("wiki.text." + var28.get("name") + ".title"))
-                                        {
-                                            textTrad = (String)var28.get("name");
-                                        }
-
-                                        ModernGui.drawScaledStringCustomFont(textTrad, (float)(950 + ((Long)img.get("posX")).intValue()), (float)(offsetY.intValue() + ((Long)img.get("posY")).intValue()), 16777215, 4.0F, (String)img.get("align"), false, img.containsKey("font") ? (String)img.get("font") : "georamaSemiBold", 32);
-                                    }
-                                    else
-                                    {
-                                        textTrad = I18n.getString("wiki.text." + var28.get("name") + "." + img.get("name"));
-
-                                        if (textTrad.equals("wiki.text." + var28.get("name") + "." + img.get("name")))
-                                        {
-                                            textTrad = (String)img.get("name");
-                                        }
-
-                                        ModernGui.drawSectionStringCustomFont(textTrad, (float)(950 + ((Long)img.get("posX")).intValue()), (float)(offsetY.intValue() + ((Long)img.get("posY")).intValue()), img.containsKey("color") ? (int)Long.parseLong(((String)img.get("color")).replace("0x", ""), 16) : -3881788, img.containsKey("scale") ? ((Double)img.get("scale")).floatValue() : 3.0F, (String)img.get("align"), false, img.containsKey("font") ? (String)img.get("font") : "georamaRegular", img.containsKey("size") ? ((Long)img.get("size")).intValue() : 30, 60, img.containsKey("width") ? ((Long)img.get("width")).intValue() : 500);
-                                    }
-                                }
-                            }
-                        }
-
-                        if (var28.containsKey("images"))
-                        {
-                            var29 = ((JSONArray)var28.get("images")).iterator();
-
-                            while (var29.hasNext())
-                            {
-                                imgObj = var29.next();
-
-                                if (imgObj instanceof JSONObject)
-                                {
-                                    img = (JSONObject)imgObj;
-                                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-                                    if (img.containsKey("name"))
-                                    {
-                                        ClientProxy.loadResource("textures/gui/wiki/images/" + mainCategory.get("name") + "/" + img.get("name") + ".png");
-                                    }
-                                    else if (img.containsKey("url"))
-                                    {
-                                        ModernGui.bindRemoteTexture((String)img.get("url"));
-                                    }
-
-                                    ModernGui.drawModalRectWithCustomSizedTexture((float)(950 + ((Long)img.get("posX")).intValue()), (float)(offsetY.intValue() + ((Long)img.get("posY")).intValue()), 0, 0, ((Long)img.get("width")).intValue(), ((Long)img.get("height")).intValue(), (float)((Long)img.get("width")).intValue(), (float)((Long)img.get("height")).intValue(), false);
-                                }
-                            }
-                        }
-                    }
-
-                    selectedCategory = !tempSelectedCategory.isEmpty() ? tempSelectedCategory : defaultCategory;
-
-                    if (selectedMainCategoryFullHeight == 0)
-                    {
-                        selectedMainCategoryFullHeight = var25;
-                    }
-
-                    GUIUtils.endGLScissor();
-                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                    ClientProxy.loadResource("textures/gui/wiki/scrollbar.png");
-                    ModernGui.drawModalRectWithCustomSizedTexture(3780.0F, 440.0F, 0, 0, 24, 1500, 24.0F, 1500.0F, false);
-                    this.scrollBar.draw(mouseXScaled, mouseYScaled);
                 }
+                ModernGui.drawSectionStringCustomFont(I18n.func_135053_a((String)("wiki.text." + mainCategory.get("name") + ".description")), 1110.0f, offsetY.intValue() + 260, 0xC4C4C4, 2.0f, "left", false, "georamaMedium", 33, 20, 600);
+                offsetContent += 396;
+                for (HashMap childCategory : (ArrayList)((ArrayList)mainCategory.get("children")).clone()) {
+                    offsetY = Float.valueOf((float)(0 + offsetContent) + this.getSlide());
+                    if (!categoryScrollOffset.containsKey(mainCategory.get("name") + "#" + childCategory.get("name"))) {
+                        categoryScrollOffset.put(mainCategory.get("name") + "#" + childCategory.get("name"), offsetContent);
+                    }
+                    if (tempSelectedCategory.isEmpty() && offsetY.floatValue() > (float)(-((Long)childCategory.get("height") / 2L)) && offsetY.floatValue() < 1800.0f || (long)selectedMainCategoryFullHeight == (long)offsetContent + (Long)childCategory.get("height") && this.scrollBar.getSliderValue() == 1.0f) {
+                        tempSelectedCategory = (String)childCategory.get("name");
+                    }
+                    Gui.func_73734_a((int)950, (int)offsetY.intValue(), (int)3840, (int)(offsetY.intValue() + ((Long)childCategory.get("height")).intValue()), (int)(childCategory.containsKey("color") ? (int)Long.parseLong(((String)childCategory.get("color")).replace("0x", ""), 16) : -15197637));
+                    GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+                    if (childCategory.containsKey("texts")) {
+                        for (Object textObj : (JSONArray)childCategory.get("texts")) {
+                            String textTrad;
+                            if (!(textObj instanceof JSONObject)) continue;
+                            JSONObject text = (JSONObject)textObj;
+                            if (((String)text.get("name")).equals("title")) {
+                                textTrad = I18n.func_135053_a((String)("wiki.text." + childCategory.get("name") + ".title"));
+                                if (textTrad.equals("wiki.text." + childCategory.get("name") + ".title")) {
+                                    textTrad = (String)childCategory.get("name");
+                                }
+                                ModernGui.drawScaledStringCustomFont(textTrad, 950 + ((Long)text.get("posX")).intValue(), offsetY.intValue() + ((Long)text.get("posY")).intValue(), 0xFFFFFF, 4.0f, (String)text.get("align"), false, text.containsKey("font") ? (String)text.get("font") : "georamaSemiBold", 32);
+                                continue;
+                            }
+                            textTrad = I18n.func_135053_a((String)("wiki.text." + childCategory.get("name") + "." + text.get("name")));
+                            if (textTrad.equals("wiki.text." + childCategory.get("name") + "." + text.get("name"))) {
+                                textTrad = (String)text.get("name");
+                            }
+                            ModernGui.drawSectionStringCustomFont(textTrad, 950 + ((Long)text.get("posX")).intValue(), offsetY.intValue() + ((Long)text.get("posY")).intValue(), text.containsKey("color") ? (int)Long.parseLong(((String)text.get("color")).replace("0x", ""), 16) : -3881788, text.containsKey("scale") ? ((Double)text.get("scale")).floatValue() : 3.0f, (String)text.get("align"), false, text.containsKey("font") ? (String)text.get("font") : "georamaRegular", text.containsKey("size") ? ((Long)text.get("size")).intValue() : 30, 60, text.containsKey("width") ? ((Long)text.get("width")).intValue() : 500);
+                        }
+                    }
+                    if (childCategory.containsKey("images")) {
+                        for (Object imgObj : (JSONArray)childCategory.get("images")) {
+                            if (!(imgObj instanceof JSONObject)) continue;
+                            JSONObject img = (JSONObject)imgObj;
+                            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+                            if (img.containsKey("name")) {
+                                ClientProxy.loadResource("textures/gui/wiki/images/" + mainCategory.get("name") + "/" + img.get("name") + ".png");
+                            } else if (img.containsKey("url")) {
+                                ModernGui.bindRemoteTexture((String)img.get("url"));
+                            }
+                            ModernGui.drawModalRectWithCustomSizedTexture(950 + ((Long)img.get("posX")).intValue(), offsetY.intValue() + ((Long)img.get("posY")).intValue(), 0, 0, ((Long)img.get("width")).intValue(), ((Long)img.get("height")).intValue(), ((Long)img.get("width")).intValue(), ((Long)img.get("height")).intValue(), false);
+                        }
+                    }
+                    offsetContent = (int)((long)offsetContent + (Long)childCategory.get("height"));
+                }
+                String string = selectedCategory = !tempSelectedCategory.isEmpty() ? tempSelectedCategory : defaultCategory;
+                if (selectedMainCategoryFullHeight == 0) {
+                    selectedMainCategoryFullHeight = offsetContent;
+                }
+                GUIUtils.endGLScissor();
+                GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+                ClientProxy.loadResource("textures/gui/wiki/scrollbar.png");
+                ModernGui.drawModalRectWithCustomSizedTexture(3780.0f, 440.0f, 0, 0, 24, 1500, 24.0f, 1500.0f, false);
+                this.scrollBar.draw(mouseXScaled, mouseYScaled);
             }
         }
-
-        if (mouseXScaled >= 3770 && mouseXScaled <= 3802 && mouseYScaled >= 50 && mouseYScaled <= 82)
-        {
+        if (mouseXScaled >= 3770 && mouseXScaled <= 3802 && mouseYScaled >= 50 && mouseYScaled <= 82) {
             hoveredAction = "close";
         }
-
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         ClientProxy.loadResource("textures/gui/generic/cross_" + (hoveredAction.equals("close") ? "white" : "gray") + ".png");
-        ModernGui.drawModalRectWithCustomSizedTexture(3770.0F, 50.0F, 0, 0, 32, 32, 32.0F, 32.0F, true);
-
-        if (!toolTipLines.isEmpty())
-        {
-            this.drawHoveringText(toolTipLines, mouseXScaled, mouseYScaled, this.fontRenderer);
+        ModernGui.drawModalRectWithCustomSizedTexture(3770.0f, 50.0f, 0, 0, 32, 32, 32.0f, 32.0f, true);
+        if (!toolTipLines.isEmpty()) {
+            this.drawHoveringText(toolTipLines, mouseXScaled, mouseYScaled, this.field_73886_k);
         }
-
         GL11.glPopMatrix();
     }
 
-    public void openURL(String url)
-    {
+    public void openURL(String url) {
         Desktop desktop = Desktop.getDesktop();
-
-        if (desktop.isSupported(Action.BROWSE))
-        {
-            try
-            {
+        if (desktop.isSupported(Desktop.Action.BROWSE)) {
+            try {
                 desktop.browse(new URI(url));
             }
-            catch (Exception var4)
-            {
-                var4.printStackTrace();
+            catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
 
-    private float getSlide()
-    {
-        float test = (float)this.height * (2160.0F / (float)this.height);
-        return (float)selectedMainCategoryFullHeight > test ? -((float)(selectedMainCategoryFullHeight + 100) - test) * this.scrollBar.getSliderValue() : 0.0F;
+    private float getSlide() {
+        float test = (float)this.field_73881_g * (2160.0f / (float)this.field_73881_g);
+        return (float)selectedMainCategoryFullHeight > test ? -((float)(selectedMainCategoryFullHeight + 100) - test) * this.scrollBar.getSliderValue() : 0.0f;
     }
 
-    public void scrollToCategory(String category)
-    {
-        if (categoryScrollOffset.containsKey(selectedMainCategory + "#" + category))
-        {
-            int scrollOffset = ((Integer)categoryScrollOffset.get(selectedMainCategory + "#" + category)).intValue();
-            int totalScrollHeight = selectedMainCategoryFullHeight + 100 - (int)((float)this.height * (2160.0F / (float)this.height));
-            float scrollValue = Math.min(1.0F, (float)scrollOffset * 1.0F / (float)Math.max(1, totalScrollHeight));
+    public void scrollToCategory(String category) {
+        if (categoryScrollOffset.containsKey(selectedMainCategory + "#" + category)) {
+            int scrollOffset = categoryScrollOffset.get(selectedMainCategory + "#" + category);
+            int totalScrollHeight = selectedMainCategoryFullHeight + 100 - (int)((float)this.field_73881_g * (2160.0f / (float)this.field_73881_g));
+            float scrollValue = Math.min(1.0f, (float)scrollOffset * 1.0f / (float)Math.max(1, totalScrollHeight));
             this.scrollBar.setSliderValue(scrollValue);
         }
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int par1, int par2, int par3)
-    {
-        int windowWidth = this.width;
-        int windowHeight = this.width * 9 / 16;
-        int var10000 = (int)((float)par1 * (3840.0F / (float)this.width));
-        var10000 = (int)((float)par2 * (2160.0F / (float)windowHeight));
-
-        if (!hoveredMainCategory.isEmpty())
-        {
+    protected void func_73864_a(int par1, int par2, int par3) {
+        int windowWidth = this.field_73880_f;
+        int windowHeight = this.field_73880_f * 9 / 16;
+        int mouseXScaled = (int)((float)par1 * (3840.0f / (float)this.field_73880_f));
+        int mouseYScaled = (int)((float)par2 * (2160.0f / (float)windowHeight));
+        if (!hoveredMainCategory.isEmpty()) {
             selectedMainCategory = hoveredMainCategory;
             selectedMainCategoryFullHeight = 0;
             selectedCategory = "";
-            this.scrollBar.setSliderValue(0.0F);
-        }
-        else if (!hoveredCategory.isEmpty())
-        {
+            this.scrollBar.setSliderValue(0.0f);
+        } else if (!hoveredCategory.isEmpty()) {
             selectedCategory = hoveredCategory;
             this.scrollToCategory(hoveredCategory);
+        } else if (!hoveredAction.isEmpty() && hoveredAction.equals("close")) {
+            Minecraft.func_71410_x().func_71373_a(this.guiFrom);
         }
-        else if (!hoveredAction.isEmpty() && hoveredAction.equals("close"))
-        {
-            Minecraft.getMinecraft().displayGuiScreen(this.guiFrom);
-        }
-
-        this.inputSearch.mouseClicked(par1, par2, par3);
-        super.mouseClicked(par1, par2, par3);
+        this.inputSearch.func_73793_a(par1, par2, par3);
+        super.func_73864_a(par1, par2, par3);
     }
 
-    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font)
-    {
-        if (!par1List.isEmpty())
-        {
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
+    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font) {
+        if (!par1List.isEmpty()) {
+            GL11.glDisable((int)32826);
+            RenderHelper.func_74518_a();
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
             int k = 0;
-            Iterator iterator = par1List.iterator();
-            int j1;
-
-            while (iterator.hasNext())
-            {
-                String i1 = (String)iterator.next();
-                j1 = font.getStringWidth(i1);
-
-                if (j1 > k)
-                {
-                    k = j1;
-                }
+            for (String s : par1List) {
+                int l = font.func_78256_a(s);
+                if (l <= k) continue;
+                k = l;
             }
-
-            int var15 = par2 + 12;
-            j1 = par3 - 12;
+            int i1 = par2 + 12;
+            int j1 = par3 - 12;
             int k1 = 8;
-
-            if (par1List.size() > 1)
-            {
+            if (par1List.size() > 1) {
                 k1 += 2 + (par1List.size() - 1) * 10;
             }
-
-            if (var15 + k > this.width)
-            {
-                var15 -= 28 + k;
+            if (i1 + k > this.field_73880_f) {
+                i1 -= 28 + k;
             }
-
-            if (j1 + k1 + 6 > this.height)
-            {
-                j1 = this.height - k1 - 6;
+            if (j1 + k1 + 6 > this.field_73881_g) {
+                j1 = this.field_73881_g - k1 - 6;
             }
-
-            this.zLevel = 300.0F;
-            this.itemRenderer.zLevel = 300.0F;
+            this.field_73735_i = 300.0f;
+            this.itemRenderer.field_77023_b = 300.0f;
             int l1 = -267386864;
-            this.drawGradientRect(var15 - 3, j1 - 4, var15 + k + 3, j1 - 3, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 3, var15 + k + 3, j1 + k1 + 4, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 - 4, j1 - 3, var15 - 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 + k + 3, j1 - 3, var15 + k + 4, j1 + k1 + 3, l1, l1);
-            int i2 = 1347420415;
-            int j2 = (i2 & 16711422) >> 1 | i2 & -16777216;
-            this.drawGradientRect(var15 - 3, j1 - 3 + 1, var15 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 + k + 2, j1 - 3 + 1, var15 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 - 3 + 1, i2, i2);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 2, var15 + k + 3, j1 + k1 + 3, j2, j2);
-
-            for (int k2 = 0; k2 < par1List.size(); ++k2)
-            {
+            this.func_73733_a(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
+            this.func_73733_a(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
+            int i2 = 0x505000FF;
+            int j2 = (i2 & 0xFEFEFE) >> 1 | i2 & 0xFF000000;
+            this.func_73733_a(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+            this.func_73733_a(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+            for (int k2 = 0; k2 < par1List.size(); ++k2) {
                 String s1 = (String)par1List.get(k2);
-                font.drawStringWithShadow(s1, var15, j1, -1);
-
-                if (k2 == 0)
-                {
+                font.func_78261_a(s1, i1, j1, -1);
+                if (k2 == 0) {
                     j1 += 2;
                 }
-
                 j1 += 10;
             }
-
-            this.zLevel = 0.0F;
-            this.itemRenderer.zLevel = 0.0F;
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.field_73735_i = 0.0f;
+            this.itemRenderer.field_77023_b = 0.0f;
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
+            GL11.glEnable((int)32826);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         }
     }
 }
+

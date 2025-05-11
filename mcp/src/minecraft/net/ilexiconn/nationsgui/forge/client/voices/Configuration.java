@@ -1,3 +1,10 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ */
 package net.ilexiconn.nationsgui.forge.client.voices;
 
 import cpw.mods.fml.relauncher.Side;
@@ -6,36 +13,29 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
+import net.ilexiconn.nationsgui.forge.client.voices.Settings;
 import net.ilexiconn.nationsgui.forge.client.voices.device.DeviceHandler;
 import net.ilexiconn.nationsgui.forge.server.voices.VoiceChat;
 
-@SideOnly(Side.CLIENT)
-public class Configuration
-{
+@SideOnly(value=Side.CLIENT)
+public class Configuration {
     private Properties properties = new Properties();
     private final File file;
     private Settings settings;
 
-    public Configuration(Settings settings, File file)
-    {
+    public Configuration(Settings settings, File file) {
         this.settings = settings;
         this.file = file;
     }
 
-    private boolean load(DeviceHandler handler)
-    {
+    private boolean load(DeviceHandler handler) {
         FileInputStream is = null;
-
-        try
-        {
+        try {
             is = new FileInputStream(this.file);
             this.properties.load(is);
-
-            if (handler.getDefaultDevice() != null)
-            {
+            if (handler.getDefaultDevice() != null) {
                 this.settings.setInputDevice(handler.getDeviceByName(this.properties.getProperty("mic_name", handler.getDefaultDevice().getName())));
             }
-
             this.settings.setWorldVolume(Float.parseFloat(this.properties.getProperty("world_volume")));
             this.settings.setUIOpacity(Float.parseFloat(this.properties.getProperty("ui_opa")));
             this.settings.setSpeakMode(Integer.parseInt(this.properties.getProperty("speak_mode")));
@@ -47,23 +47,17 @@ public class Configuration
             this.settings.setVoiceEnable(Boolean.parseBoolean(this.properties.getProperty("is_voice_enable") != null ? this.properties.getProperty("is_voice_enable") : "true"));
             return true;
         }
-        catch (Exception var4)
-        {
+        catch (Exception var4) {
             return false;
         }
     }
 
-    public boolean save()
-    {
-        try
-        {
+    public boolean save() {
+        try {
             this.properties.setProperty("save-version", VoiceChat.getProxyInstance().getVersion());
-
-            if (this.settings.getInputDevice().getName() != null)
-            {
+            if (this.settings.getInputDevice().getName() != null) {
                 this.properties.setProperty("mic_name", this.settings.getInputDevice().getName());
             }
-
             this.properties.setProperty("world_volume", "" + this.settings.getWorldVolume());
             this.properties.setProperty("speak_mode", "" + this.settings.getSpeakMode());
             this.properties.setProperty("ui_opa", "" + this.settings.getUIOpacity());
@@ -73,27 +67,23 @@ public class Configuration
             this.properties.setProperty("enc_ench", "" + this.settings.isPerceptualEnchantmentAllowed());
             this.properties.setProperty("muted_players", this.settings.getMutedPlayersString());
             this.properties.setProperty("is_voice_enable", "" + this.settings.isVoiceEnable());
-            FileOutputStream var3 = new FileOutputStream(this.file);
-            this.properties.store(var3, "Properties for Voice Chat Mod for Forge, VERSION: " + VoiceChat.getProxyInstance().getVersion());
+            FileOutputStream e = new FileOutputStream(this.file);
+            this.properties.store(e, "Properties for Voice Chat Mod for Forge, VERSION: " + VoiceChat.getProxyInstance().getVersion());
             return true;
         }
-        catch (Exception var2)
-        {
+        catch (Exception var3) {
             return false;
         }
     }
 
-    public void init(DeviceHandler deviceHandler)
-    {
-        if (!this.load(deviceHandler))
-        {
+    public void init(DeviceHandler deviceHandler) {
+        if (!this.load(deviceHandler)) {
             VoiceChat.getLogger().info("No Configuration file found, will create one with default settings.");
             this.settings.setSetupNeeded(true);
-
-            if (this.save())
-            {
+            if (this.save()) {
                 VoiceChat.getLogger().info("Created Configuration file with default settings.");
             }
         }
     }
 }
+

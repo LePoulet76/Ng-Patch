@@ -1,18 +1,20 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package net.ilexiconn.nationsgui.forge.client.voices.networking;
 
 import net.ilexiconn.nationsgui.forge.server.voices.networking.voiceservers.EnumVoiceNetworkType;
 
-public abstract class VoiceClient implements Runnable
-{
+public abstract class VoiceClient
+implements Runnable {
     protected EnumVoiceNetworkType type;
 
-    public VoiceClient(EnumVoiceNetworkType enumVoiceServer)
-    {
+    public VoiceClient(EnumVoiceNetworkType enumVoiceServer) {
         this.type = enumVoiceServer;
     }
 
-    public final void run()
-    {
+    @Override
+    public final void run() {
         this.start();
     }
 
@@ -26,8 +28,7 @@ public abstract class VoiceClient implements Runnable
 
     public abstract void sendVoiceData(byte[] var1, boolean var2);
 
-    public final EnumVoiceNetworkType getType()
-    {
+    public final EnumVoiceNetworkType getType() {
         return this.type;
     }
 
@@ -35,3 +36,4 @@ public abstract class VoiceClient implements Runnable
 
     public abstract void handleEntityPosition(int var1, double var2, double var4, double var6, double var8, double var10, double var12);
 }
+

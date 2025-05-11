@@ -1,52 +1,54 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.relauncher.ReflectionHelper
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.model.ModelBiped
+ *  net.minecraft.client.renderer.entity.RenderPlayer
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraftforge.client.event.RenderPlayerEvent$Pre
+ *  net.minecraftforge.event.EventPriority
+ *  net.minecraftforge.event.ForgeSubscribe
+ */
 package net.ilexiconn.nationsgui.forge.client.render.entity;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import java.util.List;
 import net.ilexiconn.nationsgui.forge.client.ClientProxy;
 import net.ilexiconn.nationsgui.forge.client.gui.cosmetic.CosmeticCategoryGUI;
+import net.ilexiconn.nationsgui.forge.client.itemskin.AbstractSkin;
 import net.ilexiconn.nationsgui.forge.client.itemskin.HandSkin;
 import net.ilexiconn.nationsgui.forge.client.itemskin.SkinType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraftforge.client.event.RenderPlayerEvent.Pre;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 
-public class HandsSkinRenderer
-{
-    @ForgeSubscribe(
-        priority = EventPriority.LOW
-    )
-    public void onPlayerRenderer(Pre event)
-    {
-        if (ClientProxy.clientConfig.render3DSkins)
-        {
-            if (event.entityPlayer.getHeldItem() == null)
-            {
-                ModelBiped playerModel = (ModelBiped)ReflectionHelper.getPrivateValue(RenderPlayer.class, event.renderer, new String[] {"modelBipedMain", "modelBipedMain"});
-                Minecraft minecraft = Minecraft.getMinecraft();
-
-                if (event.entity == minecraft.thePlayer)
-                {
-                    if (Minecraft.getMinecraft().gameSettings.thirdPersonView == 0 && !(Minecraft.getMinecraft().currentScreen instanceof CosmeticCategoryGUI))
-                    {
-                        return;
-                    }
-                }
-                else if (event.entityPlayer.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))
-                {
-                    return;
-                }
-
-                List bippedSkins = ClientProxy.SKIN_MANAGER.getPlayerActiveSkins(event.entityPlayer.username, SkinType.HANDS);
-                HandSkin handSkin = bippedSkins.size() > 0 ? (HandSkin)bippedSkins.get(0) : null;
-
-                if (handSkin != null)
-                {
-                    handSkin.applyToBody(handSkin.getId(), playerModel);
-                }
-            }
+public class HandsSkinRenderer {
+    @ForgeSubscribe(priority=EventPriority.LOW)
+    public void onPlayerRenderer(RenderPlayerEvent.Pre event) {
+        HandSkin handSkin;
+        if (!ClientProxy.clientConfig.render3DSkins) {
+            return;
         }
+        if (event.entityPlayer.func_70694_bm() != null) {
+            return;
+        }
+        ModelBiped playerModel = (ModelBiped)ReflectionHelper.getPrivateValue(RenderPlayer.class, (Object)event.renderer, (String[])new String[]{"modelBipedMain", "field_77109_a"});
+        Minecraft minecraft = Minecraft.func_71410_x();
+        if (event.entity == minecraft.field_71439_g ? Minecraft.func_71410_x().field_71474_y.field_74320_O == 0 && !(Minecraft.func_71410_x().field_71462_r instanceof CosmeticCategoryGUI) : event.entityPlayer.func_98034_c((EntityPlayer)Minecraft.func_71410_x().field_71439_g)) {
+            return;
+        }
+        List<AbstractSkin> bippedSkins = ClientProxy.SKIN_MANAGER.getPlayerActiveSkins(event.entityPlayer.field_71092_bJ, SkinType.HANDS);
+        HandSkin handSkin2 = handSkin = bippedSkins.size() > 0 ? (HandSkin)bippedSkins.get(0) : null;
+        if (handSkin == null) {
+            return;
+        }
+        handSkin.applyToBody(handSkin.getId(), playerModel);
     }
 }
+

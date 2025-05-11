@@ -1,3 +1,20 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.renderer.texture.IconRegister
+ *  net.minecraft.creativetab.CreativeTabs
+ *  net.minecraft.enchantment.Enchantment
+ *  net.minecraft.entity.EntityLivingBase
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.item.Item
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.item.ItemSword
+ *  net.minecraft.potion.PotionEffect
+ *  net.minecraftforge.common.EnumHelper
+ */
 package fr.nationsglory.remoteitem.common.item;
 
 import cpw.mods.fml.relauncher.Side;
@@ -7,104 +24,72 @@ import fr.nationsglory.remoteitem.client.renderer.texture.CustomAtlas;
 import fr.nationsglory.remoteitem.common.data.EnchantData;
 import fr.nationsglory.remoteitem.common.data.ItemData;
 import fr.nationsglory.remoteitem.common.data.PotionEffectData;
-import java.util.Iterator;
+import fr.nationsglory.remoteitem.common.item.CustomItem;
 import java.util.List;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.EnumHelper;
 
-public class CustomSword extends ItemSword
-{
+public class CustomSword
+extends ItemSword {
     private ItemData data;
 
-    public CustomSword(String name, ItemData data)
-    {
-        super(data.getId(), EnumHelper.addToolMaterial(name, data.getHarvestLevel(), data.getDurability(), data.getMiningSpeed(), data.getDamageVsEntities() - 4.0F, data.getEnchantability()));
-        this.setUnlocalizedName("remoteitem." + name);
-        this.setTextureName(name);
+    public CustomSword(String name, ItemData data) {
+        super(data.getId(), EnumHelper.addToolMaterial((String)name, (int)data.getHarvestLevel(), (int)data.getDurability(), (float)data.getMiningSpeed(), (float)(data.getDamageVsEntities() - 4.0f), (int)data.getEnchantability()));
+        this.func_77655_b("remoteitem." + name);
+        this.func_111206_d(name);
         this.data = data;
-        RemoteItem.proxy.setCreativeTabItem(this, data);
+        RemoteItem.proxy.setCreativeTabItem((Item)this, data);
     }
 
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister)
-    {
-        this.itemIcon = CustomAtlas.registerIcon(par1IconRegister, this.iconString);
+    @SideOnly(value=Side.CLIENT)
+    public void func_94581_a(IconRegister par1IconRegister) {
+        this.field_77791_bV = CustomAtlas.registerIcon(par1IconRegister, this.field_111218_cA);
     }
 
-    /**
-     * Return whether this item is repairable in an anvil.
-     */
-    public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
-    {
-        return par2ItemStack.itemID == this.data.getRepairItemID();
+    public boolean func_82789_a(ItemStack par1ItemStack, ItemStack par2ItemStack) {
+        return par2ItemStack.field_77993_c == this.data.getRepairItemID();
     }
 
-    /**
-     * allows items to add custom lines of information to the mouseover description
-     */
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
-    {
-        super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
-        CustomItem.generateDescription(par3List, this, this.data);
+    public void func_77624_a(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+        super.func_77624_a(par1ItemStack, par2EntityPlayer, par3List, par4);
+        CustomItem.generateDescription(par3List, (Item)this, this.data);
     }
 
-    /**
-     * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise
-     * the damage on the stack.
-     */
-    public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
-    {
-        Iterator var4 = this.data.getEffects().iterator();
-
-        while (var4.hasNext())
-        {
-            PotionEffectData potionEffectData = (PotionEffectData)var4.next();
-            par2EntityLivingBase.addPotionEffect(new PotionEffect(potionEffectData.getId(), potionEffectData.getDuration(), potionEffectData.getAmplifier()));
+    public boolean func_77644_a(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase) {
+        for (PotionEffectData potionEffectData : this.data.getEffects()) {
+            par2EntityLivingBase.func_70690_d(new PotionEffect(potionEffectData.getId(), potionEffectData.getDuration(), potionEffectData.getAmplifier()));
         }
-
-        return super.hitEntity(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
+        return super.func_77644_a(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
     }
 
-    /**
-     * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
-     */
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
-    {
+    public void func_77633_a(int par1, CreativeTabs par2CreativeTabs, List par3List) {
         ItemStack itemStack = new ItemStack(par1, 1, 0);
-
-        if (!this.data.getEnchants().isEmpty())
-        {
-            Iterator var5 = this.data.getEnchants().iterator();
-
-            while (var5.hasNext())
-            {
-                EnchantData enchantData = (EnchantData)var5.next();
-                itemStack.addEnchantment(Enchantment.enchantmentsList[enchantData.getId()], enchantData.getLevel());
+        if (!this.data.getEnchants().isEmpty()) {
+            for (EnchantData enchantData : this.data.getEnchants()) {
+                itemStack.func_77966_a(Enchantment.field_77331_b[enchantData.getId()], enchantData.getLevel());
             }
         }
-
         par3List.add(itemStack);
     }
 
-    public boolean hasEffect(ItemStack par1ItemStack, int pass)
-    {
+    public boolean hasEffect(ItemStack par1ItemStack, int pass) {
         return this.data.isGfxEffet();
     }
 
-    public int getTooltipColor()
-    {
+    public int getTooltipColor() {
         return this.data.getTooltipColor();
     }
 
-    public int getTooltipBackgroundColor()
-    {
+    public int getTooltipBackgroundColor() {
         return this.data.getTooltipBackgroundColor();
     }
 }
+

@@ -1,8 +1,22 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.gui.GuiTextField
+ *  net.minecraft.util.StatCollector
+ *  org.lwjgl.input.Keyboard
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.radio;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.ilexiconn.nationsgui.forge.client.gui.CloseButtonGUI;
+import net.ilexiconn.nationsgui.forge.client.gui.radio.RadioGUI;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketCallbacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -11,140 +25,93 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 
-@SideOnly(Side.CLIENT)
-public class RequestGUI extends GuiScreen
-{
+@SideOnly(value=Side.CLIENT)
+public class RequestGUI
+extends GuiScreen {
     private RadioGUI parent;
     private GuiTextField fieldRequest;
     private GuiButton buttonSend;
 
-    public RequestGUI(RadioGUI parent)
-    {
+    public RequestGUI(RadioGUI parent) {
         this.parent = parent;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        int x = this.width / 2 - 116;
-        int y = this.height / 2 - 50;
-        Keyboard.enableRepeatEvents(true);
-        this.buttonList.add(new CloseButtonGUI(0, x + 212, y + 13));
-        this.buttonList.add(this.buttonSend = new GuiButton(1, x + 16, y + 72, StatCollector.translateToLocal("nationsgui.radio.send")));
-        this.buttonSend.enabled = false;
-        this.fieldRequest = new GuiTextField(this.fontRenderer, x + 77, y + 48, 139, 18);
-        this.fieldRequest.setMaxStringLength(200);
-        this.fieldRequest.setCursorPositionEnd();
-        this.fieldRequest.setFocused(true);
+    public void func_73866_w_() {
+        int x = this.field_73880_f / 2 - 116;
+        int y = this.field_73881_g / 2 - 50;
+        Keyboard.enableRepeatEvents((boolean)true);
+        this.field_73887_h.add(new CloseButtonGUI(0, x + 212, y + 13));
+        this.buttonSend = new GuiButton(1, x + 16, y + 72, StatCollector.func_74838_a((String)"nationsgui.radio.send"));
+        this.field_73887_h.add(this.buttonSend);
+        this.buttonSend.field_73742_g = false;
+        this.fieldRequest = new GuiTextField(this.field_73886_k, x + 77, y + 48, 139, 18);
+        this.fieldRequest.func_73804_f(200);
+        this.fieldRequest.func_73803_e();
+        this.fieldRequest.func_73796_b(true);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
-    {
-        int x = this.width / 2 - 116;
-        int y = this.height / 2 - 50;
-        this.drawDefaultBackground();
-        this.mc.getTextureManager().bindTexture(RadioGUI.TEXTURE);
-        this.drawTexturedModalRect(x, y, 0, 0, 233, 43);
-
-        for (int i = 0; i < 4; ++i)
-        {
-            this.drawTexturedModalRect(x, y + 43 + 13 * i, 0, 243, 228, 13);
+    public void func_73863_a(int mouseX, int mouseY, float partialTicks) {
+        int x = this.field_73880_f / 2 - 116;
+        int y = this.field_73881_g / 2 - 50;
+        this.func_73873_v_();
+        this.field_73882_e.func_110434_K().func_110577_a(RadioGUI.TEXTURE);
+        this.func_73729_b(x, y, 0, 0, 233, 43);
+        for (int i = 0; i < 4; ++i) {
+            this.func_73729_b(x, y + 43 + 13 * i, 0, 243, 228, 13);
         }
-
-        this.drawTexturedModalRect(x, y + 95, 0, 160, 235, 5);
-        this.fontRenderer.drawString(StatCollector.translateToLocal("nationsgui.radio.request"), x + 16, y + 54, 7303023);
-        this.fontRenderer.drawString(StatCollector.translateToLocal("nationsgui.radio.request"), x + 16, y + 53, 16777215);
-        this.fieldRequest.drawTextBox();
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.func_73729_b(x, y + 95, 0, 160, 235, 5);
+        this.field_73886_k.func_78276_b(StatCollector.func_74838_a((String)"nationsgui.radio.request"), x + 16, y + 54, 0x6F6F6F);
+        this.field_73886_k.func_78276_b(StatCollector.func_74838_a((String)"nationsgui.radio.request"), x + 16, y + 53, 0xFFFFFF);
+        this.fieldRequest.func_73795_f();
+        super.func_73863_a(mouseX, mouseY, partialTicks);
     }
 
-    /**
-     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
-     */
-    protected void actionPerformed(GuiButton button)
-    {
-        if (button.id == 0)
-        {
-            this.mc.displayGuiScreen(this.parent);
-        }
-        else if (button.id == 1)
-        {
-            this.buttonSend.enabled = false;
-            this.fieldRequest.setEnabled(false);
-            PacketCallbacks.REQUEST_SONG.send(new String[] {this.fieldRequest.getText()});
+    protected void func_73875_a(GuiButton button) {
+        if (button.field_73741_f == 0) {
+            this.field_73882_e.func_71373_a((GuiScreen)this.parent);
+        } else if (button.field_73741_f == 1) {
+            this.buttonSend.field_73742_g = false;
+            this.fieldRequest.func_82265_c(false);
+            PacketCallbacks.REQUEST_SONG.send(this.fieldRequest.func_73781_b());
         }
     }
 
-    /**
-     * Called when the screen is unloaded. Used to disable keyboard repeat events
-     */
-    public void onGuiClosed()
-    {
-        Keyboard.enableRepeatEvents(false);
+    public void func_73874_b() {
+        Keyboard.enableRepeatEvents((boolean)false);
     }
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
-        this.fieldRequest.updateCursorCounter();
+    public void func_73876_c() {
+        this.fieldRequest.func_73780_a();
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char character, int key)
-    {
-        if (!this.fieldRequest.textboxKeyTyped(character, key))
-        {
-            super.keyTyped(character, key);
-        }
-        else
-        {
-            this.buttonSend.enabled = !this.fieldRequest.getText().isEmpty();
+    protected void func_73869_a(char character, int key) {
+        if (!this.fieldRequest.func_73802_a(character, key)) {
+            super.func_73869_a(character, key);
+        } else {
+            this.buttonSend.field_73742_g = !this.fieldRequest.func_73781_b().isEmpty();
         }
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int button)
-    {
-        this.fieldRequest.mouseClicked(mouseX, mouseY, button);
-        super.mouseClicked(mouseX, mouseY, button);
+    protected void func_73864_a(int mouseX, int mouseY, int button) {
+        this.fieldRequest.func_73793_a(mouseX, mouseY, button);
+        super.func_73864_a(mouseX, mouseY, button);
     }
 
-    /**
-     * Returns true if this GUI should pause the game when it is displayed in single-player
-     */
-    public boolean doesGuiPauseGame()
-    {
+    public boolean func_73868_f() {
         return false;
     }
 
-    public static void handleReturn(boolean success)
-    {
-        GuiScreen screen = Minecraft.getMinecraft().currentScreen;
-
-        if (screen instanceof RequestGUI)
-        {
+    public static void handleReturn(boolean success) {
+        GuiScreen screen = Minecraft.func_71410_x().field_71462_r;
+        if (screen instanceof RequestGUI) {
             RequestGUI request = (RequestGUI)screen;
-
-            if (success)
-            {
-                request.mc.displayGuiScreen(request.parent);
-            }
-            else
-            {
-                request.buttonSend.enabled = true;
-                request.fieldRequest.setEnabled(true);
+            if (success) {
+                request.field_73882_e.func_71373_a((GuiScreen)request.parent);
+            } else {
+                request.buttonSend.field_73742_g = true;
+                request.fieldRequest.func_82265_c(true);
             }
         }
     }
 }
+

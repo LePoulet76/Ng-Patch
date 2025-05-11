@@ -1,3 +1,19 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.ITickHandler
+ *  cpw.mods.fml.common.TickType
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  cpw.mods.fml.common.registry.TickRegistry
+ *  cpw.mods.fml.relauncher.Side
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.model.ModelBiped
+ *  net.minecraft.client.multiplayer.WorldClient
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.network.packet.Packet
+ *  net.minecraftforge.common.MinecraftForge
+ */
 package net.ilexiconn.nationsgui.forge.client.emotes;
 
 import aurelienribon.tweenengine.Tween;
@@ -44,42 +60,37 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.packet.Packet;
 import net.minecraftforge.common.MinecraftForge;
 
-public class ClientEmotesHandler implements ITickHandler
-{
-    public static float time = 0.0F;
-    public static float delta = 0.0F;
+public class ClientEmotesHandler
+implements ITickHandler {
+    public static float time = 0.0f;
+    public static float delta = 0.0f;
 
-    public ClientEmotesHandler()
-    {
+    public ClientEmotesHandler() {
         this.init();
     }
 
-    public void init()
-    {
+    public void init() {
         Tween.registerAccessor(ModelBiped.class, new ModelAccessor());
-        MinecraftForge.EVENT_BUS.register(this);
-        TickRegistry.registerTickHandler(this, Side.CLIENT);
+        MinecraftForge.EVENT_BUS.register((Object)this);
+        TickRegistry.registerTickHandler((ITickHandler)this, (Side)Side.CLIENT);
         this.initEmotes();
     }
 
-    public void handlePacket(String emote, String username)
-    {
-        if (ClientProxy.clientConfig.renderEmotes)
-        {
-            WorldClient world = Minecraft.getMinecraft().theWorld;
-            EntityPlayer player = world.getPlayerEntityByName(username);
-
-            if (player != null)
-            {
-                EmoteHandler.putEmote(player, emote);
-            }
+    public void handlePacket(String emote, String username) {
+        if (!ClientProxy.clientConfig.renderEmotes) {
+            return;
+        }
+        WorldClient world = Minecraft.func_71410_x().field_71441_e;
+        EntityPlayer player = world.func_72924_a(username);
+        if (player != null) {
+            EmoteHandler.putEmote(player, emote);
         }
     }
 
-    private void initEmotes()
-    {
+    private void initEmotes() {
         System.out.println("Init Emotes...");
         EmoteHandler.emoteMap.put("airguitar", EmoteAirGuitar.class);
         EmoteHandler.emoteMap.put("cheer", EmoteCheer.class);
@@ -111,35 +122,30 @@ public class ClientEmotesHandler implements ITickHandler
         EmoteHandler.emoteMap.put("joseph", EmoteJosephPose.class);
     }
 
-    public void tickStart(EnumSet<TickType> type, Object ... tickData)
-    {
-        if (type.equals(EnumSet.of(TickType.CLIENT)))
-        {
-            time = (float)Math.ceil((double)time);
-        }
-        else if (type.equals(EnumSet.of(TickType.RENDER)))
-        {
-            float ctime = (float)Math.floor((double)time) + ((Float)tickData[0]).floatValue();
-            delta = (ctime - time) * 50.0F;
+    public void tickStart(EnumSet<TickType> type, Object ... tickData) {
+        if (type.equals(EnumSet.of(TickType.CLIENT))) {
+            time = (float)Math.ceil(time);
+        } else if (type.equals(EnumSet.of(TickType.RENDER))) {
+            float ctime = (float)Math.floor(time) + ((Float)tickData[0]).floatValue();
+            delta = (ctime - time) * 50.0f;
             time = ctime;
             EmoteHandler.clearPlayerList();
         }
     }
 
-    public void tickEnd(EnumSet<TickType> type, Object ... tickData) {}
+    public void tickEnd(EnumSet<TickType> type, Object ... tickData) {
+    }
 
-    public EnumSet<TickType> ticks()
-    {
+    public EnumSet<TickType> ticks() {
         return EnumSet.of(TickType.CLIENT, TickType.RENDER);
     }
 
-    public String getLabel()
-    {
+    public String getLabel() {
         return null;
     }
 
-    public static void playEmote(String emote, boolean playerOnly)
-    {
-        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new StartAnimationPacket(emote, false)));
+    public static void playEmote(String emote, boolean playerOnly) {
+        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new StartAnimationPacket(emote, false)));
     }
 }
+

@@ -1,11 +1,17 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  fr.nationsglory.modelapi.ModelRenderOBJ
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.util;
 
 import fr.nationsglory.modelapi.ModelRenderOBJ;
 import org.json.simple.JSONObject;
 import org.lwjgl.opengl.GL11;
 
-public class Transform
-{
+public class Transform {
     private double scale;
     private double offsetX;
     private double offsetY;
@@ -14,13 +20,11 @@ public class Transform
     private double rotateY;
     private double rotateZ;
 
-    public Transform()
-    {
-        this(1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
+    public Transform() {
+        this(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
     }
 
-    public Transform(double scale, double offsetX, double offsetY, double offsetZ, double rotateX, double rotateY, double rotateZ)
-    {
+    public Transform(double scale, double offsetX, double offsetY, double offsetZ, double rotateX, double rotateY, double rotateZ) {
         this.scale = scale;
         this.offsetX = offsetX;
         this.offsetY = offsetY;
@@ -30,110 +34,93 @@ public class Transform
         this.rotateZ = rotateZ;
     }
 
-    public Transform(JSONObject object)
-    {
-        this.scale = ((Double)object.get("scale")).doubleValue();
-        this.offsetX = ((Double)object.get("offsetX")).doubleValue();
-        this.offsetY = ((Double)object.get("offsetY")).doubleValue();
-        this.offsetZ = ((Double)object.get("offsetZ")).doubleValue();
-        this.rotateX = ((Double)object.get("rotateX")).doubleValue();
-        this.rotateY = ((Double)object.get("rotateY")).doubleValue();
-        this.rotateZ = ((Double)object.get("rotateZ")).doubleValue();
+    public Transform(JSONObject object) {
+        this.scale = (Double)object.get("scale");
+        this.offsetX = (Double)object.get("offsetX");
+        this.offsetY = (Double)object.get("offsetY");
+        this.offsetZ = (Double)object.get("offsetZ");
+        this.rotateX = (Double)object.get("rotateX");
+        this.rotateY = (Double)object.get("rotateY");
+        this.rotateZ = (Double)object.get("rotateZ");
     }
 
-    public double getScale()
-    {
+    public double getScale() {
         return this.scale;
     }
 
-    public double getOffsetX()
-    {
+    public double getOffsetX() {
         return this.offsetX;
     }
 
-    public double getOffsetY()
-    {
+    public double getOffsetY() {
         return this.offsetY;
     }
 
-    public double getOffsetZ()
-    {
+    public double getOffsetZ() {
         return this.offsetZ;
     }
 
-    public void setScale(double scale)
-    {
+    public void setScale(double scale) {
         this.scale = scale;
     }
 
-    public void setOffsetX(double offsetX)
-    {
+    public void setOffsetX(double offsetX) {
         this.offsetX = offsetX;
     }
 
-    public void setOffsetY(double offsetY)
-    {
+    public void setOffsetY(double offsetY) {
         this.offsetY = offsetY;
     }
 
-    public void setOffsetZ(double offsetZ)
-    {
+    public void setOffsetZ(double offsetZ) {
         this.offsetZ = offsetZ;
     }
 
-    public double getRotateX()
-    {
+    public double getRotateX() {
         return this.rotateX;
     }
 
-    public void setRotateX(double rotateX)
-    {
+    public void setRotateX(double rotateX) {
         this.rotateX = rotateX;
     }
 
-    public double getRotateY()
-    {
+    public double getRotateY() {
         return this.rotateY;
     }
 
-    public void setRotateY(double rotateY)
-    {
+    public void setRotateY(double rotateY) {
         this.rotateY = rotateY;
     }
 
-    public double getRotateZ()
-    {
+    public double getRotateZ() {
         return this.rotateZ;
     }
 
-    public void setRotateZ(double rotateZ)
-    {
+    public void setRotateZ(double rotateZ) {
         this.rotateZ = rotateZ;
     }
 
-    public void applyToModel(ModelRenderOBJ modelOBJ)
-    {
-        modelOBJ.offsetX = (float)this.getOffsetX();
-        modelOBJ.offsetY = (float)this.getOffsetY();
-        modelOBJ.offsetZ = (float)this.getOffsetZ();
-        modelOBJ.rotateAngleX = (float)this.getRotateX();
-        modelOBJ.rotateAngleY = (float)this.getRotateY();
-        modelOBJ.rotateAngleZ = (float)this.getRotateZ();
+    public void applyToModel(ModelRenderOBJ modelOBJ) {
+        modelOBJ.field_82906_o = (float)this.getOffsetX();
+        modelOBJ.field_82908_p = (float)this.getOffsetY();
+        modelOBJ.field_82907_q = (float)this.getOffsetZ();
+        modelOBJ.field_78795_f = (float)this.getRotateX();
+        modelOBJ.field_78796_g = (float)this.getRotateY();
+        modelOBJ.field_78808_h = (float)this.getRotateZ();
         modelOBJ.setScale((float)this.getScale());
     }
 
-    public void applyGL()
-    {
+    public void applyGL() {
         double scale = this.getScale();
-        GL11.glScaled(scale, scale, scale);
-        GL11.glTranslated(this.getOffsetX(), this.getOffsetY(), this.getOffsetZ());
-        GL11.glRotated(this.getRotateX(), 1.0D, 0.0D, 0.0D);
-        GL11.glRotated(this.getRotateY(), 0.0D, 1.0D, 0.0D);
-        GL11.glRotated(this.getRotateZ(), 0.0D, 0.0D, 1.0D);
+        GL11.glScaled((double)scale, (double)scale, (double)scale);
+        GL11.glTranslated((double)this.getOffsetX(), (double)this.getOffsetY(), (double)this.getOffsetZ());
+        GL11.glRotated((double)this.getRotateX(), (double)1.0, (double)0.0, (double)0.0);
+        GL11.glRotated((double)this.getRotateY(), (double)0.0, (double)1.0, (double)0.0);
+        GL11.glRotated((double)this.getRotateZ(), (double)0.0, (double)0.0, (double)1.0);
     }
 
-    public boolean isNull()
-    {
-        return this.scale == 1.0D && this.offsetX == 0.0D && this.offsetY == 0.0D && this.offsetZ == 0.0D && this.rotateX == 0.0D && this.rotateY == 0.0D && this.rotateZ == 0.0D;
+    public boolean isNull() {
+        return this.scale == 1.0 && this.offsetX == 0.0 && this.offsetY == 0.0 && this.offsetZ == 0.0 && this.rotateX == 0.0 && this.rotateY == 0.0 && this.rotateZ == 0.0;
     }
 }
+

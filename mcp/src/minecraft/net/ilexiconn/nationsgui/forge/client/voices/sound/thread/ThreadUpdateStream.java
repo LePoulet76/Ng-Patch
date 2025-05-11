@@ -1,94 +1,89 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.Minecraft
+ */
 package net.ilexiconn.nationsgui.forge.client.voices.sound.thread;
 
-import java.util.Iterator;
-import java.util.Map.Entry;
+import java.util.Map;
 import net.ilexiconn.nationsgui.forge.client.voices.sound.PlayableStream;
 import net.ilexiconn.nationsgui.forge.client.voices.sound.SoundManager;
 import net.ilexiconn.nationsgui.forge.server.voices.EntityVector;
 import net.minecraft.client.Minecraft;
 
-public class ThreadUpdateStream implements Runnable
-{
+public class ThreadUpdateStream
+implements Runnable {
     private SoundManager manager;
     Minecraft mc;
 
-    public ThreadUpdateStream(SoundManager manager)
-    {
+    public ThreadUpdateStream(SoundManager manager) {
         this.manager = manager;
-        this.mc = Minecraft.getMinecraft();
+        this.mc = Minecraft.func_71410_x();
     }
 
-    public void run()
-    {
-        while (true)
-        {
-            if (!this.manager.streaming.isEmpty())
-            {
-                Iterator var10 = this.manager.streaming.entrySet().iterator();
-
-                for (int i = 0; var10.hasNext(); ++i)
-                {
-                    PlayableStream var8 = (PlayableStream)((Entry)var10.next()).getValue();
-
-                    if (i < 3)
-                    {
-                        if (var8.end)
-                        {
-                            if (!this.mc.sndManager.sndSystem.playing("" + var8.id))
-                            {
-                                this.manager.killStream(var8.id);
+    /*
+     * WARNING - Removed try catching itself - possible behaviour change.
+     */
+    @Override
+    public void run() {
+        while (true) {
+            Object e1;
+            if (!this.manager.streaming.isEmpty()) {
+                Object stream;
+                e1 = this.manager.streaming.entrySet().iterator();
+                int i = 0;
+                while (e1.hasNext()) {
+                    stream = (PlayableStream)((Map.Entry)e1.next()).getValue();
+                    if (i < 3) {
+                        if (((PlayableStream)stream).end) {
+                            if (!this.mc.field_71416_A.field_77381_a.playing("" + ((PlayableStream)stream).id)) {
+                                this.manager.killStream(((PlayableStream)stream).id);
+                            }
+                        } else if (System.currentTimeMillis() - ((PlayableStream)stream).lastUpdated > 340L && !this.mc.field_71416_A.field_77381_a.playing("" + ((PlayableStream)stream).id)) {
+                            this.manager.killStream(((PlayableStream)stream).id);
+                        }
+                        switch (((PlayableStream)stream).voiceMode) {
+                            case 0: {
+                                this.mc.field_71416_A.field_77381_a.setPosition("" + ((PlayableStream)stream).id, (float)this.mc.field_71439_g.field_70165_t, (float)this.mc.field_71439_g.field_70163_u, (float)this.mc.field_71439_g.field_70161_v);
+                                this.mc.field_71416_A.field_77381_a.setVelocity("" + ((PlayableStream)stream).id, (float)this.mc.field_71439_g.field_70165_t, (float)this.mc.field_71439_g.field_70181_x, (float)this.mc.field_71439_g.field_70179_y);
+                                break;
+                            }
+                            case 1: {
+                                EntityVector vector = ((PlayableStream)stream).getCustomEntityVector();
+                                this.mc.field_71416_A.field_77381_a.setPosition("" + ((PlayableStream)stream).id, (float)vector.x, (float)vector.y, (float)vector.z);
+                                this.mc.field_71416_A.field_77381_a.setVelocity("" + ((PlayableStream)stream).id, (float)vector.motX, (float)vector.motY, (float)vector.motZ);
                             }
                         }
-                        else if (System.currentTimeMillis() - var8.lastUpdated > 340L && !this.mc.sndManager.sndSystem.playing("" + var8.id))
-                        {
-                            this.manager.killStream(var8.id);
-                        }
-
-                        switch (var8.voiceMode)
-                        {
-                            case 0:
-                                this.mc.sndManager.sndSystem.setPosition("" + var8.id, (float)this.mc.thePlayer.posX, (float)this.mc.thePlayer.posY, (float)this.mc.thePlayer.posZ);
-                                this.mc.sndManager.sndSystem.setVelocity("" + var8.id, (float)this.mc.thePlayer.posX, (float)this.mc.thePlayer.motionY, (float)this.mc.thePlayer.motionZ);
-                                break;
-
-                            case 1:
-                                EntityVector vector = var8.getCustomEntityVector();
-                                this.mc.sndManager.sndSystem.setPosition("" + var8.id, (float)vector.x, (float)vector.y, (float)vector.z);
-                                this.mc.sndManager.sndSystem.setVelocity("" + var8.id, (float)vector.motX, (float)vector.motY, (float)vector.motZ);
-                        }
+                    } else {
+                        this.manager.killStream(((PlayableStream)stream).id);
                     }
-                    else
-                    {
-                        this.manager.killStream(var8.id);
-                    }
+                    ++i;
                 }
-
-                try
-                {
-                    synchronized (this)
-                    {
+                try {
+                    stream = this;
+                    synchronized (stream) {
                         this.wait(30L);
                     }
                 }
-                catch (InterruptedException var81)
-                {
-                    var81.printStackTrace();
+                catch (InterruptedException var8) {
+                    var8.printStackTrace();
+                }
+                continue;
+            }
+            try {
+                e1 = this;
+                synchronized (e1) {
+                    this.wait(500L);
+                    continue;
                 }
             }
-            else
-            {
-                try
-                {
-                    synchronized (this)
-                    {
-                        this.wait(500L);
-                    }
-                }
-                catch (InterruptedException var101)
-                {
-                    var101.printStackTrace();
-                }
+            catch (InterruptedException var10) {
+                var10.printStackTrace();
+                continue;
             }
+            break;
         }
     }
 }
+

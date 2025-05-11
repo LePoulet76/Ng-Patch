@@ -1,12 +1,19 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.item.crafting.ShapedRecipes
+ */
 package fr.nationsglory.itemmanager;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 
-public class SkippedShapedRecipes extends ShapedRecipes
-{
-    public SkippedShapedRecipes(int par1, int par2, ItemStack[] par3ArrayOfItemStack, ItemStack par4ItemStack)
-    {
-        super(par1, par2, par3ArrayOfItemStack, par4ItemStack);
+public class SkippedShapedRecipes
+extends ShapedRecipes {
+    public SkippedShapedRecipes(int p_i1917_1_, int p_i1917_2_, ItemStack[] p_i1917_3_, ItemStack p_i1917_4_) {
+        super(p_i1917_1_, p_i1917_2_, p_i1917_3_, p_i1917_4_);
     }
 }
+

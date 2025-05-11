@@ -1,58 +1,63 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package org.xiph.speex;
 
-public interface Encoder
-{
-    int encode(Bits var1, float[] var2);
+import org.xiph.speex.Bits;
 
-    int getEncodedFrameSize();
+public interface Encoder {
+    public int encode(Bits var1, float[] var2);
 
-    int getFrameSize();
+    public int getEncodedFrameSize();
 
-    void setQuality(int var1);
+    public int getFrameSize();
 
-    int getBitRate();
+    public void setQuality(int var1);
 
-    float[] getPiGain();
+    public int getBitRate();
 
-    float[] getExc();
+    public float[] getPiGain();
 
-    float[] getInnov();
+    public float[] getExc();
 
-    void setMode(int var1);
+    public float[] getInnov();
 
-    int getMode();
+    public void setMode(int var1);
 
-    void setBitRate(int var1);
+    public int getMode();
 
-    void setVbr(boolean var1);
+    public void setBitRate(int var1);
 
-    boolean getVbr();
+    public void setVbr(boolean var1);
 
-    void setVad(boolean var1);
+    public boolean getVbr();
 
-    boolean getVad();
+    public void setVad(boolean var1);
 
-    void setDtx(boolean var1);
+    public boolean getVad();
 
-    boolean getDtx();
+    public void setDtx(boolean var1);
 
-    int getAbr();
+    public boolean getDtx();
 
-    void setAbr(int var1);
+    public int getAbr();
 
-    void setVbrQuality(float var1);
+    public void setAbr(int var1);
 
-    float getVbrQuality();
+    public void setVbrQuality(float var1);
 
-    void setComplexity(int var1);
+    public float getVbrQuality();
 
-    int getComplexity();
+    public void setComplexity(int var1);
 
-    void setSamplingRate(int var1);
+    public int getComplexity();
 
-    int getSamplingRate();
+    public void setSamplingRate(int var1);
 
-    int getLookAhead();
+    public int getSamplingRate();
 
-    float getRelativeQuality();
+    public int getLookAhead();
+
+    public float getRelativeQuality();
 }
+

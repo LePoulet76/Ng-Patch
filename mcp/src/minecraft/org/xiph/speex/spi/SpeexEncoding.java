@@ -1,9 +1,12 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package org.xiph.speex.spi;
 
-import javax.sound.sampled.AudioFormat.Encoding;
+import javax.sound.sampled.AudioFormat;
 
-public class SpeexEncoding extends Encoding
-{
+public class SpeexEncoding
+extends AudioFormat.Encoding {
     public static final SpeexEncoding SPEEX = new SpeexEncoding("SPEEX");
     public static final SpeexEncoding SPEEX_Q0 = new SpeexEncoding("SPEEX_quality_0", 0, false);
     public static final SpeexEncoding SPEEX_Q1 = new SpeexEncoding("SPEEX_quality_1", 1, false);
@@ -32,25 +35,22 @@ public class SpeexEncoding extends Encoding
     protected int quality;
     protected boolean vbr;
 
-    public SpeexEncoding(String var1, int var2, boolean var3)
-    {
+    public SpeexEncoding(String var1, int var2, boolean var3) {
         super(var1);
         this.quality = var2;
         this.vbr = var3;
     }
 
-    public SpeexEncoding(String var1)
-    {
+    public SpeexEncoding(String var1) {
         this(var1, 3, false);
     }
 
-    public int getQuality()
-    {
+    public int getQuality() {
         return this.quality;
     }
 
-    public boolean isVBR()
-    {
+    public boolean isVBR() {
         return this.vbr;
     }
 }
+

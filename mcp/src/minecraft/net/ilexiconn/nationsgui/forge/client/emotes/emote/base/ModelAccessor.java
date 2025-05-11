@@ -1,3 +1,10 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.model.ModelBiped
+ *  net.minecraft.client.model.ModelRenderer
+ */
 package net.ilexiconn.nationsgui.forge.client.emotes.emote.base;
 
 import aurelienribon.tweenengine.TweenAccessor;
@@ -6,8 +13,8 @@ import java.util.WeakHashMap;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 
-public class ModelAccessor implements TweenAccessor<ModelBiped>
-{
+public class ModelAccessor
+implements TweenAccessor<ModelBiped> {
     public static final ModelAccessor INSTANCE = new ModelAccessor();
     private static final int ROT_X = 0;
     private static final int ROT_Y = 1;
@@ -67,198 +74,158 @@ public class ModelAccessor implements TweenAccessor<ModelBiped>
     public static final int MODEL_OFF_X = 39;
     public static final int MODEL_OFF_Y = 40;
     public static final int MODEL_OFF_Z = 41;
-    private final Map<ModelBiped, float[]> MODEL_VALUES = new WeakHashMap();
+    private final Map<ModelBiped, float[]> MODEL_VALUES = new WeakHashMap<ModelBiped, float[]>();
 
-    public static ModelRenderer getEarsModel(ModelBiped model)
-    {
-        return model.bipedEars;
+    public static ModelRenderer getEarsModel(ModelBiped model) {
+        return model.field_78121_j;
     }
 
-    public void resetModel(ModelBiped model)
-    {
+    public void resetModel(ModelBiped model) {
         this.MODEL_VALUES.remove(model);
     }
 
-    public int getValues(ModelBiped target, int tweenType, float[] returnValues)
-    {
+    @Override
+    public int getValues(ModelBiped target, int tweenType, float[] returnValues) {
         int axis = tweenType % 6;
         int bodyPart = tweenType - axis;
-
-        if (bodyPart == 36)
-        {
-            if (!this.MODEL_VALUES.containsKey(target))
-            {
-                returnValues[0] = 0.0F;
+        if (bodyPart == 36) {
+            if (!this.MODEL_VALUES.containsKey(target)) {
+                returnValues[0] = 0.0f;
                 return 1;
             }
-            else
-            {
-                float[] model1 = (float[])((float[])this.MODEL_VALUES.get(target));
-                returnValues[0] = model1[axis];
-                return 1;
+            float[] values = this.MODEL_VALUES.get(target);
+            returnValues[0] = values[axis];
+            return 1;
+        }
+        ModelRenderer model = this.getBodyPart(target, bodyPart);
+        if (model == null) {
+            return 0;
+        }
+        switch (axis) {
+            case 0: {
+                returnValues[0] = model.field_78795_f;
+                break;
+            }
+            case 1: {
+                returnValues[0] = model.field_78796_g;
+                break;
+            }
+            case 2: {
+                returnValues[0] = model.field_78808_h;
+                break;
+            }
+            case 3: {
+                returnValues[0] = model.field_82906_o;
+                break;
+            }
+            case 4: {
+                returnValues[0] = model.field_82908_p;
+                break;
+            }
+            case 5: {
+                returnValues[0] = model.field_82907_q;
             }
         }
-        else
-        {
-            ModelRenderer model = this.getBodyPart(target, bodyPart);
-
-            if (model == null)
-            {
-                return 0;
-            }
-            else
-            {
-                switch (axis)
-                {
-                    case 0:
-                        returnValues[0] = model.rotateAngleX;
-                        break;
-
-                    case 1:
-                        returnValues[0] = model.rotateAngleY;
-                        break;
-
-                    case 2:
-                        returnValues[0] = model.rotateAngleZ;
-                        break;
-
-                    case 3:
-                        returnValues[0] = model.offsetX;
-                        break;
-
-                    case 4:
-                        returnValues[0] = model.offsetY;
-                        break;
-
-                    case 5:
-                        returnValues[0] = model.offsetZ;
-                }
-
-                return 1;
-            }
-        }
+        return 1;
     }
 
-    private ModelRenderer getBodyPart(ModelBiped model, int part)
-    {
-        switch (part)
-        {
-            case 0:
-                return model.bipedHead;
-
-            case 6:
-                return model.bipedBody;
-
-            case 12:
-                return model.bipedRightArm;
-
-            case 18:
-                return model.bipedLeftArm;
-
-            case 24:
-                return model.bipedRightLeg;
-
-            case 30:
-                return model.bipedLeftLeg;
-
-            default:
-                return null;
+    private ModelRenderer getBodyPart(ModelBiped model, int part) {
+        switch (part) {
+            case 0: {
+                return model.field_78116_c;
+            }
+            case 6: {
+                return model.field_78115_e;
+            }
+            case 12: {
+                return model.field_78112_f;
+            }
+            case 18: {
+                return model.field_78113_g;
+            }
+            case 24: {
+                return model.field_78123_h;
+            }
+            case 30: {
+                return model.field_78124_i;
+            }
         }
+        return null;
     }
 
-    public void setValues(ModelBiped target, int tweenType, float[] newValues)
-    {
+    @Override
+    public void setValues(ModelBiped target, int tweenType, float[] newValues) {
         int axis = tweenType % 6;
         int bodyPart = tweenType - axis;
-
-        if (bodyPart == 36)
-        {
-            float[] model1 = (float[])((float[])this.MODEL_VALUES.get(target));
-
-            if (model1 == null)
-            {
-                this.MODEL_VALUES.put(target, model1 = new float[6]);
+        if (bodyPart == 36) {
+            float[] values = this.MODEL_VALUES.get(target);
+            if (values == null) {
+                values = new float[6];
+                this.MODEL_VALUES.put(target, values);
             }
-
-            model1[axis] = newValues[0];
+            values[axis] = newValues[0];
+            return;
         }
-        else
-        {
-            ModelRenderer model = this.getBodyPart(target, bodyPart);
-            this.messWithModel(target, model, axis, newValues[0]);
-        }
+        ModelRenderer model = this.getBodyPart(target, bodyPart);
+        this.messWithModel(target, model, axis, newValues[0]);
     }
 
-    private void messWithModel(ModelBiped biped, ModelRenderer part, int axis, float val)
-    {
+    private void messWithModel(ModelBiped biped, ModelRenderer part, int axis, float val) {
         this.setPartAxis(part, axis, val);
-
-        if (biped instanceof ModelBiped && part == biped.bipedHead)
-        {
-            this.setPartAxis(biped.bipedHeadwear, axis, val);
-            this.setPartOffset(getEarsModel(biped), axis, val);
+        if (biped instanceof ModelBiped && part == biped.field_78116_c) {
+            this.setPartAxis(biped.field_78114_d, axis, val);
+            this.setPartOffset(ModelAccessor.getEarsModel(biped), axis, val);
         }
     }
 
-    private void setPartOffset(ModelRenderer part, int axis, float val)
-    {
-        if (part != null)
-        {
-            switch (axis)
-            {
-                case 3:
-                    part.offsetX = val;
-                    break;
-
-                case 4:
-                    part.offsetY = val;
-                    break;
-
-                case 5:
-                    part.offsetZ = val;
+    private void setPartOffset(ModelRenderer part, int axis, float val) {
+        if (part == null) {
+            return;
+        }
+        switch (axis) {
+            case 3: {
+                part.field_82906_o = val;
+                break;
+            }
+            case 4: {
+                part.field_82908_p = val;
+                break;
+            }
+            case 5: {
+                part.field_82907_q = val;
             }
         }
     }
 
-    private void setPartAxis(ModelRenderer part, int axis, float val)
-    {
-        if (part != null)
-        {
-            switch (axis)
-            {
-                case 0:
-                    part.rotateAngleX = val;
-                    break;
-
-                case 1:
-                    part.rotateAngleY = val;
-                    break;
-
-                case 2:
-                    part.rotateAngleZ = val;
-                    break;
-
-                case 3:
-                    part.offsetX = val;
-                    break;
-
-                case 4:
-                    part.offsetY = val;
-                    break;
-
-                case 5:
-                    part.offsetZ = val;
+    private void setPartAxis(ModelRenderer part, int axis, float val) {
+        if (part == null) {
+            return;
+        }
+        switch (axis) {
+            case 0: {
+                part.field_78795_f = val;
+                break;
+            }
+            case 1: {
+                part.field_78796_g = val;
+                break;
+            }
+            case 2: {
+                part.field_78808_h = val;
+                break;
+            }
+            case 3: {
+                part.field_82906_o = val;
+                break;
+            }
+            case 4: {
+                part.field_82908_p = val;
+                break;
+            }
+            case 5: {
+                part.field_82907_q = val;
             }
         }
-    }
-
-    public void setValues(Object var1, int var2, float[] var3)
-    {
-        this.setValues((ModelBiped)var1, var2, var3);
-    }
-
-    public int getValues(Object var1, int var2, float[] var3)
-    {
-        return this.getValues((ModelBiped)var1, var2, var3);
     }
 }
+

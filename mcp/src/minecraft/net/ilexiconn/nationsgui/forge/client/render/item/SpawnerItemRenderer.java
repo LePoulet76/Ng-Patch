@@ -1,6 +1,26 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.block.Block
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.multiplayer.WorldClient
+ *  net.minecraft.client.renderer.OpenGlHelper
+ *  net.minecraft.client.renderer.RenderBlocks
+ *  net.minecraft.client.renderer.Tessellator
+ *  net.minecraft.client.renderer.entity.RenderManager
+ *  net.minecraft.entity.Entity
+ *  net.minecraft.entity.EntityLiving
+ *  net.minecraft.entity.boss.BossStatus
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.world.World
+ *  net.minecraftforge.client.IItemRenderer
+ *  net.minecraftforge.client.IItemRenderer$ItemRenderType
+ *  net.minecraftforge.client.IItemRenderer$ItemRendererHelper
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.render.item;
 
-import net.ilexiconn.nationsgui.forge.client.render.item.SpawnerItemRenderer$1;
 import net.ilexiconn.nationsgui.forge.server.item.MobSpawnerItem;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -9,98 +29,83 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-public class SpawnerItemRenderer implements IItemRenderer
-{
-    public boolean handleRenderType(ItemStack item, ItemRenderType type)
-    {
+public class SpawnerItemRenderer
+implements IItemRenderer {
+    public boolean handleRenderType(ItemStack item, IItemRenderer.ItemRenderType type) {
         return true;
     }
 
-    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
-    {
+    public boolean shouldUseRenderHelper(IItemRenderer.ItemRenderType type, ItemStack item, IItemRenderer.ItemRendererHelper helper) {
         return true;
     }
 
-    public void renderItem(ItemRenderType type, ItemStack item, Object ... data)
-    {
-        switch (SpawnerItemRenderer$1.$SwitchMap$net$minecraftforge$client$IItemRenderer$ItemRenderType[type.ordinal()])
-        {
-            case 1:
-            case 2:
-                GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+    public void renderItem(IItemRenderer.ItemRenderType type, ItemStack item, Object ... data) {
+        switch (type) {
+            case EQUIPPED: 
+            case EQUIPPED_FIRST_PERSON: {
+                GL11.glTranslatef((float)0.5f, (float)0.5f, (float)0.5f);
                 this.renderInventoryItem((RenderBlocks)data[0], item);
                 break;
-
-            case 3:
+            }
+            case INVENTORY: {
                 this.renderInventoryItem((RenderBlocks)data[0], item);
                 break;
-
-            case 4:
-                GL11.glScalef(0.5F, 0.5F, 0.5F);
+            }
+            case ENTITY: {
+                GL11.glScalef((float)0.5f, (float)0.5f, (float)0.5f);
                 this.renderInventoryItem((RenderBlocks)data[0], item);
+            }
         }
     }
 
-    public void renderInventoryItem(RenderBlocks render, ItemStack item)
-    {
-        int meta = item.getItemDamage();
-
-        if (meta == 0)
-        {
-            meta = 90;
-        }
-
-        String bossName = BossStatus.bossName;
-        int bossTimeout = BossStatus.statusBarLength;
-
-        try
-        {
-            WorldClient e = Minecraft.getMinecraft().theWorld;
-            render.renderBlockAsItem(Block.mobSpawner, 0, 1.0F);
-            GL11.glPushMatrix();
-            EntityLiving entity = MobSpawnerItem.getEntity(meta, e);
-
-            if (entity != null)
-            {
-                entity.setWorld(e);
-                float f1 = 0.4375F;
-
-                if ((double)entity.distanceWalkedOnStepModified > 1.5D)
-                {
-                    f1 = 0.1F;
+    public void renderInventoryItem(RenderBlocks render, ItemStack item) {
+        int bossTimeout;
+        String bossName;
+        block5: {
+            int meta = item.func_77960_j();
+            if (meta == 0) {
+                meta = 90;
+            }
+            bossName = BossStatus.field_82827_c;
+            bossTimeout = BossStatus.field_82826_b;
+            try {
+                WorldClient world = Minecraft.func_71410_x().field_71441_e;
+                render.func_78600_a(Block.field_72065_as, 0, 1.0f);
+                GL11.glPushMatrix();
+                EntityLiving entity = MobSpawnerItem.getEntity(meta, (World)world);
+                if (entity != null) {
+                    entity.func_70029_a((World)world);
+                    float f1 = 0.4375f;
+                    if ((double)entity.field_82151_R > 1.5) {
+                        f1 = 0.1f;
+                    }
+                    GL11.glRotatef((float)-20.0f, (float)1.0f, (float)0.0f, (float)0.0f);
+                    GL11.glTranslatef((float)0.0f, (float)-0.4f, (float)0.0f);
+                    GL11.glScalef((float)f1, (float)f1, (float)f1);
+                    entity.func_70012_b(0.0, 0.0, 0.0, 0.0f, 0.0f);
+                    RenderManager.field_78727_a.func_78719_a((Entity)entity, 0.0, 0.0, 0.0, 0.0f, 0.0f);
                 }
-
-                GL11.glRotatef(-20.0F, 1.0F, 0.0F, 0.0F);
-                GL11.glTranslatef(0.0F, -0.4F, 0.0F);
-                GL11.glScalef(f1, f1, f1);
-                entity.setLocationAndAngles(0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
-                RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+                GL11.glPopMatrix();
+                GL11.glEnable((int)32826);
+                OpenGlHelper.func_77473_a((int)OpenGlHelper.field_77476_b);
+                GL11.glDisable((int)3553);
+                OpenGlHelper.func_77473_a((int)OpenGlHelper.field_77478_a);
             }
-
-            GL11.glPopMatrix();
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
-        }
-        catch (Exception var9)
-        {
-            if (Tessellator.instance.isDrawing)
-            {
-                Tessellator.instance.draw();
+            catch (Exception e) {
+                if (!Tessellator.field_78398_a.field_78415_z) break block5;
+                Tessellator.field_78398_a.func_78381_a();
             }
         }
-
-        BossStatus.bossName = bossName;
-        BossStatus.statusBarLength = bossTimeout;
+        BossStatus.field_82827_c = bossName;
+        BossStatus.field_82826_b = bossTimeout;
     }
 }
+

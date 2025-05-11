@@ -1,3 +1,14 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.client.registry.KeyBindingRegistry
+ *  cpw.mods.fml.client.registry.KeyBindingRegistry$KeyHandler
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.settings.KeyBinding
+ *  org.lwjgl.input.Keyboard
+ */
 package net.ilexiconn.nationsgui.forge.client.voices.keybindings;
 
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
@@ -6,85 +17,72 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.List;
 import net.ilexiconn.nationsgui.forge.client.voices.VoiceChatClient;
+import net.ilexiconn.nationsgui.forge.client.voices.keybindings.EnumBinding;
+import net.ilexiconn.nationsgui.forge.client.voices.keybindings.KeyBindingHandler;
+import net.ilexiconn.nationsgui.forge.client.voices.keybindings.KeyEvent;
+import net.ilexiconn.nationsgui.forge.client.voices.keybindings.KeyMuteSoundEvent;
+import net.ilexiconn.nationsgui.forge.client.voices.keybindings.KeySpeakEvent;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
 
-@SideOnly(Side.CLIENT)
-public class KeyManager
-{
+@SideOnly(value=Side.CLIENT)
+public class KeyManager {
     private static KeyManager instance;
     private VoiceChatClient voiceChat;
-    @SideOnly(Side.CLIENT)
+    @SideOnly(value=Side.CLIENT)
     private List keyEvents = new ArrayList();
     private KeyMuteSoundEvent muteKey;
 
-    public KeyManager(VoiceChatClient voiceChat)
-    {
+    public KeyManager(VoiceChatClient voiceChat) {
         this.voiceChat = voiceChat;
         instance = this;
     }
 
-    @SideOnly(Side.CLIENT)
-    public List getKeyEvents()
-    {
+    @SideOnly(value=Side.CLIENT)
+    public List getKeyEvents() {
         return this.keyEvents;
     }
 
-    public void init()
-    {
+    public void init() {
         this.keyEvents.add(new KeySpeakEvent(this.voiceChat, EnumBinding.SPEAK, 47, false));
-        this.keyEvents.add(this.muteKey = new KeyMuteSoundEvent(EnumBinding.SOUND, 34, false));
-        KeyBindingRegistry.registerKeyBinding(new KeyBindingHandler(this.compileKeyBindings(), this.compileRepeating(), this));
+        this.muteKey = new KeyMuteSoundEvent(EnumBinding.SOUND, 34, false);
+        this.keyEvents.add(this.muteKey);
+        KeyBindingRegistry.registerKeyBinding((KeyBindingRegistry.KeyHandler)new KeyBindingHandler(this.compileKeyBindings(), this.compileRepeating(), this));
     }
 
-    private boolean[] compileRepeating()
-    {
+    private boolean[] compileRepeating() {
         boolean[] keyRepeating = new boolean[this.keyEvents.size()];
-
-        for (int i = 0; i < keyRepeating.length; ++i)
-        {
+        for (int i = 0; i < keyRepeating.length; ++i) {
             KeyEvent keyEvent = (KeyEvent)this.keyEvents.get(i);
             keyRepeating[i] = keyEvent.repeating;
         }
-
         return keyRepeating;
     }
 
-    private KeyBinding[] compileKeyBindings()
-    {
+    private KeyBinding[] compileKeyBindings() {
         KeyBinding[] keyBinding = new KeyBinding[this.keyEvents.size()];
-
-        for (int i = 0; i < keyBinding.length; ++i)
-        {
+        for (int i = 0; i < keyBinding.length; ++i) {
             KeyEvent keyEvent = (KeyEvent)this.keyEvents.get(i);
             keyBinding[i] = new KeyBinding(keyEvent.keyBind.name, keyEvent.keyID);
         }
-
         return keyBinding;
     }
 
-    public String getKeyName(EnumBinding binding)
-    {
-        for (int i = 0; i < this.keyEvents.size(); ++i)
-        {
+    public String getKeyName(EnumBinding binding) {
+        for (int i = 0; i < this.keyEvents.size(); ++i) {
             KeyEvent event = (KeyEvent)this.keyEvents.get(i);
-
-            if (event.keyBind == binding)
-            {
-                return Keyboard.getKeyName(event.keyID);
-            }
+            if (event.keyBind != binding) continue;
+            return Keyboard.getKeyName((int)event.keyID);
         }
-
         return null;
     }
 
-    public boolean isKeyMuted()
-    {
+    public boolean isKeyMuted() {
         return this.muteKey.isMuted();
     }
 
-    public static KeyManager getInstance()
-    {
+    public static KeyManager getInstance() {
         return instance;
     }
 }
+

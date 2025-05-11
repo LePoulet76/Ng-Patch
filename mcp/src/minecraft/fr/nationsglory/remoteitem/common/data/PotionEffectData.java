@@ -1,23 +1,23 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package fr.nationsglory.remoteitem.common.data;
 
-public class PotionEffectData
-{
+public class PotionEffectData {
     private int id = 0;
     private int amplifier = 0;
     private int duration = 0;
 
-    public int getId()
-    {
+    public int getId() {
         return this.id;
     }
 
-    public int getAmplifier()
-    {
+    public int getAmplifier() {
         return this.amplifier - 1;
     }
 
-    public int getDuration()
-    {
+    public int getDuration() {
         return this.duration * 20;
     }
 }
+

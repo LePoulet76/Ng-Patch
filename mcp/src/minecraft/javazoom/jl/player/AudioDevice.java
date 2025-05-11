@@ -1,19 +1,22 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package javazoom.jl.player;
 
 import javazoom.jl.decoder.Decoder;
 import javazoom.jl.decoder.JavaLayerException;
 
-public interface AudioDevice
-{
-    void open(Decoder var1) throws JavaLayerException;
+public interface AudioDevice {
+    public void open(Decoder var1) throws JavaLayerException;
 
-    boolean isOpen();
+    public boolean isOpen();
 
-    void write(short[] var1, int var2, int var3) throws JavaLayerException;
+    public void write(short[] var1, int var2, int var3) throws JavaLayerException;
 
-    void close();
+    public void close();
 
-    void flush();
+    public void flush();
 
-    int getPosition();
+    public int getPosition();
 }
+

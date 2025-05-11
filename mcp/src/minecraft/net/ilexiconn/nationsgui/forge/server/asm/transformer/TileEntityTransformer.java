@@ -1,51 +1,46 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  org.objectweb.asm.tree.AbstractInsnNode
+ *  org.objectweb.asm.tree.ClassNode
+ *  org.objectweb.asm.tree.InsnNode
+ *  org.objectweb.asm.tree.LocalVariableNode
+ *  org.objectweb.asm.tree.MethodNode
+ */
 package net.ilexiconn.nationsgui.forge.server.asm.transformer;
 
-import java.util.Iterator;
+import net.ilexiconn.nationsgui.forge.server.asm.transformer.Transformer;
+import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.LocalVariableNode;
 import org.objectweb.asm.tree.MethodNode;
 
-public class TileEntityTransformer implements Transformer
-{
-    public String getTarget()
-    {
+public class TileEntityTransformer
+implements Transformer {
+    @Override
+    public String getTarget() {
         return "net.minecraft.tileentity.TileEntity";
     }
 
-    public void transform(ClassNode node, boolean dev)
-    {
-        Iterator var3 = node.methods.iterator();
-
-        while (var3.hasNext())
-        {
-            MethodNode methodNode = (MethodNode)var3.next();
+    @Override
+    public void transform(ClassNode node, boolean dev) {
+        for (MethodNode methodNode : node.methods) {
             boolean that = false;
-            Iterator var6 = methodNode.localVariables.iterator();
-
-            while (var6.hasNext())
-            {
-                LocalVariableNode variableNode = (LocalVariableNode)var6.next();
-
-                if (variableNode.name.equals("this"))
-                {
-                    if (that)
-                    {
-                        variableNode.name = "that";
-                    }
-                    else
-                    {
-                        that = true;
-                    }
+            for (LocalVariableNode variableNode : methodNode.localVariables) {
+                if (!variableNode.name.equals("this")) continue;
+                if (that) {
+                    variableNode.name = "that";
+                    continue;
                 }
+                that = true;
             }
-
-            if (methodNode.name.equals("func_85027_a"))
-            {
-                methodNode.instructions.clear();
-                methodNode.instructions.add(new InsnNode(177));
-                break;
-            }
+            if (!methodNode.name.equals("func_85027_a")) continue;
+            methodNode.instructions.clear();
+            methodNode.instructions.add((AbstractInsnNode)new InsnNode(177));
+            break;
         }
     }
 }
+

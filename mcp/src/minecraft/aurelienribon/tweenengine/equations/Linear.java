@@ -1,9 +1,22 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package aurelienribon.tweenengine.equations;
 
 import aurelienribon.tweenengine.TweenEquation;
-import aurelienribon.tweenengine.equations.Linear$1;
 
-public abstract class Linear extends TweenEquation
-{
-    public static final Linear INOUT = new Linear$1();
+public abstract class Linear
+extends TweenEquation {
+    public static final Linear INOUT = new Linear(){
+
+        @Override
+        public float compute(float t) {
+            return t;
+        }
+
+        public String toString() {
+            return "Linear.INOUT";
+        }
+    };
 }
+

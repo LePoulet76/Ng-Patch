@@ -1,7 +1,9 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package javazoom.jl.decoder;
 
-public class OutputChannels
-{
+public class OutputChannels {
     public static final int BOTH_CHANNELS = 0;
     public static final int LEFT_CHANNEL = 1;
     public static final int RIGHT_CHANNEL = 2;
@@ -12,63 +14,51 @@ public class OutputChannels
     public static final OutputChannels DOWNMIX = new OutputChannels(3);
     private int outputChannels;
 
-    public static OutputChannels fromInt(int code)
-    {
-        switch (code)
-        {
-            case 0:
-                return BOTH;
-
-            case 1:
+    public static OutputChannels fromInt(int code) {
+        switch (code) {
+            case 1: {
                 return LEFT;
-
-            case 2:
+            }
+            case 2: {
                 return RIGHT;
-
-            case 3:
+            }
+            case 0: {
+                return BOTH;
+            }
+            case 3: {
                 return DOWNMIX;
-
-            default:
-                throw new IllegalArgumentException("Invalid channel code: " + code);
+            }
         }
+        throw new IllegalArgumentException("Invalid channel code: " + code);
     }
 
-    private OutputChannels(int channels)
-    {
+    private OutputChannels(int channels) {
         this.outputChannels = channels;
-
-        if (channels < 0 || channels > 3)
-        {
+        if (channels < 0 || channels > 3) {
             throw new IllegalArgumentException("channels");
         }
     }
 
-    public int getChannelsOutputCode()
-    {
+    public int getChannelsOutputCode() {
         return this.outputChannels;
     }
 
-    public int getChannelCount()
-    {
+    public int getChannelCount() {
         int count = this.outputChannels == 0 ? 2 : 1;
         return count;
     }
 
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         boolean equals = false;
-
-        if (o instanceof OutputChannels)
-        {
+        if (o instanceof OutputChannels) {
             OutputChannels oc = (OutputChannels)o;
             equals = oc.outputChannels == this.outputChannels;
         }
-
         return equals;
     }
 
-    public int hashCode()
-    {
+    public int hashCode() {
         return this.outputChannels;
     }
 }
+

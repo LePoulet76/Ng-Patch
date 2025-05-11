@@ -1,3 +1,6 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package javazoom.jl.player;
 
 import java.io.BufferedInputStream;
@@ -6,92 +9,70 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.AudioDevice;
+import javazoom.jl.player.FactoryRegistry;
+import javazoom.jl.player.Player;
 
-public class jlp
-{
+public class jlp {
     private String fFilename = null;
     private boolean remote = false;
 
-    public static void main(String[] args)
-    {
-        byte retval = 0;
-
-        try
-        {
-            jlp ex = createInstance(args);
-
-            if (ex != null)
-            {
-                ex.play();
+    public static void main(String[] args) {
+        int retval = 0;
+        try {
+            jlp player = jlp.createInstance(args);
+            if (player != null) {
+                player.play();
             }
         }
-        catch (Exception var3)
-        {
-            System.err.println(var3);
-            var3.printStackTrace(System.err);
+        catch (Exception ex) {
+            System.err.println(ex);
+            ex.printStackTrace(System.err);
             retval = 1;
         }
-
         System.exit(retval);
     }
 
-    public static jlp createInstance(String[] args)
-    {
+    public static jlp createInstance(String[] args) {
         jlp player = new jlp();
-
-        if (!player.parseArgs(args))
-        {
+        if (!player.parseArgs(args)) {
             player = null;
         }
-
         return player;
     }
 
-    private jlp() {}
+    private jlp() {
+    }
 
-    public jlp(String filename)
-    {
+    public jlp(String filename) {
         this.init(filename);
     }
 
-    protected void init(String filename)
-    {
+    protected void init(String filename) {
         this.fFilename = filename;
     }
 
-    protected boolean parseArgs(String[] args)
-    {
+    protected boolean parseArgs(String[] args) {
         boolean parsed = false;
-
-        if (args.length == 1)
-        {
+        if (args.length == 1) {
             this.init(args[0]);
             parsed = true;
             this.remote = false;
-        }
-        else if (args.length == 2)
-        {
-            if (!args[0].equals("-url"))
-            {
+        } else if (args.length == 2) {
+            if (!args[0].equals("-url")) {
                 this.showUsage();
-            }
-            else
-            {
+            } else {
                 this.init(args[1]);
                 parsed = true;
                 this.remote = true;
             }
-        }
-        else
-        {
+        } else {
             this.showUsage();
         }
-
         return parsed;
     }
 
-    public void showUsage()
-    {
+    public void showUsage() {
         System.out.println("Usage: jlp [-url] <filename>");
         System.out.println("");
         System.out.println(" e.g. : java javazoom.jl.player.jlp localfile.mp3");
@@ -99,53 +80,38 @@ public class jlp
         System.out.println("        java javazoom.jl.player.jlp -url http://www.shoutcastserver.com:8000");
     }
 
-    public void play() throws JavaLayerException
-    {
-        try
-        {
+    public void play() throws JavaLayerException {
+        try {
             System.out.println("playing " + this.fFilename + "...");
-            InputStream ex = null;
-
-            if (this.remote)
-            {
-                ex = this.getURLInputStream();
-            }
-            else
-            {
-                ex = this.getInputStream();
-            }
-
+            InputStream in = null;
+            in = this.remote ? this.getURLInputStream() : this.getInputStream();
             AudioDevice dev = this.getAudioDevice();
-            Player player = new Player(ex, dev);
+            Player player = new Player(in, dev);
             player.play();
         }
-        catch (IOException var4)
-        {
-            throw new JavaLayerException("Problem playing file " + this.fFilename, var4);
+        catch (IOException ex) {
+            throw new JavaLayerException("Problem playing file " + this.fFilename, ex);
         }
-        catch (Exception var5)
-        {
-            throw new JavaLayerException("Problem playing file " + this.fFilename, var5);
+        catch (Exception ex) {
+            throw new JavaLayerException("Problem playing file " + this.fFilename, ex);
         }
     }
 
-    protected InputStream getURLInputStream() throws Exception
-    {
+    protected InputStream getURLInputStream() throws Exception {
         URL url = new URL(this.fFilename);
         InputStream fin = url.openStream();
         BufferedInputStream bin = new BufferedInputStream(fin);
         return bin;
     }
 
-    protected InputStream getInputStream() throws IOException
-    {
+    protected InputStream getInputStream() throws IOException {
         FileInputStream fin = new FileInputStream(this.fFilename);
         BufferedInputStream bin = new BufferedInputStream(fin);
         return bin;
     }
 
-    protected AudioDevice getAudioDevice() throws JavaLayerException
-    {
+    protected AudioDevice getAudioDevice() throws JavaLayerException {
         return FactoryRegistry.systemRegistry().createAudioDevice();
     }
 }
+

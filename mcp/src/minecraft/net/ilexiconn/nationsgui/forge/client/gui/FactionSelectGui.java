@@ -1,212 +1,175 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  net.minecraft.client.gui.Gui
+ *  net.minecraft.network.packet.Packet
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import net.ilexiconn.nationsgui.forge.client.gui.FactionSelectGui$FactionButton;
-import net.ilexiconn.nationsgui.forge.client.gui.FirstConnectionChoiceGui$Data;
+import net.ilexiconn.nationsgui.forge.client.gui.AbstractFirstConnectionGui;
+import net.ilexiconn.nationsgui.forge.client.gui.FirstConnectionChoiceGui;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernScrollBar;
 import net.ilexiconn.nationsgui.forge.client.util.GUIUtils;
-import net.minecraft.client.Minecraft;
+import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
+import net.ilexiconn.nationsgui.forge.server.packet.impl.FactionTeleportPacket;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.network.packet.Packet;
 import org.lwjgl.opengl.GL11;
 
-public class FactionSelectGui extends AbstractFirstConnectionGui
-{
+public class FactionSelectGui
+extends AbstractFirstConnectionGui {
     private boolean createFaction;
-    private FirstConnectionChoiceGui$Data data;
-    private List<FactionSelectGui$FactionButton> factionButtonList = new ArrayList();
+    private FirstConnectionChoiceGui.Data data;
+    private List<FactionButton> factionButtonList = new ArrayList<FactionButton>();
     private ModernScrollBar modernScrollBar;
-    private List<String> textList = new ArrayList();
+    private List<String> textList = new ArrayList<String>();
     private String infoText;
 
-    public FactionSelectGui(boolean createFaction, FirstConnectionChoiceGui$Data data)
-    {
+    public FactionSelectGui(boolean createFaction, FirstConnectionChoiceGui.Data data) {
         this.createFaction = createFaction;
         this.data = data;
-
-        if (createFaction)
-        {
-            this.infoText = "Astuce : Une fois ton pays cr\u00e9\u00e9, tu seras t\u00e9l\u00e9port\u00e9 sur ta terre promise !";
-        }
-        else
-        {
-            this.infoText = "Astuce : Tu sera automatiquement t\u00e9l\u00e9port\u00e9 au spawn de ton pays.";
-        }
-
+        this.infoText = createFaction ? "Astuce : Une fois ton pays cr\u00e9\u00e9, tu seras t\u00e9l\u00e9port\u00e9 sur ta terre promise !" : "Astuce : Tu sera automatiquement t\u00e9l\u00e9port\u00e9 au spawn de ton pays.";
         this.updateText();
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
+    @Override
+    public void func_73866_w_() {
+        super.func_73866_w_();
         this.factionButtonList.clear();
-        List list = this.createFaction ? this.data.getAvailableFactions() : this.data.getOpenFactions();
+        List<String> list = this.createFaction ? this.data.getAvailableFactions() : this.data.getOpenFactions();
         int i = 0;
-
-        for (Iterator var3 = list.iterator(); var3.hasNext(); ++i)
-        {
-            String factionName = (String)var3.next();
-            this.factionButtonList.add(new FactionSelectGui$FactionButton(this, factionName, this.width / 2 - 89, this.height / 2 - 26 + i * 12));
+        for (String factionName : list) {
+            this.factionButtonList.add(new FactionButton(factionName, this.field_73880_f / 2 - 89, this.field_73881_g / 2 - 26 + i * 12));
+            ++i;
         }
-
-        if (this.factionButtonList.size() > 6)
-        {
-            this.modernScrollBar = new ModernScrollBar((float)(this.width / 2 + 22), (float)(this.height / 2 - 40), 3, 95, 3);
-        }
-        else
-        {
-            this.modernScrollBar = null;
-        }
+        this.modernScrollBar = this.factionButtonList.size() > 6 ? new ModernScrollBar(this.field_73880_f / 2 + 22, this.field_73881_g / 2 - 40, 3, 95, 3) : null;
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int mouseX, int mouseY, float truc)
-    {
-        super.drawScreen(mouseX, mouseY, truc);
-        this.drawGreyRectangle(this.width / 2 - 90, this.height / 2 - 40, 110, 95);
-        GL11.glColor3f(1.0F, 1.0F, 1.0F);
+    @Override
+    public void func_73863_a(int mouseX, int mouseY, float truc) {
+        super.func_73863_a(mouseX, mouseY, truc);
+        this.drawGreyRectangle(this.field_73880_f / 2 - 90, this.field_73881_g / 2 - 40, 110, 95);
+        GL11.glColor3f((float)1.0f, (float)1.0f, (float)1.0f);
         GL11.glPushMatrix();
-        float scale = 0.35F;
-        GL11.glTranslatef((float)(this.width / 2 + 100) - scale * 155.0F - 2.0F, (float)(this.height / 2 + 64) - 144.0F * scale - 2.0F, 0.0F);
-        GL11.glScalef(scale, scale, 1.0F);
-        this.drawTexturedModalRect(0, 0, 40, 112, 155, 144);
+        float scale = 0.35f;
+        GL11.glTranslatef((float)((float)(this.field_73880_f / 2 + 100) - scale * 155.0f - 2.0f), (float)((float)(this.field_73881_g / 2 + 64) - 144.0f * scale - 2.0f), (float)0.0f);
+        GL11.glScalef((float)scale, (float)scale, (float)1.0f);
+        this.func_73729_b(0, 0, 40, 112, 155, 144);
         GL11.glPopMatrix();
         GL11.glPushMatrix();
         String text = this.createFaction ? "Cr\u00e9er mon propre pays" : "Rejoindre un pays";
-        GL11.glTranslatef((float)(this.width / 2 - 90 + 55) - (float)this.mc.fontRenderer.getStringWidth(text) / 2.0F * 0.75F, (float)(this.height / 2 - 37), 0.0F);
-        GL11.glScalef(0.75F, 0.75F, 0.75F);
-        this.mc.fontRenderer.drawString(text, 0, 0, -1);
+        GL11.glTranslatef((float)((float)(this.field_73880_f / 2 - 90 + 55) - (float)this.field_73882_e.field_71466_p.func_78256_a(text) / 2.0f * 0.75f), (float)(this.field_73881_g / 2 - 37), (float)0.0f);
+        GL11.glScalef((float)0.75f, (float)0.75f, (float)0.75f);
+        this.field_73882_e.field_71466_p.func_78276_b(text, 0, 0, -1);
         GL11.glPopMatrix();
-        int x = this.width / 2 - 90;
-        int y = this.height / 2 - 28;
-        drawRect(x + 4, y, x + 106, y + 1, -1);
+        int x = this.field_73880_f / 2 - 90;
+        int y = this.field_73881_g / 2 - 28;
+        FactionSelectGui.func_73734_a((int)(x + 4), (int)y, (int)(x + 106), (int)(y + 1), (int)-1);
         int decal = 0;
-
-        if (this.modernScrollBar != null)
-        {
+        if (this.modernScrollBar != null) {
             this.modernScrollBar.draw(mouseX, mouseY);
             decal = this.getDecal();
         }
-
-        GUIUtils.startGLScissor(this.width / 2 - 90, this.height / 2 - 26, 109, 80);
+        GUIUtils.startGLScissor(this.field_73880_f / 2 - 90, this.field_73881_g / 2 - 26, 109, 80);
         GL11.glPushMatrix();
-        GL11.glTranslatef(0.0F, (float)(-decal), 0.0F);
-        Iterator i = this.factionButtonList.iterator();
-
-        while (i.hasNext())
-        {
-            FactionSelectGui$FactionButton factionButton = (FactionSelectGui$FactionButton)i.next();
+        GL11.glTranslatef((float)0.0f, (float)(-decal), (float)0.0f);
+        for (FactionButton factionButton : this.factionButtonList) {
             factionButton.draw(mouseX, mouseY + decal);
         }
-
         GL11.glPopMatrix();
         GUIUtils.endGLScissor();
-        int var12 = 0;
+        int i = 0;
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)(this.width / 2 + 23), (float)(this.height / 2 - 40), 0.0F);
-        GL11.glScalef(0.75F, 0.75F, 0.75F);
-
-        for (Iterator var13 = this.textList.iterator(); var13.hasNext(); ++var12)
-        {
-            String mText = (String)var13.next();
-            this.mc.fontRenderer.drawString(mText, 0, var12 * 8, -1);
+        GL11.glTranslatef((float)(this.field_73880_f / 2 + 23), (float)(this.field_73881_g / 2 - 40), (float)0.0f);
+        GL11.glScalef((float)0.75f, (float)0.75f, (float)0.75f);
+        for (String mText : this.textList) {
+            this.field_73882_e.field_71466_p.func_78276_b(mText, 0, i * 8, -1);
+            ++i;
         }
-
         GL11.glPopMatrix();
     }
 
-    private void updateText()
-    {
+    private void updateText() {
+        String[] words;
         this.textList.clear();
         StringBuilder sub = new StringBuilder();
-        String[] words = this.infoText.split(" ");
-        String[] var3 = words;
-        int var4 = words.length;
-
-        for (int var5 = 0; var5 < var4; ++var5)
-        {
-            String word = var3[var5];
-
-            if (sub.length() + word.length() <= 18)
-            {
-                if (!Objects.equals(words[0], word))
-                {
+        for (String word : words = this.infoText.split(" ")) {
+            if (sub.length() + word.length() <= 18) {
+                if (!Objects.equals(words[0], word)) {
                     sub.append(' ');
                 }
-
                 sub.append(word);
+                continue;
             }
-            else
-            {
-                this.textList.add(sub.toString());
-                sub = new StringBuilder(word);
-            }
+            this.textList.add(sub.toString());
+            sub = new StringBuilder(word);
         }
-
-        if (sub.length() > 0)
-        {
+        if (sub.length() > 0) {
             this.textList.add(sub.toString());
         }
     }
 
-    private int getDecal()
-    {
-        return (int)(this.modernScrollBar.getSliderValue() * (float)(this.factionButtonList.size() - 6) * 12.0F);
+    private int getDecal() {
+        return (int)(this.modernScrollBar.getSliderValue() * (float)(this.factionButtonList.size() - 6) * 12.0f);
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int mode)
-    {
-        super.mouseClicked(mouseX, mouseY, mode);
-        Iterator var4 = this.factionButtonList.iterator();
-
-        while (var4.hasNext())
-        {
-            FactionSelectGui$FactionButton factionButton = (FactionSelectGui$FactionButton)var4.next();
+    protected void func_73864_a(int mouseX, int mouseY, int mode) {
+        super.func_73864_a(mouseX, mouseY, mode);
+        for (FactionButton factionButton : this.factionButtonList) {
             factionButton.click(mouseX, mouseY + (this.modernScrollBar != null ? this.getDecal() : 0));
         }
     }
 
-    static Minecraft access$000(FactionSelectGui x0)
-    {
-        return x0.mc;
-    }
+    private class FactionButton
+    extends Gui {
+        private String factionName;
+        private final int posX;
+        private final int posY;
+        private int width = 108;
+        private int height = 12;
 
-    static boolean access$100(FactionSelectGui x0)
-    {
-        return x0.createFaction;
-    }
+        public FactionButton(String factionName, int posX, int posY) {
+            this.factionName = factionName;
+            this.posX = posX;
+            this.posY = posY;
+        }
 
-    static Minecraft access$200(FactionSelectGui x0)
-    {
-        return x0.mc;
-    }
+        public void draw(int mouseX, int mouseY) {
+            if (mouseX >= this.posX && mouseY >= this.posY && mouseX < this.posX + this.width && mouseY < this.posY + this.height) {
+                FactionButton.func_73734_a((int)this.posX, (int)this.posY, (int)(this.posX + this.width), (int)(this.posY + this.height), (int)-13948117);
+                FactionSelectGui.this.field_73882_e.func_110434_K().func_110577_a(AbstractFirstConnectionGui.BACKGROUND);
+                GL11.glColor3f((float)1.0f, (float)1.0f, (float)1.0f);
+                if (FactionSelectGui.this.createFaction) {
+                    this.func_73729_b(this.posX + this.width - 10, this.posY + this.height / 2 - 3, 35, 45, 6, 7);
+                } else {
+                    this.func_73729_b(this.posX + this.width - 10, this.posY + this.height / 2 - 2, 26, 45, 5, 5);
+                }
+            }
+            ((FactionSelectGui)FactionSelectGui.this).field_73882_e.field_71466_p.func_78276_b(this.factionName, this.posX + 5, this.posY + this.height / 2 - 4, -1);
+        }
 
-    static Minecraft access$300(FactionSelectGui x0)
-    {
-        return x0.mc;
-    }
-
-    static Minecraft access$400(FactionSelectGui x0)
-    {
-        return x0.mc;
-    }
-
-    static Minecraft access$500(FactionSelectGui x0)
-    {
-        return x0.mc;
-    }
-
-    static Minecraft access$600(FactionSelectGui x0)
-    {
-        return x0.mc;
+        public void click(int mouseX, int mouseY) {
+            if (mouseX >= this.posX && mouseY >= this.posY && mouseX < this.posX + this.width && mouseY < this.posY + this.height) {
+                FactionTeleportPacket factionTeleportPacket = new FactionTeleportPacket();
+                factionTeleportPacket.createFaction = FactionSelectGui.this.createFaction;
+                FactionSelectGui.this.field_73882_e.func_71373_a(null);
+                if (FactionSelectGui.this.createFaction) {
+                    PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(factionTeleportPacket));
+                    ((FactionSelectGui)FactionSelectGui.this).field_73882_e.field_71439_g.func_71165_d("/f create " + this.factionName);
+                    ((FactionSelectGui)FactionSelectGui.this).field_73882_e.field_71439_g.func_71165_d("/f claim");
+                } else {
+                    ((FactionSelectGui)FactionSelectGui.this).field_73882_e.field_71439_g.func_71165_d("/f join " + this.factionName);
+                    PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(factionTeleportPacket));
+                }
+            }
+        }
     }
 }
+

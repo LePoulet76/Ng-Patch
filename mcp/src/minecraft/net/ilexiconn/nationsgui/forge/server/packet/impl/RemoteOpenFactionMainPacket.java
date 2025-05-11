@@ -1,3 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.entity.player.EntityPlayer
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -9,29 +21,31 @@ import net.ilexiconn.nationsgui.forge.client.gui.faction.FactionListGUI;
 import net.ilexiconn.nationsgui.forge.server.packet.IClientPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class RemoteOpenFactionMainPacket implements IPacket, IClientPacket
-{
+public class RemoteOpenFactionMainPacket
+implements IPacket,
+IClientPacket {
     private String targetName;
 
-    @SideOnly(Side.CLIENT)
-    public void handleClientPacket(EntityPlayer player)
-    {
-        if (!this.targetName.isEmpty() && !this.targetName.contains("Wilderness"))
-        {
-            Minecraft.getMinecraft().displayGuiScreen(new FactionGUI(this.targetName));
-        }
-        else
-        {
-            Minecraft.getMinecraft().displayGuiScreen(new FactionListGUI());
+    @Override
+    @SideOnly(value=Side.CLIENT)
+    public void handleClientPacket(EntityPlayer player) {
+        if (!this.targetName.isEmpty() && !this.targetName.contains("Wilderness")) {
+            Minecraft.func_71410_x().func_71373_a((GuiScreen)new FactionGUI(this.targetName));
+        } else {
+            Minecraft.func_71410_x().func_71373_a((GuiScreen)new FactionListGUI());
         }
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.targetName = data.readUTF();
     }
 
-    public void toBytes(ByteArrayDataOutput data) {}
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
+    }
 }
+

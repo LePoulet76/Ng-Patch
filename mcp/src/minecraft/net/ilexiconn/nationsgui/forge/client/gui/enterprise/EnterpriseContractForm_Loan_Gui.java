@@ -1,3 +1,22 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.FontRenderer
+ *  net.minecraft.client.gui.GuiButton
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.gui.GuiTextField
+ *  net.minecraft.client.renderer.RenderHelper
+ *  net.minecraft.client.renderer.entity.RenderItem
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.network.packet.Packet
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui.enterprise;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -6,10 +25,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import net.ilexiconn.nationsgui.forge.client.ClientEventHandler;
 import net.ilexiconn.nationsgui.forge.client.gui.GuiScrollBarFaction;
+import net.ilexiconn.nationsgui.forge.client.gui.enterprise.EnterpriseGui;
 import net.ilexiconn.nationsgui.forge.client.gui.modern.ModernGui;
 import net.ilexiconn.nationsgui.forge.client.util.GUIUtils;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
@@ -24,12 +43,12 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.Packet;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-@SideOnly(Side.CLIENT)
-public class EnterpriseContractForm_Loan_Gui extends GuiScreen
-{
+@SideOnly(value=Side.CLIENT)
+public class EnterpriseContractForm_Loan_Gui
+extends GuiScreen {
     private GuiButton cancelButton;
     private GuiButton validButton;
     private GuiTextField priceInput;
@@ -57,503 +76,342 @@ public class EnterpriseContractForm_Loan_Gui extends GuiScreen
     public static boolean loaded = false;
     public static HashMap<String, Object> data = new HashMap();
 
-    /**
-     * Called from the main game loop to update the screen.
-     */
-    public void updateScreen()
-    {
-        this.priceInput.updateCursorCounter();
-        this.garantInput.updateCursorCounter();
+    public void func_73876_c() {
+        this.priceInput.func_73780_a();
+        this.garantInput.func_73780_a();
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
+    public void func_73866_w_() {
+        super.func_73866_w_();
         loaded = false;
-        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new EnterpriseContractFormLoanPacket((String)EnterpriseGui.enterpriseInfos.get("name"))));
-        this.guiLeft = (this.width - this.xSize) / 2;
-        this.guiTop = (this.height - this.ySize) / 2;
-        this.cancelButton = new GuiButton(0, this.guiLeft + 197, this.guiTop + 197, 80, 20, I18n.getString("enterprise.contract.action.cancel"));
-        this.validButton = new GuiButton(1, this.guiLeft + 282, this.guiTop + 197, 80, 20, I18n.getString("enterprise.contract.action.valid"));
-        this.scrollBarDuration = new GuiScrollBarFaction((float)(this.guiLeft + 355), (float)(this.guiTop + 96), 90);
-        this.scrollBarRate = new GuiScrollBarFaction((float)(this.guiLeft + 275), (float)(this.guiTop + 137), 90);
-        this.scrollBarType = new GuiScrollBarFaction((float)(this.guiLeft + 355), (float)(this.guiTop + 137), 90);
-        this.priceInput = new GuiTextField(this.fontRenderer, this.guiLeft + 203, this.guiTop + 79, 78, 14);
-        this.priceInput.setEnableBackgroundDrawing(false);
-        this.priceInput.setMaxStringLength(7);
-        this.priceInput.setText("0");
-        this.garantInput = new GuiTextField(this.fontRenderer, this.guiLeft + 203, this.guiTop + 160, 158, 14);
-        this.garantInput.setEnableBackgroundDrawing(false);
-        this.garantInput.setMaxStringLength(20);
-        this.garantInput.setText("");
+        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new EnterpriseContractFormLoanPacket((String)EnterpriseGui.enterpriseInfos.get("name"))));
+        this.guiLeft = (this.field_73880_f - this.xSize) / 2;
+        this.guiTop = (this.field_73881_g - this.ySize) / 2;
+        this.cancelButton = new GuiButton(0, this.guiLeft + 197, this.guiTop + 197, 80, 20, I18n.func_135053_a((String)"enterprise.contract.action.cancel"));
+        this.validButton = new GuiButton(1, this.guiLeft + 282, this.guiTop + 197, 80, 20, I18n.func_135053_a((String)"enterprise.contract.action.valid"));
+        this.scrollBarDuration = new GuiScrollBarFaction(this.guiLeft + 355, this.guiTop + 96, 90);
+        this.scrollBarRate = new GuiScrollBarFaction(this.guiLeft + 275, this.guiTop + 137, 90);
+        this.scrollBarType = new GuiScrollBarFaction(this.guiLeft + 355, this.guiTop + 137, 90);
+        this.priceInput = new GuiTextField(this.field_73886_k, this.guiLeft + 203, this.guiTop + 79, 78, 14);
+        this.priceInput.func_73786_a(false);
+        this.priceInput.func_73804_f(7);
+        this.priceInput.func_73782_a("0");
+        this.garantInput = new GuiTextField(this.field_73886_k, this.guiLeft + 203, this.guiTop + 160, 158, 14);
+        this.garantInput.func_73786_a(false);
+        this.garantInput.func_73804_f(20);
+        this.garantInput.func_73782_a("");
         this.rates.clear();
-        this.rates.addAll(Arrays.asList(new Integer[] {Integer.valueOf(0), Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(5), Integer.valueOf(10)}));
-        this.selectedRate = ((Integer)this.rates.get(0)).intValue();
+        this.rates.addAll(Arrays.asList(0, 1, 2, 3, 5, 10));
+        this.selectedRate = this.rates.get(0);
         this.durations.clear();
-        this.durations.addAll(Arrays.asList(new Integer[] {Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(5), Integer.valueOf(7), Integer.valueOf(10), Integer.valueOf(14), Integer.valueOf(21), Integer.valueOf(30), Integer.valueOf(60)}));
-        this.selectedDuration = ((Integer)this.durations.get(0)).intValue();
+        this.durations.addAll(Arrays.asList(1, 2, 3, 5, 7, 10, 14, 21, 30, 60));
+        this.selectedDuration = this.durations.get(0);
         this.types.clear();
-        this.types.addAll(Arrays.asList(new String[] {"garant", "items"}));
-        this.selectedType = (String)this.types.get(0);
+        this.types.addAll(Arrays.asList("garant", "items"));
+        this.selectedType = this.types.get(0);
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int mouseX, int mouseY, float par3)
-    {
-        this.drawDefaultBackground();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+    public void func_73863_a(int mouseX, int mouseY, float par3) {
+        this.func_73873_v_();
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-        ModernGui.drawModalRectWithCustomSizedTextureWithTransparency((float)this.guiLeft, (float)this.guiTop, 0, 0, this.xSize, this.ySize, 512.0F, 512.0F, false);
+        ModernGui.drawModalRectWithCustomSizedTextureWithTransparency(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize, 512.0f, 512.0f, false);
         this.hoveredRate = -1;
         this.hoveredDuration = -1;
         this.hoveredType = "";
-        List tooltipToDraw = null;
+        List<String> tooltipToDraw = null;
         ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-        ModernGui.drawModalRectWithCustomSizedTexture((float)((int)((double)(this.guiLeft + 91) - (double)this.fontRenderer.getStringWidth(I18n.getString("enterprise.contract.title.services")) * 1.2D / 2.0D - 8.0D - 2.0D)), (float)(this.guiTop + 16), 0, 276, 16, 16, 512.0F, 512.0F, false);
-        this.drawScaledString(I18n.getString("enterprise.contract.title.services"), this.guiLeft + 91 + 8, this.guiTop + 21, 16777215, 1.2F, true, false);
+        ModernGui.drawModalRectWithCustomSizedTexture((int)((double)(this.guiLeft + 91) - (double)this.field_73886_k.func_78256_a(I18n.func_135053_a((String)"enterprise.contract.title.services")) * 1.2 / 2.0 - 8.0 - 2.0), this.guiTop + 16, 0, 276, 16, 16, 512.0f, 512.0f, false);
+        this.drawScaledString(I18n.func_135053_a((String)"enterprise.contract.title.services"), this.guiLeft + 91 + 8, this.guiTop + 21, 0xFFFFFF, 1.2f, true, false);
         int index = 0;
-        String[] type = ((String)EnterpriseGui.enterpriseInfos.get("services")).split("##");
-        int totalDue = type.length;
-        int i;
-
-        for (i = 0; i < totalDue; ++i)
-        {
-            String offsetX = type[i];
-            this.drawScaledString(offsetX.replace("&", "\u00a7"), this.guiLeft + 6, this.guiTop + 54 + index * 9, 16777215, 0.8F, false, false);
+        for (String serviceLine : ((String)EnterpriseGui.enterpriseInfos.get("services")).split("##")) {
+            this.drawScaledString(serviceLine.replace("&", "\u00a7"), this.guiLeft + 6, this.guiTop + 54 + index * 9, 0xFFFFFF, 0.8f, false, false);
             ++index;
         }
-
-        this.drawScaledString((String)EnterpriseGui.enterpriseInfos.get("name"), this.guiLeft + 280, this.guiTop + 11, 16777215, 1.7F, true, true);
-        String var13 = I18n.getString("enterprise.type." + ((String)EnterpriseGui.enterpriseInfos.get("type")).toLowerCase());
-        this.cancelButton.drawButton(Minecraft.getMinecraft(), mouseX, mouseY);
-        this.validButton.drawButton(Minecraft.getMinecraft(), mouseX, mouseY);
-
-        if (loaded)
-        {
+        this.drawScaledString((String)EnterpriseGui.enterpriseInfos.get("name"), this.guiLeft + 280, this.guiTop + 11, 0xFFFFFF, 1.7f, true, true);
+        String type = I18n.func_135053_a((String)("enterprise.type." + ((String)EnterpriseGui.enterpriseInfos.get("type")).toLowerCase()));
+        this.cancelButton.func_73737_a(Minecraft.func_71410_x(), mouseX, mouseY);
+        this.validButton.func_73737_a(Minecraft.func_71410_x(), mouseX, mouseY);
+        if (loaded) {
+            Float offsetY;
+            int i;
             ClientEventHandler.STYLE.bindTexture("enterprise_main");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 280 - this.fontRenderer.getStringWidth(var13) / 2 - 7 - 4), (float)(this.guiTop + 23), EnterpriseGui.getTypeOffsetX((String)EnterpriseGui.enterpriseInfos.get("type")), 442, 16, 16, 512.0F, 512.0F, false);
-            this.drawScaledString(I18n.getString("enterprise.type." + ((String)EnterpriseGui.enterpriseInfos.get("type")).toLowerCase()), this.guiLeft + 280 + 7, this.guiTop + 29, 11842740, 1.0F, true, false);
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 280 - this.field_73886_k.func_78256_a(type) / 2 - 7 - 4, this.guiTop + 23, EnterpriseGui.getTypeOffsetX((String)EnterpriseGui.enterpriseInfos.get("type")), 442, 16, 16, 512.0f, 512.0f, false);
+            this.drawScaledString(I18n.func_135053_a((String)("enterprise.type." + ((String)EnterpriseGui.enterpriseInfos.get("type")).toLowerCase())), this.guiLeft + 280 + 7, this.guiTop + 29, 0xB4B4B4, 1.0f, true, false);
             ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 350), (float)(this.guiTop + 52), 16, 276, 10, 11, 512.0F, 512.0F, false);
-
-            if (mouseX >= this.guiLeft + 350 && mouseX <= this.guiLeft + 350 + 10 && mouseY >= this.guiTop + 52 && mouseY <= this.guiTop + 52 + 11)
-            {
-                tooltipToDraw = Arrays.asList(I18n.getString("enterprise.loan.infos").split("##"));
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 350, this.guiTop + 52, 16, 276, 10, 11, 512.0f, 512.0f, false);
+            if (mouseX >= this.guiLeft + 350 && mouseX <= this.guiLeft + 350 + 10 && mouseY >= this.guiTop + 52 && mouseY <= this.guiTop + 52 + 11) {
+                tooltipToDraw = Arrays.asList(I18n.func_135053_a((String)"enterprise.loan.infos").split("##"));
             }
-
-            this.drawScaledString(I18n.getString("enterprise.contract.label.loan.amount"), this.guiLeft + 201, this.guiTop + 62, 1644825, 1.0F, false, false);
+            this.drawScaledString(I18n.func_135053_a((String)"enterprise.contract.label.loan.amount"), this.guiLeft + 201, this.guiTop + 62, 0x191919, 1.0f, false, false);
             ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-            ModernGui.drawModalRectWithCustomSizedTextureWithTransparency((float)(this.guiLeft + 200), (float)(this.guiTop + 72), 0, 333, 80, 20, 512.0F, 512.0F, false);
-            this.drawScaledString("\u00a7a$", this.guiLeft + 200 + 72, this.guiTop + 72 + 6, 16777215, 1.3F, true, false);
-            this.priceInput.drawTextBox();
-            this.drawScaledString(I18n.getString("enterprise.contract.label.loan.duration"), this.guiLeft + 288, this.guiTop + 62, 1644825, 1.0F, false, false);
+            ModernGui.drawModalRectWithCustomSizedTextureWithTransparency(this.guiLeft + 200, this.guiTop + 72, 0, 333, 80, 20, 512.0f, 512.0f, false);
+            this.drawScaledString("\u00a7a$", this.guiLeft + 200 + 72, this.guiTop + 72 + 6, 0xFFFFFF, 1.3f, true, false);
+            this.priceInput.func_73795_f();
+            this.drawScaledString(I18n.func_135053_a((String)"enterprise.contract.label.loan.duration"), this.guiLeft + 288, this.guiTop + 62, 0x191919, 1.0f, false, false);
             ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 287), (float)(this.guiTop + 72), 0, 313, 73, 20, 512.0F, 512.0F, false);
-
-            if (this.selectedDuration != -1)
-            {
-                this.drawScaledString(this.selectedDuration + I18n.getString("enterprise.contract.duration.days"), this.guiLeft + 290, this.guiTop + 78, 16777215, 1.0F, false, false);
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 287, this.guiTop + 72, 0, 313, 73, 20, 512.0f, 512.0f, false);
+            if (this.selectedDuration != -1) {
+                this.drawScaledString(this.selectedDuration + I18n.func_135053_a((String)"enterprise.contract.duration.days"), this.guiLeft + 290, this.guiTop + 78, 0xFFFFFF, 1.0f, false, false);
             }
-
-            this.drawScaledString(I18n.getString("enterprise.contract.label.loan.rate"), this.guiLeft + 201, this.guiTop + 103, 1644825, 1.0F, false, false);
+            this.drawScaledString(I18n.func_135053_a((String)"enterprise.contract.label.loan.rate"), this.guiLeft + 201, this.guiTop + 103, 0x191919, 1.0f, false, false);
             ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 200), (float)(this.guiTop + 113), 0, 255, 80, 20, 512.0F, 512.0F, false);
-
-            if (this.selectedRate != -1)
-            {
-                this.drawScaledString(this.selectedRate + "%", this.guiLeft + 202, this.guiTop + 119, 16777215, 1.0F, false, false);
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 200, this.guiTop + 113, 0, 255, 80, 20, 512.0f, 512.0f, false);
+            if (this.selectedRate != -1) {
+                this.drawScaledString(this.selectedRate + "%", this.guiLeft + 202, this.guiTop + 119, 0xFFFFFF, 1.0f, false, false);
             }
-
-            this.drawScaledString(I18n.getString("enterprise.contract.label.loan.type"), this.guiLeft + 288, this.guiTop + 103, 1644825, 1.0F, false, false);
+            this.drawScaledString(I18n.func_135053_a((String)"enterprise.contract.label.loan.type"), this.guiLeft + 288, this.guiTop + 103, 0x191919, 1.0f, false, false);
             ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-            ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 287), (float)(this.guiTop + 113), 0, 313, 73, 20, 512.0F, 512.0F, false);
-            totalDue = 0;
-
-            if (!this.priceInput.getText().isEmpty() && this.isNumeric(this.priceInput.getText()))
-            {
-                totalDue = Integer.parseInt(this.priceInput.getText());
+            ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 287, this.guiTop + 113, 0, 313, 73, 20, 512.0f, 512.0f, false);
+            int totalDue = 0;
+            if (!this.priceInput.func_73781_b().isEmpty() && this.isNumeric(this.priceInput.func_73781_b())) {
+                totalDue = Integer.parseInt(this.priceInput.func_73781_b());
             }
-
-            if (this.selectedRate != -1 && this.selectedRate != 0)
-            {
-                totalDue = (int)((double)totalDue + (double)this.selectedRate / 100.0D * (double)totalDue);
+            if (this.selectedRate != -1 && this.selectedRate != 0) {
+                totalDue = (int)((double)totalDue + (double)this.selectedRate / 100.0 * (double)totalDue);
             }
-
-            this.drawScaledString(I18n.getString("enterprise.contract.label.loan.totalDue") + " \u00a74" + totalDue + "$", this.guiLeft + 201, this.guiTop + 184, 1644825, 1.0F, false, false);
-
-            if (this.selectedType != "")
-            {
-                this.drawScaledString(I18n.getString("enterprise.contract.loan.type." + this.selectedType), this.guiLeft + 290, this.guiTop + 119, 16777215, 1.0F, false, false);
+            this.drawScaledString(I18n.func_135053_a((String)"enterprise.contract.label.loan.totalDue") + " \u00a74" + totalDue + "$", this.guiLeft + 201, this.guiTop + 184, 0x191919, 1.0f, false, false);
+            if (this.selectedType != "") {
+                this.drawScaledString(I18n.func_135053_a((String)("enterprise.contract.loan.type." + this.selectedType)), this.guiLeft + 290, this.guiTop + 119, 0xFFFFFF, 1.0f, false, false);
             }
-
-            if (this.selectedType.equalsIgnoreCase("garant"))
-            {
-                this.drawScaledString(I18n.getString("enterprise.contract.label.loan.garant"), this.guiLeft + 201, this.guiTop + 143, 1644825, 1.0F, false, false);
+            if (this.selectedType.equalsIgnoreCase("garant")) {
+                this.drawScaledString(I18n.func_135053_a((String)"enterprise.contract.label.loan.garant"), this.guiLeft + 201, this.guiTop + 143, 0x191919, 1.0f, false, false);
                 ModernGui.drawNGBlackSquare(this.guiLeft + 200, this.guiTop + 153, 160, 20);
-                this.garantInput.drawTextBox();
-            }
-            else if (this.selectedType.equalsIgnoreCase("items"))
-            {
-                this.drawScaledString(I18n.getString("enterprise.contract.label.loan.items"), this.guiLeft + 201, this.guiTop + 143, 1644825, 1.0F, false, false);
+                this.garantInput.func_73795_f();
+            } else if (this.selectedType.equalsIgnoreCase("items")) {
+                this.drawScaledString(I18n.func_135053_a((String)"enterprise.contract.label.loan.items"), this.guiLeft + 201, this.guiTop + 143, 0x191919, 1.0f, false, false);
                 ModernGui.drawNGBlackSquare(this.guiLeft + 200, this.guiTop + 153, 160, 20);
-                i = 0;
-
-                if (!this.durationExpanded && !this.rateExpanded && !this.typeExpanded)
-                {
-                    for (Iterator var14 = ((ArrayList)data.get("items")).iterator(); var14.hasNext(); ++i)
-                    {
-                        String offsetY = (String)var14.next();
-                        String[] itemInfos = offsetY.split("#");
+                int itemOffset = 0;
+                if (!(this.durationExpanded || this.rateExpanded || this.typeExpanded)) {
+                    for (String itemString : (ArrayList)data.get("items")) {
+                        String[] itemInfos = itemString.split("#");
                         ItemStack stack = new ItemStack(Integer.parseInt(itemInfos[0]), Integer.parseInt(itemInfos[2]), Integer.parseInt(itemInfos[1]));
-                        GL11.glEnable(GL11.GL_DEPTH_TEST);
-                        RenderHelper.enableGUIStandardItemLighting();
-                        this.itemRenderer.renderItemAndEffectIntoGUI(this.fontRenderer, Minecraft.getMinecraft().getTextureManager(), stack, this.guiLeft + 200 + 18 * i, this.guiTop + 155);
-                        this.itemRenderer.renderItemOverlayIntoGUI(this.fontRenderer, Minecraft.getMinecraft().getTextureManager(), stack, this.guiLeft + 200 + 18 * i, this.guiTop + 155, stack.stackSize + "");
-                        RenderHelper.disableStandardItemLighting();
-                        GL11.glDisable(GL11.GL_LIGHTING);
-
-                        if (mouseX >= this.guiLeft + 200 + 18 * i && mouseX <= this.guiLeft + 200 + 18 * i + 18 && mouseY >= this.guiTop + 155 - 18 && mouseY >= this.guiTop + 155)
-                        {
-                            tooltipToDraw = Arrays.asList(new String[] {stack.getDisplayName()});
+                        GL11.glEnable((int)2929);
+                        RenderHelper.func_74520_c();
+                        this.itemRenderer.func_82406_b(this.field_73886_k, Minecraft.func_71410_x().func_110434_K(), stack, this.guiLeft + 200 + 18 * itemOffset, this.guiTop + 155);
+                        this.itemRenderer.func_94148_a(this.field_73886_k, Minecraft.func_71410_x().func_110434_K(), stack, this.guiLeft + 200 + 18 * itemOffset, this.guiTop + 155, stack.field_77994_a + "");
+                        RenderHelper.func_74518_a();
+                        GL11.glDisable((int)2896);
+                        if (mouseX >= this.guiLeft + 200 + 18 * itemOffset && mouseX <= this.guiLeft + 200 + 18 * itemOffset + 18 && mouseY >= this.guiTop + 155 - 18 && mouseY >= this.guiTop + 155) {
+                            tooltipToDraw = Arrays.asList(stack.func_82833_r());
                         }
+                        ++itemOffset;
                     }
                 }
             }
-
-            int var15;
-            Float var16;
-
-            if (this.durationExpanded)
-            {
+            if (this.durationExpanded) {
                 ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-                ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 287), (float)(this.guiTop + 91), 81, 234, 73, 99, 512.0F, 512.0F, false);
+                ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 287, this.guiTop + 91, 81, 234, 73, 99, 512.0f, 512.0f, false);
                 GUIUtils.startGLScissor(this.guiLeft + 288, this.guiTop + 92, 67, 97);
-
-                for (i = 0; i < this.durations.size(); ++i)
-                {
-                    var15 = this.guiLeft + 288;
-                    var16 = Float.valueOf((float)(this.guiTop + 92 + i * 20) + this.getSlideDuration());
+                for (i = 0; i < this.durations.size(); ++i) {
+                    int offsetX = this.guiLeft + 288;
+                    offsetY = Float.valueOf((float)(this.guiTop + 92 + i * 20) + this.getSlideDuration());
                     ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-                    ModernGui.drawModalRectWithCustomSizedTexture((float)var15, (float)var16.intValue(), 82, 235, 67, 20, 512.0F, 512.0F, false);
-                    this.drawScaledString(this.durations.get(i) + I18n.getString("enterprise.contract.duration.days"), var15 + 2, var16.intValue() + 5, 16777215, 1.0F, false, false);
-
-                    if (mouseX > var15 && mouseX < var15 + 67 && (float)mouseY > var16.floatValue() && (float)mouseY < var16.floatValue() + 20.0F)
-                    {
-                        this.hoveredDuration = ((Integer)this.durations.get(i)).intValue();
-                    }
+                    ModernGui.drawModalRectWithCustomSizedTexture(offsetX, offsetY.intValue(), 82, 235, 67, 20, 512.0f, 512.0f, false);
+                    this.drawScaledString(this.durations.get(i) + I18n.func_135053_a((String)"enterprise.contract.duration.days"), offsetX + 2, offsetY.intValue() + 5, 0xFFFFFF, 1.0f, false, false);
+                    if (mouseX <= offsetX || mouseX >= offsetX + 67 || !((float)mouseY > offsetY.floatValue()) || !((float)mouseY < offsetY.floatValue() + 20.0f)) continue;
+                    this.hoveredDuration = this.durations.get(i);
                 }
-
                 GUIUtils.endGLScissor();
                 this.scrollBarDuration.draw(mouseX, mouseY);
-            }
-            else if (this.rateExpanded)
-            {
+            } else if (this.rateExpanded) {
                 ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-                ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 200), (float)(this.guiTop + 132), 247, 234, 80, 99, 512.0F, 512.0F, false);
+                ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 200, this.guiTop + 132, 247, 234, 80, 99, 512.0f, 512.0f, false);
                 GUIUtils.startGLScissor(this.guiLeft + 201, this.guiTop + 133, 74, 97);
-
-                for (i = 0; i < this.rates.size(); ++i)
-                {
-                    var15 = this.guiLeft + 201;
-                    var16 = Float.valueOf((float)(this.guiTop + 133 + i * 20) + this.getSlideRate());
+                for (i = 0; i < this.rates.size(); ++i) {
+                    int offsetX = this.guiLeft + 201;
+                    offsetY = Float.valueOf((float)(this.guiTop + 133 + i * 20) + this.getSlideRate());
                     ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-                    ModernGui.drawModalRectWithCustomSizedTexture((float)var15, (float)var16.intValue(), 248, 235, 74, 20, 512.0F, 512.0F, false);
-                    this.drawScaledString(this.rates.get(i) + "%", var15 + 2, var16.intValue() + 5, 16777215, 1.0F, false, false);
-
-                    if (mouseX > var15 && mouseX < var15 + 74 && (float)mouseY > var16.floatValue() && (float)mouseY < var16.floatValue() + 20.0F)
-                    {
-                        this.hoveredRate = ((Integer)this.rates.get(i)).intValue();
-                    }
+                    ModernGui.drawModalRectWithCustomSizedTexture(offsetX, offsetY.intValue(), 248, 235, 74, 20, 512.0f, 512.0f, false);
+                    this.drawScaledString(this.rates.get(i) + "%", offsetX + 2, offsetY.intValue() + 5, 0xFFFFFF, 1.0f, false, false);
+                    if (mouseX <= offsetX || mouseX >= offsetX + 74 || !((float)mouseY > offsetY.floatValue()) || !((float)mouseY < offsetY.floatValue() + 20.0f)) continue;
+                    this.hoveredRate = this.rates.get(i);
                 }
-
                 GUIUtils.endGLScissor();
                 this.scrollBarRate.draw(mouseX, mouseY);
-            }
-            else if (this.typeExpanded)
-            {
+            } else if (this.typeExpanded) {
                 ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-                ModernGui.drawModalRectWithCustomSizedTexture((float)(this.guiLeft + 287), (float)(this.guiTop + 132), 155, 234, 73, 40, 512.0F, 512.0F, false);
+                ModernGui.drawModalRectWithCustomSizedTexture(this.guiLeft + 287, this.guiTop + 132, 155, 234, 73, 40, 512.0f, 512.0f, false);
                 GUIUtils.startGLScissor(this.guiLeft + 288, this.guiTop + 133, 67, 97);
-
-                for (i = 0; i < this.types.size(); ++i)
-                {
-                    var15 = this.guiLeft + 288;
-                    var16 = Float.valueOf((float)(this.guiTop + 133 + i * 20) + this.getSlideType());
+                for (i = 0; i < this.types.size(); ++i) {
+                    int offsetX = this.guiLeft + 288;
+                    offsetY = Float.valueOf((float)(this.guiTop + 133 + i * 20) + this.getSlideType());
                     ClientEventHandler.STYLE.bindTexture("enterprise_contract_form");
-                    ModernGui.drawModalRectWithCustomSizedTexture((float)var15, (float)var16.intValue(), 82, 235, 67, 20, 512.0F, 512.0F, false);
-                    this.drawScaledString(I18n.getString("enterprise.contract.loan.type." + (String)this.types.get(i)), var15 + 2, var16.intValue() + 5, 16777215, 1.0F, false, false);
-
-                    if (mouseX > var15 && mouseX < var15 + 67 && (float)mouseY > var16.floatValue() && (float)mouseY < var16.floatValue() + 20.0F)
-                    {
-                        this.hoveredType = (String)this.types.get(i);
-                    }
+                    ModernGui.drawModalRectWithCustomSizedTexture(offsetX, offsetY.intValue(), 82, 235, 67, 20, 512.0f, 512.0f, false);
+                    this.drawScaledString(I18n.func_135053_a((String)("enterprise.contract.loan.type." + this.types.get(i))), offsetX + 2, offsetY.intValue() + 5, 0xFFFFFF, 1.0f, false, false);
+                    if (mouseX <= offsetX || mouseX >= offsetX + 67 || !((float)mouseY > offsetY.floatValue()) || !((float)mouseY < offsetY.floatValue() + 20.0f)) continue;
+                    this.hoveredType = this.types.get(i);
                 }
-
                 GUIUtils.endGLScissor();
                 this.scrollBarType.draw(mouseX, mouseY);
             }
-
-            if (tooltipToDraw != null)
-            {
-                this.drawHoveringText(tooltipToDraw, mouseX, mouseY, this.fontRenderer);
+            if (tooltipToDraw != null) {
+                this.drawHoveringText(tooltipToDraw, mouseX, mouseY, this.field_73886_k);
             }
         }
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char typedChar, int keyCode)
-    {
-        this.priceInput.textboxKeyTyped(typedChar, keyCode);
-        this.garantInput.textboxKeyTyped(typedChar, keyCode);
-        super.keyTyped(typedChar, keyCode);
+    protected void func_73869_a(char typedChar, int keyCode) {
+        this.priceInput.func_73802_a(typedChar, keyCode);
+        this.garantInput.func_73802_a(typedChar, keyCode);
+        super.func_73869_a(typedChar, keyCode);
     }
 
-    private float getSlideDuration()
-    {
-        return this.durations.size() > 5 ? (float)(-(this.durations.size() - 5) * 20) * this.scrollBarDuration.getSliderValue() : 0.0F;
+    private float getSlideDuration() {
+        return this.durations.size() > 5 ? (float)(-(this.durations.size() - 5) * 20) * this.scrollBarDuration.getSliderValue() : 0.0f;
     }
 
-    private float getSlideRate()
-    {
-        return this.rates.size() > 5 ? (float)(-(this.rates.size() - 5) * 20) * this.scrollBarRate.getSliderValue() : 0.0F;
+    private float getSlideRate() {
+        return this.rates.size() > 5 ? (float)(-(this.rates.size() - 5) * 20) * this.scrollBarRate.getSliderValue() : 0.0f;
     }
 
-    private float getSlideType()
-    {
-        return this.types.size() > 5 ? (float)(-(this.types.size() - 5) * 20) * this.scrollBarType.getSliderValue() : 0.0F;
+    private float getSlideType() {
+        return this.types.size() > 5 ? (float)(-(this.types.size() - 5) * 20) * this.scrollBarType.getSliderValue() : 0.0f;
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-    {
-        if (mouseButton == 0)
-        {
-            if (!this.typeExpanded && !this.rateExpanded && !this.durationExpanded && mouseX > this.guiLeft + 197 && mouseX < this.guiLeft + 197 + 80 && mouseY > this.guiTop + 197 && mouseY < this.guiTop + 197 + 20)
-            {
-                this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-                Minecraft.getMinecraft().displayGuiScreen(new EnterpriseGui((String)EnterpriseGui.enterpriseInfos.get("name")));
+    protected void func_73864_a(int mouseX, int mouseY, int mouseButton) {
+        if (mouseButton == 0) {
+            if (!(this.typeExpanded || this.rateExpanded || this.durationExpanded || mouseX <= this.guiLeft + 197 || mouseX >= this.guiLeft + 197 + 80 || mouseY <= this.guiTop + 197 || mouseY >= this.guiTop + 197 + 20)) {
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
+                Minecraft.func_71410_x().func_71373_a((GuiScreen)new EnterpriseGui((String)EnterpriseGui.enterpriseInfos.get("name")));
             }
-
-            if (this.validButton.enabled && !this.durationExpanded && !this.typeExpanded && !this.rateExpanded && this.isNumeric(this.priceInput.getText()) && mouseX > this.guiLeft + 282 && mouseX < this.guiLeft + 282 + 80 && mouseY > this.guiTop + 197 && mouseY < this.guiTop + 197 + 20)
-            {
-                this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+            if (this.validButton.field_73742_g && !this.durationExpanded && !this.typeExpanded && !this.rateExpanded && this.isNumeric(this.priceInput.func_73781_b()) && mouseX > this.guiLeft + 282 && mouseX < this.guiLeft + 282 + 80 && mouseY > this.guiTop + 197 && mouseY < this.guiTop + 197 + 20) {
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
                 int totalDue = 0;
-
-                if (!this.priceInput.getText().isEmpty() && this.isNumeric(this.priceInput.getText()))
-                {
-                    totalDue = Integer.parseInt(this.priceInput.getText());
+                if (!this.priceInput.func_73781_b().isEmpty() && this.isNumeric(this.priceInput.func_73781_b())) {
+                    totalDue = Integer.parseInt(this.priceInput.func_73781_b());
                 }
-
-                if (this.selectedRate != -1 && this.selectedRate != 0)
-                {
-                    totalDue = (int)((double)totalDue + (double)this.selectedRate / 100.0D * (double)totalDue);
+                if (this.selectedRate != -1 && this.selectedRate != 0) {
+                    totalDue = (int)((double)totalDue + (double)this.selectedRate / 100.0 * (double)totalDue);
                 }
-
-                String description = "LOAN##" + this.priceInput.getText() + "##" + totalDue + "##" + this.selectedDuration + "##" + this.selectedRate + "##" + this.selectedType;
-
-                if (this.selectedType.equalsIgnoreCase("garant"))
-                {
-                    if (this.garantInput.getText().equalsIgnoreCase(Minecraft.getMinecraft().thePlayer.username))
-                    {
+                String description = "LOAN##" + this.priceInput.func_73781_b() + "##" + totalDue + "##" + this.selectedDuration + "##" + this.selectedRate + "##" + this.selectedType;
+                if (this.selectedType.equalsIgnoreCase("garant")) {
+                    if (this.garantInput.func_73781_b().equalsIgnoreCase(Minecraft.func_71410_x().field_71439_g.field_71092_bJ)) {
                         return;
                     }
-
-                    description = description + "##" + this.garantInput.getText();
+                    description = description + "##" + this.garantInput.func_73781_b();
                 }
-
-                EnterpriseGui.lastContractDemand = Long.valueOf(System.currentTimeMillis());
-                PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new EnterpriseContractCreate_Loan_Packet((String)EnterpriseGui.enterpriseInfos.get("name"), description, Integer.valueOf(totalDue), this.selectedType)));
-                Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
+                EnterpriseGui.lastContractDemand = System.currentTimeMillis();
+                PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new EnterpriseContractCreate_Loan_Packet((String)EnterpriseGui.enterpriseInfos.get("name"), description, totalDue, this.selectedType)));
+                Minecraft.func_71410_x().func_71373_a(null);
             }
-
-            if (mouseX > this.guiLeft + 341 && mouseX < this.guiLeft + 341 + 19 && mouseY > this.guiTop + 72 && mouseY < this.guiTop + 72 + 20)
-            {
-                this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+            if (mouseX > this.guiLeft + 341 && mouseX < this.guiLeft + 341 + 19 && mouseY > this.guiTop + 72 && mouseY < this.guiTop + 72 + 20) {
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
                 this.durationExpanded = !this.durationExpanded;
                 this.rateExpanded = false;
                 this.typeExpanded = false;
             }
-
-            if (mouseX > this.guiLeft + 261 && mouseX < this.guiLeft + 261 + 19 && mouseY > this.guiTop + 113 && mouseY < this.guiTop + 113 + 20)
-            {
-                this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+            if (mouseX > this.guiLeft + 261 && mouseX < this.guiLeft + 261 + 19 && mouseY > this.guiTop + 113 && mouseY < this.guiTop + 113 + 20) {
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
                 this.rateExpanded = !this.rateExpanded;
                 this.durationExpanded = false;
                 this.typeExpanded = false;
             }
-
-            if (mouseX > this.guiLeft + 341 && mouseX < this.guiLeft + 341 + 19 && mouseY > this.guiTop + 113 && mouseY < this.guiTop + 113 + 20)
-            {
-                this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+            if (mouseX > this.guiLeft + 341 && mouseX < this.guiLeft + 341 + 19 && mouseY > this.guiTop + 113 && mouseY < this.guiTop + 113 + 20) {
+                this.field_73882_e.field_71416_A.func_77366_a("random.click", 1.0f, 1.0f);
                 this.typeExpanded = !this.typeExpanded;
                 this.durationExpanded = false;
                 this.rateExpanded = false;
             }
-
-            if (this.durationExpanded && this.hoveredDuration != -1)
-            {
+            if (this.durationExpanded && this.hoveredDuration != -1) {
                 this.selectedDuration = this.hoveredDuration;
                 this.hoveredDuration = -1;
                 this.durationExpanded = false;
-            }
-            else if (this.rateExpanded && this.hoveredRate != -1)
-            {
+            } else if (this.rateExpanded && this.hoveredRate != -1) {
                 System.out.println("select rate");
                 this.selectedRate = this.hoveredRate;
                 this.hoveredRate = -1;
                 this.rateExpanded = false;
-            }
-            else if (this.typeExpanded && this.hoveredType != "" && !this.hoveredType.isEmpty())
-            {
+            } else if (this.typeExpanded && this.hoveredType != "" && !this.hoveredType.isEmpty()) {
                 this.selectedType = this.hoveredType;
                 this.hoveredType = "";
                 this.typeExpanded = false;
             }
         }
-
-        this.priceInput.mouseClicked(mouseX, mouseY, mouseButton);
-        this.garantInput.mouseClicked(mouseX, mouseY, mouseButton);
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+        this.priceInput.func_73793_a(mouseX, mouseY, mouseButton);
+        this.garantInput.func_73793_a(mouseX, mouseY, mouseButton);
+        super.func_73864_a(mouseX, mouseY, mouseButton);
     }
 
-    public boolean isNumeric(String str)
-    {
-        if (str != null && str.length() != 0)
-        {
-            char[] var2 = str.toCharArray();
-            int var3 = var2.length;
-
-            for (int var4 = 0; var4 < var3; ++var4)
-            {
-                char c = var2[var4];
-
-                if (!Character.isDigit(c))
-                {
-                    return false;
-                }
-            }
-
-            if (Integer.parseInt(str) < 1000)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        else
-        {
+    public boolean isNumeric(String str) {
+        if (str == null || str.length() == 0) {
             return false;
         }
+        for (char c : str.toCharArray()) {
+            if (Character.isDigit(c)) continue;
+            return false;
+        }
+        return Integer.parseInt(str) >= 1000;
     }
 
-    public void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow)
-    {
+    public void drawScaledString(String text, int x, int y, int color, float scale, boolean centered, boolean shadow) {
         GL11.glPushMatrix();
-        GL11.glScalef(scale, scale, scale);
-        float newX = (float)x;
-
-        if (centered)
-        {
-            newX = (float)x - (float)this.fontRenderer.getStringWidth(text) * scale / 2.0F;
+        GL11.glScalef((float)scale, (float)scale, (float)scale);
+        float newX = x;
+        if (centered) {
+            newX = (float)x - (float)this.field_73886_k.func_78256_a(text) * scale / 2.0f;
         }
-
-        if (shadow)
-        {
-            this.fontRenderer.drawString(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 16579836) >> 2 | color & -16777216, false);
+        if (shadow) {
+            this.field_73886_k.func_85187_a(text, (int)(newX / scale), (int)((float)(y + 1) / scale), (color & 0xFCFCFC) >> 2 | color & 0xFF000000, false);
         }
-
-        this.fontRenderer.drawString(text, (int)(newX / scale), (int)((float)y / scale), color, false);
+        this.field_73886_k.func_85187_a(text, (int)(newX / scale), (int)((float)y / scale), color, false);
         GL11.glPopMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
     }
 
-    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font)
-    {
-        if (!par1List.isEmpty())
-        {
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
+    protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font) {
+        if (!par1List.isEmpty()) {
+            GL11.glDisable((int)32826);
+            RenderHelper.func_74518_a();
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
             int k = 0;
-            Iterator iterator = par1List.iterator();
-            int j1;
-
-            while (iterator.hasNext())
-            {
-                String i1 = (String)iterator.next();
-                j1 = font.getStringWidth(i1);
-
-                if (j1 > k)
-                {
-                    k = j1;
-                }
+            for (String s : par1List) {
+                int l = font.func_78256_a(s);
+                if (l <= k) continue;
+                k = l;
             }
-
-            int var15 = par2 + 12;
-            j1 = par3 - 12;
+            int i1 = par2 + 12;
+            int j1 = par3 - 12;
             int k1 = 8;
-
-            if (par1List.size() > 1)
-            {
+            if (par1List.size() > 1) {
                 k1 += 2 + (par1List.size() - 1) * 10;
             }
-
-            if (var15 + k > this.width)
-            {
-                var15 -= 28 + k;
+            if (i1 + k > this.field_73880_f) {
+                i1 -= 28 + k;
             }
-
-            if (j1 + k1 + 6 > this.height)
-            {
-                j1 = this.height - k1 - 6;
+            if (j1 + k1 + 6 > this.field_73881_g) {
+                j1 = this.field_73881_g - k1 - 6;
             }
-
-            this.zLevel = 300.0F;
-            this.itemRenderer.zLevel = 300.0F;
+            this.field_73735_i = 300.0f;
+            this.itemRenderer.field_77023_b = 300.0f;
             int l1 = -267386864;
-            this.drawGradientRect(var15 - 3, j1 - 4, var15 + k + 3, j1 - 3, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 3, var15 + k + 3, j1 + k1 + 4, l1, l1);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 - 4, j1 - 3, var15 - 3, j1 + k1 + 3, l1, l1);
-            this.drawGradientRect(var15 + k + 3, j1 - 3, var15 + k + 4, j1 + k1 + 3, l1, l1);
-            int i2 = 1347420415;
-            int j2 = (i2 & 16711422) >> 1 | i2 & -16777216;
-            this.drawGradientRect(var15 - 3, j1 - 3 + 1, var15 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 + k + 2, j1 - 3 + 1, var15 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-            this.drawGradientRect(var15 - 3, j1 - 3, var15 + k + 3, j1 - 3 + 1, i2, i2);
-            this.drawGradientRect(var15 - 3, j1 + k1 + 2, var15 + k + 3, j1 + k1 + 3, j2, j2);
-
-            for (int k2 = 0; k2 < par1List.size(); ++k2)
-            {
+            this.func_73733_a(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
+            this.func_73733_a(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
+            this.func_73733_a(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
+            int i2 = 0x505000FF;
+            int j2 = (i2 & 0xFEFEFE) >> 1 | i2 & 0xFF000000;
+            this.func_73733_a(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+            this.func_73733_a(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+            this.func_73733_a(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+            for (int k2 = 0; k2 < par1List.size(); ++k2) {
                 String s1 = (String)par1List.get(k2);
-                font.drawStringWithShadow(s1, var15, j1, -1);
-
-                if (k2 == 0)
-                {
+                font.func_78261_a(s1, i1, j1, -1);
+                if (k2 == 0) {
                     j1 += 2;
                 }
-
                 j1 += 10;
             }
-
-            this.zLevel = 0.0F;
-            this.itemRenderer.zLevel = 0.0F;
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.field_73735_i = 0.0f;
+            this.itemRenderer.field_77023_b = 0.0f;
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)2929);
+            GL11.glEnable((int)32826);
+            GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         }
     }
 }
+

@@ -1,3 +1,16 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.client.gui.GuiScreen
+ *  net.minecraft.client.resources.I18n
+ *  net.minecraft.network.packet.Packet
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.gui;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -16,15 +29,16 @@ import net.ilexiconn.nationsgui.forge.server.packet.impl.SliderHelpDataPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.network.packet.Packet;
 import org.lwjgl.opengl.GL11;
 
-@SideOnly(Side.CLIENT)
-public class SliderHelpGui extends GuiScreen
-{
+@SideOnly(value=Side.CLIENT)
+public class SliderHelpGui
+extends GuiScreen {
     public static int GUI_SCALE = 3;
     public static int imageWidth = 1570;
     public static int imageHeight = 2160;
-    public static float widthHeightRatio = 0.7268519F;
+    public static float widthHeightRatio = 0.7268519f;
     public static long translationXDuration = 150L;
     public static long nextButtonWaitingTime = 5000L;
     public static ArrayList<String> images = new ArrayList();
@@ -36,10 +50,9 @@ public class SliderHelpGui extends GuiScreen
     private int imageIndex = 0;
     private long timeOpenGUI = 0L;
     private long lastNextTimer = 0L;
-    public static List<String> validatedSlides = new ArrayList();
+    public static List<String> validatedSlides = new ArrayList<String>();
 
-    public SliderHelpGui(String identifier, GuiScreen guiFrom)
-    {
+    public SliderHelpGui(String identifier, GuiScreen guiFrom) {
         this.identifier = identifier.split("##")[0];
         this.guiFrom = guiFrom;
         images = new ArrayList();
@@ -47,203 +60,132 @@ public class SliderHelpGui extends GuiScreen
         this.timeOpenGUI = System.currentTimeMillis();
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    public void initGui()
-    {
-        super.initGui();
-        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new SliderHelpDataPacket(this.identifier)));
+    public void func_73866_w_() {
+        super.func_73866_w_();
+        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new SliderHelpDataPacket(this.identifier)));
     }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    public void drawScreen(int mouseX, int mouseY, float par3)
-    {
+    public void func_73863_a(int mouseX, int mouseY, float par3) {
         this.hoveredAction = "";
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-        if (!images.isEmpty())
-        {
-            this.drawDefaultBackground();
-            float translationXProgress = Math.min(1.0F, (float)(System.currentTimeMillis() - this.timeOpenGUI) / (float)translationXDuration);
-            String url = (String)images.get(this.imageIndex);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        if (!images.isEmpty()) {
+            this.func_73873_v_();
+            float translationXProgress = Math.min(1.0f, (float)(System.currentTimeMillis() - this.timeOpenGUI) / (float)translationXDuration);
+            String url = images.get(this.imageIndex);
             DownloadableTexture downloadableTexture = ClientProxy.getRemoteResource(url);
-
-            if (downloadableTexture != null && downloadableTexture.getBufferedImage() != null)
-            {
+            if (downloadableTexture != null && downloadableTexture.getBufferedImage() != null) {
                 ModernGui.bindRemoteTexture(url);
-                ModernGui.drawScaledCustomSizeModalRect(0.0F - (1.0F - translationXProgress) * (float)this.height * widthHeightRatio, 0.0F, 0.0F, 0.0F, imageWidth, imageHeight, (int)((float)this.height * widthHeightRatio), this.height, (float)imageWidth, (float)imageHeight, true);
-
-                if (translationXProgress == 1.0F)
-                {
-                    float dotWidth = 8.0F * widthHeightRatio;
-                    float dotSpace = 2.0F * widthHeightRatio;
+                ModernGui.drawScaledCustomSizeModalRect(0.0f - (1.0f - translationXProgress) * (float)this.field_73881_g * widthHeightRatio, 0.0f, 0.0f, 0.0f, imageWidth, imageHeight, (int)((float)this.field_73881_g * widthHeightRatio), this.field_73881_g, imageWidth, imageHeight, true);
+                if (translationXProgress == 1.0f) {
+                    int waitingSeconds;
+                    String nextButtonSuffix;
+                    float dotWidth = 8.0f * widthHeightRatio;
+                    float dotSpace = 2.0f * widthHeightRatio;
                     float totalDotsWidth = (float)images.size() * (dotWidth + dotSpace) - dotSpace;
-                    float offsetX = (float)this.height * widthHeightRatio / 2.0F - totalDotsWidth / 2.0F;
-                    float btnLeftWidth;
-                    float diffBtnWidth;
-
-                    for (int btnRightWidth = 0; btnRightWidth < images.size(); ++btnRightWidth)
-                    {
-                        btnLeftWidth = offsetX + (float)btnRightWidth * (dotWidth + dotSpace);
-                        diffBtnWidth = (float)this.height * 0.925F;
+                    float offsetX = (float)this.field_73881_g * widthHeightRatio / 2.0f - totalDotsWidth / 2.0f;
+                    for (int i = 0; i < images.size(); ++i) {
+                        float x = offsetX + (float)i * (dotWidth + dotSpace);
+                        float y = (float)this.field_73881_g * 0.925f;
                         ClientEventHandler.STYLE.bindTexture("slider_help");
-                        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                        boolean btnHeight = (float)mouseX >= btnLeftWidth && (float)mouseX <= btnLeftWidth + dotWidth && (float)mouseY >= diffBtnWidth && (float)mouseY <= diffBtnWidth + dotWidth;
-                        byte btnSpace = 48;
-
-                        if (btnRightWidth == this.imageIndex)
-                        {
-                            btnSpace = 24;
+                        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+                        boolean hoveringDot = (float)mouseX >= x && (float)mouseX <= x + dotWidth && (float)mouseY >= y && (float)mouseY <= y + dotWidth;
+                        int dotTextureY = 48;
+                        if (i == this.imageIndex) {
+                            dotTextureY = 24;
+                        } else if (i < this.imageIndex && hoveringDot) {
+                            dotTextureY = 72;
+                            this.hoveredAction = "dot#" + i;
+                        } else if (i > this.imageIndex) {
+                            dotTextureY = 96;
                         }
-                        else if (btnRightWidth < this.imageIndex && btnHeight)
-                        {
-                            btnSpace = 72;
-                            this.hoveredAction = "dot#" + btnRightWidth;
-                        }
-                        else if (btnRightWidth > this.imageIndex)
-                        {
-                            btnSpace = 96;
-                        }
-
-                        ModernGui.drawScaledCustomSizeModalRect((float)((int)btnLeftWidth), (float)((int)diffBtnWidth), (float)(827 * GUI_SCALE), (float)(btnSpace * GUI_SCALE), 16 * GUI_SCALE, 16 * GUI_SCALE, (int)dotWidth, (int)dotWidth, (float)(1920 * GUI_SCALE), (float)(1080 * GUI_SCALE), true);
+                        ModernGui.drawScaledCustomSizeModalRect((int)x, (int)y, 827 * GUI_SCALE, dotTextureY * GUI_SCALE, 16 * GUI_SCALE, 16 * GUI_SCALE, (int)dotWidth, (int)dotWidth, 1920 * GUI_SCALE, 1080 * GUI_SCALE, true);
                     }
-
-                    float var21 = 112.0F * widthHeightRatio;
-                    btnLeftWidth = 90.0F * widthHeightRatio;
-                    diffBtnWidth = Math.abs(var21 - btnLeftWidth);
-                    float var22 = 24.0F * widthHeightRatio;
-                    float var23 = 4.0F * widthHeightRatio;
-                    float centerX = (float)this.height * widthHeightRatio / 2.0F;
-
-                    if (this.lastNextTimer == 0L && !validatedSlides.contains(this.identifier + "##" + this.imageIndex))
-                    {
+                    float btnRightWidth = 112.0f * widthHeightRatio;
+                    float btnLeftWidth = 90.0f * widthHeightRatio;
+                    float diffBtnWidth = Math.abs(btnRightWidth - btnLeftWidth);
+                    float btnHeight = 24.0f * widthHeightRatio;
+                    float btnSpace = 4.0f * widthHeightRatio;
+                    float centerX = (float)this.field_73881_g * widthHeightRatio / 2.0f;
+                    if (this.lastNextTimer == 0L && !validatedSlides.contains(this.identifier + "##" + this.imageIndex)) {
                         this.lastNextTimer = System.currentTimeMillis();
                     }
-
-                    int waitingSeconds = Math.max(0, (int)((nextButtonWaitingTime - (System.currentTimeMillis() - this.lastNextTimer)) / 1000L));
-                    String nextButtonSuffix = waitingSeconds > 0 ? " (" + waitingSeconds + ")" : "";
-                    boolean hoveringBtnLeft;
-
-                    if (this.imageIndex == 0 && (wikiURL.isEmpty() || images.size() > 1))
-                    {
+                    String string = nextButtonSuffix = (waitingSeconds = Math.max(0, (int)((nextButtonWaitingTime - (System.currentTimeMillis() - this.lastNextTimer)) / 1000L))) > 0 ? " (" + waitingSeconds + ")" : "";
+                    if (this.imageIndex == 0 && (wikiURL.isEmpty() || images.size() > 1)) {
                         ClientEventHandler.STYLE.bindTexture("slider_help");
-                        hoveringBtnLeft = (float)mouseX >= centerX - var21 / 2.0F && (float)mouseX <= centerX + var21 / 2.0F && (float)mouseY >= (float)this.height * 0.85F && (float)mouseY <= (float)this.height * 0.85F + var22;
-                        ModernGui.drawScaledCustomSizeModalRect(centerX - var21 / 2.0F, (float)this.height * 0.85F, (float)(885 * GUI_SCALE), (float)((images.size() > 1 && waitingSeconds > 0 ? 92 : (hoveringBtnLeft ? 160 : 24)) * GUI_SCALE), 225 * GUI_SCALE, 48 * GUI_SCALE, (int)var21, (int)var22, (float)(1920 * GUI_SCALE), (float)(1080 * GUI_SCALE), true);
-                        ModernGui.drawScaledStringCustomFont(images.size() > 1 ? I18n.getString("gui.slider_help.next") + nextButtonSuffix : I18n.getString("gui.slider_help.end"), centerX, (float)this.height * 0.85F + var22 * 0.3F, 1315867, 0.5F, "center", false, "georamaSemiBold", 25);
-
-                        if (hoveringBtnLeft && waitingSeconds == 0)
-                        {
+                        boolean hoveringBtn = (float)mouseX >= centerX - btnRightWidth / 2.0f && (float)mouseX <= centerX + btnRightWidth / 2.0f && (float)mouseY >= (float)this.field_73881_g * 0.85f && (float)mouseY <= (float)this.field_73881_g * 0.85f + btnHeight;
+                        ModernGui.drawScaledCustomSizeModalRect(centerX - btnRightWidth / 2.0f, (float)this.field_73881_g * 0.85f, 885 * GUI_SCALE, (images.size() > 1 && waitingSeconds > 0 ? 92 : (hoveringBtn ? 160 : 24)) * GUI_SCALE, 225 * GUI_SCALE, 48 * GUI_SCALE, (int)btnRightWidth, (int)btnHeight, 1920 * GUI_SCALE, 1080 * GUI_SCALE, true);
+                        ModernGui.drawScaledStringCustomFont(images.size() > 1 ? I18n.func_135053_a((String)"gui.slider_help.next") + nextButtonSuffix : I18n.func_135053_a((String)"gui.slider_help.end"), centerX, (float)this.field_73881_g * 0.85f + btnHeight * 0.3f, 0x14141B, 0.5f, "center", false, "georamaSemiBold", 25);
+                        if (hoveringBtn && waitingSeconds == 0) {
                             this.hoveredAction = "next";
                         }
-                    }
-                    else
-                    {
+                    } else {
                         ClientEventHandler.STYLE.bindTexture("slider_help");
-                        hoveringBtnLeft = (float)mouseX >= centerX - diffBtnWidth / 2.0F - var23 / 2.0F - btnLeftWidth && (float)mouseX <= centerX - diffBtnWidth / 2.0F - var23 / 2.0F && (float)mouseY >= (float)this.height * 0.85F && (float)mouseY <= (float)this.height * 0.85F + var22;
-                        ModernGui.drawScaledCustomSizeModalRect(centerX - diffBtnWidth / 2.0F - var23 / 2.0F - btnLeftWidth, (float)this.height * 0.85F, (float)(1127 * GUI_SCALE), (float)((hoveringBtnLeft ? 160 : 24) * GUI_SCALE), 181 * GUI_SCALE, 48 * GUI_SCALE, (int)btnLeftWidth, (int)var22, (float)(1920 * GUI_SCALE), (float)(1080 * GUI_SCALE), true);
-                        ModernGui.drawScaledStringCustomFont(I18n.getString(this.imageIndex == images.size() - 1 && !wikiURL.isEmpty() ? "gui.slider_help.wiki" : "gui.slider_help.back"), centerX - diffBtnWidth / 2.0F - var23 / 2.0F - btnLeftWidth / 2.0F, (float)this.height * 0.85F + var22 * 0.3F, hoveringBtnLeft ? 1315867 : 16777215, 0.5F, "center", false, "georamaSemiBold", 25);
-
-                        if (hoveringBtnLeft)
-                        {
+                        boolean hoveringBtnLeft = (float)mouseX >= centerX - diffBtnWidth / 2.0f - btnSpace / 2.0f - btnLeftWidth && (float)mouseX <= centerX - diffBtnWidth / 2.0f - btnSpace / 2.0f && (float)mouseY >= (float)this.field_73881_g * 0.85f && (float)mouseY <= (float)this.field_73881_g * 0.85f + btnHeight;
+                        ModernGui.drawScaledCustomSizeModalRect(centerX - diffBtnWidth / 2.0f - btnSpace / 2.0f - btnLeftWidth, (float)this.field_73881_g * 0.85f, 1127 * GUI_SCALE, (hoveringBtnLeft ? 160 : 24) * GUI_SCALE, 181 * GUI_SCALE, 48 * GUI_SCALE, (int)btnLeftWidth, (int)btnHeight, 1920 * GUI_SCALE, 1080 * GUI_SCALE, true);
+                        ModernGui.drawScaledStringCustomFont(I18n.func_135053_a((String)(this.imageIndex == images.size() - 1 && !wikiURL.isEmpty() ? "gui.slider_help.wiki" : "gui.slider_help.back")), centerX - diffBtnWidth / 2.0f - btnSpace / 2.0f - btnLeftWidth / 2.0f, (float)this.field_73881_g * 0.85f + btnHeight * 0.3f, hoveringBtnLeft ? 0x14141B : 0xFFFFFF, 0.5f, "center", false, "georamaSemiBold", 25);
+                        if (hoveringBtnLeft) {
                             this.hoveredAction = this.imageIndex == images.size() - 1 && !wikiURL.isEmpty() ? "wiki" : "back";
                         }
-
                         ClientEventHandler.STYLE.bindTexture("slider_help");
-                        boolean hoveringBtnRight = (float)mouseX >= centerX + diffBtnWidth / 2.0F + var23 / 2.0F && (float)mouseX <= centerX + diffBtnWidth / 2.0F + var23 / 2.0F + var21 && (float)mouseY >= (float)this.height * 0.85F && (float)mouseY <= (float)this.height * 0.85F + var22;
-                        ModernGui.drawScaledCustomSizeModalRect(centerX - diffBtnWidth / 2.0F + var23 / 2.0F, (float)this.height * 0.85F, (float)(885 * GUI_SCALE), (float)((waitingSeconds > 0 ? 92 : (hoveringBtnRight ? 160 : 24)) * GUI_SCALE), 225 * GUI_SCALE, 48 * GUI_SCALE, (int)var21, (int)var22, (float)(1920 * GUI_SCALE), (float)(1080 * GUI_SCALE), true);
-                        ModernGui.drawScaledStringCustomFont(this.imageIndex == images.size() - 1 ? I18n.getString("gui.slider_help.end") + nextButtonSuffix : I18n.getString("gui.slider_help.next") + nextButtonSuffix, centerX - diffBtnWidth / 2.0F + var23 / 2.0F + var21 / 2.0F, (float)this.height * 0.85F + var22 * 0.3F, 1315867, 0.5F, "center", false, "georamaSemiBold", 25);
-
-                        if (hoveringBtnRight && waitingSeconds == 0)
-                        {
+                        boolean hoveringBtnRight = (float)mouseX >= centerX + diffBtnWidth / 2.0f + btnSpace / 2.0f && (float)mouseX <= centerX + diffBtnWidth / 2.0f + btnSpace / 2.0f + btnRightWidth && (float)mouseY >= (float)this.field_73881_g * 0.85f && (float)mouseY <= (float)this.field_73881_g * 0.85f + btnHeight;
+                        ModernGui.drawScaledCustomSizeModalRect(centerX - diffBtnWidth / 2.0f + btnSpace / 2.0f, (float)this.field_73881_g * 0.85f, 885 * GUI_SCALE, (waitingSeconds > 0 ? 92 : (hoveringBtnRight ? 160 : 24)) * GUI_SCALE, 225 * GUI_SCALE, 48 * GUI_SCALE, (int)btnRightWidth, (int)btnHeight, 1920 * GUI_SCALE, 1080 * GUI_SCALE, true);
+                        ModernGui.drawScaledStringCustomFont(this.imageIndex == images.size() - 1 ? I18n.func_135053_a((String)"gui.slider_help.end") + nextButtonSuffix : I18n.func_135053_a((String)"gui.slider_help.next") + nextButtonSuffix, centerX - diffBtnWidth / 2.0f + btnSpace / 2.0f + btnRightWidth / 2.0f, (float)this.field_73881_g * 0.85f + btnHeight * 0.3f, 0x14141B, 0.5f, "center", false, "georamaSemiBold", 25);
+                        if (hoveringBtnRight && waitingSeconds == 0) {
                             this.hoveredAction = "next";
                         }
                     }
                 }
             }
         }
-
-        super.drawScreen(mouseX, mouseY, par3);
+        super.func_73863_a(mouseX, mouseY, par3);
     }
 
-    /**
-     * Returns true if this GUI should pause the game when it is displayed in single-player
-     */
-    public boolean doesGuiPauseGame()
-    {
+    public boolean func_73868_f() {
         return false;
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char typedChar, int keyCode)
-    {
-        if (keyCode != 1)
-        {
-            super.keyTyped(typedChar, keyCode);
+    protected void func_73869_a(char typedChar, int keyCode) {
+        if (keyCode == 1) {
+            return;
         }
+        super.func_73869_a(typedChar, keyCode);
     }
 
-    /**
-     * Called when the mouse is clicked.
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-    {
-        if (mouseButton == 0)
-        {
-            if (this.hoveredAction.startsWith("dot"))
-            {
+    protected void func_73864_a(int mouseX, int mouseY, int mouseButton) {
+        if (mouseButton == 0) {
+            if (this.hoveredAction.startsWith("dot")) {
                 this.imageIndex = Integer.parseInt(this.hoveredAction.split("#")[1]);
-            }
-            else if (this.hoveredAction.equals("next"))
-            {
+            } else if (this.hoveredAction.equals("next")) {
                 validatedSlides.add(this.identifier + "##" + this.imageIndex);
-
-                if (this.imageIndex < images.size() - 1)
-                {
+                if (this.imageIndex < images.size() - 1) {
                     ++this.imageIndex;
-                    ClientProxy.playClientMusic("https://static.nationsglory.fr/N4y22G4456.mp3", 1.0F);
-
-                    if (!validatedSlides.contains(this.identifier + "##" + this.imageIndex))
-                    {
+                    ClientProxy.playClientMusic("https://static.nationsglory.fr/N4y22G4456.mp3", 1.0f);
+                    if (!validatedSlides.contains(this.identifier + "##" + this.imageIndex)) {
                         this.lastNextTimer = System.currentTimeMillis();
                     }
-                }
-                else
-                {
-                    Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
-                    ClientProxy.playClientMusic("https://static.nationsglory.fr/N4y22G445N.mp3", 1.0F);
-                    PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(new DialogExecPacket(this.identifier)));
-
-                    if (this.guiFrom != null)
-                    {
-                        Minecraft.getMinecraft().displayGuiScreen(this.guiFrom);
+                } else {
+                    Minecraft.func_71410_x().func_71373_a(null);
+                    ClientProxy.playClientMusic("https://static.nationsglory.fr/N4y22G445N.mp3", 1.0f);
+                    PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(new DialogExecPacket(this.identifier)));
+                    if (this.guiFrom != null) {
+                        Minecraft.func_71410_x().func_71373_a(this.guiFrom);
                     }
                 }
-            }
-            else if (this.hoveredAction.equals("back"))
-            {
+            } else if (this.hoveredAction.equals("back")) {
                 this.lastNextTimer = 0L;
                 this.imageIndex = Math.max(0, this.imageIndex - 1);
-            }
-            else if (this.hoveredAction.equals("wiki"))
-            {
-                try
-                {
-                    Class t = Class.forName("java.awt.Desktop");
-                    Object theDesktop = t.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-                    t.getMethod("browse", new Class[] {URI.class}).invoke(theDesktop, new Object[] {URI.create(wikiURL)});
+            } else if (this.hoveredAction.equals("wiki")) {
+                try {
+                    Class<?> desktop = Class.forName("java.awt.Desktop");
+                    Object theDesktop = desktop.getMethod("getDesktop", new Class[0]).invoke(null, new Object[0]);
+                    desktop.getMethod("browse", URI.class).invoke(theDesktop, URI.create(wikiURL));
                 }
-                catch (Throwable var6)
-                {
-                    var6.printStackTrace();
+                catch (Throwable t) {
+                    t.printStackTrace();
                 }
             }
         }
-
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+        super.func_73864_a(mouseX, mouseY, mouseButton);
     }
 }
+

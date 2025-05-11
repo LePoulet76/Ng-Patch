@@ -1,73 +1,80 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.client.Minecraft
+ *  net.minecraft.item.ItemStack
+ *  net.minecraft.util.ResourceLocation
+ *  net.minecraftforge.client.IItemRenderer
+ *  net.minecraftforge.client.IItemRenderer$ItemRenderType
+ *  net.minecraftforge.client.IItemRenderer$ItemRendererHelper
+ *  org.lwjgl.opengl.GL11
+ */
 package net.ilexiconn.nationsgui.forge.client.render.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.ilexiconn.nationsgui.forge.client.model.block.SpeakerModel;
-import net.ilexiconn.nationsgui.forge.client.render.item.SpeakerItemRenderer$1;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 import org.lwjgl.opengl.GL11;
 
-@SideOnly(Side.CLIENT)
-public class SpeakerItemRenderer implements IItemRenderer
-{
+@SideOnly(value=Side.CLIENT)
+public class SpeakerItemRenderer
+implements IItemRenderer {
     public static final ResourceLocation TEXTURE = new ResourceLocation("nationsgui", "textures/blocks/speaker.png");
     public static final SpeakerModel MODEL = new SpeakerModel();
 
-    public boolean handleRenderType(ItemStack item, ItemRenderType type)
-    {
-        return type != ItemRenderType.FIRST_PERSON_MAP;
+    public boolean handleRenderType(ItemStack item, IItemRenderer.ItemRenderType type) {
+        return type != IItemRenderer.ItemRenderType.FIRST_PERSON_MAP;
     }
 
-    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
-    {
-        return helper != ItemRendererHelper.BLOCK_3D;
+    public boolean shouldUseRenderHelper(IItemRenderer.ItemRenderType type, ItemStack item, IItemRenderer.ItemRendererHelper helper) {
+        return helper != IItemRenderer.ItemRendererHelper.BLOCK_3D;
     }
 
-    public void renderItem(ItemRenderType type, ItemStack item, Object ... data)
-    {
-        switch (SpeakerItemRenderer$1.$SwitchMap$net$minecraftforge$client$IItemRenderer$ItemRenderType[type.ordinal()])
-        {
-            case 1:
-                GL11.glScalef(0.8F, 0.8F, 0.8F);
-                GL11.glTranslatef(0.0F, 0.9F, 0.6F);
-                this.renderBlock(0.0F, 1.5F, 0.0F);
+    public void renderItem(IItemRenderer.ItemRenderType type, ItemStack item, Object ... data) {
+        switch (type) {
+            case ENTITY: {
+                GL11.glScalef((float)0.8f, (float)0.8f, (float)0.8f);
+                GL11.glTranslatef((float)0.0f, (float)0.9f, (float)0.6f);
+                this.renderBlock(0.0f, 1.5f, 0.0f);
                 break;
-
-            case 2:
-                GL11.glScalef(1.4F, 1.4F, 1.4F);
-                GL11.glRotatef(30.0F, 0.0F, 1.0F, 0.0F);
-                GL11.glTranslatef(-0.6F, 1.1F, 0.8F);
-                this.renderBlock(0.5F, 1.5F, 0.5F);
+            }
+            case EQUIPPED: {
+                GL11.glScalef((float)1.4f, (float)1.4f, (float)1.4f);
+                GL11.glRotatef((float)30.0f, (float)0.0f, (float)1.0f, (float)0.0f);
+                GL11.glTranslatef((float)-0.6f, (float)1.1f, (float)0.8f);
+                this.renderBlock(0.5f, 1.5f, 0.5f);
                 break;
-
-            case 3:
-                GL11.glScalef(1.4F, 1.4F, 1.4F);
-                GL11.glRotatef(60.0F, 0.0F, 1.0F, 0.0F);
-                GL11.glTranslatef(-0.5F, 0.7F, 0.7F);
-                this.renderBlock(0.5F, 1.5F, 0.5F);
+            }
+            case EQUIPPED_FIRST_PERSON: {
+                GL11.glScalef((float)1.4f, (float)1.4f, (float)1.4f);
+                GL11.glRotatef((float)60.0f, (float)0.0f, (float)1.0f, (float)0.0f);
+                GL11.glTranslatef((float)-0.5f, (float)0.7f, (float)0.7f);
+                this.renderBlock(0.5f, 1.5f, 0.5f);
                 break;
-
-            case 4:
-                GL11.glScalef(1.4F, 1.4F, 1.4F);
-                GL11.glTranslatef(0.7F, 1.55F, 0.0F);
-                GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
-                this.renderBlock(0.0F, 1.0F, 0.0F);
+            }
+            case INVENTORY: {
+                GL11.glScalef((float)1.4f, (float)1.4f, (float)1.4f);
+                GL11.glTranslatef((float)0.7f, (float)1.55f, (float)0.0f);
+                GL11.glRotatef((float)180.0f, (float)0.0f, (float)1.0f, (float)0.0f);
+                this.renderBlock(0.0f, 1.0f, 0.0f);
+            }
         }
     }
 
-    public void renderBlock(float x, float y, float z)
-    {
+    public void renderBlock(float x, float y, float z) {
         GL11.glPushMatrix();
-        Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE);
-        GL11.glTranslatef(x, y, z);
-        GL11.glScalef(-1.0F, -1.0F, 1.0F);
-        MODEL.render((Entity)null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+        Minecraft.func_71410_x().field_71446_o.func_110577_a(TEXTURE);
+        GL11.glTranslatef((float)x, (float)y, (float)z);
+        GL11.glScalef((float)-1.0f, (float)-1.0f, (float)1.0f);
+        MODEL.func_78088_a(null, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f);
         GL11.glPopMatrix();
     }
 }
+

@@ -1,18 +1,21 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
 package javazoom.jl.decoder;
 
-public interface Control
-{
-    void start();
+public interface Control {
+    public void start();
 
-    void stop();
+    public void stop();
 
-    boolean isPlaying();
+    public boolean isPlaying();
 
-    void pause();
+    public void pause();
 
-    boolean isRandomAccess();
+    public boolean isRandomAccess();
 
-    double getPosition();
+    public double getPosition();
 
-    void setPosition(double var1);
+    public void setPosition(double var1);
 }
+

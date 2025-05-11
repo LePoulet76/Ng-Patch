@@ -1,3 +1,11 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  net.minecraft.entity.player.EntityPlayer
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -10,21 +18,32 @@ import net.ilexiconn.nationsgui.forge.server.trade.TradeManager;
 import net.ilexiconn.nationsgui.forge.server.trade.enums.EnumPacketServer;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class TradeCancelByHitPacket implements IPacket, IClientPacket, IServerPacket
-{
-    public TradeCancelByHitPacket() {}
+public class TradeCancelByHitPacket
+implements IPacket,
+IClientPacket,
+IServerPacket {
+    public TradeCancelByHitPacket() {
+    }
 
-    public TradeCancelByHitPacket(String trader) {}
+    public TradeCancelByHitPacket(String trader) {
+    }
 
-    public void fromBytes(ByteArrayDataInput data) {}
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
+    }
 
-    public void toBytes(ByteArrayDataOutput data) {}
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
+    }
 
-    public void handleClientPacket(EntityPlayer player)
-    {
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
         PacketCallbacks.MONEY.send(new String[0]);
         TradeManager.sendData(EnumPacketServer.TRADE_CANCEL, 0);
     }
 
-    public void handleServerPacket(EntityPlayer player) {}
+    @Override
+    public void handleServerPacket(EntityPlayer player) {
+    }
 }
+

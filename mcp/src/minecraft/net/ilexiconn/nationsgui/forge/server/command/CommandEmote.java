@@ -1,3 +1,23 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  cpw.mods.fml.common.network.Player
+ *  net.minecraft.command.CommandBase
+ *  net.minecraft.command.ICommandSender
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.nbt.CompressedStreamTools
+ *  net.minecraft.nbt.NBTBase
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.nbt.NBTTagList
+ *  net.minecraft.nbt.NBTTagString
+ *  net.minecraft.network.packet.Packet
+ *  net.minecraft.server.MinecraftServer
+ *  net.minecraft.util.AxisAlignedBB
+ *  net.minecraft.util.ChatMessageComponent
+ *  net.minecraft.world.WorldServer
+ */
 package net.ilexiconn.nationsgui.forge.server.command;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -6,7 +26,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Iterator;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import net.ilexiconn.nationsgui.forge.server.ServerProxy;
 import net.ilexiconn.nationsgui.forge.server.entity.data.NGPlayerData;
@@ -17,278 +38,154 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.WorldServer;
 
-public class CommandEmote extends CommandBase
-{
-    public String getCommandName()
-    {
+public class CommandEmote
+extends CommandBase {
+    public String func_71517_b() {
         return "emote";
     }
 
-    public String getCommandUsage(ICommandSender par1ICommandSender)
-    {
+    public String func_71518_a(ICommandSender p_71518_1_) {
         return "<emote>";
     }
 
-    public void processCommand(ICommandSender sender, String[] args)
-    {
-        if (args.length > 0)
-        {
-            Iterator player;
-            File var15;
-            NBTTagCompound var19;
-            NBTTagCompound var23;
-            NBTTagList var26;
-            NBTTagList var27;
-
-            if (args[0].equalsIgnoreCase("give") && args.length > 2)
-            {
-                if (CommandBase.getPlayer(sender, args[1]) != null)
-                {
-                    if (ServerProxy.emotesName.contains(args[2]))
-                    {
-                        if (NGPlayerData.get(CommandBase.getPlayer(sender, args[1])).addEmote(args[2]))
-                        {
-                            sender.sendChatToPlayer(ChatMessageComponent.createFromText(Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Vous avez ajout\u00e9 l\'emote \'<emote>\' \u00e0 <player>.").replaceAll("<emote>", args[2]).replaceAll("<player>", args[1])));
+    public void func_71515_b(ICommandSender sender, String[] args) {
+        if (args.length > 0) {
+            if (args[0].equalsIgnoreCase("give") && args.length > 2) {
+                if (CommandBase.func_82359_c((ICommandSender)sender, (String)args[1]) != null) {
+                    if (ServerProxy.emotesName.contains(args[2])) {
+                        if (NGPlayerData.get((EntityPlayer)CommandBase.func_82359_c((ICommandSender)sender, (String)args[1])).addEmote(args[2])) {
+                            sender.func_70006_a(ChatMessageComponent.func_111066_d((String)Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Vous avez ajout\u00e9 l'emote '<emote>' \u00e0 <player>.").replaceAll("<emote>", args[2]).replaceAll("<player>", args[1])));
+                        } else {
+                            sender.func_70006_a(ChatMessageComponent.func_111066_d((String)Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Ce joueur a d\u00e9ja cette emote.")));
                         }
-                        else
-                        {
-                            sender.sendChatToPlayer(ChatMessageComponent.createFromText(Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Ce joueur a d\u00e9ja cette emote.")));
+                    } else if (args[2].equals("*")) {
+                        for (String emoteName : ServerProxy.emotesName) {
+                            NGPlayerData.get((EntityPlayer)CommandBase.func_82359_c((ICommandSender)sender, (String)args[1])).addEmote(emoteName);
                         }
+                    } else {
+                        sender.func_70006_a(ChatMessageComponent.func_111066_d((String)Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Cette emote n'existe pas")));
                     }
-                    else if (args[2].equals("*"))
-                    {
-                        player = ServerProxy.emotesName.iterator();
-
-                        while (player.hasNext())
-                        {
-                            String var21 = (String)player.next();
-                            NGPlayerData.get(CommandBase.getPlayer(sender, args[1])).addEmote(var21);
-                        }
-                    }
-                    else
-                    {
-                        sender.sendChatToPlayer(ChatMessageComponent.createFromText(Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Cette emote n\'existe pas")));
-                    }
-                }
-                else
-                {
-                    var15 = new File(".", "/world/players/" + args[0] + ".dat");
-
-                    if (!var15.exists())
-                    {
-                        sender.sendChatToPlayer(ChatMessageComponent.createFromText(Translation.get("Le fichier du joueur n\'existe pas")));
+                } else {
+                    File playerFile = new File(".", "/world/players/" + args[0] + ".dat");
+                    if (!playerFile.exists()) {
+                        sender.func_70006_a(ChatMessageComponent.func_111066_d((String)Translation.get("Le fichier du joueur n'existe pas")));
                         return;
                     }
-
-                    try
-                    {
-                        var19 = CompressedStreamTools.readCompressed(new FileInputStream(var15));
-
-                        if (var19.hasKey("NGPlayerData"))
-                        {
-                            var23 = var19.getCompoundTag("NGPlayerData");
-
-                            if (var23.hasKey("Emotes") && var23.getTagList("Emotes").tagCount() > 0)
-                            {
-                                var26 = var23.getTagList("Emotes");
-                                var27 = (NBTTagList)var26.copy();
-                                var27.appendTag(new NBTTagString("Emote", args[2]));
-                                var23.setTag(var26.getName(), var27);
+                    try {
+                        NBTTagCompound comp = CompressedStreamTools.func_74796_a((InputStream)new FileInputStream(playerFile));
+                        if (comp.func_74764_b("NGPlayerData")) {
+                            NBTTagCompound emotes = comp.func_74775_l("NGPlayerData");
+                            if (emotes.func_74764_b("Emotes") && emotes.func_74761_m("Emotes").func_74745_c() > 0) {
+                                NBTTagList list = emotes.func_74761_m("Emotes");
+                                NBTTagList list1 = (NBTTagList)list.func_74737_b();
+                                list1.func_74742_a((NBTBase)new NBTTagString("Emote", args[2]));
+                                emotes.func_74782_a(list.func_74740_e(), (NBTBase)list1);
+                            } else {
+                                NBTTagList list = new NBTTagList("Emotes");
+                                list.func_74742_a((NBTBase)new NBTTagString("Emote", args[2]));
+                                emotes.func_74782_a(list.func_74740_e(), (NBTBase)list);
                             }
-                            else
-                            {
-                                var26 = new NBTTagList("Emotes");
-                                var26.appendTag(new NBTTagString("Emote", args[2]));
-                                var23.setTag(var26.getName(), var26);
-                            }
-
-                            var19.setTag("NGPlayerData", var23);
+                            comp.func_74782_a("NGPlayerData", (NBTBase)emotes);
                         }
-
-                        CompressedStreamTools.writeCompressed(var19, new FileOutputStream(var15));
+                        CompressedStreamTools.func_74799_a((NBTTagCompound)comp, (OutputStream)new FileOutputStream(playerFile));
                         return;
                     }
-                    catch (IOException var12)
-                    {
-                        var12.printStackTrace();
+                    catch (IOException e1) {
+                        e1.printStackTrace();
                     }
                 }
-            }
-            else
-            {
-                Iterator var18;
-
-                if (args[0].equalsIgnoreCase("get") && args.length > 1)
-                {
-                    if (CommandBase.getPlayer(sender, args[1]) != null)
-                    {
-                        List var16 = NGPlayerData.get(CommandBase.getPlayer(sender, args[1])).emotes;
-                        sender.sendChatToPlayer(ChatMessageComponent.createFromText(Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Liste des emotes de ce joueur :")));
-                        var18 = var16.iterator();
-
-                        while (var18.hasNext())
-                        {
-                            String var25 = (String)var18.next();
-                            sender.sendChatToPlayer(ChatMessageComponent.createFromText("\u00a74[\u00a7cEmotes\u00a74] \u00a77- " + var25));
-                        }
+            } else if (args[0].equalsIgnoreCase("get") && args.length > 1) {
+                if (CommandBase.func_82359_c((ICommandSender)sender, (String)args[1]) != null) {
+                    List<String> emotes = NGPlayerData.get((EntityPlayer)CommandBase.func_82359_c((ICommandSender)sender, (String)args[1])).emotes;
+                    sender.func_70006_a(ChatMessageComponent.func_111066_d((String)Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Liste des emotes de ce joueur :")));
+                    for (String emote : emotes) {
+                        sender.func_70006_a(ChatMessageComponent.func_111066_d((String)("\u00a74[\u00a7cEmotes\u00a74] \u00a77- " + emote)));
                     }
-                    else
-                    {
-                        sender.sendChatToPlayer(ChatMessageComponent.createFromText(Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Ce joueur n\'est pas connect\u00e9.")));
-                    }
+                } else {
+                    sender.func_70006_a(ChatMessageComponent.func_111066_d((String)Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Ce joueur n'est pas connect\u00e9.")));
                 }
-                else if (args[0].equalsIgnoreCase("remove") && args.length > 2)
-                {
-                    if (CommandBase.getPlayer(sender, args[1]) != null)
-                    {
-                        if (ServerProxy.emotesName.contains(args[2]))
-                        {
-                            if (NGPlayerData.get(CommandBase.getPlayer(sender, args[1])).removeEmote(args[2]))
-                            {
-                                sender.sendChatToPlayer(ChatMessageComponent.createFromText(Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Vous avez retir\u00e9 l\'emote \'<emote>\' de <player>.").replaceAll("<emote>", args[2]).replaceAll("<player>", args[1])));
-                            }
-                            else
-                            {
-                                sender.sendChatToPlayer(ChatMessageComponent.createFromText(Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Ce joueur n\'a pas cette emote.")));
-                            }
+            } else if (args[0].equalsIgnoreCase("remove") && args.length > 2) {
+                if (CommandBase.func_82359_c((ICommandSender)sender, (String)args[1]) != null) {
+                    if (ServerProxy.emotesName.contains(args[2])) {
+                        if (NGPlayerData.get((EntityPlayer)CommandBase.func_82359_c((ICommandSender)sender, (String)args[1])).removeEmote(args[2])) {
+                            sender.func_70006_a(ChatMessageComponent.func_111066_d((String)Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Vous avez retir\u00e9 l'emote '<emote>' de <player>.").replaceAll("<emote>", args[2]).replaceAll("<player>", args[1])));
+                        } else {
+                            sender.func_70006_a(ChatMessageComponent.func_111066_d((String)Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Ce joueur n'a pas cette emote.")));
                         }
-                        else
-                        {
-                            sender.sendChatToPlayer(ChatMessageComponent.createFromText(Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Cette emote n\'existe pas")));
-                        }
+                    } else {
+                        sender.func_70006_a(ChatMessageComponent.func_111066_d((String)Translation.get("\u00a74[\u00a7cEmotes\u00a74] \u00a77Cette emote n'existe pas")));
                     }
-                    else
-                    {
-                        var15 = new File(".", "/world/players/" + args[0] + ".dat");
-
-                        if (!var15.exists())
-                        {
-                            sender.sendChatToPlayer(ChatMessageComponent.createFromText(Translation.get("Le fichier du joueur n\'existe pas")));
-                            return;
-                        }
-
-                        try
-                        {
-                            var19 = CompressedStreamTools.readCompressed(new FileInputStream(var15));
-
-                            if (var19.hasKey("NGPlayerData"))
-                            {
-                                var23 = var19.getCompoundTag("NGPlayerData");
-
-                                if (var23.hasKey("Emotes") && var23.getTagList("Emotes").tagCount() > 0)
-                                {
-                                    var26 = var23.getTagList("Emotes");
-                                    var27 = new NBTTagList(var26.getName());
-
-                                    for (int var28 = 0; var28 < var26.tagCount(); ++var28)
-                                    {
-                                        NBTTagString var29 = (NBTTagString)var26.tagAt(var28);
-
-                                        if (!var29.data.equalsIgnoreCase(args[2]))
-                                        {
-                                            var27.appendTag(var29);
-                                        }
-                                    }
-
-                                    var23.setTag(var26.getName(), var27);
+                } else {
+                    File playerFile = new File(".", "/world/players/" + args[0] + ".dat");
+                    if (!playerFile.exists()) {
+                        sender.func_70006_a(ChatMessageComponent.func_111066_d((String)Translation.get("Le fichier du joueur n'existe pas")));
+                        return;
+                    }
+                    try {
+                        NBTTagCompound comp = CompressedStreamTools.func_74796_a((InputStream)new FileInputStream(playerFile));
+                        if (comp.func_74764_b("NGPlayerData")) {
+                            NBTTagCompound emotes = comp.func_74775_l("NGPlayerData");
+                            if (emotes.func_74764_b("Emotes") && emotes.func_74761_m("Emotes").func_74745_c() > 0) {
+                                NBTTagList list = emotes.func_74761_m("Emotes");
+                                NBTTagList list1 = new NBTTagList(list.func_74740_e());
+                                for (int i = 0; i < list.func_74745_c(); ++i) {
+                                    NBTTagString tag = (NBTTagString)list.func_74743_b(i);
+                                    if (tag.field_74751_a.equalsIgnoreCase(args[2])) continue;
+                                    list1.func_74742_a((NBTBase)tag);
                                 }
-
-                                var19.setTag("NGPlayerData", var23);
+                                emotes.func_74782_a(list.func_74740_e(), (NBTBase)list1);
                             }
-
-                            CompressedStreamTools.writeCompressed(var19, new FileOutputStream(var15));
-                            return;
+                            comp.func_74782_a("NGPlayerData", (NBTBase)emotes);
                         }
-                        catch (IOException var11)
-                        {
-                            var11.printStackTrace();
+                        CompressedStreamTools.func_74799_a((NBTTagCompound)comp, (OutputStream)new FileOutputStream(playerFile));
+                        return;
+                    }
+                    catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            } else if (args[0].equalsIgnoreCase("play") && args.length > 1 && sender instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer)sender;
+                for (Object e : player.field_70170_p.func_72872_a(player.getClass(), AxisAlignedBB.func_72332_a().func_72299_a(player.field_70165_t - 50.0, player.field_70163_u - 50.0, player.field_70161_v - 50.0, player.field_70165_t + 50.0, player.field_70163_u + 50.0, player.field_70161_v + 50.0))) {
+                    if (!(e instanceof Player)) continue;
+                    PacketDispatcher.sendPacketToPlayer((Packet)PacketRegistry.INSTANCE.generatePacket(new PacketEmote(args[1], player.field_71092_bJ)), (Player)((Player)e));
+                }
+            } else if (args[0].equalsIgnoreCase("playallworlds") && args.length > 1) {
+                for (WorldServer server : MinecraftServer.func_71276_C().field_71305_c) {
+                    for (EntityPlayer player : server.field_73010_i) {
+                        for (Object e : player.field_70170_p.func_72872_a(player.getClass(), AxisAlignedBB.func_72332_a().func_72299_a(player.field_70165_t - 50.0, player.field_70163_u - 50.0, player.field_70161_v - 50.0, player.field_70165_t + 50.0, player.field_70163_u + 50.0, player.field_70161_v + 50.0))) {
+                            if (!(e instanceof Player)) continue;
+                            PacketDispatcher.sendPacketToPlayer((Packet)PacketRegistry.INSTANCE.generatePacket(new PacketEmote(args[1], player.field_71092_bJ)), (Player)((Player)e));
                         }
                     }
                 }
-                else if (args[0].equalsIgnoreCase("play") && args.length > 1 && sender instanceof EntityPlayer)
-                {
-                    EntityPlayer var14 = (EntityPlayer)sender;
-                    var18 = var14.worldObj.getEntitiesWithinAABB(var14.getClass(), AxisAlignedBB.getAABBPool().getAABB(var14.posX - 50.0D, var14.posY - 50.0D, var14.posZ - 50.0D, var14.posX + 50.0D, var14.posY + 50.0D, var14.posZ + 50.0D)).iterator();
-
-                    while (var18.hasNext())
-                    {
-                        Object var22 = var18.next();
-
-                        if (var22 instanceof Player)
-                        {
-                            PacketDispatcher.sendPacketToPlayer(PacketRegistry.INSTANCE.generatePacket(new PacketEmote(args[1], var14.username)), (Player)var22);
-                        }
+            } else if (args[0].equalsIgnoreCase("playall") && args.length > 1 && sender instanceof EntityPlayer) {
+                for (EntityPlayer player : ((EntityPlayer)sender).field_70170_p.field_73010_i) {
+                    for (Object e : player.field_70170_p.func_72872_a(player.getClass(), AxisAlignedBB.func_72332_a().func_72299_a(player.field_70165_t - 50.0, player.field_70163_u - 50.0, player.field_70161_v - 50.0, player.field_70165_t + 50.0, player.field_70163_u + 50.0, player.field_70161_v + 50.0))) {
+                        if (!(e instanceof Player)) continue;
+                        PacketDispatcher.sendPacketToPlayer((Packet)PacketRegistry.INSTANCE.generatePacket(new PacketEmote(args[1], player.field_71092_bJ)), (Player)((Player)e));
                     }
                 }
-                else if (args[0].equalsIgnoreCase("playallworlds") && args.length > 1)
-                {
-                    WorldServer[] var13 = MinecraftServer.getServer().worldServers;
-                    int var17 = var13.length;
-
-                    for (int var20 = 0; var20 < var17; ++var20)
-                    {
-                        WorldServer var24 = var13[var20];
-                        Iterator list1 = var24.playerEntities.iterator();
-
-                        while (list1.hasNext())
-                        {
-                            EntityPlayer player2 = (EntityPlayer)list1.next();
-                            Iterator tag = player2.worldObj.getEntitiesWithinAABB(player2.getClass(), AxisAlignedBB.getAABBPool().getAABB(player2.posX - 50.0D, player2.posY - 50.0D, player2.posZ - 50.0D, player2.posX + 50.0D, player2.posY + 50.0D, player2.posZ + 50.0D)).iterator();
-
-                            while (tag.hasNext())
-                            {
-                                Object e2 = tag.next();
-
-                                if (e2 instanceof Player)
-                                {
-                                    PacketDispatcher.sendPacketToPlayer(PacketRegistry.INSTANCE.generatePacket(new PacketEmote(args[1], player2.username)), (Player)e2);
-                                }
-                            }
-                        }
-                    }
-                }
-                else if (args[0].equalsIgnoreCase("playall") && args.length > 1 && sender instanceof EntityPlayer)
-                {
-                    player = ((EntityPlayer)sender).worldObj.playerEntities.iterator();
-
-                    while (player.hasNext())
-                    {
-                        EntityPlayer player1 = (EntityPlayer)player.next();
-                        Iterator e = player1.worldObj.getEntitiesWithinAABB(player1.getClass(), AxisAlignedBB.getAABBPool().getAABB(player1.posX - 50.0D, player1.posY - 50.0D, player1.posZ - 50.0D, player1.posX + 50.0D, player1.posY + 50.0D, player1.posZ + 50.0D)).iterator();
-
-                        while (e.hasNext())
-                        {
-                            Object e1 = e.next();
-
-                            if (e1 instanceof Player)
-                            {
-                                PacketDispatcher.sendPacketToPlayer(PacketRegistry.INSTANCE.generatePacket(new PacketEmote(args[1], player1.username)), (Player)e1);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    sender.sendChatToPlayer(ChatMessageComponent.createFromText("\u00a74[\u00a7cEmotes\u00a74] \u00a77/emote <give/get/remove/list/play/playallworlds/playall> [name] [emote]"));
-                }
+            } else {
+                sender.func_70006_a(ChatMessageComponent.func_111066_d((String)"\u00a74[\u00a7cEmotes\u00a74] \u00a77/emote <give/get/remove/list/play/playallworlds/playall> [name] [emote]"));
             }
-        }
-        else
-        {
-            sender.sendChatToPlayer(ChatMessageComponent.createFromText("\u00a74[\u00a7cEmotes\u00a74] \u00a77/emote <give/get/remove/list/play/playallworlds/playall> [name] [emote]"));
+        } else {
+            sender.func_70006_a(ChatMessageComponent.func_111066_d((String)"\u00a74[\u00a7cEmotes\u00a74] \u00a77/emote <give/get/remove/list/play/playallworlds/playall> [name] [emote]"));
         }
     }
 
-    public int compareTo(Object o)
-    {
+    public int compareTo(Object o) {
         return 0;
     }
 }
+

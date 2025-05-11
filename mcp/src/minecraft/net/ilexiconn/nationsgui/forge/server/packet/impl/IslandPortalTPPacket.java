@@ -1,3 +1,15 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.common.network.PacketDispatcher
+ *  cpw.mods.fml.common.network.Player
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.network.packet.Packet
+ *  net.minecraft.tileentity.TileEntity
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -10,10 +22,13 @@ import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IServerPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.PacketRegistry;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 
-public class IslandPortalTPPacket implements IPacket, IClientPacket, IServerPacket
-{
+public class IslandPortalTPPacket
+implements IPacket,
+IClientPacket,
+IServerPacket {
     public int posX;
     public int posY;
     public int posZ;
@@ -23,8 +38,7 @@ public class IslandPortalTPPacket implements IPacket, IClientPacket, IServerPack
     public String codeFetchedFromServer;
     public boolean isSync;
 
-    public IslandPortalTPPacket(int posX, int posY, int posZ, String playerName, float yaw)
-    {
+    public IslandPortalTPPacket(int posX, int posY, int posZ, String playerName, float yaw) {
         this.posX = posX;
         this.posY = posY;
         this.posZ = posZ;
@@ -35,8 +49,8 @@ public class IslandPortalTPPacket implements IPacket, IClientPacket, IServerPack
         this.isSync = false;
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.posX = data.readInt();
         this.posY = data.readInt();
         this.posZ = data.readInt();
@@ -47,8 +61,8 @@ public class IslandPortalTPPacket implements IPacket, IClientPacket, IServerPack
         this.isSync = data.readBoolean();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeInt(this.posX);
         data.writeInt(this.posY);
         data.writeInt(this.posZ);
@@ -59,86 +73,57 @@ public class IslandPortalTPPacket implements IPacket, IClientPacket, IServerPack
         data.writeBoolean(this.isSync);
     }
 
-    public void handleServerPacket(EntityPlayer player)
-    {
-        TileEntity tile1;
+    @Override
+    public void handleServerPacket(EntityPlayer player) {
         TileEntity tile2;
-
-        if (this.codeFetchedFromServer.isEmpty())
-        {
-            tile1 = player.worldObj.getBlockTileEntity(this.posX, this.posY, this.posZ);
-            tile2 = player.worldObj.getBlockTileEntity(this.posX, this.posY + 1, this.posZ);
-
-            if (tile1 instanceof PortalBlockEntity || tile2 instanceof PortalBlockEntity)
-            {
-                if (tile1 instanceof PortalBlockEntity)
-                {
-                    this.codeFetchedFromServer = ((PortalBlockEntity)tile1).code;
-                }
-                else
-                {
-                    this.codeFetchedFromServer = ((PortalBlockEntity)tile2).code;
-                }
-
-                PacketDispatcher.sendPacketToPlayer(PacketRegistry.INSTANCE.generatePacket(this), (Player)player);
+        TileEntity tile1;
+        if (this.codeFetchedFromServer.isEmpty()) {
+            tile1 = player.field_70170_p.func_72796_p(this.posX, this.posY, this.posZ);
+            tile2 = player.field_70170_p.func_72796_p(this.posX, this.posY + 1, this.posZ);
+            if (tile1 instanceof PortalBlockEntity || tile2 instanceof PortalBlockEntity) {
+                this.codeFetchedFromServer = tile1 instanceof PortalBlockEntity ? ((PortalBlockEntity)tile1).code : ((PortalBlockEntity)tile2).code;
+                PacketDispatcher.sendPacketToPlayer((Packet)PacketRegistry.INSTANCE.generatePacket(this), (Player)((Player)player));
             }
         }
-
-        if (this.dataSentToFirebase)
-        {
-            tile1 = player.worldObj.getBlockTileEntity(this.posX, this.posY, this.posZ);
-            tile2 = player.worldObj.getBlockTileEntity(this.posX, this.posY + 1, this.posZ);
-            TileEntity tile3 = player.worldObj.getBlockTileEntity(this.posX, this.posY - 1, this.posZ);
-
-            if (tile1 instanceof PortalBlockEntity)
-            {
+        if (this.dataSentToFirebase) {
+            tile1 = player.field_70170_p.func_72796_p(this.posX, this.posY, this.posZ);
+            tile2 = player.field_70170_p.func_72796_p(this.posX, this.posY + 1, this.posZ);
+            TileEntity tile3 = player.field_70170_p.func_72796_p(this.posX, this.posY - 1, this.posZ);
+            if (tile1 instanceof PortalBlockEntity) {
                 ((PortalBlockEntity)tile1).active = this.isSync;
             }
-
-            if (tile2 instanceof PortalBlockEntity)
-            {
+            if (tile2 instanceof PortalBlockEntity) {
                 ((PortalBlockEntity)tile2).active = this.isSync;
             }
-
-            if (tile3 instanceof PortalBlockEntity)
-            {
+            if (tile3 instanceof PortalBlockEntity) {
                 ((PortalBlockEntity)tile3).active = this.isSync;
             }
-
-            player.worldObj.markBlockForRenderUpdate(this.posX, this.posY, this.posZ);
-            player.worldObj.markBlockForRenderUpdate(this.posX, this.posY + 1, this.posZ);
-            player.worldObj.markBlockForRenderUpdate(this.posX, this.posY - 1, this.posZ);
+            player.field_70170_p.func_72902_n(this.posX, this.posY, this.posZ);
+            player.field_70170_p.func_72902_n(this.posX, this.posY + 1, this.posZ);
+            player.field_70170_p.func_72902_n(this.posX, this.posY - 1, this.posZ);
         }
     }
 
-    public void handleClientPacket(EntityPlayer player)
-    {
-        if (this.dataSentToFirebase)
-        {
-            TileEntity tile1 = player.worldObj.getBlockTileEntity(this.posX, this.posY, this.posZ);
-            TileEntity tile2 = player.worldObj.getBlockTileEntity(this.posX, this.posY + 1, this.posZ);
-            TileEntity tile3 = player.worldObj.getBlockTileEntity(this.posX, this.posY - 1, this.posZ);
-
-            if (tile1 instanceof PortalBlockEntity)
-            {
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
+        if (this.dataSentToFirebase) {
+            TileEntity tile1 = player.field_70170_p.func_72796_p(this.posX, this.posY, this.posZ);
+            TileEntity tile2 = player.field_70170_p.func_72796_p(this.posX, this.posY + 1, this.posZ);
+            TileEntity tile3 = player.field_70170_p.func_72796_p(this.posX, this.posY - 1, this.posZ);
+            if (tile1 instanceof PortalBlockEntity) {
                 ((PortalBlockEntity)tile1).active = this.isSync;
             }
-
-            if (tile2 instanceof PortalBlockEntity)
-            {
+            if (tile2 instanceof PortalBlockEntity) {
                 ((PortalBlockEntity)tile2).active = this.isSync;
             }
-
-            if (tile3 instanceof PortalBlockEntity)
-            {
+            if (tile3 instanceof PortalBlockEntity) {
                 ((PortalBlockEntity)tile3).active = this.isSync;
             }
-
-            player.worldObj.markBlockForRenderUpdate(this.posX, this.posY, this.posZ);
-            player.worldObj.markBlockForRenderUpdate(this.posX, this.posY + 1, this.posZ);
-            player.worldObj.markBlockForRenderUpdate(this.posX, this.posY - 1, this.posZ);
+            player.field_70170_p.func_72902_n(this.posX, this.posY, this.posZ);
+            player.field_70170_p.func_72902_n(this.posX, this.posY + 1, this.posZ);
+            player.field_70170_p.func_72902_n(this.posX, this.posY - 1, this.posZ);
         }
-
-        PacketDispatcher.sendPacketToServer(PacketRegistry.INSTANCE.generatePacket(this));
+        PacketDispatcher.sendPacketToServer((Packet)PacketRegistry.INSTANCE.generatePacket(this));
     }
 }
+

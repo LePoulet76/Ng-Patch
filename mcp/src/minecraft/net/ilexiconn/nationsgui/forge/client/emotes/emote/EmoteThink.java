@@ -1,3 +1,10 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.model.ModelBiped
+ *  net.minecraft.entity.player.EntityPlayer
+ */
 package net.ilexiconn.nationsgui.forge.client.emotes.emote;
 
 import aurelienribon.tweenengine.Timeline;
@@ -6,28 +13,30 @@ import net.ilexiconn.nationsgui.forge.client.emotes.emote.base.EmoteBase;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class EmoteThink extends EmoteBase
-{
-    public EmoteThink(EntityPlayer player, ModelBiped model, ModelBiped armorModel, ModelBiped armorLegsModel)
-    {
+public class EmoteThink
+extends EmoteBase {
+    public EmoteThink(EntityPlayer player, ModelBiped model, ModelBiped armorModel, ModelBiped armorLegsModel) {
         super(player, model, armorModel, armorLegsModel);
     }
 
-    public Timeline getTimeline(EntityPlayer player, ModelBiped model)
-    {
-        Timeline timeline = Timeline.createSequence().beginParallel().push(Tween.to(model, 0, 150.0F).target(0.0F)).push(Tween.to(model, 1, 150.0F).target(0.0F)).push(Tween.to(model, 2, 150.0F).target(0.0F)).push(Tween.to(model, 12, 400.0F).target(-2.3415928F)).push(Tween.to(model, 14, 400.0F).target(0.4F)).end().push((Tween)Tween.to(model, 14, 150.0F).target(0.3F).repeatYoyo(5, 0.0F)).beginParallel().push(Tween.to(model, 12, 300.0F).target(0.0F)).push(Tween.to(model, 14, 300.0F).target(0.0F)).end();
+    @Override
+    public Timeline getTimeline(EntityPlayer player, ModelBiped model) {
+        Timeline timeline = Timeline.createSequence().beginParallel().push(Tween.to(model, 0, 150.0f).target(0.0f)).push(Tween.to(model, 1, 150.0f).target(0.0f)).push(Tween.to(model, 2, 150.0f).target(0.0f)).push(Tween.to(model, 12, 400.0f).target(-2.3415928f)).push(Tween.to(model, 14, 400.0f).target(0.4f)).end().push((Tween)Tween.to(model, 14, 150.0f).target(0.3f).repeatYoyo(5, 0.0f)).beginParallel().push(Tween.to(model, 12, 300.0f).target(0.0f)).push(Tween.to(model, 14, 300.0f).target(0.0f)).end();
         return timeline;
     }
 
-    public boolean usesBodyPart(int part)
-    {
+    @Override
+    public boolean usesBodyPart(int part) {
         return part == 0 || part == 12;
     }
 
-    protected void startSound() {}
+    @Override
+    protected void startSound() {
+    }
 
-    protected boolean hasSound()
-    {
+    @Override
+    protected boolean hasSound() {
         return false;
     }
 }
+

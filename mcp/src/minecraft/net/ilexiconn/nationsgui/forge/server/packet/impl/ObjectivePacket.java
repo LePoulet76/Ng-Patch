@@ -1,7 +1,19 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  net.minecraft.entity.player.EntityPlayer
+ *  net.minecraft.nbt.CompressedStreamTools
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.nbt.NBTTagList
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
+import java.io.DataInput;
 import java.io.IOException;
 import net.ilexiconn.nationsgui.forge.client.ClientData;
 import net.ilexiconn.nationsgui.forge.client.data.Objective;
@@ -12,44 +24,39 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class ObjectivePacket implements IPacket, IClientPacket
-{
+public class ObjectivePacket
+implements IPacket,
+IClientPacket {
     private NBTTagCompound compound;
 
-    public void handleClientPacket(EntityPlayer player)
-    {
-        NBTTagList nbtTagList = this.compound.getTagList("objectives");
+    @Override
+    public void handleClientPacket(EntityPlayer player) {
+        NBTTagList nbtTagList = this.compound.func_74761_m("objectives");
         Objective selectedObjective = null;
-
-        if (!ClientData.objectives.isEmpty() && ClientData.objectives.size() - 1 < ClientData.currentObjectiveIndex)
-        {
-            selectedObjective = (Objective)ClientData.objectives.get(ClientData.currentObjectiveIndex);
+        if (!ClientData.objectives.isEmpty() && ClientData.objectives.size() - 1 < ClientData.currentObjectiveIndex) {
+            selectedObjective = ClientData.objectives.get(ClientData.currentObjectiveIndex);
         }
-
         ClientData.objectives.clear();
-
-        for (int i = 0; i < nbtTagList.tagCount(); ++i)
-        {
-            ClientData.objectives.add(new Objective((NBTTagCompound)nbtTagList.tagAt(i)));
+        for (int i = 0; i < nbtTagList.func_74745_c(); ++i) {
+            ClientData.objectives.add(new Objective((NBTTagCompound)nbtTagList.func_74743_b(i)));
         }
-
-        if (selectedObjective == null || !((Objective)ClientData.objectives.get(ClientData.currentObjectiveIndex)).equals(selectedObjective))
-        {
+        if (selectedObjective == null || !ClientData.objectives.get(ClientData.currentObjectiveIndex).equals(selectedObjective)) {
             ClientData.currentObjectiveIndex = 0;
         }
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
-        try
-        {
-            this.compound = CompressedStreamTools.read(data);
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
+        try {
+            this.compound = CompressedStreamTools.func_74794_a((DataInput)data);
         }
-        catch (IOException var3)
-        {
-            var3.printStackTrace();
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void toBytes(ByteArrayDataOutput data) {}
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
+    }
 }
+

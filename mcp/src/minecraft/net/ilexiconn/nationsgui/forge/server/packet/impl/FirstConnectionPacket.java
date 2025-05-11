@@ -1,3 +1,13 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.io.ByteArrayDataInput
+ *  com.google.common.io.ByteArrayDataOutput
+ *  cpw.mods.fml.relauncher.Side
+ *  cpw.mods.fml.relauncher.SideOnly
+ *  net.minecraft.entity.player.EntityPlayer
+ */
 package net.ilexiconn.nationsgui.forge.server.packet.impl;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -10,8 +20,9 @@ import net.ilexiconn.nationsgui.forge.server.packet.IClientPacket;
 import net.ilexiconn.nationsgui.forge.server.packet.IPacket;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class FirstConnectionPacket implements IPacket, IClientPacket
-{
+public class FirstConnectionPacket
+implements IPacket,
+IClientPacket {
     public boolean waitAuthMe = false;
     public boolean forceOpen = false;
     public String serverName = "";
@@ -19,24 +30,22 @@ public class FirstConnectionPacket implements IPacket, IClientPacket
     public String serverIp = "127.0.0.1";
     public String serverPort = "25565";
 
-    @SideOnly(Side.CLIENT)
-    public void handleClientPacket(EntityPlayer player)
-    {
+    @Override
+    @SideOnly(value=Side.CLIENT)
+    public void handleClientPacket(EntityPlayer player) {
         ClientProxy.currentServerName = this.serverName;
         ClientProxy.serverType = this.serverType;
         ClientProxy.serverIp = this.serverIp;
         ClientProxy.serverPort = this.serverPort;
-
-        if (this.serverName.equals(ClientData.waitingServerName))
-        {
+        if (this.serverName.equals(ClientData.waitingServerName)) {
             ClientData.waitingServerName = null;
             ClientData.waitingPosition = 0;
-            ClientData.waitingJoinTime = Long.valueOf(0L);
+            ClientData.waitingJoinTime = 0L;
         }
     }
 
-    public void fromBytes(ByteArrayDataInput data)
-    {
+    @Override
+    public void fromBytes(ByteArrayDataInput data) {
         this.waitAuthMe = data.readBoolean();
         this.serverName = data.readUTF();
         this.forceOpen = data.readBoolean();
@@ -45,8 +54,8 @@ public class FirstConnectionPacket implements IPacket, IClientPacket
         this.serverPort = data.readUTF();
     }
 
-    public void toBytes(ByteArrayDataOutput data)
-    {
+    @Override
+    public void toBytes(ByteArrayDataOutput data) {
         data.writeBoolean(this.waitAuthMe);
         data.writeUTF(this.serverName);
         data.writeBoolean(this.forceOpen);
@@ -55,3 +64,4 @@ public class FirstConnectionPacket implements IPacket, IClientPacket
         data.writeUTF(this.serverPort);
     }
 }
+
