@@ -17,21 +17,21 @@ public class AchievementMap
     {
         try
         {
-            BufferedReader var1 = new BufferedReader(new InputStreamReader(AchievementMap.class.getResourceAsStream("/achievement/map.txt")));
-            String var2;
+            BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(AchievementMap.class.getResourceAsStream("/achievement/map.txt")));
+            String s;
 
-            while ((var2 = var1.readLine()) != null)
+            while ((s = bufferedreader.readLine()) != null)
             {
-                String[] var3 = var2.split(",");
-                int var4 = Integer.parseInt(var3[0]);
-                this.guidMap.put(Integer.valueOf(var4), var3[1]);
+                String[] astring = s.split(",");
+                int i = Integer.parseInt(astring[0]);
+                this.guidMap.put(Integer.valueOf(i), astring[1]);
             }
 
-            var1.close();
+            bufferedreader.close();
         }
-        catch (Exception var5)
+        catch (Exception exception)
         {
-            var5.printStackTrace();
+            exception.printStackTrace();
         }
     }
 

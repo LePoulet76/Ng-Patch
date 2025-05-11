@@ -34,8 +34,8 @@ public class ComponentVillageHouse4_Garden extends ComponentVillage
 
     public static ComponentVillageHouse4_Garden func_74912_a(ComponentVillageStartPiece par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
     {
-        StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 5, 6, 5, par6);
-        return StructureComponent.findIntersecting(par1List, var8) != null ? null : new ComponentVillageHouse4_Garden(par0ComponentVillageStartPiece, par7, par2Random, var8, par6);
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 5, 6, 5, par6);
+        return StructureComponent.findIntersecting(par1List, structureboundingbox) != null ? null : new ComponentVillageHouse4_Garden(par0ComponentVillageStartPiece, par7, par2Random, structureboundingbox, par6);
     }
 
     /**
@@ -112,25 +112,25 @@ public class ComponentVillageHouse4_Garden extends ComponentVillage
             this.placeBlockAtCurrentPosition(par1World, Block.fence.blockID, 0, 0, 5, 3, par3StructureBoundingBox);
         }
 
-        int var4;
+        int i;
 
         if (this.isRoofAccessible)
         {
-            var4 = this.getMetadataWithOffset(Block.ladder.blockID, 3);
-            this.placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, var4, 3, 1, 3, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, var4, 3, 2, 3, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, var4, 3, 3, 3, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, var4, 3, 4, 3, par3StructureBoundingBox);
+            i = this.getMetadataWithOffset(Block.ladder.blockID, 3);
+            this.placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, i, 3, 1, 3, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, i, 3, 2, 3, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, i, 3, 3, 3, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, i, 3, 4, 3, par3StructureBoundingBox);
         }
 
         this.placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 2, 3, 1, par3StructureBoundingBox);
 
-        for (var4 = 0; var4 < 5; ++var4)
+        for (i = 0; i < 5; ++i)
         {
-            for (int var5 = 0; var5 < 5; ++var5)
+            for (int j = 0; j < 5; ++j)
             {
-                this.clearCurrentPositionBlocksUpwards(par1World, var5, 6, var4, par3StructureBoundingBox);
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.cobblestone.blockID, 0, var5, -1, var4, par3StructureBoundingBox);
+                this.clearCurrentPositionBlocksUpwards(par1World, j, 6, i, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.cobblestone.blockID, 0, j, -1, i, par3StructureBoundingBox);
             }
         }
 

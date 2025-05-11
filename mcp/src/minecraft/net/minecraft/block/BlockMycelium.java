@@ -41,22 +41,22 @@ public class BlockMycelium extends Block
     {
         if (!par1World.isRemote)
         {
-            if (par1World.getBlockLightValue(par2, par3 + 1, par4) < 4 && Block.lightOpacity[par1World.getBlockId(par2, par3 + 1, par4)] > 2)
+            if (par1World.getBlockLightValue(par2, par3 + 1, par4) < 4 && par1World.getBlockLightOpacity(par2, par3 + 1, par4) > 2)
             {
                 par1World.setBlock(par2, par3, par4, Block.dirt.blockID);
             }
             else if (par1World.getBlockLightValue(par2, par3 + 1, par4) >= 9)
             {
-                for (int var6 = 0; var6 < 4; ++var6)
+                for (int l = 0; l < 4; ++l)
                 {
-                    int var7 = par2 + par5Random.nextInt(3) - 1;
-                    int var8 = par3 + par5Random.nextInt(5) - 3;
-                    int var9 = par4 + par5Random.nextInt(3) - 1;
-                    int var10 = par1World.getBlockId(var7, var8 + 1, var9);
+                    int i1 = par2 + par5Random.nextInt(3) - 1;
+                    int j1 = par3 + par5Random.nextInt(5) - 3;
+                    int k1 = par4 + par5Random.nextInt(3) - 1;
+                    int l1 = par1World.getBlockId(i1, j1 + 1, k1);
 
-                    if (par1World.getBlockId(var7, var8, var9) == Block.dirt.blockID && par1World.getBlockLightValue(var7, var8 + 1, var9) >= 4 && Block.lightOpacity[var10] <= 2)
+                    if (par1World.getBlockId(i1, j1, k1) == Block.dirt.blockID && par1World.getBlockLightValue(i1, j1 + 1, k1) >= 4 && par1World.getBlockLightOpacity(i1, j1 + 1, k1) <= 2)
                     {
-                        par1World.setBlock(var7, var8, var9, this.blockID);
+                        par1World.setBlock(i1, j1, k1, this.blockID);
                     }
                 }
             }
@@ -88,8 +88,8 @@ public class BlockMycelium extends Block
         }
         else
         {
-            Material var6 = par1IBlockAccess.getBlockMaterial(par2, par3 + 1, par4);
-            return var6 != Material.snow && var6 != Material.craftedSnow ? this.blockIcon : this.field_94421_b;
+            Material material = par1IBlockAccess.getBlockMaterial(par2, par3 + 1, par4);
+            return material != Material.snow && material != Material.craftedSnow ? this.blockIcon : this.field_94421_b;
         }
     }
 

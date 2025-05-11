@@ -56,13 +56,13 @@ public class EntityEnderCrystal extends Entity
         this.prevPosZ = this.posZ;
         ++this.innerRotation;
         this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
-        int var1 = MathHelper.floor_double(this.posX);
-        int var2 = MathHelper.floor_double(this.posY);
-        int var3 = MathHelper.floor_double(this.posZ);
+        int i = MathHelper.floor_double(this.posX);
+        int j = MathHelper.floor_double(this.posY);
+        int k = MathHelper.floor_double(this.posZ);
 
-        if (this.worldObj.getBlockId(var1, var2, var3) != Block.fire.blockID)
+        if (this.worldObj.getBlockId(i, j, k) != Block.fire.blockID)
         {
-            this.worldObj.setBlock(var1, var2, var3, Block.fire.blockID);
+            this.worldObj.setBlock(i, j, k, Block.fire.blockID);
         }
     }
 

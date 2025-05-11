@@ -31,19 +31,19 @@ public class EntityLargeExplodeFX extends EntityFX
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
     {
-        int var8 = (int)(((float)this.field_70581_a + par2) * 15.0F / (float)this.field_70584_aq);
+        int i = (int)(((float)this.field_70581_a + par2) * 15.0F / (float)this.field_70584_aq);
 
-        if (var8 <= 15)
+        if (i <= 15)
         {
             this.theRenderEngine.bindTexture(field_110127_a);
-            float var9 = (float)(var8 % 4) / 4.0F;
-            float var10 = var9 + 0.24975F;
-            float var11 = (float)(var8 / 4) / 4.0F;
-            float var12 = var11 + 0.24975F;
-            float var13 = 2.0F * this.field_70582_as;
-            float var14 = (float)(this.prevPosX + (this.posX - this.prevPosX) * (double)par2 - interpPosX);
-            float var15 = (float)(this.prevPosY + (this.posY - this.prevPosY) * (double)par2 - interpPosY);
-            float var16 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * (double)par2 - interpPosZ);
+            float f6 = (float)(i % 4) / 4.0F;
+            float f7 = f6 + 0.24975F;
+            float f8 = (float)(i / 4) / 4.0F;
+            float f9 = f8 + 0.24975F;
+            float f10 = 2.0F * this.field_70582_as;
+            float f11 = (float)(this.prevPosX + (this.posX - this.prevPosX) * (double)par2 - interpPosX);
+            float f12 = (float)(this.prevPosY + (this.posY - this.prevPosY) * (double)par2 - interpPosY);
+            float f13 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * (double)par2 - interpPosZ);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glDisable(GL11.GL_LIGHTING);
             RenderHelper.disableStandardItemLighting();
@@ -51,10 +51,10 @@ public class EntityLargeExplodeFX extends EntityFX
             par1Tessellator.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, 1.0F);
             par1Tessellator.setNormal(0.0F, 1.0F, 0.0F);
             par1Tessellator.setBrightness(240);
-            par1Tessellator.addVertexWithUV((double)(var14 - par3 * var13 - par6 * var13), (double)(var15 - par4 * var13), (double)(var16 - par5 * var13 - par7 * var13), (double)var10, (double)var12);
-            par1Tessellator.addVertexWithUV((double)(var14 - par3 * var13 + par6 * var13), (double)(var15 + par4 * var13), (double)(var16 - par5 * var13 + par7 * var13), (double)var10, (double)var11);
-            par1Tessellator.addVertexWithUV((double)(var14 + par3 * var13 + par6 * var13), (double)(var15 + par4 * var13), (double)(var16 + par5 * var13 + par7 * var13), (double)var9, (double)var11);
-            par1Tessellator.addVertexWithUV((double)(var14 + par3 * var13 - par6 * var13), (double)(var15 - par4 * var13), (double)(var16 + par5 * var13 - par7 * var13), (double)var9, (double)var12);
+            par1Tessellator.addVertexWithUV((double)(f11 - par3 * f10 - par6 * f10), (double)(f12 - par4 * f10), (double)(f13 - par5 * f10 - par7 * f10), (double)f7, (double)f9);
+            par1Tessellator.addVertexWithUV((double)(f11 - par3 * f10 + par6 * f10), (double)(f12 + par4 * f10), (double)(f13 - par5 * f10 + par7 * f10), (double)f7, (double)f8);
+            par1Tessellator.addVertexWithUV((double)(f11 + par3 * f10 + par6 * f10), (double)(f12 + par4 * f10), (double)(f13 + par5 * f10 + par7 * f10), (double)f6, (double)f8);
+            par1Tessellator.addVertexWithUV((double)(f11 + par3 * f10 - par6 * f10), (double)(f12 - par4 * f10), (double)(f13 + par5 * f10 - par7 * f10), (double)f6, (double)f9);
             par1Tessellator.draw();
             GL11.glPolygonOffset(0.0F, 0.0F);
             GL11.glEnable(GL11.GL_LIGHTING);

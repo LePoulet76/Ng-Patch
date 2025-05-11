@@ -18,28 +18,28 @@ public class PendingInvitesList extends ValueObject
 
     public static PendingInvitesList func_130095_a(String par0Str)
     {
-        PendingInvitesList var1 = new PendingInvitesList();
+        PendingInvitesList pendinginviteslist = new PendingInvitesList();
 
         try
         {
-            JsonRootNode var2 = (new JdomParser()).parse(par0Str);
+            JsonRootNode jsonrootnode = (new JdomParser()).parse(par0Str);
 
-            if (var2.isArrayNode(new Object[] {"invites"}))
+            if (jsonrootnode.isArrayNode(new Object[] {"invites"}))
             {
-                Iterator var3 = var2.getArrayNode(new Object[] {"invites"}).iterator();
+                Iterator iterator = jsonrootnode.getArrayNode(new Object[] {"invites"}).iterator();
 
-                while (var3.hasNext())
+                while (iterator.hasNext())
                 {
-                    JsonNode var4 = (JsonNode)var3.next();
-                    var1.field_130096_a.add(PendingInvite.func_130091_a(var4));
+                    JsonNode jsonnode = (JsonNode)iterator.next();
+                    pendinginviteslist.field_130096_a.add(PendingInvite.func_130091_a(jsonnode));
                 }
             }
         }
-        catch (InvalidSyntaxException var5)
+        catch (InvalidSyntaxException invalidsyntaxexception)
         {
             ;
         }
 
-        return var1;
+        return pendinginviteslist;
     }
 }

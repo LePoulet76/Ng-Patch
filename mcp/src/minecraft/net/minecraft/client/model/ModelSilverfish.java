@@ -23,18 +23,18 @@ public class ModelSilverfish extends ModelBase
 
     public ModelSilverfish()
     {
-        float var1 = -3.5F;
+        float f = -3.5F;
 
-        for (int var2 = 0; var2 < this.silverfishBodyParts.length; ++var2)
+        for (int i = 0; i < this.silverfishBodyParts.length; ++i)
         {
-            this.silverfishBodyParts[var2] = new ModelRenderer(this, silverfishTexturePositions[var2][0], silverfishTexturePositions[var2][1]);
-            this.silverfishBodyParts[var2].addBox((float)silverfishBoxLength[var2][0] * -0.5F, 0.0F, (float)silverfishBoxLength[var2][2] * -0.5F, silverfishBoxLength[var2][0], silverfishBoxLength[var2][1], silverfishBoxLength[var2][2]);
-            this.silverfishBodyParts[var2].setRotationPoint(0.0F, (float)(24 - silverfishBoxLength[var2][1]), var1);
-            this.field_78170_c[var2] = var1;
+            this.silverfishBodyParts[i] = new ModelRenderer(this, silverfishTexturePositions[i][0], silverfishTexturePositions[i][1]);
+            this.silverfishBodyParts[i].addBox((float)silverfishBoxLength[i][0] * -0.5F, 0.0F, (float)silverfishBoxLength[i][2] * -0.5F, silverfishBoxLength[i][0], silverfishBoxLength[i][1], silverfishBoxLength[i][2]);
+            this.silverfishBodyParts[i].setRotationPoint(0.0F, (float)(24 - silverfishBoxLength[i][1]), f);
+            this.field_78170_c[i] = f;
 
-            if (var2 < this.silverfishBodyParts.length - 1)
+            if (i < this.silverfishBodyParts.length - 1)
             {
-                var1 += (float)(silverfishBoxLength[var2][2] + silverfishBoxLength[var2 + 1][2]) * 0.5F;
+                f += (float)(silverfishBoxLength[i][2] + silverfishBoxLength[i + 1][2]) * 0.5F;
             }
         }
 
@@ -56,16 +56,16 @@ public class ModelSilverfish extends ModelBase
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         this.setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
-        int var8;
+        int i;
 
-        for (var8 = 0; var8 < this.silverfishBodyParts.length; ++var8)
+        for (i = 0; i < this.silverfishBodyParts.length; ++i)
         {
-            this.silverfishBodyParts[var8].render(par7);
+            this.silverfishBodyParts[i].render(par7);
         }
 
-        for (var8 = 0; var8 < this.silverfishWings.length; ++var8)
+        for (i = 0; i < this.silverfishWings.length; ++i)
         {
-            this.silverfishWings[var8].render(par7);
+            this.silverfishWings[i].render(par7);
         }
     }
 
@@ -76,10 +76,10 @@ public class ModelSilverfish extends ModelBase
      */
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
-        for (int var8 = 0; var8 < this.silverfishBodyParts.length; ++var8)
+        for (int i = 0; i < this.silverfishBodyParts.length; ++i)
         {
-            this.silverfishBodyParts[var8].rotateAngleY = MathHelper.cos(par3 * 0.9F + (float)var8 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(var8 - 2));
-            this.silverfishBodyParts[var8].rotationPointX = MathHelper.sin(par3 * 0.9F + (float)var8 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.2F * (float)Math.abs(var8 - 2);
+            this.silverfishBodyParts[i].rotateAngleY = MathHelper.cos(par3 * 0.9F + (float)i * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(i - 2));
+            this.silverfishBodyParts[i].rotationPointX = MathHelper.sin(par3 * 0.9F + (float)i * 0.15F * (float)Math.PI) * (float)Math.PI * 0.2F * (float)Math.abs(i - 2);
         }
 
         this.silverfishWings[0].rotateAngleY = this.silverfishBodyParts[2].rotateAngleY;

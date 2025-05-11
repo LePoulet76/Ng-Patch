@@ -22,9 +22,9 @@ public class CommandDefaultGameMode extends CommandGameMode
     {
         if (par2ArrayOfStr.length > 0)
         {
-            EnumGameType var3 = this.getGameModeFromCommand(par1ICommandSender, par2ArrayOfStr[0]);
-            this.setGameType(var3);
-            notifyAdmins(par1ICommandSender, "commands.defaultgamemode.success", new Object[] {ChatMessageComponent.createFromTranslationKey("gameMode." + var3.getName())});
+            EnumGameType enumgametype = this.getGameModeFromCommand(par1ICommandSender, par2ArrayOfStr[0]);
+            this.setGameType(enumgametype);
+            notifyAdmins(par1ICommandSender, "commands.defaultgamemode.success", new Object[] {ChatMessageComponent.createFromTranslationKey("gameMode." + enumgametype.getName())});
         }
         else
         {
@@ -34,16 +34,16 @@ public class CommandDefaultGameMode extends CommandGameMode
 
     protected void setGameType(EnumGameType par1EnumGameType)
     {
-        MinecraftServer var2 = MinecraftServer.getServer();
-        var2.setGameType(par1EnumGameType);
-        EntityPlayerMP var4;
+        MinecraftServer minecraftserver = MinecraftServer.getServer();
+        minecraftserver.setGameType(par1EnumGameType);
+        EntityPlayerMP entityplayermp;
 
-        if (var2.getForceGamemode())
+        if (minecraftserver.getForceGamemode())
         {
-            for (Iterator var3 = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator(); var3.hasNext(); var4.fallDistance = 0.0F)
+            for (Iterator iterator = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator(); iterator.hasNext(); entityplayermp.fallDistance = 0.0F)
             {
-                var4 = (EntityPlayerMP)var3.next();
-                var4.setGameType(par1EnumGameType);
+                entityplayermp = (EntityPlayerMP)iterator.next();
+                entityplayermp.setGameType(par1EnumGameType);
             }
         }
     }

@@ -36,24 +36,24 @@ public class CommandEnchant extends CommandBase
         }
         else
         {
-            EntityPlayerMP var3 = getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
-            int var4 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[1], 0, Enchantment.enchantmentsList.length - 1);
-            int var5 = 1;
-            ItemStack var6 = var3.getCurrentEquippedItem();
+            EntityPlayerMP entityplayermp = getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
+            int i = parseIntBounded(par1ICommandSender, par2ArrayOfStr[1], 0, Enchantment.enchantmentsList.length - 1);
+            int j = 1;
+            ItemStack itemstack = entityplayermp.getCurrentEquippedItem();
 
-            if (var6 == null)
+            if (itemstack == null)
             {
                 throw new CommandException("commands.enchant.noItem", new Object[0]);
             }
             else
             {
-                Enchantment var7 = Enchantment.enchantmentsList[var4];
+                Enchantment enchantment = Enchantment.enchantmentsList[i];
 
-                if (var7 == null)
+                if (enchantment == null)
                 {
-                    throw new NumberInvalidException("commands.enchant.notFound", new Object[] {Integer.valueOf(var4)});
+                    throw new NumberInvalidException("commands.enchant.notFound", new Object[] {Integer.valueOf(i)});
                 }
-                else if (!var7.canApply(var6))
+                else if (!enchantment.canApply(itemstack))
                 {
                     throw new CommandException("commands.enchant.cantEnchant", new Object[0]);
                 }
@@ -61,33 +61,33 @@ public class CommandEnchant extends CommandBase
                 {
                     if (par2ArrayOfStr.length >= 3)
                     {
-                        var5 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[2], var7.getMinLevel(), var7.getMaxLevel());
+                        j = parseIntBounded(par1ICommandSender, par2ArrayOfStr[2], enchantment.getMinLevel(), enchantment.getMaxLevel());
                     }
 
-                    if (var6.hasTagCompound())
+                    if (itemstack.hasTagCompound())
                     {
-                        NBTTagList var8 = var6.getEnchantmentTagList();
+                        NBTTagList nbttaglist = itemstack.getEnchantmentTagList();
 
-                        if (var8 != null)
+                        if (nbttaglist != null)
                         {
-                            for (int var9 = 0; var9 < var8.tagCount(); ++var9)
+                            for (int k = 0; k < nbttaglist.tagCount(); ++k)
                             {
-                                short var10 = ((NBTTagCompound)var8.tagAt(var9)).getShort("id");
+                                short short1 = ((NBTTagCompound)nbttaglist.tagAt(k)).getShort("id");
 
-                                if (Enchantment.enchantmentsList[var10] != null)
+                                if (Enchantment.enchantmentsList[short1] != null)
                                 {
-                                    Enchantment var11 = Enchantment.enchantmentsList[var10];
+                                    Enchantment enchantment1 = Enchantment.enchantmentsList[short1];
 
-                                    if (!var11.canApplyTogether(var7))
+                                    if (!enchantment1.canApplyTogether(enchantment))
                                     {
-                                        throw new CommandException("commands.enchant.cantCombine", new Object[] {var7.getTranslatedName(var5), var11.getTranslatedName(((NBTTagCompound)var8.tagAt(var9)).getShort("lvl"))});
+                                        throw new CommandException("commands.enchant.cantCombine", new Object[] {enchantment.getTranslatedName(j), enchantment1.getTranslatedName(((NBTTagCompound)nbttaglist.tagAt(k)).getShort("lvl"))});
                                     }
                                 }
                             }
                         }
                     }
 
-                    var6.addEnchantment(var7, var5);
+                    itemstack.addEnchantment(enchantment, j);
                     notifyAdmins(par1ICommandSender, "commands.enchant.success", new Object[0]);
                 }
             }

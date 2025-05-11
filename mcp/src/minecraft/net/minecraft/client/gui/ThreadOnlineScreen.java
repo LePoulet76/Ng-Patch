@@ -20,22 +20,22 @@ class ThreadOnlineScreen extends Thread
     {
         try
         {
-            McoServer var1 = GuiScreenOnlineServers.func_140011_a(this.field_98173_a, GuiScreenOnlineServers.func_140041_a(this.field_98173_a));
+            McoServer mcoserver = GuiScreenOnlineServers.func_140011_a(this.field_98173_a, GuiScreenOnlineServers.func_140041_a(this.field_98173_a));
 
-            if (var1 != null)
+            if (mcoserver != null)
             {
-                McoClient var2 = new McoClient(GuiScreenOnlineServers.func_98075_b(this.field_98173_a).getSession());
-                GuiScreenOnlineServers.func_140040_h().func_140058_a(var1);
-                GuiScreenOnlineServers.func_140013_c(this.field_98173_a).remove(var1);
-                var2.func_140055_c(var1.field_96408_a);
-                GuiScreenOnlineServers.func_140040_h().func_140058_a(var1);
-                GuiScreenOnlineServers.func_140013_c(this.field_98173_a).remove(var1);
+                McoClient mcoclient = new McoClient(GuiScreenOnlineServers.func_98075_b(this.field_98173_a).getSession());
+                GuiScreenOnlineServers.func_140040_h().func_140058_a(mcoserver);
+                GuiScreenOnlineServers.func_140013_c(this.field_98173_a).remove(mcoserver);
+                mcoclient.func_140055_c(mcoserver.field_96408_a);
+                GuiScreenOnlineServers.func_140040_h().func_140058_a(mcoserver);
+                GuiScreenOnlineServers.func_140013_c(this.field_98173_a).remove(mcoserver);
                 GuiScreenOnlineServers.func_140017_d(this.field_98173_a);
             }
         }
-        catch (ExceptionMcoService var3)
+        catch (ExceptionMcoService exceptionmcoservice)
         {
-            GuiScreenOnlineServers.func_98076_f(this.field_98173_a).getLogAgent().logSevere(var3.toString());
+            GuiScreenOnlineServers.func_98076_f(this.field_98173_a).getLogAgent().logSevere(exceptionmcoservice.toString());
         }
     }
 }

@@ -33,17 +33,17 @@ public class CommandServerTp extends CommandBase
         }
         else
         {
-            EntityPlayerMP var3;
+            EntityPlayerMP entityplayermp;
 
             if (par2ArrayOfStr.length != 2 && par2ArrayOfStr.length != 4)
             {
-                var3 = getCommandSenderAsPlayer(par1ICommandSender);
+                entityplayermp = getCommandSenderAsPlayer(par1ICommandSender);
             }
             else
             {
-                var3 = getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
+                entityplayermp = getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
 
-                if (var3 == null)
+                if (entityplayermp == null)
                 {
                     throw new PlayerNotFoundException();
                 }
@@ -53,33 +53,33 @@ public class CommandServerTp extends CommandBase
             {
                 if (par2ArrayOfStr.length == 1 || par2ArrayOfStr.length == 2)
                 {
-                    EntityPlayerMP var11 = getPlayer(par1ICommandSender, par2ArrayOfStr[par2ArrayOfStr.length - 1]);
+                    EntityPlayerMP entityplayermp1 = getPlayer(par1ICommandSender, par2ArrayOfStr[par2ArrayOfStr.length - 1]);
 
-                    if (var11 == null)
+                    if (entityplayermp1 == null)
                     {
                         throw new PlayerNotFoundException();
                     }
 
-                    if (var11.worldObj != var3.worldObj)
+                    if (entityplayermp1.worldObj != entityplayermp.worldObj)
                     {
                         notifyAdmins(par1ICommandSender, "commands.tp.notSameDimension", new Object[0]);
                         return;
                     }
 
-                    var3.mountEntity((Entity)null);
-                    var3.playerNetServerHandler.setPlayerLocation(var11.posX, var11.posY, var11.posZ, var11.rotationYaw, var11.rotationPitch);
-                    notifyAdmins(par1ICommandSender, "commands.tp.success", new Object[] {var3.getEntityName(), var11.getEntityName()});
+                    entityplayermp.mountEntity((Entity)null);
+                    entityplayermp.playerNetServerHandler.setPlayerLocation(entityplayermp1.posX, entityplayermp1.posY, entityplayermp1.posZ, entityplayermp1.rotationYaw, entityplayermp1.rotationPitch);
+                    notifyAdmins(par1ICommandSender, "commands.tp.success", new Object[] {entityplayermp.getEntityName(), entityplayermp1.getEntityName()});
                 }
             }
-            else if (var3.worldObj != null)
+            else if (entityplayermp.worldObj != null)
             {
-                int var4 = par2ArrayOfStr.length - 3;
-                double var5 = func_110666_a(par1ICommandSender, var3.posX, par2ArrayOfStr[var4++]);
-                double var7 = func_110665_a(par1ICommandSender, var3.posY, par2ArrayOfStr[var4++], 0, 0);
-                double var9 = func_110666_a(par1ICommandSender, var3.posZ, par2ArrayOfStr[var4++]);
-                var3.mountEntity((Entity)null);
-                var3.setPositionAndUpdate(var5, var7, var9);
-                notifyAdmins(par1ICommandSender, "commands.tp.success.coordinates", new Object[] {var3.getEntityName(), Double.valueOf(var5), Double.valueOf(var7), Double.valueOf(var9)});
+                int i = par2ArrayOfStr.length - 3;
+                double d0 = func_110666_a(par1ICommandSender, entityplayermp.posX, par2ArrayOfStr[i++]);
+                double d1 = func_110665_a(par1ICommandSender, entityplayermp.posY, par2ArrayOfStr[i++], 0, 0);
+                double d2 = func_110666_a(par1ICommandSender, entityplayermp.posZ, par2ArrayOfStr[i++]);
+                entityplayermp.mountEntity((Entity)null);
+                entityplayermp.setPositionAndUpdate(d0, d1, d2);
+                notifyAdmins(par1ICommandSender, "commands.tp.success.coordinates", new Object[] {entityplayermp.getEntityName(), Double.valueOf(d0), Double.valueOf(d1), Double.valueOf(d2)});
             }
         }
     }

@@ -23,9 +23,9 @@ public class Packet29DestroyEntity extends Packet
     {
         this.entityId = new int[par1DataInput.readByte()];
 
-        for (int var2 = 0; var2 < this.entityId.length; ++var2)
+        for (int i = 0; i < this.entityId.length; ++i)
         {
-            this.entityId[var2] = par1DataInput.readInt();
+            this.entityId[i] = par1DataInput.readInt();
         }
     }
 
@@ -36,9 +36,9 @@ public class Packet29DestroyEntity extends Packet
     {
         par1DataOutput.writeByte(this.entityId.length);
 
-        for (int var2 = 0; var2 < this.entityId.length; ++var2)
+        for (int i = 0; i < this.entityId.length; ++i)
         {
-            par1DataOutput.writeInt(this.entityId[var2]);
+            par1DataOutput.writeInt(this.entityId[i]);
         }
     }
 

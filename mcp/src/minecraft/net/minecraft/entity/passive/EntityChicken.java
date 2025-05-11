@@ -151,9 +151,9 @@ public class EntityChicken extends EntityAnimal
      */
     protected void dropFewItems(boolean par1, int par2)
     {
-        int var3 = this.rand.nextInt(3) + this.rand.nextInt(1 + par2);
+        int j = this.rand.nextInt(3) + this.rand.nextInt(1 + par2);
 
-        for (int var4 = 0; var4 < var3; ++var4)
+        for (int k = 0; k < j; ++k)
         {
             this.dropItem(Item.feather.itemID, 1);
         }

@@ -52,9 +52,9 @@ public class EntityItemFrame extends EntityHanging
      */
     public boolean isInRangeToRenderDist(double par1)
     {
-        double var3 = 16.0D;
-        var3 *= 64.0D * this.renderDistanceWeight;
-        return par1 < var3 * var3;
+        double d1 = 16.0D;
+        d1 *= 64.0D * this.renderDistanceWeight;
+        return par1 < d1 * d1;
     }
 
     /**
@@ -62,26 +62,26 @@ public class EntityItemFrame extends EntityHanging
      */
     public void onBroken(Entity par1Entity)
     {
-        ItemStack var2 = this.getDisplayedItem();
+        ItemStack itemstack = this.getDisplayedItem();
 
         if (par1Entity instanceof EntityPlayer)
         {
-            EntityPlayer var3 = (EntityPlayer)par1Entity;
+            EntityPlayer entityplayer = (EntityPlayer)par1Entity;
 
-            if (var3.capabilities.isCreativeMode)
+            if (entityplayer.capabilities.isCreativeMode)
             {
-                this.removeFrameFromMap(var2);
+                this.removeFrameFromMap(itemstack);
                 return;
             }
         }
 
         this.entityDropItem(new ItemStack(Item.itemFrame), 0.0F);
 
-        if (var2 != null && this.rand.nextFloat() < this.itemDropChance)
+        if (itemstack != null && this.rand.nextFloat() < this.itemDropChance)
         {
-            var2 = var2.copy();
-            this.removeFrameFromMap(var2);
-            this.entityDropItem(var2, 0.0F);
+            itemstack = itemstack.copy();
+            this.removeFrameFromMap(itemstack);
+            this.entityDropItem(itemstack, 0.0F);
         }
     }
 
@@ -94,8 +94,8 @@ public class EntityItemFrame extends EntityHanging
         {
             if (par1ItemStack.itemID == Item.map.itemID)
             {
-                MapData var2 = ((ItemMap)par1ItemStack.getItem()).getMapData(par1ItemStack, this.worldObj);
-                var2.playersVisibleOnMap.remove("frame-" + this.entityId);
+                MapData mapdata = ((ItemMap)par1ItemStack.getItem()).getMapData(par1ItemStack, this.worldObj);
+                mapdata.playersVisibleOnMap.remove("frame-" + this.entityId);
             }
 
             par1ItemStack.setItemFrame((EntityItemFrame)null);
@@ -149,11 +149,11 @@ public class EntityItemFrame extends EntityHanging
      */
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
-        NBTTagCompound var2 = par1NBTTagCompound.getCompoundTag("Item");
+        NBTTagCompound nbttagcompound1 = par1NBTTagCompound.getCompoundTag("Item");
 
-        if (var2 != null && !var2.hasNoTags())
+        if (nbttagcompound1 != null && !nbttagcompound1.hasNoTags())
         {
-            this.setDisplayedItem(ItemStack.loadItemStackFromNBT(var2));
+            this.setDisplayedItem(ItemStack.loadItemStackFromNBT(nbttagcompound1));
             this.setItemRotation(par1NBTTagCompound.getByte("ItemRotation"));
 
             if (par1NBTTagCompound.hasKey("ItemDropChance"))
@@ -172,13 +172,13 @@ public class EntityItemFrame extends EntityHanging
     {
         if (this.getDisplayedItem() == null)
         {
-            ItemStack var2 = par1EntityPlayer.getHeldItem();
+            ItemStack itemstack = par1EntityPlayer.getHeldItem();
 
-            if (var2 != null && !this.worldObj.isRemote)
+            if (itemstack != null && !this.worldObj.isRemote)
             {
-                this.setDisplayedItem(var2);
+                this.setDisplayedItem(itemstack);
 
-                if (!par1EntityPlayer.capabilities.isCreativeMode && --var2.stackSize <= 0)
+                if (!par1EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
                 {
                     par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
                 }

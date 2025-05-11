@@ -53,54 +53,54 @@ public abstract class InventoryEffectRenderer extends GuiContainer
      */
     private void displayDebuffEffects()
     {
-        int var1 = this.guiLeft - 124;
-        int var2 = this.guiTop;
-        boolean var3 = true;
-        Collection var4 = this.mc.thePlayer.getActivePotionEffects();
+        int i = this.guiLeft - 124;
+        int j = this.guiTop;
+        boolean flag = true;
+        Collection collection = this.mc.thePlayer.getActivePotionEffects();
 
-        if (!var4.isEmpty())
+        if (!collection.isEmpty())
         {
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glDisable(GL11.GL_LIGHTING);
-            int var5 = 33;
+            int k = 33;
 
-            if (var4.size() > 5)
+            if (collection.size() > 5)
             {
-                var5 = 132 / (var4.size() - 1);
+                k = 132 / (collection.size() - 1);
             }
 
-            for (Iterator var6 = this.mc.thePlayer.getActivePotionEffects().iterator(); var6.hasNext(); var2 += var5)
+            for (Iterator iterator = this.mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext(); j += k)
             {
-                PotionEffect var7 = (PotionEffect)var6.next();
-                Potion var8 = Potion.potionTypes[var7.getPotionID()];
+                PotionEffect potioneffect = (PotionEffect)iterator.next();
+                Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 this.mc.getTextureManager().bindTexture(field_110408_a);
-                this.drawTexturedModalRect(var1, var2, 0, 166, 140, 32);
+                this.drawTexturedModalRect(i, j, 0, 166, 140, 32);
 
-                if (var8.hasStatusIcon())
+                if (potion.hasStatusIcon())
                 {
-                    int var9 = var8.getStatusIconIndex();
-                    this.drawTexturedModalRect(var1 + 6, var2 + 7, 0 + var9 % 8 * 18, 198 + var9 / 8 * 18, 18, 18);
+                    int l = potion.getStatusIconIndex();
+                    this.drawTexturedModalRect(i + 6, j + 7, 0 + l % 8 * 18, 198 + l / 8 * 18, 18, 18);
                 }
 
-                String var11 = I18n.getString(var8.getName());
+                String s = I18n.getString(potion.getName());
 
-                if (var7.getAmplifier() == 1)
+                if (potioneffect.getAmplifier() == 1)
                 {
-                    var11 = var11 + " II";
+                    s = s + " II";
                 }
-                else if (var7.getAmplifier() == 2)
+                else if (potioneffect.getAmplifier() == 2)
                 {
-                    var11 = var11 + " III";
+                    s = s + " III";
                 }
-                else if (var7.getAmplifier() == 3)
+                else if (potioneffect.getAmplifier() == 3)
                 {
-                    var11 = var11 + " IV";
+                    s = s + " IV";
                 }
 
-                this.fontRenderer.drawStringWithShadow(var11, var1 + 10 + 18, var2 + 6, 16777215);
-                String var10 = Potion.getDurationString(var7);
-                this.fontRenderer.drawStringWithShadow(var10, var1 + 10 + 18, var2 + 6 + 10, 8355711);
+                this.fontRenderer.drawStringWithShadow(s, i + 10 + 18, j + 6, 16777215);
+                String s1 = Potion.getDurationString(potioneffect);
+                this.fontRenderer.drawStringWithShadow(s1, i + 10 + 18, j + 6 + 10, 8355711);
             }
         }
     }

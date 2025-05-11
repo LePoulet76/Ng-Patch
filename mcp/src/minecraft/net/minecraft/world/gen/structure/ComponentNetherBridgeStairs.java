@@ -29,8 +29,8 @@ public class ComponentNetherBridgeStairs extends ComponentNetherBridgePiece
      */
     public static ComponentNetherBridgeStairs createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
     {
-        StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -2, 0, 0, 7, 11, 7, par5);
-        return isAboveGround(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentNetherBridgeStairs(par6, par1Random, var7, par5) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -2, 0, 0, 7, 11, 7, par5);
+        return isAboveGround(structureboundingbox) && StructureComponent.findIntersecting(par0List, structureboundingbox) == null ? new ComponentNetherBridgeStairs(par6, par1Random, structureboundingbox, par5) : null;
     }
 
     /**
@@ -59,11 +59,11 @@ public class ComponentNetherBridgeStairs extends ComponentNetherBridgePiece
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 2, 6, 0, 4, 8, 0, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 2, 5, 0, 4, 5, 0, Block.netherFence.blockID, Block.netherFence.blockID, false);
 
-        for (int var4 = 0; var4 <= 6; ++var4)
+        for (int i = 0; i <= 6; ++i)
         {
-            for (int var5 = 0; var5 <= 6; ++var5)
+            for (int j = 0; j <= 6; ++j)
             {
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, var4, -1, var5, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, i, -1, j, par3StructureBoundingBox);
             }
         }
 

@@ -75,17 +75,17 @@ public class BanEntry
 
     public String buildBanString()
     {
-        StringBuilder var1 = new StringBuilder();
-        var1.append(this.getBannedUsername());
-        var1.append("|");
-        var1.append(dateFormat.format(this.getBanStartDate()));
-        var1.append("|");
-        var1.append(this.getBannedBy());
-        var1.append("|");
-        var1.append(this.getBanEndDate() == null ? "Forever" : dateFormat.format(this.getBanEndDate()));
-        var1.append("|");
-        var1.append(this.getBanReason());
-        return var1.toString();
+        StringBuilder stringbuilder = new StringBuilder();
+        stringbuilder.append(this.getBannedUsername());
+        stringbuilder.append("|");
+        stringbuilder.append(dateFormat.format(this.getBanStartDate()));
+        stringbuilder.append("|");
+        stringbuilder.append(this.getBannedBy());
+        stringbuilder.append("|");
+        stringbuilder.append(this.getBanEndDate() == null ? "Forever" : dateFormat.format(this.getBanEndDate()));
+        stringbuilder.append("|");
+        stringbuilder.append(this.getBanReason());
+        return stringbuilder.toString();
     }
 
     public static BanEntry parse(String par0Str)
@@ -96,71 +96,71 @@ public class BanEntry
         }
         else
         {
-            String[] var1 = par0Str.trim().split(Pattern.quote("|"), 5);
-            BanEntry var2 = new BanEntry(var1[0].trim());
-            byte var3 = 0;
-            int var10000 = var1.length;
-            int var7 = var3 + 1;
+            String[] astring = par0Str.trim().split(Pattern.quote("|"), 5);
+            BanEntry banentry = new BanEntry(astring[0].trim());
+            byte b0 = 0;
+            int i = astring.length;
+            int j = b0 + 1;
 
-            if (var10000 <= var7)
+            if (i <= j)
             {
-                return var2;
+                return banentry;
             }
             else
             {
                 try
                 {
-                    var2.setBanStartDate(dateFormat.parse(var1[var7].trim()));
+                    banentry.setBanStartDate(dateFormat.parse(astring[j].trim()));
                 }
-                catch (ParseException var6)
+                catch (ParseException parseexception)
                 {
-                    MinecraftServer.getServer().getLogAgent().logWarningException("Could not read creation date format for ban entry \'" + var2.getBannedUsername() + "\' (was: \'" + var1[var7] + "\')", var6);
+                    MinecraftServer.getServer().getLogAgent().logWarningException("Could not read creation date format for ban entry \'" + banentry.getBannedUsername() + "\' (was: \'" + astring[j] + "\')", parseexception);
                 }
 
-                var10000 = var1.length;
-                ++var7;
+                i = astring.length;
+                ++j;
 
-                if (var10000 <= var7)
+                if (i <= j)
                 {
-                    return var2;
+                    return banentry;
                 }
                 else
                 {
-                    var2.setBannedBy(var1[var7].trim());
-                    var10000 = var1.length;
-                    ++var7;
+                    banentry.setBannedBy(astring[j].trim());
+                    i = astring.length;
+                    ++j;
 
-                    if (var10000 <= var7)
+                    if (i <= j)
                     {
-                        return var2;
+                        return banentry;
                     }
                     else
                     {
                         try
                         {
-                            String var4 = var1[var7].trim();
+                            String s1 = astring[j].trim();
 
-                            if (!var4.equalsIgnoreCase("Forever") && var4.length() > 0)
+                            if (!s1.equalsIgnoreCase("Forever") && s1.length() > 0)
                             {
-                                var2.setBanEndDate(dateFormat.parse(var4));
+                                banentry.setBanEndDate(dateFormat.parse(s1));
                             }
                         }
-                        catch (ParseException var5)
+                        catch (ParseException parseexception1)
                         {
-                            MinecraftServer.getServer().getLogAgent().logWarningException("Could not read expiry date format for ban entry \'" + var2.getBannedUsername() + "\' (was: \'" + var1[var7] + "\')", var5);
+                            MinecraftServer.getServer().getLogAgent().logWarningException("Could not read expiry date format for ban entry \'" + banentry.getBannedUsername() + "\' (was: \'" + astring[j] + "\')", parseexception1);
                         }
 
-                        var10000 = var1.length;
-                        ++var7;
+                        i = astring.length;
+                        ++j;
 
-                        if (var10000 <= var7)
+                        if (i <= j)
                         {
-                            return var2;
+                            return banentry;
                         }
                         else
                         {
-                            var2.setBanReason(var1[var7].trim());
-                            return var2;
+                            banentry.setBanReason(astring[j].trim());
+                            return banentry;
                         }
                     }
                 }

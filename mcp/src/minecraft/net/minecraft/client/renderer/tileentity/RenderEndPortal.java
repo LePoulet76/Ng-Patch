@@ -26,44 +26,44 @@ public class RenderEndPortal extends TileEntitySpecialRenderer
      */
     public void renderEndPortalTileEntity(TileEntityEndPortal par1TileEntityEndPortal, double par2, double par4, double par6, float par8)
     {
-        float var9 = (float)this.tileEntityRenderer.playerX;
-        float var10 = (float)this.tileEntityRenderer.playerY;
-        float var11 = (float)this.tileEntityRenderer.playerZ;
+        float f1 = (float)this.tileEntityRenderer.playerX;
+        float f2 = (float)this.tileEntityRenderer.playerY;
+        float f3 = (float)this.tileEntityRenderer.playerZ;
         GL11.glDisable(GL11.GL_LIGHTING);
         field_110644_e.setSeed(31100L);
-        float var12 = 0.75F;
+        float f4 = 0.75F;
 
-        for (int var13 = 0; var13 < 16; ++var13)
+        for (int i = 0; i < 16; ++i)
         {
             GL11.glPushMatrix();
-            float var14 = (float)(16 - var13);
-            float var15 = 0.0625F;
-            float var16 = 1.0F / (var14 + 1.0F);
+            float f5 = (float)(16 - i);
+            float f6 = 0.0625F;
+            float f7 = 1.0F / (f5 + 1.0F);
 
-            if (var13 == 0)
+            if (i == 0)
             {
                 this.bindTexture(enderPortalEndSkyTextures);
-                var16 = 0.1F;
-                var14 = 65.0F;
-                var15 = 0.125F;
+                f7 = 0.1F;
+                f5 = 65.0F;
+                f6 = 0.125F;
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             }
 
-            if (var13 == 1)
+            if (i == 1)
             {
                 this.bindTexture(endPortalTextures);
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
-                var15 = 0.5F;
+                f6 = 0.5F;
             }
 
-            float var17 = (float)(-(par4 + (double)var12));
-            float var18 = var17 + ActiveRenderInfo.objectY;
-            float var19 = var17 + var14 + ActiveRenderInfo.objectY;
-            float var20 = var18 / var19;
-            var20 += (float)(par4 + (double)var12);
-            GL11.glTranslatef(var9, var20, var11);
+            float f8 = (float)(-(par4 + (double)f4));
+            float f9 = f8 + ActiveRenderInfo.objectY;
+            float f10 = f8 + f5 + ActiveRenderInfo.objectY;
+            float f11 = f9 / f10;
+            f11 += (float)(par4 + (double)f4);
+            GL11.glTranslatef(f1, f11, f3);
             GL11.glTexGeni(GL11.GL_S, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
             GL11.glTexGeni(GL11.GL_T, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
             GL11.glTexGeni(GL11.GL_R, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
@@ -81,32 +81,32 @@ public class RenderEndPortal extends TileEntitySpecialRenderer
             GL11.glPushMatrix();
             GL11.glLoadIdentity();
             GL11.glTranslatef(0.0F, (float)(Minecraft.getSystemTime() % 700000L) / 700000.0F, 0.0F);
-            GL11.glScalef(var15, var15, var15);
+            GL11.glScalef(f6, f6, f6);
             GL11.glTranslatef(0.5F, 0.5F, 0.0F);
-            GL11.glRotatef((float)(var13 * var13 * 4321 + var13 * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
+            GL11.glRotatef((float)(i * i * 4321 + i * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
             GL11.glTranslatef(-0.5F, -0.5F, 0.0F);
-            GL11.glTranslatef(-var9, -var11, -var10);
-            var18 = var17 + ActiveRenderInfo.objectY;
-            GL11.glTranslatef(ActiveRenderInfo.objectX * var14 / var18, ActiveRenderInfo.objectZ * var14 / var18, -var10);
-            Tessellator var23 = Tessellator.instance;
-            var23.startDrawingQuads();
-            var20 = field_110644_e.nextFloat() * 0.5F + 0.1F;
-            float var21 = field_110644_e.nextFloat() * 0.5F + 0.4F;
-            float var22 = field_110644_e.nextFloat() * 0.5F + 0.5F;
+            GL11.glTranslatef(-f1, -f3, -f2);
+            f9 = f8 + ActiveRenderInfo.objectY;
+            GL11.glTranslatef(ActiveRenderInfo.objectX * f5 / f9, ActiveRenderInfo.objectZ * f5 / f9, -f2);
+            Tessellator tessellator = Tessellator.instance;
+            tessellator.startDrawingQuads();
+            f11 = field_110644_e.nextFloat() * 0.5F + 0.1F;
+            float f12 = field_110644_e.nextFloat() * 0.5F + 0.4F;
+            float f13 = field_110644_e.nextFloat() * 0.5F + 0.5F;
 
-            if (var13 == 0)
+            if (i == 0)
             {
-                var22 = 1.0F;
-                var21 = 1.0F;
-                var20 = 1.0F;
+                f13 = 1.0F;
+                f12 = 1.0F;
+                f11 = 1.0F;
             }
 
-            var23.setColorRGBA_F(var20 * var16, var21 * var16, var22 * var16, 1.0F);
-            var23.addVertex(par2, par4 + (double)var12, par6);
-            var23.addVertex(par2, par4 + (double)var12, par6 + 1.0D);
-            var23.addVertex(par2 + 1.0D, par4 + (double)var12, par6 + 1.0D);
-            var23.addVertex(par2 + 1.0D, par4 + (double)var12, par6);
-            var23.draw();
+            tessellator.setColorRGBA_F(f11 * f7, f12 * f7, f13 * f7, 1.0F);
+            tessellator.addVertex(par2, par4 + (double)f4, par6);
+            tessellator.addVertex(par2, par4 + (double)f4, par6 + 1.0D);
+            tessellator.addVertex(par2 + 1.0D, par4 + (double)f4, par6 + 1.0D);
+            tessellator.addVertex(par2 + 1.0D, par4 + (double)f4, par6);
+            tessellator.draw();
             GL11.glPopMatrix();
             GL11.glMatrixMode(GL11.GL_MODELVIEW);
         }

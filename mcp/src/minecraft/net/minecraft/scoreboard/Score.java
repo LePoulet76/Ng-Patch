@@ -61,10 +61,10 @@ public class Score
 
     public void func_96647_c(int par1)
     {
-        int var2 = this.field_96655_e;
+        int j = this.field_96655_e;
         this.field_96655_e = par1;
 
-        if (var2 != par1)
+        if (j != par1)
         {
             this.func_96650_f().func_96536_a(this);
         }

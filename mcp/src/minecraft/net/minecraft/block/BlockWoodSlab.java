@@ -70,9 +70,9 @@ public class BlockWoodSlab extends BlockHalfSlab
     {
         if (par1 != Block.woodDoubleSlab.blockID)
         {
-            for (int var4 = 0; var4 < 4; ++var4)
+            for (int j = 0; j < 4; ++j)
             {
-                par3List.add(new ItemStack(par1, 1, var4));
+                par3List.add(new ItemStack(par1, 1, j));
             }
         }
     }

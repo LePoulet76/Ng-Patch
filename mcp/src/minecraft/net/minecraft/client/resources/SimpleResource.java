@@ -54,27 +54,27 @@ public class SimpleResource implements Resource
             if (this.mcmetaJson == null && !this.mcmetaJsonChecked)
             {
                 this.mcmetaJsonChecked = true;
-                BufferedReader var2 = null;
+                BufferedReader bufferedreader = null;
 
                 try
                 {
-                    var2 = new BufferedReader(new InputStreamReader(this.mcmetaInputStream));
-                    this.mcmetaJson = (new JsonParser()).parse(var2).getAsJsonObject();
+                    bufferedreader = new BufferedReader(new InputStreamReader(this.mcmetaInputStream));
+                    this.mcmetaJson = (new JsonParser()).parse(bufferedreader).getAsJsonObject();
                 }
                 finally
                 {
-                    IOUtils.closeQuietly(var2);
+                    IOUtils.closeQuietly(bufferedreader);
                 }
             }
 
-            MetadataSection var6 = (MetadataSection)this.mapMetadataSections.get(par1Str);
+            MetadataSection metadatasection = (MetadataSection)this.mapMetadataSections.get(par1Str);
 
-            if (var6 == null)
+            if (metadatasection == null)
             {
-                var6 = this.srMetadataSerializer.parseMetadataSection(par1Str, this.mcmetaJson);
+                metadatasection = this.srMetadataSerializer.parseMetadataSection(par1Str, this.mcmetaJson);
             }
 
-            return var6;
+            return metadatasection;
         }
     }
 
@@ -86,8 +86,8 @@ public class SimpleResource implements Resource
         }
         else if (par1Obj instanceof SimpleResource)
         {
-            SimpleResource var2 = (SimpleResource)par1Obj;
-            return this.srResourceLocation != null ? this.srResourceLocation.equals(var2.srResourceLocation) : var2.srResourceLocation == null;
+            SimpleResource simpleresource = (SimpleResource)par1Obj;
+            return this.srResourceLocation != null ? this.srResourceLocation.equals(simpleresource.srResourceLocation) : simpleresource.srResourceLocation == null;
         }
         else
         {

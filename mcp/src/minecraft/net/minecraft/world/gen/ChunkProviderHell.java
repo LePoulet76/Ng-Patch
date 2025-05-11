@@ -19,6 +19,13 @@ import net.minecraft.world.gen.feature.WorldGenHellLava;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.structure.MapGenNetherBridge;
 
+import static net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.*;
+import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.*;
+import static net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.EventType.*;
+import net.minecraftforge.common.*;
+import net.minecraftforge.event.Event.*;
+import net.minecraftforge.event.terraingen.*;
+
 public class ChunkProviderHell implements IChunkProvider
 {
     private Random hellRNG;
@@ -60,6 +67,11 @@ public class ChunkProviderHell implements IChunkProvider
     double[] noiseData4;
     double[] noiseData5;
 
+    {
+        genNetherBridge = (MapGenNetherBridge) TerrainGen.getModdedMapGen(genNetherBridge, NETHER_BRIDGE);
+        netherCaveGenerator = TerrainGen.getModdedMapGen(netherCaveGenerator, NETHER_CAVE);
+    }
+
     public ChunkProviderHell(World par1World, long par2)
     {
         this.worldObj = par1World;
@@ -71,6 +83,16 @@ public class ChunkProviderHell implements IChunkProvider
         this.netherrackExculsivityNoiseGen = new NoiseGeneratorOctaves(this.hellRNG, 4);
         this.netherNoiseGen6 = new NoiseGeneratorOctaves(this.hellRNG, 10);
         this.netherNoiseGen7 = new NoiseGeneratorOctaves(this.hellRNG, 16);
+
+        NoiseGeneratorOctaves[] noiseGens = {netherNoiseGen1, netherNoiseGen2, netherNoiseGen3, slowsandGravelNoiseGen, netherrackExculsivityNoiseGen, netherNoiseGen6, netherNoiseGen7};
+        noiseGens = TerrainGen.getModdedNoiseGenerators(par1World, this.hellRNG, noiseGens);
+        this.netherNoiseGen1 = noiseGens[0];
+        this.netherNoiseGen2 = noiseGens[1];
+        this.netherNoiseGen3 = noiseGens[2];
+        this.slowsandGravelNoiseGen = noiseGens[3];
+        this.netherrackExculsivityNoiseGen = noiseGens[4];
+        this.netherNoiseGen6 = noiseGens[5];
+        this.netherNoiseGen7 = noiseGens[6];
     }
 
     /**
@@ -78,72 +100,72 @@ public class ChunkProviderHell implements IChunkProvider
      */
     public void generateNetherTerrain(int par1, int par2, byte[] par3ArrayOfByte)
     {
-        byte var4 = 4;
-        byte var5 = 32;
-        int var6 = var4 + 1;
-        byte var7 = 17;
-        int var8 = var4 + 1;
-        this.noiseField = this.initializeNoiseField(this.noiseField, par1 * var4, 0, par2 * var4, var6, var7, var8);
+        byte b0 = 4;
+        byte b1 = 32;
+        int k = b0 + 1;
+        byte b2 = 17;
+        int l = b0 + 1;
+        this.noiseField = this.initializeNoiseField(this.noiseField, par1 * b0, 0, par2 * b0, k, b2, l);
 
-        for (int var9 = 0; var9 < var4; ++var9)
+        for (int i1 = 0; i1 < b0; ++i1)
         {
-            for (int var10 = 0; var10 < var4; ++var10)
+            for (int j1 = 0; j1 < b0; ++j1)
             {
-                for (int var11 = 0; var11 < 16; ++var11)
+                for (int k1 = 0; k1 < 16; ++k1)
                 {
-                    double var12 = 0.125D;
-                    double var14 = this.noiseField[((var9 + 0) * var8 + var10 + 0) * var7 + var11 + 0];
-                    double var16 = this.noiseField[((var9 + 0) * var8 + var10 + 1) * var7 + var11 + 0];
-                    double var18 = this.noiseField[((var9 + 1) * var8 + var10 + 0) * var7 + var11 + 0];
-                    double var20 = this.noiseField[((var9 + 1) * var8 + var10 + 1) * var7 + var11 + 0];
-                    double var22 = (this.noiseField[((var9 + 0) * var8 + var10 + 0) * var7 + var11 + 1] - var14) * var12;
-                    double var24 = (this.noiseField[((var9 + 0) * var8 + var10 + 1) * var7 + var11 + 1] - var16) * var12;
-                    double var26 = (this.noiseField[((var9 + 1) * var8 + var10 + 0) * var7 + var11 + 1] - var18) * var12;
-                    double var28 = (this.noiseField[((var9 + 1) * var8 + var10 + 1) * var7 + var11 + 1] - var20) * var12;
+                    double d0 = 0.125D;
+                    double d1 = this.noiseField[((i1 + 0) * l + j1 + 0) * b2 + k1 + 0];
+                    double d2 = this.noiseField[((i1 + 0) * l + j1 + 1) * b2 + k1 + 0];
+                    double d3 = this.noiseField[((i1 + 1) * l + j1 + 0) * b2 + k1 + 0];
+                    double d4 = this.noiseField[((i1 + 1) * l + j1 + 1) * b2 + k1 + 0];
+                    double d5 = (this.noiseField[((i1 + 0) * l + j1 + 0) * b2 + k1 + 1] - d1) * d0;
+                    double d6 = (this.noiseField[((i1 + 0) * l + j1 + 1) * b2 + k1 + 1] - d2) * d0;
+                    double d7 = (this.noiseField[((i1 + 1) * l + j1 + 0) * b2 + k1 + 1] - d3) * d0;
+                    double d8 = (this.noiseField[((i1 + 1) * l + j1 + 1) * b2 + k1 + 1] - d4) * d0;
 
-                    for (int var30 = 0; var30 < 8; ++var30)
+                    for (int l1 = 0; l1 < 8; ++l1)
                     {
-                        double var31 = 0.25D;
-                        double var33 = var14;
-                        double var35 = var16;
-                        double var37 = (var18 - var14) * var31;
-                        double var39 = (var20 - var16) * var31;
+                        double d9 = 0.25D;
+                        double d10 = d1;
+                        double d11 = d2;
+                        double d12 = (d3 - d1) * d9;
+                        double d13 = (d4 - d2) * d9;
 
-                        for (int var41 = 0; var41 < 4; ++var41)
+                        for (int i2 = 0; i2 < 4; ++i2)
                         {
-                            int var42 = var41 + var9 * 4 << 11 | 0 + var10 * 4 << 7 | var11 * 8 + var30;
-                            short var43 = 128;
-                            double var44 = 0.25D;
-                            double var46 = var33;
-                            double var48 = (var35 - var33) * var44;
+                            int j2 = i2 + i1 * 4 << 11 | 0 + j1 * 4 << 7 | k1 * 8 + l1;
+                            short short1 = 128;
+                            double d14 = 0.25D;
+                            double d15 = d10;
+                            double d16 = (d11 - d10) * d14;
 
-                            for (int var50 = 0; var50 < 4; ++var50)
+                            for (int k2 = 0; k2 < 4; ++k2)
                             {
-                                int var51 = 0;
+                                int l2 = 0;
 
-                                if (var11 * 8 + var30 < var5)
+                                if (k1 * 8 + l1 < b1)
                                 {
-                                    var51 = Block.lavaStill.blockID;
+                                    l2 = Block.lavaStill.blockID;
                                 }
 
-                                if (var46 > 0.0D)
+                                if (d15 > 0.0D)
                                 {
-                                    var51 = Block.netherrack.blockID;
+                                    l2 = Block.netherrack.blockID;
                                 }
 
-                                par3ArrayOfByte[var42] = (byte)var51;
-                                var42 += var43;
-                                var46 += var48;
+                                par3ArrayOfByte[j2] = (byte)l2;
+                                j2 += short1;
+                                d15 += d16;
                             }
 
-                            var33 += var37;
-                            var35 += var39;
+                            d10 += d12;
+                            d11 += d13;
                         }
 
-                        var14 += var22;
-                        var16 += var24;
-                        var18 += var26;
-                        var20 += var28;
+                        d1 += d5;
+                        d2 += d6;
+                        d3 += d7;
+                        d4 += d8;
                     }
                 }
             }
@@ -155,96 +177,100 @@ public class ChunkProviderHell implements IChunkProvider
      */
     public void replaceBlocksForBiome(int par1, int par2, byte[] par3ArrayOfByte)
     {
-        byte var4 = 64;
-        double var5 = 0.03125D;
-        this.slowsandNoise = this.slowsandGravelNoiseGen.generateNoiseOctaves(this.slowsandNoise, par1 * 16, par2 * 16, 0, 16, 16, 1, var5, var5, 1.0D);
-        this.gravelNoise = this.slowsandGravelNoiseGen.generateNoiseOctaves(this.gravelNoise, par1 * 16, 109, par2 * 16, 16, 1, 16, var5, 1.0D, var5);
-        this.netherrackExclusivityNoise = this.netherrackExculsivityNoiseGen.generateNoiseOctaves(this.netherrackExclusivityNoise, par1 * 16, par2 * 16, 0, 16, 16, 1, var5 * 2.0D, var5 * 2.0D, var5 * 2.0D);
+        ChunkProviderEvent.ReplaceBiomeBlocks event = new ChunkProviderEvent.ReplaceBiomeBlocks(this, par1, par2, par3ArrayOfByte, null);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.getResult() == Result.DENY) return;
 
-        for (int var7 = 0; var7 < 16; ++var7)
+        byte b0 = 64;
+        double d0 = 0.03125D;
+        this.slowsandNoise = this.slowsandGravelNoiseGen.generateNoiseOctaves(this.slowsandNoise, par1 * 16, par2 * 16, 0, 16, 16, 1, d0, d0, 1.0D);
+        this.gravelNoise = this.slowsandGravelNoiseGen.generateNoiseOctaves(this.gravelNoise, par1 * 16, 109, par2 * 16, 16, 1, 16, d0, 1.0D, d0);
+        this.netherrackExclusivityNoise = this.netherrackExculsivityNoiseGen.generateNoiseOctaves(this.netherrackExclusivityNoise, par1 * 16, par2 * 16, 0, 16, 16, 1, d0 * 2.0D, d0 * 2.0D, d0 * 2.0D);
+
+        for (int k = 0; k < 16; ++k)
         {
-            for (int var8 = 0; var8 < 16; ++var8)
+            for (int l = 0; l < 16; ++l)
             {
-                boolean var9 = this.slowsandNoise[var7 + var8 * 16] + this.hellRNG.nextDouble() * 0.2D > 0.0D;
-                boolean var10 = this.gravelNoise[var7 + var8 * 16] + this.hellRNG.nextDouble() * 0.2D > 0.0D;
-                int var11 = (int)(this.netherrackExclusivityNoise[var7 + var8 * 16] / 3.0D + 3.0D + this.hellRNG.nextDouble() * 0.25D);
-                int var12 = -1;
-                byte var13 = (byte)Block.netherrack.blockID;
-                byte var14 = (byte)Block.netherrack.blockID;
+                boolean flag = this.slowsandNoise[k + l * 16] + this.hellRNG.nextDouble() * 0.2D > 0.0D;
+                boolean flag1 = this.gravelNoise[k + l * 16] + this.hellRNG.nextDouble() * 0.2D > 0.0D;
+                int i1 = (int)(this.netherrackExclusivityNoise[k + l * 16] / 3.0D + 3.0D + this.hellRNG.nextDouble() * 0.25D);
+                int j1 = -1;
+                byte b1 = (byte)Block.netherrack.blockID;
+                byte b2 = (byte)Block.netherrack.blockID;
 
-                for (int var15 = 127; var15 >= 0; --var15)
+                for (int k1 = 127; k1 >= 0; --k1)
                 {
-                    int var16 = (var8 * 16 + var7) * 128 + var15;
+                    int l1 = (l * 16 + k) * 128 + k1;
 
-                    if (var15 < 127 - this.hellRNG.nextInt(5) && var15 > 0 + this.hellRNG.nextInt(5))
+                    if (k1 < 127 - this.hellRNG.nextInt(5) && k1 > 0 + this.hellRNG.nextInt(5))
                     {
-                        byte var17 = par3ArrayOfByte[var16];
+                        byte b3 = par3ArrayOfByte[l1];
 
-                        if (var17 == 0)
+                        if (b3 == 0)
                         {
-                            var12 = -1;
+                            j1 = -1;
                         }
-                        else if (var17 == Block.netherrack.blockID)
+                        else if (b3 == Block.netherrack.blockID)
                         {
-                            if (var12 == -1)
+                            if (j1 == -1)
                             {
-                                if (var11 <= 0)
+                                if (i1 <= 0)
                                 {
-                                    var13 = 0;
-                                    var14 = (byte)Block.netherrack.blockID;
+                                    b1 = 0;
+                                    b2 = (byte)Block.netherrack.blockID;
                                 }
-                                else if (var15 >= var4 - 4 && var15 <= var4 + 1)
+                                else if (k1 >= b0 - 4 && k1 <= b0 + 1)
                                 {
-                                    var13 = (byte)Block.netherrack.blockID;
-                                    var14 = (byte)Block.netherrack.blockID;
+                                    b1 = (byte)Block.netherrack.blockID;
+                                    b2 = (byte)Block.netherrack.blockID;
 
-                                    if (var10)
+                                    if (flag1)
                                     {
-                                        var13 = (byte)Block.gravel.blockID;
+                                        b1 = (byte)Block.gravel.blockID;
                                     }
 
-                                    if (var10)
+                                    if (flag1)
                                     {
-                                        var14 = (byte)Block.netherrack.blockID;
+                                        b2 = (byte)Block.netherrack.blockID;
                                     }
 
-                                    if (var9)
+                                    if (flag)
                                     {
-                                        var13 = (byte)Block.slowSand.blockID;
+                                        b1 = (byte)Block.slowSand.blockID;
                                     }
 
-                                    if (var9)
+                                    if (flag)
                                     {
-                                        var14 = (byte)Block.slowSand.blockID;
+                                        b2 = (byte)Block.slowSand.blockID;
                                     }
-                                }
-
-                                if (var15 < var4 && var13 == 0)
-                                {
-                                    var13 = (byte)Block.lavaStill.blockID;
                                 }
 
-                                var12 = var11;
-
-                                if (var15 >= var4 - 1)
+                                if (k1 < b0 && b1 == 0)
                                 {
-                                    par3ArrayOfByte[var16] = var13;
+                                    b1 = (byte)Block.lavaStill.blockID;
+                                }
+
+                                j1 = i1;
+
+                                if (k1 >= b0 - 1)
+                                {
+                                    par3ArrayOfByte[l1] = b1;
                                 }
                                 else
                                 {
-                                    par3ArrayOfByte[var16] = var14;
+                                    par3ArrayOfByte[l1] = b2;
                                 }
                             }
-                            else if (var12 > 0)
+                            else if (j1 > 0)
                             {
-                                --var12;
-                                par3ArrayOfByte[var16] = var14;
+                                --j1;
+                                par3ArrayOfByte[l1] = b2;
                             }
                         }
                     }
                     else
                     {
-                        par3ArrayOfByte[var16] = (byte)Block.bedrock.blockID;
+                        par3ArrayOfByte[l1] = (byte)Block.bedrock.blockID;
                     }
                 }
             }
@@ -266,22 +292,22 @@ public class ChunkProviderHell implements IChunkProvider
     public Chunk provideChunk(int par1, int par2)
     {
         this.hellRNG.setSeed((long)par1 * 341873128712L + (long)par2 * 132897987541L);
-        byte[] var3 = new byte[32768];
-        this.generateNetherTerrain(par1, par2, var3);
-        this.replaceBlocksForBiome(par1, par2, var3);
-        this.netherCaveGenerator.generate(this, this.worldObj, par1, par2, var3);
-        this.genNetherBridge.generate(this, this.worldObj, par1, par2, var3);
-        Chunk var4 = new Chunk(this.worldObj, var3, par1, par2);
-        BiomeGenBase[] var5 = this.worldObj.getWorldChunkManager().loadBlockGeneratorData((BiomeGenBase[])null, par1 * 16, par2 * 16, 16, 16);
-        byte[] var6 = var4.getBiomeArray();
+        byte[] abyte = new byte[32768];
+        this.generateNetherTerrain(par1, par2, abyte);
+        this.replaceBlocksForBiome(par1, par2, abyte);
+        this.netherCaveGenerator.generate(this, this.worldObj, par1, par2, abyte);
+        this.genNetherBridge.generate(this, this.worldObj, par1, par2, abyte);
+        Chunk chunk = new Chunk(this.worldObj, abyte, par1, par2);
+        BiomeGenBase[] abiomegenbase = this.worldObj.getWorldChunkManager().loadBlockGeneratorData((BiomeGenBase[])null, par1 * 16, par2 * 16, 16, 16);
+        byte[] abyte1 = chunk.getBiomeArray();
 
-        for (int var7 = 0; var7 < var6.length; ++var7)
+        for (int k = 0; k < abyte1.length; ++k)
         {
-            var6[var7] = (byte)var5[var7].biomeID;
+            abyte1[k] = (byte)abiomegenbase[k].biomeID;
         }
 
-        var4.resetRelightChecks();
-        return var4;
+        chunk.resetRelightChecks();
+        return chunk;
     }
 
     /**
@@ -290,137 +316,140 @@ public class ChunkProviderHell implements IChunkProvider
      */
     private double[] initializeNoiseField(double[] par1ArrayOfDouble, int par2, int par3, int par4, int par5, int par6, int par7)
     {
+        ChunkProviderEvent.InitNoiseField event = new ChunkProviderEvent.InitNoiseField(this, par1ArrayOfDouble, par2, par3, par4, par5, par6, par7);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.getResult() == Result.DENY) return event.noisefield;
         if (par1ArrayOfDouble == null)
         {
             par1ArrayOfDouble = new double[par5 * par6 * par7];
         }
 
-        double var8 = 684.412D;
-        double var10 = 2053.236D;
+        double d0 = 684.412D;
+        double d1 = 2053.236D;
         this.noiseData4 = this.netherNoiseGen6.generateNoiseOctaves(this.noiseData4, par2, par3, par4, par5, 1, par7, 1.0D, 0.0D, 1.0D);
         this.noiseData5 = this.netherNoiseGen7.generateNoiseOctaves(this.noiseData5, par2, par3, par4, par5, 1, par7, 100.0D, 0.0D, 100.0D);
-        this.noiseData1 = this.netherNoiseGen3.generateNoiseOctaves(this.noiseData1, par2, par3, par4, par5, par6, par7, var8 / 80.0D, var10 / 60.0D, var8 / 80.0D);
-        this.noiseData2 = this.netherNoiseGen1.generateNoiseOctaves(this.noiseData2, par2, par3, par4, par5, par6, par7, var8, var10, var8);
-        this.noiseData3 = this.netherNoiseGen2.generateNoiseOctaves(this.noiseData3, par2, par3, par4, par5, par6, par7, var8, var10, var8);
-        int var12 = 0;
-        int var13 = 0;
-        double[] var14 = new double[par6];
-        int var15;
+        this.noiseData1 = this.netherNoiseGen3.generateNoiseOctaves(this.noiseData1, par2, par3, par4, par5, par6, par7, d0 / 80.0D, d1 / 60.0D, d0 / 80.0D);
+        this.noiseData2 = this.netherNoiseGen1.generateNoiseOctaves(this.noiseData2, par2, par3, par4, par5, par6, par7, d0, d1, d0);
+        this.noiseData3 = this.netherNoiseGen2.generateNoiseOctaves(this.noiseData3, par2, par3, par4, par5, par6, par7, d0, d1, d0);
+        int k1 = 0;
+        int l1 = 0;
+        double[] adouble1 = new double[par6];
+        int i2;
 
-        for (var15 = 0; var15 < par6; ++var15)
+        for (i2 = 0; i2 < par6; ++i2)
         {
-            var14[var15] = Math.cos((double)var15 * Math.PI * 6.0D / (double)par6) * 2.0D;
-            double var16 = (double)var15;
+            adouble1[i2] = Math.cos((double)i2 * Math.PI * 6.0D / (double)par6) * 2.0D;
+            double d2 = (double)i2;
 
-            if (var15 > par6 / 2)
+            if (i2 > par6 / 2)
             {
-                var16 = (double)(par6 - 1 - var15);
+                d2 = (double)(par6 - 1 - i2);
             }
 
-            if (var16 < 4.0D)
+            if (d2 < 4.0D)
             {
-                var16 = 4.0D - var16;
-                var14[var15] -= var16 * var16 * var16 * 10.0D;
+                d2 = 4.0D - d2;
+                adouble1[i2] -= d2 * d2 * d2 * 10.0D;
             }
         }
 
-        for (var15 = 0; var15 < par5; ++var15)
+        for (i2 = 0; i2 < par5; ++i2)
         {
-            for (int var36 = 0; var36 < par7; ++var36)
+            for (int j2 = 0; j2 < par7; ++j2)
             {
-                double var17 = (this.noiseData4[var13] + 256.0D) / 512.0D;
+                double d3 = (this.noiseData4[l1] + 256.0D) / 512.0D;
 
-                if (var17 > 1.0D)
+                if (d3 > 1.0D)
                 {
-                    var17 = 1.0D;
+                    d3 = 1.0D;
                 }
 
-                double var19 = 0.0D;
-                double var21 = this.noiseData5[var13] / 8000.0D;
+                double d4 = 0.0D;
+                double d5 = this.noiseData5[l1] / 8000.0D;
 
-                if (var21 < 0.0D)
+                if (d5 < 0.0D)
                 {
-                    var21 = -var21;
+                    d5 = -d5;
                 }
 
-                var21 = var21 * 3.0D - 3.0D;
+                d5 = d5 * 3.0D - 3.0D;
 
-                if (var21 < 0.0D)
+                if (d5 < 0.0D)
                 {
-                    var21 /= 2.0D;
+                    d5 /= 2.0D;
 
-                    if (var21 < -1.0D)
+                    if (d5 < -1.0D)
                     {
-                        var21 = -1.0D;
+                        d5 = -1.0D;
                     }
 
-                    var21 /= 1.4D;
-                    var21 /= 2.0D;
-                    var17 = 0.0D;
+                    d5 /= 1.4D;
+                    d5 /= 2.0D;
+                    d3 = 0.0D;
                 }
                 else
                 {
-                    if (var21 > 1.0D)
+                    if (d5 > 1.0D)
                     {
-                        var21 = 1.0D;
+                        d5 = 1.0D;
                     }
 
-                    var21 /= 6.0D;
+                    d5 /= 6.0D;
                 }
 
-                var17 += 0.5D;
-                var21 = var21 * (double)par6 / 16.0D;
-                ++var13;
+                d3 += 0.5D;
+                d5 = d5 * (double)par6 / 16.0D;
+                ++l1;
 
-                for (int var23 = 0; var23 < par6; ++var23)
+                for (int k2 = 0; k2 < par6; ++k2)
                 {
-                    double var24 = 0.0D;
-                    double var26 = var14[var23];
-                    double var28 = this.noiseData2[var12] / 512.0D;
-                    double var30 = this.noiseData3[var12] / 512.0D;
-                    double var32 = (this.noiseData1[var12] / 10.0D + 1.0D) / 2.0D;
+                    double d6 = 0.0D;
+                    double d7 = adouble1[k2];
+                    double d8 = this.noiseData2[k1] / 512.0D;
+                    double d9 = this.noiseData3[k1] / 512.0D;
+                    double d10 = (this.noiseData1[k1] / 10.0D + 1.0D) / 2.0D;
 
-                    if (var32 < 0.0D)
+                    if (d10 < 0.0D)
                     {
-                        var24 = var28;
+                        d6 = d8;
                     }
-                    else if (var32 > 1.0D)
+                    else if (d10 > 1.0D)
                     {
-                        var24 = var30;
+                        d6 = d9;
                     }
                     else
                     {
-                        var24 = var28 + (var30 - var28) * var32;
+                        d6 = d8 + (d9 - d8) * d10;
                     }
 
-                    var24 -= var26;
-                    double var34;
+                    d6 -= d7;
+                    double d11;
 
-                    if (var23 > par6 - 4)
+                    if (k2 > par6 - 4)
                     {
-                        var34 = (double)((float)(var23 - (par6 - 4)) / 3.0F);
-                        var24 = var24 * (1.0D - var34) + -10.0D * var34;
+                        d11 = (double)((float)(k2 - (par6 - 4)) / 3.0F);
+                        d6 = d6 * (1.0D - d11) + -10.0D * d11;
                     }
 
-                    if ((double)var23 < var19)
+                    if ((double)k2 < d4)
                     {
-                        var34 = (var19 - (double)var23) / 4.0D;
+                        d11 = (d4 - (double)k2) / 4.0D;
 
-                        if (var34 < 0.0D)
+                        if (d11 < 0.0D)
                         {
-                            var34 = 0.0D;
+                            d11 = 0.0D;
                         }
 
-                        if (var34 > 1.0D)
+                        if (d11 > 1.0D)
                         {
-                            var34 = 1.0D;
+                            d11 = 1.0D;
                         }
 
-                        var24 = var24 * (1.0D - var34) + -10.0D * var34;
+                        d6 = d6 * (1.0D - d11) + -10.0D * d11;
                     }
 
-                    par1ArrayOfDouble[var12] = var24;
-                    ++var12;
+                    par1ArrayOfDouble[k1] = d6;
+                    ++k1;
                 }
             }
         }
@@ -442,85 +471,97 @@ public class ChunkProviderHell implements IChunkProvider
     public void populate(IChunkProvider par1IChunkProvider, int par2, int par3)
     {
         BlockSand.fallInstantly = true;
-        int var4 = par2 * 16;
-        int var5 = par3 * 16;
+
+        MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Pre(par1IChunkProvider, worldObj, hellRNG, par2, par3, false));
+
+        int k = par2 * 16;
+        int l = par3 * 16;
         this.genNetherBridge.generateStructuresInChunk(this.worldObj, this.hellRNG, par2, par3);
-        int var6;
-        int var7;
-        int var8;
-        int var9;
+        int i1;
+        int j1;
+        int k1;
+        int l1;
 
-        for (var6 = 0; var6 < 8; ++var6)
+        boolean doGen = TerrainGen.populate(par1IChunkProvider, worldObj, hellRNG, par2, par3, false, NETHER_LAVA);
+        for (i1 = 0; doGen && i1 < 8; ++i1)
         {
-            var7 = var4 + this.hellRNG.nextInt(16) + 8;
-            var8 = this.hellRNG.nextInt(120) + 4;
-            var9 = var5 + this.hellRNG.nextInt(16) + 8;
-            (new WorldGenHellLava(Block.lavaMoving.blockID, false)).generate(this.worldObj, this.hellRNG, var7, var8, var9);
+            j1 = k + this.hellRNG.nextInt(16) + 8;
+            k1 = this.hellRNG.nextInt(120) + 4;
+            l1 = l + this.hellRNG.nextInt(16) + 8;
+            (new WorldGenHellLava(Block.lavaMoving.blockID, false)).generate(this.worldObj, this.hellRNG, j1, k1, l1);
         }
 
-        var6 = this.hellRNG.nextInt(this.hellRNG.nextInt(10) + 1) + 1;
-        int var10;
+        i1 = this.hellRNG.nextInt(this.hellRNG.nextInt(10) + 1) + 1;
+        int i2;
 
-        for (var7 = 0; var7 < var6; ++var7)
+        doGen = TerrainGen.populate(par1IChunkProvider, worldObj, hellRNG, par2, par3, false, FIRE);
+        for (j1 = 0; doGen && j1 < i1; ++j1)
         {
-            var8 = var4 + this.hellRNG.nextInt(16) + 8;
-            var9 = this.hellRNG.nextInt(120) + 4;
-            var10 = var5 + this.hellRNG.nextInt(16) + 8;
-            (new WorldGenFire()).generate(this.worldObj, this.hellRNG, var8, var9, var10);
+            k1 = k + this.hellRNG.nextInt(16) + 8;
+            l1 = this.hellRNG.nextInt(120) + 4;
+            i2 = l + this.hellRNG.nextInt(16) + 8;
+            (new WorldGenFire()).generate(this.worldObj, this.hellRNG, k1, l1, i2);
         }
 
-        var6 = this.hellRNG.nextInt(this.hellRNG.nextInt(10) + 1);
+        i1 = this.hellRNG.nextInt(this.hellRNG.nextInt(10) + 1);
 
-        for (var7 = 0; var7 < var6; ++var7)
+        doGen = TerrainGen.populate(par1IChunkProvider, worldObj, hellRNG, par2, par3, false, GLOWSTONE);
+        for (j1 = 0; doGen && j1 < i1; ++j1)
         {
-            var8 = var4 + this.hellRNG.nextInt(16) + 8;
-            var9 = this.hellRNG.nextInt(120) + 4;
-            var10 = var5 + this.hellRNG.nextInt(16) + 8;
-            (new WorldGenGlowStone1()).generate(this.worldObj, this.hellRNG, var8, var9, var10);
+            k1 = k + this.hellRNG.nextInt(16) + 8;
+            l1 = this.hellRNG.nextInt(120) + 4;
+            i2 = l + this.hellRNG.nextInt(16) + 8;
+            (new WorldGenGlowStone1()).generate(this.worldObj, this.hellRNG, k1, l1, i2);
         }
 
-        for (var7 = 0; var7 < 10; ++var7)
+        for (j1 = 0; doGen && j1 < 10; ++j1)
         {
-            var8 = var4 + this.hellRNG.nextInt(16) + 8;
-            var9 = this.hellRNG.nextInt(128);
-            var10 = var5 + this.hellRNG.nextInt(16) + 8;
-            (new WorldGenGlowStone2()).generate(this.worldObj, this.hellRNG, var8, var9, var10);
+            k1 = k + this.hellRNG.nextInt(16) + 8;
+            l1 = this.hellRNG.nextInt(128);
+            i2 = l + this.hellRNG.nextInt(16) + 8;
+            (new WorldGenGlowStone2()).generate(this.worldObj, this.hellRNG, k1, l1, i2);
         }
 
-        if (this.hellRNG.nextInt(1) == 0)
+        MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Pre(worldObj, hellRNG, k, l));
+        
+        doGen = TerrainGen.decorate(worldObj, hellRNG, k, l, SHROOM);
+        if (doGen && this.hellRNG.nextInt(1) == 0)
         {
-            var7 = var4 + this.hellRNG.nextInt(16) + 8;
-            var8 = this.hellRNG.nextInt(128);
-            var9 = var5 + this.hellRNG.nextInt(16) + 8;
-            (new WorldGenFlowers(Block.mushroomBrown.blockID)).generate(this.worldObj, this.hellRNG, var7, var8, var9);
+            j1 = k + this.hellRNG.nextInt(16) + 8;
+            k1 = this.hellRNG.nextInt(128);
+            l1 = l + this.hellRNG.nextInt(16) + 8;
+            (new WorldGenFlowers(Block.mushroomBrown.blockID)).generate(this.worldObj, this.hellRNG, j1, k1, l1);
         }
 
-        if (this.hellRNG.nextInt(1) == 0)
+        if (doGen && this.hellRNG.nextInt(1) == 0)
         {
-            var7 = var4 + this.hellRNG.nextInt(16) + 8;
-            var8 = this.hellRNG.nextInt(128);
-            var9 = var5 + this.hellRNG.nextInt(16) + 8;
-            (new WorldGenFlowers(Block.mushroomRed.blockID)).generate(this.worldObj, this.hellRNG, var7, var8, var9);
+            j1 = k + this.hellRNG.nextInt(16) + 8;
+            k1 = this.hellRNG.nextInt(128);
+            l1 = l + this.hellRNG.nextInt(16) + 8;
+            (new WorldGenFlowers(Block.mushroomRed.blockID)).generate(this.worldObj, this.hellRNG, j1, k1, l1);
         }
 
-        WorldGenMinable var12 = new WorldGenMinable(Block.oreNetherQuartz.blockID, 13, Block.netherrack.blockID);
-        int var11;
+        WorldGenMinable worldgenminable = new WorldGenMinable(Block.oreNetherQuartz.blockID, 13, Block.netherrack.blockID);
+        int j2;
 
-        for (var8 = 0; var8 < 16; ++var8)
+        for (k1 = 0; k1 < 16; ++k1)
         {
-            var9 = var4 + this.hellRNG.nextInt(16);
-            var10 = this.hellRNG.nextInt(108) + 10;
-            var11 = var5 + this.hellRNG.nextInt(16);
-            var12.generate(this.worldObj, this.hellRNG, var9, var10, var11);
+            l1 = k + this.hellRNG.nextInt(16);
+            i2 = this.hellRNG.nextInt(108) + 10;
+            j2 = l + this.hellRNG.nextInt(16);
+            worldgenminable.generate(this.worldObj, this.hellRNG, l1, i2, j2);
         }
 
-        for (var8 = 0; var8 < 16; ++var8)
+        for (k1 = 0; k1 < 16; ++k1)
         {
-            var9 = var4 + this.hellRNG.nextInt(16);
-            var10 = this.hellRNG.nextInt(108) + 10;
-            var11 = var5 + this.hellRNG.nextInt(16);
-            (new WorldGenHellLava(Block.lavaMoving.blockID, true)).generate(this.worldObj, this.hellRNG, var9, var10, var11);
+            l1 = k + this.hellRNG.nextInt(16);
+            i2 = this.hellRNG.nextInt(108) + 10;
+            j2 = l + this.hellRNG.nextInt(16);
+            (new WorldGenHellLava(Block.lavaMoving.blockID, true)).generate(this.worldObj, this.hellRNG, l1, i2, j2);
         }
+
+        MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Post(worldObj, hellRNG, k, l));
+        MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Post(par1IChunkProvider, worldObj, hellRNG, par2, par3, false));
 
         BlockSand.fallInstantly = false;
     }
@@ -582,8 +623,8 @@ public class ChunkProviderHell implements IChunkProvider
             }
         }
 
-        BiomeGenBase var5 = this.worldObj.getBiomeGenForCoords(par2, par4);
-        return var5 == null ? null : var5.getSpawnableList(par1EnumCreatureType);
+        BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(par2, par4);
+        return biomegenbase == null ? null : biomegenbase.getSpawnableList(par1EnumCreatureType);
     }
 
     /**

@@ -41,21 +41,21 @@ public class CommandServerMessage extends CommandBase
         }
         else
         {
-            EntityPlayerMP var3 = getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
+            EntityPlayerMP entityplayermp = getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
 
-            if (var3 == null)
+            if (entityplayermp == null)
             {
                 throw new PlayerNotFoundException();
             }
-            else if (var3 == par1ICommandSender)
+            else if (entityplayermp == par1ICommandSender)
             {
                 throw new PlayerNotFoundException("commands.message.sameTarget", new Object[0]);
             }
             else
             {
-                String var4 = func_82361_a(par1ICommandSender, par2ArrayOfStr, 1, !(par1ICommandSender instanceof EntityPlayer));
-                var3.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.message.display.incoming", new Object[] {par1ICommandSender.getCommandSenderName(), var4}).setColor(EnumChatFormatting.GRAY).setItalic(Boolean.valueOf(true)));
-                par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.message.display.outgoing", new Object[] {var3.getCommandSenderName(), var4}).setColor(EnumChatFormatting.GRAY).setItalic(Boolean.valueOf(true)));
+                String s = func_82361_a(par1ICommandSender, par2ArrayOfStr, 1, !(par1ICommandSender instanceof EntityPlayer));
+                entityplayermp.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.message.display.incoming", new Object[] {par1ICommandSender.getCommandSenderName(), s}).setColor(EnumChatFormatting.GRAY).setItalic(Boolean.valueOf(true)));
+                par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.message.display.outgoing", new Object[] {entityplayermp.getCommandSenderName(), s}).setColor(EnumChatFormatting.GRAY).setItalic(Boolean.valueOf(true)));
             }
         }
     }

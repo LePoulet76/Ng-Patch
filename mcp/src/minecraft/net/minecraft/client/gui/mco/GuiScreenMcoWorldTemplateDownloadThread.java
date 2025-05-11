@@ -17,15 +17,15 @@ class GuiScreenMcoWorldTemplateDownloadThread extends Thread
 
     public void run()
     {
-        McoClient var1 = new McoClient(GuiScreenMcoWorldTemplate.func_110382_a(this.field_111256_a).getSession());
+        McoClient mcoclient = new McoClient(GuiScreenMcoWorldTemplate.func_110382_a(this.field_111256_a).getSession());
 
         try
         {
-            GuiScreenMcoWorldTemplate.func_110388_a(this.field_111256_a, var1.func_111231_d().field_110736_a);
+            GuiScreenMcoWorldTemplate.func_110388_a(this.field_111256_a, mcoclient.func_111231_d().field_110736_a);
         }
-        catch (ExceptionMcoService var3)
+        catch (ExceptionMcoService exceptionmcoservice)
         {
-            GuiScreenMcoWorldTemplate.func_110392_b(this.field_111256_a).getLogAgent().logSevere(var3.toString());
+            GuiScreenMcoWorldTemplate.func_110392_b(this.field_111256_a).getLogAgent().logSevere(exceptionmcoservice.toString());
         }
     }
 }

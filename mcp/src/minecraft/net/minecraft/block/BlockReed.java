@@ -8,13 +8,17 @@ import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class BlockReed extends Block
+import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.IPlantable;
+
+public class BlockReed extends Block implements IPlantable
 {
     protected BlockReed(int par1)
     {
         super(par1, Material.plants);
-        float var2 = 0.375F;
-        this.setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, 1.0F, 0.5F + var2);
+        float f = 0.375F;
+        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 1.0F, 0.5F + f);
         this.setTickRandomly(true);
     }
 
@@ -25,25 +29,25 @@ public class BlockReed extends Block
     {
         if (par1World.isAirBlock(par2, par3 + 1, par4))
         {
-            int var6;
+            int l;
 
-            for (var6 = 1; par1World.getBlockId(par2, par3 - var6, par4) == this.blockID; ++var6)
+            for (l = 1; par1World.getBlockId(par2, par3 - l, par4) == this.blockID; ++l)
             {
                 ;
             }
 
-            if (var6 < 3)
+            if (l < 3)
             {
-                int var7 = par1World.getBlockMetadata(par2, par3, par4);
+                int i1 = par1World.getBlockMetadata(par2, par3, par4);
 
-                if (var7 == 15)
+                if (i1 == 15)
                 {
                     par1World.setBlock(par2, par3 + 1, par4, this.blockID);
                     par1World.setBlockMetadataWithNotify(par2, par3, par4, 0, 4);
                 }
                 else
                 {
-                    par1World.setBlockMetadataWithNotify(par2, par3, par4, var7 + 1, 4);
+                    par1World.setBlockMetadataWithNotify(par2, par3, par4, i1 + 1, 4);
                 }
             }
         }
@@ -54,8 +58,8 @@ public class BlockReed extends Block
      */
     public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
     {
-        int var5 = par1World.getBlockId(par2, par3 - 1, par4);
-        return var5 == this.blockID ? true : (var5 != Block.grass.blockID && var5 != Block.dirt.blockID && var5 != Block.sand.blockID ? false : (par1World.getBlockMaterial(par2 - 1, par3 - 1, par4) == Material.water ? true : (par1World.getBlockMaterial(par2 + 1, par3 - 1, par4) == Material.water ? true : (par1World.getBlockMaterial(par2, par3 - 1, par4 - 1) == Material.water ? true : par1World.getBlockMaterial(par2, par3 - 1, par4 + 1) == Material.water))));
+        Block block = Block.blocksList[par1World.getBlockId(par2, par3 - 1, par4)];
+        return (block != null && block.canSustainPlant(par1World, par2, par3 - 1, par4, ForgeDirection.UP, this));
     }
 
     /**
@@ -137,5 +141,23 @@ public class BlockReed extends Block
     public int idPicked(World par1World, int par2, int par3, int par4)
     {
         return Item.reed.itemID;
+    }
+
+    @Override
+    public EnumPlantType getPlantType(World world, int x, int y, int z)
+    {
+        return EnumPlantType.Beach;
+    }
+
+    @Override
+    public int getPlantID(World world, int x, int y, int z)
+    {
+        return blockID;
+    }
+
+    @Override
+    public int getPlantMetadata(World world, int x, int y, int z)
+    {
+        return world.getBlockMetadata(x, y, z);
     }
 }

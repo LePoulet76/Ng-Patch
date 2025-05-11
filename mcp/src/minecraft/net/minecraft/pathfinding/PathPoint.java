@@ -52,18 +52,18 @@ public class PathPoint
      */
     public float distanceTo(PathPoint par1PathPoint)
     {
-        float var2 = (float)(par1PathPoint.xCoord - this.xCoord);
-        float var3 = (float)(par1PathPoint.yCoord - this.yCoord);
-        float var4 = (float)(par1PathPoint.zCoord - this.zCoord);
-        return MathHelper.sqrt_float(var2 * var2 + var3 * var3 + var4 * var4);
+        float f = (float)(par1PathPoint.xCoord - this.xCoord);
+        float f1 = (float)(par1PathPoint.yCoord - this.yCoord);
+        float f2 = (float)(par1PathPoint.zCoord - this.zCoord);
+        return MathHelper.sqrt_float(f * f + f1 * f1 + f2 * f2);
     }
 
     public float func_75832_b(PathPoint par1PathPoint)
     {
-        float var2 = (float)(par1PathPoint.xCoord - this.xCoord);
-        float var3 = (float)(par1PathPoint.yCoord - this.yCoord);
-        float var4 = (float)(par1PathPoint.zCoord - this.zCoord);
-        return var2 * var2 + var3 * var3 + var4 * var4;
+        float f = (float)(par1PathPoint.xCoord - this.xCoord);
+        float f1 = (float)(par1PathPoint.yCoord - this.yCoord);
+        float f2 = (float)(par1PathPoint.zCoord - this.zCoord);
+        return f * f + f1 * f1 + f2 * f2;
     }
 
     public boolean equals(Object par1Obj)
@@ -74,8 +74,8 @@ public class PathPoint
         }
         else
         {
-            PathPoint var2 = (PathPoint)par1Obj;
-            return this.hash == var2.hash && this.xCoord == var2.xCoord && this.yCoord == var2.yCoord && this.zCoord == var2.zCoord;
+            PathPoint pathpoint = (PathPoint)par1Obj;
+            return this.hash == pathpoint.hash && this.xCoord == pathpoint.xCoord && this.yCoord == pathpoint.yCoord && this.zCoord == pathpoint.zCoord;
         }
     }
 

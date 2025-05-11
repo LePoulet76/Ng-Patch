@@ -45,51 +45,51 @@ public abstract class EntityFlying extends EntityLiving
         }
         else
         {
-            float var3 = 0.91F;
+            float f2 = 0.91F;
 
             if (this.onGround)
             {
-                var3 = 0.54600006F;
-                int var4 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+                f2 = 0.54600006F;
+                int i = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
 
-                if (var4 > 0)
+                if (i > 0)
                 {
-                    var3 = Block.blocksList[var4].slipperiness * 0.91F;
+                    f2 = Block.blocksList[i].slipperiness * 0.91F;
                 }
             }
 
-            float var8 = 0.16277136F / (var3 * var3 * var3);
-            this.moveFlying(par1, par2, this.onGround ? 0.1F * var8 : 0.02F);
-            var3 = 0.91F;
+            float f3 = 0.16277136F / (f2 * f2 * f2);
+            this.moveFlying(par1, par2, this.onGround ? 0.1F * f3 : 0.02F);
+            f2 = 0.91F;
 
             if (this.onGround)
             {
-                var3 = 0.54600006F;
-                int var5 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+                f2 = 0.54600006F;
+                int j = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
 
-                if (var5 > 0)
+                if (j > 0)
                 {
-                    var3 = Block.blocksList[var5].slipperiness * 0.91F;
+                    f2 = Block.blocksList[j].slipperiness * 0.91F;
                 }
             }
 
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
-            this.motionX *= (double)var3;
-            this.motionY *= (double)var3;
-            this.motionZ *= (double)var3;
+            this.motionX *= (double)f2;
+            this.motionY *= (double)f2;
+            this.motionZ *= (double)f2;
         }
 
         this.prevLimbSwingAmount = this.limbSwingAmount;
-        double var10 = this.posX - this.prevPosX;
-        double var9 = this.posZ - this.prevPosZ;
-        float var7 = MathHelper.sqrt_double(var10 * var10 + var9 * var9) * 4.0F;
+        double d0 = this.posX - this.prevPosX;
+        double d1 = this.posZ - this.prevPosZ;
+        float f4 = MathHelper.sqrt_double(d0 * d0 + d1 * d1) * 4.0F;
 
-        if (var7 > 1.0F)
+        if (f4 > 1.0F)
         {
-            var7 = 1.0F;
+            f4 = 1.0F;
         }
 
-        this.limbSwingAmount += (var7 - this.limbSwingAmount) * 0.4F;
+        this.limbSwingAmount += (f4 - this.limbSwingAmount) * 0.4F;
         this.limbSwing += this.limbSwingAmount;
     }
 

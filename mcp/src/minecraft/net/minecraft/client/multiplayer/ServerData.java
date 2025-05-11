@@ -46,17 +46,17 @@ public class ServerData
      */
     public NBTTagCompound getNBTCompound()
     {
-        NBTTagCompound var1 = new NBTTagCompound();
-        var1.setString("name", this.serverName);
-        var1.setString("ip", this.serverIP);
-        var1.setBoolean("hideAddress", this.hideAddress);
+        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        nbttagcompound.setString("name", this.serverName);
+        nbttagcompound.setString("ip", this.serverIP);
+        nbttagcompound.setBoolean("hideAddress", this.hideAddress);
 
         if (!this.field_78842_g)
         {
-            var1.setBoolean("acceptTextures", this.acceptsTextures);
+            nbttagcompound.setBoolean("acceptTextures", this.acceptsTextures);
         }
 
-        return var1;
+        return nbttagcompound;
     }
 
     public void setAcceptsTextures(boolean par1)
@@ -80,14 +80,14 @@ public class ServerData
      */
     public static ServerData getServerDataFromNBTCompound(NBTTagCompound par0NBTTagCompound)
     {
-        ServerData var1 = new ServerData(par0NBTTagCompound.getString("name"), par0NBTTagCompound.getString("ip"));
-        var1.hideAddress = par0NBTTagCompound.getBoolean("hideAddress");
+        ServerData serverdata = new ServerData(par0NBTTagCompound.getString("name"), par0NBTTagCompound.getString("ip"));
+        serverdata.hideAddress = par0NBTTagCompound.getBoolean("hideAddress");
 
         if (par0NBTTagCompound.hasKey("acceptTextures"))
         {
-            var1.setAcceptsTextures(par0NBTTagCompound.getBoolean("acceptTextures"));
+            serverdata.setAcceptsTextures(par0NBTTagCompound.getBoolean("acceptTextures"));
         }
 
-        return var1;
+        return serverdata;
     }
 }

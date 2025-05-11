@@ -29,11 +29,11 @@ public class ClippingHelperImpl extends ClippingHelper
      */
     private void normalize(float[][] par1ArrayOfFloat, int par2)
     {
-        float var3 = MathHelper.sqrt_float(par1ArrayOfFloat[par2][0] * par1ArrayOfFloat[par2][0] + par1ArrayOfFloat[par2][1] * par1ArrayOfFloat[par2][1] + par1ArrayOfFloat[par2][2] * par1ArrayOfFloat[par2][2]);
-        par1ArrayOfFloat[par2][0] /= var3;
-        par1ArrayOfFloat[par2][1] /= var3;
-        par1ArrayOfFloat[par2][2] /= var3;
-        par1ArrayOfFloat[par2][3] /= var3;
+        float f = MathHelper.sqrt_float(par1ArrayOfFloat[par2][0] * par1ArrayOfFloat[par2][0] + par1ArrayOfFloat[par2][1] * par1ArrayOfFloat[par2][1] + par1ArrayOfFloat[par2][2] * par1ArrayOfFloat[par2][2]);
+        par1ArrayOfFloat[par2][0] /= f;
+        par1ArrayOfFloat[par2][1] /= f;
+        par1ArrayOfFloat[par2][2] /= f;
+        par1ArrayOfFloat[par2][3] /= f;
     }
 
     private void init()

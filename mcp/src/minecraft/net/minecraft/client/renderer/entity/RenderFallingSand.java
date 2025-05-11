@@ -30,41 +30,41 @@ public class RenderFallingSand extends Render
      */
     public void doRenderFallingSand(EntityFallingSand par1EntityFallingSand, double par2, double par4, double par6, float par8, float par9)
     {
-        World var10 = par1EntityFallingSand.getWorld();
-        Block var11 = Block.blocksList[par1EntityFallingSand.blockID];
+        World world = par1EntityFallingSand.getWorld();
+        Block block = Block.blocksList[par1EntityFallingSand.blockID];
 
-        if (var10.getBlockId(MathHelper.floor_double(par1EntityFallingSand.posX), MathHelper.floor_double(par1EntityFallingSand.posY), MathHelper.floor_double(par1EntityFallingSand.posZ)) != par1EntityFallingSand.blockID)
+        if (world.getBlockId(MathHelper.floor_double(par1EntityFallingSand.posX), MathHelper.floor_double(par1EntityFallingSand.posY), MathHelper.floor_double(par1EntityFallingSand.posZ)) != par1EntityFallingSand.blockID)
         {
             GL11.glPushMatrix();
             GL11.glTranslatef((float)par2, (float)par4, (float)par6);
             this.bindEntityTexture(par1EntityFallingSand);
             GL11.glDisable(GL11.GL_LIGHTING);
-            Tessellator var12;
+            Tessellator tessellator;
 
-            if (var11 instanceof BlockAnvil && var11.getRenderType() == 35)
+            if (block instanceof BlockAnvil && block.getRenderType() == 35)
             {
-                this.sandRenderBlocks.blockAccess = var10;
-                var12 = Tessellator.instance;
-                var12.startDrawingQuads();
-                var12.setTranslation((double)((float)(-MathHelper.floor_double(par1EntityFallingSand.posX)) - 0.5F), (double)((float)(-MathHelper.floor_double(par1EntityFallingSand.posY)) - 0.5F), (double)((float)(-MathHelper.floor_double(par1EntityFallingSand.posZ)) - 0.5F));
-                this.sandRenderBlocks.renderBlockAnvilMetadata((BlockAnvil)var11, MathHelper.floor_double(par1EntityFallingSand.posX), MathHelper.floor_double(par1EntityFallingSand.posY), MathHelper.floor_double(par1EntityFallingSand.posZ), par1EntityFallingSand.metadata);
-                var12.setTranslation(0.0D, 0.0D, 0.0D);
-                var12.draw();
+                this.sandRenderBlocks.blockAccess = world;
+                tessellator = Tessellator.instance;
+                tessellator.startDrawingQuads();
+                tessellator.setTranslation((double)((float)(-MathHelper.floor_double(par1EntityFallingSand.posX)) - 0.5F), (double)((float)(-MathHelper.floor_double(par1EntityFallingSand.posY)) - 0.5F), (double)((float)(-MathHelper.floor_double(par1EntityFallingSand.posZ)) - 0.5F));
+                this.sandRenderBlocks.renderBlockAnvilMetadata((BlockAnvil)block, MathHelper.floor_double(par1EntityFallingSand.posX), MathHelper.floor_double(par1EntityFallingSand.posY), MathHelper.floor_double(par1EntityFallingSand.posZ), par1EntityFallingSand.metadata);
+                tessellator.setTranslation(0.0D, 0.0D, 0.0D);
+                tessellator.draw();
             }
-            else if (var11.getRenderType() == 27)
+            else if (block.getRenderType() == 27)
             {
-                this.sandRenderBlocks.blockAccess = var10;
-                var12 = Tessellator.instance;
-                var12.startDrawingQuads();
-                var12.setTranslation((double)((float)(-MathHelper.floor_double(par1EntityFallingSand.posX)) - 0.5F), (double)((float)(-MathHelper.floor_double(par1EntityFallingSand.posY)) - 0.5F), (double)((float)(-MathHelper.floor_double(par1EntityFallingSand.posZ)) - 0.5F));
-                this.sandRenderBlocks.renderBlockDragonEgg((BlockDragonEgg)var11, MathHelper.floor_double(par1EntityFallingSand.posX), MathHelper.floor_double(par1EntityFallingSand.posY), MathHelper.floor_double(par1EntityFallingSand.posZ));
-                var12.setTranslation(0.0D, 0.0D, 0.0D);
-                var12.draw();
+                this.sandRenderBlocks.blockAccess = world;
+                tessellator = Tessellator.instance;
+                tessellator.startDrawingQuads();
+                tessellator.setTranslation((double)((float)(-MathHelper.floor_double(par1EntityFallingSand.posX)) - 0.5F), (double)((float)(-MathHelper.floor_double(par1EntityFallingSand.posY)) - 0.5F), (double)((float)(-MathHelper.floor_double(par1EntityFallingSand.posZ)) - 0.5F));
+                this.sandRenderBlocks.renderBlockDragonEgg((BlockDragonEgg)block, MathHelper.floor_double(par1EntityFallingSand.posX), MathHelper.floor_double(par1EntityFallingSand.posY), MathHelper.floor_double(par1EntityFallingSand.posZ));
+                tessellator.setTranslation(0.0D, 0.0D, 0.0D);
+                tessellator.draw();
             }
-            else if (var11 != null)
+            else if (block != null)
             {
-                this.sandRenderBlocks.setRenderBoundsFromBlock(var11);
-                this.sandRenderBlocks.renderBlockSandFalling(var11, var10, MathHelper.floor_double(par1EntityFallingSand.posX), MathHelper.floor_double(par1EntityFallingSand.posY), MathHelper.floor_double(par1EntityFallingSand.posZ), par1EntityFallingSand.metadata);
+                this.sandRenderBlocks.setRenderBoundsFromBlock(block);
+                this.sandRenderBlocks.renderBlockSandFalling(block, world, MathHelper.floor_double(par1EntityFallingSand.posX), MathHelper.floor_double(par1EntityFallingSand.posY), MathHelper.floor_double(par1EntityFallingSand.posZ), par1EntityFallingSand.metadata);
             }
 
             GL11.glEnable(GL11.GL_LIGHTING);

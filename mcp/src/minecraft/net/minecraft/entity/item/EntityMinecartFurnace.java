@@ -8,6 +8,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.minecart.MinecartInteractEvent;
 
 public class EntityMinecartFurnace extends EntityMinecart
 {
@@ -74,13 +76,13 @@ public class EntityMinecartFurnace extends EntityMinecart
     protected void updateOnTrack(int par1, int par2, int par3, double par4, double par6, int par8, int par9)
     {
         super.updateOnTrack(par1, par2, par3, par4, par6, par8, par9);
-        double var10 = this.pushX * this.pushX + this.pushZ * this.pushZ;
+        double d2 = this.pushX * this.pushX + this.pushZ * this.pushZ;
 
-        if (var10 > 1.0E-4D && this.motionX * this.motionX + this.motionZ * this.motionZ > 0.001D)
+        if (d2 > 1.0E-4D && this.motionX * this.motionX + this.motionZ * this.motionZ > 0.001D)
         {
-            var10 = (double)MathHelper.sqrt_double(var10);
-            this.pushX /= var10;
-            this.pushZ /= var10;
+            d2 = (double)MathHelper.sqrt_double(d2);
+            this.pushX /= d2;
+            this.pushZ /= d2;
 
             if (this.pushX * this.motionX + this.pushZ * this.motionZ < 0.0D)
             {
@@ -97,19 +99,19 @@ public class EntityMinecartFurnace extends EntityMinecart
 
     protected void applyDrag()
     {
-        double var1 = this.pushX * this.pushX + this.pushZ * this.pushZ;
+        double d0 = this.pushX * this.pushX + this.pushZ * this.pushZ;
 
-        if (var1 > 1.0E-4D)
+        if (d0 > 1.0E-4D)
         {
-            var1 = (double)MathHelper.sqrt_double(var1);
-            this.pushX /= var1;
-            this.pushZ /= var1;
-            double var3 = 0.05D;
+            d0 = (double)MathHelper.sqrt_double(d0);
+            this.pushX /= d0;
+            this.pushZ /= d0;
+            double d1 = 0.05D;
             this.motionX *= 0.800000011920929D;
             this.motionY *= 0.0D;
             this.motionZ *= 0.800000011920929D;
-            this.motionX += this.pushX * var3;
-            this.motionZ += this.pushZ * var3;
+            this.motionX += this.pushX * d1;
+            this.motionZ += this.pushZ * d1;
         }
         else
         {
@@ -126,11 +128,15 @@ public class EntityMinecartFurnace extends EntityMinecart
      */
     public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
-        ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
-
-        if (var2 != null && var2.itemID == Item.coal.itemID)
+        if(MinecraftForge.EVENT_BUS.post(new MinecartInteractEvent(this, par1EntityPlayer))) 
         {
-            if (!par1EntityPlayer.capabilities.isCreativeMode && --var2.stackSize == 0)
+            return true;
+        }
+        ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
+
+        if (itemstack != null && itemstack.itemID == Item.coal.itemID)
+        {
+            if (!par1EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize == 0)
             {
                 par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
             }

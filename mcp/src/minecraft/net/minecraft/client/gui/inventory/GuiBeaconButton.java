@@ -34,23 +34,23 @@ class GuiBeaconButton extends GuiButton
             par1Minecraft.getTextureManager().bindTexture(GuiBeacon.getBeaconGuiTextures());
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.field_82253_i = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
-            short var4 = 219;
-            int var5 = 0;
+            short short1 = 219;
+            int k = 0;
 
             if (!this.enabled)
             {
-                var5 += this.width * 2;
+                k += this.width * 2;
             }
             else if (this.field_82256_n)
             {
-                var5 += this.width * 1;
+                k += this.width * 1;
             }
             else if (this.field_82253_i)
             {
-                var5 += this.width * 3;
+                k += this.width * 3;
             }
 
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, var5, var4, this.width, this.height);
+            this.drawTexturedModalRect(this.xPosition, this.yPosition, k, short1, this.width, this.height);
 
             if (!GuiBeacon.getBeaconGuiTextures().equals(this.buttonTexture))
             {

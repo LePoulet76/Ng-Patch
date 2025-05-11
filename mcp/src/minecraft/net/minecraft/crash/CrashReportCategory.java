@@ -32,68 +32,68 @@ public class CrashReportCategory
      */
     public static String getLocationInfo(int par0, int par1, int par2)
     {
-        StringBuilder var3 = new StringBuilder();
+        StringBuilder stringbuilder = new StringBuilder();
 
         try
         {
-            var3.append(String.format("World: (%d,%d,%d)", new Object[] {Integer.valueOf(par0), Integer.valueOf(par1), Integer.valueOf(par2)}));
+            stringbuilder.append(String.format("World: (%d,%d,%d)", new Object[] {Integer.valueOf(par0), Integer.valueOf(par1), Integer.valueOf(par2)}));
         }
-        catch (Throwable var16)
+        catch (Throwable throwable)
         {
-            var3.append("(Error finding world loc)");
+            stringbuilder.append("(Error finding world loc)");
         }
 
-        var3.append(", ");
-        int var4;
-        int var5;
-        int var6;
-        int var7;
-        int var8;
-        int var9;
-        int var10;
-        int var11;
-        int var12;
-
-        try
-        {
-            var4 = par0 >> 4;
-            var5 = par2 >> 4;
-            var6 = par0 & 15;
-            var7 = par1 >> 4;
-            var8 = par2 & 15;
-            var9 = var4 << 4;
-            var10 = var5 << 4;
-            var11 = (var4 + 1 << 4) - 1;
-            var12 = (var5 + 1 << 4) - 1;
-            var3.append(String.format("Chunk: (at %d,%d,%d in %d,%d; contains blocks %d,0,%d to %d,255,%d)", new Object[] {Integer.valueOf(var6), Integer.valueOf(var7), Integer.valueOf(var8), Integer.valueOf(var4), Integer.valueOf(var5), Integer.valueOf(var9), Integer.valueOf(var10), Integer.valueOf(var11), Integer.valueOf(var12)}));
-        }
-        catch (Throwable var15)
-        {
-            var3.append("(Error finding chunk loc)");
-        }
-
-        var3.append(", ");
+        stringbuilder.append(", ");
+        int l;
+        int i1;
+        int j1;
+        int k1;
+        int l1;
+        int i2;
+        int j2;
+        int k2;
+        int l2;
 
         try
         {
-            var4 = par0 >> 9;
-            var5 = par2 >> 9;
-            var6 = var4 << 5;
-            var7 = var5 << 5;
-            var8 = (var4 + 1 << 5) - 1;
-            var9 = (var5 + 1 << 5) - 1;
-            var10 = var4 << 9;
-            var11 = var5 << 9;
-            var12 = (var4 + 1 << 9) - 1;
-            int var13 = (var5 + 1 << 9) - 1;
-            var3.append(String.format("Region: (%d,%d; contains chunks %d,%d to %d,%d, blocks %d,0,%d to %d,255,%d)", new Object[] {Integer.valueOf(var4), Integer.valueOf(var5), Integer.valueOf(var6), Integer.valueOf(var7), Integer.valueOf(var8), Integer.valueOf(var9), Integer.valueOf(var10), Integer.valueOf(var11), Integer.valueOf(var12), Integer.valueOf(var13)}));
+            l = par0 >> 4;
+            i1 = par2 >> 4;
+            j1 = par0 & 15;
+            k1 = par1 >> 4;
+            l1 = par2 & 15;
+            i2 = l << 4;
+            j2 = i1 << 4;
+            k2 = (l + 1 << 4) - 1;
+            l2 = (i1 + 1 << 4) - 1;
+            stringbuilder.append(String.format("Chunk: (at %d,%d,%d in %d,%d; contains blocks %d,0,%d to %d,255,%d)", new Object[] {Integer.valueOf(j1), Integer.valueOf(k1), Integer.valueOf(l1), Integer.valueOf(l), Integer.valueOf(i1), Integer.valueOf(i2), Integer.valueOf(j2), Integer.valueOf(k2), Integer.valueOf(l2)}));
         }
-        catch (Throwable var14)
+        catch (Throwable throwable1)
         {
-            var3.append("(Error finding world loc)");
+            stringbuilder.append("(Error finding chunk loc)");
         }
 
-        return var3.toString();
+        stringbuilder.append(", ");
+
+        try
+        {
+            l = par0 >> 9;
+            i1 = par2 >> 9;
+            j1 = l << 5;
+            k1 = i1 << 5;
+            l1 = (l + 1 << 5) - 1;
+            i2 = (i1 + 1 << 5) - 1;
+            j2 = l << 9;
+            k2 = i1 << 9;
+            l2 = (l + 1 << 9) - 1;
+            int i3 = (i1 + 1 << 9) - 1;
+            stringbuilder.append(String.format("Region: (%d,%d; contains chunks %d,%d to %d,%d, blocks %d,0,%d to %d,255,%d)", new Object[] {Integer.valueOf(l), Integer.valueOf(i1), Integer.valueOf(j1), Integer.valueOf(k1), Integer.valueOf(l1), Integer.valueOf(i2), Integer.valueOf(j2), Integer.valueOf(k2), Integer.valueOf(l2), Integer.valueOf(i3)}));
+        }
+        catch (Throwable throwable2)
+        {
+            stringbuilder.append("(Error finding world loc)");
+        }
+
+        return stringbuilder.toString();
     }
 
     /**
@@ -105,9 +105,9 @@ public class CrashReportCategory
         {
             this.addCrashSection(par1Str, par2Callable.call());
         }
-        catch (Throwable var4)
+        catch (Throwable throwable)
         {
-            this.addCrashSectionThrowable(par1Str, var4);
+            this.addCrashSectionThrowable(par1Str, throwable);
         }
     }
 
@@ -129,9 +129,12 @@ public class CrashReportCategory
 
     public int func_85073_a(int par1)
     {
-        StackTraceElement[] var2 = Thread.currentThread().getStackTrace();
-        this.stackTrace = new StackTraceElement[var2.length - 3 - par1];
-        System.arraycopy(var2, 3 + par1, this.stackTrace, 0, this.stackTrace.length);
+        StackTraceElement[] astacktraceelement = Thread.currentThread().getStackTrace();
+        //BugFix: Causes AIOOB for stacks < 3 + par1
+        int len = astacktraceelement.length - 3 - par1;
+        if (len <= 0) len = astacktraceelement.length;
+        this.stackTrace = new StackTraceElement[len];
+        System.arraycopy(astacktraceelement, astacktraceelement.length - len, this.stackTrace, 0, this.stackTrace.length);
         return this.stackTrace.length;
     }
 
@@ -139,9 +142,9 @@ public class CrashReportCategory
     {
         if (this.stackTrace.length != 0 && par1StackTraceElement != null)
         {
-            StackTraceElement var3 = this.stackTrace[0];
+            StackTraceElement stacktraceelement2 = this.stackTrace[0];
 
-            if (var3.isNativeMethod() == par1StackTraceElement.isNativeMethod() && var3.getClassName().equals(par1StackTraceElement.getClassName()) && var3.getFileName().equals(par1StackTraceElement.getFileName()) && var3.getMethodName().equals(par1StackTraceElement.getMethodName()))
+            if (stacktraceelement2.isNativeMethod() == par1StackTraceElement.isNativeMethod() && stacktraceelement2.getClassName().equals(par1StackTraceElement.getClassName()) && stacktraceelement2.getFileName().equals(par1StackTraceElement.getFileName()) && stacktraceelement2.getMethodName().equals(par1StackTraceElement.getMethodName()))
             {
                 if (par2StackTraceElement != null != this.stackTrace.length > 1)
                 {
@@ -170,37 +173,37 @@ public class CrashReportCategory
 
     public void func_85070_b(int par1)
     {
-        StackTraceElement[] var2 = new StackTraceElement[this.stackTrace.length - par1];
-        System.arraycopy(this.stackTrace, 0, var2, 0, var2.length);
-        this.stackTrace = var2;
+        StackTraceElement[] astacktraceelement = new StackTraceElement[this.stackTrace.length - par1];
+        System.arraycopy(this.stackTrace, 0, astacktraceelement, 0, astacktraceelement.length);
+        this.stackTrace = astacktraceelement;
     }
 
     public void func_85072_a(StringBuilder par1StringBuilder)
     {
         par1StringBuilder.append("-- ").append(this.field_85076_b).append(" --\n");
         par1StringBuilder.append("Details:");
-        Iterator var2 = this.field_85077_c.iterator();
+        Iterator iterator = this.field_85077_c.iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            CrashReportCategoryEntry var3 = (CrashReportCategoryEntry)var2.next();
+            CrashReportCategoryEntry crashreportcategoryentry = (CrashReportCategoryEntry)iterator.next();
             par1StringBuilder.append("\n\t");
-            par1StringBuilder.append(var3.func_85089_a());
+            par1StringBuilder.append(crashreportcategoryentry.func_85089_a());
             par1StringBuilder.append(": ");
-            par1StringBuilder.append(var3.func_85090_b());
+            par1StringBuilder.append(crashreportcategoryentry.func_85090_b());
         }
 
         if (this.stackTrace != null && this.stackTrace.length > 0)
         {
             par1StringBuilder.append("\nStacktrace:");
-            StackTraceElement[] var6 = this.stackTrace;
-            int var7 = var6.length;
+            StackTraceElement[] astacktraceelement = this.stackTrace;
+            int i = astacktraceelement.length;
 
-            for (int var4 = 0; var4 < var7; ++var4)
+            for (int j = 0; j < i; ++j)
             {
-                StackTraceElement var5 = var6[var4];
+                StackTraceElement stacktraceelement = astacktraceelement[j];
                 par1StringBuilder.append("\n\tat ");
-                par1StringBuilder.append(var5.toString());
+                par1StringBuilder.append(stacktraceelement.toString());
             }
         }
     }

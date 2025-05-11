@@ -24,7 +24,7 @@ class GameRuleValue
         {
             this.valueInteger = Integer.parseInt(par1Str);
         }
-        catch (NumberFormatException var4)
+        catch (NumberFormatException numberformatexception)
         {
             ;
         }
@@ -33,7 +33,7 @@ class GameRuleValue
         {
             this.valueDouble = Double.parseDouble(par1Str);
         }
-        catch (NumberFormatException var3)
+        catch (NumberFormatException numberformatexception1)
         {
             ;
         }

@@ -23,28 +23,28 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
      */
     protected int getPlateState(World par1World, int par2, int par3, int par4)
     {
-        int var5 = 0;
-        Iterator var6 = par1World.getEntitiesWithinAABB(EntityItem.class, this.getSensitiveAABB(par2, par3, par4)).iterator();
+        int l = 0;
+        Iterator iterator = par1World.getEntitiesWithinAABB(EntityItem.class, this.getSensitiveAABB(par2, par3, par4)).iterator();
 
-        while (var6.hasNext())
+        while (iterator.hasNext())
         {
-            EntityItem var7 = (EntityItem)var6.next();
-            var5 += var7.getEntityItem().stackSize;
+            EntityItem entityitem = (EntityItem)iterator.next();
+            l += entityitem.getEntityItem().stackSize;
 
-            if (var5 >= this.maxItemsWeighted)
+            if (l >= this.maxItemsWeighted)
             {
                 break;
             }
         }
 
-        if (var5 <= 0)
+        if (l <= 0)
         {
             return 0;
         }
         else
         {
-            float var8 = (float)Math.min(this.maxItemsWeighted, var5) / (float)this.maxItemsWeighted;
-            return MathHelper.ceiling_float_int(var8 * 15.0F);
+            float f = (float)Math.min(this.maxItemsWeighted, l) / (float)this.maxItemsWeighted;
+            return MathHelper.ceiling_float_int(f * 15.0F);
         }
     }
 

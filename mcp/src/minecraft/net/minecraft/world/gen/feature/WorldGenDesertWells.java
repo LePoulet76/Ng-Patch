@@ -13,35 +13,35 @@ public class WorldGenDesertWells extends WorldGenerator
             --par4;
         }
 
-        int var6 = par1World.getBlockId(par3, par4, par5);
+        int l = par1World.getBlockId(par3, par4, par5);
 
-        if (var6 != Block.sand.blockID)
+        if (l != Block.sand.blockID)
         {
             return false;
         }
         else
         {
-            int var7;
-            int var8;
+            int i1;
+            int j1;
 
-            for (var7 = -2; var7 <= 2; ++var7)
+            for (i1 = -2; i1 <= 2; ++i1)
             {
-                for (var8 = -2; var8 <= 2; ++var8)
+                for (j1 = -2; j1 <= 2; ++j1)
                 {
-                    if (par1World.isAirBlock(par3 + var7, par4 - 1, par5 + var8) && par1World.isAirBlock(par3 + var7, par4 - 2, par5 + var8))
+                    if (par1World.isAirBlock(par3 + i1, par4 - 1, par5 + j1) && par1World.isAirBlock(par3 + i1, par4 - 2, par5 + j1))
                     {
                         return false;
                     }
                 }
             }
 
-            for (var7 = -1; var7 <= 0; ++var7)
+            for (i1 = -1; i1 <= 0; ++i1)
             {
-                for (var8 = -2; var8 <= 2; ++var8)
+                for (j1 = -2; j1 <= 2; ++j1)
                 {
-                    for (int var9 = -2; var9 <= 2; ++var9)
+                    for (int k1 = -2; k1 <= 2; ++k1)
                     {
-                        par1World.setBlock(par3 + var8, par4 + var7, par5 + var9, Block.sandStone.blockID, 0, 2);
+                        par1World.setBlock(par3 + j1, par4 + i1, par5 + k1, Block.sandStone.blockID, 0, 2);
                     }
                 }
             }
@@ -52,13 +52,13 @@ public class WorldGenDesertWells extends WorldGenerator
             par1World.setBlock(par3, par4, par5 - 1, Block.waterMoving.blockID, 0, 2);
             par1World.setBlock(par3, par4, par5 + 1, Block.waterMoving.blockID, 0, 2);
 
-            for (var7 = -2; var7 <= 2; ++var7)
+            for (i1 = -2; i1 <= 2; ++i1)
             {
-                for (var8 = -2; var8 <= 2; ++var8)
+                for (j1 = -2; j1 <= 2; ++j1)
                 {
-                    if (var7 == -2 || var7 == 2 || var8 == -2 || var8 == 2)
+                    if (i1 == -2 || i1 == 2 || j1 == -2 || j1 == 2)
                     {
-                        par1World.setBlock(par3 + var7, par4 + 1, par5 + var8, Block.sandStone.blockID, 0, 2);
+                        par1World.setBlock(par3 + i1, par4 + 1, par5 + j1, Block.sandStone.blockID, 0, 2);
                     }
                 }
             }
@@ -68,27 +68,27 @@ public class WorldGenDesertWells extends WorldGenerator
             par1World.setBlock(par3, par4 + 1, par5 + 2, Block.stoneSingleSlab.blockID, 1, 2);
             par1World.setBlock(par3, par4 + 1, par5 - 2, Block.stoneSingleSlab.blockID, 1, 2);
 
-            for (var7 = -1; var7 <= 1; ++var7)
+            for (i1 = -1; i1 <= 1; ++i1)
             {
-                for (var8 = -1; var8 <= 1; ++var8)
+                for (j1 = -1; j1 <= 1; ++j1)
                 {
-                    if (var7 == 0 && var8 == 0)
+                    if (i1 == 0 && j1 == 0)
                     {
-                        par1World.setBlock(par3 + var7, par4 + 4, par5 + var8, Block.sandStone.blockID, 0, 2);
+                        par1World.setBlock(par3 + i1, par4 + 4, par5 + j1, Block.sandStone.blockID, 0, 2);
                     }
                     else
                     {
-                        par1World.setBlock(par3 + var7, par4 + 4, par5 + var8, Block.stoneSingleSlab.blockID, 1, 2);
+                        par1World.setBlock(par3 + i1, par4 + 4, par5 + j1, Block.stoneSingleSlab.blockID, 1, 2);
                     }
                 }
             }
 
-            for (var7 = 1; var7 <= 3; ++var7)
+            for (i1 = 1; i1 <= 3; ++i1)
             {
-                par1World.setBlock(par3 - 1, par4 + var7, par5 - 1, Block.sandStone.blockID, 0, 2);
-                par1World.setBlock(par3 - 1, par4 + var7, par5 + 1, Block.sandStone.blockID, 0, 2);
-                par1World.setBlock(par3 + 1, par4 + var7, par5 - 1, Block.sandStone.blockID, 0, 2);
-                par1World.setBlock(par3 + 1, par4 + var7, par5 + 1, Block.sandStone.blockID, 0, 2);
+                par1World.setBlock(par3 - 1, par4 + i1, par5 - 1, Block.sandStone.blockID, 0, 2);
+                par1World.setBlock(par3 - 1, par4 + i1, par5 + 1, Block.sandStone.blockID, 0, 2);
+                par1World.setBlock(par3 + 1, par4 + i1, par5 - 1, Block.sandStone.blockID, 0, 2);
+                par1World.setBlock(par3 + 1, par4 + i1, par5 + 1, Block.sandStone.blockID, 0, 2);
             }
 
             return true;

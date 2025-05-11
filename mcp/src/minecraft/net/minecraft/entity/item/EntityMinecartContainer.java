@@ -8,6 +8,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.minecart.MinecartInteractEvent;
 
 public abstract class EntityMinecartContainer extends EntityMinecart implements IInventory
 {
@@ -33,32 +35,32 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     {
         super.killMinecart(par1DamageSource);
 
-        for (int var2 = 0; var2 < this.getSizeInventory(); ++var2)
+        for (int i = 0; i < this.getSizeInventory(); ++i)
         {
-            ItemStack var3 = this.getStackInSlot(var2);
+            ItemStack itemstack = this.getStackInSlot(i);
 
-            if (var3 != null)
+            if (itemstack != null)
             {
-                float var4 = this.rand.nextFloat() * 0.8F + 0.1F;
-                float var5 = this.rand.nextFloat() * 0.8F + 0.1F;
-                float var6 = this.rand.nextFloat() * 0.8F + 0.1F;
+                float f = this.rand.nextFloat() * 0.8F + 0.1F;
+                float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
+                float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
 
-                while (var3.stackSize > 0)
+                while (itemstack.stackSize > 0)
                 {
-                    int var7 = this.rand.nextInt(21) + 10;
+                    int j = this.rand.nextInt(21) + 10;
 
-                    if (var7 > var3.stackSize)
+                    if (j > itemstack.stackSize)
                     {
-                        var7 = var3.stackSize;
+                        j = itemstack.stackSize;
                     }
 
-                    var3.stackSize -= var7;
-                    EntityItem var8 = new EntityItem(this.worldObj, this.posX + (double)var4, this.posY + (double)var5, this.posZ + (double)var6, new ItemStack(var3.itemID, var7, var3.getItemDamage()));
-                    float var9 = 0.05F;
-                    var8.motionX = (double)((float)this.rand.nextGaussian() * var9);
-                    var8.motionY = (double)((float)this.rand.nextGaussian() * var9 + 0.2F);
-                    var8.motionZ = (double)((float)this.rand.nextGaussian() * var9);
-                    this.worldObj.spawnEntityInWorld(var8);
+                    itemstack.stackSize -= j;
+                    EntityItem entityitem = new EntityItem(this.worldObj, this.posX + (double)f, this.posY + (double)f1, this.posZ + (double)f2, new ItemStack(itemstack.itemID, j, itemstack.getItemDamage()));
+                    float f3 = 0.05F;
+                    entityitem.motionX = (double)((float)this.rand.nextGaussian() * f3);
+                    entityitem.motionY = (double)((float)this.rand.nextGaussian() * f3 + 0.2F);
+                    entityitem.motionZ = (double)((float)this.rand.nextGaussian() * f3);
+                    this.worldObj.spawnEntityInWorld(entityitem);
                 }
             }
         }
@@ -80,24 +82,24 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     {
         if (this.minecartContainerItems[par1] != null)
         {
-            ItemStack var3;
+            ItemStack itemstack;
 
             if (this.minecartContainerItems[par1].stackSize <= par2)
             {
-                var3 = this.minecartContainerItems[par1];
+                itemstack = this.minecartContainerItems[par1];
                 this.minecartContainerItems[par1] = null;
-                return var3;
+                return itemstack;
             }
             else
             {
-                var3 = this.minecartContainerItems[par1].splitStack(par2);
+                itemstack = this.minecartContainerItems[par1].splitStack(par2);
 
                 if (this.minecartContainerItems[par1].stackSize == 0)
                 {
                     this.minecartContainerItems[par1] = null;
                 }
 
-                return var3;
+                return itemstack;
             }
         }
         else
@@ -114,9 +116,9 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     {
         if (this.minecartContainerItems[par1] != null)
         {
-            ItemStack var2 = this.minecartContainerItems[par1];
+            ItemStack itemstack = this.minecartContainerItems[par1];
             this.minecartContainerItems[par1] = null;
-            return var2;
+            return itemstack;
         }
         else
         {
@@ -195,38 +197,38 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     {
         if (this.dropContentsWhenDead)
         {
-            for (int var1 = 0; var1 < this.getSizeInventory(); ++var1)
+            for (int i = 0; i < this.getSizeInventory(); ++i)
             {
-                ItemStack var2 = this.getStackInSlot(var1);
+                ItemStack itemstack = this.getStackInSlot(i);
 
-                if (var2 != null)
+                if (itemstack != null)
                 {
-                    float var3 = this.rand.nextFloat() * 0.8F + 0.1F;
-                    float var4 = this.rand.nextFloat() * 0.8F + 0.1F;
-                    float var5 = this.rand.nextFloat() * 0.8F + 0.1F;
+                    float f = this.rand.nextFloat() * 0.8F + 0.1F;
+                    float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
+                    float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
 
-                    while (var2.stackSize > 0)
+                    while (itemstack.stackSize > 0)
                     {
-                        int var6 = this.rand.nextInt(21) + 10;
+                        int j = this.rand.nextInt(21) + 10;
 
-                        if (var6 > var2.stackSize)
+                        if (j > itemstack.stackSize)
                         {
-                            var6 = var2.stackSize;
+                            j = itemstack.stackSize;
                         }
 
-                        var2.stackSize -= var6;
-                        EntityItem var7 = new EntityItem(this.worldObj, this.posX + (double)var3, this.posY + (double)var4, this.posZ + (double)var5, new ItemStack(var2.itemID, var6, var2.getItemDamage()));
+                        itemstack.stackSize -= j;
+                        EntityItem entityitem = new EntityItem(this.worldObj, this.posX + (double)f, this.posY + (double)f1, this.posZ + (double)f2, new ItemStack(itemstack.itemID, j, itemstack.getItemDamage()));
 
-                        if (var2.hasTagCompound())
+                        if (itemstack.hasTagCompound())
                         {
-                            var7.getEntityItem().setTagCompound((NBTTagCompound)var2.getTagCompound().copy());
+                            entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
                         }
 
-                        float var8 = 0.05F;
-                        var7.motionX = (double)((float)this.rand.nextGaussian() * var8);
-                        var7.motionY = (double)((float)this.rand.nextGaussian() * var8 + 0.2F);
-                        var7.motionZ = (double)((float)this.rand.nextGaussian() * var8);
-                        this.worldObj.spawnEntityInWorld(var7);
+                        float f3 = 0.05F;
+                        entityitem.motionX = (double)((float)this.rand.nextGaussian() * f3);
+                        entityitem.motionY = (double)((float)this.rand.nextGaussian() * f3 + 0.2F);
+                        entityitem.motionZ = (double)((float)this.rand.nextGaussian() * f3);
+                        this.worldObj.spawnEntityInWorld(entityitem);
                     }
                 }
             }
@@ -241,20 +243,20 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
-        NBTTagList var2 = new NBTTagList();
+        NBTTagList nbttaglist = new NBTTagList();
 
-        for (int var3 = 0; var3 < this.minecartContainerItems.length; ++var3)
+        for (int i = 0; i < this.minecartContainerItems.length; ++i)
         {
-            if (this.minecartContainerItems[var3] != null)
+            if (this.minecartContainerItems[i] != null)
             {
-                NBTTagCompound var4 = new NBTTagCompound();
-                var4.setByte("Slot", (byte)var3);
-                this.minecartContainerItems[var3].writeToNBT(var4);
-                var2.appendTag(var4);
+                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+                nbttagcompound1.setByte("Slot", (byte)i);
+                this.minecartContainerItems[i].writeToNBT(nbttagcompound1);
+                nbttaglist.appendTag(nbttagcompound1);
             }
         }
 
-        par1NBTTagCompound.setTag("Items", var2);
+        par1NBTTagCompound.setTag("Items", nbttaglist);
     }
 
     /**
@@ -263,17 +265,17 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
-        NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
+        NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Items");
         this.minecartContainerItems = new ItemStack[this.getSizeInventory()];
 
-        for (int var3 = 0; var3 < var2.tagCount(); ++var3)
+        for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
-            NBTTagCompound var4 = (NBTTagCompound)var2.tagAt(var3);
-            int var5 = var4.getByte("Slot") & 255;
+            NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.tagAt(i);
+            int j = nbttagcompound1.getByte("Slot") & 255;
 
-            if (var5 >= 0 && var5 < this.minecartContainerItems.length)
+            if (j >= 0 && j < this.minecartContainerItems.length)
             {
-                this.minecartContainerItems[var5] = ItemStack.loadItemStackFromNBT(var4);
+                this.minecartContainerItems[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
             }
         }
     }
@@ -283,6 +285,10 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
      */
     public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
+        if(MinecraftForge.EVENT_BUS.post(new MinecartInteractEvent(this, par1EntityPlayer))) 
+        {
+            return true;
+        }
         if (!this.worldObj.isRemote)
         {
             par1EntityPlayer.displayGUIChest(this);
@@ -293,10 +299,10 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
     protected void applyDrag()
     {
-        int var1 = 15 - Container.calcRedstoneFromInventory(this);
-        float var2 = 0.98F + (float)var1 * 0.001F;
-        this.motionX *= (double)var2;
+        int i = 15 - Container.calcRedstoneFromInventory(this);
+        float f = 0.98F + (float)i * 0.001F;
+        this.motionX *= (double)f;
         this.motionY *= 0.0D;
-        this.motionZ *= (double)var2;
+        this.motionZ *= (double)f;
     }
 }

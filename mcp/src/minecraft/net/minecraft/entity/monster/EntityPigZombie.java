@@ -55,12 +55,12 @@ public class EntityPigZombie extends EntityZombie
     {
         if (this.field_110191_bu != this.entityToAttack && !this.worldObj.isRemote)
         {
-            AttributeInstance var1 = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-            var1.removeModifier(field_110190_br);
+            AttributeInstance attributeinstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+            attributeinstance.removeModifier(field_110190_br);
 
             if (this.entityToAttack != null)
             {
-                var1.applyModifier(field_110190_br);
+                attributeinstance.applyModifier(field_110190_br);
             }
         }
 
@@ -120,24 +120,24 @@ public class EntityPigZombie extends EntityZombie
         }
         else
         {
-            Entity var3 = par1DamageSource.getEntity();
+            Entity entity = par1DamageSource.getEntity();
 
-            if (var3 instanceof EntityPlayer)
+            if (entity instanceof EntityPlayer)
             {
-                List var4 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(32.0D, 32.0D, 32.0D));
+                List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(32.0D, 32.0D, 32.0D));
 
-                for (int var5 = 0; var5 < var4.size(); ++var5)
+                for (int i = 0; i < list.size(); ++i)
                 {
-                    Entity var6 = (Entity)var4.get(var5);
+                    Entity entity1 = (Entity)list.get(i);
 
-                    if (var6 instanceof EntityPigZombie)
+                    if (entity1 instanceof EntityPigZombie)
                     {
-                        EntityPigZombie var7 = (EntityPigZombie)var6;
-                        var7.becomeAngryAt(var3);
+                        EntityPigZombie entitypigzombie = (EntityPigZombie)entity1;
+                        entitypigzombie.becomeAngryAt(entity);
                     }
                 }
 
-                this.becomeAngryAt(var3);
+                this.becomeAngryAt(entity);
             }
 
             return super.attackEntityFrom(par1DamageSource, par2);
@@ -184,17 +184,17 @@ public class EntityPigZombie extends EntityZombie
      */
     protected void dropFewItems(boolean par1, int par2)
     {
-        int var3 = this.rand.nextInt(2 + par2);
-        int var4;
+        int j = this.rand.nextInt(2 + par2);
+        int k;
 
-        for (var4 = 0; var4 < var3; ++var4)
+        for (k = 0; k < j; ++k)
         {
             this.dropItem(Item.rottenFlesh.itemID, 1);
         }
 
-        var3 = this.rand.nextInt(2 + par2);
+        j = this.rand.nextInt(2 + par2);
 
-        for (var4 = 0; var4 < var3; ++var4)
+        for (k = 0; k < j; ++k)
         {
             this.dropItem(Item.goldNugget.itemID, 1);
         }

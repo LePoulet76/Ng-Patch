@@ -31,21 +31,21 @@ public class IntCache
 
     public static synchronized int[] getIntCache(int par0)
     {
-        int[] var1;
+        int[] aint;
 
         if (par0 <= 256)
         {
             if (freeSmallArrays.isEmpty())
             {
-                var1 = new int[256];
-                inUseSmallArrays.add(var1);
-                return var1;
+                aint = new int[256];
+                inUseSmallArrays.add(aint);
+                return aint;
             }
             else
             {
-                var1 = (int[])freeSmallArrays.remove(freeSmallArrays.size() - 1);
-                inUseSmallArrays.add(var1);
-                return var1;
+                aint = (int[])freeSmallArrays.remove(freeSmallArrays.size() - 1);
+                inUseSmallArrays.add(aint);
+                return aint;
             }
         }
         else if (par0 > intCacheSize)
@@ -53,21 +53,21 @@ public class IntCache
             intCacheSize = par0;
             freeLargeArrays.clear();
             inUseLargeArrays.clear();
-            var1 = new int[intCacheSize];
-            inUseLargeArrays.add(var1);
-            return var1;
+            aint = new int[intCacheSize];
+            inUseLargeArrays.add(aint);
+            return aint;
         }
         else if (freeLargeArrays.isEmpty())
         {
-            var1 = new int[intCacheSize];
-            inUseLargeArrays.add(var1);
-            return var1;
+            aint = new int[intCacheSize];
+            inUseLargeArrays.add(aint);
+            return aint;
         }
         else
         {
-            var1 = (int[])freeLargeArrays.remove(freeLargeArrays.size() - 1);
-            inUseLargeArrays.add(var1);
-            return var1;
+            aint = (int[])freeLargeArrays.remove(freeLargeArrays.size() - 1);
+            inUseLargeArrays.add(aint);
+            return aint;
         }
     }
 

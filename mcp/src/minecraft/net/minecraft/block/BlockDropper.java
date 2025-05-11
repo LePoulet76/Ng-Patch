@@ -55,53 +55,53 @@ public class BlockDropper extends BlockDispenser
 
     protected void dispense(World par1World, int par2, int par3, int par4)
     {
-        BlockSourceImpl var5 = new BlockSourceImpl(par1World, par2, par3, par4);
-        TileEntityDispenser var6 = (TileEntityDispenser)var5.getBlockTileEntity();
+        BlockSourceImpl blocksourceimpl = new BlockSourceImpl(par1World, par2, par3, par4);
+        TileEntityDispenser tileentitydispenser = (TileEntityDispenser)blocksourceimpl.getBlockTileEntity();
 
-        if (var6 != null)
+        if (tileentitydispenser != null)
         {
-            int var7 = var6.getRandomStackFromInventory();
+            int l = tileentitydispenser.getRandomStackFromInventory();
 
-            if (var7 < 0)
+            if (l < 0)
             {
                 par1World.playAuxSFX(1001, par2, par3, par4, 0);
             }
             else
             {
-                ItemStack var8 = var6.getStackInSlot(var7);
-                int var9 = par1World.getBlockMetadata(par2, par3, par4) & 7;
-                IInventory var10 = TileEntityHopper.getInventoryAtLocation(par1World, (double)(par2 + Facing.offsetsXForSide[var9]), (double)(par3 + Facing.offsetsYForSide[var9]), (double)(par4 + Facing.offsetsZForSide[var9]));
-                ItemStack var11;
+                ItemStack itemstack = tileentitydispenser.getStackInSlot(l);
+                int i1 = par1World.getBlockMetadata(par2, par3, par4) & 7;
+                IInventory iinventory = TileEntityHopper.getInventoryAtLocation(par1World, (double)(par2 + Facing.offsetsXForSide[i1]), (double)(par3 + Facing.offsetsYForSide[i1]), (double)(par4 + Facing.offsetsZForSide[i1]));
+                ItemStack itemstack1;
 
-                if (var10 != null)
+                if (iinventory != null)
                 {
-                    var11 = TileEntityHopper.insertStack(var10, var8.copy().splitStack(1), Facing.oppositeSide[var9]);
+                    itemstack1 = TileEntityHopper.insertStack(iinventory, itemstack.copy().splitStack(1), Facing.oppositeSide[i1]);
 
-                    if (var11 == null)
+                    if (itemstack1 == null)
                     {
-                        var11 = var8.copy();
+                        itemstack1 = itemstack.copy();
 
-                        if (--var11.stackSize == 0)
+                        if (--itemstack1.stackSize == 0)
                         {
-                            var11 = null;
+                            itemstack1 = null;
                         }
                     }
                     else
                     {
-                        var11 = var8.copy();
+                        itemstack1 = itemstack.copy();
                     }
                 }
                 else
                 {
-                    var11 = this.dropperDefaultBehaviour.dispense(var5, var8);
+                    itemstack1 = this.dropperDefaultBehaviour.dispense(blocksourceimpl, itemstack);
 
-                    if (var11 != null && var11.stackSize == 0)
+                    if (itemstack1 != null && itemstack1.stackSize == 0)
                     {
-                        var11 = null;
+                        itemstack1 = null;
                     }
                 }
 
-                var6.setInventorySlotContents(var7, var11);
+                tileentitydispenser.setInventorySlotContents(l, itemstack1);
             }
         }
     }

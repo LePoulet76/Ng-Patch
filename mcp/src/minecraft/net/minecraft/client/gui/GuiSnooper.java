@@ -40,41 +40,41 @@ public class GuiSnooper extends GuiScreen
     public void initGui()
     {
         this.snooperTitle = I18n.getString("options.snooper.title");
-        String var1 = I18n.getString("options.snooper.desc");
-        ArrayList var2 = new ArrayList();
-        Iterator var3 = this.fontRenderer.listFormattedStringToWidth(var1, this.width - 30).iterator();
+        String s = I18n.getString("options.snooper.desc");
+        ArrayList arraylist = new ArrayList();
+        Iterator iterator = this.fontRenderer.listFormattedStringToWidth(s, this.width - 30).iterator();
 
-        while (var3.hasNext())
+        while (iterator.hasNext())
         {
-            String var4 = (String)var3.next();
-            var2.add(var4);
+            String s1 = (String)iterator.next();
+            arraylist.add(s1);
         }
 
-        this.field_74101_n = (String[])var2.toArray(new String[0]);
+        this.field_74101_n = (String[])arraylist.toArray(new String[0]);
         this.field_74098_c.clear();
         this.field_74096_d.clear();
         this.buttonList.add(this.buttonAllowSnooping = new GuiButton(1, this.width / 2 - 152, this.height - 30, 150, 20, this.snooperGameSettings.getKeyBinding(EnumOptions.SNOOPER_ENABLED)));
         this.buttonList.add(new GuiButton(2, this.width / 2 + 2, this.height - 30, 150, 20, I18n.getString("gui.done")));
-        boolean var6 = this.mc.getIntegratedServer() != null && this.mc.getIntegratedServer().getPlayerUsageSnooper() != null;
-        Iterator var7 = (new TreeMap(this.mc.getPlayerUsageSnooper().getCurrentStats())).entrySet().iterator();
-        Entry var5;
+        boolean flag = this.mc.getIntegratedServer() != null && this.mc.getIntegratedServer().getPlayerUsageSnooper() != null;
+        Iterator iterator1 = (new TreeMap(this.mc.getPlayerUsageSnooper().getCurrentStats())).entrySet().iterator();
+        Entry entry;
 
-        while (var7.hasNext())
+        while (iterator1.hasNext())
         {
-            var5 = (Entry)var7.next();
-            this.field_74098_c.add((var6 ? "C " : "") + (String)var5.getKey());
-            this.field_74096_d.add(this.fontRenderer.trimStringToWidth((String)var5.getValue(), this.width - 220));
+            entry = (Entry)iterator1.next();
+            this.field_74098_c.add((flag ? "C " : "") + (String)entry.getKey());
+            this.field_74096_d.add(this.fontRenderer.trimStringToWidth((String)entry.getValue(), this.width - 220));
         }
 
-        if (var6)
+        if (flag)
         {
-            var7 = (new TreeMap(this.mc.getIntegratedServer().getPlayerUsageSnooper().getCurrentStats())).entrySet().iterator();
+            iterator1 = (new TreeMap(this.mc.getIntegratedServer().getPlayerUsageSnooper().getCurrentStats())).entrySet().iterator();
 
-            while (var7.hasNext())
+            while (iterator1.hasNext())
             {
-                var5 = (Entry)var7.next();
-                this.field_74098_c.add("S " + (String)var5.getKey());
-                this.field_74096_d.add(this.fontRenderer.trimStringToWidth((String)var5.getValue(), this.width - 220));
+                entry = (Entry)iterator1.next();
+                this.field_74098_c.add("S " + (String)entry.getKey());
+                this.field_74096_d.add(this.fontRenderer.trimStringToWidth((String)entry.getValue(), this.width - 220));
             }
         }
 
@@ -111,15 +111,15 @@ public class GuiSnooper extends GuiScreen
         this.drawDefaultBackground();
         this.snooperList.drawScreen(par1, par2, par3);
         this.drawCenteredString(this.fontRenderer, this.snooperTitle, this.width / 2, 8, 16777215);
-        int var4 = 22;
-        String[] var5 = this.field_74101_n;
-        int var6 = var5.length;
+        int k = 22;
+        String[] astring = this.field_74101_n;
+        int l = astring.length;
 
-        for (int var7 = 0; var7 < var6; ++var7)
+        for (int i1 = 0; i1 < l; ++i1)
         {
-            String var8 = var5[var7];
-            this.drawCenteredString(this.fontRenderer, var8, this.width / 2, var4, 8421504);
-            var4 += this.fontRenderer.FONT_HEIGHT;
+            String s = astring[i1];
+            this.drawCenteredString(this.fontRenderer, s, this.width / 2, k, 8421504);
+            k += this.fontRenderer.FONT_HEIGHT;
         }
 
         super.drawScreen(par1, par2, par3);

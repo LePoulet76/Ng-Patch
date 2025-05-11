@@ -28,11 +28,11 @@ public class RenderWither extends RenderLiving
     public void func_82418_a(EntityWither par1EntityWither, double par2, double par4, double par6, float par8, float par9)
     {
         BossStatus.setBossStatus(par1EntityWither, true);
-        int var10 = ((ModelWither)this.mainModel).func_82903_a();
+        int i = ((ModelWither)this.mainModel).func_82903_a();
 
-        if (var10 != this.field_82419_a)
+        if (i != this.field_82419_a)
         {
-            this.field_82419_a = var10;
+            this.field_82419_a = i;
             this.mainModel = new ModelWither();
         }
 
@@ -41,18 +41,18 @@ public class RenderWither extends RenderLiving
 
     protected ResourceLocation func_110911_a(EntityWither par1EntityWither)
     {
-        int var2 = par1EntityWither.func_82212_n();
-        return var2 > 0 && (var2 > 80 || var2 / 5 % 2 != 1) ? invulnerableWitherTextures : witherTextures;
+        int i = par1EntityWither.func_82212_n();
+        return i > 0 && (i > 80 || i / 5 % 2 != 1) ? invulnerableWitherTextures : witherTextures;
     }
 
     protected void func_82415_a(EntityWither par1EntityWither, float par2)
     {
-        int var3 = par1EntityWither.func_82212_n();
+        int i = par1EntityWither.func_82212_n();
 
-        if (var3 > 0)
+        if (i > 0)
         {
-            float var4 = 2.0F - ((float)var3 - par2) / 220.0F * 0.5F;
-            GL11.glScalef(var4, var4, var4);
+            float f1 = 2.0F - ((float)i - par2) / 220.0F * 0.5F;
+            GL11.glScalef(f1, f1, f1);
         }
         else
         {
@@ -75,18 +75,18 @@ public class RenderWither extends RenderLiving
 
             if (par2 == 1)
             {
-                float var4 = (float)par1EntityWither.ticksExisted + par3;
+                float f1 = (float)par1EntityWither.ticksExisted + par3;
                 this.bindTexture(invulnerableWitherTextures);
                 GL11.glMatrixMode(GL11.GL_TEXTURE);
                 GL11.glLoadIdentity();
-                float var5 = MathHelper.cos(var4 * 0.02F) * 3.0F;
-                float var6 = var4 * 0.01F;
-                GL11.glTranslatef(var5, var6, 0.0F);
+                float f2 = MathHelper.cos(f1 * 0.02F) * 3.0F;
+                float f3 = f1 * 0.01F;
+                GL11.glTranslatef(f2, f3, 0.0F);
                 this.setRenderPassModel(this.mainModel);
                 GL11.glMatrixMode(GL11.GL_MODELVIEW);
                 GL11.glEnable(GL11.GL_BLEND);
-                float var7 = 0.5F;
-                GL11.glColor4f(var7, var7, var7, 1.0F);
+                float f4 = 0.5F;
+                GL11.glColor4f(f4, f4, f4, 1.0F);
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
                 GL11.glTranslatef(0.0F, -0.01F, 0.0F);

@@ -79,8 +79,8 @@ public class BlockEventData
         }
         else
         {
-            BlockEventData var2 = (BlockEventData)par1Obj;
-            return this.coordX == var2.coordX && this.coordY == var2.coordY && this.coordZ == var2.coordZ && this.eventID == var2.eventID && this.eventParameter == var2.eventParameter && this.blockID == var2.blockID;
+            BlockEventData blockeventdata = (BlockEventData)par1Obj;
+            return this.coordX == blockeventdata.coordX && this.coordY == blockeventdata.coordY && this.coordZ == blockeventdata.coordZ && this.eventID == blockeventdata.eventID && this.eventParameter == blockeventdata.eventParameter && this.blockID == blockeventdata.blockID;
         }
     }
 

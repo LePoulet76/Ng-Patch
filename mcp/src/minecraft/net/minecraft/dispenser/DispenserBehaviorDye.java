@@ -17,17 +17,17 @@ final class DispenserBehaviorDye extends BehaviorDefaultDispenseItem
     {
         if (par2ItemStack.getItemDamage() == 15)
         {
-            EnumFacing var3 = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
-            World var4 = par1IBlockSource.getWorld();
-            int var5 = par1IBlockSource.getXInt() + var3.getFrontOffsetX();
-            int var6 = par1IBlockSource.getYInt() + var3.getFrontOffsetY();
-            int var7 = par1IBlockSource.getZInt() + var3.getFrontOffsetZ();
+            EnumFacing enumfacing = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
+            World world = par1IBlockSource.getWorld();
+            int i = par1IBlockSource.getXInt() + enumfacing.getFrontOffsetX();
+            int j = par1IBlockSource.getYInt() + enumfacing.getFrontOffsetY();
+            int k = par1IBlockSource.getZInt() + enumfacing.getFrontOffsetZ();
 
-            if (ItemDye.func_96604_a(par2ItemStack, var4, var5, var6, var7))
+            if (ItemDye.func_96604_a(par2ItemStack, world, i, j, k))
             {
-                if (!var4.isRemote)
+                if (!world.isRemote)
                 {
-                    var4.playAuxSFX(2005, var5, var6, var7, 0);
+                    world.playAuxSFX(2005, i, j, k, 0);
                 }
             }
             else

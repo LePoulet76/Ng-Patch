@@ -49,17 +49,17 @@ class GuiCreateFlatWorldListSlot extends GuiSlot
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.createFlatWorldGui.mc.getTextureManager().bindTexture(Gui.statIcons);
-        float var5 = 0.0078125F;
-        float var6 = 0.0078125F;
-        boolean var7 = true;
-        boolean var8 = true;
-        Tessellator var9 = Tessellator.instance;
-        var9.startDrawingQuads();
-        var9.addVertexWithUV((double)(par1 + 0), (double)(par2 + 18), (double)this.createFlatWorldGui.zLevel, (double)((float)(par3 + 0) * 0.0078125F), (double)((float)(par4 + 18) * 0.0078125F));
-        var9.addVertexWithUV((double)(par1 + 18), (double)(par2 + 18), (double)this.createFlatWorldGui.zLevel, (double)((float)(par3 + 18) * 0.0078125F), (double)((float)(par4 + 18) * 0.0078125F));
-        var9.addVertexWithUV((double)(par1 + 18), (double)(par2 + 0), (double)this.createFlatWorldGui.zLevel, (double)((float)(par3 + 18) * 0.0078125F), (double)((float)(par4 + 0) * 0.0078125F));
-        var9.addVertexWithUV((double)(par1 + 0), (double)(par2 + 0), (double)this.createFlatWorldGui.zLevel, (double)((float)(par3 + 0) * 0.0078125F), (double)((float)(par4 + 0) * 0.0078125F));
-        var9.draw();
+        float f = 0.0078125F;
+        float f1 = 0.0078125F;
+        boolean flag = true;
+        boolean flag1 = true;
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV((double)(par1 + 0), (double)(par2 + 18), (double)this.createFlatWorldGui.zLevel, (double)((float)(par3 + 0) * 0.0078125F), (double)((float)(par4 + 18) * 0.0078125F));
+        tessellator.addVertexWithUV((double)(par1 + 18), (double)(par2 + 18), (double)this.createFlatWorldGui.zLevel, (double)((float)(par3 + 18) * 0.0078125F), (double)((float)(par4 + 18) * 0.0078125F));
+        tessellator.addVertexWithUV((double)(par1 + 18), (double)(par2 + 0), (double)this.createFlatWorldGui.zLevel, (double)((float)(par3 + 18) * 0.0078125F), (double)((float)(par4 + 0) * 0.0078125F));
+        tessellator.addVertexWithUV((double)(par1 + 0), (double)(par2 + 0), (double)this.createFlatWorldGui.zLevel, (double)((float)(par3 + 0) * 0.0078125F), (double)((float)(par4 + 0) * 0.0078125F));
+        tessellator.draw();
     }
 
     /**
@@ -91,27 +91,27 @@ class GuiCreateFlatWorldListSlot extends GuiSlot
 
     protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
     {
-        FlatLayerInfo var6 = (FlatLayerInfo)GuiCreateFlatWorld.func_82271_a(this.createFlatWorldGui).getFlatLayers().get(GuiCreateFlatWorld.func_82271_a(this.createFlatWorldGui).getFlatLayers().size() - par1 - 1);
-        ItemStack var7 = var6.getFillBlock() == 0 ? null : new ItemStack(var6.getFillBlock(), 1, var6.getFillBlockMeta());
-        String var8 = var7 == null ? "Air" : Item.itemsList[var6.getFillBlock()].getItemStackDisplayName(var7);
-        this.func_82452_a(par2, par3, var7);
-        this.createFlatWorldGui.fontRenderer.drawString(var8, par2 + 18 + 5, par3 + 3, 16777215);
-        String var9;
+        FlatLayerInfo flatlayerinfo = (FlatLayerInfo)GuiCreateFlatWorld.func_82271_a(this.createFlatWorldGui).getFlatLayers().get(GuiCreateFlatWorld.func_82271_a(this.createFlatWorldGui).getFlatLayers().size() - par1 - 1);
+        ItemStack itemstack = flatlayerinfo.getFillBlock() == 0 ? null : new ItemStack(flatlayerinfo.getFillBlock(), 1, flatlayerinfo.getFillBlockMeta());
+        String s = itemstack == null ? "Air" : Item.itemsList[flatlayerinfo.getFillBlock()].getItemStackDisplayName(itemstack);
+        this.func_82452_a(par2, par3, itemstack);
+        this.createFlatWorldGui.fontRenderer.drawString(s, par2 + 18 + 5, par3 + 3, 16777215);
+        String s1;
 
         if (par1 == 0)
         {
-            var9 = I18n.getStringParams("createWorld.customize.flat.layer.top", new Object[] {Integer.valueOf(var6.getLayerCount())});
+            s1 = I18n.getStringParams("createWorld.customize.flat.layer.top", new Object[] {Integer.valueOf(flatlayerinfo.getLayerCount())});
         }
         else if (par1 == GuiCreateFlatWorld.func_82271_a(this.createFlatWorldGui).getFlatLayers().size() - 1)
         {
-            var9 = I18n.getStringParams("createWorld.customize.flat.layer.bottom", new Object[] {Integer.valueOf(var6.getLayerCount())});
+            s1 = I18n.getStringParams("createWorld.customize.flat.layer.bottom", new Object[] {Integer.valueOf(flatlayerinfo.getLayerCount())});
         }
         else
         {
-            var9 = I18n.getStringParams("createWorld.customize.flat.layer", new Object[] {Integer.valueOf(var6.getLayerCount())});
+            s1 = I18n.getStringParams("createWorld.customize.flat.layer", new Object[] {Integer.valueOf(flatlayerinfo.getLayerCount())});
         }
 
-        this.createFlatWorldGui.fontRenderer.drawString(var9, par2 + 2 + 213 - this.createFlatWorldGui.fontRenderer.getStringWidth(var9), par3 + 3, 16777215);
+        this.createFlatWorldGui.fontRenderer.drawString(s1, par2 + 2 + 213 - this.createFlatWorldGui.fontRenderer.getStringWidth(s1), par3 + 3, 16777215);
     }
 
     protected int getScrollBarX()

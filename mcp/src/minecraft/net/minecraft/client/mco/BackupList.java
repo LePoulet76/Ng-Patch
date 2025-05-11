@@ -17,33 +17,33 @@ public class BackupList
 
     public static BackupList func_111222_a(String par0Str)
     {
-        BackupList var1 = new BackupList();
-        var1.field_111223_a = new ArrayList();
+        BackupList backuplist = new BackupList();
+        backuplist.field_111223_a = new ArrayList();
 
         try
         {
-            JsonRootNode var2 = (new JdomParser()).parse(par0Str);
+            JsonRootNode jsonrootnode = (new JdomParser()).parse(par0Str);
 
-            if (var2.isArrayNode(new Object[] {"backups"}))
+            if (jsonrootnode.isArrayNode(new Object[] {"backups"}))
             {
-                Iterator var3 = var2.getArrayNode(new Object[] {"backups"}).iterator();
+                Iterator iterator = jsonrootnode.getArrayNode(new Object[] {"backups"}).iterator();
 
-                while (var3.hasNext())
+                while (iterator.hasNext())
                 {
-                    JsonNode var4 = (JsonNode)var3.next();
-                    var1.field_111223_a.add(Backup.func_110724_a(var4));
+                    JsonNode jsonnode = (JsonNode)iterator.next();
+                    backuplist.field_111223_a.add(Backup.func_110724_a(jsonnode));
                 }
             }
         }
-        catch (InvalidSyntaxException var5)
+        catch (InvalidSyntaxException invalidsyntaxexception)
         {
             ;
         }
-        catch (IllegalArgumentException var6)
+        catch (IllegalArgumentException illegalargumentexception)
         {
             ;
         }
 
-        return var1;
+        return backuplist;
     }
 }

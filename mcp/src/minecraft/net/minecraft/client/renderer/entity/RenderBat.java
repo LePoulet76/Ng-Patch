@@ -30,11 +30,11 @@ public class RenderBat extends RenderLiving
 
     public void func_82443_a(EntityBat par1EntityBat, double par2, double par4, double par6, float par8, float par9)
     {
-        int var10 = ((ModelBat)this.mainModel).getBatSize();
+        int i = ((ModelBat)this.mainModel).getBatSize();
 
-        if (var10 != this.renderedBatSize)
+        if (i != this.renderedBatSize)
         {
-            this.renderedBatSize = var10;
+            this.renderedBatSize = i;
             this.mainModel = new ModelBat();
         }
 

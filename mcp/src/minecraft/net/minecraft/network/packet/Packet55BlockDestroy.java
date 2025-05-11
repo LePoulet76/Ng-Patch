@@ -138,7 +138,7 @@ public class Packet55BlockDestroy extends Packet
      */
     public boolean containsSameEntityIDAs(Packet par1Packet)
     {
-        Packet55BlockDestroy var2 = (Packet55BlockDestroy)par1Packet;
-        return var2.entityId == this.entityId;
+        Packet55BlockDestroy packet55blockdestroy = (Packet55BlockDestroy)par1Packet;
+        return packet55blockdestroy.entityId == this.entityId;
     }
 }

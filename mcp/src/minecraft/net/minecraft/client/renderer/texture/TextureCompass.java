@@ -22,11 +22,11 @@ public class TextureCompass extends TextureAtlasSprite
 
     public void updateAnimation()
     {
-        Minecraft var1 = Minecraft.getMinecraft();
+        Minecraft minecraft = Minecraft.getMinecraft();
 
-        if (var1.theWorld != null && var1.thePlayer != null)
+        if (minecraft.theWorld != null && minecraft.thePlayer != null)
         {
-            this.updateCompass(var1.theWorld, var1.thePlayer.posX, var1.thePlayer.posZ, (double)var1.thePlayer.rotationYaw, false, false);
+            this.updateCompass(minecraft.theWorld, minecraft.thePlayer.posX, minecraft.thePlayer.posZ, (double)minecraft.thePlayer.rotationYaw, false, false);
         }
         else
         {
@@ -41,65 +41,65 @@ public class TextureCompass extends TextureAtlasSprite
     {
         if (!this.framesTextureData.isEmpty())
         {
-            double var10 = 0.0D;
+            double d3 = 0.0D;
 
             if (par1World != null && !par8)
             {
-                ChunkCoordinates var12 = par1World.getSpawnPoint();
-                double var13 = (double)var12.posX - par2;
-                double var15 = (double)var12.posZ - par4;
+                ChunkCoordinates chunkcoordinates = par1World.getSpawnPoint();
+                double d4 = (double)chunkcoordinates.posX - par2;
+                double d5 = (double)chunkcoordinates.posZ - par4;
                 par6 %= 360.0D;
-                var10 = -((par6 - 90.0D) * Math.PI / 180.0D - Math.atan2(var15, var13));
+                d3 = -((par6 - 90.0D) * Math.PI / 180.0D - Math.atan2(d5, d4));
 
                 if (!par1World.provider.isSurfaceWorld())
                 {
-                    var10 = Math.random() * Math.PI * 2.0D;
+                    d3 = Math.random() * Math.PI * 2.0D;
                 }
             }
 
             if (par9)
             {
-                this.currentAngle = var10;
+                this.currentAngle = d3;
             }
             else
             {
-                double var17;
+                double d6;
 
-                for (var17 = var10 - this.currentAngle; var17 < -Math.PI; var17 += (Math.PI * 2D))
+                for (d6 = d3 - this.currentAngle; d6 < -Math.PI; d6 += (Math.PI * 2D))
                 {
                     ;
                 }
 
-                while (var17 >= Math.PI)
+                while (d6 >= Math.PI)
                 {
-                    var17 -= (Math.PI * 2D);
+                    d6 -= (Math.PI * 2D);
                 }
 
-                if (var17 < -1.0D)
+                if (d6 < -1.0D)
                 {
-                    var17 = -1.0D;
+                    d6 = -1.0D;
                 }
 
-                if (var17 > 1.0D)
+                if (d6 > 1.0D)
                 {
-                    var17 = 1.0D;
+                    d6 = 1.0D;
                 }
 
-                this.angleDelta += var17 * 0.1D;
+                this.angleDelta += d6 * 0.1D;
                 this.angleDelta *= 0.8D;
                 this.currentAngle += this.angleDelta;
             }
 
-            int var18;
+            int i;
 
-            for (var18 = (int)((this.currentAngle / (Math.PI * 2D) + 1.0D) * (double)this.framesTextureData.size()) % this.framesTextureData.size(); var18 < 0; var18 = (var18 + this.framesTextureData.size()) % this.framesTextureData.size())
+            for (i = (int)((this.currentAngle / (Math.PI * 2D) + 1.0D) * (double)this.framesTextureData.size()) % this.framesTextureData.size(); i < 0; i = (i + this.framesTextureData.size()) % this.framesTextureData.size())
             {
                 ;
             }
 
-            if (var18 != this.frameCounter)
+            if (i != this.frameCounter)
             {
-                this.frameCounter = var18;
+                this.frameCounter = i;
                 TextureUtil.uploadTextureSub((int[])this.framesTextureData.get(this.frameCounter), this.width, this.height, this.originX, this.originY, false, false);
             }
         }

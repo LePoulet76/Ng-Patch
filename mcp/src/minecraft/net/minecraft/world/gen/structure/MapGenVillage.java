@@ -28,19 +28,19 @@ public class MapGenVillage extends MapGenStructure
     public MapGenVillage(Map par1Map)
     {
         this();
-        Iterator var2 = par1Map.entrySet().iterator();
+        Iterator iterator = par1Map.entrySet().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
+            Entry entry = (Entry)iterator.next();
 
-            if (((String)var3.getKey()).equals("size"))
+            if (((String)entry.getKey()).equals("size"))
             {
-                this.terrainType = MathHelper.parseIntWithDefaultAndMax((String)var3.getValue(), this.terrainType, 0);
+                this.terrainType = MathHelper.parseIntWithDefaultAndMax((String)entry.getValue(), this.terrainType, 0);
             }
-            else if (((String)var3.getKey()).equals("distance"))
+            else if (((String)entry.getKey()).equals("distance"))
             {
-                this.field_82665_g = MathHelper.parseIntWithDefaultAndMax((String)var3.getValue(), this.field_82665_g, this.field_82666_h + 1);
+                this.field_82665_g = MathHelper.parseIntWithDefaultAndMax((String)entry.getValue(), this.field_82665_g, this.field_82666_h + 1);
             }
         }
     }
@@ -52,8 +52,8 @@ public class MapGenVillage extends MapGenStructure
 
     protected boolean canSpawnStructureAtCoords(int par1, int par2)
     {
-        int var3 = par1;
-        int var4 = par2;
+        int k = par1;
+        int l = par2;
 
         if (par1 < 0)
         {
@@ -65,19 +65,19 @@ public class MapGenVillage extends MapGenStructure
             par2 -= this.field_82665_g - 1;
         }
 
-        int var5 = par1 / this.field_82665_g;
-        int var6 = par2 / this.field_82665_g;
-        Random var7 = this.worldObj.setRandomSeed(var5, var6, 10387312);
-        var5 *= this.field_82665_g;
-        var6 *= this.field_82665_g;
-        var5 += var7.nextInt(this.field_82665_g - this.field_82666_h);
-        var6 += var7.nextInt(this.field_82665_g - this.field_82666_h);
+        int i1 = par1 / this.field_82665_g;
+        int j1 = par2 / this.field_82665_g;
+        Random random = this.worldObj.setRandomSeed(i1, j1, 10387312);
+        i1 *= this.field_82665_g;
+        j1 *= this.field_82665_g;
+        i1 += random.nextInt(this.field_82665_g - this.field_82666_h);
+        j1 += random.nextInt(this.field_82665_g - this.field_82666_h);
 
-        if (var3 == var5 && var4 == var6)
+        if (k == i1 && l == j1)
         {
-            boolean var8 = this.worldObj.getWorldChunkManager().areBiomesViable(var3 * 16 + 8, var4 * 16 + 8, 0, villageSpawnBiomes);
+            boolean flag = this.worldObj.getWorldChunkManager().areBiomesViable(k * 16 + 8, l * 16 + 8, 0, villageSpawnBiomes);
 
-            if (var8)
+            if (flag)
             {
                 return true;
             }

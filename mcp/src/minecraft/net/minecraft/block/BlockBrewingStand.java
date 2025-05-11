@@ -95,11 +95,11 @@ public class BlockBrewingStand extends BlockContainer
         }
         else
         {
-            TileEntityBrewingStand var10 = (TileEntityBrewingStand)par1World.getBlockTileEntity(par2, par3, par4);
+            TileEntityBrewingStand tileentitybrewingstand = (TileEntityBrewingStand)par1World.getBlockTileEntity(par2, par3, par4);
 
-            if (var10 != null)
+            if (tileentitybrewingstand != null)
             {
-                par5EntityPlayer.displayGUIBrewingStand(var10);
+                par5EntityPlayer.displayGUIBrewingStand(tileentitybrewingstand);
             }
 
             return true;
@@ -124,38 +124,38 @@ public class BlockBrewingStand extends BlockContainer
      */
     public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
-        TileEntity var7 = par1World.getBlockTileEntity(par2, par3, par4);
+        TileEntity tileentity = par1World.getBlockTileEntity(par2, par3, par4);
 
-        if (var7 instanceof TileEntityBrewingStand)
+        if (tileentity instanceof TileEntityBrewingStand)
         {
-            TileEntityBrewingStand var8 = (TileEntityBrewingStand)var7;
+            TileEntityBrewingStand tileentitybrewingstand = (TileEntityBrewingStand)tileentity;
 
-            for (int var9 = 0; var9 < var8.getSizeInventory(); ++var9)
+            for (int j1 = 0; j1 < tileentitybrewingstand.getSizeInventory(); ++j1)
             {
-                ItemStack var10 = var8.getStackInSlot(var9);
+                ItemStack itemstack = tileentitybrewingstand.getStackInSlot(j1);
 
-                if (var10 != null)
+                if (itemstack != null)
                 {
-                    float var11 = this.rand.nextFloat() * 0.8F + 0.1F;
-                    float var12 = this.rand.nextFloat() * 0.8F + 0.1F;
-                    float var13 = this.rand.nextFloat() * 0.8F + 0.1F;
+                    float f = this.rand.nextFloat() * 0.8F + 0.1F;
+                    float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
+                    float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
 
-                    while (var10.stackSize > 0)
+                    while (itemstack.stackSize > 0)
                     {
-                        int var14 = this.rand.nextInt(21) + 10;
+                        int k1 = this.rand.nextInt(21) + 10;
 
-                        if (var14 > var10.stackSize)
+                        if (k1 > itemstack.stackSize)
                         {
-                            var14 = var10.stackSize;
+                            k1 = itemstack.stackSize;
                         }
 
-                        var10.stackSize -= var14;
-                        EntityItem var15 = new EntityItem(par1World, (double)((float)par2 + var11), (double)((float)par3 + var12), (double)((float)par4 + var13), new ItemStack(var10.itemID, var14, var10.getItemDamage()));
-                        float var16 = 0.05F;
-                        var15.motionX = (double)((float)this.rand.nextGaussian() * var16);
-                        var15.motionY = (double)((float)this.rand.nextGaussian() * var16 + 0.2F);
-                        var15.motionZ = (double)((float)this.rand.nextGaussian() * var16);
-                        par1World.spawnEntityInWorld(var15);
+                        itemstack.stackSize -= k1;
+                        EntityItem entityitem = new EntityItem(par1World, (double)((float)par2 + f), (double)((float)par3 + f1), (double)((float)par4 + f2), new ItemStack(itemstack.itemID, k1, itemstack.getItemDamage()));
+                        float f3 = 0.05F;
+                        entityitem.motionX = (double)((float)this.rand.nextGaussian() * f3);
+                        entityitem.motionY = (double)((float)this.rand.nextGaussian() * f3 + 0.2F);
+                        entityitem.motionZ = (double)((float)this.rand.nextGaussian() * f3);
+                        par1World.spawnEntityInWorld(entityitem);
                     }
                 }
             }
@@ -179,10 +179,10 @@ public class BlockBrewingStand extends BlockContainer
      */
     public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
     {
-        double var6 = (double)((float)par2 + 0.4F + par5Random.nextFloat() * 0.2F);
-        double var8 = (double)((float)par3 + 0.7F + par5Random.nextFloat() * 0.3F);
-        double var10 = (double)((float)par4 + 0.4F + par5Random.nextFloat() * 0.2F);
-        par1World.spawnParticle("smoke", var6, var8, var10, 0.0D, 0.0D, 0.0D);
+        double d0 = (double)((float)par2 + 0.4F + par5Random.nextFloat() * 0.2F);
+        double d1 = (double)((float)par3 + 0.7F + par5Random.nextFloat() * 0.3F);
+        double d2 = (double)((float)par4 + 0.4F + par5Random.nextFloat() * 0.2F);
+        par1World.spawnParticle("smoke", d0, d1, d2, 0.0D, 0.0D, 0.0D);
     }
 
     @SideOnly(Side.CLIENT)

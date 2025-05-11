@@ -34,6 +34,10 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDummyContainer;
+import net.minecraftforge.event.Event.Result;
+import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.event.entity.living.ZombieEvent.SummonAidEvent;
 
 public class EntityZombie extends EntityMob
 {
@@ -70,7 +74,7 @@ public class EntityZombie extends EntityMob
         this.getEntityAttribute(SharedMonsterAttributes.followRange).setAttribute(40.0D);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(0.23000000417232513D);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(3.0D);
-        this.getAttributeMap().func_111150_b(field_110186_bp).setAttribute(this.rand.nextDouble() * 0.10000000149011612D);
+        this.getAttributeMap().func_111150_b(field_110186_bp).setAttribute(this.rand.nextDouble() * ForgeDummyContainer.zombieSummonBaseChance);
     }
 
     protected void entityInit()
@@ -86,14 +90,14 @@ public class EntityZombie extends EntityMob
      */
     public int getTotalArmorValue()
     {
-        int var1 = super.getTotalArmorValue() + 2;
+        int i = super.getTotalArmorValue() + 2;
 
-        if (var1 > 20)
+        if (i > 20)
         {
-            var1 = 20;
+            i = 20;
         }
 
-        return var1;
+        return i;
     }
 
     /**
@@ -121,12 +125,12 @@ public class EntityZombie extends EntityMob
 
         if (this.worldObj != null && !this.worldObj.isRemote)
         {
-            AttributeInstance var2 = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-            var2.removeModifier(babySpeedBoostModifier);
+            AttributeInstance attributeinstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+            attributeinstance.removeModifier(babySpeedBoostModifier);
 
             if (par1)
             {
-                var2.applyModifier(babySpeedBoostModifier);
+                attributeinstance.applyModifier(babySpeedBoostModifier);
             }
         }
     }
@@ -155,30 +159,30 @@ public class EntityZombie extends EntityMob
     {
         if (this.worldObj.isDaytime() && !this.worldObj.isRemote && !this.isChild())
         {
-            float var1 = this.getBrightness(1.0F);
+            float f = this.getBrightness(1.0F);
 
-            if (var1 > 0.5F && this.rand.nextFloat() * 30.0F < (var1 - 0.4F) * 2.0F && this.worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)))
+            if (f > 0.5F && this.rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && this.worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)))
             {
-                boolean var2 = true;
-                ItemStack var3 = this.getCurrentItemOrArmor(4);
+                boolean flag = true;
+                ItemStack itemstack = this.getCurrentItemOrArmor(4);
 
-                if (var3 != null)
+                if (itemstack != null)
                 {
-                    if (var3.isItemStackDamageable())
+                    if (itemstack.isItemStackDamageable())
                     {
-                        var3.setItemDamage(var3.getItemDamageForDisplay() + this.rand.nextInt(2));
+                        itemstack.setItemDamage(itemstack.getItemDamageForDisplay() + this.rand.nextInt(2));
 
-                        if (var3.getItemDamageForDisplay() >= var3.getMaxDamage())
+                        if (itemstack.getItemDamageForDisplay() >= itemstack.getMaxDamage())
                         {
-                            this.renderBrokenItemStack(var3);
+                            this.renderBrokenItemStack(itemstack);
                             this.setCurrentItemOrArmor(4, (ItemStack)null);
                         }
                     }
 
-                    var2 = false;
+                    flag = false;
                 }
 
-                if (var2)
+                if (flag)
                 {
                     this.setFire(8);
                 }
@@ -199,42 +203,57 @@ public class EntityZombie extends EntityMob
         }
         else
         {
-            EntityLivingBase var3 = this.getAttackTarget();
+            EntityLivingBase entitylivingbase = this.getAttackTarget();
 
-            if (var3 == null && this.getEntityToAttack() instanceof EntityLivingBase)
+            if (entitylivingbase == null && this.getEntityToAttack() instanceof EntityLivingBase)
             {
-                var3 = (EntityLivingBase)this.getEntityToAttack();
+                entitylivingbase = (EntityLivingBase)this.getEntityToAttack();
             }
 
-            if (var3 == null && par1DamageSource.getEntity() instanceof EntityLivingBase)
+            if (entitylivingbase == null && par1DamageSource.getEntity() instanceof EntityLivingBase)
             {
-                var3 = (EntityLivingBase)par1DamageSource.getEntity();
+                entitylivingbase = (EntityLivingBase)par1DamageSource.getEntity();
             }
 
-            if (var3 != null && this.worldObj.difficultySetting >= 3 && (double)this.rand.nextFloat() < this.getEntityAttribute(field_110186_bp).getAttributeValue())
-            {
-                int var4 = MathHelper.floor_double(this.posX);
-                int var5 = MathHelper.floor_double(this.posY);
-                int var6 = MathHelper.floor_double(this.posZ);
-                EntityZombie var7 = new EntityZombie(this.worldObj);
+            int i = MathHelper.floor_double(this.posX);
+            int j = MathHelper.floor_double(this.posY);
+            int k = MathHelper.floor_double(this.posZ);
 
-                for (int var8 = 0; var8 < 50; ++var8)
+            SummonAidEvent summonAid = ForgeEventFactory.fireZombieSummonAid(this, worldObj, i, j, k, entitylivingbase, this.getEntityAttribute(field_110186_bp).getAttributeValue());
+            
+            if (summonAid.getResult() == Result.DENY)
+            {
+                return true;
+            }
+            else if (summonAid.getResult() == Result.ALLOW || entitylivingbase != null && this.worldObj.difficultySetting >= 3 && (double)this.rand.nextFloat() < this.getEntityAttribute(field_110186_bp).getAttributeValue())
+            {
+                EntityZombie entityzombie;
+                if (summonAid.customSummonedAid != null && summonAid.getResult() == Result.ALLOW)
                 {
-                    int var9 = var4 + MathHelper.getRandomIntegerInRange(this.rand, 7, 40) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
-                    int var10 = var5 + MathHelper.getRandomIntegerInRange(this.rand, 7, 40) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
-                    int var11 = var6 + MathHelper.getRandomIntegerInRange(this.rand, 7, 40) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
+                    entityzombie = summonAid.customSummonedAid;
+                }
+                else
+                {
+                    entityzombie = new EntityZombie(this.worldObj);
+                }
+                
+                for (int l = 0; l < 50; ++l)
+                {
+                    int i1 = i + MathHelper.getRandomIntegerInRange(this.rand, 7, 40) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
+                    int j1 = j + MathHelper.getRandomIntegerInRange(this.rand, 7, 40) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
+                    int k1 = k + MathHelper.getRandomIntegerInRange(this.rand, 7, 40) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
 
-                    if (this.worldObj.doesBlockHaveSolidTopSurface(var9, var10 - 1, var11) && this.worldObj.getBlockLightValue(var9, var10, var11) < 10)
+                    if (this.worldObj.doesBlockHaveSolidTopSurface(i1, j1 - 1, k1) && this.worldObj.getBlockLightValue(i1, j1, k1) < 10)
                     {
-                        var7.setPosition((double)var9, (double)var10, (double)var11);
+                        entityzombie.setPosition((double)i1, (double)j1, (double)k1);
 
-                        if (this.worldObj.checkNoEntityCollision(var7.boundingBox) && this.worldObj.getCollidingBoundingBoxes(var7, var7.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(var7.boundingBox))
+                        if (this.worldObj.checkNoEntityCollision(entityzombie.boundingBox) && this.worldObj.getCollidingBoundingBoxes(entityzombie, entityzombie.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(entityzombie.boundingBox))
                         {
-                            this.worldObj.spawnEntityInWorld(var7);
-                            var7.setAttackTarget(var3);
-                            var7.onSpawnWithEgg((EntityLivingData)null);
+                            this.worldObj.spawnEntityInWorld(entityzombie);
+                            if (entitylivingbase != null) entityzombie.setAttackTarget(entitylivingbase);
+                            entityzombie.onSpawnWithEgg((EntityLivingData)null);
                             this.getEntityAttribute(field_110186_bp).applyModifier(new AttributeModifier("Zombie reinforcement caller charge", -0.05000000074505806D, 0));
-                            var7.getEntityAttribute(field_110186_bp).applyModifier(new AttributeModifier("Zombie reinforcement callee charge", -0.05000000074505806D, 0));
+                            entityzombie.getEntityAttribute(field_110186_bp).applyModifier(new AttributeModifier("Zombie reinforcement callee charge", -0.05000000074505806D, 0));
                             break;
                         }
                     }
@@ -252,8 +271,8 @@ public class EntityZombie extends EntityMob
     {
         if (!this.worldObj.isRemote && this.isConverting())
         {
-            int var1 = this.getConversionTimeBoost();
-            this.conversionTime -= var1;
+            int i = this.getConversionTimeBoost();
+            this.conversionTime -= i;
 
             if (this.conversionTime <= 0)
             {
@@ -266,14 +285,14 @@ public class EntityZombie extends EntityMob
 
     public boolean attackEntityAsMob(Entity par1Entity)
     {
-        boolean var2 = super.attackEntityAsMob(par1Entity);
+        boolean flag = super.attackEntityAsMob(par1Entity);
 
-        if (var2 && this.getHeldItem() == null && this.isBurning() && this.rand.nextFloat() < (float)this.worldObj.difficultySetting * 0.3F)
+        if (flag && this.getHeldItem() == null && this.isBurning() && this.rand.nextFloat() < (float)this.worldObj.difficultySetting * 0.3F)
         {
             par1Entity.setFire(2 * this.worldObj.difficultySetting);
         }
 
-        return var2;
+        return flag;
     }
 
     /**
@@ -331,11 +350,9 @@ public class EntityZombie extends EntityMob
             case 0:
                 this.dropItem(Item.ingotIron.itemID, 1);
                 break;
-
             case 1:
                 this.dropItem(Item.carrot.itemID, 1);
                 break;
-
             case 2:
                 this.dropItem(Item.potato.itemID, 1);
         }
@@ -350,9 +367,9 @@ public class EntityZombie extends EntityMob
 
         if (this.rand.nextFloat() < (this.worldObj.difficultySetting == 3 ? 0.05F : 0.01F))
         {
-            int var1 = this.rand.nextInt(3);
+            int i = this.rand.nextInt(3);
 
-            if (var1 == 0)
+            if (i == 0)
             {
                 this.setCurrentItemOrArmor(0, new ItemStack(Item.swordIron));
             }
@@ -420,18 +437,18 @@ public class EntityZombie extends EntityMob
                 return;
             }
 
-            EntityZombie var2 = new EntityZombie(this.worldObj);
-            var2.copyLocationAndAnglesFrom(par1EntityLivingBase);
+            EntityZombie entityzombie = new EntityZombie(this.worldObj);
+            entityzombie.copyLocationAndAnglesFrom(par1EntityLivingBase);
             this.worldObj.removeEntity(par1EntityLivingBase);
-            var2.onSpawnWithEgg((EntityLivingData)null);
-            var2.setVillager(true);
+            entityzombie.onSpawnWithEgg((EntityLivingData)null);
+            entityzombie.setVillager(true);
 
             if (par1EntityLivingBase.isChild())
             {
-                var2.setChild(true);
+                entityzombie.setChild(true);
             }
 
-            this.worldObj.spawnEntityInWorld(var2);
+            this.worldObj.spawnEntityInWorld(entityzombie);
             this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1016, (int)this.posX, (int)this.posY, (int)this.posZ, 0);
         }
     }
@@ -439,24 +456,24 @@ public class EntityZombie extends EntityMob
     public EntityLivingData onSpawnWithEgg(EntityLivingData par1EntityLivingData)
     {
         Object par1EntityLivingData1 = super.onSpawnWithEgg(par1EntityLivingData);
-        float var2 = this.worldObj.getLocationTensionFactor(this.posX, this.posY, this.posZ);
-        this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * var2);
+        float f = this.worldObj.getLocationTensionFactor(this.posX, this.posY, this.posZ);
+        this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * f);
 
         if (par1EntityLivingData1 == null)
         {
-            par1EntityLivingData1 = new EntityZombieGroupData(this, this.worldObj.rand.nextFloat() < 0.05F, this.worldObj.rand.nextFloat() < 0.05F, (EntityZombieINNER1)null);
+            par1EntityLivingData1 = new EntityZombieGroupData(this, this.worldObj.rand.nextFloat() < ForgeDummyContainer.zombieBabyChance, this.worldObj.rand.nextFloat() < 0.05F, (EntityZombieINNER1)null);
         }
 
         if (par1EntityLivingData1 instanceof EntityZombieGroupData)
         {
-            EntityZombieGroupData var3 = (EntityZombieGroupData)par1EntityLivingData1;
+            EntityZombieGroupData entityzombiegroupdata = (EntityZombieGroupData)par1EntityLivingData1;
 
-            if (var3.field_142046_b)
+            if (entityzombiegroupdata.field_142046_b)
             {
                 this.setVillager(true);
             }
 
-            if (var3.field_142048_a)
+            if (entityzombiegroupdata.field_142048_a)
             {
                 this.setChild(true);
             }
@@ -467,9 +484,9 @@ public class EntityZombie extends EntityMob
 
         if (this.getCurrentItemOrArmor(4) == null)
         {
-            Calendar var5 = this.worldObj.getCurrentDate();
+            Calendar calendar = this.worldObj.getCurrentDate();
 
-            if (var5.get(2) + 1 == 10 && var5.get(5) == 31 && this.rand.nextFloat() < 0.25F)
+            if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && this.rand.nextFloat() < 0.25F)
             {
                 this.setCurrentItemOrArmor(4, new ItemStack(this.rand.nextFloat() < 0.1F ? Block.pumpkinLantern : Block.pumpkin));
                 this.equipmentDropChances[4] = 0.0F;
@@ -479,7 +496,7 @@ public class EntityZombie extends EntityMob
         this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).applyModifier(new AttributeModifier("Random spawn bonus", this.rand.nextDouble() * 0.05000000074505806D, 0));
         this.getEntityAttribute(SharedMonsterAttributes.followRange).applyModifier(new AttributeModifier("Random zombie-spawn bonus", this.rand.nextDouble() * 1.5D, 2));
 
-        if (this.rand.nextFloat() < var2 * 0.05F)
+        if (this.rand.nextFloat() < f * 0.05F)
         {
             this.getEntityAttribute(field_110186_bp).applyModifier(new AttributeModifier("Leader zombie bonus", this.rand.nextDouble() * 0.25D + 0.5D, 0));
             this.getEntityAttribute(SharedMonsterAttributes.maxHealth).applyModifier(new AttributeModifier("Leader zombie bonus", this.rand.nextDouble() * 3.0D + 1.0D, 2));
@@ -493,16 +510,16 @@ public class EntityZombie extends EntityMob
      */
     public boolean interact(EntityPlayer par1EntityPlayer)
     {
-        ItemStack var2 = par1EntityPlayer.getCurrentEquippedItem();
+        ItemStack itemstack = par1EntityPlayer.getCurrentEquippedItem();
 
-        if (var2 != null && var2.getItem() == Item.appleGold && var2.getItemDamage() == 0 && this.isVillager() && this.isPotionActive(Potion.weakness))
+        if (itemstack != null && itemstack.getItem() == Item.appleGold && itemstack.getItemDamage() == 0 && this.isVillager() && this.isPotionActive(Potion.weakness))
         {
             if (!par1EntityPlayer.capabilities.isCreativeMode)
             {
-                --var2.stackSize;
+                --itemstack.stackSize;
             }
 
-            if (var2.stackSize <= 0)
+            if (itemstack.stackSize <= 0)
             {
                 par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
             }
@@ -567,19 +584,19 @@ public class EntityZombie extends EntityMob
      */
     protected void convertToVillager()
     {
-        EntityVillager var1 = new EntityVillager(this.worldObj);
-        var1.copyLocationAndAnglesFrom(this);
-        var1.onSpawnWithEgg((EntityLivingData)null);
-        var1.func_82187_q();
+        EntityVillager entityvillager = new EntityVillager(this.worldObj);
+        entityvillager.copyLocationAndAnglesFrom(this);
+        entityvillager.onSpawnWithEgg((EntityLivingData)null);
+        entityvillager.func_82187_q();
 
         if (this.isChild())
         {
-            var1.setGrowingAge(-24000);
+            entityvillager.setGrowingAge(-24000);
         }
 
         this.worldObj.removeEntity(this);
-        this.worldObj.spawnEntityInWorld(var1);
-        var1.addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 0));
+        this.worldObj.spawnEntityInWorld(entityvillager);
+        entityvillager.addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 0));
         this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1017, (int)this.posX, (int)this.posY, (int)this.posZ, 0);
     }
 
@@ -588,34 +605,34 @@ public class EntityZombie extends EntityMob
      */
     protected int getConversionTimeBoost()
     {
-        int var1 = 1;
+        int i = 1;
 
         if (this.rand.nextFloat() < 0.01F)
         {
-            int var2 = 0;
+            int j = 0;
 
-            for (int var3 = (int)this.posX - 4; var3 < (int)this.posX + 4 && var2 < 14; ++var3)
+            for (int k = (int)this.posX - 4; k < (int)this.posX + 4 && j < 14; ++k)
             {
-                for (int var4 = (int)this.posY - 4; var4 < (int)this.posY + 4 && var2 < 14; ++var4)
+                for (int l = (int)this.posY - 4; l < (int)this.posY + 4 && j < 14; ++l)
                 {
-                    for (int var5 = (int)this.posZ - 4; var5 < (int)this.posZ + 4 && var2 < 14; ++var5)
+                    for (int i1 = (int)this.posZ - 4; i1 < (int)this.posZ + 4 && j < 14; ++i1)
                     {
-                        int var6 = this.worldObj.getBlockId(var3, var4, var5);
+                        int j1 = this.worldObj.getBlockId(k, l, i1);
 
-                        if (var6 == Block.fenceIron.blockID || var6 == Block.bed.blockID)
+                        if (j1 == Block.fenceIron.blockID || j1 == Block.bed.blockID)
                         {
                             if (this.rand.nextFloat() < 0.3F)
                             {
-                                ++var1;
+                                ++i;
                             }
 
-                            ++var2;
+                            ++j;
                         }
                     }
                 }
             }
         }
 
-        return var1;
+        return i;
     }
 }

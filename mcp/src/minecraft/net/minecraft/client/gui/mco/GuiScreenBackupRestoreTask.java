@@ -29,28 +29,28 @@ class GuiScreenBackupRestoreTask extends TaskLongRunning
 
         try
         {
-            McoClient var1 = new McoClient(this.getMinecraft().getSession());
-            var1.func_111235_c(GuiScreenBackup.func_110367_b(this.theBackupScreen), this.theBackup.field_110727_a);
+            McoClient mcoclient = new McoClient(this.getMinecraft().getSession());
+            mcoclient.func_111235_c(GuiScreenBackup.func_110367_b(this.theBackupScreen), this.theBackup.field_110727_a);
 
             try
             {
                 Thread.sleep(1000L);
             }
-            catch (InterruptedException var3)
+            catch (InterruptedException interruptedexception)
             {
                 Thread.currentThread().interrupt();
             }
 
             this.getMinecraft().displayGuiScreen(GuiScreenBackup.func_130031_d(this.theBackupScreen));
         }
-        catch (ExceptionMcoService var4)
+        catch (ExceptionMcoService exceptionmcoservice)
         {
-            GuiScreenBackup.func_130035_e(this.theBackupScreen).getLogAgent().logSevere(var4.toString());
-            this.setFailedMessage(var4.toString());
+            GuiScreenBackup.func_130035_e(this.theBackupScreen).getLogAgent().logSevere(exceptionmcoservice.toString());
+            this.setFailedMessage(exceptionmcoservice.toString());
         }
-        catch (Exception var5)
+        catch (Exception exception)
         {
-            this.setFailedMessage(var5.getLocalizedMessage());
+            this.setFailedMessage(exception.getLocalizedMessage());
         }
     }
 

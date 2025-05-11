@@ -47,12 +47,12 @@ public class Packet254ServerPing extends Packet
                     this.field_140053_c = par1DataInput.readInt();
                 }
             }
-            catch (Throwable var3)
+            catch (Throwable throwable)
             {
                 this.field_140052_b = "";
             }
         }
-        catch (Throwable var4)
+        catch (Throwable throwable1)
         {
             this.readSuccessfully = 0;
             this.field_140052_b = "";

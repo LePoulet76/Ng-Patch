@@ -35,23 +35,23 @@ public class ServerList
         try
         {
             this.servers.clear();
-            NBTTagCompound var1 = CompressedStreamTools.read(new File(this.mc.mcDataDir, "servers.dat"));
+            NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(this.mc.mcDataDir, "servers.dat"));
 
-            if (var1 == null)
+            if (nbttagcompound == null)
             {
                 return;
             }
 
-            NBTTagList var2 = var1.getTagList("servers");
+            NBTTagList nbttaglist = nbttagcompound.getTagList("servers");
 
-            for (int var3 = 0; var3 < var2.tagCount(); ++var3)
+            for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                this.servers.add(ServerData.getServerDataFromNBTCompound((NBTTagCompound)var2.tagAt(var3)));
+                this.servers.add(ServerData.getServerDataFromNBTCompound((NBTTagCompound)nbttaglist.tagAt(i)));
             }
         }
-        catch (Exception var4)
+        catch (Exception exception)
         {
-            var4.printStackTrace();
+            exception.printStackTrace();
         }
     }
 
@@ -63,22 +63,22 @@ public class ServerList
     {
         try
         {
-            NBTTagList var1 = new NBTTagList();
-            Iterator var2 = this.servers.iterator();
+            NBTTagList nbttaglist = new NBTTagList();
+            Iterator iterator = this.servers.iterator();
 
-            while (var2.hasNext())
+            while (iterator.hasNext())
             {
-                ServerData var3 = (ServerData)var2.next();
-                var1.appendTag(var3.getNBTCompound());
+                ServerData serverdata = (ServerData)iterator.next();
+                nbttaglist.appendTag(serverdata.getNBTCompound());
             }
 
-            NBTTagCompound var5 = new NBTTagCompound();
-            var5.setTag("servers", var1);
-            CompressedStreamTools.safeWrite(var5, new File(this.mc.mcDataDir, "servers.dat"));
+            NBTTagCompound nbttagcompound = new NBTTagCompound();
+            nbttagcompound.setTag("servers", nbttaglist);
+            CompressedStreamTools.safeWrite(nbttagcompound, new File(this.mc.mcDataDir, "servers.dat"));
         }
-        catch (Exception var4)
+        catch (Exception exception)
         {
-            var4.printStackTrace();
+            exception.printStackTrace();
         }
     }
 
@@ -119,9 +119,9 @@ public class ServerList
      */
     public void swapServers(int par1, int par2)
     {
-        ServerData var3 = this.getServerData(par1);
+        ServerData serverdata = this.getServerData(par1);
         this.servers.set(par1, this.getServerData(par2));
-        this.servers.set(par2, var3);
+        this.servers.set(par2, serverdata);
         this.saveServerList();
     }
 }

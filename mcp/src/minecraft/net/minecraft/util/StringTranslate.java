@@ -3,6 +3,8 @@ package net.minecraft.util;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.io.IOException;
@@ -25,29 +27,39 @@ public class StringTranslate
 
     public StringTranslate()
     {
+        InputStream inputstream = StringTranslate.class.getResourceAsStream("/assets/minecraft/lang/en_US.lang");
+        localInject(inputstream);
+    }
+    
+    public static void inject(InputStream inputstream)
+    {
+        instance.localInject(inputstream);
+    }
+    
+    private void localInject(InputStream inputstream)
+    {
         try
         {
-            InputStream var1 = StringTranslate.class.getResourceAsStream("/assets/minecraft/lang/en_US.lang");
-            Iterator var2 = IOUtils.readLines(var1, Charsets.UTF_8).iterator();
+            Iterator iterator = IOUtils.readLines(inputstream, Charsets.UTF_8).iterator();
 
-            while (var2.hasNext())
+            while (iterator.hasNext())
             {
-                String var3 = (String)var2.next();
+                String s = (String)iterator.next();
 
-                if (!var3.isEmpty() && var3.charAt(0) != 35)
+                if (!s.isEmpty() && s.charAt(0) != 35)
                 {
-                    String[] var4 = (String[])Iterables.toArray(field_135065_b.split(var3), String.class);
+                    String[] astring = (String[])Iterables.toArray(field_135065_b.split(s), String.class);
 
-                    if (var4 != null && var4.length == 2)
+                    if (astring != null && astring.length == 2)
                     {
-                        String var5 = var4[0];
-                        String var6 = field_111053_a.matcher(var4[1]).replaceAll("%$1s");
-                        this.languageList.put(var5, var6);
+                        String s1 = astring[0];
+                        String s2 = field_111053_a.matcher(astring[1]).replaceAll("%$1s");
+                        this.languageList.put(s1, s2);
                     }
                 }
             }
         }
-        catch (IOException var7)
+        catch (Exception ioexception)
         {
             ;
         }
@@ -82,22 +94,22 @@ public class StringTranslate
      */
     public synchronized String translateKeyFormat(String par1Str, Object ... par2ArrayOfObj)
     {
-        String var3 = this.func_135064_c(par1Str);
+        String s1 = this.func_135064_c(par1Str);
 
         try
         {
-            return String.format(var3, par2ArrayOfObj);
+            return String.format(s1, par2ArrayOfObj);
         }
-        catch (IllegalFormatException var5)
+        catch (IllegalFormatException illegalformatexception)
         {
-            return "Format error: " + var3;
+            return "Format error: " + s1;
         }
     }
 
     private String func_135064_c(String par1Str)
     {
-        String var2 = (String)this.languageList.get(par1Str);
-        return var2 == null ? par1Str : var2;
+        String s1 = (String)this.languageList.get(par1Str);
+        return s1 == null ? par1Str : s1;
     }
 
     public synchronized boolean containsTranslateKey(String par1Str)

@@ -14,6 +14,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.ForgeDirection;
+import static net.minecraftforge.common.ForgeDirection.*;
+
 public abstract class BlockButton extends Block
 {
     /** Whether this button is sensible to arrows, used by wooden buttons. */
@@ -66,7 +69,11 @@ public abstract class BlockButton extends Block
      */
     public boolean canPlaceBlockOnSide(World par1World, int par2, int par3, int par4, int par5)
     {
-        return par5 == 2 && par1World.isBlockNormalCube(par2, par3, par4 + 1) ? true : (par5 == 3 && par1World.isBlockNormalCube(par2, par3, par4 - 1) ? true : (par5 == 4 && par1World.isBlockNormalCube(par2 + 1, par3, par4) ? true : par5 == 5 && par1World.isBlockNormalCube(par2 - 1, par3, par4)));
+        ForgeDirection dir = ForgeDirection.getOrientation(par5);
+        return (dir == NORTH && par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH)) ||
+               (dir == SOUTH && par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH)) ||
+               (dir == WEST  && par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST)) ||
+               (dir == EAST  && par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST));
     }
 
     /**
@@ -74,7 +81,10 @@ public abstract class BlockButton extends Block
      */
     public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
     {
-        return par1World.isBlockNormalCube(par2 - 1, par3, par4) ? true : (par1World.isBlockNormalCube(par2 + 1, par3, par4) ? true : (par1World.isBlockNormalCube(par2, par3, par4 - 1) ? true : par1World.isBlockNormalCube(par2, par3, par4 + 1)));
+        return (par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST)) ||
+               (par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST)) ||
+               (par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH)) ||
+               (par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH));
     }
 
     /**
@@ -82,32 +92,35 @@ public abstract class BlockButton extends Block
      */
     public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
     {
-        int var10 = par1World.getBlockMetadata(par2, par3, par4);
-        int var11 = var10 & 8;
-        var10 &= 7;
+        int j1 = par1World.getBlockMetadata(par2, par3, par4);
+        int k1 = j1 & 8;
+        j1 &= 7;
 
-        if (par5 == 2 && par1World.isBlockNormalCube(par2, par3, par4 + 1))
+
+        ForgeDirection dir = ForgeDirection.getOrientation(par5);
+
+        if (dir == NORTH && par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH))
         {
-            var10 = 4;
+            j1 = 4;
         }
-        else if (par5 == 3 && par1World.isBlockNormalCube(par2, par3, par4 - 1))
+        else if (dir == SOUTH && par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH))
         {
-            var10 = 3;
+            j1 = 3;
         }
-        else if (par5 == 4 && par1World.isBlockNormalCube(par2 + 1, par3, par4))
+        else if (dir == WEST && par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST))
         {
-            var10 = 2;
+            j1 = 2;
         }
-        else if (par5 == 5 && par1World.isBlockNormalCube(par2 - 1, par3, par4))
+        else if (dir == EAST && par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST))
         {
-            var10 = 1;
+            j1 = 1;
         }
         else
         {
-            var10 = this.getOrientation(par1World, par2, par3, par4);
+            j1 = this.getOrientation(par1World, par2, par3, par4);
         }
 
-        return var10 + var11;
+        return j1 + k1;
     }
 
     /**
@@ -115,7 +128,11 @@ public abstract class BlockButton extends Block
      */
     private int getOrientation(World par1World, int par2, int par3, int par4)
     {
-        return par1World.isBlockNormalCube(par2 - 1, par3, par4) ? 1 : (par1World.isBlockNormalCube(par2 + 1, par3, par4) ? 2 : (par1World.isBlockNormalCube(par2, par3, par4 - 1) ? 3 : (par1World.isBlockNormalCube(par2, par3, par4 + 1) ? 4 : 1)));
+        if (par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST)) return 1;
+        if (par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST)) return 2;
+        if (par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH)) return 3;
+        if (par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH)) return 4;
+        return 1;
     }
 
     /**
@@ -126,30 +143,30 @@ public abstract class BlockButton extends Block
     {
         if (this.redundantCanPlaceBlockAt(par1World, par2, par3, par4))
         {
-            int var6 = par1World.getBlockMetadata(par2, par3, par4) & 7;
-            boolean var7 = false;
+            int i1 = par1World.getBlockMetadata(par2, par3, par4) & 7;
+            boolean flag = false;
 
-            if (!par1World.isBlockNormalCube(par2 - 1, par3, par4) && var6 == 1)
+            if (!par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST) && i1 == 1)
             {
-                var7 = true;
+                flag = true;
             }
 
-            if (!par1World.isBlockNormalCube(par2 + 1, par3, par4) && var6 == 2)
+            if (!par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST) && i1 == 2)
             {
-                var7 = true;
+                flag = true;
             }
 
-            if (!par1World.isBlockNormalCube(par2, par3, par4 - 1) && var6 == 3)
+            if (!par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH) && i1 == 3)
             {
-                var7 = true;
+                flag = true;
             }
 
-            if (!par1World.isBlockNormalCube(par2, par3, par4 + 1) && var6 == 4)
+            if (!par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH) && i1 == 4)
             {
-                var7 = true;
+                flag = true;
             }
 
-            if (var7)
+            if (flag)
             {
                 this.dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
                 par1World.setBlockToAir(par2, par3, par4);
@@ -179,39 +196,39 @@ public abstract class BlockButton extends Block
      */
     public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
-        this.func_82534_e(var5);
+        int l = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+        this.func_82534_e(l);
     }
 
     private void func_82534_e(int par1)
     {
-        int var2 = par1 & 7;
-        boolean var3 = (par1 & 8) > 0;
-        float var4 = 0.375F;
-        float var5 = 0.625F;
-        float var6 = 0.1875F;
-        float var7 = 0.125F;
+        int j = par1 & 7;
+        boolean flag = (par1 & 8) > 0;
+        float f = 0.375F;
+        float f1 = 0.625F;
+        float f2 = 0.1875F;
+        float f3 = 0.125F;
 
-        if (var3)
+        if (flag)
         {
-            var7 = 0.0625F;
+            f3 = 0.0625F;
         }
 
-        if (var2 == 1)
+        if (j == 1)
         {
-            this.setBlockBounds(0.0F, var4, 0.5F - var6, var7, var5, 0.5F + var6);
+            this.setBlockBounds(0.0F, f, 0.5F - f2, f3, f1, 0.5F + f2);
         }
-        else if (var2 == 2)
+        else if (j == 2)
         {
-            this.setBlockBounds(1.0F - var7, var4, 0.5F - var6, 1.0F, var5, 0.5F + var6);
+            this.setBlockBounds(1.0F - f3, f, 0.5F - f2, 1.0F, f1, 0.5F + f2);
         }
-        else if (var2 == 3)
+        else if (j == 3)
         {
-            this.setBlockBounds(0.5F - var6, var4, 0.0F, 0.5F + var6, var5, var7);
+            this.setBlockBounds(0.5F - f2, f, 0.0F, 0.5F + f2, f1, f3);
         }
-        else if (var2 == 4)
+        else if (j == 4)
         {
-            this.setBlockBounds(0.5F - var6, var4, 1.0F - var7, 0.5F + var6, var5, 1.0F);
+            this.setBlockBounds(0.5F - f2, f, 1.0F - f3, 0.5F + f2, f1, 1.0F);
         }
     }
 
@@ -225,20 +242,20 @@ public abstract class BlockButton extends Block
      */
     public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
-        int var10 = par1World.getBlockMetadata(par2, par3, par4);
-        int var11 = var10 & 7;
-        int var12 = 8 - (var10 & 8);
+        int i1 = par1World.getBlockMetadata(par2, par3, par4);
+        int j1 = i1 & 7;
+        int k1 = 8 - (i1 & 8);
 
-        if (var12 == 0)
+        if (k1 == 0)
         {
             return true;
         }
         else
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, var11 + var12, 3);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, j1 + k1, 3);
             par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
             par1World.playSoundEffect((double)par2 + 0.5D, (double)par3 + 0.5D, (double)par4 + 0.5D, "random.click", 0.3F, 0.6F);
-            this.func_82536_d(par1World, par2, par3, par4, var11);
+            this.func_82536_d(par1World, par2, par3, par4, j1);
             par1World.scheduleBlockUpdate(par2, par3, par4, this.blockID, this.tickRate(par1World));
             return true;
         }
@@ -253,8 +270,8 @@ public abstract class BlockButton extends Block
     {
         if ((par6 & 8) > 0)
         {
-            int var7 = par6 & 7;
-            this.func_82536_d(par1World, par2, par3, par4, var7);
+            int j1 = par6 & 7;
+            this.func_82536_d(par1World, par2, par3, par4, j1);
         }
 
         super.breakBlock(par1World, par2, par3, par4, par5, par6);
@@ -276,16 +293,16 @@ public abstract class BlockButton extends Block
      */
     public int isProvidingStrongPower(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
     {
-        int var6 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+        int i1 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
 
-        if ((var6 & 8) == 0)
+        if ((i1 & 8) == 0)
         {
             return 0;
         }
         else
         {
-            int var7 = var6 & 7;
-            return var7 == 5 && par5 == 1 ? 15 : (var7 == 4 && par5 == 2 ? 15 : (var7 == 3 && par5 == 3 ? 15 : (var7 == 2 && par5 == 4 ? 15 : (var7 == 1 && par5 == 5 ? 15 : 0))));
+            int j1 = i1 & 7;
+            return j1 == 5 && par5 == 1 ? 15 : (j1 == 4 && par5 == 2 ? 15 : (j1 == 3 && par5 == 3 ? 15 : (j1 == 2 && par5 == 4 ? 15 : (j1 == 1 && par5 == 5 ? 15 : 0))));
         }
     }
 
@@ -304,9 +321,9 @@ public abstract class BlockButton extends Block
     {
         if (!par1World.isRemote)
         {
-            int var6 = par1World.getBlockMetadata(par2, par3, par4);
+            int l = par1World.getBlockMetadata(par2, par3, par4);
 
-            if ((var6 & 8) != 0)
+            if ((l & 8) != 0)
             {
                 if (this.sensible)
                 {
@@ -314,9 +331,9 @@ public abstract class BlockButton extends Block
                 }
                 else
                 {
-                    par1World.setBlockMetadataWithNotify(par2, par3, par4, var6 & 7, 3);
-                    int var7 = var6 & 7;
-                    this.func_82536_d(par1World, par2, par3, par4, var7);
+                    par1World.setBlockMetadataWithNotify(par2, par3, par4, l & 7, 3);
+                    int i1 = l & 7;
+                    this.func_82536_d(par1World, par2, par3, par4, i1);
                     par1World.playSoundEffect((double)par2 + 0.5D, (double)par3 + 0.5D, (double)par4 + 0.5D, "random.click", 0.3F, 0.5F);
                     par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
                 }
@@ -329,10 +346,10 @@ public abstract class BlockButton extends Block
      */
     public void setBlockBoundsForItemRender()
     {
-        float var1 = 0.1875F;
-        float var2 = 0.125F;
-        float var3 = 0.125F;
-        this.setBlockBounds(0.5F - var1, 0.5F - var2, 0.5F - var3, 0.5F + var1, 0.5F + var2, 0.5F + var3);
+        float f = 0.1875F;
+        float f1 = 0.125F;
+        float f2 = 0.125F;
+        this.setBlockBounds(0.5F - f, 0.5F - f1, 0.5F - f2, 0.5F + f, 0.5F + f1, 0.5F + f2);
     }
 
     /**
@@ -354,30 +371,30 @@ public abstract class BlockButton extends Block
 
     protected void func_82535_o(World par1World, int par2, int par3, int par4)
     {
-        int var5 = par1World.getBlockMetadata(par2, par3, par4);
-        int var6 = var5 & 7;
-        boolean var7 = (var5 & 8) != 0;
-        this.func_82534_e(var5);
-        List var9 = par1World.getEntitiesWithinAABB(EntityArrow.class, AxisAlignedBB.getAABBPool().getAABB((double)par2 + this.minX, (double)par3 + this.minY, (double)par4 + this.minZ, (double)par2 + this.maxX, (double)par3 + this.maxY, (double)par4 + this.maxZ));
-        boolean var8 = !var9.isEmpty();
+        int l = par1World.getBlockMetadata(par2, par3, par4);
+        int i1 = l & 7;
+        boolean flag = (l & 8) != 0;
+        this.func_82534_e(l);
+        List list = par1World.getEntitiesWithinAABB(EntityArrow.class, AxisAlignedBB.getAABBPool().getAABB((double)par2 + this.minX, (double)par3 + this.minY, (double)par4 + this.minZ, (double)par2 + this.maxX, (double)par3 + this.maxY, (double)par4 + this.maxZ));
+        boolean flag1 = !list.isEmpty();
 
-        if (var8 && !var7)
+        if (flag1 && !flag)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, var6 | 8, 3);
-            this.func_82536_d(par1World, par2, par3, par4, var6);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, i1 | 8, 3);
+            this.func_82536_d(par1World, par2, par3, par4, i1);
             par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
             par1World.playSoundEffect((double)par2 + 0.5D, (double)par3 + 0.5D, (double)par4 + 0.5D, "random.click", 0.3F, 0.6F);
         }
 
-        if (!var8 && var7)
+        if (!flag1 && flag)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, var6, 3);
-            this.func_82536_d(par1World, par2, par3, par4, var6);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, i1, 3);
+            this.func_82536_d(par1World, par2, par3, par4, i1);
             par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
             par1World.playSoundEffect((double)par2 + 0.5D, (double)par3 + 0.5D, (double)par4 + 0.5D, "random.click", 0.3F, 0.5F);
         }
 
-        if (var8)
+        if (flag1)
         {
             par1World.scheduleBlockUpdate(par2, par3, par4, this.blockID, this.tickRate(par1World));
         }

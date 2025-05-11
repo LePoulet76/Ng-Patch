@@ -72,9 +72,9 @@ class GuiScreenBackupSelectionList extends GuiScreenSelectLocation
 
     private void func_111246_b(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
     {
-        Backup var6 = (Backup)GuiScreenBackup.func_110370_e(this.field_111249_a).get(par1);
-        this.field_111249_a.drawString(GuiScreenBackup.func_130032_i(this.field_111249_a), "Backup (" + this.func_111248_a(Long.valueOf(MinecraftServer.getSystemTimeMillis() - var6.field_110725_b.getTime())) + ")", par2 + 2, par3 + 1, 16777215);
-        this.field_111249_a.drawString(GuiScreenBackup.func_130033_j(this.field_111249_a), this.func_111247_a(var6.field_110725_b), par2 + 2, par3 + 12, 7105644);
+        Backup backup = (Backup)GuiScreenBackup.func_110370_e(this.field_111249_a).get(par1);
+        this.field_111249_a.drawString(GuiScreenBackup.func_130032_i(this.field_111249_a), "Backup (" + this.func_111248_a(Long.valueOf(MinecraftServer.getSystemTimeMillis() - backup.field_110725_b.getTime())) + ")", par2 + 2, par3 + 1, 16777215);
+        this.field_111249_a.drawString(GuiScreenBackup.func_130033_j(this.field_111249_a), this.func_111247_a(backup.field_110725_b), par2 + 2, par3 + 12, 7105644);
     }
 
     private String func_111247_a(Date par1Date)
@@ -90,30 +90,30 @@ class GuiScreenBackupSelectionList extends GuiScreenSelectLocation
         }
         else
         {
-            long var2 = par1.longValue() / 1000L;
+            long i = par1.longValue() / 1000L;
 
-            if (var2 < 60L)
+            if (i < 60L)
             {
-                return (var2 == 1L ? "1 second" : var2 + " seconds") + " ago";
+                return (i == 1L ? "1 second" : i + " seconds") + " ago";
             }
             else
             {
-                long var4;
+                long j;
 
-                if (var2 < 3600L)
+                if (i < 3600L)
                 {
-                    var4 = var2 / 60L;
-                    return (var4 == 1L ? "1 minute" : var4 + " minutes") + " ago";
+                    j = i / 60L;
+                    return (j == 1L ? "1 minute" : j + " minutes") + " ago";
                 }
-                else if (var2 < 86400L)
+                else if (i < 86400L)
                 {
-                    var4 = var2 / 3600L;
-                    return (var4 == 1L ? "1 hour" : var4 + " hours") + " ago";
+                    j = i / 3600L;
+                    return (j == 1L ? "1 hour" : j + " hours") + " ago";
                 }
                 else
                 {
-                    var4 = var2 / 86400L;
-                    return (var4 == 1L ? "1 day" : var4 + " days") + " ago";
+                    j = i / 86400L;
+                    return (j == 1L ? "1 day" : j + " days") + " ago";
                 }
             }
         }

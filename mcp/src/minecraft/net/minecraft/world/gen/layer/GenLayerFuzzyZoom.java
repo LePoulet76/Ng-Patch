@@ -14,44 +14,44 @@ public class GenLayerFuzzyZoom extends GenLayer
      */
     public int[] getInts(int par1, int par2, int par3, int par4)
     {
-        int var5 = par1 >> 1;
-        int var6 = par2 >> 1;
-        int var7 = (par3 >> 1) + 3;
-        int var8 = (par4 >> 1) + 3;
-        int[] var9 = this.parent.getInts(var5, var6, var7, var8);
-        int[] var10 = IntCache.getIntCache(var7 * 2 * var8 * 2);
-        int var11 = var7 << 1;
-        int var13;
+        int i1 = par1 >> 1;
+        int j1 = par2 >> 1;
+        int k1 = (par3 >> 1) + 3;
+        int l1 = (par4 >> 1) + 3;
+        int[] aint = this.parent.getInts(i1, j1, k1, l1);
+        int[] aint1 = IntCache.getIntCache(k1 * 2 * l1 * 2);
+        int i2 = k1 << 1;
+        int j2;
 
-        for (int var12 = 0; var12 < var8 - 1; ++var12)
+        for (int k2 = 0; k2 < l1 - 1; ++k2)
         {
-            var13 = var12 << 1;
-            int var14 = var13 * var11;
-            int var15 = var9[0 + (var12 + 0) * var7];
-            int var16 = var9[0 + (var12 + 1) * var7];
+            j2 = k2 << 1;
+            int l2 = j2 * i2;
+            int i3 = aint[0 + (k2 + 0) * k1];
+            int j3 = aint[0 + (k2 + 1) * k1];
 
-            for (int var17 = 0; var17 < var7 - 1; ++var17)
+            for (int k3 = 0; k3 < k1 - 1; ++k3)
             {
-                this.initChunkSeed((long)(var17 + var5 << 1), (long)(var12 + var6 << 1));
-                int var18 = var9[var17 + 1 + (var12 + 0) * var7];
-                int var19 = var9[var17 + 1 + (var12 + 1) * var7];
-                var10[var14] = var15;
-                var10[var14++ + var11] = this.choose(var15, var16);
-                var10[var14] = this.choose(var15, var18);
-                var10[var14++ + var11] = this.choose(var15, var18, var16, var19);
-                var15 = var18;
-                var16 = var19;
+                this.initChunkSeed((long)(k3 + i1 << 1), (long)(k2 + j1 << 1));
+                int l3 = aint[k3 + 1 + (k2 + 0) * k1];
+                int i4 = aint[k3 + 1 + (k2 + 1) * k1];
+                aint1[l2] = i3;
+                aint1[l2++ + i2] = this.choose(i3, j3);
+                aint1[l2] = this.choose(i3, l3);
+                aint1[l2++ + i2] = this.choose(i3, l3, j3, i4);
+                i3 = l3;
+                j3 = i4;
             }
         }
 
-        int[] var20 = IntCache.getIntCache(par3 * par4);
+        int[] aint2 = IntCache.getIntCache(par3 * par4);
 
-        for (var13 = 0; var13 < par4; ++var13)
+        for (j2 = 0; j2 < par4; ++j2)
         {
-            System.arraycopy(var10, (var13 + (par2 & 1)) * (var7 << 1) + (par1 & 1), var20, var13 * par3, par3);
+            System.arraycopy(aint1, (j2 + (par2 & 1)) * (k1 << 1) + (par1 & 1), aint2, j2 * par3, par3);
         }
 
-        return var20;
+        return aint2;
     }
 
     /**
@@ -67,7 +67,7 @@ public class GenLayerFuzzyZoom extends GenLayer
      */
     protected int choose(int par1, int par2, int par3, int par4)
     {
-        int var5 = this.nextInt(4);
-        return var5 == 0 ? par1 : (var5 == 1 ? par2 : (var5 == 2 ? par3 : par4));
+        int i1 = this.nextInt(4);
+        return i1 == 0 ? par1 : (i1 == 1 ? par2 : (i1 == 2 ? par3 : par4));
     }
 }

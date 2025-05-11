@@ -30,9 +30,9 @@ public class CommandDifficulty extends CommandBase
     {
         if (par2ArrayOfStr.length > 0)
         {
-            int var3 = this.getDifficultyForName(par1ICommandSender, par2ArrayOfStr[0]);
-            MinecraftServer.getServer().setDifficultyForAllWorlds(var3);
-            notifyAdmins(par1ICommandSender, "commands.difficulty.success", new Object[] {ChatMessageComponent.createFromTranslationKey(difficulties[var3])});
+            int i = this.getDifficultyForName(par1ICommandSender, par2ArrayOfStr[0]);
+            MinecraftServer.getServer().setDifficultyForAllWorlds(i);
+            notifyAdmins(par1ICommandSender, "commands.difficulty.success", new Object[] {ChatMessageComponent.createFromTranslationKey(difficulties[i])});
         }
         else
         {

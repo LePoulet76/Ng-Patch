@@ -14,8 +14,8 @@ class CallableType implements Callable
 
     public String getType()
     {
-        String var1 = this.theDecitatedServer.getServerModName();
-        return !var1.equals("vanilla") ? "Definitely; Server brand changed to \'" + var1 + "\'" : "Unknown (can\'t tell)";
+        String s = this.theDecitatedServer.getServerModName();
+        return !s.equals("vanilla") ? "Definitely; Server brand changed to \'" + s + "\'" : "Unknown (can\'t tell)";
     }
 
     public Object call()

@@ -28,20 +28,20 @@ public class ItemMinecart extends Item
      */
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
-        int var11 = par3World.getBlockId(par4, par5, par6);
+        int i1 = par3World.getBlockId(par4, par5, par6);
 
-        if (BlockRailBase.isRailBlock(var11))
+        if (BlockRailBase.isRailBlock(i1))
         {
             if (!par3World.isRemote)
             {
-                EntityMinecart var12 = EntityMinecart.createMinecart(par3World, (double)((float)par4 + 0.5F), (double)((float)par5 + 0.5F), (double)((float)par6 + 0.5F), this.minecartType);
+                EntityMinecart entityminecart = EntityMinecart.createMinecart(par3World, (double)((float)par4 + 0.5F), (double)((float)par5 + 0.5F), (double)((float)par6 + 0.5F), this.minecartType);
 
                 if (par1ItemStack.hasDisplayName())
                 {
-                    var12.setMinecartName(par1ItemStack.getDisplayName());
+                    entityminecart.setMinecartName(par1ItemStack.getDisplayName());
                 }
 
-                par3World.spawnEntityInWorld(var12);
+                par3World.spawnEntityInWorld(entityminecart);
             }
 
             --par1ItemStack.stackSize;

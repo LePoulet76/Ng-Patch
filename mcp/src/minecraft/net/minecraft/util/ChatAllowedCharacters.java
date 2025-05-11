@@ -21,29 +21,29 @@ public class ChatAllowedCharacters
      */
     private static String getAllowedCharacters()
     {
-        String var0 = "";
+        String s = "";
 
         try
         {
-            BufferedReader var1 = new BufferedReader(new InputStreamReader(ChatAllowedCharacters.class.getResourceAsStream("/font.txt"), "UTF-8"));
-            String var2 = "";
+            BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(ChatAllowedCharacters.class.getResourceAsStream("/font.txt"), "UTF-8"));
+            String s1 = "";
 
-            while ((var2 = var1.readLine()) != null)
+            while ((s1 = bufferedreader.readLine()) != null)
             {
-                if (!var2.startsWith("#"))
+                if (!s1.startsWith("#"))
                 {
-                    var0 = var0 + var2;
+                    s = s + s1;
                 }
             }
 
-            var1.close();
+            bufferedreader.close();
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
             ;
         }
 
-        return var0;
+        return s;
     }
 
     public static final boolean isAllowedCharacter(char par0)
@@ -56,20 +56,20 @@ public class ChatAllowedCharacters
      */
     public static String filerAllowedCharacters(String par0Str)
     {
-        StringBuilder var1 = new StringBuilder();
-        char[] var2 = par0Str.toCharArray();
-        int var3 = var2.length;
+        StringBuilder stringbuilder = new StringBuilder();
+        char[] achar = par0Str.toCharArray();
+        int i = achar.length;
 
-        for (int var4 = 0; var4 < var3; ++var4)
+        for (int j = 0; j < i; ++j)
         {
-            char var5 = var2[var4];
+            char c0 = achar[j];
 
-            if (isAllowedCharacter(var5))
+            if (isAllowedCharacter(c0))
             {
-                var1.append(var5);
+                stringbuilder.append(c0);
             }
         }
 
-        return var1.toString();
+        return stringbuilder.toString();
     }
 }

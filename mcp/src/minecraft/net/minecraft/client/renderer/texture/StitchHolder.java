@@ -68,7 +68,7 @@ public class StitchHolder implements Comparable
      */
     public int compareToStitchHolder(StitchHolder par1StitchHolder)
     {
-        int var2;
+        int i;
 
         if (this.getHeight() == par1StitchHolder.getHeight())
         {
@@ -82,14 +82,14 @@ public class StitchHolder implements Comparable
                 return this.theTexture.getIconName().compareTo(par1StitchHolder.theTexture.getIconName());
             }
 
-            var2 = this.getWidth() < par1StitchHolder.getWidth() ? 1 : -1;
+            i = this.getWidth() < par1StitchHolder.getWidth() ? 1 : -1;
         }
         else
         {
-            var2 = this.getHeight() < par1StitchHolder.getHeight() ? 1 : -1;
+            i = this.getHeight() < par1StitchHolder.getHeight() ? 1 : -1;
         }
 
-        return var2;
+        return i;
     }
 
     public int compareTo(Object par1Obj)

@@ -12,21 +12,21 @@ public class RConUtils
      */
     public static String getBytesAsString(byte[] par0ArrayOfByte, int par1, int par2)
     {
-        int var3 = par2 - 1;
-        int var4;
+        int k = par2 - 1;
+        int l;
 
-        for (var4 = par1 > var3 ? var3 : par1; 0 != par0ArrayOfByte[var4] && var4 < var3; ++var4)
+        for (l = par1 > k ? k : par1; 0 != par0ArrayOfByte[l] && l < k; ++l)
         {
             ;
         }
 
         try
         {
-            return new String(par0ArrayOfByte, par1, var4 - par1, "UTF-8");
+            return new String(par0ArrayOfByte, par1, l - par1, "UTF-8");
         }
-        catch (UnsupportedEncodingException var6)
+        catch (UnsupportedEncodingException unsupportedencodingexception)
         {
-            var6.printStackTrace();
+            unsupportedencodingexception.printStackTrace();
             return null;
         }
     }

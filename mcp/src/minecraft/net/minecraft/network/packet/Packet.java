@@ -83,12 +83,12 @@ public abstract class Packet
     {
         try
         {
-            Class var2 = (Class)packetIdToClassMap.lookup(par1);
-            return var2 == null ? null : (Packet)var2.newInstance();
+            Class oclass = (Class)packetIdToClassMap.lookup(par1);
+            return oclass == null ? null : (Packet)oclass.newInstance();
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
-            var3.printStackTrace();
+            exception.printStackTrace();
             par0ILogAgent.logSevere("Skipping packet with id " + par1);
             return null;
         }
@@ -108,17 +108,17 @@ public abstract class Packet
      */
     public static byte[] readBytesFromStream(DataInput par0DataInput) throws IOException
     {
-        short var1 = par0DataInput.readShort();
+        short short1 = par0DataInput.readShort();
 
-        if (var1 < 0)
+        if (short1 < 0)
         {
             throw new IOException("Key was smaller than nothing!  Weird key!");
         }
         else
         {
-            byte[] var2 = new byte[var1];
-            par0DataInput.readFully(var2);
-            return var2;
+            byte[] abyte = new byte[short1];
+            par0DataInput.readFully(abyte);
+            return abyte;
         }
     }
 
@@ -135,49 +135,49 @@ public abstract class Packet
      */
     public static Packet readPacket(ILogAgent par0ILogAgent, DataInput par1DataInput, boolean par2, Socket par3Socket) throws IOException
     {
-        boolean var4 = false;
-        Packet var5 = null;
-        int var6 = par3Socket.getSoTimeout();
-        int var9;
+        boolean flag1 = false;
+        Packet packet = null;
+        int i = par3Socket.getSoTimeout();
+        int j;
 
         try
         {
-            var9 = par1DataInput.readUnsignedByte();
+            j = par1DataInput.readUnsignedByte();
 
-            if (par2 && !serverPacketIdList.contains(Integer.valueOf(var9)) || !par2 && !clientPacketIdList.contains(Integer.valueOf(var9)))
+            if (par2 && !serverPacketIdList.contains(Integer.valueOf(j)) || !par2 && !clientPacketIdList.contains(Integer.valueOf(j)))
             {
-                throw new IOException("Bad packet id " + var9);
+                throw new IOException("Bad packet id " + j);
             }
 
-            var5 = getNewPacket(par0ILogAgent, var9);
+            packet = getNewPacket(par0ILogAgent, j);
 
-            if (var5 == null)
+            if (packet == null)
             {
-                throw new IOException("Bad packet id " + var9);
+                throw new IOException("Bad packet id " + j);
             }
 
-            var5.field_98193_m = par0ILogAgent;
+            packet.field_98193_m = par0ILogAgent;
 
-            if (var5 instanceof Packet254ServerPing)
+            if (packet instanceof Packet254ServerPing)
             {
                 par3Socket.setSoTimeout(1500);
             }
 
-            var5.readPacketData(par1DataInput);
+            packet.readPacketData(par1DataInput);
             ++receivedID;
-            receivedSize += (long)var5.getPacketSize();
+            receivedSize += (long)packet.getPacketSize();
         }
-        catch (EOFException var8)
+        catch (EOFException eofexception)
         {
             par0ILogAgent.logSevere("Reached end of stream for " + par3Socket.getInetAddress());
             return null;
         }
 
-        PacketCount.countPacket(var9, (long)var5.getPacketSize());
+        PacketCount.countPacket(j, (long)packet.getPacketSize());
         ++receivedID;
-        receivedSize += (long)var5.getPacketSize();
-        par3Socket.setSoTimeout(var6);
-        return var5;
+        receivedSize += (long)packet.getPacketSize();
+        par3Socket.setSoTimeout(i);
+        return packet;
     }
 
     /**
@@ -212,43 +212,43 @@ public abstract class Packet
      */
     public static String readString(DataInput par0DataInput, int par1) throws IOException
     {
-        short var2 = par0DataInput.readShort();
+        short short1 = par0DataInput.readShort();
 
-        if (var2 > par1)
+        if (short1 > par1)
         {
-            throw new IOException("Received string length longer than maximum allowed (" + var2 + " > " + par1 + ")");
+            throw new IOException("Received string length longer than maximum allowed (" + short1 + " > " + par1 + ")");
         }
-        else if (var2 < 0)
+        else if (short1 < 0)
         {
             throw new IOException("Received string length is less than zero! Weird string!");
         }
         else
         {
-            StringBuilder var3 = new StringBuilder();
+            StringBuilder stringbuilder = new StringBuilder();
 
-            for (int var4 = 0; var4 < var2; ++var4)
+            for (int j = 0; j < short1; ++j)
             {
-                var3.append(par0DataInput.readChar());
+                stringbuilder.append(par0DataInput.readChar());
             }
 
-            return var3.toString();
+            return stringbuilder.toString();
         }
     }
 
     /**
      * Abstract. Reads the raw packet data from the data stream.
      */
-    public abstract void readPacketData(DataInput var1) throws IOException;
+    public abstract void readPacketData(DataInput datainput) throws IOException;
 
     /**
      * Abstract. Writes the raw packet data to the data stream.
      */
-    public abstract void writePacketData(DataOutput var1) throws IOException;
+    public abstract void writePacketData(DataOutput dataoutput) throws IOException;
 
     /**
      * Passes this Packet on to the NetHandler for processing.
      */
-    public abstract void processPacket(NetHandler var1);
+    public abstract void processPacket(NetHandler nethandler);
 
     /**
      * Abstract. Return the size of the packet (not counting the header).
@@ -283,8 +283,8 @@ public abstract class Packet
 
     public String toString()
     {
-        String var1 = this.getClass().getSimpleName();
-        return var1;
+        String s = this.getClass().getSimpleName();
+        return s;
     }
 
     /**
@@ -292,18 +292,18 @@ public abstract class Packet
      */
     public static ItemStack readItemStack(DataInput par0DataInput) throws IOException
     {
-        ItemStack var1 = null;
-        short var2 = par0DataInput.readShort();
+        ItemStack itemstack = null;
+        short short1 = par0DataInput.readShort();
 
-        if (var2 >= 0)
+        if (short1 >= 0)
         {
-            byte var3 = par0DataInput.readByte();
-            short var4 = par0DataInput.readShort();
-            var1 = new ItemStack(var2, var3, var4);
-            var1.stackTagCompound = readNBTTagCompound(par0DataInput);
+            byte b0 = par0DataInput.readByte();
+            short short2 = par0DataInput.readShort();
+            itemstack = new ItemStack(short1, b0, short2);
+            itemstack.stackTagCompound = readNBTTagCompound(par0DataInput);
         }
 
-        return var1;
+        return itemstack;
     }
 
     /**
@@ -320,14 +320,14 @@ public abstract class Packet
             par1DataOutput.writeShort(par0ItemStack.itemID);
             par1DataOutput.writeByte(par0ItemStack.stackSize);
             par1DataOutput.writeShort(par0ItemStack.getItemDamage());
-            NBTTagCompound var2 = null;
+            NBTTagCompound nbttagcompound = null;
 
             if (par0ItemStack.getItem().isDamageable() || par0ItemStack.getItem().getShareTag())
             {
-                var2 = par0ItemStack.stackTagCompound;
+                nbttagcompound = par0ItemStack.stackTagCompound;
             }
 
-            writeNBTTagCompound(var2, par1DataOutput);
+            writeNBTTagCompound(nbttagcompound, par1DataOutput);
         }
     }
 
@@ -336,17 +336,17 @@ public abstract class Packet
      */
     public static NBTTagCompound readNBTTagCompound(DataInput par0DataInput) throws IOException
     {
-        short var1 = par0DataInput.readShort();
+        short short1 = par0DataInput.readShort();
 
-        if (var1 < 0)
+        if (short1 < 0)
         {
             return null;
         }
         else
         {
-            byte[] var2 = new byte[var1];
-            par0DataInput.readFully(var2);
-            return CompressedStreamTools.decompress(var2);
+            byte[] abyte = new byte[short1];
+            par0DataInput.readFully(abyte);
+            return CompressedStreamTools.decompress(abyte);
         }
     }
 
@@ -361,9 +361,9 @@ public abstract class Packet
         }
         else
         {
-            byte[] var2 = CompressedStreamTools.compress(par0NBTTagCompound);
-            par1DataOutput.writeShort((short)var2.length);
-            par1DataOutput.write(var2);
+            byte[] abyte = CompressedStreamTools.compress(par0NBTTagCompound);
+            par1DataOutput.writeShort((short)abyte.length);
+            par1DataOutput.write(abyte);
         }
     }
 
@@ -433,7 +433,7 @@ public abstract class Packet
         addIdClassMapping(107, true, true, Packet107CreativeSetSlot.class);
         addIdClassMapping(108, false, true, Packet108EnchantItem.class);
         addIdClassMapping(130, true, true, Packet130UpdateSign.class);
-        addIdClassMapping(131, true, false, Packet131MapData.class);
+        addIdClassMapping(131, true, true, Packet131MapData.class);
         addIdClassMapping(132, true, false, Packet132TileEntityData.class);
         addIdClassMapping(133, true, false, Packet133TileEditorOpen.class);
         addIdClassMapping(200, true, false, Packet200Statistic.class);

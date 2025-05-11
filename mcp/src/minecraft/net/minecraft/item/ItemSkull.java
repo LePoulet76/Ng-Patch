@@ -82,27 +82,27 @@ public class ItemSkull extends Item
             else
             {
                 par3World.setBlock(par4, par5, par6, Block.skull.blockID, par7, 2);
-                int var11 = 0;
+                int i1 = 0;
 
                 if (par7 == 1)
                 {
-                    var11 = MathHelper.floor_double((double)(par2EntityPlayer.rotationYaw * 16.0F / 360.0F) + 0.5D) & 15;
+                    i1 = MathHelper.floor_double((double)(par2EntityPlayer.rotationYaw * 16.0F / 360.0F) + 0.5D) & 15;
                 }
 
-                TileEntity var12 = par3World.getBlockTileEntity(par4, par5, par6);
+                TileEntity tileentity = par3World.getBlockTileEntity(par4, par5, par6);
 
-                if (var12 != null && var12 instanceof TileEntitySkull)
+                if (tileentity != null && tileentity instanceof TileEntitySkull)
                 {
-                    String var13 = "";
+                    String s = "";
 
                     if (par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey("SkullOwner"))
                     {
-                        var13 = par1ItemStack.getTagCompound().getString("SkullOwner");
+                        s = par1ItemStack.getTagCompound().getString("SkullOwner");
                     }
 
-                    ((TileEntitySkull)var12).setSkullType(par1ItemStack.getItemDamage(), var13);
-                    ((TileEntitySkull)var12).setSkullRotation(var11);
-                    ((BlockSkull)Block.skull).makeWither(par3World, par4, par5, par6, (TileEntitySkull)var12);
+                    ((TileEntitySkull)tileentity).setSkullType(par1ItemStack.getItemDamage(), s);
+                    ((TileEntitySkull)tileentity).setSkullRotation(i1);
+                    ((BlockSkull)Block.skull).makeWither(par3World, par4, par5, par6, (TileEntitySkull)tileentity);
                 }
 
                 --par1ItemStack.stackSize;
@@ -118,9 +118,9 @@ public class ItemSkull extends Item
      */
     public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (int var4 = 0; var4 < skullTypes.length; ++var4)
+        for (int j = 0; j < skullTypes.length; ++j)
         {
-            par3List.add(new ItemStack(par1, 1, var4));
+            par3List.add(new ItemStack(par1, 1, j));
         }
     }
 
@@ -153,14 +153,14 @@ public class ItemSkull extends Item
      */
     public String getUnlocalizedName(ItemStack par1ItemStack)
     {
-        int var2 = par1ItemStack.getItemDamage();
+        int i = par1ItemStack.getItemDamage();
 
-        if (var2 < 0 || var2 >= skullTypes.length)
+        if (i < 0 || i >= skullTypes.length)
         {
-            var2 = 0;
+            i = 0;
         }
 
-        return super.getUnlocalizedName() + "." + skullTypes[var2];
+        return super.getUnlocalizedName() + "." + skullTypes[i];
     }
 
     public String getItemDisplayName(ItemStack par1ItemStack)
@@ -173,9 +173,9 @@ public class ItemSkull extends Item
     {
         this.field_94586_c = new Icon[field_94587_a.length];
 
-        for (int var2 = 0; var2 < field_94587_a.length; ++var2)
+        for (int i = 0; i < field_94587_a.length; ++i)
         {
-            this.field_94586_c[var2] = par1IconRegister.registerIcon(this.getIconString() + "_" + field_94587_a[var2]);
+            this.field_94586_c[i] = par1IconRegister.registerIcon(this.getIconString() + "_" + field_94587_a[i]);
         }
     }
 }

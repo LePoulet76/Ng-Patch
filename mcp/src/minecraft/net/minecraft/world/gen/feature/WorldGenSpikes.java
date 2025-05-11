@@ -21,48 +21,48 @@ public class WorldGenSpikes extends WorldGenerator
     {
         if (par1World.isAirBlock(par3, par4, par5) && par1World.getBlockId(par3, par4 - 1, par5) == this.replaceID)
         {
-            int var6 = par2Random.nextInt(32) + 6;
-            int var7 = par2Random.nextInt(4) + 1;
-            int var8;
-            int var9;
-            int var10;
-            int var11;
+            int l = par2Random.nextInt(32) + 6;
+            int i1 = par2Random.nextInt(4) + 1;
+            int j1;
+            int k1;
+            int l1;
+            int i2;
 
-            for (var8 = par3 - var7; var8 <= par3 + var7; ++var8)
+            for (j1 = par3 - i1; j1 <= par3 + i1; ++j1)
             {
-                for (var9 = par5 - var7; var9 <= par5 + var7; ++var9)
+                for (k1 = par5 - i1; k1 <= par5 + i1; ++k1)
                 {
-                    var10 = var8 - par3;
-                    var11 = var9 - par5;
+                    l1 = j1 - par3;
+                    i2 = k1 - par5;
 
-                    if (var10 * var10 + var11 * var11 <= var7 * var7 + 1 && par1World.getBlockId(var8, par4 - 1, var9) != this.replaceID)
+                    if (l1 * l1 + i2 * i2 <= i1 * i1 + 1 && par1World.getBlockId(j1, par4 - 1, k1) != this.replaceID)
                     {
                         return false;
                     }
                 }
             }
 
-            for (var8 = par4; var8 < par4 + var6 && var8 < 128; ++var8)
+            for (j1 = par4; j1 < par4 + l && j1 < 128; ++j1)
             {
-                for (var9 = par3 - var7; var9 <= par3 + var7; ++var9)
+                for (k1 = par3 - i1; k1 <= par3 + i1; ++k1)
                 {
-                    for (var10 = par5 - var7; var10 <= par5 + var7; ++var10)
+                    for (l1 = par5 - i1; l1 <= par5 + i1; ++l1)
                     {
-                        var11 = var9 - par3;
-                        int var12 = var10 - par5;
+                        i2 = k1 - par3;
+                        int j2 = l1 - par5;
 
-                        if (var11 * var11 + var12 * var12 <= var7 * var7 + 1)
+                        if (i2 * i2 + j2 * j2 <= i1 * i1 + 1)
                         {
-                            par1World.setBlock(var9, var8, var10, Block.obsidian.blockID, 0, 2);
+                            par1World.setBlock(k1, j1, l1, Block.obsidian.blockID, 0, 2);
                         }
                     }
                 }
             }
 
-            EntityEnderCrystal var13 = new EntityEnderCrystal(par1World);
-            var13.setLocationAndAngles((double)((float)par3 + 0.5F), (double)(par4 + var6), (double)((float)par5 + 0.5F), par2Random.nextFloat() * 360.0F, 0.0F);
-            par1World.spawnEntityInWorld(var13);
-            par1World.setBlock(par3, par4 + var6, par5, Block.bedrock.blockID, 0, 2);
+            EntityEnderCrystal entityendercrystal = new EntityEnderCrystal(par1World);
+            entityendercrystal.setLocationAndAngles((double)((float)par3 + 0.5F), (double)(par4 + l), (double)((float)par5 + 0.5F), par2Random.nextFloat() * 360.0F, 0.0F);
+            par1World.spawnEntityInWorld(entityendercrystal);
+            par1World.setBlock(par3, par4 + l, par5, Block.bedrock.blockID, 0, 2);
             return true;
         }
         else

@@ -49,56 +49,56 @@ public class RandomPositionGenerator
      */
     private static Vec3 findRandomTargetBlock(EntityCreature par0EntityCreature, int par1, int par2, Vec3 par3Vec3)
     {
-        Random var4 = par0EntityCreature.getRNG();
-        boolean var5 = false;
-        int var6 = 0;
-        int var7 = 0;
-        int var8 = 0;
-        float var9 = -99999.0F;
-        boolean var10;
+        Random random = par0EntityCreature.getRNG();
+        boolean flag = false;
+        int k = 0;
+        int l = 0;
+        int i1 = 0;
+        float f = -99999.0F;
+        boolean flag1;
 
         if (par0EntityCreature.hasHome())
         {
-            double var11 = (double)(par0EntityCreature.getHomePosition().getDistanceSquared(MathHelper.floor_double(par0EntityCreature.posX), MathHelper.floor_double(par0EntityCreature.posY), MathHelper.floor_double(par0EntityCreature.posZ)) + 4.0F);
-            double var13 = (double)(par0EntityCreature.func_110174_bM() + (float)par1);
-            var10 = var11 < var13 * var13;
+            double d0 = (double)(par0EntityCreature.getHomePosition().getDistanceSquared(MathHelper.floor_double(par0EntityCreature.posX), MathHelper.floor_double(par0EntityCreature.posY), MathHelper.floor_double(par0EntityCreature.posZ)) + 4.0F);
+            double d1 = (double)(par0EntityCreature.func_110174_bM() + (float)par1);
+            flag1 = d0 < d1 * d1;
         }
         else
         {
-            var10 = false;
+            flag1 = false;
         }
 
-        for (int var16 = 0; var16 < 10; ++var16)
+        for (int j1 = 0; j1 < 10; ++j1)
         {
-            int var12 = var4.nextInt(2 * par1) - par1;
-            int var17 = var4.nextInt(2 * par2) - par2;
-            int var14 = var4.nextInt(2 * par1) - par1;
+            int k1 = random.nextInt(2 * par1) - par1;
+            int l1 = random.nextInt(2 * par2) - par2;
+            int i2 = random.nextInt(2 * par1) - par1;
 
-            if (par3Vec3 == null || (double)var12 * par3Vec3.xCoord + (double)var14 * par3Vec3.zCoord >= 0.0D)
+            if (par3Vec3 == null || (double)k1 * par3Vec3.xCoord + (double)i2 * par3Vec3.zCoord >= 0.0D)
             {
-                var12 += MathHelper.floor_double(par0EntityCreature.posX);
-                var17 += MathHelper.floor_double(par0EntityCreature.posY);
-                var14 += MathHelper.floor_double(par0EntityCreature.posZ);
+                k1 += MathHelper.floor_double(par0EntityCreature.posX);
+                l1 += MathHelper.floor_double(par0EntityCreature.posY);
+                i2 += MathHelper.floor_double(par0EntityCreature.posZ);
 
-                if (!var10 || par0EntityCreature.func_110176_b(var12, var17, var14))
+                if (!flag1 || par0EntityCreature.func_110176_b(k1, l1, i2))
                 {
-                    float var15 = par0EntityCreature.getBlockPathWeight(var12, var17, var14);
+                    float f1 = par0EntityCreature.getBlockPathWeight(k1, l1, i2);
 
-                    if (var15 > var9)
+                    if (f1 > f)
                     {
-                        var9 = var15;
-                        var6 = var12;
-                        var7 = var17;
-                        var8 = var14;
-                        var5 = true;
+                        f = f1;
+                        k = k1;
+                        l = l1;
+                        i1 = i2;
+                        flag = true;
                     }
                 }
             }
         }
 
-        if (var5)
+        if (flag)
         {
-            return par0EntityCreature.worldObj.getWorldVec3Pool().getVecFromPool((double)var6, (double)var7, (double)var8);
+            return par0EntityCreature.worldObj.getWorldVec3Pool().getVecFromPool((double)k, (double)l, (double)i1);
         }
         else
         {

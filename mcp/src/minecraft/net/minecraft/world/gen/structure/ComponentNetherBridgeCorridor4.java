@@ -21,15 +21,15 @@ public class ComponentNetherBridgeCorridor4 extends ComponentNetherBridgePiece
      */
     public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
     {
-        byte var4 = 1;
+        byte b0 = 1;
 
         if (this.coordBaseMode == 1 || this.coordBaseMode == 2)
         {
-            var4 = 5;
+            b0 = 5;
         }
 
-        this.getNextComponentX((ComponentNetherBridgeStartPiece)par1StructureComponent, par2List, par3Random, 0, var4, par3Random.nextInt(8) > 0);
-        this.getNextComponentZ((ComponentNetherBridgeStartPiece)par1StructureComponent, par2List, par3Random, 0, var4, par3Random.nextInt(8) > 0);
+        this.getNextComponentX((ComponentNetherBridgeStartPiece)par1StructureComponent, par2List, par3Random, 0, b0, par3Random.nextInt(8) > 0);
+        this.getNextComponentZ((ComponentNetherBridgeStartPiece)par1StructureComponent, par2List, par3Random, 0, b0, par3Random.nextInt(8) > 0);
     }
 
     /**
@@ -37,8 +37,8 @@ public class ComponentNetherBridgeCorridor4 extends ComponentNetherBridgePiece
      */
     public static ComponentNetherBridgeCorridor4 createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
     {
-        StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -3, 0, 0, 9, 7, 9, par5);
-        return isAboveGround(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentNetherBridgeCorridor4(par6, par1Random, var7, par5) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -3, 0, 0, 9, 7, 9, par5);
+        return isAboveGround(structureboundingbox) && StructureComponent.findIntersecting(par0List, structureboundingbox) == null ? new ComponentNetherBridgeCorridor4(par6, par1Random, structureboundingbox, par5) : null;
     }
 
     /**
@@ -67,11 +67,11 @@ public class ComponentNetherBridgeCorridor4 extends ComponentNetherBridgePiece
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 1, 4, 5, 1, 5, 5, Block.netherFence.blockID, Block.netherFence.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 7, 4, 5, 7, 5, 5, Block.netherFence.blockID, Block.netherFence.blockID, false);
 
-        for (int var4 = 0; var4 <= 5; ++var4)
+        for (int i = 0; i <= 5; ++i)
         {
-            for (int var5 = 0; var5 <= 8; ++var5)
+            for (int j = 0; j <= 8; ++j)
             {
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, var5, -1, var4, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, j, -1, i, par3StructureBoundingBox);
             }
         }
 

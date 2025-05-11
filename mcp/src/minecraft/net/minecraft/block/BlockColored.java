@@ -62,9 +62,9 @@ public class BlockColored extends Block
      */
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (int var4 = 0; var4 < 16; ++var4)
+        for (int j = 0; j < 16; ++j)
         {
-            par3List.add(new ItemStack(par1, 1, var4));
+            par3List.add(new ItemStack(par1, 1, j));
         }
     }
 
@@ -78,9 +78,9 @@ public class BlockColored extends Block
     {
         this.iconArray = new Icon[16];
 
-        for (int var2 = 0; var2 < this.iconArray.length; ++var2)
+        for (int i = 0; i < this.iconArray.length; ++i)
         {
-            this.iconArray[var2] = par1IconRegister.registerIcon(this.getTextureName() + "_" + ItemDye.dyeItemNames[getDyeFromBlock(var2)]);
+            this.iconArray[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + ItemDye.dyeItemNames[getDyeFromBlock(i)]);
         }
     }
 }

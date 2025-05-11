@@ -45,32 +45,32 @@ public class ChatClickData
      */
     public URI getURI()
     {
-        String var1 = this.getClickedUrl();
+        String s = this.getClickedUrl();
 
-        if (var1 == null)
+        if (s == null)
         {
             return null;
         }
         else
         {
-            Matcher var2 = pattern.matcher(var1);
+            Matcher matcher = pattern.matcher(s);
 
-            if (var2.matches())
+            if (matcher.matches())
             {
                 try
                 {
-                    String var3 = var2.group(0);
+                    String s1 = matcher.group(0);
 
-                    if (var2.group(1) == null)
+                    if (matcher.group(1) == null)
                     {
-                        var3 = "http://" + var3;
+                        s1 = "http://" + s1;
                     }
 
-                    return new URI(var3);
+                    return new URI(s1);
                 }
-                catch (URISyntaxException var4)
+                catch (URISyntaxException urisyntaxexception)
                 {
-                    Minecraft.getMinecraft().getLogAgent().logSevereException("Couldn\'t create URI from chat", var4);
+                    Minecraft.getMinecraft().getLogAgent().logSevereException("Couldn\'t create URI from chat", urisyntaxexception);
                 }
             }
 
@@ -80,20 +80,20 @@ public class ChatClickData
 
     private String findClickedUrl()
     {
-        int var1 = this.field_78310_f.lastIndexOf(" ", this.field_78310_f.length()) + 1;
+        int i = this.field_78310_f.lastIndexOf(" ", this.field_78310_f.length()) + 1;
 
-        if (var1 < 0)
+        if (i < 0)
         {
-            var1 = 0;
+            i = 0;
         }
 
-        int var2 = this.line.getChatLineString().indexOf(" ", var1);
+        int j = this.line.getChatLineString().indexOf(" ", i);
 
-        if (var2 < 0)
+        if (j < 0)
         {
-            var2 = this.line.getChatLineString().length();
+            j = this.line.getChatLineString().length();
         }
 
-        return StringUtils.stripControlCodes(this.line.getChatLineString().substring(var1, var2));
+        return StringUtils.stripControlCodes(this.line.getChatLineString().substring(i, j));
     }
 }

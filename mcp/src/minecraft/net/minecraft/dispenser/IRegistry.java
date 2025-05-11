@@ -2,10 +2,10 @@ package net.minecraft.dispenser;
 
 public interface IRegistry
 {
-    Object getObject(Object var1);
+    Object getObject(Object object);
 
     /**
      * Register an object on this registry.
      */
-    void putObject(Object var1, Object var2);
+    void putObject(Object object, Object object1);
 }

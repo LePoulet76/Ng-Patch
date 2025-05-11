@@ -68,8 +68,8 @@ public class BlockComparator extends BlockRedstoneLogic implements ITileEntityPr
      */
     public Icon getIcon(int par1, int par2)
     {
-        boolean var3 = this.isRepeaterPowered || (par2 & 8) != 0;
-        return par1 == 0 ? (var3 ? Block.torchRedstoneActive.getBlockTextureFromSide(par1) : Block.torchRedstoneIdle.getBlockTextureFromSide(par1)) : (par1 == 1 ? (var3 ? Block.redstoneComparatorActive.blockIcon : this.blockIcon) : Block.stoneDoubleSlab.getBlockTextureFromSide(1));
+        boolean flag = this.isRepeaterPowered || (par2 & 8) != 0;
+        return par1 == 0 ? (flag ? Block.torchRedstoneActive.getBlockTextureFromSide(par1) : Block.torchRedstoneIdle.getBlockTextureFromSide(par1)) : (par1 == 1 ? (flag ? Block.redstoneComparatorActive.blockIcon : this.blockIcon) : Block.stoneDoubleSlab.getBlockTextureFromSide(1));
     }
 
     protected boolean func_96470_c(int par1)
@@ -94,20 +94,20 @@ public class BlockComparator extends BlockRedstoneLogic implements ITileEntityPr
 
     protected boolean isGettingInput(World par1World, int par2, int par3, int par4, int par5)
     {
-        int var6 = this.getInputStrength(par1World, par2, par3, par4, par5);
+        int i1 = this.getInputStrength(par1World, par2, par3, par4, par5);
 
-        if (var6 >= 15)
+        if (i1 >= 15)
         {
             return true;
         }
-        else if (var6 == 0)
+        else if (i1 == 0)
         {
             return false;
         }
         else
         {
-            int var7 = this.func_94482_f(par1World, par2, par3, par4, par5);
-            return var7 == 0 ? true : var6 >= var7;
+            int j1 = this.func_94482_f(par1World, par2, par3, par4, par5);
+            return j1 == 0 ? true : i1 >= j1;
         }
     }
 
@@ -116,32 +116,32 @@ public class BlockComparator extends BlockRedstoneLogic implements ITileEntityPr
      */
     protected int getInputStrength(World par1World, int par2, int par3, int par4, int par5)
     {
-        int var6 = super.getInputStrength(par1World, par2, par3, par4, par5);
-        int var7 = getDirection(par5);
-        int var8 = par2 + Direction.offsetX[var7];
-        int var9 = par4 + Direction.offsetZ[var7];
-        int var10 = par1World.getBlockId(var8, par3, var9);
+        int i1 = super.getInputStrength(par1World, par2, par3, par4, par5);
+        int j1 = getDirection(par5);
+        int k1 = par2 + Direction.offsetX[j1];
+        int l1 = par4 + Direction.offsetZ[j1];
+        int i2 = par1World.getBlockId(k1, par3, l1);
 
-        if (var10 > 0)
+        if (i2 > 0)
         {
-            if (Block.blocksList[var10].hasComparatorInputOverride())
+            if (Block.blocksList[i2].hasComparatorInputOverride())
             {
-                var6 = Block.blocksList[var10].getComparatorInputOverride(par1World, var8, par3, var9, Direction.rotateOpposite[var7]);
+                i1 = Block.blocksList[i2].getComparatorInputOverride(par1World, k1, par3, l1, Direction.rotateOpposite[j1]);
             }
-            else if (var6 < 15 && Block.isNormalCube(var10))
+            else if (i1 < 15 && Block.isNormalCube(i2))
             {
-                var8 += Direction.offsetX[var7];
-                var9 += Direction.offsetZ[var7];
-                var10 = par1World.getBlockId(var8, par3, var9);
+                k1 += Direction.offsetX[j1];
+                l1 += Direction.offsetZ[j1];
+                i2 = par1World.getBlockId(k1, par3, l1);
 
-                if (var10 > 0 && Block.blocksList[var10].hasComparatorInputOverride())
+                if (i2 > 0 && Block.blocksList[i2].hasComparatorInputOverride())
                 {
-                    var6 = Block.blocksList[var10].getComparatorInputOverride(par1World, var8, par3, var9, Direction.rotateOpposite[var7]);
+                    i1 = Block.blocksList[i2].getComparatorInputOverride(par1World, k1, par3, l1, Direction.rotateOpposite[j1]);
                 }
             }
         }
 
-        return var6;
+        return i1;
     }
 
     /**
@@ -157,13 +157,13 @@ public class BlockComparator extends BlockRedstoneLogic implements ITileEntityPr
      */
     public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
-        int var10 = par1World.getBlockMetadata(par2, par3, par4);
-        boolean var11 = this.isRepeaterPowered | (var10 & 8) != 0;
-        boolean var12 = !this.func_94490_c(var10);
-        int var13 = var12 ? 4 : 0;
-        var13 |= var11 ? 8 : 0;
-        par1World.playSoundEffect((double)par2 + 0.5D, (double)par3 + 0.5D, (double)par4 + 0.5D, "random.click", 0.3F, var12 ? 0.55F : 0.5F);
-        par1World.setBlockMetadataWithNotify(par2, par3, par4, var13 | var10 & 3, 2);
+        int i1 = par1World.getBlockMetadata(par2, par3, par4);
+        boolean flag = this.isRepeaterPowered | (i1 & 8) != 0;
+        boolean flag1 = !this.func_94490_c(i1);
+        int j1 = flag1 ? 4 : 0;
+        j1 |= flag ? 8 : 0;
+        par1World.playSoundEffect((double)par2 + 0.5D, (double)par3 + 0.5D, (double)par4 + 0.5D, "random.click", 0.3F, flag1 ? 0.55F : 0.5F);
+        par1World.setBlockMetadataWithNotify(par2, par3, par4, j1 | i1 & 3, 2);
         this.func_96476_c(par1World, par2, par3, par4, par1World.rand);
         return true;
     }
@@ -172,13 +172,13 @@ public class BlockComparator extends BlockRedstoneLogic implements ITileEntityPr
     {
         if (!par1World.isBlockTickScheduledThisTick(par2, par3, par4, this.blockID))
         {
-            int var6 = par1World.getBlockMetadata(par2, par3, par4);
-            int var7 = this.getOutputStrength(par1World, par2, par3, par4, var6);
-            int var8 = this.getTileEntityComparator(par1World, par2, par3, par4).getOutputSignal();
+            int i1 = par1World.getBlockMetadata(par2, par3, par4);
+            int j1 = this.getOutputStrength(par1World, par2, par3, par4, i1);
+            int k1 = this.getTileEntityComparator(par1World, par2, par3, par4).getOutputSignal();
 
-            if (var7 != var8 || this.func_96470_c(var6) != this.isGettingInput(par1World, par2, par3, par4, var6))
+            if (j1 != k1 || this.func_96470_c(i1) != this.isGettingInput(par1World, par2, par3, par4, i1))
             {
-                if (this.func_83011_d(par1World, par2, par3, par4, var6))
+                if (this.func_83011_d(par1World, par2, par3, par4, i1))
                 {
                     par1World.scheduleBlockUpdateWithPriority(par2, par3, par4, this.blockID, this.func_94481_j_(0), -1);
                 }
@@ -192,23 +192,23 @@ public class BlockComparator extends BlockRedstoneLogic implements ITileEntityPr
 
     private void func_96476_c(World par1World, int par2, int par3, int par4, Random par5Random)
     {
-        int var6 = par1World.getBlockMetadata(par2, par3, par4);
-        int var7 = this.getOutputStrength(par1World, par2, par3, par4, var6);
-        int var8 = this.getTileEntityComparator(par1World, par2, par3, par4).getOutputSignal();
-        this.getTileEntityComparator(par1World, par2, par3, par4).setOutputSignal(var7);
+        int l = par1World.getBlockMetadata(par2, par3, par4);
+        int i1 = this.getOutputStrength(par1World, par2, par3, par4, l);
+        int j1 = this.getTileEntityComparator(par1World, par2, par3, par4).getOutputSignal();
+        this.getTileEntityComparator(par1World, par2, par3, par4).setOutputSignal(i1);
 
-        if (var8 != var7 || !this.func_94490_c(var6))
+        if (j1 != i1 || !this.func_94490_c(l))
         {
-            boolean var9 = this.isGettingInput(par1World, par2, par3, par4, var6);
-            boolean var10 = this.isRepeaterPowered || (var6 & 8) != 0;
+            boolean flag = this.isGettingInput(par1World, par2, par3, par4, l);
+            boolean flag1 = this.isRepeaterPowered || (l & 8) != 0;
 
-            if (var10 && !var9)
+            if (flag1 && !flag)
             {
-                par1World.setBlockMetadataWithNotify(par2, par3, par4, var6 & -9, 2);
+                par1World.setBlockMetadataWithNotify(par2, par3, par4, l & -9, 2);
             }
-            else if (!var10 && var9)
+            else if (!flag1 && flag)
             {
-                par1World.setBlockMetadataWithNotify(par2, par3, par4, var6 | 8, 2);
+                par1World.setBlockMetadataWithNotify(par2, par3, par4, l | 8, 2);
             }
 
             this.func_94483_i_(par1World, par2, par3, par4);
@@ -222,8 +222,8 @@ public class BlockComparator extends BlockRedstoneLogic implements ITileEntityPr
     {
         if (this.isRepeaterPowered)
         {
-            int var6 = par1World.getBlockMetadata(par2, par3, par4);
-            par1World.setBlock(par2, par3, par4, this.func_94484_i().blockID, var6 | 8, 4);
+            int l = par1World.getBlockMetadata(par2, par3, par4);
+            par1World.setBlock(par2, par3, par4, this.func_94484_i().blockID, l | 8, 4);
         }
 
         this.func_96476_c(par1World, par2, par3, par4, par5Random);
@@ -257,8 +257,8 @@ public class BlockComparator extends BlockRedstoneLogic implements ITileEntityPr
     public boolean onBlockEventReceived(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
         super.onBlockEventReceived(par1World, par2, par3, par4, par5, par6);
-        TileEntity var7 = par1World.getBlockTileEntity(par2, par3, par4);
-        return var7 != null ? var7.receiveClientEvent(par5, par6) : false;
+        TileEntity tileentity = par1World.getBlockTileEntity(par2, par3, par4);
+        return tileentity != null ? tileentity.receiveClientEvent(par5, par6) : false;
     }
 
     /**
@@ -267,5 +267,18 @@ public class BlockComparator extends BlockRedstoneLogic implements ITileEntityPr
     public TileEntity createNewTileEntity(World par1World)
     {
         return new TileEntityComparator();
+    }
+    
+    @Override
+    public void onNeighborTileChange(World world, int x, int y, int z, int tileX, int tileY, int tileZ)
+    {
+        if(y == tileY)
+            onNeighborBlockChange(world, x, y, z, world.getBlockId(tileX, tileY, tileZ));
+    }
+    
+    @Override
+    public boolean weakTileChanges()
+    {
+        return true;
     }
 }

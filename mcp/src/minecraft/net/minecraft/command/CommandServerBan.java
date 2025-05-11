@@ -37,20 +37,20 @@ public class CommandServerBan extends CommandBase
     {
         if (par2ArrayOfStr.length >= 1 && par2ArrayOfStr[0].length() > 0)
         {
-            EntityPlayerMP var3 = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(par2ArrayOfStr[0]);
-            BanEntry var4 = new BanEntry(par2ArrayOfStr[0]);
-            var4.setBannedBy(par1ICommandSender.getCommandSenderName());
+            EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(par2ArrayOfStr[0]);
+            BanEntry banentry = new BanEntry(par2ArrayOfStr[0]);
+            banentry.setBannedBy(par1ICommandSender.getCommandSenderName());
 
             if (par2ArrayOfStr.length >= 2)
             {
-                var4.setBanReason(func_82360_a(par1ICommandSender, par2ArrayOfStr, 1));
+                banentry.setBanReason(func_82360_a(par1ICommandSender, par2ArrayOfStr, 1));
             }
 
-            MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().put(var4);
+            MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().put(banentry);
 
-            if (var3 != null)
+            if (entityplayermp != null)
             {
-                var3.playerNetServerHandler.kickPlayerFromServer("You are banned from this server.");
+                entityplayermp.playerNetServerHandler.kickPlayerFromServer("You are banned from this server.");
             }
 
             notifyAdmins(par1ICommandSender, "commands.ban.success", new Object[] {par2ArrayOfStr[0]});

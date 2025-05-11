@@ -27,7 +27,6 @@ public class ComponentNetherBridgeCrossing3 extends ComponentNetherBridgePiece
             case 2:
                 this.boundingBox = new StructureBoundingBox(par2, 64, par3, par2 + 19 - 1, 73, par3 + 19 - 1);
                 break;
-
             default:
                 this.boundingBox = new StructureBoundingBox(par2, 64, par3, par2 + 19 - 1, 73, par3 + 19 - 1);
         }
@@ -48,8 +47,8 @@ public class ComponentNetherBridgeCrossing3 extends ComponentNetherBridgePiece
      */
     public static ComponentNetherBridgeCrossing3 createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
     {
-        StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -8, -3, 0, 19, 10, 19, par5);
-        return isAboveGround(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentNetherBridgeCrossing3(par6, par1Random, var7, par5) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -8, -3, 0, 19, 10, 19, par5);
+        return isAboveGround(structureboundingbox) && StructureComponent.findIntersecting(par0List, structureboundingbox) == null ? new ComponentNetherBridgeCrossing3(par6, par1Random, structureboundingbox, par5) : null;
     }
 
     /**
@@ -74,15 +73,15 @@ public class ComponentNetherBridgeCrossing3 extends ComponentNetherBridgePiece
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 7, 2, 13, 11, 2, 18, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 7, 0, 0, 11, 1, 3, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 7, 0, 15, 11, 1, 18, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-        int var4;
-        int var5;
+        int i;
+        int j;
 
-        for (var4 = 7; var4 <= 11; ++var4)
+        for (i = 7; i <= 11; ++i)
         {
-            for (var5 = 0; var5 <= 2; ++var5)
+            for (j = 0; j <= 2; ++j)
             {
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, var4, -1, var5, par3StructureBoundingBox);
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, var4, -1, 18 - var5, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, i, -1, j, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, i, -1, 18 - j, par3StructureBoundingBox);
             }
         }
 
@@ -91,12 +90,12 @@ public class ComponentNetherBridgeCrossing3 extends ComponentNetherBridgePiece
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 0, 7, 3, 1, 11, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 15, 0, 7, 18, 1, 11, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
 
-        for (var4 = 0; var4 <= 2; ++var4)
+        for (i = 0; i <= 2; ++i)
         {
-            for (var5 = 7; var5 <= 11; ++var5)
+            for (j = 7; j <= 11; ++j)
             {
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, var4, -1, var5, par3StructureBoundingBox);
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, 18 - var4, -1, var5, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, i, -1, j, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, 18 - i, -1, j, par3StructureBoundingBox);
             }
         }
 

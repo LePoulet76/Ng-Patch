@@ -27,32 +27,32 @@ class TaskResetWorld extends TaskLongRunning
 
     public void run()
     {
-        McoClient var1 = new McoClient(this.getMinecraft().getSession());
-        String var2 = I18n.getString("mco.reset.world.resetting.screen.title");
-        this.setMessage(var2);
+        McoClient mcoclient = new McoClient(this.getMinecraft().getSession());
+        String s = I18n.getString("mco.reset.world.resetting.screen.title");
+        this.setMessage(s);
 
         try
         {
             if (this.field_111252_e != null)
             {
-                var1.func_111233_e(this.field_96591_c, this.field_111252_e.field_110734_a);
+                mcoclient.func_111233_e(this.field_96591_c, this.field_111252_e.field_110734_a);
             }
             else
             {
-                var1.func_96376_d(this.field_96591_c, this.field_104066_d);
+                mcoclient.func_96376_d(this.field_96591_c, this.field_104066_d);
             }
 
             GuiScreenResetWorld.func_96147_b(this.field_96592_a).displayGuiScreen(GuiScreenResetWorld.func_96148_a(this.field_96592_a));
         }
-        catch (ExceptionMcoService var4)
+        catch (ExceptionMcoService exceptionmcoservice)
         {
-            GuiScreenResetWorld.func_130025_c(this.field_96592_a).getLogAgent().logSevere(var4.toString());
-            this.setFailedMessage(var4.toString());
+            GuiScreenResetWorld.func_130025_c(this.field_96592_a).getLogAgent().logSevere(exceptionmcoservice.toString());
+            this.setFailedMessage(exceptionmcoservice.toString());
         }
-        catch (Exception var5)
+        catch (Exception exception)
         {
             GuiScreenResetWorld.func_130024_d(this.field_96592_a).getLogAgent().logWarning("Realms: ");
-            this.setFailedMessage(var5.toString());
+            this.setFailedMessage(exception.toString());
         }
     }
 }

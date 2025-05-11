@@ -15,20 +15,20 @@ public class WorldTemplate extends ValueObject
 
     public static WorldTemplate func_110730_a(JsonNode par0JsonNode)
     {
-        WorldTemplate var1 = new WorldTemplate();
+        WorldTemplate worldtemplate = new WorldTemplate();
 
         try
         {
-            var1.field_110734_a = par0JsonNode.getNumberValue(new Object[] {"id"});
-            var1.field_110732_b = par0JsonNode.getStringValue(new Object[] {"name"});
-            var1.field_110733_c = par0JsonNode.getStringValue(new Object[] {"version"});
-            var1.field_110731_d = par0JsonNode.getStringValue(new Object[] {"author"});
+            worldtemplate.field_110734_a = par0JsonNode.getNumberValue(new Object[] {"id"});
+            worldtemplate.field_110732_b = par0JsonNode.getStringValue(new Object[] {"name"});
+            worldtemplate.field_110733_c = par0JsonNode.getStringValue(new Object[] {"version"});
+            worldtemplate.field_110731_d = par0JsonNode.getStringValue(new Object[] {"author"});
         }
-        catch (IllegalArgumentException var3)
+        catch (IllegalArgumentException illegalargumentexception)
         {
             ;
         }
 
-        return var1;
+        return worldtemplate;
     }
 }

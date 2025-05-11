@@ -26,10 +26,10 @@ public class VillageDoorInfo
      */
     public int getDistanceSquared(int par1, int par2, int par3)
     {
-        int var4 = par1 - this.posX;
-        int var5 = par2 - this.posY;
-        int var6 = par3 - this.posZ;
-        return var4 * var4 + var5 * var5 + var6 * var6;
+        int l = par1 - this.posX;
+        int i1 = par2 - this.posY;
+        int j1 = par3 - this.posZ;
+        return l * l + i1 * i1 + j1 * j1;
     }
 
     /**
@@ -38,10 +38,10 @@ public class VillageDoorInfo
      */
     public int getInsideDistanceSquare(int par1, int par2, int par3)
     {
-        int var4 = par1 - this.posX - this.insideDirectionX;
-        int var5 = par2 - this.posY;
-        int var6 = par3 - this.posZ - this.insideDirectionZ;
-        return var4 * var4 + var5 * var5 + var6 * var6;
+        int l = par1 - this.posX - this.insideDirectionX;
+        int i1 = par2 - this.posY;
+        int j1 = par3 - this.posZ - this.insideDirectionZ;
+        return l * l + i1 * i1 + j1 * j1;
     }
 
     public int getInsidePosX()
@@ -61,9 +61,9 @@ public class VillageDoorInfo
 
     public boolean isInside(int par1, int par2)
     {
-        int var3 = par1 - this.posX;
-        int var4 = par2 - this.posZ;
-        return var3 * this.insideDirectionX + var4 * this.insideDirectionZ >= 0;
+        int k = par1 - this.posX;
+        int l = par2 - this.posZ;
+        return k * this.insideDirectionX + l * this.insideDirectionZ >= 0;
     }
 
     public void resetDoorOpeningRestrictionCounter()

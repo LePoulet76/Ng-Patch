@@ -26,10 +26,10 @@ public class BlockRedstoneRepeater extends BlockRedstoneLogic
      */
     public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
-        int var10 = par1World.getBlockMetadata(par2, par3, par4);
-        int var11 = (var10 & 12) >> 2;
-        var11 = var11 + 1 << 2 & 12;
-        par1World.setBlockMetadataWithNotify(par2, par3, par4, var11 | var10 & 3, 3);
+        int i1 = par1World.getBlockMetadata(par2, par3, par4);
+        int j1 = (i1 & 12) >> 2;
+        j1 = j1 + 1 << 2 & 12;
+        par1World.setBlockMetadataWithNotify(par2, par3, par4, j1 | i1 & 3, 3);
         return true;
     }
 
@@ -93,58 +93,52 @@ public class BlockRedstoneRepeater extends BlockRedstoneLogic
     {
         if (this.isRepeaterPowered)
         {
-            int var6 = par1World.getBlockMetadata(par2, par3, par4);
-            int var7 = getDirection(var6);
-            double var8 = (double)((float)par2 + 0.5F) + (double)(par5Random.nextFloat() - 0.5F) * 0.2D;
-            double var10 = (double)((float)par3 + 0.4F) + (double)(par5Random.nextFloat() - 0.5F) * 0.2D;
-            double var12 = (double)((float)par4 + 0.5F) + (double)(par5Random.nextFloat() - 0.5F) * 0.2D;
-            double var14 = 0.0D;
-            double var16 = 0.0D;
+            int l = par1World.getBlockMetadata(par2, par3, par4);
+            int i1 = getDirection(l);
+            double d0 = (double)((float)par2 + 0.5F) + (double)(par5Random.nextFloat() - 0.5F) * 0.2D;
+            double d1 = (double)((float)par3 + 0.4F) + (double)(par5Random.nextFloat() - 0.5F) * 0.2D;
+            double d2 = (double)((float)par4 + 0.5F) + (double)(par5Random.nextFloat() - 0.5F) * 0.2D;
+            double d3 = 0.0D;
+            double d4 = 0.0D;
 
             if (par5Random.nextInt(2) == 0)
             {
-                switch (var7)
+                switch (i1)
                 {
                     case 0:
-                        var16 = -0.3125D;
+                        d4 = -0.3125D;
                         break;
-
                     case 1:
-                        var14 = 0.3125D;
+                        d3 = 0.3125D;
                         break;
-
                     case 2:
-                        var16 = 0.3125D;
+                        d4 = 0.3125D;
                         break;
-
                     case 3:
-                        var14 = -0.3125D;
+                        d3 = -0.3125D;
                 }
             }
             else
             {
-                int var18 = (var6 & 12) >> 2;
+                int j1 = (l & 12) >> 2;
 
-                switch (var7)
+                switch (i1)
                 {
                     case 0:
-                        var16 = repeaterTorchOffset[var18];
+                        d4 = repeaterTorchOffset[j1];
                         break;
-
                     case 1:
-                        var14 = -repeaterTorchOffset[var18];
+                        d3 = -repeaterTorchOffset[j1];
                         break;
-
                     case 2:
-                        var16 = -repeaterTorchOffset[var18];
+                        d4 = -repeaterTorchOffset[j1];
                         break;
-
                     case 3:
-                        var14 = repeaterTorchOffset[var18];
+                        d3 = repeaterTorchOffset[j1];
                 }
             }
 
-            par1World.spawnParticle("reddust", var8 + var14, var10, var12 + var16, 0.0D, 0.0D, 0.0D);
+            par1World.spawnParticle("reddust", d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
         }
     }
 

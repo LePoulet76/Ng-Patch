@@ -45,8 +45,8 @@ public class ComponentNetherBridgeCorridor extends ComponentNetherBridgePiece
      */
     public static ComponentNetherBridgeCorridor createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
     {
-        StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, 0, 0, 5, 7, 5, par5);
-        return isAboveGround(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentNetherBridgeCorridor(par6, par1Random, var7, par5) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, 0, 0, 5, 7, 5, par5);
+        return isAboveGround(structureboundingbox) && StructureComponent.findIntersecting(par0List, structureboundingbox) == null ? new ComponentNetherBridgeCorridor(par6, par1Random, structureboundingbox, par5) : null;
     }
 
     /**
@@ -64,16 +64,16 @@ public class ComponentNetherBridgeCorridor extends ComponentNetherBridgePiece
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 2, 4, 3, 5, 4, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 1, 3, 4, 1, 4, 4, Block.netherFence.blockID, Block.netherBrick.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 3, 3, 4, 3, 4, 4, Block.netherFence.blockID, Block.netherBrick.blockID, false);
-        int var4;
-        int var5;
+        int i;
+        int j;
 
         if (this.field_111021_b)
         {
-            var4 = this.getYWithOffset(2);
-            var5 = this.getXWithOffset(3, 3);
-            int var6 = this.getZWithOffset(3, 3);
+            i = this.getYWithOffset(2);
+            j = this.getXWithOffset(3, 3);
+            int k = this.getZWithOffset(3, 3);
 
-            if (par3StructureBoundingBox.isVecInside(var5, var4, var6))
+            if (par3StructureBoundingBox.isVecInside(j, i, k))
             {
                 this.field_111021_b = false;
                 this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 3, 2, 3, field_111019_a, 2 + par2Random.nextInt(4));
@@ -82,11 +82,11 @@ public class ComponentNetherBridgeCorridor extends ComponentNetherBridgePiece
 
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 6, 0, 4, 6, 4, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
 
-        for (var4 = 0; var4 <= 4; ++var4)
+        for (i = 0; i <= 4; ++i)
         {
-            for (var5 = 0; var5 <= 4; ++var5)
+            for (j = 0; j <= 4; ++j)
             {
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, var4, -1, var5, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, i, -1, j, par3StructureBoundingBox);
             }
         }
 

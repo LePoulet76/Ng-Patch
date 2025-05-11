@@ -30,51 +30,51 @@ public class WorldGenLiquids extends WorldGenerator
         }
         else
         {
-            int var6 = 0;
+            int l = 0;
 
             if (par1World.getBlockId(par3 - 1, par4, par5) == Block.stone.blockID)
             {
-                ++var6;
+                ++l;
             }
 
             if (par1World.getBlockId(par3 + 1, par4, par5) == Block.stone.blockID)
             {
-                ++var6;
+                ++l;
             }
 
             if (par1World.getBlockId(par3, par4, par5 - 1) == Block.stone.blockID)
             {
-                ++var6;
+                ++l;
             }
 
             if (par1World.getBlockId(par3, par4, par5 + 1) == Block.stone.blockID)
             {
-                ++var6;
+                ++l;
             }
 
-            int var7 = 0;
+            int i1 = 0;
 
             if (par1World.isAirBlock(par3 - 1, par4, par5))
             {
-                ++var7;
+                ++i1;
             }
 
             if (par1World.isAirBlock(par3 + 1, par4, par5))
             {
-                ++var7;
+                ++i1;
             }
 
             if (par1World.isAirBlock(par3, par4, par5 - 1))
             {
-                ++var7;
+                ++i1;
             }
 
             if (par1World.isAirBlock(par3, par4, par5 + 1))
             {
-                ++var7;
+                ++i1;
             }
 
-            if (var6 == 3 && var7 == 1)
+            if (l == 3 && i1 == 1)
             {
                 par1World.setBlock(par3, par4, par5, this.liquidBlockId, 0, 2);
                 par1World.scheduledUpdatesAreImmediate = true;

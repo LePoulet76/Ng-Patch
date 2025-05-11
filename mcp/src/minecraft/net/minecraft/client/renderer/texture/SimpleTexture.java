@@ -24,41 +24,41 @@ public class SimpleTexture extends AbstractTexture
 
     public void loadTexture(ResourceManager par1ResourceManager) throws IOException
     {
-        InputStream var2 = null;
+        InputStream inputstream = null;
 
         try
         {
-            Resource var3 = par1ResourceManager.getResource(this.textureLocation);
-            var2 = var3.getInputStream();
-            BufferedImage var4 = ImageIO.read(var2);
-            boolean var5 = false;
-            boolean var6 = false;
+            Resource resource = par1ResourceManager.getResource(this.textureLocation);
+            inputstream = resource.getInputStream();
+            BufferedImage bufferedimage = ImageIO.read(inputstream);
+            boolean flag = false;
+            boolean flag1 = false;
 
-            if (var3.hasMetadata())
+            if (resource.hasMetadata())
             {
                 try
                 {
-                    TextureMetadataSection var7 = (TextureMetadataSection)var3.getMetadata("texture");
+                    TextureMetadataSection texturemetadatasection = (TextureMetadataSection)resource.getMetadata("texture");
 
-                    if (var7 != null)
+                    if (texturemetadatasection != null)
                     {
-                        var5 = var7.getTextureBlur();
-                        var6 = var7.getTextureClamp();
+                        flag = texturemetadatasection.getTextureBlur();
+                        flag1 = texturemetadatasection.getTextureClamp();
                     }
                 }
-                catch (RuntimeException var11)
+                catch (RuntimeException runtimeexception)
                 {
-                    Minecraft.getMinecraft().getLogAgent().logWarningException("Failed reading metadata of: " + this.textureLocation, var11);
+                    Minecraft.getMinecraft().getLogAgent().logWarningException("Failed reading metadata of: " + this.textureLocation, runtimeexception);
                 }
             }
 
-            TextureUtil.uploadTextureImageAllocate(this.getGlTextureId(), var4, var5, var6);
+            TextureUtil.uploadTextureImageAllocate(this.getGlTextureId(), bufferedimage, flag, flag1);
         }
         finally
         {
-            if (var2 != null)
+            if (inputstream != null)
             {
-                var2.close();
+                inputstream.close();
             }
         }
     }

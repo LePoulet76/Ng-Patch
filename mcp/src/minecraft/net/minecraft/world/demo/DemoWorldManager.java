@@ -23,8 +23,8 @@ public class DemoWorldManager extends ItemInWorldManager
     {
         super.updateBlockRemoving();
         ++this.field_73102_f;
-        long var1 = this.theWorld.getTotalWorldTime();
-        long var3 = var1 / 24000L + 1L;
+        long i = this.theWorld.getTotalWorldTime();
+        long j = i / 24000L + 1L;
 
         if (!this.field_73105_c && this.field_73102_f > 20)
         {
@@ -32,36 +32,36 @@ public class DemoWorldManager extends ItemInWorldManager
             this.thisPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet70GameEvent(5, 0));
         }
 
-        this.demoTimeExpired = var1 > 120500L;
+        this.demoTimeExpired = i > 120500L;
 
         if (this.demoTimeExpired)
         {
             ++this.field_73104_e;
         }
 
-        if (var1 % 24000L == 500L)
+        if (i % 24000L == 500L)
         {
-            if (var3 <= 6L)
+            if (j <= 6L)
             {
-                this.thisPlayerMP.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("demo.day." + var3));
+                this.thisPlayerMP.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("demo.day." + j));
             }
         }
-        else if (var3 == 1L)
+        else if (j == 1L)
         {
-            if (var1 == 100L)
+            if (i == 100L)
             {
                 this.thisPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet70GameEvent(5, 101));
             }
-            else if (var1 == 175L)
+            else if (i == 175L)
             {
                 this.thisPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet70GameEvent(5, 102));
             }
-            else if (var1 == 250L)
+            else if (i == 250L)
             {
                 this.thisPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet70GameEvent(5, 103));
             }
         }
-        else if (var3 == 5L && var1 % 24000L == 22000L)
+        else if (j == 5L && i % 24000L == 22000L)
         {
             this.thisPlayerMP.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("demo.day.warning"));
         }

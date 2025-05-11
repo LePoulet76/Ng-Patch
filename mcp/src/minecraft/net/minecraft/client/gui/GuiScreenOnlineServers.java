@@ -83,11 +83,11 @@ public class GuiScreenOnlineServers extends GuiScreen
         this.buttonList.add(this.field_96190_o = new GuiButton(3, this.width / 2 + 58, this.height - 52, 100, 20, I18n.getString("mco.selectServer.configure")));
         this.buttonList.add(this.field_96197_q = new GuiButtonLink(4, this.width / 2 - 154, this.height - 28, 154, 20, I18n.getString("mco.selectServer.moreinfo")));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 6, this.height - 28, 153, 20, I18n.getString("gui.cancel")));
-        McoServer var1 = this.func_140030_b(this.field_96189_n);
-        this.field_96196_r.enabled = var1 != null && var1.field_96404_d.equals("OPEN") && !var1.field_98166_h;
+        McoServer mcoserver = this.func_140030_b(this.field_96189_n);
+        this.field_96196_r.enabled = mcoserver != null && mcoserver.field_96404_d.equals("OPEN") && !mcoserver.field_98166_h;
         this.field_96198_p.enabled = this.field_96199_x > 0;
 
-        if (var1 != null && !var1.field_96405_e.equals(this.mc.getSession().getUsername()))
+        if (mcoserver != null && !mcoserver.field_96405_e.equals(this.mc.getSession().getUsername()))
         {
             this.field_96190_o.displayString = I18n.getString("mco.selectServer.leave");
         }
@@ -103,26 +103,26 @@ public class GuiScreenOnlineServers extends GuiScreen
 
         if (field_96194_t.func_130127_a())
         {
-            List var1 = field_96194_t.func_98252_c();
-            Iterator var2 = var1.iterator();
+            List list = field_96194_t.func_98252_c();
+            Iterator iterator = list.iterator();
 
-            while (var2.hasNext())
+            while (iterator.hasNext())
             {
-                McoServer var3 = (McoServer)var2.next();
-                Iterator var4 = this.field_96192_v.iterator();
+                McoServer mcoserver = (McoServer)iterator.next();
+                Iterator iterator1 = this.field_96192_v.iterator();
 
-                while (var4.hasNext())
+                while (iterator1.hasNext())
                 {
-                    McoServer var5 = (McoServer)var4.next();
+                    McoServer mcoserver1 = (McoServer)iterator1.next();
 
-                    if (var3.field_96408_a == var5.field_96408_a)
+                    if (mcoserver.field_96408_a == mcoserver1.field_96408_a)
                     {
-                        var3.func_96401_a(var5);
+                        mcoserver.func_96401_a(mcoserver1);
 
-                        if (this.field_102019_y != null && this.field_102019_y.longValue() == var3.field_96408_a)
+                        if (this.field_102019_y != null && this.field_102019_y.longValue() == mcoserver.field_96408_a)
                         {
                             this.field_102019_y = null;
-                            var3.field_96411_l = false;
+                            mcoserver.field_96411_l = false;
                         }
 
                         break;
@@ -131,7 +131,7 @@ public class GuiScreenOnlineServers extends GuiScreen
             }
 
             this.field_96199_x = field_96194_t.func_140056_e();
-            this.field_96192_v = var1;
+            this.field_96192_v = list;
             field_96194_t.func_98250_b();
         }
 
@@ -184,55 +184,55 @@ public class GuiScreenOnlineServers extends GuiScreen
 
     private void func_140019_s()
     {
-        McoServer var1 = this.func_140030_b(this.field_96189_n);
+        McoServer mcoserver = this.func_140030_b(this.field_96189_n);
 
-        if (var1 != null)
+        if (mcoserver != null)
         {
-            if (this.mc.getSession().getUsername().equals(var1.field_96405_e))
+            if (this.mc.getSession().getUsername().equals(mcoserver.field_96405_e))
             {
-                McoServer var2 = this.func_98086_a(var1.field_96408_a);
+                McoServer mcoserver1 = this.func_98086_a(mcoserver.field_96408_a);
 
-                if (var2 != null)
+                if (mcoserver1 != null)
                 {
                     field_96194_t.func_98248_d();
-                    this.mc.displayGuiScreen(new GuiScreenConfigureWorld(this, var2));
+                    this.mc.displayGuiScreen(new GuiScreenConfigureWorld(this, mcoserver1));
                 }
             }
             else
             {
-                String var4 = I18n.getString("mco.configure.world.leave.question.line1");
-                String var3 = I18n.getString("mco.configure.world.leave.question.line2");
-                this.mc.displayGuiScreen(new GuiScreenConfirmation(this, GuiScreenConfirmationType.Info, var4, var3, 3));
+                String s = I18n.getString("mco.configure.world.leave.question.line1");
+                String s1 = I18n.getString("mco.configure.world.leave.question.line2");
+                this.mc.displayGuiScreen(new GuiScreenConfirmation(this, GuiScreenConfirmationType.Info, s, s1, 3));
             }
         }
     }
 
     private McoServer func_140030_b(long par1)
     {
-        Iterator var3 = this.field_96192_v.iterator();
-        McoServer var4;
+        Iterator iterator = this.field_96192_v.iterator();
+        McoServer mcoserver;
 
         do
         {
-            if (!var3.hasNext())
+            if (!iterator.hasNext())
             {
                 return null;
             }
 
-            var4 = (McoServer)var3.next();
+            mcoserver = (McoServer)iterator.next();
         }
-        while (var4.field_96408_a != par1);
+        while (mcoserver.field_96408_a != par1);
 
-        return var4;
+        return mcoserver;
     }
 
     private int func_140009_c(long par1)
     {
-        for (int var3 = 0; var3 < this.field_96192_v.size(); ++var3)
+        for (int j = 0; j < this.field_96192_v.size(); ++j)
         {
-            if (((McoServer)this.field_96192_v.get(var3)).field_96408_a == par1)
+            if (((McoServer)this.field_96192_v.get(j)).field_96408_a == par1)
             {
-                return var3;
+                return j;
             }
         }
 
@@ -251,21 +251,21 @@ public class GuiScreenOnlineServers extends GuiScreen
 
     private void func_140012_t()
     {
-        int var1 = this.func_140009_c(this.field_96189_n);
+        int i = this.func_140009_c(this.field_96189_n);
 
-        if (this.field_96192_v.size() - 1 == var1)
+        if (this.field_96192_v.size() - 1 == i)
         {
-            --var1;
+            --i;
         }
 
         if (this.field_96192_v.size() == 0)
         {
-            var1 = -1;
+            i = -1;
         }
 
-        if (var1 >= 0 && var1 < this.field_96192_v.size())
+        if (i >= 0 && i < this.field_96192_v.size())
         {
-            this.field_96189_n = ((McoServer)this.field_96192_v.get(var1)).field_96408_a;
+            this.field_96189_n = ((McoServer)this.field_96192_v.get(i)).field_96408_a;
         }
     }
 
@@ -277,17 +277,17 @@ public class GuiScreenOnlineServers extends GuiScreen
 
     private McoServer func_98086_a(long par1)
     {
-        McoClient var3 = new McoClient(this.mc.getSession());
+        McoClient mcoclient = new McoClient(this.mc.getSession());
 
         try
         {
-            return var3.func_98176_a(par1);
+            return mcoclient.func_98176_a(par1);
         }
-        catch (ExceptionMcoService var5)
+        catch (ExceptionMcoService exceptionmcoservice)
         {
-            this.mc.getLogAgent().logSevere(var5.toString());
+            this.mc.getLogAgent().logSevere(exceptionmcoservice.toString());
         }
-        catch (IOException var6)
+        catch (IOException ioexception)
         {
             this.mc.getLogAgent().logWarning("Realms: could not parse response");
         }
@@ -346,64 +346,64 @@ public class GuiScreenOnlineServers extends GuiScreen
 
         if (this.func_130037_c(par1, par2) && field_96194_t.func_130124_d() != 0)
         {
-            GuiScreenPendingInvitation var4 = new GuiScreenPendingInvitation(this);
-            this.mc.displayGuiScreen(var4);
+            GuiScreenPendingInvitation guiscreenpendinginvitation = new GuiScreenPendingInvitation(this);
+            this.mc.displayGuiScreen(guiscreenpendinginvitation);
         }
     }
 
     private void func_130038_b(int par1, int par2)
     {
-        int var3 = field_96194_t.func_130124_d();
-        boolean var4 = this.func_130037_c(par1, par2);
+        int k = field_96194_t.func_130124_d();
+        boolean flag = this.func_130037_c(par1, par2);
         this.mc.getTextureManager().bindTexture(field_130039_a);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glPushMatrix();
-        this.drawTexturedModalRect(this.width / 2 + 58, 15, var4 ? 166 : 182, 22, 16, 16);
+        this.drawTexturedModalRect(this.width / 2 + 58, 15, flag ? 166 : 182, 22, 16, 16);
         GL11.glPopMatrix();
-        int var5;
-        int var6;
+        int l;
+        int i1;
 
-        if (var3 != 0)
+        if (k != 0)
         {
-            var5 = 198 + (Math.min(var3, 6) - 1) * 8;
-            var6 = (int)(Math.max(0.0F, Math.max(MathHelper.sin((float)(10 + this.field_104044_y) * 0.57F), MathHelper.cos((float)this.field_104044_y * 0.35F))) * -6.0F);
+            l = 198 + (Math.min(k, 6) - 1) * 8;
+            i1 = (int)(Math.max(0.0F, Math.max(MathHelper.sin((float)(10 + this.field_104044_y) * 0.57F), MathHelper.cos((float)this.field_104044_y * 0.35F))) * -6.0F);
             this.mc.getTextureManager().bindTexture(field_130039_a);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glPushMatrix();
-            this.drawTexturedModalRect(this.width / 2 + 58 + 4, 19 + var6, var5, 22, 8, 8);
+            this.drawTexturedModalRect(this.width / 2 + 58 + 4, 19 + i1, l, 22, 8, 8);
             GL11.glPopMatrix();
         }
 
-        if (var4 && var3 != 0)
+        if (flag && k != 0)
         {
-            var5 = par1 + 12;
-            var6 = par2 - 12;
-            String var7 = I18n.getString("mco.invites.pending");
-            int var8 = this.fontRenderer.getStringWidth(var7);
-            this.drawGradientRect(var5 - 3, var6 - 3, var5 + var8 + 3, var6 + 8 + 3, -1073741824, -1073741824);
-            this.fontRenderer.drawStringWithShadow(var7, var5, var6, -1);
+            l = par1 + 12;
+            i1 = par2 - 12;
+            String s = I18n.getString("mco.invites.pending");
+            int j1 = this.fontRenderer.getStringWidth(s);
+            this.drawGradientRect(l - 3, i1 - 3, l + j1 + 3, i1 + 8 + 3, -1073741824, -1073741824);
+            this.fontRenderer.drawStringWithShadow(s, l, i1, -1);
         }
     }
 
     private boolean func_130037_c(int par1, int par2)
     {
-        int var3 = this.width / 2 + 56;
-        int var4 = this.width / 2 + 78;
-        byte var5 = 13;
-        byte var6 = 27;
-        return var3 <= par1 && par1 <= var4 && var5 <= par2 && par2 <= var6;
+        int k = this.width / 2 + 56;
+        int l = this.width / 2 + 78;
+        byte b0 = 13;
+        byte b1 = 27;
+        return k <= par1 && par1 <= l && b0 <= par2 && par2 <= b1;
     }
 
     private void func_140032_e(long par1)
     {
-        McoServer var3 = this.func_140030_b(par1);
+        McoServer mcoserver = this.func_140030_b(par1);
 
-        if (var3 != null)
+        if (mcoserver != null)
         {
             field_96194_t.func_98248_d();
-            GuiScreenLongRunningTask var4 = new GuiScreenLongRunningTask(this.mc, this, new TaskOnlineConnect(this, var3));
-            var4.func_98117_g();
-            this.mc.displayGuiScreen(var4);
+            GuiScreenLongRunningTask guiscreenlongrunningtask = new GuiScreenLongRunningTask(this.mc, this, new TaskOnlineConnect(this, mcoserver));
+            guiscreenlongrunningtask.func_98117_g();
+            this.mc.displayGuiScreen(guiscreenlongrunningtask);
         }
     }
 
@@ -485,11 +485,11 @@ public class GuiScreenOnlineServers extends GuiScreen
     {
         if (par1Str != null)
         {
-            int var4 = par2 + 12;
-            int var5 = par3 - 12;
-            int var6 = this.fontRenderer.getStringWidth(par1Str);
-            this.drawGradientRect(var4 - 3, var5 - 3, var4 + var6 + 3, var5 + 8 + 3, -1073741824, -1073741824);
-            this.fontRenderer.drawStringWithShadow(par1Str, var4, var5, -1);
+            int k = par2 + 12;
+            int l = par3 - 12;
+            int i1 = this.fontRenderer.getStringWidth(par1Str);
+            this.drawGradientRect(k - 3, l - 3, k + i1 + 3, l + 8 + 3, -1073741824, -1073741824);
+            this.fontRenderer.drawStringWithShadow(par1Str, k, l, -1);
         }
     }
 
@@ -501,57 +501,57 @@ public class GuiScreenOnlineServers extends GuiScreen
         }
 
         par1McoServer.field_96415_h = 78;
-        ServerAddress var2 = ServerAddress.func_78860_a(par1McoServer.field_96403_g);
-        Socket var3 = null;
-        DataInputStream var4 = null;
-        DataOutputStream var5 = null;
+        ServerAddress serveraddress = ServerAddress.func_78860_a(par1McoServer.field_96403_g);
+        Socket socket = null;
+        DataInputStream datainputstream = null;
+        DataOutputStream dataoutputstream = null;
 
         try
         {
-            var3 = new Socket();
-            var3.setSoTimeout(3000);
-            var3.setTcpNoDelay(true);
-            var3.setTrafficClass(18);
-            var3.connect(new InetSocketAddress(var2.getIP(), var2.getPort()), 3000);
-            var4 = new DataInputStream(var3.getInputStream());
-            var5 = new DataOutputStream(var3.getOutputStream());
-            var5.write(254);
-            var5.write(1);
+            socket = new Socket();
+            socket.setSoTimeout(3000);
+            socket.setTcpNoDelay(true);
+            socket.setTrafficClass(18);
+            socket.connect(new InetSocketAddress(serveraddress.getIP(), serveraddress.getPort()), 3000);
+            datainputstream = new DataInputStream(socket.getInputStream());
+            dataoutputstream = new DataOutputStream(socket.getOutputStream());
+            dataoutputstream.write(254);
+            dataoutputstream.write(1);
 
-            if (var4.read() != 255)
+            if (datainputstream.read() != 255)
             {
                 throw new IOException("Bad message");
             }
 
-            String var6 = Packet.readString(var4, 256);
-            char[] var7 = var6.toCharArray();
+            String s = Packet.readString(datainputstream, 256);
+            char[] achar = s.toCharArray();
 
-            for (int var8 = 0; var8 < var7.length; ++var8)
+            for (int i = 0; i < achar.length; ++i)
             {
-                if (var7[var8] != 167 && var7[var8] != 0 && ChatAllowedCharacters.allowedCharacters.indexOf(var7[var8]) < 0)
+                if (achar[i] != 167 && achar[i] != 0 && ChatAllowedCharacters.allowedCharacters.indexOf(achar[i]) < 0)
                 {
-                    var7[var8] = 63;
+                    achar[i] = 63;
                 }
             }
 
-            var6 = new String(var7);
-            int var9;
-            int var10;
-            String[] var27;
+            s = new String(achar);
+            int j;
+            int k;
+            String[] astring;
 
-            if (var6.startsWith("\u00a7") && var6.length() > 1)
+            if (s.startsWith("\u00a7") && s.length() > 1)
             {
-                var27 = var6.substring(1).split("\u0000");
+                astring = s.substring(1).split("\u0000");
 
-                if (MathHelper.parseIntWithDefault(var27[0], 0) == 1)
+                if (MathHelper.parseIntWithDefault(astring[0], 0) == 1)
                 {
-                    par1McoServer.field_96415_h = MathHelper.parseIntWithDefault(var27[1], par1McoServer.field_96415_h);
-                    var9 = MathHelper.parseIntWithDefault(var27[4], 0);
-                    var10 = MathHelper.parseIntWithDefault(var27[5], 0);
+                    par1McoServer.field_96415_h = MathHelper.parseIntWithDefault(astring[1], par1McoServer.field_96415_h);
+                    j = MathHelper.parseIntWithDefault(astring[4], 0);
+                    k = MathHelper.parseIntWithDefault(astring[5], 0);
 
-                    if (var9 >= 0 && var10 >= 0)
+                    if (j >= 0 && k >= 0)
                     {
-                        par1McoServer.field_96414_k = EnumChatFormatting.GRAY + "" + var9;
+                        par1McoServer.field_96414_k = EnumChatFormatting.GRAY + "" + j;
                     }
                     else
                     {
@@ -566,26 +566,26 @@ public class GuiScreenOnlineServers extends GuiScreen
             }
             else
             {
-                var27 = var6.split("\u00a7");
-                var6 = var27[0];
-                var9 = -1;
-                var10 = -1;
+                astring = s.split("\u00a7");
+                s = astring[0];
+                j = -1;
+                k = -1;
 
                 try
                 {
-                    var9 = Integer.parseInt(var27[1]);
-                    var10 = Integer.parseInt(var27[2]);
+                    j = Integer.parseInt(astring[1]);
+                    k = Integer.parseInt(astring[2]);
                 }
-                catch (Exception var25)
+                catch (Exception exception)
                 {
                     ;
                 }
 
-                par1McoServer.field_96407_c = EnumChatFormatting.GRAY + var6;
+                par1McoServer.field_96407_c = EnumChatFormatting.GRAY + s;
 
-                if (var9 >= 0 && var10 > 0)
+                if (j >= 0 && k > 0)
                 {
-                    par1McoServer.field_96414_k = EnumChatFormatting.GRAY + "" + var9;
+                    par1McoServer.field_96414_k = EnumChatFormatting.GRAY + "" + j;
                 }
                 else
                 {
@@ -599,36 +599,36 @@ public class GuiScreenOnlineServers extends GuiScreen
         {
             try
             {
-                if (var4 != null)
+                if (datainputstream != null)
                 {
-                    var4.close();
+                    datainputstream.close();
                 }
             }
-            catch (Throwable var24)
+            catch (Throwable throwable)
             {
                 ;
             }
 
             try
             {
-                if (var5 != null)
+                if (dataoutputstream != null)
                 {
-                    var5.close();
+                    dataoutputstream.close();
                 }
             }
-            catch (Throwable var23)
+            catch (Throwable throwable1)
             {
                 ;
             }
 
             try
             {
-                if (var3 != null)
+                if (socket != null)
                 {
-                    var3.close();
+                    socket.close();
                 }
             }
-            catch (Throwable var22)
+            catch (Throwable throwable2)
             {
                 ;
             }

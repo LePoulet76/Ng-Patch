@@ -30,19 +30,19 @@ public class RenderHorse extends RenderLiving
 
     protected void func_110847_a(EntityHorse par1EntityHorse, float par2)
     {
-        float var3 = 1.0F;
-        int var4 = par1EntityHorse.getHorseType();
+        float f1 = 1.0F;
+        int i = par1EntityHorse.getHorseType();
 
-        if (var4 == 1)
+        if (i == 1)
         {
-            var3 *= 0.87F;
+            f1 *= 0.87F;
         }
-        else if (var4 == 2)
+        else if (i == 2)
         {
-            var3 *= 0.92F;
+            f1 *= 0.92F;
         }
 
-        GL11.glScalef(var3, var3, var3);
+        GL11.glScalef(f1, f1, f1);
         super.preRenderCallback(par1EntityHorse, par2);
     }
 
@@ -68,16 +68,12 @@ public class RenderHorse extends RenderLiving
                 case 0:
                 default:
                     return whiteHorseTextures;
-
                 case 1:
                     return donkeyTextures;
-
                 case 2:
                     return muleTextures;
-
                 case 3:
                     return zombieHorseTextures;
-
                 case 4:
                     return skeletonHorseTextures;
             }
@@ -90,17 +86,17 @@ public class RenderHorse extends RenderLiving
 
     private ResourceLocation func_110848_b(EntityHorse par1EntityHorse)
     {
-        String var2 = par1EntityHorse.getHorseTexture();
-        ResourceLocation var3 = (ResourceLocation)field_110852_a.get(var2);
+        String s = par1EntityHorse.getHorseTexture();
+        ResourceLocation resourcelocation = (ResourceLocation)field_110852_a.get(s);
 
-        if (var3 == null)
+        if (resourcelocation == null)
         {
-            var3 = new ResourceLocation(var2);
-            Minecraft.getMinecraft().getTextureManager().loadTexture(var3, new LayeredTexture(par1EntityHorse.getVariantTexturePaths()));
-            field_110852_a.put(var2, var3);
+            resourcelocation = new ResourceLocation(s);
+            Minecraft.getMinecraft().getTextureManager().loadTexture(resourcelocation, new LayeredTexture(par1EntityHorse.getVariantTexturePaths()));
+            field_110852_a.put(s, resourcelocation);
         }
 
-        return var3;
+        return resourcelocation;
     }
 
     /**

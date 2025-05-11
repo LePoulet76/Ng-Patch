@@ -26,7 +26,7 @@ class TcpReaderThread extends Thread
                         {
                             sleep(2L);
                         }
-                        catch (InterruptedException var5)
+                        catch (InterruptedException interruptedexception)
                         {
                             ;
                         }

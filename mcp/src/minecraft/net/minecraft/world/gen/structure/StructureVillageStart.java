@@ -16,47 +16,47 @@ public class StructureVillageStart extends StructureStart
     public StructureVillageStart(World par1World, Random par2Random, int par3, int par4, int par5)
     {
         super(par3, par4);
-        List var6 = StructureVillagePieces.getStructureVillageWeightedPieceList(par2Random, par5);
-        ComponentVillageStartPiece var7 = new ComponentVillageStartPiece(par1World.getWorldChunkManager(), 0, par2Random, (par3 << 4) + 2, (par4 << 4) + 2, var6, par5);
-        this.components.add(var7);
-        var7.buildComponent(var7, this.components, par2Random);
-        List var8 = var7.field_74930_j;
-        List var9 = var7.field_74932_i;
-        int var10;
+        List list = StructureVillagePieces.getStructureVillageWeightedPieceList(par2Random, par5);
+        ComponentVillageStartPiece componentvillagestartpiece = new ComponentVillageStartPiece(par1World.getWorldChunkManager(), 0, par2Random, (par3 << 4) + 2, (par4 << 4) + 2, list, par5);
+        this.components.add(componentvillagestartpiece);
+        componentvillagestartpiece.buildComponent(componentvillagestartpiece, this.components, par2Random);
+        List list1 = componentvillagestartpiece.field_74930_j;
+        List list2 = componentvillagestartpiece.field_74932_i;
+        int l;
 
-        while (!var8.isEmpty() || !var9.isEmpty())
+        while (!list1.isEmpty() || !list2.isEmpty())
         {
-            StructureComponent var11;
+            StructureComponent structurecomponent;
 
-            if (var8.isEmpty())
+            if (list1.isEmpty())
             {
-                var10 = par2Random.nextInt(var9.size());
-                var11 = (StructureComponent)var9.remove(var10);
-                var11.buildComponent(var7, this.components, par2Random);
+                l = par2Random.nextInt(list2.size());
+                structurecomponent = (StructureComponent)list2.remove(l);
+                structurecomponent.buildComponent(componentvillagestartpiece, this.components, par2Random);
             }
             else
             {
-                var10 = par2Random.nextInt(var8.size());
-                var11 = (StructureComponent)var8.remove(var10);
-                var11.buildComponent(var7, this.components, par2Random);
+                l = par2Random.nextInt(list1.size());
+                structurecomponent = (StructureComponent)list1.remove(l);
+                structurecomponent.buildComponent(componentvillagestartpiece, this.components, par2Random);
             }
         }
 
         this.updateBoundingBox();
-        var10 = 0;
-        Iterator var13 = this.components.iterator();
+        l = 0;
+        Iterator iterator = this.components.iterator();
 
-        while (var13.hasNext())
+        while (iterator.hasNext())
         {
-            StructureComponent var12 = (StructureComponent)var13.next();
+            StructureComponent structurecomponent1 = (StructureComponent)iterator.next();
 
-            if (!(var12 instanceof ComponentVillageRoadPiece))
+            if (!(structurecomponent1 instanceof ComponentVillageRoadPiece))
             {
-                ++var10;
+                ++l;
             }
         }
 
-        this.hasMoreThanTwoComponents = var10 > 2;
+        this.hasMoreThanTwoComponents = l > 2;
     }
 
     /**
@@ -73,9 +73,9 @@ public class StructureVillageStart extends StructureStart
         par1NBTTagCompound.setBoolean("Valid", this.hasMoreThanTwoComponents);
     }
 
-    public void func_143017_b(NBTTagCompound var1)
+    public void func_143017_b(NBTTagCompound nbttagcompound)
     {
-        super.func_143017_b(var1);
-        this.hasMoreThanTwoComponents = var1.getBoolean("Valid");
+        super.func_143017_b(nbttagcompound);
+        this.hasMoreThanTwoComponents = nbttagcompound.getBoolean("Valid");
     }
 }

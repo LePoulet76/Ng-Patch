@@ -1,6 +1,9 @@
 package net.minecraft.enchantment;
 
 import java.util.ArrayList;
+
+import com.google.common.collect.ObjectArrays;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -198,8 +201,8 @@ public abstract class Enchantment
      */
     public String getTranslatedName(int par1)
     {
-        String var2 = StatCollector.translateToLocal(this.getName());
-        return var2 + " " + StatCollector.translateToLocal("enchantment.level." + par1);
+        String s = StatCollector.translateToLocal(this.getName());
+        return s + " " + StatCollector.translateToLocal("enchantment.level." + par1);
     }
 
     public boolean canApply(ItemStack par1ItemStack)
@@ -207,22 +210,52 @@ public abstract class Enchantment
         return this.type.canEnchantItem(par1ItemStack.getItem());
     }
 
+    /**
+     * This applies specifically to applying at the enchanting table. The other method {@link #canApply(ItemStack)}
+     * applies for <i>all possible</i> enchantments.
+     * @param stack
+     * @return
+     */
+    public boolean canApplyAtEnchantingTable(ItemStack stack)
+    {
+        return canApply(stack);
+    }
+
+    /**
+     * Add to the list of enchantments applicable by the anvil from a book
+     *
+     * @param enchantment
+     */
+    public static void addToBookList(Enchantment enchantment)
+    {
+        ObjectArrays.concat(enchantmentsBookList, enchantment);
+    }
+
+    /**
+     * Is this enchantment allowed to be enchanted on books via Enchantment Table
+     * @return false to disable the vanilla feature
+     */
+    public boolean isAllowedOnBooks()
+    {
+        return true;
+    }
+
     static
     {
-        ArrayList var0 = new ArrayList();
-        Enchantment[] var1 = enchantmentsList;
-        int var2 = var1.length;
+        ArrayList arraylist = new ArrayList();
+        Enchantment[] aenchantment = enchantmentsList;
+        int i = aenchantment.length;
 
-        for (int var3 = 0; var3 < var2; ++var3)
+        for (int j = 0; j < i; ++j)
         {
-            Enchantment var4 = var1[var3];
+            Enchantment enchantment = aenchantment[j];
 
-            if (var4 != null)
+            if (enchantment != null)
             {
-                var0.add(var4);
+                arraylist.add(enchantment);
             }
         }
 
-        enchantmentsBookList = (Enchantment[])var0.toArray(new Enchantment[0]);
+        enchantmentsBookList = (Enchantment[])arraylist.toArray(new Enchantment[0]);
     }
 }

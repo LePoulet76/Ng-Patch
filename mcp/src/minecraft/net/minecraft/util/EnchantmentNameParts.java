@@ -21,20 +21,20 @@ public class EnchantmentNameParts
      */
     public String generateRandomEnchantName()
     {
-        int var1 = this.rand.nextInt(2) + 3;
-        String var2 = "";
+        int i = this.rand.nextInt(2) + 3;
+        String s = "";
 
-        for (int var3 = 0; var3 < var1; ++var3)
+        for (int j = 0; j < i; ++j)
         {
-            if (var3 > 0)
+            if (j > 0)
             {
-                var2 = var2 + " ";
+                s = s + " ";
             }
 
-            var2 = var2 + this.wordList[this.rand.nextInt(this.wordList.length)];
+            s = s + this.wordList[this.rand.nextInt(this.wordList.length)];
         }
 
-        return var2;
+        return s;
     }
 
     /**

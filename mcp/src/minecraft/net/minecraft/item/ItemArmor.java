@@ -63,14 +63,14 @@ public class ItemArmor extends Item
         }
         else
         {
-            int var3 = this.getColor(par1ItemStack);
+            int j = this.getColor(par1ItemStack);
 
-            if (var3 < 0)
+            if (j < 0)
             {
-                var3 = 16777215;
+                j = 16777215;
             }
 
-            return var3;
+            return j;
         }
     }
 
@@ -115,16 +115,16 @@ public class ItemArmor extends Item
         }
         else
         {
-            NBTTagCompound var2 = par1ItemStack.getTagCompound();
+            NBTTagCompound nbttagcompound = par1ItemStack.getTagCompound();
 
-            if (var2 == null)
+            if (nbttagcompound == null)
             {
                 return 10511680;
             }
             else
             {
-                NBTTagCompound var3 = var2.getCompoundTag("display");
-                return var3 == null ? 10511680 : (var3.hasKey("color") ? var3.getInteger("color") : 10511680);
+                NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
+                return nbttagcompound1 == null ? 10511680 : (nbttagcompound1.hasKey("color") ? nbttagcompound1.getInteger("color") : 10511680);
             }
         }
     }
@@ -146,15 +146,15 @@ public class ItemArmor extends Item
     {
         if (this.material == EnumArmorMaterial.CLOTH)
         {
-            NBTTagCompound var2 = par1ItemStack.getTagCompound();
+            NBTTagCompound nbttagcompound = par1ItemStack.getTagCompound();
 
-            if (var2 != null)
+            if (nbttagcompound != null)
             {
-                NBTTagCompound var3 = var2.getCompoundTag("display");
+                NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
 
-                if (var3.hasKey("color"))
+                if (nbttagcompound1.hasKey("color"))
                 {
-                    var3.removeTag("color");
+                    nbttagcompound1.removeTag("color");
                 }
             }
         }
@@ -168,22 +168,22 @@ public class ItemArmor extends Item
         }
         else
         {
-            NBTTagCompound var3 = par1ItemStack.getTagCompound();
+            NBTTagCompound nbttagcompound = par1ItemStack.getTagCompound();
 
-            if (var3 == null)
+            if (nbttagcompound == null)
             {
-                var3 = new NBTTagCompound();
-                par1ItemStack.setTagCompound(var3);
+                nbttagcompound = new NBTTagCompound();
+                par1ItemStack.setTagCompound(nbttagcompound);
             }
 
-            NBTTagCompound var4 = var3.getCompoundTag("display");
+            NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
 
-            if (!var3.hasKey("display"))
+            if (!nbttagcompound.hasKey("display"))
             {
-                var3.setCompoundTag("display", var4);
+                nbttagcompound.setCompoundTag("display", nbttagcompound1);
             }
 
-            var4.setInteger("color", par2);
+            nbttagcompound1.setInteger("color", par2);
         }
     }
 
@@ -213,12 +213,12 @@ public class ItemArmor extends Item
      */
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
-        int var4 = EntityLiving.getArmorPosition(par1ItemStack) - 1;
-        ItemStack var5 = par3EntityPlayer.getCurrentArmor(var4);
+        int i = EntityLiving.getArmorPosition(par1ItemStack) - 1;
+        ItemStack itemstack1 = par3EntityPlayer.getCurrentArmor(i);
 
-        if (var5 == null)
+        if (itemstack1 == null)
         {
-            par3EntityPlayer.setCurrentItemOrArmor(var4, par1ItemStack.copy());
+            par3EntityPlayer.setCurrentItemOrArmor(i + 1, par1ItemStack.copy()); //Forge: Vanilla bug fix associated with fixed setCurrentItemOrArmor indexs for players.
             par1ItemStack.stackSize = 0;
         }
 
@@ -232,16 +232,12 @@ public class ItemArmor extends Item
         {
             case 0:
                 return Item.helmetDiamond.field_94604_cx;
-
             case 1:
                 return Item.plateDiamond.field_94604_cx;
-
             case 2:
                 return Item.legsDiamond.field_94604_cx;
-
             case 3:
                 return Item.bootsDiamond.field_94604_cx;
-
             default:
                 return null;
         }

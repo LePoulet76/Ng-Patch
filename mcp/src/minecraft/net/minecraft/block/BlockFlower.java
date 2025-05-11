@@ -6,14 +6,19 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class BlockFlower extends Block
+import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.IPlantable;
+import static net.minecraftforge.common.EnumPlantType.*;
+
+public class BlockFlower extends Block implements IPlantable
 {
     protected BlockFlower(int par1, Material par2Material)
     {
         super(par1, par2Material);
         this.setTickRandomly(true);
-        float var3 = 0.2F;
-        this.setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, var3 * 3.0F, 0.5F + var3);
+        float f = 0.2F;
+        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
@@ -27,7 +32,7 @@ public class BlockFlower extends Block
      */
     public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
     {
-        return super.canPlaceBlockAt(par1World, par2, par3, par4) && this.canThisPlantGrowOnThisBlockID(par1World.getBlockId(par2, par3 - 1, par4));
+        return super.canPlaceBlockAt(par1World, par2, par3, par4) && canBlockStay(par1World, par2, par3, par4);
     }
 
     /**
@@ -71,7 +76,9 @@ public class BlockFlower extends Block
      */
     public boolean canBlockStay(World par1World, int par2, int par3, int par4)
     {
-        return (par1World.getFullBlockLightValue(par2, par3, par4) >= 8 || par1World.canBlockSeeTheSky(par2, par3, par4)) && this.canThisPlantGrowOnThisBlockID(par1World.getBlockId(par2, par3 - 1, par4));
+        Block soil = blocksList[par1World.getBlockId(par2, par3 - 1, par4)];
+        return (par1World.getFullBlockLightValue(par2, par3, par4) >= 8 || par1World.canBlockSeeTheSky(par2, par3, par4)) && 
+                (soil != null && soil.canSustainPlant(par1World, par2, par3 - 1, par4, ForgeDirection.UP, this));
     }
 
     /**
@@ -106,5 +113,33 @@ public class BlockFlower extends Block
     public int getRenderType()
     {
         return 1;
+    }
+
+    @Override
+    public EnumPlantType getPlantType(World world, int x, int y, int z)
+    {
+        if (blockID == crops.blockID        ) return Crop;
+        if (blockID == deadBush.blockID     ) return Desert;
+        if (blockID == waterlily.blockID    ) return Water;
+        if (blockID == mushroomRed.blockID  ) return Cave;
+        if (blockID == mushroomBrown.blockID) return Cave;
+        if (blockID == netherStalk.blockID  ) return Nether;
+        if (blockID == sapling.blockID      ) return Plains;
+        if (blockID == melonStem.blockID    ) return Crop;
+        if (blockID == pumpkinStem.blockID  ) return Crop;
+        if (blockID == tallGrass.blockID    ) return Plains;
+        return Plains;
+    }
+
+    @Override
+    public int getPlantID(World world, int x, int y, int z)
+    {
+        return blockID;
+    }
+
+    @Override
+    public int getPlantMetadata(World world, int x, int y, int z)
+    {
+        return world.getBlockMetadata(x, y, z);
     }
 }

@@ -99,19 +99,19 @@ public class DedicatedPlayerList extends ServerConfigurationManager
         try
         {
             this.getOps().clear();
-            BufferedReader var1 = new BufferedReader(new FileReader(this.opsList));
-            String var2 = "";
+            BufferedReader bufferedreader = new BufferedReader(new FileReader(this.opsList));
+            String s = "";
 
-            while ((var2 = var1.readLine()) != null)
+            while ((s = bufferedreader.readLine()) != null)
             {
-                this.getOps().add(var2.trim().toLowerCase());
+                this.getOps().add(s.trim().toLowerCase());
             }
 
-            var1.close();
+            bufferedreader.close();
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
-            this.getDedicatedServerInstance().getLogAgent().logWarning("Failed to load operators list: " + var3);
+            this.getDedicatedServerInstance().getLogAgent().logWarning("Failed to load operators list: " + exception);
         }
     }
 
@@ -119,20 +119,20 @@ public class DedicatedPlayerList extends ServerConfigurationManager
     {
         try
         {
-            PrintWriter var1 = new PrintWriter(new FileWriter(this.opsList, false));
-            Iterator var2 = this.getOps().iterator();
+            PrintWriter printwriter = new PrintWriter(new FileWriter(this.opsList, false));
+            Iterator iterator = this.getOps().iterator();
 
-            while (var2.hasNext())
+            while (iterator.hasNext())
             {
-                String var3 = (String)var2.next();
-                var1.println(var3);
+                String s = (String)iterator.next();
+                printwriter.println(s);
             }
 
-            var1.close();
+            printwriter.close();
         }
-        catch (Exception var4)
+        catch (Exception exception)
         {
-            this.getDedicatedServerInstance().getLogAgent().logWarning("Failed to save operators list: " + var4);
+            this.getDedicatedServerInstance().getLogAgent().logWarning("Failed to save operators list: " + exception);
         }
     }
 
@@ -141,19 +141,19 @@ public class DedicatedPlayerList extends ServerConfigurationManager
         try
         {
             this.getWhiteListedPlayers().clear();
-            BufferedReader var1 = new BufferedReader(new FileReader(this.whiteList));
-            String var2 = "";
+            BufferedReader bufferedreader = new BufferedReader(new FileReader(this.whiteList));
+            String s = "";
 
-            while ((var2 = var1.readLine()) != null)
+            while ((s = bufferedreader.readLine()) != null)
             {
-                this.getWhiteListedPlayers().add(var2.trim().toLowerCase());
+                this.getWhiteListedPlayers().add(s.trim().toLowerCase());
             }
 
-            var1.close();
+            bufferedreader.close();
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
-            this.getDedicatedServerInstance().getLogAgent().logWarning("Failed to load white-list: " + var3);
+            this.getDedicatedServerInstance().getLogAgent().logWarning("Failed to load white-list: " + exception);
         }
     }
 
@@ -161,20 +161,20 @@ public class DedicatedPlayerList extends ServerConfigurationManager
     {
         try
         {
-            PrintWriter var1 = new PrintWriter(new FileWriter(this.whiteList, false));
-            Iterator var2 = this.getWhiteListedPlayers().iterator();
+            PrintWriter printwriter = new PrintWriter(new FileWriter(this.whiteList, false));
+            Iterator iterator = this.getWhiteListedPlayers().iterator();
 
-            while (var2.hasNext())
+            while (iterator.hasNext())
             {
-                String var3 = (String)var2.next();
-                var1.println(var3);
+                String s = (String)iterator.next();
+                printwriter.println(s);
             }
 
-            var1.close();
+            printwriter.close();
         }
-        catch (Exception var4)
+        catch (Exception exception)
         {
-            this.getDedicatedServerInstance().getLogAgent().logWarning("Failed to save white-list: " + var4);
+            this.getDedicatedServerInstance().getLogAgent().logWarning("Failed to save white-list: " + exception);
         }
     }
 

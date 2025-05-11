@@ -13,13 +13,13 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public interface ResourcePack
 {
-    InputStream getInputStream(ResourceLocation var1) throws IOException;
+    InputStream getInputStream(ResourceLocation resourcelocation) throws IOException;
 
-    boolean resourceExists(ResourceLocation var1);
+    boolean resourceExists(ResourceLocation resourcelocation);
 
     Set getResourceDomains();
 
-    MetadataSection getPackMetadata(MetadataSerializer var1, String var2) throws IOException;
+    MetadataSection getPackMetadata(MetadataSerializer metadataserializer, String s) throws IOException;
 
     BufferedImage getPackImage() throws IOException;
 

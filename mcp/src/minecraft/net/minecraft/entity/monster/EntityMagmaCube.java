@@ -77,20 +77,20 @@ public class EntityMagmaCube extends EntitySlime
      */
     protected void dropFewItems(boolean par1, int par2)
     {
-        int var3 = this.getDropItemId();
+        int j = this.getDropItemId();
 
-        if (var3 > 0 && this.getSlimeSize() > 1)
+        if (j > 0 && this.getSlimeSize() > 1)
         {
-            int var4 = this.rand.nextInt(4) - 2;
+            int k = this.rand.nextInt(4) - 2;
 
             if (par2 > 0)
             {
-                var4 += this.rand.nextInt(par2 + 1);
+                k += this.rand.nextInt(par2 + 1);
             }
 
-            for (int var5 = 0; var5 < var4; ++var5)
+            for (int l = 0; l < k; ++l)
             {
-                this.dropItem(var3, 1);
+                this.dropItem(j, 1);
             }
         }
     }

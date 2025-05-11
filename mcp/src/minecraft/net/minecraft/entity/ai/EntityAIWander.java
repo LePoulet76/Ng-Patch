@@ -33,17 +33,17 @@ public class EntityAIWander extends EntityAIBase
         }
         else
         {
-            Vec3 var1 = RandomPositionGenerator.findRandomTarget(this.entity, 10, 7);
+            Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.entity, 10, 7);
 
-            if (var1 == null)
+            if (vec3 == null)
             {
                 return false;
             }
             else
             {
-                this.xPosition = var1.xCoord;
-                this.yPosition = var1.yCoord;
-                this.zPosition = var1.zCoord;
+                this.xPosition = vec3.xCoord;
+                this.yPosition = vec3.yCoord;
+                this.zPosition = vec3.zCoord;
                 return true;
             }
         }

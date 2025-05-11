@@ -39,7 +39,7 @@ public class ResourcePackRepositoryEntry
         {
             this.texturePackIcon = this.reResourcePack.getPackImage();
         }
-        catch (IOException var2)
+        catch (IOException ioexception)
         {
             ;
         }

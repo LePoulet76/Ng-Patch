@@ -44,22 +44,22 @@ public class BlockGrass extends Block
     {
         if (!par1World.isRemote)
         {
-            if (par1World.getBlockLightValue(par2, par3 + 1, par4) < 4 && Block.lightOpacity[par1World.getBlockId(par2, par3 + 1, par4)] > 2)
+            if (par1World.getBlockLightValue(par2, par3 + 1, par4) < 4 && par1World.getBlockLightOpacity(par2, par3 + 1, par4) > 2)
             {
                 par1World.setBlock(par2, par3, par4, Block.dirt.blockID);
             }
             else if (par1World.getBlockLightValue(par2, par3 + 1, par4) >= 9)
             {
-                for (int var6 = 0; var6 < 4; ++var6)
+                for (int l = 0; l < 4; ++l)
                 {
-                    int var7 = par2 + par5Random.nextInt(3) - 1;
-                    int var8 = par3 + par5Random.nextInt(5) - 3;
-                    int var9 = par4 + par5Random.nextInt(3) - 1;
-                    int var10 = par1World.getBlockId(var7, var8 + 1, var9);
+                    int i1 = par2 + par5Random.nextInt(3) - 1;
+                    int j1 = par3 + par5Random.nextInt(5) - 3;
+                    int k1 = par4 + par5Random.nextInt(3) - 1;
+                    int l1 = par1World.getBlockId(i1, j1 + 1, k1);
 
-                    if (par1World.getBlockId(var7, var8, var9) == Block.dirt.blockID && par1World.getBlockLightValue(var7, var8 + 1, var9) >= 4 && Block.lightOpacity[var10] <= 2)
+                    if (par1World.getBlockId(i1, j1, k1) == Block.dirt.blockID && par1World.getBlockLightValue(i1, j1 + 1, k1) >= 4 && par1World.getBlockLightOpacity(i1, j1 + 1, k1) <= 2)
                     {
-                        par1World.setBlock(var7, var8, var9, Block.grass.blockID);
+                        par1World.setBlock(i1, j1, k1, Block.grass.blockID);
                     }
                 }
             }
@@ -91,8 +91,8 @@ public class BlockGrass extends Block
         }
         else
         {
-            Material var6 = par1IBlockAccess.getBlockMaterial(par2, par3 + 1, par4);
-            return var6 != Material.snow && var6 != Material.craftedSnow ? this.blockIcon : this.iconSnowSide;
+            Material material = par1IBlockAccess.getBlockMaterial(par2, par3 + 1, par4);
+            return material != Material.snow && material != Material.craftedSnow ? this.blockIcon : this.iconSnowSide;
         }
     }
 
@@ -113,9 +113,9 @@ public class BlockGrass extends Block
     @SideOnly(Side.CLIENT)
     public int getBlockColor()
     {
-        double var1 = 0.5D;
-        double var3 = 1.0D;
-        return ColorizerGrass.getGrassColor(var1, var3);
+        double d0 = 0.5D;
+        double d1 = 1.0D;
+        return ColorizerGrass.getGrassColor(d0, d1);
     }
 
     @SideOnly(Side.CLIENT)
@@ -136,22 +136,22 @@ public class BlockGrass extends Block
      */
     public int colorMultiplier(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int var5 = 0;
-        int var6 = 0;
-        int var7 = 0;
+        int l = 0;
+        int i1 = 0;
+        int j1 = 0;
 
-        for (int var8 = -1; var8 <= 1; ++var8)
+        for (int k1 = -1; k1 <= 1; ++k1)
         {
-            for (int var9 = -1; var9 <= 1; ++var9)
+            for (int l1 = -1; l1 <= 1; ++l1)
             {
-                int var10 = par1IBlockAccess.getBiomeGenForCoords(par2 + var9, par4 + var8).getBiomeGrassColor();
-                var5 += (var10 & 16711680) >> 16;
-                var6 += (var10 & 65280) >> 8;
-                var7 += var10 & 255;
+                int i2 = par1IBlockAccess.getBiomeGenForCoords(par2 + l1, par4 + k1).getBiomeGrassColor();
+                l += (i2 & 16711680) >> 16;
+                i1 += (i2 & 65280) >> 8;
+                j1 += i2 & 255;
             }
         }
 
-        return (var5 / 9 & 255) << 16 | (var6 / 9 & 255) << 8 | var7 / 9 & 255;
+        return (l / 9 & 255) << 16 | (i1 / 9 & 255) << 8 | j1 / 9 & 255;
     }
 
     @SideOnly(Side.CLIENT)

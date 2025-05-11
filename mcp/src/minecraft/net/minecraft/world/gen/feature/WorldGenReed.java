@@ -9,21 +9,21 @@ public class WorldGenReed extends WorldGenerator
 {
     public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
     {
-        for (int var6 = 0; var6 < 20; ++var6)
+        for (int l = 0; l < 20; ++l)
         {
-            int var7 = par3 + par2Random.nextInt(4) - par2Random.nextInt(4);
-            int var8 = par4;
-            int var9 = par5 + par2Random.nextInt(4) - par2Random.nextInt(4);
+            int i1 = par3 + par2Random.nextInt(4) - par2Random.nextInt(4);
+            int j1 = par4;
+            int k1 = par5 + par2Random.nextInt(4) - par2Random.nextInt(4);
 
-            if (par1World.isAirBlock(var7, par4, var9) && (par1World.getBlockMaterial(var7 - 1, par4 - 1, var9) == Material.water || par1World.getBlockMaterial(var7 + 1, par4 - 1, var9) == Material.water || par1World.getBlockMaterial(var7, par4 - 1, var9 - 1) == Material.water || par1World.getBlockMaterial(var7, par4 - 1, var9 + 1) == Material.water))
+            if (par1World.isAirBlock(i1, par4, k1) && (par1World.getBlockMaterial(i1 - 1, par4 - 1, k1) == Material.water || par1World.getBlockMaterial(i1 + 1, par4 - 1, k1) == Material.water || par1World.getBlockMaterial(i1, par4 - 1, k1 - 1) == Material.water || par1World.getBlockMaterial(i1, par4 - 1, k1 + 1) == Material.water))
             {
-                int var10 = 2 + par2Random.nextInt(par2Random.nextInt(3) + 1);
+                int l1 = 2 + par2Random.nextInt(par2Random.nextInt(3) + 1);
 
-                for (int var11 = 0; var11 < var10; ++var11)
+                for (int i2 = 0; i2 < l1; ++i2)
                 {
-                    if (Block.reed.canBlockStay(par1World, var7, var8 + var11, var9))
+                    if (Block.reed.canBlockStay(par1World, i1, j1 + i2, k1))
                     {
-                        par1World.setBlock(var7, var8 + var11, var9, Block.reed.blockID, 0, 2);
+                        par1World.setBlock(i1, j1 + i2, k1, Block.reed.blockID, 0, 2);
                     }
                 }
             }

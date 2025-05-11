@@ -51,11 +51,11 @@ public abstract class EntityTameable extends EntityAnimal implements EntityOwnab
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
-        String var2 = par1NBTTagCompound.getString("Owner");
+        String s = par1NBTTagCompound.getString("Owner");
 
-        if (var2.length() > 0)
+        if (s.length() > 0)
         {
-            this.setOwner(var2);
+            this.setOwner(s);
             this.setTamed(true);
         }
 
@@ -68,19 +68,19 @@ public abstract class EntityTameable extends EntityAnimal implements EntityOwnab
      */
     protected void playTameEffect(boolean par1)
     {
-        String var2 = "heart";
+        String s = "heart";
 
         if (!par1)
         {
-            var2 = "smoke";
+            s = "smoke";
         }
 
-        for (int var3 = 0; var3 < 7; ++var3)
+        for (int i = 0; i < 7; ++i)
         {
-            double var4 = this.rand.nextGaussian() * 0.02D;
-            double var6 = this.rand.nextGaussian() * 0.02D;
-            double var8 = this.rand.nextGaussian() * 0.02D;
-            this.worldObj.spawnParticle(var2, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, var4, var6, var8);
+            double d0 = this.rand.nextGaussian() * 0.02D;
+            double d1 = this.rand.nextGaussian() * 0.02D;
+            double d2 = this.rand.nextGaussian() * 0.02D;
+            this.worldObj.spawnParticle(s, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
         }
     }
 
@@ -108,15 +108,15 @@ public abstract class EntityTameable extends EntityAnimal implements EntityOwnab
 
     public void setTamed(boolean par1)
     {
-        byte var2 = this.dataWatcher.getWatchableObjectByte(16);
+        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
 
         if (par1)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 | 4)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 4)));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 & -5)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -5)));
         }
     }
 
@@ -127,15 +127,15 @@ public abstract class EntityTameable extends EntityAnimal implements EntityOwnab
 
     public void setSitting(boolean par1)
     {
-        byte var2 = this.dataWatcher.getWatchableObjectByte(16);
+        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
 
         if (par1)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 | 1)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 1)));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 & -2)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -2)));
         }
     }
 
@@ -168,11 +168,11 @@ public abstract class EntityTameable extends EntityAnimal implements EntityOwnab
     {
         if (this.isTamed())
         {
-            EntityLivingBase var1 = this.func_130012_q();
+            EntityLivingBase entitylivingbase = this.func_130012_q();
 
-            if (var1 != null)
+            if (entitylivingbase != null)
             {
-                return var1.getTeam();
+                return entitylivingbase.getTeam();
             }
         }
 
@@ -183,16 +183,16 @@ public abstract class EntityTameable extends EntityAnimal implements EntityOwnab
     {
         if (this.isTamed())
         {
-            EntityLivingBase var2 = this.func_130012_q();
+            EntityLivingBase entitylivingbase1 = this.func_130012_q();
 
-            if (par1EntityLivingBase == var2)
+            if (par1EntityLivingBase == entitylivingbase1)
             {
                 return true;
             }
 
-            if (var2 != null)
+            if (entitylivingbase1 != null)
             {
-                return var2.isOnSameTeam(par1EntityLivingBase);
+                return entitylivingbase1.isOnSameTeam(par1EntityLivingBase);
             }
         }
 

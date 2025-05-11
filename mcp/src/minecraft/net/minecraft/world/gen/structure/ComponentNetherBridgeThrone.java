@@ -37,8 +37,8 @@ public class ComponentNetherBridgeThrone extends ComponentNetherBridgePiece
      */
     public static ComponentNetherBridgeThrone createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
     {
-        StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -2, 0, 0, 7, 8, 9, par5);
-        return isAboveGround(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentNetherBridgeThrone(par6, par1Random, var7, par5) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -2, 0, 0, 7, 8, 9, par5);
+        return isAboveGround(structureboundingbox) && StructureComponent.findIntersecting(par0List, structureboundingbox) == null ? new ComponentNetherBridgeThrone(par6, par1Random, structureboundingbox, par5) : null;
     }
 
     /**
@@ -65,33 +65,33 @@ public class ComponentNetherBridgeThrone extends ComponentNetherBridgePiece
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 6, 6, 3, 6, 6, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 1, 6, 8, 5, 7, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 2, 8, 8, 4, 8, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
-        int var4;
-        int var5;
+        int i;
+        int j;
 
         if (!this.hasSpawner)
         {
-            var4 = this.getYWithOffset(5);
-            var5 = this.getXWithOffset(3, 5);
-            int var6 = this.getZWithOffset(3, 5);
+            i = this.getYWithOffset(5);
+            j = this.getXWithOffset(3, 5);
+            int k = this.getZWithOffset(3, 5);
 
-            if (par3StructureBoundingBox.isVecInside(var5, var4, var6))
+            if (par3StructureBoundingBox.isVecInside(j, i, k))
             {
                 this.hasSpawner = true;
-                par1World.setBlock(var5, var4, var6, Block.mobSpawner.blockID, 0, 2);
-                TileEntityMobSpawner var7 = (TileEntityMobSpawner)par1World.getBlockTileEntity(var5, var4, var6);
+                par1World.setBlock(j, i, k, Block.mobSpawner.blockID, 0, 2);
+                TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner)par1World.getBlockTileEntity(j, i, k);
 
-                if (var7 != null)
+                if (tileentitymobspawner != null)
                 {
-                    var7.getSpawnerLogic().setMobID("Blaze");
+                    tileentitymobspawner.getSpawnerLogic().setMobID("Blaze");
                 }
             }
         }
 
-        for (var4 = 0; var4 <= 6; ++var4)
+        for (i = 0; i <= 6; ++i)
         {
-            for (var5 = 0; var5 <= 6; ++var5)
+            for (j = 0; j <= 6; ++j)
             {
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, var4, -1, var5, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, i, -1, j, par3StructureBoundingBox);
             }
         }
 

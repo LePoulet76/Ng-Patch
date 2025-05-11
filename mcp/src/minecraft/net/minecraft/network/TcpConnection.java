@@ -1,5 +1,6 @@
 package net.minecraft.network;
 
+import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.io.BufferedOutputStream;
@@ -132,9 +133,9 @@ public class TcpConnection implements INetworkManager
             par2Socket.setSoTimeout(30000);
             par2Socket.setTrafficClass(24);
         }
-        catch (SocketException var7)
+        catch (SocketException socketexception)
         {
-            System.err.println(var7.getMessage());
+            System.err.println(socketexception.getMessage());
         }
 
         this.socketInputStream = new DataInputStream(par2Socket.getInputStream());
@@ -168,7 +169,7 @@ public class TcpConnection implements INetworkManager
     {
         if (!this.isServerTerminating)
         {
-            Object var2 = this.sendQueueLock;
+            Object object = this.sendQueueLock;
 
             synchronized (this.sendQueueLock)
             {
@@ -184,61 +185,61 @@ public class TcpConnection implements INetworkManager
      */
     private boolean sendPacket()
     {
-        boolean var1 = false;
+        boolean flag = false;
 
         try
         {
-            int[] var10000;
-            int var10001;
-            Packet var2;
+            int[] aint;
+            int i;
+            Packet packet;
 
             if (this.field_74468_e == 0 || !this.dataPackets.isEmpty() && MinecraftServer.getSystemTimeMillis() - ((Packet)this.dataPackets.get(0)).creationTimeMillis >= (long)this.field_74468_e)
             {
-                var2 = this.func_74460_a(false);
+                packet = this.func_74460_a(false);
 
-                if (var2 != null)
+                if (packet != null)
                 {
-                    Packet.writePacket(var2, this.socketOutputStream);
+                    Packet.writePacket(packet, this.socketOutputStream);
 
-                    if (var2 instanceof Packet252SharedKey && !this.isOutputEncrypted)
+                    if (packet instanceof Packet252SharedKey && !this.isOutputEncrypted)
                     {
                         if (!this.theNetHandler.isServerHandler())
                         {
-                            this.sharedKeyForEncryption = ((Packet252SharedKey)var2).getSharedKey();
+                            this.sharedKeyForEncryption = ((Packet252SharedKey)packet).getSharedKey();
                         }
 
                         this.encryptOuputStream();
                     }
 
-                    var10000 = field_74467_d;
-                    var10001 = var2.getPacketId();
-                    var10000[var10001] += var2.getPacketSize() + 1;
-                    var1 = true;
+                    aint = field_74467_d;
+                    i = packet.getPacketId();
+                    aint[i] += packet.getPacketSize() + 1;
+                    flag = true;
                 }
             }
 
             if (this.chunkDataPacketsDelay-- <= 0 && (this.field_74468_e == 0 || !this.chunkDataPackets.isEmpty() && MinecraftServer.getSystemTimeMillis() - ((Packet)this.chunkDataPackets.get(0)).creationTimeMillis >= (long)this.field_74468_e))
             {
-                var2 = this.func_74460_a(true);
+                packet = this.func_74460_a(true);
 
-                if (var2 != null)
+                if (packet != null)
                 {
-                    Packet.writePacket(var2, this.socketOutputStream);
-                    var10000 = field_74467_d;
-                    var10001 = var2.getPacketId();
-                    var10000[var10001] += var2.getPacketSize() + 1;
+                    Packet.writePacket(packet, this.socketOutputStream);
+                    aint = field_74467_d;
+                    i = packet.getPacketId();
+                    aint[i] += packet.getPacketSize() + 1;
                     this.chunkDataPacketsDelay = 0;
-                    var1 = true;
+                    flag = true;
                 }
             }
 
-            return var1;
+            return flag;
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
             if (!this.isTerminating)
             {
-                this.onNetworkError(var3);
+                this.onNetworkError(exception);
             }
 
             return false;
@@ -247,24 +248,24 @@ public class TcpConnection implements INetworkManager
 
     private Packet func_74460_a(boolean par1)
     {
-        Packet var2 = null;
-        List var3 = par1 ? this.chunkDataPackets : this.dataPackets;
-        Object var4 = this.sendQueueLock;
+        Packet packet = null;
+        List list = par1 ? this.chunkDataPackets : this.dataPackets;
+        Object object = this.sendQueueLock;
 
         synchronized (this.sendQueueLock)
         {
-            while (!var3.isEmpty() && var2 == null)
+            while (!list.isEmpty() && packet == null)
             {
-                var2 = (Packet)var3.remove(0);
-                this.sendQueueByteLength -= var2.getPacketSize() + 1;
+                packet = (Packet)list.remove(0);
+                this.sendQueueByteLength -= packet.getPacketSize() + 1;
 
-                if (this.func_74454_a(var2, par1))
+                if (this.func_74454_a(packet, par1))
                 {
-                    var2 = null;
+                    packet = null;
                 }
             }
 
-            return var2;
+            return packet;
         }
     }
 
@@ -276,22 +277,22 @@ public class TcpConnection implements INetworkManager
         }
         else
         {
-            List var3 = par2 ? this.chunkDataPackets : this.dataPackets;
-            Iterator var4 = var3.iterator();
-            Packet var5;
+            List list = par2 ? this.chunkDataPackets : this.dataPackets;
+            Iterator iterator = list.iterator();
+            Packet packet1;
 
             do
             {
-                if (!var4.hasNext())
+                if (!iterator.hasNext())
                 {
                     return false;
                 }
 
-                var5 = (Packet)var4.next();
+                packet1 = (Packet)iterator.next();
             }
-            while (var5.getPacketId() != par1Packet.getPacketId());
+            while (packet1.getPacketId() != par1Packet.getPacketId());
 
-            return par1Packet.containsSameEntityIDAs(var5);
+            return par1Packet.containsSameEntityIDAs(packet1);
         }
     }
 
@@ -317,55 +318,55 @@ public class TcpConnection implements INetworkManager
      */
     private boolean readPacket()
     {
-        boolean var1 = false;
+        boolean flag = false;
 
         try
         {
-            Packet var2 = Packet.readPacket(this.tcpConLogAgent, this.socketInputStream, this.theNetHandler.isServerHandler(), this.networkSocket);
+            Packet packet = Packet.readPacket(this.tcpConLogAgent, this.socketInputStream, this.theNetHandler.isServerHandler(), this.networkSocket);
 
-            if (var2 != null)
+            if (packet != null)
             {
-                if (var2 instanceof Packet252SharedKey && !this.isInputBeingDecrypted)
+                if (packet instanceof Packet252SharedKey && !this.isInputBeingDecrypted)
                 {
                     if (this.theNetHandler.isServerHandler())
                     {
-                        this.sharedKeyForEncryption = ((Packet252SharedKey)var2).getSharedKey(this.field_74463_A);
+                        this.sharedKeyForEncryption = ((Packet252SharedKey)packet).getSharedKey(this.field_74463_A);
                     }
 
                     this.decryptInputStream();
                 }
 
-                int[] var10000 = field_74470_c;
-                int var10001 = var2.getPacketId();
-                var10000[var10001] += var2.getPacketSize() + 1;
+                int[] aint = field_74470_c;
+                int i = packet.getPacketId();
+                aint[i] += packet.getPacketSize() + 1;
 
                 if (!this.isServerTerminating)
                 {
-                    if (var2.canProcessAsync() && this.theNetHandler.canProcessPacketsAsync())
+                    if (packet.canProcessAsync() && this.theNetHandler.canProcessPacketsAsync())
                     {
                         this.field_74490_x = 0;
-                        var2.processPacket(this.theNetHandler);
+                        packet.processPacket(this.theNetHandler);
                     }
                     else
                     {
-                        this.readPackets.add(var2);
+                        this.readPackets.add(packet);
                     }
                 }
 
-                var1 = true;
+                flag = true;
             }
             else
             {
                 this.networkShutdown("disconnect.endOfStream", new Object[0]);
             }
 
-            return var1;
+            return flag;
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
             if (!this.isTerminating)
             {
-                this.onNetworkError(var3);
+                this.onNetworkError(exception);
             }
 
             return false;
@@ -399,7 +400,7 @@ public class TcpConnection implements INetworkManager
             {
                 this.socketInputStream.close();
             }
-            catch (Throwable var6)
+            catch (Throwable throwable)
             {
                 ;
             }
@@ -408,7 +409,7 @@ public class TcpConnection implements INetworkManager
             {
                 this.socketOutputStream.close();
             }
-            catch (Throwable var5)
+            catch (Throwable throwable1)
             {
                 ;
             }
@@ -417,7 +418,7 @@ public class TcpConnection implements INetworkManager
             {
                 this.networkSocket.close();
             }
-            catch (Throwable var4)
+            catch (Throwable throwable2)
             {
                 ;
             }
@@ -450,15 +451,15 @@ public class TcpConnection implements INetworkManager
             this.field_74490_x = 0;
         }
 
-        int var1 = 1000;
+        int i = 1000;
 
-        while (var1-- >= 0)
+        while (i-- >= 0)
         {
-            Packet var2 = (Packet)this.readPackets.poll();
+            Packet packet = (Packet)this.readPackets.poll();
 
-            if (var2 != null && !this.theNetHandler.isConnectionClosed())
+            if (packet != null && !this.theNetHandler.isConnectionClosed())
             {
-                var2.processPacket(this.theNetHandler);
+                packet.processPacket(this.theNetHandler);
             }
         }
 
@@ -467,6 +468,7 @@ public class TcpConnection implements INetworkManager
         if (this.isTerminating && this.readPackets.isEmpty())
         {
             this.theNetHandler.handleErrorMessage(this.terminationReason, this.shutdownDescription);
+            FMLNetworkHandler.onConnectionClosed(this, this.theNetHandler.getPlayer());
         }
     }
 
@@ -495,8 +497,8 @@ public class TcpConnection implements INetworkManager
     private void decryptInputStream() throws IOException
     {
         this.isInputBeingDecrypted = true;
-        InputStream var1 = this.networkSocket.getInputStream();
-        this.socketInputStream = new DataInputStream(CryptManager.decryptInputStream(this.sharedKeyForEncryption, var1));
+        InputStream inputstream = this.networkSocket.getInputStream();
+        this.socketInputStream = new DataInputStream(CryptManager.decryptInputStream(this.sharedKeyForEncryption, inputstream));
     }
 
     /**
@@ -506,8 +508,8 @@ public class TcpConnection implements INetworkManager
     {
         this.socketOutputStream.flush();
         this.isOutputEncrypted = true;
-        BufferedOutputStream var1 = new BufferedOutputStream(CryptManager.encryptOuputStream(this.sharedKeyForEncryption, this.networkSocket.getOutputStream()), 5120);
-        this.socketOutputStream = new DataOutputStream(var1);
+        BufferedOutputStream bufferedoutputstream = new BufferedOutputStream(CryptManager.encryptOuputStream(this.sharedKeyForEncryption, this.networkSocket.getOutputStream()), 5120);
+        this.socketOutputStream = new DataOutputStream(bufferedoutputstream);
     }
 
     /**

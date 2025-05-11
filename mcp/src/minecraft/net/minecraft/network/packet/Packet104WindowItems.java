@@ -23,10 +23,10 @@ public class Packet104WindowItems extends Packet
         this.windowId = par1;
         this.itemStack = new ItemStack[par2List.size()];
 
-        for (int var3 = 0; var3 < this.itemStack.length; ++var3)
+        for (int j = 0; j < this.itemStack.length; ++j)
         {
-            ItemStack var4 = (ItemStack)par2List.get(var3);
-            this.itemStack[var3] = var4 == null ? null : var4.copy();
+            ItemStack itemstack = (ItemStack)par2List.get(j);
+            this.itemStack[j] = itemstack == null ? null : itemstack.copy();
         }
     }
 
@@ -36,12 +36,12 @@ public class Packet104WindowItems extends Packet
     public void readPacketData(DataInput par1DataInput) throws IOException
     {
         this.windowId = par1DataInput.readByte();
-        short var2 = par1DataInput.readShort();
-        this.itemStack = new ItemStack[var2];
+        short short1 = par1DataInput.readShort();
+        this.itemStack = new ItemStack[short1];
 
-        for (int var3 = 0; var3 < var2; ++var3)
+        for (int i = 0; i < short1; ++i)
         {
-            this.itemStack[var3] = readItemStack(par1DataInput);
+            this.itemStack[i] = readItemStack(par1DataInput);
         }
     }
 
@@ -53,9 +53,9 @@ public class Packet104WindowItems extends Packet
         par1DataOutput.writeByte(this.windowId);
         par1DataOutput.writeShort(this.itemStack.length);
 
-        for (int var2 = 0; var2 < this.itemStack.length; ++var2)
+        for (int i = 0; i < this.itemStack.length; ++i)
         {
-            writeItemStack(this.itemStack[var2], par1DataOutput);
+            writeItemStack(this.itemStack[i], par1DataOutput);
         }
     }
 

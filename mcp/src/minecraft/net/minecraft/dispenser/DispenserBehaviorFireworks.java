@@ -12,12 +12,12 @@ final class DispenserBehaviorFireworks extends BehaviorDefaultDispenseItem
      */
     public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
     {
-        EnumFacing var3 = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
-        double var4 = par1IBlockSource.getX() + (double)var3.getFrontOffsetX();
-        double var6 = (double)((float)par1IBlockSource.getYInt() + 0.2F);
-        double var8 = par1IBlockSource.getZ() + (double)var3.getFrontOffsetZ();
-        EntityFireworkRocket var10 = new EntityFireworkRocket(par1IBlockSource.getWorld(), var4, var6, var8, par2ItemStack);
-        par1IBlockSource.getWorld().spawnEntityInWorld(var10);
+        EnumFacing enumfacing = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
+        double d0 = par1IBlockSource.getX() + (double)enumfacing.getFrontOffsetX();
+        double d1 = (double)((float)par1IBlockSource.getYInt() + 0.2F);
+        double d2 = par1IBlockSource.getZ() + (double)enumfacing.getFrontOffsetZ();
+        EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(par1IBlockSource.getWorld(), d0, d1, d2, par2ItemStack);
+        par1IBlockSource.getWorld().spawnEntityInWorld(entityfireworkrocket);
         par2ItemStack.splitStack(1);
         return par2ItemStack;
     }

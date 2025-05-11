@@ -25,24 +25,24 @@ public class CommandServerSaveOn extends CommandBase
 
     public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
-        MinecraftServer var3 = MinecraftServer.getServer();
-        boolean var4 = false;
+        MinecraftServer minecraftserver = MinecraftServer.getServer();
+        boolean flag = false;
 
-        for (int var5 = 0; var5 < var3.worldServers.length; ++var5)
+        for (int i = 0; i < minecraftserver.worldServers.length; ++i)
         {
-            if (var3.worldServers[var5] != null)
+            if (minecraftserver.worldServers[i] != null)
             {
-                WorldServer var6 = var3.worldServers[var5];
+                WorldServer worldserver = minecraftserver.worldServers[i];
 
-                if (var6.canNotSave)
+                if (worldserver.canNotSave)
                 {
-                    var6.canNotSave = false;
-                    var4 = true;
+                    worldserver.canNotSave = false;
+                    flag = true;
                 }
             }
         }
 
-        if (var4)
+        if (flag)
         {
             notifyAdmins(par1ICommandSender, "commands.save.enabled", new Object[0]);
         }

@@ -2,6 +2,8 @@ package net.minecraft.entity.item;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.minecart.MinecartInteractEvent;
 
 public class EntityMinecartEmpty extends EntityMinecart
 {
@@ -20,6 +22,10 @@ public class EntityMinecartEmpty extends EntityMinecart
      */
     public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
+        if(MinecraftForge.EVENT_BUS.post(new MinecartInteractEvent(this, par1EntityPlayer))) 
+        {
+            return true;
+        }
         if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != par1EntityPlayer)
         {
             return true;

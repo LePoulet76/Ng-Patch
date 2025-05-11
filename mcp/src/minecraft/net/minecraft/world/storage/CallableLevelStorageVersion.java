@@ -13,26 +13,25 @@ class CallableLevelStorageVersion implements Callable
 
     public String callLevelStorageFormat()
     {
-        String var1 = "Unknown?";
+        String s = "Unknown?";
 
         try
         {
             switch (WorldInfo.getSaveVersion(this.worldInfoInstance))
             {
                 case 19132:
-                    var1 = "McRegion";
+                    s = "McRegion";
                     break;
-
                 case 19133:
-                    var1 = "Anvil";
+                    s = "Anvil";
             }
         }
-        catch (Throwable var3)
+        catch (Throwable throwable)
         {
             ;
         }
 
-        return String.format("0x%05X - %s", new Object[] {Integer.valueOf(WorldInfo.getSaveVersion(this.worldInfoInstance)), var1});
+        return String.format("0x%05X - %s", new Object[] {Integer.valueOf(WorldInfo.getSaveVersion(this.worldInfoInstance)), s});
     }
 
     public Object call()

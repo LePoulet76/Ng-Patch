@@ -36,40 +36,40 @@ public class CommandHelp extends CommandBase
 
     public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
-        List var3 = this.getSortedPossibleCommands(par1ICommandSender);
-        byte var4 = 7;
-        int var5 = (var3.size() - 1) / var4;
-        boolean var6 = false;
-        ICommand var9;
-        int var11;
+        List list = this.getSortedPossibleCommands(par1ICommandSender);
+        byte b0 = 7;
+        int i = (list.size() - 1) / b0;
+        boolean flag = false;
+        ICommand icommand;
+        int j;
 
         try
         {
-            var11 = par2ArrayOfStr.length == 0 ? 0 : parseIntBounded(par1ICommandSender, par2ArrayOfStr[0], 1, var5 + 1) - 1;
+            j = par2ArrayOfStr.length == 0 ? 0 : parseIntBounded(par1ICommandSender, par2ArrayOfStr[0], 1, i + 1) - 1;
         }
-        catch (NumberInvalidException var10)
+        catch (NumberInvalidException numberinvalidexception)
         {
-            Map var8 = this.getCommands();
-            var9 = (ICommand)var8.get(par2ArrayOfStr[0]);
+            Map map = this.getCommands();
+            icommand = (ICommand)map.get(par2ArrayOfStr[0]);
 
-            if (var9 != null)
+            if (icommand != null)
             {
-                throw new WrongUsageException(var9.getCommandUsage(par1ICommandSender), new Object[0]);
+                throw new WrongUsageException(icommand.getCommandUsage(par1ICommandSender), new Object[0]);
             }
 
             throw new CommandNotFoundException();
         }
 
-        int var7 = Math.min((var11 + 1) * var4, var3.size());
-        par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.help.header", new Object[] {Integer.valueOf(var11 + 1), Integer.valueOf(var5 + 1)}).setColor(EnumChatFormatting.DARK_GREEN));
+        int k = Math.min((j + 1) * b0, list.size());
+        par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.help.header", new Object[] {Integer.valueOf(j + 1), Integer.valueOf(i + 1)}).setColor(EnumChatFormatting.DARK_GREEN));
 
-        for (int var12 = var11 * var4; var12 < var7; ++var12)
+        for (int l = j * b0; l < k; ++l)
         {
-            var9 = (ICommand)var3.get(var12);
-            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey(var9.getCommandUsage(par1ICommandSender)));
+            icommand = (ICommand)list.get(l);
+            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey(icommand.getCommandUsage(par1ICommandSender)));
         }
 
-        if (var11 == 0 && par1ICommandSender instanceof EntityPlayer)
+        if (j == 0 && par1ICommandSender instanceof EntityPlayer)
         {
             par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("commands.help.footer").setColor(EnumChatFormatting.GREEN));
         }
@@ -80,9 +80,9 @@ public class CommandHelp extends CommandBase
      */
     protected List getSortedPossibleCommands(ICommandSender par1ICommandSender)
     {
-        List var2 = MinecraftServer.getServer().getCommandManager().getPossibleCommands(par1ICommandSender);
-        Collections.sort(var2);
-        return var2;
+        List list = MinecraftServer.getServer().getCommandManager().getPossibleCommands(par1ICommandSender);
+        Collections.sort(list);
+        return list;
     }
 
     protected Map getCommands()

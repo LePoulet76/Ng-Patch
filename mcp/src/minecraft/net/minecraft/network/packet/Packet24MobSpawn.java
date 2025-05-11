@@ -56,44 +56,44 @@ public class Packet24MobSpawn extends Packet
         this.yaw = (byte)((int)(par1EntityLivingBase.rotationYaw * 256.0F / 360.0F));
         this.pitch = (byte)((int)(par1EntityLivingBase.rotationPitch * 256.0F / 360.0F));
         this.headYaw = (byte)((int)(par1EntityLivingBase.rotationYawHead * 256.0F / 360.0F));
-        double var2 = 3.9D;
-        double var4 = par1EntityLivingBase.motionX;
-        double var6 = par1EntityLivingBase.motionY;
-        double var8 = par1EntityLivingBase.motionZ;
+        double d0 = 3.9D;
+        double d1 = par1EntityLivingBase.motionX;
+        double d2 = par1EntityLivingBase.motionY;
+        double d3 = par1EntityLivingBase.motionZ;
 
-        if (var4 < -var2)
+        if (d1 < -d0)
         {
-            var4 = -var2;
+            d1 = -d0;
         }
 
-        if (var6 < -var2)
+        if (d2 < -d0)
         {
-            var6 = -var2;
+            d2 = -d0;
         }
 
-        if (var8 < -var2)
+        if (d3 < -d0)
         {
-            var8 = -var2;
+            d3 = -d0;
         }
 
-        if (var4 > var2)
+        if (d1 > d0)
         {
-            var4 = var2;
+            d1 = d0;
         }
 
-        if (var6 > var2)
+        if (d2 > d0)
         {
-            var6 = var2;
+            d2 = d0;
         }
 
-        if (var8 > var2)
+        if (d3 > d0)
         {
-            var8 = var2;
+            d3 = d0;
         }
 
-        this.velocityX = (int)(var4 * 8000.0D);
-        this.velocityY = (int)(var6 * 8000.0D);
-        this.velocityZ = (int)(var8 * 8000.0D);
+        this.velocityX = (int)(d1 * 8000.0D);
+        this.velocityY = (int)(d2 * 8000.0D);
+        this.velocityZ = (int)(d3 * 8000.0D);
         this.metaData = par1EntityLivingBase.getDataWatcher();
     }
 

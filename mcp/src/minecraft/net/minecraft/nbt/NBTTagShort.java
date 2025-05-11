@@ -61,8 +61,8 @@ public class NBTTagShort extends NBTBase
     {
         if (super.equals(par1Obj))
         {
-            NBTTagShort var2 = (NBTTagShort)par1Obj;
-            return this.data == var2.data;
+            NBTTagShort nbttagshort = (NBTTagShort)par1Obj;
+            return this.data == nbttagshort.data;
         }
         else
         {

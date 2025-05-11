@@ -13,6 +13,10 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 
+import net.minecraftforge.common.*;
+import net.minecraftforge.event.Event.*;
+import net.minecraftforge.event.terraingen.*;
+
 public class ChunkProviderEnd implements IChunkProvider
 {
     private Random endRNG;
@@ -42,70 +46,78 @@ public class ChunkProviderEnd implements IChunkProvider
         this.noiseGen3 = new NoiseGeneratorOctaves(this.endRNG, 8);
         this.noiseGen4 = new NoiseGeneratorOctaves(this.endRNG, 10);
         this.noiseGen5 = new NoiseGeneratorOctaves(this.endRNG, 16);
-    }
+
+        NoiseGeneratorOctaves[] noiseGens = {noiseGen1, noiseGen2, noiseGen3, noiseGen4, noiseGen5};
+        noiseGens = TerrainGen.getModdedNoiseGenerators(par1World, this.endRNG, noiseGens);
+        this.noiseGen1 = noiseGens[0];
+        this.noiseGen2 = noiseGens[1];
+        this.noiseGen3 = noiseGens[2];
+        this.noiseGen4 = noiseGens[3];
+        this.noiseGen5 = noiseGens[4];
+   }
 
     public void generateTerrain(int par1, int par2, byte[] par3ArrayOfByte, BiomeGenBase[] par4ArrayOfBiomeGenBase)
     {
-        byte var5 = 2;
-        int var6 = var5 + 1;
-        byte var7 = 33;
-        int var8 = var5 + 1;
-        this.densities = this.initializeNoiseField(this.densities, par1 * var5, 0, par2 * var5, var6, var7, var8);
+        byte b0 = 2;
+        int k = b0 + 1;
+        byte b1 = 33;
+        int l = b0 + 1;
+        this.densities = this.initializeNoiseField(this.densities, par1 * b0, 0, par2 * b0, k, b1, l);
 
-        for (int var9 = 0; var9 < var5; ++var9)
+        for (int i1 = 0; i1 < b0; ++i1)
         {
-            for (int var10 = 0; var10 < var5; ++var10)
+            for (int j1 = 0; j1 < b0; ++j1)
             {
-                for (int var11 = 0; var11 < 32; ++var11)
+                for (int k1 = 0; k1 < 32; ++k1)
                 {
-                    double var12 = 0.25D;
-                    double var14 = this.densities[((var9 + 0) * var8 + var10 + 0) * var7 + var11 + 0];
-                    double var16 = this.densities[((var9 + 0) * var8 + var10 + 1) * var7 + var11 + 0];
-                    double var18 = this.densities[((var9 + 1) * var8 + var10 + 0) * var7 + var11 + 0];
-                    double var20 = this.densities[((var9 + 1) * var8 + var10 + 1) * var7 + var11 + 0];
-                    double var22 = (this.densities[((var9 + 0) * var8 + var10 + 0) * var7 + var11 + 1] - var14) * var12;
-                    double var24 = (this.densities[((var9 + 0) * var8 + var10 + 1) * var7 + var11 + 1] - var16) * var12;
-                    double var26 = (this.densities[((var9 + 1) * var8 + var10 + 0) * var7 + var11 + 1] - var18) * var12;
-                    double var28 = (this.densities[((var9 + 1) * var8 + var10 + 1) * var7 + var11 + 1] - var20) * var12;
+                    double d0 = 0.25D;
+                    double d1 = this.densities[((i1 + 0) * l + j1 + 0) * b1 + k1 + 0];
+                    double d2 = this.densities[((i1 + 0) * l + j1 + 1) * b1 + k1 + 0];
+                    double d3 = this.densities[((i1 + 1) * l + j1 + 0) * b1 + k1 + 0];
+                    double d4 = this.densities[((i1 + 1) * l + j1 + 1) * b1 + k1 + 0];
+                    double d5 = (this.densities[((i1 + 0) * l + j1 + 0) * b1 + k1 + 1] - d1) * d0;
+                    double d6 = (this.densities[((i1 + 0) * l + j1 + 1) * b1 + k1 + 1] - d2) * d0;
+                    double d7 = (this.densities[((i1 + 1) * l + j1 + 0) * b1 + k1 + 1] - d3) * d0;
+                    double d8 = (this.densities[((i1 + 1) * l + j1 + 1) * b1 + k1 + 1] - d4) * d0;
 
-                    for (int var30 = 0; var30 < 4; ++var30)
+                    for (int l1 = 0; l1 < 4; ++l1)
                     {
-                        double var31 = 0.125D;
-                        double var33 = var14;
-                        double var35 = var16;
-                        double var37 = (var18 - var14) * var31;
-                        double var39 = (var20 - var16) * var31;
+                        double d9 = 0.125D;
+                        double d10 = d1;
+                        double d11 = d2;
+                        double d12 = (d3 - d1) * d9;
+                        double d13 = (d4 - d2) * d9;
 
-                        for (int var41 = 0; var41 < 8; ++var41)
+                        for (int i2 = 0; i2 < 8; ++i2)
                         {
-                            int var42 = var41 + var9 * 8 << 11 | 0 + var10 * 8 << 7 | var11 * 4 + var30;
-                            short var43 = 128;
-                            double var44 = 0.125D;
-                            double var46 = var33;
-                            double var48 = (var35 - var33) * var44;
+                            int j2 = i2 + i1 * 8 << 11 | 0 + j1 * 8 << 7 | k1 * 4 + l1;
+                            short short1 = 128;
+                            double d14 = 0.125D;
+                            double d15 = d10;
+                            double d16 = (d11 - d10) * d14;
 
-                            for (int var50 = 0; var50 < 8; ++var50)
+                            for (int k2 = 0; k2 < 8; ++k2)
                             {
-                                int var51 = 0;
+                                int l2 = 0;
 
-                                if (var46 > 0.0D)
+                                if (d15 > 0.0D)
                                 {
-                                    var51 = Block.whiteStone.blockID;
+                                    l2 = Block.whiteStone.blockID;
                                 }
 
-                                par3ArrayOfByte[var42] = (byte)var51;
-                                var42 += var43;
-                                var46 += var48;
+                                par3ArrayOfByte[j2] = (byte)l2;
+                                j2 += short1;
+                                d15 += d16;
                             }
 
-                            var33 += var37;
-                            var35 += var39;
+                            d10 += d12;
+                            d11 += d13;
                         }
 
-                        var14 += var22;
-                        var16 += var24;
-                        var18 += var26;
-                        var20 += var28;
+                        d1 += d5;
+                        d2 += d6;
+                        d3 += d7;
+                        d4 += d8;
                     }
                 }
             }
@@ -114,49 +126,53 @@ public class ChunkProviderEnd implements IChunkProvider
 
     public void replaceBlocksForBiome(int par1, int par2, byte[] par3ArrayOfByte, BiomeGenBase[] par4ArrayOfBiomeGenBase)
     {
-        for (int var5 = 0; var5 < 16; ++var5)
+        ChunkProviderEvent.ReplaceBiomeBlocks event = new ChunkProviderEvent.ReplaceBiomeBlocks(this, par1, par2, par3ArrayOfByte, par4ArrayOfBiomeGenBase);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.getResult() == Result.DENY) return;
+
+        for (int k = 0; k < 16; ++k)
         {
-            for (int var6 = 0; var6 < 16; ++var6)
+            for (int l = 0; l < 16; ++l)
             {
-                byte var7 = 1;
-                int var8 = -1;
-                byte var9 = (byte)Block.whiteStone.blockID;
-                byte var10 = (byte)Block.whiteStone.blockID;
+                byte b0 = 1;
+                int i1 = -1;
+                byte b1 = (byte)Block.whiteStone.blockID;
+                byte b2 = (byte)Block.whiteStone.blockID;
 
-                for (int var11 = 127; var11 >= 0; --var11)
+                for (int j1 = 127; j1 >= 0; --j1)
                 {
-                    int var12 = (var6 * 16 + var5) * 128 + var11;
-                    byte var13 = par3ArrayOfByte[var12];
+                    int k1 = (l * 16 + k) * 128 + j1;
+                    byte b3 = par3ArrayOfByte[k1];
 
-                    if (var13 == 0)
+                    if (b3 == 0)
                     {
-                        var8 = -1;
+                        i1 = -1;
                     }
-                    else if (var13 == Block.stone.blockID)
+                    else if (b3 == Block.stone.blockID)
                     {
-                        if (var8 == -1)
+                        if (i1 == -1)
                         {
-                            if (var7 <= 0)
+                            if (b0 <= 0)
                             {
-                                var9 = 0;
-                                var10 = (byte)Block.whiteStone.blockID;
+                                b1 = 0;
+                                b2 = (byte)Block.whiteStone.blockID;
                             }
 
-                            var8 = var7;
+                            i1 = b0;
 
-                            if (var11 >= 0)
+                            if (j1 >= 0)
                             {
-                                par3ArrayOfByte[var12] = var9;
+                                par3ArrayOfByte[k1] = b1;
                             }
                             else
                             {
-                                par3ArrayOfByte[var12] = var10;
+                                par3ArrayOfByte[k1] = b2;
                             }
                         }
-                        else if (var8 > 0)
+                        else if (i1 > 0)
                         {
-                            --var8;
-                            par3ArrayOfByte[var12] = var10;
+                            --i1;
+                            par3ArrayOfByte[k1] = b2;
                         }
                     }
                 }
@@ -179,20 +195,20 @@ public class ChunkProviderEnd implements IChunkProvider
     public Chunk provideChunk(int par1, int par2)
     {
         this.endRNG.setSeed((long)par1 * 341873128712L + (long)par2 * 132897987541L);
-        byte[] var3 = new byte[32768];
+        byte[] abyte = new byte[32768];
         this.biomesForGeneration = this.endWorld.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, par1 * 16, par2 * 16, 16, 16);
-        this.generateTerrain(par1, par2, var3, this.biomesForGeneration);
-        this.replaceBlocksForBiome(par1, par2, var3, this.biomesForGeneration);
-        Chunk var4 = new Chunk(this.endWorld, var3, par1, par2);
-        byte[] var5 = var4.getBiomeArray();
+        this.generateTerrain(par1, par2, abyte, this.biomesForGeneration);
+        this.replaceBlocksForBiome(par1, par2, abyte, this.biomesForGeneration);
+        Chunk chunk = new Chunk(this.endWorld, abyte, par1, par2);
+        byte[] abyte1 = chunk.getBiomeArray();
 
-        for (int var6 = 0; var6 < var5.length; ++var6)
+        for (int k = 0; k < abyte1.length; ++k)
         {
-            var5[var6] = (byte)this.biomesForGeneration[var6].biomeID;
+            abyte1[k] = (byte)this.biomesForGeneration[k].biomeID;
         }
 
-        var4.generateSkylightMap();
-        return var4;
+        chunk.generateSkylightMap();
+        return chunk;
     }
 
     /**
@@ -201,132 +217,136 @@ public class ChunkProviderEnd implements IChunkProvider
      */
     private double[] initializeNoiseField(double[] par1ArrayOfDouble, int par2, int par3, int par4, int par5, int par6, int par7)
     {
+        ChunkProviderEvent.InitNoiseField event = new ChunkProviderEvent.InitNoiseField(this, par1ArrayOfDouble, par2, par3, par4, par5, par6, par7);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.getResult() == Result.DENY) return event.noisefield;
+
         if (par1ArrayOfDouble == null)
         {
             par1ArrayOfDouble = new double[par5 * par6 * par7];
         }
 
-        double var8 = 684.412D;
-        double var10 = 684.412D;
+        double d0 = 684.412D;
+        double d1 = 684.412D;
         this.noiseData4 = this.noiseGen4.generateNoiseOctaves(this.noiseData4, par2, par4, par5, par7, 1.121D, 1.121D, 0.5D);
         this.noiseData5 = this.noiseGen5.generateNoiseOctaves(this.noiseData5, par2, par4, par5, par7, 200.0D, 200.0D, 0.5D);
-        var8 *= 2.0D;
-        this.noiseData1 = this.noiseGen3.generateNoiseOctaves(this.noiseData1, par2, par3, par4, par5, par6, par7, var8 / 80.0D, var10 / 160.0D, var8 / 80.0D);
-        this.noiseData2 = this.noiseGen1.generateNoiseOctaves(this.noiseData2, par2, par3, par4, par5, par6, par7, var8, var10, var8);
-        this.noiseData3 = this.noiseGen2.generateNoiseOctaves(this.noiseData3, par2, par3, par4, par5, par6, par7, var8, var10, var8);
-        int var12 = 0;
-        int var13 = 0;
+        d0 *= 2.0D;
+        this.noiseData1 = this.noiseGen3.generateNoiseOctaves(this.noiseData1, par2, par3, par4, par5, par6, par7, d0 / 80.0D, d1 / 160.0D, d0 / 80.0D);
+        this.noiseData2 = this.noiseGen1.generateNoiseOctaves(this.noiseData2, par2, par3, par4, par5, par6, par7, d0, d1, d0);
+        this.noiseData3 = this.noiseGen2.generateNoiseOctaves(this.noiseData3, par2, par3, par4, par5, par6, par7, d0, d1, d0);
+        int k1 = 0;
+        int l1 = 0;
 
-        for (int var14 = 0; var14 < par5; ++var14)
+        for (int i2 = 0; i2 < par5; ++i2)
         {
-            for (int var15 = 0; var15 < par7; ++var15)
+            for (int j2 = 0; j2 < par7; ++j2)
             {
-                double var16 = (this.noiseData4[var13] + 256.0D) / 512.0D;
+                double d2 = (this.noiseData4[l1] + 256.0D) / 512.0D;
 
-                if (var16 > 1.0D)
+                if (d2 > 1.0D)
                 {
-                    var16 = 1.0D;
+                    d2 = 1.0D;
                 }
 
-                double var18 = this.noiseData5[var13] / 8000.0D;
+                double d3 = this.noiseData5[l1] / 8000.0D;
 
-                if (var18 < 0.0D)
+                if (d3 < 0.0D)
                 {
-                    var18 = -var18 * 0.3D;
+                    d3 = -d3 * 0.3D;
                 }
 
-                var18 = var18 * 3.0D - 2.0D;
-                float var20 = (float)(var14 + par2 - 0) / 1.0F;
-                float var21 = (float)(var15 + par4 - 0) / 1.0F;
-                float var22 = 100.0F - MathHelper.sqrt_float(var20 * var20 + var21 * var21) * 8.0F;
+                d3 = d3 * 3.0D - 2.0D;
+                float f = (float)(i2 + par2 - 0) / 1.0F;
+                float f1 = (float)(j2 + par4 - 0) / 1.0F;
+                float f2 = 100.0F - MathHelper.sqrt_float(f * f + f1 * f1) * 8.0F;
 
-                if (var22 > 80.0F)
+                if (f2 > 80.0F)
                 {
-                    var22 = 80.0F;
+                    f2 = 80.0F;
                 }
 
-                if (var22 < -100.0F)
+                if (f2 < -100.0F)
                 {
-                    var22 = -100.0F;
+                    f2 = -100.0F;
                 }
 
-                if (var18 > 1.0D)
+                if (d3 > 1.0D)
                 {
-                    var18 = 1.0D;
+                    d3 = 1.0D;
                 }
 
-                var18 /= 8.0D;
-                var18 = 0.0D;
+                d3 /= 8.0D;
+                d3 = 0.0D;
 
-                if (var16 < 0.0D)
+                if (d2 < 0.0D)
                 {
-                    var16 = 0.0D;
+                    d2 = 0.0D;
                 }
 
-                var16 += 0.5D;
-                var18 = var18 * (double)par6 / 16.0D;
-                ++var13;
-                double var23 = (double)par6 / 2.0D;
+                d2 += 0.5D;
+                d3 = d3 * (double)par6 / 16.0D;
+                ++l1;
+                double d4 = (double)par6 / 2.0D;
 
-                for (int var25 = 0; var25 < par6; ++var25)
+                for (int k2 = 0; k2 < par6; ++k2)
                 {
-                    double var26 = 0.0D;
-                    double var28 = ((double)var25 - var23) * 8.0D / var16;
+                    double d5 = 0.0D;
+                    double d6 = ((double)k2 - d4) * 8.0D / d2;
 
-                    if (var28 < 0.0D)
+                    if (d6 < 0.0D)
                     {
-                        var28 *= -1.0D;
+                        d6 *= -1.0D;
                     }
 
-                    double var30 = this.noiseData2[var12] / 512.0D;
-                    double var32 = this.noiseData3[var12] / 512.0D;
-                    double var34 = (this.noiseData1[var12] / 10.0D + 1.0D) / 2.0D;
+                    double d7 = this.noiseData2[k1] / 512.0D;
+                    double d8 = this.noiseData3[k1] / 512.0D;
+                    double d9 = (this.noiseData1[k1] / 10.0D + 1.0D) / 2.0D;
 
-                    if (var34 < 0.0D)
+                    if (d9 < 0.0D)
                     {
-                        var26 = var30;
+                        d5 = d7;
                     }
-                    else if (var34 > 1.0D)
+                    else if (d9 > 1.0D)
                     {
-                        var26 = var32;
+                        d5 = d8;
                     }
                     else
                     {
-                        var26 = var30 + (var32 - var30) * var34;
+                        d5 = d7 + (d8 - d7) * d9;
                     }
 
-                    var26 -= 8.0D;
-                    var26 += (double)var22;
-                    byte var36 = 2;
-                    double var37;
+                    d5 -= 8.0D;
+                    d5 += (double)f2;
+                    byte b0 = 2;
+                    double d10;
 
-                    if (var25 > par6 / 2 - var36)
+                    if (k2 > par6 / 2 - b0)
                     {
-                        var37 = (double)((float)(var25 - (par6 / 2 - var36)) / 64.0F);
+                        d10 = (double)((float)(k2 - (par6 / 2 - b0)) / 64.0F);
 
-                        if (var37 < 0.0D)
+                        if (d10 < 0.0D)
                         {
-                            var37 = 0.0D;
+                            d10 = 0.0D;
                         }
 
-                        if (var37 > 1.0D)
+                        if (d10 > 1.0D)
                         {
-                            var37 = 1.0D;
+                            d10 = 1.0D;
                         }
 
-                        var26 = var26 * (1.0D - var37) + -3000.0D * var37;
+                        d5 = d5 * (1.0D - d10) + -3000.0D * d10;
                     }
 
-                    var36 = 8;
+                    b0 = 8;
 
-                    if (var25 < var36)
+                    if (k2 < b0)
                     {
-                        var37 = (double)((float)(var36 - var25) / ((float)var36 - 1.0F));
-                        var26 = var26 * (1.0D - var37) + -30.0D * var37;
+                        d10 = (double)((float)(b0 - k2) / ((float)b0 - 1.0F));
+                        d5 = d5 * (1.0D - d10) + -30.0D * d10;
                     }
 
-                    par1ArrayOfDouble[var12] = var26;
-                    ++var12;
+                    par1ArrayOfDouble[k1] = d5;
+                    ++k1;
                 }
             }
         }
@@ -348,10 +368,16 @@ public class ChunkProviderEnd implements IChunkProvider
     public void populate(IChunkProvider par1IChunkProvider, int par2, int par3)
     {
         BlockSand.fallInstantly = true;
-        int var4 = par2 * 16;
-        int var5 = par3 * 16;
-        BiomeGenBase var6 = this.endWorld.getBiomeGenForCoords(var4 + 16, var5 + 16);
-        var6.decorate(this.endWorld, this.endWorld.rand, var4, var5);
+
+        MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Pre(par1IChunkProvider, endWorld, endWorld.rand, par2, par3, false));
+
+        int k = par2 * 16;
+        int l = par3 * 16;
+        BiomeGenBase biomegenbase = this.endWorld.getBiomeGenForCoords(k + 16, l + 16);
+        biomegenbase.decorate(this.endWorld, this.endWorld.rand, k, l);
+
+        MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Post(par1IChunkProvider, endWorld, endWorld.rand, par2, par3, false));
+
         BlockSand.fallInstantly = false;
     }
 
@@ -399,8 +425,8 @@ public class ChunkProviderEnd implements IChunkProvider
      */
     public List getPossibleCreatures(EnumCreatureType par1EnumCreatureType, int par2, int par3, int par4)
     {
-        BiomeGenBase var5 = this.endWorld.getBiomeGenForCoords(par2, par4);
-        return var5 == null ? null : var5.getSpawnableList(par1EnumCreatureType);
+        BiomeGenBase biomegenbase = this.endWorld.getBiomeGenForCoords(par2, par4);
+        return biomegenbase == null ? null : biomegenbase.getSpawnableList(par1EnumCreatureType);
     }
 
     /**

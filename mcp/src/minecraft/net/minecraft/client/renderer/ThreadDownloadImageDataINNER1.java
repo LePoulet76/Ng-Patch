@@ -20,38 +20,38 @@ class ThreadDownloadImageDataINNER1 extends Thread
 
     public void run()
     {
-        HttpURLConnection var1 = null;
+        HttpURLConnection httpurlconnection = null;
 
         try
         {
-            var1 = (HttpURLConnection)(new URL(ThreadDownloadImageData.getImageUrl(this.theThreadDownloadImageData))).openConnection(Minecraft.getMinecraft().getProxy());
-            var1.setDoInput(true);
-            var1.setDoOutput(false);
-            var1.connect();
+            httpurlconnection = (HttpURLConnection)(new URL(ThreadDownloadImageData.getImageUrl(this.theThreadDownloadImageData))).openConnection(Minecraft.getMinecraft().getProxy());
+            httpurlconnection.setDoInput(true);
+            httpurlconnection.setDoOutput(false);
+            httpurlconnection.connect();
 
-            if (var1.getResponseCode() / 100 == 2)
+            if (httpurlconnection.getResponseCode() / 100 == 2)
             {
-                BufferedImage var2 = ImageIO.read(var1.getInputStream());
+                BufferedImage bufferedimage = ImageIO.read(httpurlconnection.getInputStream());
 
                 if (ThreadDownloadImageData.getImageBuffer(this.theThreadDownloadImageData) != null)
                 {
-                    var2 = ThreadDownloadImageData.getImageBuffer(this.theThreadDownloadImageData).parseUserSkin(var2);
+                    bufferedimage = ThreadDownloadImageData.getImageBuffer(this.theThreadDownloadImageData).parseUserSkin(bufferedimage);
                 }
 
-                this.theThreadDownloadImageData.getBufferedImage(var2);
+                this.theThreadDownloadImageData.getBufferedImage(bufferedimage);
                 return;
             }
         }
-        catch (Exception var6)
+        catch (Exception exception)
         {
-            var6.printStackTrace();
+            exception.printStackTrace();
             return;
         }
         finally
         {
-            if (var1 != null)
+            if (httpurlconnection != null)
             {
-                var1.disconnect();
+                httpurlconnection.disconnect();
             }
         }
     }

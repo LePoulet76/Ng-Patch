@@ -32,11 +32,11 @@ public class BlockCake extends Block
      */
     public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
-        float var6 = 0.0625F;
-        float var7 = (float)(1 + var5 * 2) / 16.0F;
-        float var8 = 0.5F;
-        this.setBlockBounds(var7, 0.0F, var6, 1.0F - var6, var8, 1.0F - var6);
+        int l = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+        float f = 0.0625F;
+        float f1 = (float)(1 + l * 2) / 16.0F;
+        float f2 = 0.5F;
+        this.setBlockBounds(f1, 0.0F, f, 1.0F - f, f2, 1.0F - f);
     }
 
     /**
@@ -44,9 +44,9 @@ public class BlockCake extends Block
      */
     public void setBlockBoundsForItemRender()
     {
-        float var1 = 0.0625F;
-        float var2 = 0.5F;
-        this.setBlockBounds(var1, 0.0F, var1, 1.0F - var1, var2, 1.0F - var1);
+        float f = 0.0625F;
+        float f1 = 0.5F;
+        this.setBlockBounds(f, 0.0F, f, 1.0F - f, f1, 1.0F - f);
     }
 
     /**
@@ -55,11 +55,11 @@ public class BlockCake extends Block
      */
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
     {
-        int var5 = par1World.getBlockMetadata(par2, par3, par4);
-        float var6 = 0.0625F;
-        float var7 = (float)(1 + var5 * 2) / 16.0F;
-        float var8 = 0.5F;
-        return AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + var7), (double)par3, (double)((float)par4 + var6), (double)((float)(par2 + 1) - var6), (double)((float)par3 + var8 - var6), (double)((float)(par4 + 1) - var6));
+        int l = par1World.getBlockMetadata(par2, par3, par4);
+        float f = 0.0625F;
+        float f1 = (float)(1 + l * 2) / 16.0F;
+        float f2 = 0.5F;
+        return AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + f1), (double)par3, (double)((float)par4 + f), (double)((float)(par2 + 1) - f), (double)((float)par3 + f2 - f), (double)((float)(par4 + 1) - f));
     }
 
     /**
@@ -77,11 +77,11 @@ public class BlockCake extends Block
      */
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
     {
-        int var5 = par1World.getBlockMetadata(par2, par3, par4);
-        float var6 = 0.0625F;
-        float var7 = (float)(1 + var5 * 2) / 16.0F;
-        float var8 = 0.5F;
-        return AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + var7), (double)par3, (double)((float)par4 + var6), (double)((float)(par2 + 1) - var6), (double)((float)par3 + var8), (double)((float)(par4 + 1) - var6));
+        int l = par1World.getBlockMetadata(par2, par3, par4);
+        float f = 0.0625F;
+        float f1 = (float)(1 + l * 2) / 16.0F;
+        float f2 = 0.5F;
+        return AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + f1), (double)par3, (double)((float)par4 + f), (double)((float)(par2 + 1) - f), (double)((float)par3 + f2), (double)((float)(par4 + 1) - f));
     }
 
     @SideOnly(Side.CLIENT)
@@ -142,15 +142,15 @@ public class BlockCake extends Block
         if (par5EntityPlayer.canEat(false))
         {
             par5EntityPlayer.getFoodStats().addStats(2, 0.1F);
-            int var6 = par1World.getBlockMetadata(par2, par3, par4) + 1;
+            int l = par1World.getBlockMetadata(par2, par3, par4) + 1;
 
-            if (var6 >= 6)
+            if (l >= 6)
             {
                 par1World.setBlockToAir(par2, par3, par4);
             }
             else
             {
-                par1World.setBlockMetadataWithNotify(par2, par3, par4, var6, 2);
+                par1World.setBlockMetadataWithNotify(par2, par3, par4, l, 2);
             }
         }
     }

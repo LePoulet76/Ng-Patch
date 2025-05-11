@@ -33,11 +33,11 @@ public class GameRules
 
     public void setOrCreateGameRule(String par1Str, String par2Str)
     {
-        GameRuleValue var3 = (GameRuleValue)this.theGameRules.get(par1Str);
+        GameRuleValue gamerulevalue = (GameRuleValue)this.theGameRules.get(par1Str);
 
-        if (var3 != null)
+        if (gamerulevalue != null)
         {
-            var3.setValue(par2Str);
+            gamerulevalue.setValue(par2Str);
         }
         else
         {
@@ -50,8 +50,8 @@ public class GameRules
      */
     public String getGameRuleStringValue(String par1Str)
     {
-        GameRuleValue var2 = (GameRuleValue)this.theGameRules.get(par1Str);
-        return var2 != null ? var2.getGameRuleStringValue() : "";
+        GameRuleValue gamerulevalue = (GameRuleValue)this.theGameRules.get(par1Str);
+        return gamerulevalue != null ? gamerulevalue.getGameRuleStringValue() : "";
     }
 
     /**
@@ -59,8 +59,8 @@ public class GameRules
      */
     public boolean getGameRuleBooleanValue(String par1Str)
     {
-        GameRuleValue var2 = (GameRuleValue)this.theGameRules.get(par1Str);
-        return var2 != null ? var2.getGameRuleBooleanValue() : false;
+        GameRuleValue gamerulevalue = (GameRuleValue)this.theGameRules.get(par1Str);
+        return gamerulevalue != null ? gamerulevalue.getGameRuleBooleanValue() : false;
     }
 
     /**
@@ -68,17 +68,17 @@ public class GameRules
      */
     public NBTTagCompound writeGameRulesToNBT()
     {
-        NBTTagCompound var1 = new NBTTagCompound("GameRules");
-        Iterator var2 = this.theGameRules.keySet().iterator();
+        NBTTagCompound nbttagcompound = new NBTTagCompound("GameRules");
+        Iterator iterator = this.theGameRules.keySet().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            String var3 = (String)var2.next();
-            GameRuleValue var4 = (GameRuleValue)this.theGameRules.get(var3);
-            var1.setString(var3, var4.getGameRuleStringValue());
+            String s = (String)iterator.next();
+            GameRuleValue gamerulevalue = (GameRuleValue)this.theGameRules.get(s);
+            nbttagcompound.setString(s, gamerulevalue.getGameRuleStringValue());
         }
 
-        return var1;
+        return nbttagcompound;
     }
 
     /**
@@ -86,15 +86,15 @@ public class GameRules
      */
     public void readGameRulesFromNBT(NBTTagCompound par1NBTTagCompound)
     {
-        Collection var2 = par1NBTTagCompound.getTags();
-        Iterator var3 = var2.iterator();
+        Collection collection = par1NBTTagCompound.getTags();
+        Iterator iterator = collection.iterator();
 
-        while (var3.hasNext())
+        while (iterator.hasNext())
         {
-            NBTBase var4 = (NBTBase)var3.next();
-            String var5 = var4.getName();
-            String var6 = par1NBTTagCompound.getString(var4.getName());
-            this.setOrCreateGameRule(var5, var6);
+            NBTBase nbtbase = (NBTBase)iterator.next();
+            String s = nbtbase.getName();
+            String s1 = par1NBTTagCompound.getString(nbtbase.getName());
+            this.setOrCreateGameRule(s, s1);
         }
     }
 

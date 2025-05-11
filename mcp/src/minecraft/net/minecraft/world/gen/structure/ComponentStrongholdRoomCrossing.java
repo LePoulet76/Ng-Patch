@@ -8,6 +8,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.ChestGenHooks;
+import static net.minecraftforge.common.ChestGenHooks.*;
+
 public class ComponentStrongholdRoomCrossing extends ComponentStronghold
 {
     /**
@@ -51,8 +54,8 @@ public class ComponentStrongholdRoomCrossing extends ComponentStronghold
 
     public static ComponentStrongholdRoomCrossing findValidPlacement(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
     {
-        StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -4, -1, 0, 11, 7, 11, par5);
-        return canStrongholdGoDeeper(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentStrongholdRoomCrossing(par6, par1Random, var7, par5) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -4, -1, 0, 11, 7, 11, par5);
+        return canStrongholdGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(par0List, structureboundingbox) == null ? new ComponentStrongholdRoomCrossing(par6, par1Random, structureboundingbox, par5) : null;
     }
 
     /**
@@ -72,7 +75,7 @@ public class ComponentStrongholdRoomCrossing extends ComponentStronghold
             this.fillWithBlocks(par1World, par3StructureBoundingBox, 4, 1, 10, 6, 3, 10, 0, 0, false);
             this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 1, 4, 0, 3, 6, 0, 0, false);
             this.fillWithBlocks(par1World, par3StructureBoundingBox, 10, 1, 4, 10, 3, 6, 0, 0, false);
-            int var4;
+            int i;
 
             switch (this.roomType)
             {
@@ -93,14 +96,13 @@ public class ComponentStrongholdRoomCrossing extends ComponentStronghold
                     this.placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 0, 5, 1, 4, par3StructureBoundingBox);
                     this.placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 0, 5, 1, 6, par3StructureBoundingBox);
                     break;
-
                 case 1:
-                    for (var4 = 0; var4 < 5; ++var4)
+                    for (i = 0; i < 5; ++i)
                     {
-                        this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3, 1, 3 + var4, par3StructureBoundingBox);
-                        this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 7, 1, 3 + var4, par3StructureBoundingBox);
-                        this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3 + var4, 1, 3, par3StructureBoundingBox);
-                        this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3 + var4, 1, 7, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3, 1, 3 + i, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 7, 1, 3 + i, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3 + i, 1, 3, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3 + i, 1, 7, par3StructureBoundingBox);
                     }
 
                     this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 5, 1, 5, par3StructureBoundingBox);
@@ -108,18 +110,17 @@ public class ComponentStrongholdRoomCrossing extends ComponentStronghold
                     this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 5, 3, 5, par3StructureBoundingBox);
                     this.placeBlockAtCurrentPosition(par1World, Block.waterMoving.blockID, 0, 5, 4, 5, par3StructureBoundingBox);
                     break;
-
                 case 2:
-                    for (var4 = 1; var4 <= 9; ++var4)
+                    for (i = 1; i <= 9; ++i)
                     {
-                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 1, 3, var4, par3StructureBoundingBox);
-                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 9, 3, var4, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 1, 3, i, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 9, 3, i, par3StructureBoundingBox);
                     }
 
-                    for (var4 = 1; var4 <= 9; ++var4)
+                    for (i = 1; i <= 9; ++i)
                     {
-                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, var4, 3, 1, par3StructureBoundingBox);
-                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, var4, 3, 9, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, i, 3, 1, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, i, 3, 9, par3StructureBoundingBox);
                     }
 
                     this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 5, 1, 4, par3StructureBoundingBox);
@@ -131,36 +132,36 @@ public class ComponentStrongholdRoomCrossing extends ComponentStronghold
                     this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 4, 3, 5, par3StructureBoundingBox);
                     this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 6, 3, 5, par3StructureBoundingBox);
 
-                    for (var4 = 1; var4 <= 3; ++var4)
+                    for (i = 1; i <= 3; ++i)
                     {
-                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 4, var4, 4, par3StructureBoundingBox);
-                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 6, var4, 4, par3StructureBoundingBox);
-                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 4, var4, 6, par3StructureBoundingBox);
-                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 6, var4, 6, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 4, i, 4, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 6, i, 4, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 4, i, 6, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 6, i, 6, par3StructureBoundingBox);
                     }
 
                     this.placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 5, 3, 5, par3StructureBoundingBox);
 
-                    for (var4 = 2; var4 <= 8; ++var4)
+                    for (i = 2; i <= 8; ++i)
                     {
-                        this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 2, 3, var4, par3StructureBoundingBox);
-                        this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 3, 3, var4, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 2, 3, i, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 3, 3, i, par3StructureBoundingBox);
 
-                        if (var4 <= 3 || var4 >= 7)
+                        if (i <= 3 || i >= 7)
                         {
-                            this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 4, 3, var4, par3StructureBoundingBox);
-                            this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 5, 3, var4, par3StructureBoundingBox);
-                            this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 6, 3, var4, par3StructureBoundingBox);
+                            this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 4, 3, i, par3StructureBoundingBox);
+                            this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 5, 3, i, par3StructureBoundingBox);
+                            this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 6, 3, i, par3StructureBoundingBox);
                         }
 
-                        this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 7, 3, var4, par3StructureBoundingBox);
-                        this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 8, 3, var4, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 7, 3, i, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 8, 3, i, par3StructureBoundingBox);
                     }
 
                     this.placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, this.getMetadataWithOffset(Block.ladder.blockID, 4), 9, 1, 3, par3StructureBoundingBox);
                     this.placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, this.getMetadataWithOffset(Block.ladder.blockID, 4), 9, 2, 3, par3StructureBoundingBox);
                     this.placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, this.getMetadataWithOffset(Block.ladder.blockID, 4), 9, 3, 3, par3StructureBoundingBox);
-                    this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 3, 4, 8, WeightedRandomChestContent.func_92080_a(strongholdRoomCrossingChestContents, new WeightedRandomChestContent[] {Item.enchantedBook.func_92114_b(par2Random)}), 1 + par2Random.nextInt(4));
+                    this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 3, 4, 8, ChestGenHooks.getItems(STRONGHOLD_CROSSING, par2Random), ChestGenHooks.getCount(STRONGHOLD_CROSSING, par2Random));
             }
 
             return true;

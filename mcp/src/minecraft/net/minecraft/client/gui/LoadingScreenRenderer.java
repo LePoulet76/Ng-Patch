@@ -61,11 +61,11 @@ public class LoadingScreenRenderer implements IProgressUpdate
         }
         else
         {
-            ScaledResolution var2 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
+            ScaledResolution scaledresolution = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
             GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
             GL11.glMatrixMode(GL11.GL_PROJECTION);
             GL11.glLoadIdentity();
-            GL11.glOrtho(0.0D, var2.getScaledWidth_double(), var2.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
+            GL11.glOrtho(0.0D, scaledresolution.getScaledWidth_double(), scaledresolution.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
             GL11.glMatrixMode(GL11.GL_MODELVIEW);
             GL11.glLoadIdentity();
             GL11.glTranslatef(0.0F, 0.0F, -200.0F);
@@ -107,64 +107,64 @@ public class LoadingScreenRenderer implements IProgressUpdate
         }
         else
         {
-            long var2 = Minecraft.getSystemTime();
+            long j = Minecraft.getSystemTime();
 
-            if (var2 - this.field_73723_d >= 100L)
+            if (j - this.field_73723_d >= 100L)
             {
-                this.field_73723_d = var2;
-                ScaledResolution var4 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
-                int var5 = var4.getScaledWidth();
-                int var6 = var4.getScaledHeight();
+                this.field_73723_d = j;
+                ScaledResolution scaledresolution = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
+                int k = scaledresolution.getScaledWidth();
+                int l = scaledresolution.getScaledHeight();
                 GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
                 GL11.glMatrixMode(GL11.GL_PROJECTION);
                 GL11.glLoadIdentity();
-                GL11.glOrtho(0.0D, var4.getScaledWidth_double(), var4.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
+                GL11.glOrtho(0.0D, scaledresolution.getScaledWidth_double(), scaledresolution.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
                 GL11.glMatrixMode(GL11.GL_MODELVIEW);
                 GL11.glLoadIdentity();
                 GL11.glTranslatef(0.0F, 0.0F, -200.0F);
                 GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-                Tessellator var7 = Tessellator.instance;
+                Tessellator tessellator = Tessellator.instance;
                 this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
-                float var8 = 32.0F;
-                var7.startDrawingQuads();
-                var7.setColorOpaque_I(4210752);
-                var7.addVertexWithUV(0.0D, (double)var6, 0.0D, 0.0D, (double)((float)var6 / var8));
-                var7.addVertexWithUV((double)var5, (double)var6, 0.0D, (double)((float)var5 / var8), (double)((float)var6 / var8));
-                var7.addVertexWithUV((double)var5, 0.0D, 0.0D, (double)((float)var5 / var8), 0.0D);
-                var7.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
-                var7.draw();
+                float f = 32.0F;
+                tessellator.startDrawingQuads();
+                tessellator.setColorOpaque_I(4210752);
+                tessellator.addVertexWithUV(0.0D, (double)l, 0.0D, 0.0D, (double)((float)l / f));
+                tessellator.addVertexWithUV((double)k, (double)l, 0.0D, (double)((float)k / f), (double)((float)l / f));
+                tessellator.addVertexWithUV((double)k, 0.0D, 0.0D, (double)((float)k / f), 0.0D);
+                tessellator.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
+                tessellator.draw();
 
                 if (par1 >= 0)
                 {
-                    byte var9 = 100;
-                    byte var10 = 2;
-                    int var11 = var5 / 2 - var9 / 2;
-                    int var12 = var6 / 2 + 16;
+                    byte b0 = 100;
+                    byte b1 = 2;
+                    int i1 = k / 2 - b0 / 2;
+                    int j1 = l / 2 + 16;
                     GL11.glDisable(GL11.GL_TEXTURE_2D);
-                    var7.startDrawingQuads();
-                    var7.setColorOpaque_I(8421504);
-                    var7.addVertex((double)var11, (double)var12, 0.0D);
-                    var7.addVertex((double)var11, (double)(var12 + var10), 0.0D);
-                    var7.addVertex((double)(var11 + var9), (double)(var12 + var10), 0.0D);
-                    var7.addVertex((double)(var11 + var9), (double)var12, 0.0D);
-                    var7.setColorOpaque_I(8454016);
-                    var7.addVertex((double)var11, (double)var12, 0.0D);
-                    var7.addVertex((double)var11, (double)(var12 + var10), 0.0D);
-                    var7.addVertex((double)(var11 + par1), (double)(var12 + var10), 0.0D);
-                    var7.addVertex((double)(var11 + par1), (double)var12, 0.0D);
-                    var7.draw();
+                    tessellator.startDrawingQuads();
+                    tessellator.setColorOpaque_I(8421504);
+                    tessellator.addVertex((double)i1, (double)j1, 0.0D);
+                    tessellator.addVertex((double)i1, (double)(j1 + b1), 0.0D);
+                    tessellator.addVertex((double)(i1 + b0), (double)(j1 + b1), 0.0D);
+                    tessellator.addVertex((double)(i1 + b0), (double)j1, 0.0D);
+                    tessellator.setColorOpaque_I(8454016);
+                    tessellator.addVertex((double)i1, (double)j1, 0.0D);
+                    tessellator.addVertex((double)i1, (double)(j1 + b1), 0.0D);
+                    tessellator.addVertex((double)(i1 + par1), (double)(j1 + b1), 0.0D);
+                    tessellator.addVertex((double)(i1 + par1), (double)j1, 0.0D);
+                    tessellator.draw();
                     GL11.glEnable(GL11.GL_TEXTURE_2D);
                 }
 
-                this.mc.fontRenderer.drawStringWithShadow(this.currentlyDisplayedText, (var5 - this.mc.fontRenderer.getStringWidth(this.currentlyDisplayedText)) / 2, var6 / 2 - 4 - 16, 16777215);
-                this.mc.fontRenderer.drawStringWithShadow(this.field_73727_a, (var5 - this.mc.fontRenderer.getStringWidth(this.field_73727_a)) / 2, var6 / 2 - 4 + 8, 16777215);
+                this.mc.fontRenderer.drawStringWithShadow(this.currentlyDisplayedText, (k - this.mc.fontRenderer.getStringWidth(this.currentlyDisplayedText)) / 2, l / 2 - 4 - 16, 16777215);
+                this.mc.fontRenderer.drawStringWithShadow(this.field_73727_a, (k - this.mc.fontRenderer.getStringWidth(this.field_73727_a)) / 2, l / 2 - 4 + 8, 16777215);
                 Display.update();
 
                 try
                 {
                     Thread.yield();
                 }
-                catch (Exception var13)
+                catch (Exception exception)
                 {
                     ;
                 }

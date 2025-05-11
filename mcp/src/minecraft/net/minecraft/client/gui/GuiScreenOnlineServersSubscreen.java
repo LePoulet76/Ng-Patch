@@ -47,14 +47,14 @@ public class GuiScreenOnlineServersSubscreen
 
     private String func_104072_c()
     {
-        String var1 = I18n.getString("options.difficulty");
-        return var1 + ": " + this.field_104077_b[this.field_104076_e];
+        String s = I18n.getString("options.difficulty");
+        return s + ": " + this.field_104077_b[this.field_104076_e];
     }
 
     private String func_104067_d()
     {
-        String var1 = I18n.getString("selectWorld.gameMode");
-        return var1 + ": " + this.field_104078_c[this.field_104073_f];
+        String s = I18n.getString("selectWorld.gameMode");
+        return s + ": " + this.field_104078_c[this.field_104073_f];
     }
 
     void func_104069_a(GuiButton par1GuiButton)

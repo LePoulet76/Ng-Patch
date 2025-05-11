@@ -34,16 +34,16 @@ public abstract class BlockBasePressurePlate extends Block
 
     protected void func_94353_c_(int par1)
     {
-        boolean var2 = this.getPowerSupply(par1) > 0;
-        float var3 = 0.0625F;
+        boolean flag = this.getPowerSupply(par1) > 0;
+        float f = 0.0625F;
 
-        if (var2)
+        if (flag)
         {
-            this.setBlockBounds(var3, 0.0F, var3, 1.0F - var3, 0.03125F, 1.0F - var3);
+            this.setBlockBounds(f, 0.0F, f, 1.0F - f, 0.03125F, 1.0F - f);
         }
         else
         {
-            this.setBlockBounds(var3, 0.0F, var3, 1.0F - var3, 0.0625F, 1.0F - var3);
+            this.setBlockBounds(f, 0.0F, f, 1.0F - f, 0.0625F, 1.0F - f);
         }
     }
 
@@ -100,14 +100,14 @@ public abstract class BlockBasePressurePlate extends Block
      */
     public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
     {
-        boolean var6 = false;
+        boolean flag = false;
 
         if (!par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4) && !BlockFence.isIdAFence(par1World.getBlockId(par2, par3 - 1, par4)))
         {
-            var6 = true;
+            flag = true;
         }
 
-        if (var6)
+        if (flag)
         {
             this.dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
             par1World.setBlockToAir(par2, par3, par4);
@@ -121,11 +121,11 @@ public abstract class BlockBasePressurePlate extends Block
     {
         if (!par1World.isRemote)
         {
-            int var6 = this.getPowerSupply(par1World.getBlockMetadata(par2, par3, par4));
+            int l = this.getPowerSupply(par1World.getBlockMetadata(par2, par3, par4));
 
-            if (var6 > 0)
+            if (l > 0)
             {
-                this.setStateIfMobInteractsWithPlate(par1World, par2, par3, par4, var6);
+                this.setStateIfMobInteractsWithPlate(par1World, par2, par3, par4, l);
             }
         }
     }
@@ -137,11 +137,11 @@ public abstract class BlockBasePressurePlate extends Block
     {
         if (!par1World.isRemote)
         {
-            int var6 = this.getPowerSupply(par1World.getBlockMetadata(par2, par3, par4));
+            int l = this.getPowerSupply(par1World.getBlockMetadata(par2, par3, par4));
 
-            if (var6 == 0)
+            if (l == 0)
             {
-                this.setStateIfMobInteractsWithPlate(par1World, par2, par3, par4, var6);
+                this.setStateIfMobInteractsWithPlate(par1World, par2, par3, par4, l);
             }
         }
     }
@@ -151,27 +151,27 @@ public abstract class BlockBasePressurePlate extends Block
      */
     protected void setStateIfMobInteractsWithPlate(World par1World, int par2, int par3, int par4, int par5)
     {
-        int var6 = this.getPlateState(par1World, par2, par3, par4);
-        boolean var7 = par5 > 0;
-        boolean var8 = var6 > 0;
+        int i1 = this.getPlateState(par1World, par2, par3, par4);
+        boolean flag = par5 > 0;
+        boolean flag1 = i1 > 0;
 
-        if (par5 != var6)
+        if (par5 != i1)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, this.getMetaFromWeight(var6), 2);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, this.getMetaFromWeight(i1), 2);
             this.func_94354_b_(par1World, par2, par3, par4);
             par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
         }
 
-        if (!var8 && var7)
+        if (!flag1 && flag)
         {
             par1World.playSoundEffect((double)par2 + 0.5D, (double)par3 + 0.1D, (double)par4 + 0.5D, "random.click", 0.3F, 0.5F);
         }
-        else if (var8 && !var7)
+        else if (flag1 && !flag)
         {
             par1World.playSoundEffect((double)par2 + 0.5D, (double)par3 + 0.1D, (double)par4 + 0.5D, "random.click", 0.3F, 0.6F);
         }
 
-        if (var8)
+        if (flag1)
         {
             par1World.scheduleBlockUpdate(par2, par3, par4, this.blockID, this.tickRate(par1World));
         }
@@ -179,8 +179,8 @@ public abstract class BlockBasePressurePlate extends Block
 
     protected AxisAlignedBB getSensitiveAABB(int par1, int par2, int par3)
     {
-        float var4 = 0.125F;
-        return AxisAlignedBB.getAABBPool().getAABB((double)((float)par1 + var4), (double)par2, (double)((float)par3 + var4), (double)((float)(par1 + 1) - var4), (double)par2 + 0.25D, (double)((float)(par3 + 1) - var4));
+        float f = 0.125F;
+        return AxisAlignedBB.getAABBPool().getAABB((double)((float)par1 + f), (double)par2, (double)((float)par3 + f), (double)((float)(par1 + 1) - f), (double)par2 + 0.25D, (double)((float)(par3 + 1) - f));
     }
 
     /**
@@ -236,10 +236,10 @@ public abstract class BlockBasePressurePlate extends Block
      */
     public void setBlockBoundsForItemRender()
     {
-        float var1 = 0.5F;
-        float var2 = 0.125F;
-        float var3 = 0.5F;
-        this.setBlockBounds(0.5F - var1, 0.5F - var2, 0.5F - var3, 0.5F + var1, 0.5F + var2, 0.5F + var3);
+        float f = 0.5F;
+        float f1 = 0.125F;
+        float f2 = 0.5F;
+        this.setBlockBounds(0.5F - f, 0.5F - f1, 0.5F - f2, 0.5F + f, 0.5F + f1, 0.5F + f2);
     }
 
     /**
@@ -255,17 +255,17 @@ public abstract class BlockBasePressurePlate extends Block
      * Returns the current state of the pressure plate. Returns a value between 0 and 15 based on the number of items on
      * it.
      */
-    protected abstract int getPlateState(World var1, int var2, int var3, int var4);
+    protected abstract int getPlateState(World world, int i, int j, int k);
 
     /**
      * Argument is metadata. Returns power level (0-15)
      */
-    protected abstract int getPowerSupply(int var1);
+    protected abstract int getPowerSupply(int i);
 
     /**
      * Argument is weight (0-15). Return the metadata to be set because of it.
      */
-    protected abstract int getMetaFromWeight(int var1);
+    protected abstract int getMetaFromWeight(int i);
 
     @SideOnly(Side.CLIENT)
 

@@ -3,6 +3,9 @@ package net.minecraft.entity;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
+
+import cpw.mods.fml.common.FMLLog;
 import net.minecraft.entity.ai.EntityMinecartMobSpawner;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
@@ -106,23 +109,23 @@ public class EntityList
      */
     public static Entity createEntityByName(String par0Str, World par1World)
     {
-        Entity var2 = null;
+        Entity entity = null;
 
         try
         {
-            Class var3 = (Class)stringToClassMapping.get(par0Str);
+            Class oclass = (Class)stringToClassMapping.get(par0Str);
 
-            if (var3 != null)
+            if (oclass != null)
             {
-                var2 = (Entity)var3.getConstructor(new Class[] {World.class}).newInstance(new Object[] {par1World});
+                entity = (Entity)oclass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {par1World});
             }
         }
-        catch (Exception var4)
+        catch (Exception exception)
         {
-            var4.printStackTrace();
+            exception.printStackTrace();
         }
 
-        return var2;
+        return entity;
     }
 
     /**
@@ -130,7 +133,7 @@ public class EntityList
      */
     public static Entity createEntityFromNBT(NBTTagCompound par0NBTTagCompound, World par1World)
     {
-        Entity var2 = null;
+        Entity entity = null;
 
         if ("Minecart".equals(par0NBTTagCompound.getString("id")))
         {
@@ -139,11 +142,9 @@ public class EntityList
                 case 0:
                     par0NBTTagCompound.setString("id", "MinecartRideable");
                     break;
-
                 case 1:
                     par0NBTTagCompound.setString("id", "MinecartChest");
                     break;
-
                 case 2:
                     par0NBTTagCompound.setString("id", "MinecartFurnace");
             }
@@ -151,30 +152,41 @@ public class EntityList
             par0NBTTagCompound.removeTag("Type");
         }
 
+        Class oclass = null;
         try
         {
-            Class var3 = (Class)stringToClassMapping.get(par0NBTTagCompound.getString("id"));
+            oclass = (Class)stringToClassMapping.get(par0NBTTagCompound.getString("id"));
 
-            if (var3 != null)
+            if (oclass != null)
             {
-                var2 = (Entity)var3.getConstructor(new Class[] {World.class}).newInstance(new Object[] {par1World});
+                entity = (Entity)oclass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {par1World});
             }
         }
-        catch (Exception var4)
+        catch (Exception exception)
         {
-            var4.printStackTrace();
+            exception.printStackTrace();
         }
 
-        if (var2 != null)
+        if (entity != null)
         {
-            var2.readFromNBT(par0NBTTagCompound);
+            try
+            {
+                entity.readFromNBT(par0NBTTagCompound);
+            }
+            catch (Exception e)
+            {
+                FMLLog.log(Level.SEVERE, e,
+                        "An Entity %s(%s) has thrown an exception during loading, its state cannot be restored. Report this to the mod author",
+                        par0NBTTagCompound.getString("id"), oclass.getName());
+                entity = null;
+            }
         }
         else
         {
             par1World.getWorldLogAgent().logWarning("Skipping Entity with id " + par0NBTTagCompound.getString("id"));
         }
 
-        return var2;
+        return entity;
     }
 
     /**
@@ -182,28 +194,28 @@ public class EntityList
      */
     public static Entity createEntityByID(int par0, World par1World)
     {
-        Entity var2 = null;
+        Entity entity = null;
 
         try
         {
-            Class var3 = getClassFromID(par0);
+            Class oclass = getClassFromID(par0);
 
-            if (var3 != null)
+            if (oclass != null)
             {
-                var2 = (Entity)var3.getConstructor(new Class[] {World.class}).newInstance(new Object[] {par1World});
+                entity = (Entity)oclass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {par1World});
             }
         }
-        catch (Exception var4)
+        catch (Exception exception)
         {
-            var4.printStackTrace();
+            exception.printStackTrace();
         }
 
-        if (var2 == null)
+        if (entity == null)
         {
             par1World.getWorldLogAgent().logWarning("Skipping Entity with id " + par0);
         }
 
-        return var2;
+        return entity;
     }
 
     /**
@@ -211,8 +223,8 @@ public class EntityList
      */
     public static int getEntityID(Entity par0Entity)
     {
-        Class var1 = par0Entity.getClass();
-        return classToIDMapping.containsKey(var1) ? ((Integer)classToIDMapping.get(var1)).intValue() : 0;
+        Class oclass = par0Entity.getClass();
+        return classToIDMapping.containsKey(oclass) ? ((Integer)classToIDMapping.get(oclass)).intValue() : 0;
     }
 
     /**
@@ -236,8 +248,8 @@ public class EntityList
      */
     public static String getStringFromID(int par0)
     {
-        Class var1 = getClassFromID(par0);
-        return var1 != null ? (String)classToStringMapping.get(var1) : null;
+        Class oclass = getClassFromID(par0);
+        return oclass != null ? (String)classToStringMapping.get(oclass) : null;
     }
 
     static

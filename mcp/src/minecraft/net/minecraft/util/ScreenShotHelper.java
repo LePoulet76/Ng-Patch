@@ -32,14 +32,14 @@ public class ScreenShotHelper
     {
         try
         {
-            File var4 = new File(par0File, "screenshots");
-            var4.mkdir();
-            int var5 = par2 * par3;
+            File file2 = new File(par0File, "screenshots");
+            file2.mkdir();
+            int k = par2 * par3;
 
-            if (field_74293_b == null || field_74293_b.capacity() < var5)
+            if (field_74293_b == null || field_74293_b.capacity() < k)
             {
-                field_74293_b = BufferUtils.createIntBuffer(var5);
-                field_74294_c = new int[var5];
+                field_74293_b = BufferUtils.createIntBuffer(k);
+                field_74294_c = new int[k];
             }
 
             GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
@@ -48,57 +48,57 @@ public class ScreenShotHelper
             GL11.glReadPixels(0, 0, par2, par3, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, field_74293_b);
             field_74293_b.get(field_74294_c);
             func_74289_a(field_74294_c, par2, par3);
-            BufferedImage var6 = new BufferedImage(par2, par3, 1);
-            var6.setRGB(0, 0, par2, par3, field_74294_c, 0, par2);
-            File var7;
+            BufferedImage bufferedimage = new BufferedImage(par2, par3, 1);
+            bufferedimage.setRGB(0, 0, par2, par3, field_74294_c, 0, par2);
+            File file3;
 
             if (par1Str == null)
             {
-                var7 = func_74290_a(var4);
+                file3 = func_74290_a(file2);
             }
             else
             {
-                var7 = new File(var4, par1Str);
+                file3 = new File(file2, par1Str);
             }
 
-            ImageIO.write(var6, "png", var7);
-            return "Saved screenshot as " + var7.getName();
+            ImageIO.write(bufferedimage, "png", file3);
+            return "Saved screenshot as " + file3.getName();
         }
-        catch (Exception var8)
+        catch (Exception exception)
         {
-            var8.printStackTrace();
-            return "Failed to save: " + var8;
+            exception.printStackTrace();
+            return "Failed to save: " + exception;
         }
     }
 
     private static File func_74290_a(File par0File)
     {
-        String var2 = dateFormat.format(new Date()).toString();
-        int var3 = 1;
+        String s = dateFormat.format(new Date()).toString();
+        int i = 1;
 
         while (true)
         {
-            File var1 = new File(par0File, var2 + (var3 == 1 ? "" : "_" + var3) + ".png");
+            File file2 = new File(par0File, s + (i == 1 ? "" : "_" + i) + ".png");
 
-            if (!var1.exists())
+            if (!file2.exists())
             {
-                return var1;
+                return file2;
             }
 
-            ++var3;
+            ++i;
         }
     }
 
     private static void func_74289_a(int[] par0ArrayOfInteger, int par1, int par2)
     {
-        int[] var3 = new int[par1];
-        int var4 = par2 / 2;
+        int[] aint1 = new int[par1];
+        int k = par2 / 2;
 
-        for (int var5 = 0; var5 < var4; ++var5)
+        for (int l = 0; l < k; ++l)
         {
-            System.arraycopy(par0ArrayOfInteger, var5 * par1, var3, 0, par1);
-            System.arraycopy(par0ArrayOfInteger, (par2 - 1 - var5) * par1, par0ArrayOfInteger, var5 * par1, par1);
-            System.arraycopy(var3, 0, par0ArrayOfInteger, (par2 - 1 - var5) * par1, par1);
+            System.arraycopy(par0ArrayOfInteger, l * par1, aint1, 0, par1);
+            System.arraycopy(par0ArrayOfInteger, (par2 - 1 - l) * par1, par0ArrayOfInteger, l * par1, par1);
+            System.arraycopy(aint1, 0, par0ArrayOfInteger, (par2 - 1 - l) * par1, par1);
         }
     }
 }

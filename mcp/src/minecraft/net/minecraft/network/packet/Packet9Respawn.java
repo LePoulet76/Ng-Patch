@@ -48,8 +48,8 @@ public class Packet9Respawn extends Packet
         this.difficulty = par1DataInput.readByte();
         this.gameType = EnumGameType.getByID(par1DataInput.readByte());
         this.worldHeight = par1DataInput.readShort();
-        String var2 = readString(par1DataInput, 16);
-        this.terrainType = WorldType.parseWorldType(var2);
+        String s = readString(par1DataInput, 16);
+        this.terrainType = WorldType.parseWorldType(s);
 
         if (this.terrainType == null)
         {

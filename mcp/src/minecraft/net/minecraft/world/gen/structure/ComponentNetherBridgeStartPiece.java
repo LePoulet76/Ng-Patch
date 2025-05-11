@@ -27,27 +27,27 @@ public class ComponentNetherBridgeStartPiece extends ComponentNetherBridgeCrossi
     {
         super(par1Random, par2, par3);
         this.primaryWeights = new ArrayList();
-        StructureNetherBridgePieceWeight[] var4 = StructureNetherBridgePieces.getPrimaryComponents();
-        int var5 = var4.length;
-        int var6;
-        StructureNetherBridgePieceWeight var7;
+        StructureNetherBridgePieceWeight[] astructurenetherbridgepieceweight = StructureNetherBridgePieces.getPrimaryComponents();
+        int k = astructurenetherbridgepieceweight.length;
+        int l;
+        StructureNetherBridgePieceWeight structurenetherbridgepieceweight;
 
-        for (var6 = 0; var6 < var5; ++var6)
+        for (l = 0; l < k; ++l)
         {
-            var7 = var4[var6];
-            var7.field_78827_c = 0;
-            this.primaryWeights.add(var7);
+            structurenetherbridgepieceweight = astructurenetherbridgepieceweight[l];
+            structurenetherbridgepieceweight.field_78827_c = 0;
+            this.primaryWeights.add(structurenetherbridgepieceweight);
         }
 
         this.secondaryWeights = new ArrayList();
-        var4 = StructureNetherBridgePieces.getSecondaryComponents();
-        var5 = var4.length;
+        astructurenetherbridgepieceweight = StructureNetherBridgePieces.getSecondaryComponents();
+        k = astructurenetherbridgepieceweight.length;
 
-        for (var6 = 0; var6 < var5; ++var6)
+        for (l = 0; l < k; ++l)
         {
-            var7 = var4[var6];
-            var7.field_78827_c = 0;
-            this.secondaryWeights.add(var7);
+            structurenetherbridgepieceweight = astructurenetherbridgepieceweight[l];
+            structurenetherbridgepieceweight.field_78827_c = 0;
+            this.secondaryWeights.add(structurenetherbridgepieceweight);
         }
     }
 

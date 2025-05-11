@@ -133,19 +133,19 @@ public class ScorePlayerTeam extends Team
 
     public int func_98299_i()
     {
-        int var1 = 0;
+        int i = 0;
 
         if (this.getAllowFriendlyFire())
         {
-            var1 |= 1;
+            i |= 1;
         }
 
         if (this.func_98297_h())
         {
-            var1 |= 2;
+            i |= 2;
         }
 
-        return var1;
+        return i;
     }
 
     @SideOnly(Side.CLIENT)

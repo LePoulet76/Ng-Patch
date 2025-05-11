@@ -16,9 +16,9 @@ public class BlockLilyPad extends BlockFlower
     protected BlockLilyPad(int par1)
     {
         super(par1);
-        float var2 = 0.5F;
-        float var3 = 0.015625F;
-        this.setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, var3, 0.5F + var2);
+        float f = 0.5F;
+        float f1 = 0.015625F;
+        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 

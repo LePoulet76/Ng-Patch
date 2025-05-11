@@ -6,21 +6,21 @@ import java.util.logging.Logger;
 
 public interface ILogAgent
 {
-    void logInfo(String var1);
+    void logInfo(String s);
 
     @SideOnly(Side.SERVER)
     Logger func_120013_a();
 
-    void logWarning(String var1);
+    void logWarning(String s);
 
-    void logWarningFormatted(String var1, Object ... var2);
+    void logWarningFormatted(String s, Object ... var2);
 
-    void logWarningException(String var1, Throwable var2);
+    void logWarningException(String s, Throwable throwable);
 
-    void logSevere(String var1);
+    void logSevere(String s);
 
-    void logSevereException(String var1, Throwable var2);
+    void logSevereException(String s, Throwable throwable);
 
     @SideOnly(Side.CLIENT)
-    void logFine(String var1);
+    void logFine(String s);
 }

@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
+import cpw.mods.fml.common.registry.VillagerRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelVillager;
@@ -48,21 +49,16 @@ public class RenderVillager extends RenderLiving
         {
             case 0:
                 return farmerVillagerTextures;
-
             case 1:
                 return librarianVillagerTextures;
-
             case 2:
                 return priestVillagerTextures;
-
             case 3:
                 return smithVillagerTextures;
-
             case 4:
                 return butcherVillagerTextures;
-
             default:
-                return villagerTextures;
+                return VillagerRegistry.getVillagerSkin(par1EntityVillager.getProfession(), villagerTextures);
         }
     }
 
@@ -73,11 +69,11 @@ public class RenderVillager extends RenderLiving
 
     protected void preRenderVillager(EntityVillager par1EntityVillager, float par2)
     {
-        float var3 = 0.9375F;
+        float f1 = 0.9375F;
 
         if (par1EntityVillager.getGrowingAge() < 0)
         {
-            var3 = (float)((double)var3 * 0.5D);
+            f1 = (float)((double)f1 * 0.5D);
             this.shadowSize = 0.25F;
         }
         else
@@ -85,7 +81,7 @@ public class RenderVillager extends RenderLiving
             this.shadowSize = 0.5F;
         }
 
-        GL11.glScalef(var3, var3, var3);
+        GL11.glScalef(f1, f1, f1);
     }
 
     public void doRenderLiving(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)

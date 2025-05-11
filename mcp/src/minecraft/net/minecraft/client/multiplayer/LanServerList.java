@@ -31,30 +31,30 @@ public class LanServerList
 
     public synchronized void func_77551_a(String par1Str, InetAddress par2InetAddress)
     {
-        String var3 = ThreadLanServerPing.getMotdFromPingResponse(par1Str);
-        String var4 = ThreadLanServerPing.getAdFromPingResponse(par1Str);
+        String s1 = ThreadLanServerPing.getMotdFromPingResponse(par1Str);
+        String s2 = ThreadLanServerPing.getAdFromPingResponse(par1Str);
 
-        if (var4 != null)
+        if (s2 != null)
         {
-            var4 = par2InetAddress.getHostAddress() + ":" + var4;
-            boolean var5 = false;
-            Iterator var6 = this.listOfLanServers.iterator();
+            s2 = par2InetAddress.getHostAddress() + ":" + s2;
+            boolean flag = false;
+            Iterator iterator = this.listOfLanServers.iterator();
 
-            while (var6.hasNext())
+            while (iterator.hasNext())
             {
-                LanServer var7 = (LanServer)var6.next();
+                LanServer lanserver = (LanServer)iterator.next();
 
-                if (var7.getServerIpPort().equals(var4))
+                if (lanserver.getServerIpPort().equals(s2))
                 {
-                    var7.updateLastSeen();
-                    var5 = true;
+                    lanserver.updateLastSeen();
+                    flag = true;
                     break;
                 }
             }
 
-            if (!var5)
+            if (!flag)
             {
-                this.listOfLanServers.add(new LanServer(var3, var4));
+                this.listOfLanServers.add(new LanServer(s1, s2));
                 this.wasUpdated = true;
             }
         }

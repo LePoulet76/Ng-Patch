@@ -68,9 +68,9 @@ public class BlockWood extends Block
     {
         this.iconArray = new Icon[woodType.length];
 
-        for (int var2 = 0; var2 < this.iconArray.length; ++var2)
+        for (int i = 0; i < this.iconArray.length; ++i)
         {
-            this.iconArray[var2] = par1IconRegister.registerIcon(this.getTextureName() + "_" + woodType[var2]);
+            this.iconArray[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + woodType[i]);
         }
     }
 }

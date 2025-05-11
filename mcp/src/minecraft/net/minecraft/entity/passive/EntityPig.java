@@ -68,8 +68,8 @@ public class EntityPig extends EntityAnimal
      */
     public boolean canBeSteered()
     {
-        ItemStack var1 = ((EntityPlayer)this.riddenByEntity).getHeldItem();
-        return var1 != null && var1.itemID == Item.carrotOnAStick.itemID;
+        ItemStack itemstack = ((EntityPlayer)this.riddenByEntity).getHeldItem();
+        return itemstack != null && itemstack.itemID == Item.carrotOnAStick.itemID;
     }
 
     protected void entityInit()
@@ -162,9 +162,9 @@ public class EntityPig extends EntityAnimal
      */
     protected void dropFewItems(boolean par1, int par2)
     {
-        int var3 = this.rand.nextInt(3) + 1 + this.rand.nextInt(1 + par2);
+        int j = this.rand.nextInt(3) + 1 + this.rand.nextInt(1 + par2);
 
-        for (int var4 = 0; var4 < var3; ++var4)
+        for (int k = 0; k < j; ++k)
         {
             if (this.isBurning())
             {
@@ -212,9 +212,9 @@ public class EntityPig extends EntityAnimal
     {
         if (!this.worldObj.isRemote)
         {
-            EntityPigZombie var2 = new EntityPigZombie(this.worldObj);
-            var2.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
-            this.worldObj.spawnEntityInWorld(var2);
+            EntityPigZombie entitypigzombie = new EntityPigZombie(this.worldObj);
+            entitypigzombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
+            this.worldObj.spawnEntityInWorld(entitypigzombie);
             this.setDead();
         }
     }

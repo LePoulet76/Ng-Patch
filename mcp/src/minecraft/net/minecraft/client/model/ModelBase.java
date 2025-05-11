@@ -10,7 +10,6 @@ import java.util.Random;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 
-@SideOnly(Side.CLIENT)
 public abstract class ModelBase
 {
     public float onGround;

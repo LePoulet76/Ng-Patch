@@ -37,33 +37,33 @@ public class GuiOptions extends GuiScreen
      */
     public void initGui()
     {
-        int var1 = 0;
+        int i = 0;
         this.screenTitle = I18n.getString("options.title");
-        EnumOptions[] var2 = relevantOptions;
-        int var3 = var2.length;
+        EnumOptions[] aenumoptions = relevantOptions;
+        int j = aenumoptions.length;
 
-        for (int var4 = 0; var4 < var3; ++var4)
+        for (int k = 0; k < j; ++k)
         {
-            EnumOptions var5 = var2[var4];
+            EnumOptions enumoptions = aenumoptions[k];
 
-            if (var5.getEnumFloat())
+            if (enumoptions.getEnumFloat())
             {
-                this.buttonList.add(new GuiSlider(var5.returnEnumOrdinal(), this.width / 2 - 155 + var1 % 2 * 160, this.height / 6 - 12 + 24 * (var1 >> 1), var5, this.options.getKeyBinding(var5), this.options.getOptionFloatValue(var5)));
+                this.buttonList.add(new GuiSlider(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), enumoptions, this.options.getKeyBinding(enumoptions), this.options.getOptionFloatValue(enumoptions)));
             }
             else
             {
-                GuiSmallButton var6 = new GuiSmallButton(var5.returnEnumOrdinal(), this.width / 2 - 155 + var1 % 2 * 160, this.height / 6 - 12 + 24 * (var1 >> 1), var5, this.options.getKeyBinding(var5));
+                GuiSmallButton guismallbutton = new GuiSmallButton(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), enumoptions, this.options.getKeyBinding(enumoptions));
 
-                if (var5 == EnumOptions.DIFFICULTY && this.mc.theWorld != null && this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
+                if (enumoptions == EnumOptions.DIFFICULTY && this.mc.theWorld != null && this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
                 {
-                    var6.enabled = false;
-                    var6.displayString = I18n.getString("options.difficulty") + ": " + I18n.getString("options.difficulty.hardcore");
+                    guismallbutton.enabled = false;
+                    guismallbutton.displayString = I18n.getString("options.difficulty") + ": " + I18n.getString("options.difficulty.hardcore");
                 }
 
-                this.buttonList.add(var6);
+                this.buttonList.add(guismallbutton);
             }
 
-            ++var1;
+            ++i;
         }
 
         this.buttonList.add(new GuiButton(101, this.width / 2 - 152, this.height / 6 + 96 - 6, 150, 20, I18n.getString("options.video")));

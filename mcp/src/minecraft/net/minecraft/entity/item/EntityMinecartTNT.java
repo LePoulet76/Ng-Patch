@@ -53,11 +53,11 @@ public class EntityMinecartTNT extends EntityMinecart
 
         if (this.isCollidedHorizontally)
         {
-            double var1 = this.motionX * this.motionX + this.motionZ * this.motionZ;
+            double d0 = this.motionX * this.motionX + this.motionZ * this.motionZ;
 
-            if (var1 >= 0.009999999776482582D)
+            if (d0 >= 0.009999999776482582D)
             {
-                this.explodeCart(var1);
+                this.explodeCart(d0);
             }
         }
     }
@@ -65,16 +65,16 @@ public class EntityMinecartTNT extends EntityMinecart
     public void killMinecart(DamageSource par1DamageSource)
     {
         super.killMinecart(par1DamageSource);
-        double var2 = this.motionX * this.motionX + this.motionZ * this.motionZ;
+        double d0 = this.motionX * this.motionX + this.motionZ * this.motionZ;
 
         if (!par1DamageSource.isExplosion())
         {
             this.entityDropItem(new ItemStack(Block.tnt, 1), 0.0F);
         }
 
-        if (par1DamageSource.isFireDamage() || par1DamageSource.isExplosion() || var2 >= 0.009999999776482582D)
+        if (par1DamageSource.isFireDamage() || par1DamageSource.isExplosion() || d0 >= 0.009999999776482582D)
         {
-            this.explodeCart(var2);
+            this.explodeCart(d0);
         }
     }
 
@@ -85,14 +85,14 @@ public class EntityMinecartTNT extends EntityMinecart
     {
         if (!this.worldObj.isRemote)
         {
-            double var3 = Math.sqrt(par1);
+            double d1 = Math.sqrt(par1);
 
-            if (var3 > 5.0D)
+            if (d1 > 5.0D)
             {
-                var3 = 5.0D;
+                d1 = 5.0D;
             }
 
-            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(4.0D + this.rand.nextDouble() * 1.5D * var3), true);
+            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(4.0D + this.rand.nextDouble() * 1.5D * d1), true);
             this.setDead();
         }
     }
@@ -104,8 +104,8 @@ public class EntityMinecartTNT extends EntityMinecart
     {
         if (par1 >= 3.0F)
         {
-            float var2 = par1 / 10.0F;
-            this.explodeCart((double)(var2 * var2));
+            float f1 = par1 / 10.0F;
+            this.explodeCart((double)(f1 * f1));
         }
 
         super.fall(par1);

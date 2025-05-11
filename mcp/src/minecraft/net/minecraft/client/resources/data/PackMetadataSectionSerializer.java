@@ -14,18 +14,18 @@ public class PackMetadataSectionSerializer extends BaseMetadataSectionSerializer
 {
     public PackMetadataSection func_110489_a(JsonElement par1JsonElement, Type par2Type, JsonDeserializationContext par3JsonDeserializationContext)
     {
-        JsonObject var4 = par1JsonElement.getAsJsonObject();
-        String var5 = this.func_110486_a(var4.get("description"), "description", (String)null, 1, Integer.MAX_VALUE);
-        int var6 = this.func_110485_a(var4.get("pack_format"), "pack_format", (Integer)null, 1, Integer.MAX_VALUE);
-        return new PackMetadataSection(var5, var6);
+        JsonObject jsonobject = par1JsonElement.getAsJsonObject();
+        String s = this.func_110486_a(jsonobject.get("description"), "description", (String)null, 1, Integer.MAX_VALUE);
+        int i = this.func_110485_a(jsonobject.get("pack_format"), "pack_format", (Integer)null, 1, Integer.MAX_VALUE);
+        return new PackMetadataSection(s, i);
     }
 
     public JsonElement func_110488_a(PackMetadataSection par1PackMetadataSection, Type par2Type, JsonSerializationContext par3JsonSerializationContext)
     {
-        JsonObject var4 = new JsonObject();
-        var4.addProperty("pack_format", Integer.valueOf(par1PackMetadataSection.getPackFormat()));
-        var4.addProperty("description", par1PackMetadataSection.getPackDescription());
-        return var4;
+        JsonObject jsonobject = new JsonObject();
+        jsonobject.addProperty("pack_format", Integer.valueOf(par1PackMetadataSection.getPackFormat()));
+        jsonobject.addProperty("description", par1PackMetadataSection.getPackDescription());
+        return jsonobject;
     }
 
     /**

@@ -43,18 +43,18 @@ public class ItemWritableBook extends Item
         }
         else
         {
-            NBTTagList var1 = (NBTTagList)par0NBTTagCompound.getTag("pages");
+            NBTTagList nbttaglist = (NBTTagList)par0NBTTagCompound.getTag("pages");
 
-            for (int var2 = 0; var2 < var1.tagCount(); ++var2)
+            for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                NBTTagString var3 = (NBTTagString)var1.tagAt(var2);
+                NBTTagString nbttagstring = (NBTTagString)nbttaglist.tagAt(i);
 
-                if (var3.data == null)
+                if (nbttagstring.data == null)
                 {
                     return false;
                 }
 
-                if (var3.data.length() > 256)
+                if (nbttagstring.data.length() > 256)
                 {
                     return false;
                 }

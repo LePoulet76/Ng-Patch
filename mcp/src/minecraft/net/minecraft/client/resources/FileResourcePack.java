@@ -40,16 +40,16 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable
 
     protected InputStream getInputStreamByName(String par1Str) throws IOException
     {
-        ZipFile var2 = this.getResourcePackZipFile();
-        ZipEntry var3 = var2.getEntry(par1Str);
+        ZipFile zipfile = this.getResourcePackZipFile();
+        ZipEntry zipentry = zipfile.getEntry(par1Str);
 
-        if (var3 == null)
+        if (zipentry == null)
         {
             throw new ResourcePackFileNotFoundException(this.resourcePackFile, par1Str);
         }
         else
         {
-            return var2.getInputStream(var3);
+            return zipfile.getInputStream(zipentry);
         }
     }
 
@@ -59,7 +59,7 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable
         {
             return this.getResourcePackZipFile().getEntry(par1Str) != null;
         }
-        catch (IOException var3)
+        catch (IOException ioexception)
         {
             return false;
         }
@@ -67,46 +67,46 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable
 
     public Set getResourceDomains()
     {
-        ZipFile var1;
+        ZipFile zipfile;
 
         try
         {
-            var1 = this.getResourcePackZipFile();
+            zipfile = this.getResourcePackZipFile();
         }
-        catch (IOException var8)
+        catch (IOException ioexception)
         {
             return Collections.emptySet();
         }
 
-        Enumeration var2 = var1.entries();
-        HashSet var3 = Sets.newHashSet();
+        Enumeration enumeration = zipfile.entries();
+        HashSet hashset = Sets.newHashSet();
 
-        while (var2.hasMoreElements())
+        while (enumeration.hasMoreElements())
         {
-            ZipEntry var4 = (ZipEntry)var2.nextElement();
-            String var5 = var4.getName();
+            ZipEntry zipentry = (ZipEntry)enumeration.nextElement();
+            String s = zipentry.getName();
 
-            if (var5.startsWith("assets/"))
+            if (s.startsWith("assets/"))
             {
-                ArrayList var6 = Lists.newArrayList(entryNameSplitter.split(var5));
+                ArrayList arraylist = Lists.newArrayList(entryNameSplitter.split(s));
 
-                if (var6.size() > 1)
+                if (arraylist.size() > 1)
                 {
-                    String var7 = (String)var6.get(1);
+                    String s1 = (String)arraylist.get(1);
 
-                    if (!var7.equals(var7.toLowerCase()))
+                    if (!s1.equals(s1.toLowerCase()))
                     {
-                        this.logNameNotLowercase(var7);
+                        this.logNameNotLowercase(s1);
                     }
                     else
                     {
-                        var3.add(var7);
+                        hashset.add(s1);
                     }
                 }
             }
         }
 
-        return var3;
+        return hashset;
     }
 
     protected void finalize()

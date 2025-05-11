@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 
@@ -17,7 +17,7 @@ public class MapData extends WorldSavedData
 {
     public int xCenter;
     public int zCenter;
-    public byte dimension;
+    public int dimension;
     public byte scale;
 
     /** colours */
@@ -44,7 +44,17 @@ public class MapData extends WorldSavedData
      */
     public void readFromNBT(NBTTagCompound par1NBTTagCompound)
     {
-        this.dimension = par1NBTTagCompound.getByte("dimension");
+        NBTBase dimension = par1NBTTagCompound.getTag("dimension");
+
+        if (dimension instanceof NBTTagByte)
+        {
+            this.dimension = ((NBTTagByte)dimension).data;
+        }
+        else
+        {
+            this.dimension = ((NBTTagInt)dimension).data;
+        }
+
         this.xCenter = par1NBTTagCompound.getInteger("xCenter");
         this.zCenter = par1NBTTagCompound.getInteger("zCenter");
         this.scale = par1NBTTagCompound.getByte("scale");
@@ -59,33 +69,33 @@ public class MapData extends WorldSavedData
             this.scale = 4;
         }
 
-        short var2 = par1NBTTagCompound.getShort("width");
-        short var3 = par1NBTTagCompound.getShort("height");
+        short short1 = par1NBTTagCompound.getShort("width");
+        short short2 = par1NBTTagCompound.getShort("height");
 
-        if (var2 == 128 && var3 == 128)
+        if (short1 == 128 && short2 == 128)
         {
             this.colors = par1NBTTagCompound.getByteArray("colors");
         }
         else
         {
-            byte[] var4 = par1NBTTagCompound.getByteArray("colors");
+            byte[] abyte = par1NBTTagCompound.getByteArray("colors");
             this.colors = new byte[16384];
-            int var5 = (128 - var2) / 2;
-            int var6 = (128 - var3) / 2;
+            int i = (128 - short1) / 2;
+            int j = (128 - short2) / 2;
 
-            for (int var7 = 0; var7 < var3; ++var7)
+            for (int k = 0; k < short2; ++k)
             {
-                int var8 = var7 + var6;
+                int l = k + j;
 
-                if (var8 >= 0 || var8 < 128)
+                if (l >= 0 || l < 128)
                 {
-                    for (int var9 = 0; var9 < var2; ++var9)
+                    for (int i1 = 0; i1 < short1; ++i1)
                     {
-                        int var10 = var9 + var5;
+                        int j1 = i1 + i;
 
-                        if (var10 >= 0 || var10 < 128)
+                        if (j1 >= 0 || j1 < 128)
                         {
-                            this.colors[var10 + var8 * 128] = var4[var9 + var7 * var2];
+                            this.colors[j1 + l * 128] = abyte[i1 + k * short1];
                         }
                     }
                 }
@@ -98,7 +108,7 @@ public class MapData extends WorldSavedData
      */
     public void writeToNBT(NBTTagCompound par1NBTTagCompound)
     {
-        par1NBTTagCompound.setByte("dimension", this.dimension);
+        par1NBTTagCompound.setInteger("dimension", this.dimension);
         par1NBTTagCompound.setInteger("xCenter", this.xCenter);
         par1NBTTagCompound.setInteger("zCenter", this.zCenter);
         par1NBTTagCompound.setByte("scale", this.scale);
@@ -114,9 +124,9 @@ public class MapData extends WorldSavedData
     {
         if (!this.playersHashMap.containsKey(par1EntityPlayer))
         {
-            MapInfo var3 = new MapInfo(this, par1EntityPlayer);
-            this.playersHashMap.put(par1EntityPlayer, var3);
-            this.playersArrayList.add(var3);
+            MapInfo mapinfo = new MapInfo(this, par1EntityPlayer);
+            this.playersHashMap.put(par1EntityPlayer, mapinfo);
+            this.playersArrayList.add(mapinfo);
         }
 
         if (!par1EntityPlayer.inventory.hasItemStack(par2ItemStack))
@@ -124,21 +134,21 @@ public class MapData extends WorldSavedData
             this.playersVisibleOnMap.remove(par1EntityPlayer.getCommandSenderName());
         }
 
-        for (int var5 = 0; var5 < this.playersArrayList.size(); ++var5)
+        for (int i = 0; i < this.playersArrayList.size(); ++i)
         {
-            MapInfo var4 = (MapInfo)this.playersArrayList.get(var5);
+            MapInfo mapinfo1 = (MapInfo)this.playersArrayList.get(i);
 
-            if (!var4.entityplayerObj.isDead && (var4.entityplayerObj.inventory.hasItemStack(par2ItemStack) || par2ItemStack.isOnItemFrame()))
+            if (!mapinfo1.entityplayerObj.isDead && (mapinfo1.entityplayerObj.inventory.hasItemStack(par2ItemStack) || par2ItemStack.isOnItemFrame()))
             {
-                if (!par2ItemStack.isOnItemFrame() && var4.entityplayerObj.dimension == this.dimension)
+                if (!par2ItemStack.isOnItemFrame() && mapinfo1.entityplayerObj.dimension == this.dimension)
                 {
-                    this.func_82567_a(0, var4.entityplayerObj.worldObj, var4.entityplayerObj.getCommandSenderName(), var4.entityplayerObj.posX, var4.entityplayerObj.posZ, (double)var4.entityplayerObj.rotationYaw);
+                    this.func_82567_a(0, mapinfo1.entityplayerObj.worldObj, mapinfo1.entityplayerObj.getCommandSenderName(), mapinfo1.entityplayerObj.posX, mapinfo1.entityplayerObj.posZ, (double)mapinfo1.entityplayerObj.rotationYaw);
                 }
             }
             else
             {
-                this.playersHashMap.remove(var4.entityplayerObj);
-                this.playersArrayList.remove(var4);
+                this.playersHashMap.remove(mapinfo1.entityplayerObj);
+                this.playersArrayList.remove(mapinfo1);
             }
         }
 
@@ -150,58 +160,58 @@ public class MapData extends WorldSavedData
 
     private void func_82567_a(int par1, World par2World, String par3Str, double par4, double par6, double par8)
     {
-        int var10 = 1 << this.scale;
-        float var11 = (float)(par4 - (double)this.xCenter) / (float)var10;
-        float var12 = (float)(par6 - (double)this.zCenter) / (float)var10;
-        byte var13 = (byte)((int)((double)(var11 * 2.0F) + 0.5D));
-        byte var14 = (byte)((int)((double)(var12 * 2.0F) + 0.5D));
-        byte var16 = 63;
-        byte var15;
+        int j = 1 << this.scale;
+        float f = (float)(par4 - (double)this.xCenter) / (float)j;
+        float f1 = (float)(par6 - (double)this.zCenter) / (float)j;
+        byte b0 = (byte)((int)((double)(f * 2.0F) + 0.5D));
+        byte b1 = (byte)((int)((double)(f1 * 2.0F) + 0.5D));
+        byte b2 = 63;
+        byte b3;
 
-        if (var11 >= (float)(-var16) && var12 >= (float)(-var16) && var11 <= (float)var16 && var12 <= (float)var16)
+        if (f >= (float)(-b2) && f1 >= (float)(-b2) && f <= (float)b2 && f1 <= (float)b2)
         {
             par8 += par8 < 0.0D ? -8.0D : 8.0D;
-            var15 = (byte)((int)(par8 * 16.0D / 360.0D));
+            b3 = (byte)((int)(par8 * 16.0D / 360.0D));
 
-            if (this.dimension < 0)
+            if (par2World.provider.shouldMapSpin(par3Str, par4, par6, par8))
             {
-                int var17 = (int)(par2World.getWorldInfo().getWorldTime() / 10L);
-                var15 = (byte)(var17 * var17 * 34187121 + var17 * 121 >> 15 & 15);
+                int k = (int)(par2World.getWorldInfo().getWorldTime() / 10L);
+                b3 = (byte)(k * k * 34187121 + k * 121 >> 15 & 15);
             }
         }
         else
         {
-            if (Math.abs(var11) >= 320.0F || Math.abs(var12) >= 320.0F)
+            if (Math.abs(f) >= 320.0F || Math.abs(f1) >= 320.0F)
             {
                 this.playersVisibleOnMap.remove(par3Str);
                 return;
             }
 
             par1 = 6;
-            var15 = 0;
+            b3 = 0;
 
-            if (var11 <= (float)(-var16))
+            if (f <= (float)(-b2))
             {
-                var13 = (byte)((int)((double)(var16 * 2) + 2.5D));
+                b0 = (byte)((int)((double)(b2 * 2) + 2.5D));
             }
 
-            if (var12 <= (float)(-var16))
+            if (f1 <= (float)(-b2))
             {
-                var14 = (byte)((int)((double)(var16 * 2) + 2.5D));
+                b1 = (byte)((int)((double)(b2 * 2) + 2.5D));
             }
 
-            if (var11 >= (float)var16)
+            if (f >= (float)b2)
             {
-                var13 = (byte)(var16 * 2 + 1);
+                b0 = (byte)(b2 * 2 + 1);
             }
 
-            if (var12 >= (float)var16)
+            if (f1 >= (float)b2)
             {
-                var14 = (byte)(var16 * 2 + 1);
+                b1 = (byte)(b2 * 2 + 1);
             }
         }
 
-        this.playersVisibleOnMap.put(par3Str, new MapCoord(this, (byte)par1, var13, var14, var15));
+        this.playersVisibleOnMap.put(par3Str, new MapCoord(this, (byte)par1, b0, b1, b3));
     }
 
     /**
@@ -209,8 +219,8 @@ public class MapData extends WorldSavedData
      */
     public byte[] getUpdatePacketData(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
-        MapInfo var4 = (MapInfo)this.playersHashMap.get(par3EntityPlayer);
-        return var4 == null ? null : var4.getPlayersOnMap(par1ItemStack);
+        MapInfo mapinfo = (MapInfo)this.playersHashMap.get(par3EntityPlayer);
+        return mapinfo == null ? null : mapinfo.getPlayersOnMap(par1ItemStack);
     }
 
     /**
@@ -221,18 +231,18 @@ public class MapData extends WorldSavedData
     {
         super.markDirty();
 
-        for (int var4 = 0; var4 < this.playersArrayList.size(); ++var4)
+        for (int l = 0; l < this.playersArrayList.size(); ++l)
         {
-            MapInfo var5 = (MapInfo)this.playersArrayList.get(var4);
+            MapInfo mapinfo = (MapInfo)this.playersArrayList.get(l);
 
-            if (var5.field_76209_b[par1] < 0 || var5.field_76209_b[par1] > par2)
+            if (mapinfo.field_76209_b[par1] < 0 || mapinfo.field_76209_b[par1] > par2)
             {
-                var5.field_76209_b[par1] = par2;
+                mapinfo.field_76209_b[par1] = par2;
             }
 
-            if (var5.field_76210_c[par1] < 0 || var5.field_76210_c[par1] < par3)
+            if (mapinfo.field_76210_c[par1] < 0 || mapinfo.field_76210_c[par1] < par3)
             {
-                var5.field_76210_c[par1] = par3;
+                mapinfo.field_76210_c[par1] = par3;
             }
         }
     }
@@ -244,16 +254,16 @@ public class MapData extends WorldSavedData
      */
     public void updateMPMapData(byte[] par1ArrayOfByte)
     {
-        int var2;
+        int i;
 
         if (par1ArrayOfByte[0] == 0)
         {
-            var2 = par1ArrayOfByte[1] & 255;
-            int var3 = par1ArrayOfByte[2] & 255;
+            i = par1ArrayOfByte[1] & 255;
+            int j = par1ArrayOfByte[2] & 255;
 
-            for (int var4 = 0; var4 < par1ArrayOfByte.length - 3; ++var4)
+            for (int k = 0; k < par1ArrayOfByte.length - 3; ++k)
             {
-                this.colors[(var4 + var3) * 128 + var2] = par1ArrayOfByte[var4 + 3];
+                this.colors[(k + j) * 128 + i] = par1ArrayOfByte[k + 3];
             }
 
             this.markDirty();
@@ -262,13 +272,13 @@ public class MapData extends WorldSavedData
         {
             this.playersVisibleOnMap.clear();
 
-            for (var2 = 0; var2 < (par1ArrayOfByte.length - 1) / 3; ++var2)
+            for (i = 0; i < (par1ArrayOfByte.length - 1) / 3; ++i)
             {
-                byte var7 = (byte)(par1ArrayOfByte[var2 * 3 + 1] >> 4);
-                byte var8 = par1ArrayOfByte[var2 * 3 + 2];
-                byte var5 = par1ArrayOfByte[var2 * 3 + 3];
-                byte var6 = (byte)(par1ArrayOfByte[var2 * 3 + 1] & 15);
-                this.playersVisibleOnMap.put("icon-" + var2, new MapCoord(this, var7, var8, var5, var6));
+                byte b0 = (byte)(par1ArrayOfByte[i * 3 + 1] >> 4);
+                byte b1 = par1ArrayOfByte[i * 3 + 2];
+                byte b2 = par1ArrayOfByte[i * 3 + 3];
+                byte b3 = (byte)(par1ArrayOfByte[i * 3 + 1] & 15);
+                this.playersVisibleOnMap.put("icon-" + i, new MapCoord(this, b0, b1, b2, b3));
             }
         }
         else if (par1ArrayOfByte[0] == 2)
@@ -279,15 +289,15 @@ public class MapData extends WorldSavedData
 
     public MapInfo func_82568_a(EntityPlayer par1EntityPlayer)
     {
-        MapInfo var2 = (MapInfo)this.playersHashMap.get(par1EntityPlayer);
+        MapInfo mapinfo = (MapInfo)this.playersHashMap.get(par1EntityPlayer);
 
-        if (var2 == null)
+        if (mapinfo == null)
         {
-            var2 = new MapInfo(this, par1EntityPlayer);
-            this.playersHashMap.put(par1EntityPlayer, var2);
-            this.playersArrayList.add(var2);
+            mapinfo = new MapInfo(this, par1EntityPlayer);
+            this.playersHashMap.put(par1EntityPlayer, mapinfo);
+            this.playersArrayList.add(mapinfo);
         }
 
-        return var2;
+        return mapinfo;
     }
 }

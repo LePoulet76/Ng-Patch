@@ -5,7 +5,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Vec3;
 
-@SideOnly(Side.CLIENT)
 public class TexturedQuad
 {
     public PositionTextureVertex[] vertexPositions;
@@ -21,46 +20,46 @@ public class TexturedQuad
     public TexturedQuad(PositionTextureVertex[] par1ArrayOfPositionTextureVertex, int par2, int par3, int par4, int par5, float par6, float par7)
     {
         this(par1ArrayOfPositionTextureVertex);
-        float var8 = 0.0F / par6;
-        float var9 = 0.0F / par7;
-        par1ArrayOfPositionTextureVertex[0] = par1ArrayOfPositionTextureVertex[0].setTexturePosition((float)par4 / par6 - var8, (float)par3 / par7 + var9);
-        par1ArrayOfPositionTextureVertex[1] = par1ArrayOfPositionTextureVertex[1].setTexturePosition((float)par2 / par6 + var8, (float)par3 / par7 + var9);
-        par1ArrayOfPositionTextureVertex[2] = par1ArrayOfPositionTextureVertex[2].setTexturePosition((float)par2 / par6 + var8, (float)par5 / par7 - var9);
-        par1ArrayOfPositionTextureVertex[3] = par1ArrayOfPositionTextureVertex[3].setTexturePosition((float)par4 / par6 - var8, (float)par5 / par7 - var9);
+        float f2 = 0.0F / par6;
+        float f3 = 0.0F / par7;
+        par1ArrayOfPositionTextureVertex[0] = par1ArrayOfPositionTextureVertex[0].setTexturePosition((float)par4 / par6 - f2, (float)par3 / par7 + f3);
+        par1ArrayOfPositionTextureVertex[1] = par1ArrayOfPositionTextureVertex[1].setTexturePosition((float)par2 / par6 + f2, (float)par3 / par7 + f3);
+        par1ArrayOfPositionTextureVertex[2] = par1ArrayOfPositionTextureVertex[2].setTexturePosition((float)par2 / par6 + f2, (float)par5 / par7 - f3);
+        par1ArrayOfPositionTextureVertex[3] = par1ArrayOfPositionTextureVertex[3].setTexturePosition((float)par4 / par6 - f2, (float)par5 / par7 - f3);
     }
 
     public void flipFace()
     {
-        PositionTextureVertex[] var1 = new PositionTextureVertex[this.vertexPositions.length];
+        PositionTextureVertex[] apositiontexturevertex = new PositionTextureVertex[this.vertexPositions.length];
 
-        for (int var2 = 0; var2 < this.vertexPositions.length; ++var2)
+        for (int i = 0; i < this.vertexPositions.length; ++i)
         {
-            var1[var2] = this.vertexPositions[this.vertexPositions.length - var2 - 1];
+            apositiontexturevertex[i] = this.vertexPositions[this.vertexPositions.length - i - 1];
         }
 
-        this.vertexPositions = var1;
+        this.vertexPositions = apositiontexturevertex;
     }
 
     public void draw(Tessellator par1Tessellator, float par2)
     {
-        Vec3 var3 = this.vertexPositions[1].vector3D.subtract(this.vertexPositions[0].vector3D);
-        Vec3 var4 = this.vertexPositions[1].vector3D.subtract(this.vertexPositions[2].vector3D);
-        Vec3 var5 = var4.crossProduct(var3).normalize();
+        Vec3 vec3 = this.vertexPositions[1].vector3D.subtract(this.vertexPositions[0].vector3D);
+        Vec3 vec31 = this.vertexPositions[1].vector3D.subtract(this.vertexPositions[2].vector3D);
+        Vec3 vec32 = vec31.crossProduct(vec3).normalize();
         par1Tessellator.startDrawingQuads();
 
         if (this.invertNormal)
         {
-            par1Tessellator.setNormal(-((float)var5.xCoord), -((float)var5.yCoord), -((float)var5.zCoord));
+            par1Tessellator.setNormal(-((float)vec32.xCoord), -((float)vec32.yCoord), -((float)vec32.zCoord));
         }
         else
         {
-            par1Tessellator.setNormal((float)var5.xCoord, (float)var5.yCoord, (float)var5.zCoord);
+            par1Tessellator.setNormal((float)vec32.xCoord, (float)vec32.yCoord, (float)vec32.zCoord);
         }
 
-        for (int var6 = 0; var6 < 4; ++var6)
+        for (int i = 0; i < 4; ++i)
         {
-            PositionTextureVertex var7 = this.vertexPositions[var6];
-            par1Tessellator.addVertexWithUV((double)((float)var7.vector3D.xCoord * par2), (double)((float)var7.vector3D.yCoord * par2), (double)((float)var7.vector3D.zCoord * par2), (double)var7.texturePositionX, (double)var7.texturePositionY);
+            PositionTextureVertex positiontexturevertex = this.vertexPositions[i];
+            par1Tessellator.addVertexWithUV((double)((float)positiontexturevertex.vector3D.xCoord * par2), (double)((float)positiontexturevertex.vector3D.yCoord * par2), (double)((float)positiontexturevertex.vector3D.zCoord * par2), (double)positiontexturevertex.texturePositionX, (double)positiontexturevertex.texturePositionY);
         }
 
         par1Tessellator.draw();

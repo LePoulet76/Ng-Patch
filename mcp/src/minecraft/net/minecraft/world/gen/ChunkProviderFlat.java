@@ -43,33 +43,33 @@ public class ChunkProviderFlat implements IChunkProvider
 
         if (par4)
         {
-            Map var6 = this.flatWorldGenInfo.getWorldFeatures();
+            Map map = this.flatWorldGenInfo.getWorldFeatures();
 
-            if (var6.containsKey("village"))
+            if (map.containsKey("village"))
             {
-                Map var7 = (Map)var6.get("village");
+                Map map1 = (Map)map.get("village");
 
-                if (!var7.containsKey("size"))
+                if (!map1.containsKey("size"))
                 {
-                    var7.put("size", "1");
+                    map1.put("size", "1");
                 }
 
-                this.structureGenerators.add(new MapGenVillage(var7));
+                this.structureGenerators.add(new MapGenVillage(map1));
             }
 
-            if (var6.containsKey("biome_1"))
+            if (map.containsKey("biome_1"))
             {
-                this.structureGenerators.add(new MapGenScatteredFeature((Map)var6.get("biome_1")));
+                this.structureGenerators.add(new MapGenScatteredFeature((Map)map.get("biome_1")));
             }
 
-            if (var6.containsKey("mineshaft"))
+            if (map.containsKey("mineshaft"))
             {
-                this.structureGenerators.add(new MapGenMineshaft((Map)var6.get("mineshaft")));
+                this.structureGenerators.add(new MapGenMineshaft((Map)map.get("mineshaft")));
             }
 
-            if (var6.containsKey("stronghold"))
+            if (map.containsKey("stronghold"))
             {
-                this.structureGenerators.add(new MapGenStronghold((Map)var6.get("stronghold")));
+                this.structureGenerators.add(new MapGenStronghold((Map)map.get("stronghold")));
             }
         }
 
@@ -86,16 +86,16 @@ public class ChunkProviderFlat implements IChunkProvider
         }
 
         this.hasDungeons = this.flatWorldGenInfo.getWorldFeatures().containsKey("dungeon");
-        Iterator var9 = this.flatWorldGenInfo.getFlatLayers().iterator();
+        Iterator iterator = this.flatWorldGenInfo.getFlatLayers().iterator();
 
-        while (var9.hasNext())
+        while (iterator.hasNext())
         {
-            FlatLayerInfo var10 = (FlatLayerInfo)var9.next();
+            FlatLayerInfo flatlayerinfo = (FlatLayerInfo)iterator.next();
 
-            for (int var8 = var10.getMinY(); var8 < var10.getMinY() + var10.getLayerCount(); ++var8)
+            for (int j = flatlayerinfo.getMinY(); j < flatlayerinfo.getMinY() + flatlayerinfo.getLayerCount(); ++j)
             {
-                this.cachedBlockIDs[var8] = (byte)(var10.getFillBlock() & 255);
-                this.cachedBlockMetadata[var8] = (byte)var10.getFillBlockMeta();
+                this.cachedBlockIDs[j] = (byte)(flatlayerinfo.getFillBlock() & 255);
+                this.cachedBlockMetadata[j] = (byte)flatlayerinfo.getFillBlockMeta();
             }
         }
     }
@@ -114,48 +114,48 @@ public class ChunkProviderFlat implements IChunkProvider
      */
     public Chunk provideChunk(int par1, int par2)
     {
-        Chunk var3 = new Chunk(this.worldObj, par1, par2);
+        Chunk chunk = new Chunk(this.worldObj, par1, par2);
 
-        for (int var4 = 0; var4 < this.cachedBlockIDs.length; ++var4)
+        for (int k = 0; k < this.cachedBlockIDs.length; ++k)
         {
-            int var5 = var4 >> 4;
-            ExtendedBlockStorage var6 = var3.getBlockStorageArray()[var5];
+            int l = k >> 4;
+            ExtendedBlockStorage extendedblockstorage = chunk.getBlockStorageArray()[l];
 
-            if (var6 == null)
+            if (extendedblockstorage == null)
             {
-                var6 = new ExtendedBlockStorage(var4, !this.worldObj.provider.hasNoSky);
-                var3.getBlockStorageArray()[var5] = var6;
+                extendedblockstorage = new ExtendedBlockStorage(k, !this.worldObj.provider.hasNoSky);
+                chunk.getBlockStorageArray()[l] = extendedblockstorage;
             }
 
-            for (int var7 = 0; var7 < 16; ++var7)
+            for (int i1 = 0; i1 < 16; ++i1)
             {
-                for (int var8 = 0; var8 < 16; ++var8)
+                for (int j1 = 0; j1 < 16; ++j1)
                 {
-                    var6.setExtBlockID(var7, var4 & 15, var8, this.cachedBlockIDs[var4] & 255);
-                    var6.setExtBlockMetadata(var7, var4 & 15, var8, this.cachedBlockMetadata[var4]);
+                    extendedblockstorage.setExtBlockID(i1, k & 15, j1, this.cachedBlockIDs[k] & 255);
+                    extendedblockstorage.setExtBlockMetadata(i1, k & 15, j1, this.cachedBlockMetadata[k]);
                 }
             }
         }
 
-        var3.generateSkylightMap();
-        BiomeGenBase[] var9 = this.worldObj.getWorldChunkManager().loadBlockGeneratorData((BiomeGenBase[])null, par1 * 16, par2 * 16, 16, 16);
-        byte[] var10 = var3.getBiomeArray();
+        chunk.generateSkylightMap();
+        BiomeGenBase[] abiomegenbase = this.worldObj.getWorldChunkManager().loadBlockGeneratorData((BiomeGenBase[])null, par1 * 16, par2 * 16, 16, 16);
+        byte[] abyte = chunk.getBiomeArray();
 
-        for (int var11 = 0; var11 < var10.length; ++var11)
+        for (int k1 = 0; k1 < abyte.length; ++k1)
         {
-            var10[var11] = (byte)var9[var11].biomeID;
+            abyte[k1] = (byte)abiomegenbase[k1].biomeID;
         }
 
-        Iterator var12 = this.structureGenerators.iterator();
+        Iterator iterator = this.structureGenerators.iterator();
 
-        while (var12.hasNext())
+        while (iterator.hasNext())
         {
-            MapGenStructure var13 = (MapGenStructure)var12.next();
-            var13.generate(this, this.worldObj, par1, par2, (byte[])null);
+            MapGenStructure mapgenstructure = (MapGenStructure)iterator.next();
+            mapgenstructure.generate(this, this.worldObj, par1, par2, (byte[])null);
         }
 
-        var3.generateSkylightMap();
-        return var3;
+        chunk.generateSkylightMap();
+        return chunk;
     }
 
     /**
@@ -171,65 +171,65 @@ public class ChunkProviderFlat implements IChunkProvider
      */
     public void populate(IChunkProvider par1IChunkProvider, int par2, int par3)
     {
-        int var4 = par2 * 16;
-        int var5 = par3 * 16;
-        BiomeGenBase var6 = this.worldObj.getBiomeGenForCoords(var4 + 16, var5 + 16);
-        boolean var7 = false;
+        int k = par2 * 16;
+        int l = par3 * 16;
+        BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(k + 16, l + 16);
+        boolean flag = false;
         this.random.setSeed(this.worldObj.getSeed());
-        long var8 = this.random.nextLong() / 2L * 2L + 1L;
-        long var10 = this.random.nextLong() / 2L * 2L + 1L;
-        this.random.setSeed((long)par2 * var8 + (long)par3 * var10 ^ this.worldObj.getSeed());
-        Iterator var12 = this.structureGenerators.iterator();
+        long i1 = this.random.nextLong() / 2L * 2L + 1L;
+        long j1 = this.random.nextLong() / 2L * 2L + 1L;
+        this.random.setSeed((long)par2 * i1 + (long)par3 * j1 ^ this.worldObj.getSeed());
+        Iterator iterator = this.structureGenerators.iterator();
 
-        while (var12.hasNext())
+        while (iterator.hasNext())
         {
-            MapGenStructure var13 = (MapGenStructure)var12.next();
-            boolean var14 = var13.generateStructuresInChunk(this.worldObj, this.random, par2, par3);
+            MapGenStructure mapgenstructure = (MapGenStructure)iterator.next();
+            boolean flag1 = mapgenstructure.generateStructuresInChunk(this.worldObj, this.random, par2, par3);
 
-            if (var13 instanceof MapGenVillage)
+            if (mapgenstructure instanceof MapGenVillage)
             {
-                var7 |= var14;
+                flag |= flag1;
             }
         }
 
-        int var16;
-        int var17;
-        int var18;
+        int k1;
+        int l1;
+        int i2;
 
-        if (this.waterLakeGenerator != null && !var7 && this.random.nextInt(4) == 0)
+        if (this.waterLakeGenerator != null && !flag && this.random.nextInt(4) == 0)
         {
-            var16 = var4 + this.random.nextInt(16) + 8;
-            var17 = this.random.nextInt(128);
-            var18 = var5 + this.random.nextInt(16) + 8;
-            this.waterLakeGenerator.generate(this.worldObj, this.random, var16, var17, var18);
+            k1 = k + this.random.nextInt(16) + 8;
+            l1 = this.random.nextInt(128);
+            i2 = l + this.random.nextInt(16) + 8;
+            this.waterLakeGenerator.generate(this.worldObj, this.random, k1, l1, i2);
         }
 
-        if (this.lavaLakeGenerator != null && !var7 && this.random.nextInt(8) == 0)
+        if (this.lavaLakeGenerator != null && !flag && this.random.nextInt(8) == 0)
         {
-            var16 = var4 + this.random.nextInt(16) + 8;
-            var17 = this.random.nextInt(this.random.nextInt(120) + 8);
-            var18 = var5 + this.random.nextInt(16) + 8;
+            k1 = k + this.random.nextInt(16) + 8;
+            l1 = this.random.nextInt(this.random.nextInt(120) + 8);
+            i2 = l + this.random.nextInt(16) + 8;
 
-            if (var17 < 63 || this.random.nextInt(10) == 0)
+            if (l1 < 63 || this.random.nextInt(10) == 0)
             {
-                this.lavaLakeGenerator.generate(this.worldObj, this.random, var16, var17, var18);
+                this.lavaLakeGenerator.generate(this.worldObj, this.random, k1, l1, i2);
             }
         }
 
         if (this.hasDungeons)
         {
-            for (var16 = 0; var16 < 8; ++var16)
+            for (k1 = 0; k1 < 8; ++k1)
             {
-                var17 = var4 + this.random.nextInt(16) + 8;
-                var18 = this.random.nextInt(128);
-                int var15 = var5 + this.random.nextInt(16) + 8;
-                (new WorldGenDungeons()).generate(this.worldObj, this.random, var17, var18, var15);
+                l1 = k + this.random.nextInt(16) + 8;
+                i2 = this.random.nextInt(128);
+                int j2 = l + this.random.nextInt(16) + 8;
+                (new WorldGenDungeons()).generate(this.worldObj, this.random, l1, i2, j2);
             }
         }
 
         if (this.hasDecoration)
         {
-            var6.decorate(this.worldObj, this.random, var4, var5);
+            biomegenbase.decorate(this.worldObj, this.random, k, l);
         }
     }
 
@@ -277,8 +277,8 @@ public class ChunkProviderFlat implements IChunkProvider
      */
     public List getPossibleCreatures(EnumCreatureType par1EnumCreatureType, int par2, int par3, int par4)
     {
-        BiomeGenBase var5 = this.worldObj.getBiomeGenForCoords(par2, par4);
-        return var5 == null ? null : var5.getSpawnableList(par1EnumCreatureType);
+        BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(par2, par4);
+        return biomegenbase == null ? null : biomegenbase.getSpawnableList(par1EnumCreatureType);
     }
 
     /**
@@ -288,15 +288,15 @@ public class ChunkProviderFlat implements IChunkProvider
     {
         if ("Stronghold".equals(par2Str))
         {
-            Iterator var6 = this.structureGenerators.iterator();
+            Iterator iterator = this.structureGenerators.iterator();
 
-            while (var6.hasNext())
+            while (iterator.hasNext())
             {
-                MapGenStructure var7 = (MapGenStructure)var6.next();
+                MapGenStructure mapgenstructure = (MapGenStructure)iterator.next();
 
-                if (var7 instanceof MapGenStronghold)
+                if (mapgenstructure instanceof MapGenStronghold)
                 {
-                    return var7.getNearestInstance(par1World, par3, par4, par5);
+                    return mapgenstructure.getNearestInstance(par1World, par3, par4, par5);
                 }
             }
         }
@@ -311,12 +311,12 @@ public class ChunkProviderFlat implements IChunkProvider
 
     public void recreateStructures(int par1, int par2)
     {
-        Iterator var3 = this.structureGenerators.iterator();
+        Iterator iterator = this.structureGenerators.iterator();
 
-        while (var3.hasNext())
+        while (iterator.hasNext())
         {
-            MapGenStructure var4 = (MapGenStructure)var3.next();
-            var4.generate(this, this.worldObj, par1, par2, (byte[])null);
+            MapGenStructure mapgenstructure = (MapGenStructure)iterator.next();
+            mapgenstructure.generate(this, this.worldObj, par1, par2, (byte[])null);
         }
     }
 }

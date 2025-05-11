@@ -4,13 +4,15 @@ import java.util.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenBigMushroom;
 
+import net.minecraftforge.common.ForgeDirection;
+
 public class BlockMushroom extends BlockFlower
 {
     protected BlockMushroom(int par1)
     {
         super(par1);
-        float var2 = 0.2F;
-        this.setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, var2 * 2.0F, 0.5F + var2);
+        float f = 0.2F;
+        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
         this.setTickRandomly(true);
     }
 
@@ -21,23 +23,23 @@ public class BlockMushroom extends BlockFlower
     {
         if (par5Random.nextInt(25) == 0)
         {
-            byte var6 = 4;
-            int var7 = 5;
-            int var8;
-            int var9;
-            int var10;
+            byte b0 = 4;
+            int l = 5;
+            int i1;
+            int j1;
+            int k1;
 
-            for (var8 = par2 - var6; var8 <= par2 + var6; ++var8)
+            for (i1 = par2 - b0; i1 <= par2 + b0; ++i1)
             {
-                for (var9 = par4 - var6; var9 <= par4 + var6; ++var9)
+                for (j1 = par4 - b0; j1 <= par4 + b0; ++j1)
                 {
-                    for (var10 = par3 - 1; var10 <= par3 + 1; ++var10)
+                    for (k1 = par3 - 1; k1 <= par3 + 1; ++k1)
                     {
-                        if (par1World.getBlockId(var8, var10, var9) == this.blockID)
+                        if (par1World.getBlockId(i1, k1, j1) == this.blockID)
                         {
-                            --var7;
+                            --l;
 
-                            if (var7 <= 0)
+                            if (l <= 0)
                             {
                                 return;
                             }
@@ -46,27 +48,27 @@ public class BlockMushroom extends BlockFlower
                 }
             }
 
-            var8 = par2 + par5Random.nextInt(3) - 1;
-            var9 = par3 + par5Random.nextInt(2) - par5Random.nextInt(2);
-            var10 = par4 + par5Random.nextInt(3) - 1;
+            i1 = par2 + par5Random.nextInt(3) - 1;
+            j1 = par3 + par5Random.nextInt(2) - par5Random.nextInt(2);
+            k1 = par4 + par5Random.nextInt(3) - 1;
 
-            for (int var11 = 0; var11 < 4; ++var11)
+            for (int l1 = 0; l1 < 4; ++l1)
             {
-                if (par1World.isAirBlock(var8, var9, var10) && this.canBlockStay(par1World, var8, var9, var10))
+                if (par1World.isAirBlock(i1, j1, k1) && this.canBlockStay(par1World, i1, j1, k1))
                 {
-                    par2 = var8;
-                    par3 = var9;
-                    par4 = var10;
+                    par2 = i1;
+                    par3 = j1;
+                    par4 = k1;
                 }
 
-                var8 = par2 + par5Random.nextInt(3) - 1;
-                var9 = par3 + par5Random.nextInt(2) - par5Random.nextInt(2);
-                var10 = par4 + par5Random.nextInt(3) - 1;
+                i1 = par2 + par5Random.nextInt(3) - 1;
+                j1 = par3 + par5Random.nextInt(2) - par5Random.nextInt(2);
+                k1 = par4 + par5Random.nextInt(3) - 1;
             }
 
-            if (par1World.isAirBlock(var8, var9, var10) && this.canBlockStay(par1World, var8, var9, var10))
+            if (par1World.isAirBlock(i1, j1, k1) && this.canBlockStay(par1World, i1, j1, k1))
             {
-                par1World.setBlock(var8, var9, var10, this.blockID, 0, 2);
+                par1World.setBlock(i1, j1, k1, this.blockID, 0, 2);
             }
         }
     }
@@ -95,8 +97,10 @@ public class BlockMushroom extends BlockFlower
     {
         if (par3 >= 0 && par3 < 256)
         {
-            int var5 = par1World.getBlockId(par2, par3 - 1, par4);
-            return var5 == Block.mycelium.blockID || par1World.getFullBlockLightValue(par2, par3, par4) < 13 && this.canThisPlantGrowOnThisBlockID(var5);
+            int l = par1World.getBlockId(par2, par3 - 1, par4);
+            Block soil = Block.blocksList[l];
+            return (l == Block.mycelium.blockID || par1World.getFullBlockLightValue(par2, par3, par4) < 13) &&
+                   (soil != null && soil.canSustainPlant(par1World, par2, par3 - 1, par4, ForgeDirection.UP, this));
         }
         else
         {
@@ -109,26 +113,26 @@ public class BlockMushroom extends BlockFlower
      */
     public boolean fertilizeMushroom(World par1World, int par2, int par3, int par4, Random par5Random)
     {
-        int var6 = par1World.getBlockMetadata(par2, par3, par4);
+        int l = par1World.getBlockMetadata(par2, par3, par4);
         par1World.setBlockToAir(par2, par3, par4);
-        WorldGenBigMushroom var7 = null;
+        WorldGenBigMushroom worldgenbigmushroom = null;
 
         if (this.blockID == Block.mushroomBrown.blockID)
         {
-            var7 = new WorldGenBigMushroom(0);
+            worldgenbigmushroom = new WorldGenBigMushroom(0);
         }
         else if (this.blockID == Block.mushroomRed.blockID)
         {
-            var7 = new WorldGenBigMushroom(1);
+            worldgenbigmushroom = new WorldGenBigMushroom(1);
         }
 
-        if (var7 != null && var7.generate(par1World, par5Random, par2, par3, par4))
+        if (worldgenbigmushroom != null && worldgenbigmushroom.generate(par1World, par5Random, par2, par3, par4))
         {
             return true;
         }
         else
         {
-            par1World.setBlock(par2, par3, par4, this.blockID, var6, 3);
+            par1World.setBlock(par2, par3, par4, this.blockID, l, 3);
             return false;
         }
     }

@@ -81,9 +81,9 @@ public class BlockTNT extends Block
     {
         if (!par1World.isRemote)
         {
-            EntityTNTPrimed var6 = new EntityTNTPrimed(par1World, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), par5Explosion.getExplosivePlacedBy());
-            var6.fuse = par1World.rand.nextInt(var6.fuse / 4) + var6.fuse / 8;
-            par1World.spawnEntityInWorld(var6);
+            EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(par1World, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), par5Explosion.getExplosivePlacedBy());
+            entitytntprimed.fuse = par1World.rand.nextInt(entitytntprimed.fuse / 4) + entitytntprimed.fuse / 8;
+            par1World.spawnEntityInWorld(entitytntprimed);
         }
     }
 
@@ -104,9 +104,9 @@ public class BlockTNT extends Block
         {
             if ((par5 & 1) == 1)
             {
-                EntityTNTPrimed var7 = new EntityTNTPrimed(par1World, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), par6EntityLivingBase);
-                par1World.spawnEntityInWorld(var7);
-                par1World.playSoundAtEntity(var7, "random.fuse", 1.0F, 1.0F);
+                EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(par1World, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), par6EntityLivingBase);
+                par1World.spawnEntityInWorld(entitytntprimed);
+                par1World.playSoundAtEntity(entitytntprimed, "random.fuse", 1.0F, 1.0F);
             }
         }
     }
@@ -136,11 +136,11 @@ public class BlockTNT extends Block
     {
         if (par5Entity instanceof EntityArrow && !par1World.isRemote)
         {
-            EntityArrow var6 = (EntityArrow)par5Entity;
+            EntityArrow entityarrow = (EntityArrow)par5Entity;
 
-            if (var6.isBurning())
+            if (entityarrow.isBurning())
             {
-                this.primeTnt(par1World, par2, par3, par4, 1, var6.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)var6.shootingEntity : null);
+                this.primeTnt(par1World, par2, par3, par4, 1, entityarrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)entityarrow.shootingEntity : null);
                 par1World.setBlockToAir(par2, par3, par4);
             }
         }

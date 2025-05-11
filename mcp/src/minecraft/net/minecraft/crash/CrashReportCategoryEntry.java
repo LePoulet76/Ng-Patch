@@ -15,8 +15,8 @@ class CrashReportCategoryEntry
         }
         else if (par2Obj instanceof Throwable)
         {
-            Throwable var3 = (Throwable)par2Obj;
-            this.field_85091_b = "~~ERROR~~ " + var3.getClass().getSimpleName() + ": " + var3.getMessage();
+            Throwable throwable = (Throwable)par2Obj;
+            this.field_85091_b = "~~ERROR~~ " + throwable.getClass().getSimpleName() + ": " + throwable.getMessage();
         }
         else
         {

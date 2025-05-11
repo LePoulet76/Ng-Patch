@@ -25,11 +25,11 @@ public class CommandServerPublishLocal extends CommandBase
 
     public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
-        String var3 = MinecraftServer.getServer().shareToLAN(EnumGameType.SURVIVAL, false);
+        String s = MinecraftServer.getServer().shareToLAN(EnumGameType.SURVIVAL, false);
 
-        if (var3 != null)
+        if (s != null)
         {
-            notifyAdmins(par1ICommandSender, "commands.publish.started", new Object[] {var3});
+            notifyAdmins(par1ICommandSender, "commands.publish.started", new Object[] {s});
         }
         else
         {

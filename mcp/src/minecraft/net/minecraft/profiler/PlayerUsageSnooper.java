@@ -40,7 +40,7 @@ public class PlayerUsageSnooper
         {
             this.serverUrl = new URL("http://snoop.minecraft.net/" + par1Str + "?version=" + 1);
         }
-        catch (MalformedURLException var6)
+        catch (MalformedURLException malformedurlexception)
         {
             throw new IllegalArgumentException();
         }
@@ -76,22 +76,22 @@ public class PlayerUsageSnooper
 
     private void addJvmArgsToSnooper()
     {
-        RuntimeMXBean var1 = ManagementFactory.getRuntimeMXBean();
-        List var2 = var1.getInputArguments();
-        int var3 = 0;
-        Iterator var4 = var2.iterator();
+        RuntimeMXBean runtimemxbean = ManagementFactory.getRuntimeMXBean();
+        List list = runtimemxbean.getInputArguments();
+        int i = 0;
+        Iterator iterator = list.iterator();
 
-        while (var4.hasNext())
+        while (iterator.hasNext())
         {
-            String var5 = (String)var4.next();
+            String s = (String)iterator.next();
 
-            if (var5.startsWith("-X"))
+            if (s.startsWith("-X"))
             {
-                this.addData("jvm_arg[" + var3++ + "]", var5);
+                this.addData("jvm_arg[" + i++ + "]", s);
             }
         }
 
-        this.addData("jvm_args", Integer.valueOf(var3));
+        this.addData("jvm_args", Integer.valueOf(i));
     }
 
     public void addMemoryStatsToSnooper()
@@ -108,7 +108,7 @@ public class PlayerUsageSnooper
      */
     public void addData(String par1Str, Object par2Obj)
     {
-        Object var3 = this.syncLock;
+        Object object1 = this.syncLock;
 
         synchronized (this.syncLock)
         {
@@ -119,21 +119,21 @@ public class PlayerUsageSnooper
     @SideOnly(Side.CLIENT)
     public Map getCurrentStats()
     {
-        LinkedHashMap var1 = new LinkedHashMap();
-        Object var2 = this.syncLock;
+        LinkedHashMap linkedhashmap = new LinkedHashMap();
+        Object object = this.syncLock;
 
         synchronized (this.syncLock)
         {
             this.addMemoryStatsToSnooper();
-            Iterator var3 = this.dataMap.entrySet().iterator();
+            Iterator iterator = this.dataMap.entrySet().iterator();
 
-            while (var3.hasNext())
+            while (iterator.hasNext())
             {
-                Entry var4 = (Entry)var3.next();
-                var1.put(var4.getKey(), var4.getValue().toString());
+                Entry entry = (Entry)iterator.next();
+                linkedhashmap.put(entry.getKey(), entry.getValue().toString());
             }
 
-            return var1;
+            return linkedhashmap;
         }
     }
 

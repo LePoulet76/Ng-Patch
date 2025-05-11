@@ -2,6 +2,8 @@ package net.minecraft.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.material.Material;
@@ -17,7 +19,10 @@ import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockTallGrass extends BlockFlower
+import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.IShearable;
+
+public class BlockTallGrass extends BlockFlower implements IShearable
 {
     private static final String[] grassTypes = new String[] {"deadbush", "tallgrass", "fern"};
     @SideOnly(Side.CLIENT)
@@ -26,8 +31,8 @@ public class BlockTallGrass extends BlockFlower
     protected BlockTallGrass(int par1)
     {
         super(par1, Material.vine);
-        float var2 = 0.4F;
-        this.setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, 0.8F, 0.5F + var2);
+        float f = 0.4F;
+        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.8F, 0.5F + f);
     }
 
     @SideOnly(Side.CLIENT)
@@ -50,7 +55,7 @@ public class BlockTallGrass extends BlockFlower
      */
     public int idDropped(int par1, Random par2Random, int par3)
     {
-        return par2Random.nextInt(8) == 0 ? Item.seeds.itemID : -1;
+        return -1;
     }
 
     /**
@@ -67,23 +72,15 @@ public class BlockTallGrass extends BlockFlower
      */
     public void harvestBlock(World par1World, EntityPlayer par2EntityPlayer, int par3, int par4, int par5, int par6)
     {
-        if (!par1World.isRemote && par2EntityPlayer.getCurrentEquippedItem() != null && par2EntityPlayer.getCurrentEquippedItem().itemID == Item.shears.itemID)
-        {
-            par2EntityPlayer.addStat(StatList.mineBlockStatArray[this.blockID], 1);
-            this.dropBlockAsItem_do(par1World, par3, par4, par5, new ItemStack(Block.tallGrass, 1, par6));
-        }
-        else
-        {
-            super.harvestBlock(par1World, par2EntityPlayer, par3, par4, par5, par6);
-        }
+        super.harvestBlock(par1World, par2EntityPlayer, par3, par4, par5, par6);
     }
 
     @SideOnly(Side.CLIENT)
     public int getBlockColor()
     {
-        double var1 = 0.5D;
-        double var3 = 1.0D;
-        return ColorizerGrass.getGrassColor(var1, var3);
+        double d0 = 0.5D;
+        double d1 = 1.0D;
+        return ColorizerGrass.getGrassColor(d0, d1);
     }
 
     @SideOnly(Side.CLIENT)
@@ -104,8 +101,8 @@ public class BlockTallGrass extends BlockFlower
      */
     public int colorMultiplier(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
-        return var5 == 0 ? 16777215 : par1IBlockAccess.getBiomeGenForCoords(par2, par4).getBiomeGrassColor();
+        int l = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+        return l == 0 ? 16777215 : par1IBlockAccess.getBiomeGenForCoords(par2, par4).getBiomeGrassColor();
     }
 
     /**
@@ -123,9 +120,9 @@ public class BlockTallGrass extends BlockFlower
      */
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (int var4 = 1; var4 < 3; ++var4)
+        for (int j = 1; j < 3; ++j)
         {
-            par3List.add(new ItemStack(par1, 1, var4));
+            par3List.add(new ItemStack(par1, 1, j));
         }
     }
 
@@ -139,9 +136,40 @@ public class BlockTallGrass extends BlockFlower
     {
         this.iconArray = new Icon[grassTypes.length];
 
-        for (int var2 = 0; var2 < this.iconArray.length; ++var2)
+        for (int i = 0; i < this.iconArray.length; ++i)
         {
-            this.iconArray[var2] = par1IconRegister.registerIcon(grassTypes[var2]);
+            this.iconArray[i] = par1IconRegister.registerIcon(grassTypes[i]);
         }
+    }
+
+    @Override
+    public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int meta, int fortune)
+    {
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+        if (world.rand.nextInt(8) != 0)
+        {
+            return ret;
+        }
+
+        ItemStack item = ForgeHooks.getGrassSeed(world);
+        if (item != null)
+        {
+            ret.add(item);
+        }
+        return ret;
+    }
+
+    @Override
+    public boolean isShearable(ItemStack item, World world, int x, int y, int z)
+    {
+        return true;
+    }
+
+    @Override
+    public ArrayList<ItemStack> onSheared(ItemStack item, World world, int x, int y, int z, int fortune)
+    {
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+        ret.add(new ItemStack(this, 1, world.getBlockMetadata(x, y, z)));
+        return ret;
     }
 }

@@ -49,9 +49,9 @@ public abstract class AbstractResourcePack implements ResourcePack
         return this.hasResourceName(locationToName(par1ResourceLocation));
     }
 
-    protected abstract InputStream getInputStreamByName(String var1) throws IOException;
+    protected abstract InputStream getInputStreamByName(String s) throws IOException;
 
-    protected abstract boolean hasResourceName(String var1);
+    protected abstract boolean hasResourceName(String s);
 
     protected void logNameNotLowercase(String par1Str)
     {
@@ -65,20 +65,20 @@ public abstract class AbstractResourcePack implements ResourcePack
 
     static MetadataSection readMetadata(MetadataSerializer par0MetadataSerializer, InputStream par1InputStream, String par2Str)
     {
-        JsonObject var3 = null;
-        BufferedReader var4 = null;
+        JsonObject jsonobject = null;
+        BufferedReader bufferedreader = null;
 
         try
         {
-            var4 = new BufferedReader(new InputStreamReader(par1InputStream));
-            var3 = (new JsonParser()).parse(var4).getAsJsonObject();
+            bufferedreader = new BufferedReader(new InputStreamReader(par1InputStream));
+            jsonobject = (new JsonParser()).parse(bufferedreader).getAsJsonObject();
         }
         finally
         {
-            IOUtils.closeQuietly(var4);
+            IOUtils.closeQuietly(bufferedreader);
         }
 
-        return par0MetadataSerializer.parseMetadataSection(par2Str, var3);
+        return par0MetadataSerializer.parseMetadataSection(par2Str, jsonobject);
     }
 
     public BufferedImage getPackImage() throws IOException

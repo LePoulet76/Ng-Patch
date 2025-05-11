@@ -19,7 +19,7 @@ class SlotBrewingStandIngredient extends Slot
      */
     public boolean isItemValid(ItemStack par1ItemStack)
     {
-        return par1ItemStack != null ? Item.itemsList[par1ItemStack.itemID].isPotionIngredient() : false;
+        return par1ItemStack != null ? Item.itemsList[par1ItemStack.itemID].isPotionIngredient(par1ItemStack) : false;
     }
 
     /**

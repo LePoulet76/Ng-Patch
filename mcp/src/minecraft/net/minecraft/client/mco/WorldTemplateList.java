@@ -18,33 +18,33 @@ public class WorldTemplateList extends ValueObject
 
     public static WorldTemplateList func_110735_a(String par0Str)
     {
-        WorldTemplateList var1 = new WorldTemplateList();
-        var1.field_110736_a = new ArrayList();
+        WorldTemplateList worldtemplatelist = new WorldTemplateList();
+        worldtemplatelist.field_110736_a = new ArrayList();
 
         try
         {
-            JsonRootNode var2 = (new JdomParser()).parse(par0Str);
+            JsonRootNode jsonrootnode = (new JdomParser()).parse(par0Str);
 
-            if (var2.isArrayNode(new Object[] {"templates"}))
+            if (jsonrootnode.isArrayNode(new Object[] {"templates"}))
             {
-                Iterator var3 = var2.getArrayNode(new Object[] {"templates"}).iterator();
+                Iterator iterator = jsonrootnode.getArrayNode(new Object[] {"templates"}).iterator();
 
-                while (var3.hasNext())
+                while (iterator.hasNext())
                 {
-                    JsonNode var4 = (JsonNode)var3.next();
-                    var1.field_110736_a.add(WorldTemplate.func_110730_a(var4));
+                    JsonNode jsonnode = (JsonNode)iterator.next();
+                    worldtemplatelist.field_110736_a.add(WorldTemplate.func_110730_a(jsonnode));
                 }
             }
         }
-        catch (InvalidSyntaxException var5)
+        catch (InvalidSyntaxException invalidsyntaxexception)
         {
             ;
         }
-        catch (IllegalArgumentException var6)
+        catch (IllegalArgumentException illegalargumentexception)
         {
             ;
         }
 
-        return var1;
+        return worldtemplatelist;
     }
 }

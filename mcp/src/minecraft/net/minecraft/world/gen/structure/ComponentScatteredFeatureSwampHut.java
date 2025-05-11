@@ -64,38 +64,38 @@ public class ComponentScatteredFeatureSwampHut extends ComponentScatteredFeature
             this.placeBlockAtCurrentPosition(par1World, Block.cauldron.blockID, 0, 4, 2, 6, par3StructureBoundingBox);
             this.placeBlockAtCurrentPosition(par1World, Block.fence.blockID, 0, 1, 2, 1, par3StructureBoundingBox);
             this.placeBlockAtCurrentPosition(par1World, Block.fence.blockID, 0, 5, 2, 1, par3StructureBoundingBox);
-            int var4 = this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 3);
-            int var5 = this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 1);
-            int var6 = this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 0);
-            int var7 = this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 2);
-            this.fillWithMetadataBlocks(par1World, par3StructureBoundingBox, 0, 4, 1, 6, 4, 1, Block.stairsWoodSpruce.blockID, var4, Block.stairsWoodSpruce.blockID, var4, false);
-            this.fillWithMetadataBlocks(par1World, par3StructureBoundingBox, 0, 4, 2, 0, 4, 7, Block.stairsWoodSpruce.blockID, var6, Block.stairsWoodSpruce.blockID, var6, false);
-            this.fillWithMetadataBlocks(par1World, par3StructureBoundingBox, 6, 4, 2, 6, 4, 7, Block.stairsWoodSpruce.blockID, var5, Block.stairsWoodSpruce.blockID, var5, false);
-            this.fillWithMetadataBlocks(par1World, par3StructureBoundingBox, 0, 4, 8, 6, 4, 8, Block.stairsWoodSpruce.blockID, var7, Block.stairsWoodSpruce.blockID, var7, false);
-            int var8;
-            int var9;
+            int i = this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 3);
+            int j = this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 1);
+            int k = this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 0);
+            int l = this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 2);
+            this.fillWithMetadataBlocks(par1World, par3StructureBoundingBox, 0, 4, 1, 6, 4, 1, Block.stairsWoodSpruce.blockID, i, Block.stairsWoodSpruce.blockID, i, false);
+            this.fillWithMetadataBlocks(par1World, par3StructureBoundingBox, 0, 4, 2, 0, 4, 7, Block.stairsWoodSpruce.blockID, k, Block.stairsWoodSpruce.blockID, k, false);
+            this.fillWithMetadataBlocks(par1World, par3StructureBoundingBox, 6, 4, 2, 6, 4, 7, Block.stairsWoodSpruce.blockID, j, Block.stairsWoodSpruce.blockID, j, false);
+            this.fillWithMetadataBlocks(par1World, par3StructureBoundingBox, 0, 4, 8, 6, 4, 8, Block.stairsWoodSpruce.blockID, l, Block.stairsWoodSpruce.blockID, l, false);
+            int i1;
+            int j1;
 
-            for (var8 = 2; var8 <= 7; var8 += 5)
+            for (i1 = 2; i1 <= 7; i1 += 5)
             {
-                for (var9 = 1; var9 <= 5; var9 += 4)
+                for (j1 = 1; j1 <= 5; j1 += 4)
                 {
-                    this.fillCurrentPositionBlocksDownwards(par1World, Block.wood.blockID, 0, var9, -1, var8, par3StructureBoundingBox);
+                    this.fillCurrentPositionBlocksDownwards(par1World, Block.wood.blockID, 0, j1, -1, i1, par3StructureBoundingBox);
                 }
             }
 
             if (!this.hasWitch)
             {
-                var8 = this.getXWithOffset(2, 5);
-                var9 = this.getYWithOffset(2);
-                int var10 = this.getZWithOffset(2, 5);
+                i1 = this.getXWithOffset(2, 5);
+                j1 = this.getYWithOffset(2);
+                int k1 = this.getZWithOffset(2, 5);
 
-                if (par3StructureBoundingBox.isVecInside(var8, var9, var10))
+                if (par3StructureBoundingBox.isVecInside(i1, j1, k1))
                 {
                     this.hasWitch = true;
-                    EntityWitch var11 = new EntityWitch(par1World);
-                    var11.setLocationAndAngles((double)var8 + 0.5D, (double)var9, (double)var10 + 0.5D, 0.0F, 0.0F);
-                    var11.onSpawnWithEgg((EntityLivingData)null);
-                    par1World.spawnEntityInWorld(var11);
+                    EntityWitch entitywitch = new EntityWitch(par1World);
+                    entitywitch.setLocationAndAngles((double)i1 + 0.5D, (double)j1, (double)k1 + 0.5D, 0.0F, 0.0F);
+                    entitywitch.onSpawnWithEgg((EntityLivingData)null);
+                    par1World.spawnEntityInWorld(entitywitch);
                 }
             }
 

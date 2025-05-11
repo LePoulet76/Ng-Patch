@@ -20,14 +20,14 @@ public class ServersideAttributeMap extends BaseAttributeMap
 
     public ModifiableAttributeInstance func_111158_b(String par1Str)
     {
-        AttributeInstance var2 = super.getAttributeInstanceByName(par1Str);
+        AttributeInstance attributeinstance = super.getAttributeInstanceByName(par1Str);
 
-        if (var2 == null)
+        if (attributeinstance == null)
         {
-            var2 = (AttributeInstance)this.field_111163_c.get(par1Str);
+            attributeinstance = (AttributeInstance)this.field_111163_c.get(par1Str);
         }
 
-        return (ModifiableAttributeInstance)var2;
+        return (ModifiableAttributeInstance)attributeinstance;
     }
 
     public AttributeInstance func_111150_b(Attribute par1Attribute)
@@ -38,16 +38,16 @@ public class ServersideAttributeMap extends BaseAttributeMap
         }
         else
         {
-            ModifiableAttributeInstance var2 = new ModifiableAttributeInstance(this, par1Attribute);
-            this.attributesByName.put(par1Attribute.getAttributeUnlocalizedName(), var2);
+            ModifiableAttributeInstance modifiableattributeinstance = new ModifiableAttributeInstance(this, par1Attribute);
+            this.attributesByName.put(par1Attribute.getAttributeUnlocalizedName(), modifiableattributeinstance);
 
             if (par1Attribute instanceof RangedAttribute && ((RangedAttribute)par1Attribute).func_111116_f() != null)
             {
-                this.field_111163_c.put(((RangedAttribute)par1Attribute).func_111116_f(), var2);
+                this.field_111163_c.put(((RangedAttribute)par1Attribute).func_111116_f(), modifiableattributeinstance);
             }
 
-            this.attributes.put(par1Attribute, var2);
-            return var2;
+            this.attributes.put(par1Attribute, modifiableattributeinstance);
+            return modifiableattributeinstance;
         }
     }
 
@@ -66,20 +66,20 @@ public class ServersideAttributeMap extends BaseAttributeMap
 
     public Collection func_111160_c()
     {
-        HashSet var1 = Sets.newHashSet();
-        Iterator var2 = this.getAllAttributes().iterator();
+        HashSet hashset = Sets.newHashSet();
+        Iterator iterator = this.getAllAttributes().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            AttributeInstance var3 = (AttributeInstance)var2.next();
+            AttributeInstance attributeinstance = (AttributeInstance)iterator.next();
 
-            if (var3.func_111123_a().getShouldWatch())
+            if (attributeinstance.func_111123_a().getShouldWatch())
             {
-                var1.add(var3);
+                hashset.add(attributeinstance);
             }
         }
 
-        return var1;
+        return hashset;
     }
 
     public AttributeInstance getAttributeInstanceByName(String par1Str)

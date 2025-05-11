@@ -26,9 +26,9 @@ public class RenderSheep extends RenderLiving
         if (par2 == 0 && !par1EntitySheep.getSheared())
         {
             this.bindTexture(sheepTextures);
-            float var4 = 1.0F;
-            int var5 = par1EntitySheep.getFleeceColor();
-            GL11.glColor3f(var4 * EntitySheep.fleeceColorTable[var5][0], var4 * EntitySheep.fleeceColorTable[var5][1], var4 * EntitySheep.fleeceColorTable[var5][2]);
+            float f1 = 1.0F;
+            int j = par1EntitySheep.getFleeceColor();
+            GL11.glColor3f(f1 * EntitySheep.fleeceColorTable[j][0], f1 * EntitySheep.fleeceColorTable[j][1], f1 * EntitySheep.fleeceColorTable[j][2]);
             return 1;
         }
         else

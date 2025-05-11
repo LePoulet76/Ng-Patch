@@ -110,19 +110,19 @@ public class EntityFallingSand extends Entity
 
             if (!this.worldObj.isRemote)
             {
-                int var1 = MathHelper.floor_double(this.posX);
-                int var2 = MathHelper.floor_double(this.posY);
-                int var3 = MathHelper.floor_double(this.posZ);
+                int i = MathHelper.floor_double(this.posX);
+                int j = MathHelper.floor_double(this.posY);
+                int k = MathHelper.floor_double(this.posZ);
 
                 if (this.fallTime == 1)
                 {
-                    if (this.worldObj.getBlockId(var1, var2, var3) != this.blockID)
+                    if (this.worldObj.getBlockId(i, j, k) != this.blockID)
                     {
                         this.setDead();
                         return;
                     }
 
-                    this.worldObj.setBlockToAir(var1, var2, var3);
+                    this.worldObj.setBlockToAir(i, j, k);
                 }
 
                 if (this.onGround)
@@ -131,39 +131,39 @@ public class EntityFallingSand extends Entity
                     this.motionZ *= 0.699999988079071D;
                     this.motionY *= -0.5D;
 
-                    if (this.worldObj.getBlockId(var1, var2, var3) != Block.pistonMoving.blockID)
+                    if (this.worldObj.getBlockId(i, j, k) != Block.pistonMoving.blockID)
                     {
                         this.setDead();
 
-                        if (!this.isBreakingAnvil && this.worldObj.canPlaceEntityOnSide(this.blockID, var1, var2, var3, true, 1, (Entity)null, (ItemStack)null) && !BlockSand.canFallBelow(this.worldObj, var1, var2 - 1, var3) && this.worldObj.setBlock(var1, var2, var3, this.blockID, this.metadata, 3))
+                        if (!this.isBreakingAnvil && this.worldObj.canPlaceEntityOnSide(this.blockID, i, j, k, true, 1, (Entity)null, (ItemStack)null) && !BlockSand.canFallBelow(this.worldObj, i, j - 1, k) && this.worldObj.setBlock(i, j, k, this.blockID, this.metadata, 3))
                         {
                             if (Block.blocksList[this.blockID] instanceof BlockSand)
                             {
-                                ((BlockSand)Block.blocksList[this.blockID]).onFinishFalling(this.worldObj, var1, var2, var3, this.metadata);
+                                ((BlockSand)Block.blocksList[this.blockID]).onFinishFalling(this.worldObj, i, j, k, this.metadata);
                             }
 
                             if (this.fallingBlockTileEntityData != null && Block.blocksList[this.blockID] instanceof ITileEntityProvider)
                             {
-                                TileEntity var4 = this.worldObj.getBlockTileEntity(var1, var2, var3);
+                                TileEntity tileentity = this.worldObj.getBlockTileEntity(i, j, k);
 
-                                if (var4 != null)
+                                if (tileentity != null)
                                 {
-                                    NBTTagCompound var5 = new NBTTagCompound();
-                                    var4.writeToNBT(var5);
-                                    Iterator var6 = this.fallingBlockTileEntityData.getTags().iterator();
+                                    NBTTagCompound nbttagcompound = new NBTTagCompound();
+                                    tileentity.writeToNBT(nbttagcompound);
+                                    Iterator iterator = this.fallingBlockTileEntityData.getTags().iterator();
 
-                                    while (var6.hasNext())
+                                    while (iterator.hasNext())
                                     {
-                                        NBTBase var7 = (NBTBase)var6.next();
+                                        NBTBase nbtbase = (NBTBase)iterator.next();
 
-                                        if (!var7.getName().equals("x") && !var7.getName().equals("y") && !var7.getName().equals("z"))
+                                        if (!nbtbase.getName().equals("x") && !nbtbase.getName().equals("y") && !nbtbase.getName().equals("z"))
                                         {
-                                            var5.setTag(var7.getName(), var7.copy());
+                                            nbttagcompound.setTag(nbtbase.getName(), nbtbase.copy());
                                         }
                                     }
 
-                                    var4.readFromNBT(var5);
-                                    var4.onInventoryChanged();
+                                    tileentity.readFromNBT(nbttagcompound);
+                                    tileentity.onInventoryChanged();
                                 }
                             }
                         }
@@ -173,7 +173,7 @@ public class EntityFallingSand extends Entity
                         }
                     }
                 }
-                else if (this.fallTime > 100 && !this.worldObj.isRemote && (var2 < 1 || var2 > 256) || this.fallTime > 600)
+                else if (this.fallTime > 100 && !this.worldObj.isRemote && (j < 1 || j > 256) || this.fallTime > 600)
                 {
                     if (this.shouldDropItem)
                     {
@@ -193,33 +193,33 @@ public class EntityFallingSand extends Entity
     {
         if (this.isAnvil)
         {
-            int var2 = MathHelper.ceiling_float_int(par1 - 1.0F);
+            int i = MathHelper.ceiling_float_int(par1 - 1.0F);
 
-            if (var2 > 0)
+            if (i > 0)
             {
-                ArrayList var3 = new ArrayList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox));
-                DamageSource var4 = this.blockID == Block.anvil.blockID ? DamageSource.anvil : DamageSource.fallingBlock;
-                Iterator var5 = var3.iterator();
+                ArrayList arraylist = new ArrayList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox));
+                DamageSource damagesource = this.blockID == Block.anvil.blockID ? DamageSource.anvil : DamageSource.fallingBlock;
+                Iterator iterator = arraylist.iterator();
 
-                while (var5.hasNext())
+                while (iterator.hasNext())
                 {
-                    Entity var6 = (Entity)var5.next();
-                    var6.attackEntityFrom(var4, (float)Math.min(MathHelper.floor_float((float)var2 * this.fallHurtAmount), this.fallHurtMax));
+                    Entity entity = (Entity)iterator.next();
+                    entity.attackEntityFrom(damagesource, (float)Math.min(MathHelper.floor_float((float)i * this.fallHurtAmount), this.fallHurtMax));
                 }
 
-                if (this.blockID == Block.anvil.blockID && (double)this.rand.nextFloat() < 0.05000000074505806D + (double)var2 * 0.05D)
+                if (this.blockID == Block.anvil.blockID && (double)this.rand.nextFloat() < 0.05000000074505806D + (double)i * 0.05D)
                 {
-                    int var7 = this.metadata >> 2;
-                    int var8 = this.metadata & 3;
-                    ++var7;
+                    int j = this.metadata >> 2;
+                    int k = this.metadata & 3;
+                    ++j;
 
-                    if (var7 > 2)
+                    if (j > 2)
                     {
                         this.isBreakingAnvil = true;
                     }
                     else
                     {
-                        this.metadata = var8 | var7 << 2;
+                        this.metadata = k | j << 2;
                     }
                 }
             }

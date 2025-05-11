@@ -15,19 +15,19 @@ class DedicatedServerCommandThread extends Thread
 
     public void run()
     {
-        BufferedReader var1 = new BufferedReader(new InputStreamReader(System.in));
-        String var2;
+        BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in));
+        String s;
 
         try
         {
-            while (!this.server.isServerStopped() && this.server.isServerRunning() && (var2 = var1.readLine()) != null)
+            while (!this.server.isServerStopped() && this.server.isServerRunning() && (s = bufferedreader.readLine()) != null)
             {
-                this.server.addPendingCommand(var2, this.server);
+                this.server.addPendingCommand(s, this.server);
             }
         }
-        catch (IOException var4)
+        catch (IOException ioexception)
         {
-            var4.printStackTrace();
+            ioexception.printStackTrace();
         }
     }
 }

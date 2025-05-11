@@ -19,30 +19,30 @@ public class BiomeGenHills extends BiomeGenBase
     public void decorate(World par1World, Random par2Random, int par3, int par4)
     {
         super.decorate(par1World, par2Random, par3, par4);
-        int var5 = 3 + par2Random.nextInt(6);
-        int var6;
-        int var7;
-        int var8;
+        int k = 3 + par2Random.nextInt(6);
+        int l;
+        int i1;
+        int j1;
 
-        for (var6 = 0; var6 < var5; ++var6)
+        for (l = 0; l < k; ++l)
         {
-            var7 = par3 + par2Random.nextInt(16);
-            var8 = par2Random.nextInt(28) + 4;
-            int var9 = par4 + par2Random.nextInt(16);
-            int var10 = par1World.getBlockId(var7, var8, var9);
+            i1 = par3 + par2Random.nextInt(16);
+            j1 = par2Random.nextInt(28) + 4;
+            int k1 = par4 + par2Random.nextInt(16);
+            int l1 = par1World.getBlockId(i1, j1, k1);
 
-            if (var10 == Block.stone.blockID)
+            if (l1 == Block.stone.blockID)
             {
-                par1World.setBlock(var7, var8, var9, Block.oreEmerald.blockID, 0, 2);
+                par1World.setBlock(i1, j1, k1, Block.oreEmerald.blockID, 0, 2);
             }
         }
 
-        for (var5 = 0; var5 < 7; ++var5)
+        for (k = 0; k < 7; ++k)
         {
-            var6 = par3 + par2Random.nextInt(16);
-            var7 = par2Random.nextInt(64);
-            var8 = par4 + par2Random.nextInt(16);
-            this.theWorldGenerator.generate(par1World, par2Random, var6, var7, var8);
+            l = par3 + par2Random.nextInt(16);
+            i1 = par2Random.nextInt(64);
+            j1 = par4 + par2Random.nextInt(16);
+            this.theWorldGenerator.generate(par1World, par2Random, l, i1, j1);
         }
     }
 }

@@ -34,25 +34,25 @@ public class ComponentStrongholdCorridor extends ComponentStronghold
 
     public static StructureBoundingBox func_74992_a(List par0List, Random par1Random, int par2, int par3, int par4, int par5)
     {
-        boolean var6 = true;
-        StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, 4, par5);
-        StructureComponent var8 = StructureComponent.findIntersecting(par0List, var7);
+        boolean flag = true;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, 4, par5);
+        StructureComponent structurecomponent = StructureComponent.findIntersecting(par0List, structureboundingbox);
 
-        if (var8 == null)
+        if (structurecomponent == null)
         {
             return null;
         }
         else
         {
-            if (var8.getBoundingBox().minY == var7.minY)
+            if (structurecomponent.getBoundingBox().minY == structureboundingbox.minY)
             {
-                for (int var9 = 3; var9 >= 1; --var9)
+                for (int i1 = 3; i1 >= 1; --i1)
                 {
-                    var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, var9 - 1, par5);
+                    structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, i1 - 1, par5);
 
-                    if (!var8.getBoundingBox().intersectsWith(var7))
+                    if (!structurecomponent.getBoundingBox().intersectsWith(structureboundingbox))
                     {
-                        return StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, var9, par5);
+                        return StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, i1, par5);
                     }
                 }
             }
@@ -73,28 +73,28 @@ public class ComponentStrongholdCorridor extends ComponentStronghold
         }
         else
         {
-            for (int var4 = 0; var4 < this.field_74993_a; ++var4)
+            for (int i = 0; i < this.field_74993_a; ++i)
             {
-                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 0, 0, var4, par3StructureBoundingBox);
-                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 1, 0, var4, par3StructureBoundingBox);
-                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 2, 0, var4, par3StructureBoundingBox);
-                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3, 0, var4, par3StructureBoundingBox);
-                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 4, 0, var4, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 0, 0, i, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 1, 0, i, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 2, 0, i, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3, 0, i, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 4, 0, i, par3StructureBoundingBox);
 
-                for (int var5 = 1; var5 <= 3; ++var5)
+                for (int j = 1; j <= 3; ++j)
                 {
-                    this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 0, var5, var4, par3StructureBoundingBox);
-                    this.placeBlockAtCurrentPosition(par1World, 0, 0, 1, var5, var4, par3StructureBoundingBox);
-                    this.placeBlockAtCurrentPosition(par1World, 0, 0, 2, var5, var4, par3StructureBoundingBox);
-                    this.placeBlockAtCurrentPosition(par1World, 0, 0, 3, var5, var4, par3StructureBoundingBox);
-                    this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 4, var5, var4, par3StructureBoundingBox);
+                    this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 0, j, i, par3StructureBoundingBox);
+                    this.placeBlockAtCurrentPosition(par1World, 0, 0, 1, j, i, par3StructureBoundingBox);
+                    this.placeBlockAtCurrentPosition(par1World, 0, 0, 2, j, i, par3StructureBoundingBox);
+                    this.placeBlockAtCurrentPosition(par1World, 0, 0, 3, j, i, par3StructureBoundingBox);
+                    this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 4, j, i, par3StructureBoundingBox);
                 }
 
-                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 0, 4, var4, par3StructureBoundingBox);
-                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 1, 4, var4, par3StructureBoundingBox);
-                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 2, 4, var4, par3StructureBoundingBox);
-                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3, 4, var4, par3StructureBoundingBox);
-                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 4, 4, var4, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 0, 4, i, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 1, 4, i, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 2, 4, i, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3, 4, i, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 4, 4, i, par3StructureBoundingBox);
             }
 
             return true;

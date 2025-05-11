@@ -19,30 +19,30 @@ class GuiSlotStatsItem extends GuiSlotStats
         super(par1GuiStats);
         this.slotGuiStats = par1GuiStats;
         this.field_77266_h = new ArrayList();
-        Iterator var2 = StatList.itemStats.iterator();
+        Iterator iterator = StatList.itemStats.iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            StatCrafting var3 = (StatCrafting)var2.next();
-            boolean var4 = false;
-            int var5 = var3.getItemID();
+            StatCrafting statcrafting = (StatCrafting)iterator.next();
+            boolean flag = false;
+            int i = statcrafting.getItemID();
 
-            if (GuiStats.getStatsFileWriter(par1GuiStats).writeStat(var3) > 0)
+            if (GuiStats.getStatsFileWriter(par1GuiStats).writeStat(statcrafting) > 0)
             {
-                var4 = true;
+                flag = true;
             }
-            else if (StatList.objectBreakStats[var5] != null && GuiStats.getStatsFileWriter(par1GuiStats).writeStat(StatList.objectBreakStats[var5]) > 0)
+            else if (StatList.objectBreakStats[i] != null && GuiStats.getStatsFileWriter(par1GuiStats).writeStat(StatList.objectBreakStats[i]) > 0)
             {
-                var4 = true;
+                flag = true;
             }
-            else if (StatList.objectCraftStats[var5] != null && GuiStats.getStatsFileWriter(par1GuiStats).writeStat(StatList.objectCraftStats[var5]) > 0)
+            else if (StatList.objectCraftStats[i] != null && GuiStats.getStatsFileWriter(par1GuiStats).writeStat(StatList.objectCraftStats[i]) > 0)
             {
-                var4 = true;
+                flag = true;
             }
 
-            if (var4)
+            if (flag)
             {
-                this.field_77266_h.add(var3);
+                this.field_77266_h.add(statcrafting);
             }
         }
 
@@ -83,12 +83,12 @@ class GuiSlotStatsItem extends GuiSlotStats
 
     protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
     {
-        StatCrafting var6 = this.func_77257_d(par1);
-        int var7 = var6.getItemID();
-        GuiStats.drawItemSprite(this.slotGuiStats, par2 + 40, par3, var7);
-        this.func_77260_a((StatCrafting)StatList.objectBreakStats[var7], par2 + 115, par3, par1 % 2 == 0);
-        this.func_77260_a((StatCrafting)StatList.objectCraftStats[var7], par2 + 165, par3, par1 % 2 == 0);
-        this.func_77260_a(var6, par2 + 215, par3, par1 % 2 == 0);
+        StatCrafting statcrafting = this.func_77257_d(par1);
+        int i1 = statcrafting.getItemID();
+        GuiStats.drawItemSprite(this.slotGuiStats, par2 + 40, par3, i1);
+        this.func_77260_a((StatCrafting)StatList.objectBreakStats[i1], par2 + 115, par3, par1 % 2 == 0);
+        this.func_77260_a((StatCrafting)StatList.objectCraftStats[i1], par2 + 165, par3, par1 % 2 == 0);
+        this.func_77260_a(statcrafting, par2 + 215, par3, par1 % 2 == 0);
     }
 
     protected String func_77258_c(int par1)

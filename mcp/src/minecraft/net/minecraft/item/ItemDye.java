@@ -21,6 +21,12 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.FakePlayerFactory;
+import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.Event.Result;
+import net.minecraftforge.event.entity.player.BonemealEvent;
+
 public class ItemDye extends Item
 {
     /** List of dye color names */
@@ -45,8 +51,8 @@ public class ItemDye extends Item
      */
     public Icon getIconFromDamage(int par1)
     {
-        int var2 = MathHelper.clamp_int(par1, 0, 15);
-        return this.dyeIcons[var2];
+        int j = MathHelper.clamp_int(par1, 0, 15);
+        return this.dyeIcons[j];
     }
 
     /**
@@ -55,8 +61,8 @@ public class ItemDye extends Item
      */
     public String getUnlocalizedName(ItemStack par1ItemStack)
     {
-        int var2 = MathHelper.clamp_int(par1ItemStack.getItemDamage(), 0, 15);
-        return super.getUnlocalizedName() + "." + dyeColorNames[var2];
+        int i = MathHelper.clamp_int(par1ItemStack.getItemDamage(), 0, 15);
+        return super.getUnlocalizedName() + "." + dyeColorNames[i];
     }
 
     /**
@@ -73,7 +79,7 @@ public class ItemDye extends Item
         {
             if (par1ItemStack.getItemDamage() == 15)
             {
-                if (func_96604_a(par1ItemStack, par3World, par4, par5, par6))
+                if (applyBonemeal(par1ItemStack, par3World, par4, par5, par6, par2EntityPlayer))
                 {
                     if (!par3World.isRemote)
                     {
@@ -85,10 +91,10 @@ public class ItemDye extends Item
             }
             else if (par1ItemStack.getItemDamage() == 3)
             {
-                int var11 = par3World.getBlockId(par4, par5, par6);
-                int var12 = par3World.getBlockMetadata(par4, par5, par6);
+                int i1 = par3World.getBlockId(par4, par5, par6);
+                int j1 = par3World.getBlockMetadata(par4, par5, par6);
 
-                if (var11 == Block.wood.blockID && BlockLog.limitToValidMetadata(var12) == 3)
+                if (i1 == Block.wood.blockID && BlockLog.limitToValidMetadata(j1) == 3)
                 {
                     if (par7 == 0)
                     {
@@ -122,8 +128,8 @@ public class ItemDye extends Item
 
                     if (par3World.isAirBlock(par4, par5, par6))
                     {
-                        int var13 = Block.blocksList[Block.cocoaPlant.blockID].onBlockPlaced(par3World, par4, par5, par6, par7, par8, par9, par10, 0);
-                        par3World.setBlock(par4, par5, par6, Block.cocoaPlant.blockID, var13, 2);
+                        int k1 = Block.blocksList[Block.cocoaPlant.blockID].onBlockPlaced(par3World, par4, par5, par6, par7, par8, par9, par10, 0);
+                        par3World.setBlock(par4, par5, par6, Block.cocoaPlant.blockID, k1, 2);
 
                         if (!par2EntityPlayer.capabilities.isCreativeMode)
                         {
@@ -141,9 +147,29 @@ public class ItemDye extends Item
 
     public static boolean func_96604_a(ItemStack par0ItemStack, World par1World, int par2, int par3, int par4)
     {
-        int var5 = par1World.getBlockId(par2, par3, par4);
+        return applyBonemeal(par0ItemStack, par1World, par2, par3, par4, FakePlayerFactory.getMinecraft(par1World));
+    }
 
-        if (var5 == Block.sapling.blockID)
+    public static boolean applyBonemeal(ItemStack par0ItemStack, World par1World, int par2, int par3, int par4, EntityPlayer player)
+    {
+        int l = par1World.getBlockId(par2, par3, par4);
+
+        BonemealEvent event = new BonemealEvent(player, par1World, l, par2, par3, par4);
+        if (MinecraftForge.EVENT_BUS.post(event))
+        {
+            return false;
+        }
+
+        if (event.getResult() == Result.ALLOW)
+        {
+            if (!par1World.isRemote)
+            {
+                par0ItemStack.stackSize--;
+            }
+            return true;
+        }
+
+        if (l == Block.sapling.blockID)
         {
             if (!par1World.isRemote)
             {
@@ -157,11 +183,11 @@ public class ItemDye extends Item
 
             return true;
         }
-        else if (var5 != Block.mushroomBrown.blockID && var5 != Block.mushroomRed.blockID)
+        else if (l != Block.mushroomBrown.blockID && l != Block.mushroomRed.blockID)
         {
-            if (var5 != Block.melonStem.blockID && var5 != Block.pumpkinStem.blockID)
+            if (l != Block.melonStem.blockID && l != Block.pumpkinStem.blockID)
             {
-                if (var5 > 0 && Block.blocksList[var5] instanceof BlockCrops)
+                if (l > 0 && Block.blocksList[l] instanceof BlockCrops)
                 {
                     if (par1World.getBlockMetadata(par2, par3, par4) == 7)
                     {
@@ -171,7 +197,7 @@ public class ItemDye extends Item
                     {
                         if (!par1World.isRemote)
                         {
-                            ((BlockCrops)Block.blocksList[var5]).fertilize(par1World, par2, par3, par4);
+                            ((BlockCrops)Block.blocksList[l]).fertilize(par1World, par2, par3, par4);
                             --par0ItemStack.stackSize;
                         }
 
@@ -180,17 +206,17 @@ public class ItemDye extends Item
                 }
                 else
                 {
-                    int var6;
-                    int var7;
-                    int var8;
+                    int i1;
+                    int j1;
+                    int k1;
 
-                    if (var5 == Block.cocoaPlant.blockID)
+                    if (l == Block.cocoaPlant.blockID)
                     {
-                        var6 = par1World.getBlockMetadata(par2, par3, par4);
-                        var7 = BlockDirectional.getDirection(var6);
-                        var8 = BlockCocoa.func_72219_c(var6);
+                        i1 = par1World.getBlockMetadata(par2, par3, par4);
+                        j1 = BlockDirectional.getDirection(i1);
+                        k1 = BlockCocoa.func_72219_c(i1);
 
-                        if (var8 >= 2)
+                        if (k1 >= 2)
                         {
                             return false;
                         }
@@ -198,15 +224,15 @@ public class ItemDye extends Item
                         {
                             if (!par1World.isRemote)
                             {
-                                ++var8;
-                                par1World.setBlockMetadataWithNotify(par2, par3, par4, var8 << 2 | var7, 2);
+                                ++k1;
+                                par1World.setBlockMetadataWithNotify(par2, par3, par4, k1 << 2 | j1, 2);
                                 --par0ItemStack.stackSize;
                             }
 
                             return true;
                         }
                     }
-                    else if (var5 != Block.grass.blockID)
+                    else if (l != Block.grass.blockID)
                     {
                         return false;
                     }
@@ -217,43 +243,36 @@ public class ItemDye extends Item
                             --par0ItemStack.stackSize;
                             label102:
 
-                            for (var6 = 0; var6 < 128; ++var6)
+                            for (i1 = 0; i1 < 128; ++i1)
                             {
-                                var7 = par2;
-                                var8 = par3 + 1;
-                                int var9 = par4;
+                                j1 = par2;
+                                k1 = par3 + 1;
+                                int l1 = par4;
 
-                                for (int var10 = 0; var10 < var6 / 16; ++var10)
+                                for (int i2 = 0; i2 < i1 / 16; ++i2)
                                 {
-                                    var7 += itemRand.nextInt(3) - 1;
-                                    var8 += (itemRand.nextInt(3) - 1) * itemRand.nextInt(3) / 2;
-                                    var9 += itemRand.nextInt(3) - 1;
+                                    j1 += itemRand.nextInt(3) - 1;
+                                    k1 += (itemRand.nextInt(3) - 1) * itemRand.nextInt(3) / 2;
+                                    l1 += itemRand.nextInt(3) - 1;
 
-                                    if (par1World.getBlockId(var7, var8 - 1, var9) != Block.grass.blockID || par1World.isBlockNormalCube(var7, var8, var9))
+                                    if (par1World.getBlockId(j1, k1 - 1, l1) != Block.grass.blockID || par1World.isBlockNormalCube(j1, k1, l1))
                                     {
                                         continue label102;
                                     }
                                 }
 
-                                if (par1World.getBlockId(var7, var8, var9) == 0)
+                                if (par1World.getBlockId(j1, k1, l1) == 0)
                                 {
                                     if (itemRand.nextInt(10) != 0)
                                     {
-                                        if (Block.tallGrass.canBlockStay(par1World, var7, var8, var9))
+                                        if (Block.tallGrass.canBlockStay(par1World, j1, k1, l1))
                                         {
-                                            par1World.setBlock(var7, var8, var9, Block.tallGrass.blockID, 1, 3);
+                                            par1World.setBlock(j1, k1, l1, Block.tallGrass.blockID, 1, 3);
                                         }
                                     }
-                                    else if (itemRand.nextInt(3) != 0)
+                                    else
                                     {
-                                        if (Block.plantYellow.canBlockStay(par1World, var7, var8, var9))
-                                        {
-                                            par1World.setBlock(var7, var8, var9, Block.plantYellow.blockID);
-                                        }
-                                    }
-                                    else if (Block.plantRed.canBlockStay(par1World, var7, var8, var9))
-                                    {
-                                        par1World.setBlock(var7, var8, var9, Block.plantRed.blockID);
+                                        ForgeHooks.plantGrass(par1World, j1, k1, l1);
                                     }
                                 }
                             }
@@ -271,7 +290,7 @@ public class ItemDye extends Item
             {
                 if (!par1World.isRemote)
                 {
-                    ((BlockStem)Block.blocksList[var5]).fertilizeStem(par1World, par2, par3, par4);
+                    ((BlockStem)Block.blocksList[l]).fertilizeStem(par1World, par2, par3, par4);
                     --par0ItemStack.stackSize;
                 }
 
@@ -284,7 +303,7 @@ public class ItemDye extends Item
             {
                 if ((double)par1World.rand.nextFloat() < 0.4D)
                 {
-                    ((BlockMushroom)Block.blocksList[var5]).fertilizeMushroom(par1World, par2, par3, par4, par1World.rand);
+                    ((BlockMushroom)Block.blocksList[l]).fertilizeMushroom(par1World, par2, par3, par4, par1World.rand);
                 }
 
                 --par0ItemStack.stackSize;
@@ -297,25 +316,35 @@ public class ItemDye extends Item
     @SideOnly(Side.CLIENT)
     public static void func_96603_a(World par0World, int par1, int par2, int par3, int par4)
     {
-        int var5 = par0World.getBlockId(par1, par2, par3);
+        int i1 = par0World.getBlockId(par1, par2, par3);
 
         if (par4 == 0)
         {
             par4 = 15;
         }
 
-        Block var6 = var5 > 0 && var5 < Block.blocksList.length ? Block.blocksList[var5] : null;
+        Block block = i1 > 0 && i1 < Block.blocksList.length ? Block.blocksList[i1] : null;
 
-        if (var6 != null)
+        if (block != null)
         {
-            var6.setBlockBoundsBasedOnState(par0World, par1, par2, par3);
+            block.setBlockBoundsBasedOnState(par0World, par1, par2, par3);
 
-            for (int var7 = 0; var7 < par4; ++var7)
+            for (int j1 = 0; j1 < par4; ++j1)
             {
-                double var8 = itemRand.nextGaussian() * 0.02D;
-                double var10 = itemRand.nextGaussian() * 0.02D;
-                double var12 = itemRand.nextGaussian() * 0.02D;
-                par0World.spawnParticle("happyVillager", (double)((float)par1 + itemRand.nextFloat()), (double)par2 + (double)itemRand.nextFloat() * var6.getBlockBoundsMaxY(), (double)((float)par3 + itemRand.nextFloat()), var8, var10, var12);
+                double d0 = itemRand.nextGaussian() * 0.02D;
+                double d1 = itemRand.nextGaussian() * 0.02D;
+                double d2 = itemRand.nextGaussian() * 0.02D;
+                par0World.spawnParticle("happyVillager", (double)((float)par1 + itemRand.nextFloat()), (double)par2 + (double)itemRand.nextFloat() * block.getBlockBoundsMaxY(), (double)((float)par3 + itemRand.nextFloat()), d0, d1, d2);
+            }
+        }
+        else
+        {
+            for (int j1 = 0; j1 < par4; ++j1)
+            {
+                double d0 = itemRand.nextGaussian() * 0.02D;
+                double d1 = itemRand.nextGaussian() * 0.02D;
+                double d2 = itemRand.nextGaussian() * 0.02D;
+                par0World.spawnParticle("happyVillager", (double)((float)par1 + itemRand.nextFloat()), (double)par2 + (double)itemRand.nextFloat() * 1.0f, (double)((float)par3 + itemRand.nextFloat()), d0, d1, d2);
             }
         }
     }
@@ -327,12 +356,12 @@ public class ItemDye extends Item
     {
         if (par3EntityLivingBase instanceof EntitySheep)
         {
-            EntitySheep var4 = (EntitySheep)par3EntityLivingBase;
-            int var5 = BlockColored.getBlockFromDye(par1ItemStack.getItemDamage());
+            EntitySheep entitysheep = (EntitySheep)par3EntityLivingBase;
+            int i = BlockColored.getBlockFromDye(par1ItemStack.getItemDamage());
 
-            if (!var4.getSheared() && var4.getFleeceColor() != var5)
+            if (!entitysheep.getSheared() && entitysheep.getFleeceColor() != i)
             {
-                var4.setFleeceColor(var5);
+                entitysheep.setFleeceColor(i);
                 --par1ItemStack.stackSize;
             }
 
@@ -351,9 +380,9 @@ public class ItemDye extends Item
      */
     public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (int var4 = 0; var4 < 16; ++var4)
+        for (int j = 0; j < 16; ++j)
         {
-            par3List.add(new ItemStack(par1, 1, var4));
+            par3List.add(new ItemStack(par1, 1, j));
         }
     }
 
@@ -362,9 +391,9 @@ public class ItemDye extends Item
     {
         this.dyeIcons = new Icon[dyeItemNames.length];
 
-        for (int var2 = 0; var2 < dyeItemNames.length; ++var2)
+        for (int i = 0; i < dyeItemNames.length; ++i)
         {
-            this.dyeIcons[var2] = par1IconRegister.registerIcon(this.getIconString() + "_" + dyeItemNames[var2]);
+            this.dyeIcons[i] = par1IconRegister.registerIcon(this.getIconString() + "_" + dyeItemNames[i]);
         }
     }
 }

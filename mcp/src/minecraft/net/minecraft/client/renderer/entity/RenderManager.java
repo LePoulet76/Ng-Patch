@@ -181,26 +181,26 @@ public class RenderManager
         this.entityRenderMap.put(EntityFishHook.class, new RenderFish());
         this.entityRenderMap.put(EntityHorse.class, new RenderHorse(new ModelHorse(), 0.75F));
         this.entityRenderMap.put(EntityLightningBolt.class, new RenderLightningBolt());
-        Iterator var1 = this.entityRenderMap.values().iterator();
+        Iterator iterator = this.entityRenderMap.values().iterator();
 
-        while (var1.hasNext())
+        while (iterator.hasNext())
         {
-            Render var2 = (Render)var1.next();
-            var2.setRenderManager(this);
+            Render render = (Render)iterator.next();
+            render.setRenderManager(this);
         }
     }
 
     public Render getEntityClassRenderObject(Class par1Class)
     {
-        Render var2 = (Render)this.entityRenderMap.get(par1Class);
+        Render render = (Render)this.entityRenderMap.get(par1Class);
 
-        if (var2 == null && par1Class != Entity.class)
+        if (render == null && par1Class != Entity.class)
         {
-            var2 = this.getEntityClassRenderObject(par1Class.getSuperclass());
-            this.entityRenderMap.put(par1Class, var2);
+            render = this.getEntityClassRenderObject(par1Class.getSuperclass());
+            this.entityRenderMap.put(par1Class, render);
         }
 
-        return var2;
+        return render;
     }
 
     public Render getEntityRenderObject(Entity par1Entity)
@@ -223,13 +223,15 @@ public class RenderManager
 
         if (par4EntityLivingBase.isPlayerSleeping())
         {
-            int var8 = par1World.getBlockId(MathHelper.floor_double(par4EntityLivingBase.posX), MathHelper.floor_double(par4EntityLivingBase.posY), MathHelper.floor_double(par4EntityLivingBase.posZ));
+            int x = MathHelper.floor_double(par4EntityLivingBase.posX);
+            int y = MathHelper.floor_double(par4EntityLivingBase.posY);
+            int z = MathHelper.floor_double(par4EntityLivingBase.posZ);
+            Block block = Block.blocksList[par1World.getBlockId(x, y, z)];
 
-            if (var8 == Block.bed.blockID)
+            if (block != null && block.isBed(par1World, x, y, z, par4EntityLivingBase))
             {
-                int var9 = par1World.getBlockMetadata(MathHelper.floor_double(par4EntityLivingBase.posX), MathHelper.floor_double(par4EntityLivingBase.posY), MathHelper.floor_double(par4EntityLivingBase.posZ));
-                int var10 = var9 & 3;
-                this.playerViewY = (float)(var10 * 90 + 180);
+                int k = block.getBedDirection(par1World, x, y, z);
+                this.playerViewY = (float)(k * 90 + 180);
                 this.playerViewX = 0.0F;
             }
         }
@@ -261,22 +263,22 @@ public class RenderManager
             par1Entity.lastTickPosZ = par1Entity.posZ;
         }
 
-        double var3 = par1Entity.lastTickPosX + (par1Entity.posX - par1Entity.lastTickPosX) * (double)par2;
-        double var5 = par1Entity.lastTickPosY + (par1Entity.posY - par1Entity.lastTickPosY) * (double)par2;
-        double var7 = par1Entity.lastTickPosZ + (par1Entity.posZ - par1Entity.lastTickPosZ) * (double)par2;
-        float var9 = par1Entity.prevRotationYaw + (par1Entity.rotationYaw - par1Entity.prevRotationYaw) * par2;
-        int var10 = par1Entity.getBrightnessForRender(par2);
+        double d0 = par1Entity.lastTickPosX + (par1Entity.posX - par1Entity.lastTickPosX) * (double)par2;
+        double d1 = par1Entity.lastTickPosY + (par1Entity.posY - par1Entity.lastTickPosY) * (double)par2;
+        double d2 = par1Entity.lastTickPosZ + (par1Entity.posZ - par1Entity.lastTickPosZ) * (double)par2;
+        float f1 = par1Entity.prevRotationYaw + (par1Entity.rotationYaw - par1Entity.prevRotationYaw) * par2;
+        int i = par1Entity.getBrightnessForRender(par2);
 
         if (par1Entity.isBurning())
         {
-            var10 = 15728880;
+            i = 15728880;
         }
 
-        int var11 = var10 % 65536;
-        int var12 = var10 / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var11 / 1.0F, (float)var12 / 1.0F);
+        int j = i % 65536;
+        int k = i / 65536;
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j / 1.0F, (float)k / 1.0F);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.renderEntityWithPosYaw(par1Entity, var3 - renderPosX, var5 - renderPosY, var7 - renderPosZ, var9, par2);
+        this.renderEntityWithPosYaw(par1Entity, d0 - renderPosX, d1 - renderPosY, d2 - renderPosZ, f1, par2);
     }
 
     /**
@@ -285,13 +287,13 @@ public class RenderManager
      */
     public void renderEntityWithPosYaw(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        Render var10 = null;
+        Render render = null;
 
         try
         {
-            var10 = this.getEntityRenderObject(par1Entity);
+            render = this.getEntityRenderObject(par1Entity);
 
-            if (var10 != null && this.renderEngine != null)
+            if (render != null && this.renderEngine != null)
             {
                 if (field_85095_o && !par1Entity.isInvisible())
                 {
@@ -299,42 +301,42 @@ public class RenderManager
                     {
                         this.func_85094_b(par1Entity, par2, par4, par6, par8, par9);
                     }
-                    catch (Throwable var17)
+                    catch (Throwable throwable)
                     {
-                        throw new ReportedException(CrashReport.makeCrashReport(var17, "Rendering entity hitbox in world"));
+                        throw new ReportedException(CrashReport.makeCrashReport(throwable, "Rendering entity hitbox in world"));
                     }
                 }
 
                 try
                 {
-                    var10.doRender(par1Entity, par2, par4, par6, par8, par9);
+                    render.doRender(par1Entity, par2, par4, par6, par8, par9);
                 }
-                catch (Throwable var16)
+                catch (Throwable throwable1)
                 {
-                    throw new ReportedException(CrashReport.makeCrashReport(var16, "Rendering entity in world"));
+                    throw new ReportedException(CrashReport.makeCrashReport(throwable1, "Rendering entity in world"));
                 }
 
                 try
                 {
-                    var10.doRenderShadowAndFire(par1Entity, par2, par4, par6, par8, par9);
+                    render.doRenderShadowAndFire(par1Entity, par2, par4, par6, par8, par9);
                 }
-                catch (Throwable var15)
+                catch (Throwable throwable2)
                 {
-                    throw new ReportedException(CrashReport.makeCrashReport(var15, "Post-rendering entity in world"));
+                    throw new ReportedException(CrashReport.makeCrashReport(throwable2, "Post-rendering entity in world"));
                 }
             }
         }
-        catch (Throwable var18)
+        catch (Throwable throwable3)
         {
-            CrashReport var12 = CrashReport.makeCrashReport(var18, "Rendering entity in world");
-            CrashReportCategory var13 = var12.makeCategory("Entity being rendered");
-            par1Entity.addEntityCrashInfo(var13);
-            CrashReportCategory var14 = var12.makeCategory("Renderer details");
-            var14.addCrashSection("Assigned renderer", var10);
-            var14.addCrashSection("Location", CrashReportCategory.func_85074_a(par2, par4, par6));
-            var14.addCrashSection("Rotation", Float.valueOf(par8));
-            var14.addCrashSection("Delta", Float.valueOf(par9));
-            throw new ReportedException(var12);
+            CrashReport crashreport = CrashReport.makeCrashReport(throwable3, "Rendering entity in world");
+            CrashReportCategory crashreportcategory = crashreport.makeCategory("Entity being rendered");
+            par1Entity.addEntityCrashInfo(crashreportcategory);
+            CrashReportCategory crashreportcategory1 = crashreport.makeCategory("Renderer details");
+            crashreportcategory1.addCrashSection("Assigned renderer", render);
+            crashreportcategory1.addCrashSection("Location", CrashReportCategory.func_85074_a(par2, par4, par6));
+            crashreportcategory1.addCrashSection("Rotation", Float.valueOf(par8));
+            crashreportcategory1.addCrashSection("Delta", Float.valueOf(par9));
+            throw new ReportedException(crashreport);
         }
     }
 
@@ -346,35 +348,35 @@ public class RenderManager
         GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glPushMatrix();
-        Tessellator var10 = Tessellator.instance;
-        var10.startDrawingQuads();
-        var10.setColorRGBA(255, 255, 255, 32);
-        double var11 = (double)(-par1Entity.width / 2.0F);
-        double var13 = (double)(-par1Entity.width / 2.0F);
-        double var15 = (double)(par1Entity.width / 2.0F);
-        double var17 = (double)(-par1Entity.width / 2.0F);
-        double var19 = (double)(-par1Entity.width / 2.0F);
-        double var21 = (double)(par1Entity.width / 2.0F);
-        double var23 = (double)(par1Entity.width / 2.0F);
-        double var25 = (double)(par1Entity.width / 2.0F);
-        double var27 = (double)par1Entity.height;
-        var10.addVertex(par2 + var11, par4 + var27, par6 + var13);
-        var10.addVertex(par2 + var11, par4, par6 + var13);
-        var10.addVertex(par2 + var15, par4, par6 + var17);
-        var10.addVertex(par2 + var15, par4 + var27, par6 + var17);
-        var10.addVertex(par2 + var23, par4 + var27, par6 + var25);
-        var10.addVertex(par2 + var23, par4, par6 + var25);
-        var10.addVertex(par2 + var19, par4, par6 + var21);
-        var10.addVertex(par2 + var19, par4 + var27, par6 + var21);
-        var10.addVertex(par2 + var15, par4 + var27, par6 + var17);
-        var10.addVertex(par2 + var15, par4, par6 + var17);
-        var10.addVertex(par2 + var23, par4, par6 + var25);
-        var10.addVertex(par2 + var23, par4 + var27, par6 + var25);
-        var10.addVertex(par2 + var19, par4 + var27, par6 + var21);
-        var10.addVertex(par2 + var19, par4, par6 + var21);
-        var10.addVertex(par2 + var11, par4, par6 + var13);
-        var10.addVertex(par2 + var11, par4 + var27, par6 + var13);
-        var10.draw();
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.setColorRGBA(255, 255, 255, 32);
+        double d3 = (double)(-par1Entity.width / 2.0F);
+        double d4 = (double)(-par1Entity.width / 2.0F);
+        double d5 = (double)(par1Entity.width / 2.0F);
+        double d6 = (double)(-par1Entity.width / 2.0F);
+        double d7 = (double)(-par1Entity.width / 2.0F);
+        double d8 = (double)(par1Entity.width / 2.0F);
+        double d9 = (double)(par1Entity.width / 2.0F);
+        double d10 = (double)(par1Entity.width / 2.0F);
+        double d11 = (double)par1Entity.height;
+        tessellator.addVertex(par2 + d3, par4 + d11, par6 + d4);
+        tessellator.addVertex(par2 + d3, par4, par6 + d4);
+        tessellator.addVertex(par2 + d5, par4, par6 + d6);
+        tessellator.addVertex(par2 + d5, par4 + d11, par6 + d6);
+        tessellator.addVertex(par2 + d9, par4 + d11, par6 + d10);
+        tessellator.addVertex(par2 + d9, par4, par6 + d10);
+        tessellator.addVertex(par2 + d7, par4, par6 + d8);
+        tessellator.addVertex(par2 + d7, par4 + d11, par6 + d8);
+        tessellator.addVertex(par2 + d5, par4 + d11, par6 + d6);
+        tessellator.addVertex(par2 + d5, par4, par6 + d6);
+        tessellator.addVertex(par2 + d9, par4, par6 + d10);
+        tessellator.addVertex(par2 + d9, par4 + d11, par6 + d10);
+        tessellator.addVertex(par2 + d7, par4 + d11, par6 + d8);
+        tessellator.addVertex(par2 + d7, par4, par6 + d8);
+        tessellator.addVertex(par2 + d3, par4, par6 + d4);
+        tessellator.addVertex(par2 + d3, par4 + d11, par6 + d4);
+        tessellator.draw();
         GL11.glPopMatrix();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_LIGHTING);
@@ -393,10 +395,10 @@ public class RenderManager
 
     public double getDistanceToCamera(double par1, double par3, double par5)
     {
-        double var7 = par1 - this.viewerPosX;
-        double var9 = par3 - this.viewerPosY;
-        double var11 = par5 - this.viewerPosZ;
-        return var7 * var7 + var9 * var9 + var11 * var11;
+        double d3 = par1 - this.viewerPosX;
+        double d4 = par3 - this.viewerPosY;
+        double d5 = par5 - this.viewerPosZ;
+        return d3 * d3 + d4 * d4 + d5 * d5;
     }
 
     /**
@@ -409,12 +411,12 @@ public class RenderManager
 
     public void updateIcons(IconRegister par1IconRegister)
     {
-        Iterator var2 = this.entityRenderMap.values().iterator();
+        Iterator iterator = this.entityRenderMap.values().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            Render var3 = (Render)var2.next();
-            var3.updateIcons(par1IconRegister);
+            Render render = (Render)iterator.next();
+            render.updateIcons(par1IconRegister);
         }
     }
 }

@@ -22,36 +22,36 @@ public class Packet28EntityVelocity extends Packet
     public Packet28EntityVelocity(int par1, double par2, double par4, double par6)
     {
         this.entityId = par1;
-        double var8 = 3.9D;
+        double d3 = 3.9D;
 
-        if (par2 < -var8)
+        if (par2 < -d3)
         {
-            par2 = -var8;
+            par2 = -d3;
         }
 
-        if (par4 < -var8)
+        if (par4 < -d3)
         {
-            par4 = -var8;
+            par4 = -d3;
         }
 
-        if (par6 < -var8)
+        if (par6 < -d3)
         {
-            par6 = -var8;
+            par6 = -d3;
         }
 
-        if (par2 > var8)
+        if (par2 > d3)
         {
-            par2 = var8;
+            par2 = d3;
         }
 
-        if (par4 > var8)
+        if (par4 > d3)
         {
-            par4 = var8;
+            par4 = d3;
         }
 
-        if (par6 > var8)
+        if (par6 > d3)
         {
-            par6 = var8;
+            par6 = d3;
         }
 
         this.motionX = (int)(par2 * 8000.0D);
@@ -111,7 +111,7 @@ public class Packet28EntityVelocity extends Packet
      */
     public boolean containsSameEntityIDAs(Packet par1Packet)
     {
-        Packet28EntityVelocity var2 = (Packet28EntityVelocity)par1Packet;
-        return var2.entityId == this.entityId;
+        Packet28EntityVelocity packet28entityvelocity = (Packet28EntityVelocity)par1Packet;
+        return packet28entityvelocity.entityId == this.entityId;
     }
 }

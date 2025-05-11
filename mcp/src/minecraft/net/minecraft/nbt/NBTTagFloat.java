@@ -61,8 +61,8 @@ public class NBTTagFloat extends NBTBase
     {
         if (super.equals(par1Obj))
         {
-            NBTTagFloat var2 = (NBTTagFloat)par1Obj;
-            return this.data == var2.data;
+            NBTTagFloat nbttagfloat = (NBTTagFloat)par1Obj;
+            return this.data == nbttagfloat.data;
         }
         else
         {

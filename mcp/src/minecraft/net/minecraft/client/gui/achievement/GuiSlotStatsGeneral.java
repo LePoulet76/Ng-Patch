@@ -56,9 +56,9 @@ class GuiSlotStatsGeneral extends GuiSlot
 
     protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
     {
-        StatBase var6 = (StatBase)StatList.generalStats.get(par1);
-        this.statsGui.drawString(GuiStats.getFontRenderer1(this.statsGui), I18n.getString(var6.getName()), par2 + 2, par3 + 1, par1 % 2 == 0 ? 16777215 : 9474192);
-        String var7 = var6.func_75968_a(GuiStats.getStatsFileWriter(this.statsGui).writeStat(var6));
-        this.statsGui.drawString(GuiStats.getFontRenderer2(this.statsGui), var7, par2 + 2 + 213 - GuiStats.getFontRenderer3(this.statsGui).getStringWidth(var7), par3 + 1, par1 % 2 == 0 ? 16777215 : 9474192);
+        StatBase statbase = (StatBase)StatList.generalStats.get(par1);
+        this.statsGui.drawString(GuiStats.getFontRenderer1(this.statsGui), I18n.getString(statbase.getName()), par2 + 2, par3 + 1, par1 % 2 == 0 ? 16777215 : 9474192);
+        String s = statbase.func_75968_a(GuiStats.getStatsFileWriter(this.statsGui).writeStat(statbase));
+        this.statsGui.drawString(GuiStats.getFontRenderer2(this.statsGui), s, par2 + 2 + 213 - GuiStats.getFontRenderer3(this.statsGui).getStringWidth(s), par3 + 1, par1 % 2 == 0 ? 16777215 : 9474192);
     }
 }

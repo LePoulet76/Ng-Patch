@@ -23,7 +23,7 @@ public class WorldRenderer
     /** Reference to the World object. */
     public World worldObj;
     private int glRenderList = -1;
-    private static Tessellator tessellator = Tessellator.instance;
+    //private static Tessellator tessellator = Tessellator.instance;
     public static int chunksUpdated;
     public int posX;
     public int posY;
@@ -119,10 +119,10 @@ public class WorldRenderer
             this.posXMinus = par1 - this.posXClip;
             this.posYMinus = par2 - this.posYClip;
             this.posZMinus = par3 - this.posZClip;
-            float var4 = 6.0F;
-            this.rendererBoundingBox = AxisAlignedBB.getBoundingBox((double)((float)par1 - var4), (double)((float)par2 - var4), (double)((float)par3 - var4), (double)((float)(par1 + 16) + var4), (double)((float)(par2 + 16) + var4), (double)((float)(par3 + 16) + var4));
+            float f = 6.0F;
+            this.rendererBoundingBox = AxisAlignedBB.getBoundingBox((double)((float)par1 - f), (double)((float)par2 - f), (double)((float)par3 - f), (double)((float)(par1 + 16) + f), (double)((float)(par2 + 16) + f), (double)((float)(par3 + 16) + f));
             GL11.glNewList(this.glRenderList + 2, GL11.GL_COMPILE);
-            RenderItem.renderAABB(AxisAlignedBB.getAABBPool().getAABB((double)((float)this.posXClip - var4), (double)((float)this.posYClip - var4), (double)((float)this.posZClip - var4), (double)((float)(this.posXClip + 16) + var4), (double)((float)(this.posYClip + 16) + var4), (double)((float)(this.posZClip + 16) + var4)));
+            RenderItem.renderAABB(AxisAlignedBB.getAABBPool().getAABB((double)((float)this.posXClip - f), (double)((float)this.posYClip - f), (double)((float)this.posZClip - f), (double)((float)(this.posXClip + 16) + f), (double)((float)(this.posYClip + 16) + f), (double)((float)(this.posZClip + 16) + f)));
             GL11.glEndList();
             this.markDirty();
         }
@@ -141,121 +141,124 @@ public class WorldRenderer
         if (this.needsUpdate)
         {
             this.needsUpdate = false;
-            int var1 = this.posX;
-            int var2 = this.posY;
-            int var3 = this.posZ;
-            int var4 = this.posX + 16;
-            int var5 = this.posY + 16;
-            int var6 = this.posZ + 16;
+            int i = this.posX;
+            int j = this.posY;
+            int k = this.posZ;
+            int l = this.posX + 16;
+            int i1 = this.posY + 16;
+            int j1 = this.posZ + 16;
 
-            for (int var7 = 0; var7 < 2; ++var7)
+            for (int k1 = 0; k1 < 2; ++k1)
             {
-                this.skipRenderPass[var7] = true;
+                this.skipRenderPass[k1] = true;
             }
 
             Chunk.isLit = false;
-            HashSet var21 = new HashSet();
-            var21.addAll(this.tileEntityRenderers);
+            HashSet hashset = new HashSet();
+            hashset.addAll(this.tileEntityRenderers);
             this.tileEntityRenderers.clear();
-            byte var8 = 1;
-            ChunkCache var9 = new ChunkCache(this.worldObj, var1 - var8, var2 - var8, var3 - var8, var4 + var8, var5 + var8, var6 + var8, var8);
+            byte b0 = 1;
+            ChunkCache chunkcache = new ChunkCache(this.worldObj, i - b0, j - b0, k - b0, l + b0, i1 + b0, j1 + b0, b0);
 
-            if (!var9.extendedLevelsInChunkCache())
+            if (!chunkcache.extendedLevelsInChunkCache())
             {
                 ++chunksUpdated;
-                RenderBlocks var10 = new RenderBlocks(var9);
+                RenderBlocks renderblocks = new RenderBlocks(chunkcache);
                 this.bytesDrawn = 0;
 
-                for (int var11 = 0; var11 < 2; ++var11)
+                for (int l1 = 0; l1 < 2; ++l1)
                 {
-                    boolean var12 = false;
-                    boolean var13 = false;
-                    boolean var14 = false;
+                    boolean flag = false;
+                    boolean flag1 = false;
+                    boolean flag2 = false;
 
-                    for (int var15 = var2; var15 < var5; ++var15)
+                    for (int i2 = j; i2 < i1; ++i2)
                     {
-                        for (int var16 = var3; var16 < var6; ++var16)
+                        for (int j2 = k; j2 < j1; ++j2)
                         {
-                            for (int var17 = var1; var17 < var4; ++var17)
+                            for (int k2 = i; k2 < l; ++k2)
                             {
-                                int var18 = var9.getBlockId(var17, var15, var16);
+                                int l2 = chunkcache.getBlockId(k2, i2, j2);
 
-                                if (var18 > 0)
+                                if (l2 > 0)
                                 {
-                                    if (!var14)
+                                    if (!flag2)
                                     {
-                                        var14 = true;
-                                        GL11.glNewList(this.glRenderList + var11, GL11.GL_COMPILE);
+                                        flag2 = true;
+                                        GL11.glNewList(this.glRenderList + l1, GL11.GL_COMPILE);
                                         GL11.glPushMatrix();
                                         this.setupGLTranslation();
-                                        float var19 = 1.000001F;
+                                        float f = 1.000001F;
                                         GL11.glTranslatef(-8.0F, -8.0F, -8.0F);
-                                        GL11.glScalef(var19, var19, var19);
+                                        GL11.glScalef(f, f, f);
                                         GL11.glTranslatef(8.0F, 8.0F, 8.0F);
-                                        tessellator.startDrawingQuads();
-                                        tessellator.setTranslation((double)(-this.posX), (double)(-this.posY), (double)(-this.posZ));
+                                        //ForgeHooksClient.beforeRenderPass(l1); Noop fo now, TODO: Event if anyone needs
+                                        Tessellator.instance.startDrawingQuads();
+                                        Tessellator.instance.setTranslation((double)(-this.posX), (double)(-this.posY), (double)(-this.posZ));
                                     }
 
-                                    Block var23 = Block.blocksList[var18];
+                                    Block block = Block.blocksList[l2];
 
-                                    if (var23 != null)
+                                    if (block != null)
                                     {
-                                        if (var11 == 0 && var23.hasTileEntity())
+                                        if (l1 == 0 && block.hasTileEntity(chunkcache.getBlockMetadata(k2, i2, j2)))
                                         {
-                                            TileEntity var20 = var9.getBlockTileEntity(var17, var15, var16);
+                                            TileEntity tileentity = chunkcache.getBlockTileEntity(k2, i2, j2);
 
-                                            if (TileEntityRenderer.instance.hasSpecialRenderer(var20))
+                                            if (TileEntityRenderer.instance.hasSpecialRenderer(tileentity))
                                             {
-                                                this.tileEntityRenderers.add(var20);
+                                                this.tileEntityRenderers.add(tileentity);
                                             }
                                         }
 
-                                        int var24 = var23.getRenderBlockPass();
+                                        int i3 = block.getRenderBlockPass();
 
-                                        if (var24 != var11)
+                                        if (i3 > l1)
                                         {
-                                            var12 = true;
+                                            flag = true;
                                         }
-                                        else if (var24 == var11)
+                                        if (!block.canRenderInPass(l1))
                                         {
-                                            var13 |= var10.renderBlockByRenderType(var23, var17, var15, var16);
+                                            continue;
                                         }
+                                        flag1 |= renderblocks.renderBlockByRenderType(block, k2, i2, j2);
                                     }
                                 }
                             }
                         }
                     }
 
-                    if (var14)
+                    if (flag2)
                     {
-                        this.bytesDrawn += tessellator.draw();
+                        //ForgeHooksClient.afterRenderPass(l1); Noop fo now, TODO: Event if anyone needs
+                        this.bytesDrawn += Tessellator.instance.draw();
                         GL11.glPopMatrix();
                         GL11.glEndList();
-                        tessellator.setTranslation(0.0D, 0.0D, 0.0D);
+                        Tessellator.instance.setTranslation(0.0D, 0.0D, 0.0D);
                     }
                     else
                     {
-                        var13 = false;
+                        flag1 = false;
                     }
 
-                    if (var13)
+                    if (flag1)
                     {
-                        this.skipRenderPass[var11] = false;
+                        this.skipRenderPass[l1] = false;
                     }
 
-                    if (!var12)
+                    if (!flag)
                     {
                         break;
                     }
                 }
             }
 
-            HashSet var22 = new HashSet();
-            var22.addAll(this.tileEntityRenderers);
-            var22.removeAll(var21);
-            this.tileEntities.addAll(var22);
-            var21.removeAll(this.tileEntityRenderers);
-            this.tileEntities.removeAll(var21);
+            HashSet hashset1 = new HashSet();
+            hashset1.addAll(this.tileEntityRenderers);
+            hashset1.removeAll(hashset);
+            this.tileEntities.addAll(hashset1);
+            hashset.removeAll(this.tileEntityRenderers);
+            this.tileEntities.removeAll(hashset);
             this.isChunkLit = Chunk.isLit;
             this.isInitialized = true;
         }
@@ -267,10 +270,10 @@ public class WorldRenderer
      */
     public float distanceToEntitySquared(Entity par1Entity)
     {
-        float var2 = (float)(par1Entity.posX - (double)this.posXPlus);
-        float var3 = (float)(par1Entity.posY - (double)this.posYPlus);
-        float var4 = (float)(par1Entity.posZ - (double)this.posZPlus);
-        return var2 * var2 + var3 * var3 + var4 * var4;
+        float f = (float)(par1Entity.posX - (double)this.posXPlus);
+        float f1 = (float)(par1Entity.posY - (double)this.posYPlus);
+        float f2 = (float)(par1Entity.posZ - (double)this.posZPlus);
+        return f * f + f1 * f1 + f2 * f2;
     }
 
     /**
@@ -278,9 +281,9 @@ public class WorldRenderer
      */
     public void setDontDraw()
     {
-        for (int var1 = 0; var1 < 2; ++var1)
+        for (int i = 0; i < 2; ++i)
         {
-            this.skipRenderPass[var1] = true;
+            this.skipRenderPass[i] = true;
         }
 
         this.isInFrustum = false;

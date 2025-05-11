@@ -38,18 +38,18 @@ public class TextureUtil
 
     public static void uploadTextureSub(int[] par0ArrayOfInteger, int par1, int par2, int par3, int par4, boolean par5, boolean par6)
     {
-        int var7 = 4194304 / par1;
+        int i1 = 4194304 / par1;
         setTextureBlurred(par5);
         setTextureClamped(par6);
-        int var10;
+        int j1;
 
-        for (int var8 = 0; var8 < par1 * par2; var8 += par1 * var10)
+        for (int k1 = 0; k1 < par1 * par2; k1 += par1 * j1)
         {
-            int var9 = var8 / par1;
-            var10 = Math.min(var7, par2 - var9);
-            int var11 = par1 * var10;
-            copyToBufferPos(par0ArrayOfInteger, var8, var11);
-            GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, par3, par4 + var9, par1, var10, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, dataBuffer);
+            int l1 = k1 / par1;
+            j1 = Math.min(i1, par2 - l1);
+            int i2 = par1 * j1;
+            copyToBufferPos(par0ArrayOfInteger, k1, i2);
+            GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, par3, par4 + l1, par1, j1, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, dataBuffer);
         }
     }
 
@@ -74,21 +74,21 @@ public class TextureUtil
 
     private static void uploadTextureImageSubImpl(BufferedImage par0BufferedImage, int par1, int par2, boolean par3, boolean par4)
     {
-        int var5 = par0BufferedImage.getWidth();
-        int var6 = par0BufferedImage.getHeight();
-        int var7 = 4194304 / var5;
-        int[] var8 = new int[var7 * var5];
+        int k = par0BufferedImage.getWidth();
+        int l = par0BufferedImage.getHeight();
+        int i1 = 4194304 / k;
+        int[] aint = new int[i1 * k];
         setTextureBlurred(par3);
         setTextureClamped(par4);
 
-        for (int var9 = 0; var9 < var5 * var6; var9 += var5 * var7)
+        for (int j1 = 0; j1 < k * l; j1 += k * i1)
         {
-            int var10 = var9 / var5;
-            int var11 = Math.min(var7, var6 - var10);
-            int var12 = var5 * var11;
-            par0BufferedImage.getRGB(0, var10, var5, var11, var8, 0, var5);
-            copyToBuffer(var8, var12);
-            GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, par1, par2 + var10, var5, var11, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, dataBuffer);
+            int k1 = j1 / k;
+            int l1 = Math.min(i1, l - k1);
+            int i2 = k * l1;
+            par0BufferedImage.getRGB(0, k1, k, l1, aint, 0, k);
+            copyToBuffer(aint, i2);
+            GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, par1, par2 + k1, k, l1, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, dataBuffer);
         }
     }
 
@@ -127,15 +127,15 @@ public class TextureUtil
 
     private static void copyToBufferPos(int[] par0ArrayOfInteger, int par1, int par2)
     {
-        int[] var3 = par0ArrayOfInteger;
+        int[] aint1 = par0ArrayOfInteger;
 
         if (Minecraft.getMinecraft().gameSettings.anaglyph)
         {
-            var3 = updateAnaglyph(par0ArrayOfInteger);
+            aint1 = updateAnaglyph(par0ArrayOfInteger);
         }
 
         dataBuffer.clear();
-        dataBuffer.put(var3, par1, par2);
+        dataBuffer.put(aint1, par1, par2);
         dataBuffer.position(0).limit(par2);
     }
 
@@ -146,45 +146,45 @@ public class TextureUtil
 
     public static int[] readImageData(ResourceManager par0ResourceManager, ResourceLocation par1ResourceLocation) throws IOException
     {
-        BufferedImage var2 = ImageIO.read(par0ResourceManager.getResource(par1ResourceLocation).getInputStream());
-        int var3 = var2.getWidth();
-        int var4 = var2.getHeight();
-        int[] var5 = new int[var3 * var4];
-        var2.getRGB(0, 0, var3, var4, var5, 0, var3);
-        return var5;
+        BufferedImage bufferedimage = ImageIO.read(par0ResourceManager.getResource(par1ResourceLocation).getInputStream());
+        int i = bufferedimage.getWidth();
+        int j = bufferedimage.getHeight();
+        int[] aint = new int[i * j];
+        bufferedimage.getRGB(0, 0, i, j, aint, 0, i);
+        return aint;
     }
 
     public static int[] updateAnaglyph(int[] par0ArrayOfInteger)
     {
-        int[] var1 = new int[par0ArrayOfInteger.length];
+        int[] aint1 = new int[par0ArrayOfInteger.length];
 
-        for (int var2 = 0; var2 < par0ArrayOfInteger.length; ++var2)
+        for (int i = 0; i < par0ArrayOfInteger.length; ++i)
         {
-            int var3 = par0ArrayOfInteger[var2] >> 24 & 255;
-            int var4 = par0ArrayOfInteger[var2] >> 16 & 255;
-            int var5 = par0ArrayOfInteger[var2] >> 8 & 255;
-            int var6 = par0ArrayOfInteger[var2] & 255;
-            int var7 = (var4 * 30 + var5 * 59 + var6 * 11) / 100;
-            int var8 = (var4 * 30 + var5 * 70) / 100;
-            int var9 = (var4 * 30 + var6 * 70) / 100;
-            var1[var2] = var3 << 24 | var7 << 16 | var8 << 8 | var9;
+            int j = par0ArrayOfInteger[i] >> 24 & 255;
+            int k = par0ArrayOfInteger[i] >> 16 & 255;
+            int l = par0ArrayOfInteger[i] >> 8 & 255;
+            int i1 = par0ArrayOfInteger[i] & 255;
+            int j1 = (k * 30 + l * 59 + i1 * 11) / 100;
+            int k1 = (k * 30 + l * 70) / 100;
+            int l1 = (k * 30 + i1 * 70) / 100;
+            aint1[i] = j << 24 | j1 << 16 | k1 << 8 | l1;
         }
 
-        return var1;
+        return aint1;
     }
 
     static
     {
-        int var0 = -16777216;
-        int var1 = -524040;
-        int[] var2 = new int[] { -524040, -524040, -524040, -524040, -524040, -524040, -524040, -524040};
-        int[] var3 = new int[] { -16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216};
-        int var4 = var2.length;
+        int i = -16777216;
+        int j = -524040;
+        int[] aint = new int[] { -524040, -524040, -524040, -524040, -524040, -524040, -524040, -524040};
+        int[] aint1 = new int[] { -16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216, -16777216};
+        int k = aint.length;
 
-        for (int var5 = 0; var5 < 16; ++var5)
+        for (int l = 0; l < 16; ++l)
         {
-            System.arraycopy(var5 < var4 ? var2 : var3, 0, missingTextureData, 16 * var5, var4);
-            System.arraycopy(var5 < var4 ? var3 : var2, 0, missingTextureData, 16 * var5 + var4, var4);
+            System.arraycopy(l < k ? aint : aint1, 0, missingTextureData, 16 * l, k);
+            System.arraycopy(l < k ? aint1 : aint, 0, missingTextureData, 16 * l + k, k);
         }
 
         missingTexture.updateDynamicTexture();

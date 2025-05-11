@@ -29,13 +29,13 @@ public class EntitySorter implements Comparator
      */
     public int sortByDistanceToEntity(WorldRenderer par1WorldRenderer, WorldRenderer par2WorldRenderer)
     {
-        double var3 = (double)par1WorldRenderer.posXPlus + this.entityPosX;
-        double var5 = (double)par1WorldRenderer.posYPlus + this.entityPosY;
-        double var7 = (double)par1WorldRenderer.posZPlus + this.entityPosZ;
-        double var9 = (double)par2WorldRenderer.posXPlus + this.entityPosX;
-        double var11 = (double)par2WorldRenderer.posYPlus + this.entityPosY;
-        double var13 = (double)par2WorldRenderer.posZPlus + this.entityPosZ;
-        return (int)((var3 * var3 + var5 * var5 + var7 * var7 - (var9 * var9 + var11 * var11 + var13 * var13)) * 1024.0D);
+        double d0 = (double)par1WorldRenderer.posXPlus + this.entityPosX;
+        double d1 = (double)par1WorldRenderer.posYPlus + this.entityPosY;
+        double d2 = (double)par1WorldRenderer.posZPlus + this.entityPosZ;
+        double d3 = (double)par2WorldRenderer.posXPlus + this.entityPosX;
+        double d4 = (double)par2WorldRenderer.posYPlus + this.entityPosY;
+        double d5 = (double)par2WorldRenderer.posZPlus + this.entityPosZ;
+        return (int)((d0 * d0 + d1 * d1 + d2 * d2 - (d3 * d3 + d4 * d4 + d5 * d5)) * 1024.0D);
     }
 
     public int compare(Object par1Obj, Object par2Obj)

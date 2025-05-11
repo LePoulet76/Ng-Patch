@@ -8,7 +8,7 @@ import net.minecraft.client.resources.ResourceManager;
 @SideOnly(Side.CLIENT)
 public interface TextureObject
 {
-    void loadTexture(ResourceManager var1) throws IOException;
+    void loadTexture(ResourceManager resourcemanager) throws IOException;
 
     int getGlTextureId();
 }

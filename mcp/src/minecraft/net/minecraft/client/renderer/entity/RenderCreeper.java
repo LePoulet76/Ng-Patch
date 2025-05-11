@@ -30,24 +30,24 @@ public class RenderCreeper extends RenderLiving
      */
     protected void updateCreeperScale(EntityCreeper par1EntityCreeper, float par2)
     {
-        float var3 = par1EntityCreeper.getCreeperFlashIntensity(par2);
-        float var4 = 1.0F + MathHelper.sin(var3 * 100.0F) * var3 * 0.01F;
+        float f1 = par1EntityCreeper.getCreeperFlashIntensity(par2);
+        float f2 = 1.0F + MathHelper.sin(f1 * 100.0F) * f1 * 0.01F;
 
-        if (var3 < 0.0F)
+        if (f1 < 0.0F)
         {
-            var3 = 0.0F;
+            f1 = 0.0F;
         }
 
-        if (var3 > 1.0F)
+        if (f1 > 1.0F)
         {
-            var3 = 1.0F;
+            f1 = 1.0F;
         }
 
-        var3 *= var3;
-        var3 *= var3;
-        float var5 = (1.0F + var3 * 0.4F) * var4;
-        float var6 = (1.0F + var3 * 0.1F) / var4;
-        GL11.glScalef(var5, var6, var5);
+        f1 *= f1;
+        f1 *= f1;
+        float f3 = (1.0F + f1 * 0.4F) * f2;
+        float f4 = (1.0F + f1 * 0.1F) / f2;
+        GL11.glScalef(f3, f4, f3);
     }
 
     /**
@@ -55,30 +55,30 @@ public class RenderCreeper extends RenderLiving
      */
     protected int updateCreeperColorMultiplier(EntityCreeper par1EntityCreeper, float par2, float par3)
     {
-        float var4 = par1EntityCreeper.getCreeperFlashIntensity(par3);
+        float f2 = par1EntityCreeper.getCreeperFlashIntensity(par3);
 
-        if ((int)(var4 * 10.0F) % 2 == 0)
+        if ((int)(f2 * 10.0F) % 2 == 0)
         {
             return 0;
         }
         else
         {
-            int var5 = (int)(var4 * 0.2F * 255.0F);
+            int i = (int)(f2 * 0.2F * 255.0F);
 
-            if (var5 < 0)
+            if (i < 0)
             {
-                var5 = 0;
+                i = 0;
             }
 
-            if (var5 > 255)
+            if (i > 255)
             {
-                var5 = 255;
+                i = 255;
             }
 
-            short var6 = 255;
-            short var7 = 255;
-            short var8 = 255;
-            return var5 << 24 | var6 << 16 | var7 << 8 | var8;
+            short short1 = 255;
+            short short2 = 255;
+            short short3 = 255;
+            return i << 24 | short1 << 16 | short2 << 8 | short3;
         }
     }
 
@@ -100,18 +100,18 @@ public class RenderCreeper extends RenderLiving
 
             if (par2 == 1)
             {
-                float var4 = (float)par1EntityCreeper.ticksExisted + par3;
+                float f1 = (float)par1EntityCreeper.ticksExisted + par3;
                 this.bindTexture(armoredCreeperTextures);
                 GL11.glMatrixMode(GL11.GL_TEXTURE);
                 GL11.glLoadIdentity();
-                float var5 = var4 * 0.01F;
-                float var6 = var4 * 0.01F;
-                GL11.glTranslatef(var5, var6, 0.0F);
+                float f2 = f1 * 0.01F;
+                float f3 = f1 * 0.01F;
+                GL11.glTranslatef(f2, f3, 0.0F);
                 this.setRenderPassModel(this.creeperModel);
                 GL11.glMatrixMode(GL11.GL_MODELVIEW);
                 GL11.glEnable(GL11.GL_BLEND);
-                float var7 = 0.5F;
-                GL11.glColor4f(var7, var7, var7, 1.0F);
+                float f4 = 0.5F;
+                GL11.glColor4f(f4, f4, f4, 1.0F);
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
                 return 1;

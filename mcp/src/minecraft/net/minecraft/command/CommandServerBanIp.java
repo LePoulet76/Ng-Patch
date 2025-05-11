@@ -42,28 +42,28 @@ public class CommandServerBanIp extends CommandBase
     {
         if (par2ArrayOfStr.length >= 1 && par2ArrayOfStr[0].length() > 1)
         {
-            Matcher var3 = IPv4Pattern.matcher(par2ArrayOfStr[0]);
-            String var4 = null;
+            Matcher matcher = IPv4Pattern.matcher(par2ArrayOfStr[0]);
+            String s = null;
 
             if (par2ArrayOfStr.length >= 2)
             {
-                var4 = func_82360_a(par1ICommandSender, par2ArrayOfStr, 1);
+                s = func_82360_a(par1ICommandSender, par2ArrayOfStr, 1);
             }
 
-            if (var3.matches())
+            if (matcher.matches())
             {
-                this.banIP(par1ICommandSender, par2ArrayOfStr[0], var4);
+                this.banIP(par1ICommandSender, par2ArrayOfStr[0], s);
             }
             else
             {
-                EntityPlayerMP var5 = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(par2ArrayOfStr[0]);
+                EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(par2ArrayOfStr[0]);
 
-                if (var5 == null)
+                if (entityplayermp == null)
                 {
                     throw new PlayerNotFoundException("commands.banip.invalid", new Object[0]);
                 }
 
-                this.banIP(par1ICommandSender, var5.getPlayerIP(), var4);
+                this.banIP(par1ICommandSender, entityplayermp.getPlayerIP(), s);
             }
         }
         else
@@ -85,33 +85,33 @@ public class CommandServerBanIp extends CommandBase
      */
     protected void banIP(ICommandSender par1ICommandSender, String par2Str, String par3Str)
     {
-        BanEntry var4 = new BanEntry(par2Str);
-        var4.setBannedBy(par1ICommandSender.getCommandSenderName());
+        BanEntry banentry = new BanEntry(par2Str);
+        banentry.setBannedBy(par1ICommandSender.getCommandSenderName());
 
         if (par3Str != null)
         {
-            var4.setBanReason(par3Str);
+            banentry.setBanReason(par3Str);
         }
 
-        MinecraftServer.getServer().getConfigurationManager().getBannedIPs().put(var4);
-        List var5 = MinecraftServer.getServer().getConfigurationManager().getPlayerList(par2Str);
-        String[] var6 = new String[var5.size()];
-        int var7 = 0;
-        EntityPlayerMP var9;
+        MinecraftServer.getServer().getConfigurationManager().getBannedIPs().put(banentry);
+        List list = MinecraftServer.getServer().getConfigurationManager().getPlayerList(par2Str);
+        String[] astring = new String[list.size()];
+        int i = 0;
+        EntityPlayerMP entityplayermp;
 
-        for (Iterator var8 = var5.iterator(); var8.hasNext(); var6[var7++] = var9.getEntityName())
+        for (Iterator iterator = list.iterator(); iterator.hasNext(); astring[i++] = entityplayermp.getEntityName())
         {
-            var9 = (EntityPlayerMP)var8.next();
-            var9.playerNetServerHandler.kickPlayerFromServer("You have been IP banned.");
+            entityplayermp = (EntityPlayerMP)iterator.next();
+            entityplayermp.playerNetServerHandler.kickPlayerFromServer("You have been IP banned.");
         }
 
-        if (var5.isEmpty())
+        if (list.isEmpty())
         {
             notifyAdmins(par1ICommandSender, "commands.banip.success", new Object[] {par2Str});
         }
         else
         {
-            notifyAdmins(par1ICommandSender, "commands.banip.success.players", new Object[] {par2Str, joinNiceString(var6)});
+            notifyAdmins(par1ICommandSender, "commands.banip.success.players", new Object[] {par2Str, joinNiceString(astring)});
         }
     }
 }

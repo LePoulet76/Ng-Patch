@@ -15,13 +15,13 @@ final class DispenserBehaviorFilledBucket extends BehaviorDefaultDispenseItem
      */
     public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
     {
-        ItemBucket var3 = (ItemBucket)par2ItemStack.getItem();
-        int var4 = par1IBlockSource.getXInt();
-        int var5 = par1IBlockSource.getYInt();
-        int var6 = par1IBlockSource.getZInt();
-        EnumFacing var7 = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
+        ItemBucket itembucket = (ItemBucket)par2ItemStack.getItem();
+        int i = par1IBlockSource.getXInt();
+        int j = par1IBlockSource.getYInt();
+        int k = par1IBlockSource.getZInt();
+        EnumFacing enumfacing = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
 
-        if (var3.tryPlaceContainedLiquid(par1IBlockSource.getWorld(), var4 + var7.getFrontOffsetX(), var5 + var7.getFrontOffsetY(), var6 + var7.getFrontOffsetZ()))
+        if (itembucket.tryPlaceContainedLiquid(par1IBlockSource.getWorld(), i + enumfacing.getFrontOffsetX(), j + enumfacing.getFrontOffsetY(), k + enumfacing.getFrontOffsetZ()))
         {
             par2ItemStack.itemID = Item.bucketEmpty.itemID;
             par2ItemStack.stackSize = 1;

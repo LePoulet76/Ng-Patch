@@ -20,31 +20,31 @@ public class ModelChicken extends ModelBase
 
     public ModelChicken()
     {
-        byte var1 = 16;
+        byte b0 = 16;
         this.head = new ModelRenderer(this, 0, 0);
         this.head.addBox(-2.0F, -6.0F, -2.0F, 4, 6, 3, 0.0F);
-        this.head.setRotationPoint(0.0F, (float)(-1 + var1), -4.0F);
+        this.head.setRotationPoint(0.0F, (float)(-1 + b0), -4.0F);
         this.bill = new ModelRenderer(this, 14, 0);
         this.bill.addBox(-2.0F, -4.0F, -4.0F, 4, 2, 2, 0.0F);
-        this.bill.setRotationPoint(0.0F, (float)(-1 + var1), -4.0F);
+        this.bill.setRotationPoint(0.0F, (float)(-1 + b0), -4.0F);
         this.chin = new ModelRenderer(this, 14, 4);
         this.chin.addBox(-1.0F, -2.0F, -3.0F, 2, 2, 2, 0.0F);
-        this.chin.setRotationPoint(0.0F, (float)(-1 + var1), -4.0F);
+        this.chin.setRotationPoint(0.0F, (float)(-1 + b0), -4.0F);
         this.body = new ModelRenderer(this, 0, 9);
         this.body.addBox(-3.0F, -4.0F, -3.0F, 6, 8, 6, 0.0F);
-        this.body.setRotationPoint(0.0F, (float)var1, 0.0F);
+        this.body.setRotationPoint(0.0F, (float)b0, 0.0F);
         this.rightLeg = new ModelRenderer(this, 26, 0);
         this.rightLeg.addBox(-1.0F, 0.0F, -3.0F, 3, 5, 3);
-        this.rightLeg.setRotationPoint(-2.0F, (float)(3 + var1), 1.0F);
+        this.rightLeg.setRotationPoint(-2.0F, (float)(3 + b0), 1.0F);
         this.leftLeg = new ModelRenderer(this, 26, 0);
         this.leftLeg.addBox(-1.0F, 0.0F, -3.0F, 3, 5, 3);
-        this.leftLeg.setRotationPoint(1.0F, (float)(3 + var1), 1.0F);
+        this.leftLeg.setRotationPoint(1.0F, (float)(3 + b0), 1.0F);
         this.rightWing = new ModelRenderer(this, 24, 13);
         this.rightWing.addBox(0.0F, 0.0F, -3.0F, 1, 4, 6);
-        this.rightWing.setRotationPoint(-4.0F, (float)(-3 + var1), 0.0F);
+        this.rightWing.setRotationPoint(-4.0F, (float)(-3 + b0), 0.0F);
         this.leftWing = new ModelRenderer(this, 24, 13);
         this.leftWing.addBox(-1.0F, 0.0F, -3.0F, 1, 4, 6);
-        this.leftWing.setRotationPoint(4.0F, (float)(-3 + var1), 0.0F);
+        this.leftWing.setRotationPoint(4.0F, (float)(-3 + b0), 0.0F);
     }
 
     /**
@@ -56,7 +56,7 @@ public class ModelChicken extends ModelBase
 
         if (this.isChild)
         {
-            float var8 = 2.0F;
+            float f6 = 2.0F;
             GL11.glPushMatrix();
             GL11.glTranslatef(0.0F, 5.0F * par7, 2.0F * par7);
             this.head.render(par7);
@@ -64,7 +64,7 @@ public class ModelChicken extends ModelBase
             this.chin.render(par7);
             GL11.glPopMatrix();
             GL11.glPushMatrix();
-            GL11.glScalef(1.0F / var8, 1.0F / var8, 1.0F / var8);
+            GL11.glScalef(1.0F / f6, 1.0F / f6, 1.0F / f6);
             GL11.glTranslatef(0.0F, 24.0F * par7, 0.0F);
             this.body.render(par7);
             this.rightLeg.render(par7);

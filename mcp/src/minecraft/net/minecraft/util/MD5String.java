@@ -24,14 +24,14 @@ public class MD5String
     {
         try
         {
-            String var2 = this.salt + par1Str;
-            MessageDigest var3 = MessageDigest.getInstance("MD5");
-            var3.update(var2.getBytes(), 0, var2.length());
-            return (new BigInteger(1, var3.digest())).toString(16);
+            String s1 = this.salt + par1Str;
+            MessageDigest messagedigest = MessageDigest.getInstance("MD5");
+            messagedigest.update(s1.getBytes(), 0, s1.length());
+            return (new BigInteger(1, messagedigest.digest())).toString(16);
         }
-        catch (NoSuchAlgorithmException var4)
+        catch (NoSuchAlgorithmException nosuchalgorithmexception)
         {
-            throw new RuntimeException(var4);
+            throw new RuntimeException(nosuchalgorithmexception);
         }
     }
 }

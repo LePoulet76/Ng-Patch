@@ -22,7 +22,7 @@ class TcpMasterThread extends Thread
                 {
                     TcpConnection.getReadThread(this.theTcpConnection).stop();
                 }
-                catch (Throwable var3)
+                catch (Throwable throwable)
                 {
                     ;
                 }
@@ -34,15 +34,15 @@ class TcpMasterThread extends Thread
                 {
                     TcpConnection.getWriteThread(this.theTcpConnection).stop();
                 }
-                catch (Throwable var2)
+                catch (Throwable throwable1)
                 {
                     ;
                 }
             }
         }
-        catch (InterruptedException var4)
+        catch (InterruptedException interruptedexception)
         {
-            var4.printStackTrace();
+            interruptedexception.printStackTrace();
         }
     }
 }

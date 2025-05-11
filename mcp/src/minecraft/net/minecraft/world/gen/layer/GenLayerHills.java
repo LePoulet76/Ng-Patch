@@ -16,73 +16,73 @@ public class GenLayerHills extends GenLayer
      */
     public int[] getInts(int par1, int par2, int par3, int par4)
     {
-        int[] var5 = this.parent.getInts(par1 - 1, par2 - 1, par3 + 2, par4 + 2);
-        int[] var6 = IntCache.getIntCache(par3 * par4);
+        int[] aint = this.parent.getInts(par1 - 1, par2 - 1, par3 + 2, par4 + 2);
+        int[] aint1 = IntCache.getIntCache(par3 * par4);
 
-        for (int var7 = 0; var7 < par4; ++var7)
+        for (int i1 = 0; i1 < par4; ++i1)
         {
-            for (int var8 = 0; var8 < par3; ++var8)
+            for (int j1 = 0; j1 < par3; ++j1)
             {
-                this.initChunkSeed((long)(var8 + par1), (long)(var7 + par2));
-                int var9 = var5[var8 + 1 + (var7 + 1) * (par3 + 2)];
+                this.initChunkSeed((long)(j1 + par1), (long)(i1 + par2));
+                int k1 = aint[j1 + 1 + (i1 + 1) * (par3 + 2)];
 
                 if (this.nextInt(3) == 0)
                 {
-                    int var10 = var9;
+                    int l1 = k1;
 
-                    if (var9 == BiomeGenBase.desert.biomeID)
+                    if (k1 == BiomeGenBase.desert.biomeID)
                     {
-                        var10 = BiomeGenBase.desertHills.biomeID;
+                        l1 = BiomeGenBase.desertHills.biomeID;
                     }
-                    else if (var9 == BiomeGenBase.forest.biomeID)
+                    else if (k1 == BiomeGenBase.forest.biomeID)
                     {
-                        var10 = BiomeGenBase.forestHills.biomeID;
+                        l1 = BiomeGenBase.forestHills.biomeID;
                     }
-                    else if (var9 == BiomeGenBase.taiga.biomeID)
+                    else if (k1 == BiomeGenBase.taiga.biomeID)
                     {
-                        var10 = BiomeGenBase.taigaHills.biomeID;
+                        l1 = BiomeGenBase.taigaHills.biomeID;
                     }
-                    else if (var9 == BiomeGenBase.plains.biomeID)
+                    else if (k1 == BiomeGenBase.plains.biomeID)
                     {
-                        var10 = BiomeGenBase.forest.biomeID;
+                        l1 = BiomeGenBase.forest.biomeID;
                     }
-                    else if (var9 == BiomeGenBase.icePlains.biomeID)
+                    else if (k1 == BiomeGenBase.icePlains.biomeID)
                     {
-                        var10 = BiomeGenBase.iceMountains.biomeID;
+                        l1 = BiomeGenBase.iceMountains.biomeID;
                     }
-                    else if (var9 == BiomeGenBase.jungle.biomeID)
+                    else if (k1 == BiomeGenBase.jungle.biomeID)
                     {
-                        var10 = BiomeGenBase.jungleHills.biomeID;
+                        l1 = BiomeGenBase.jungleHills.biomeID;
                     }
 
-                    if (var10 == var9)
+                    if (l1 == k1)
                     {
-                        var6[var8 + var7 * par3] = var9;
+                        aint1[j1 + i1 * par3] = k1;
                     }
                     else
                     {
-                        int var11 = var5[var8 + 1 + (var7 + 1 - 1) * (par3 + 2)];
-                        int var12 = var5[var8 + 1 + 1 + (var7 + 1) * (par3 + 2)];
-                        int var13 = var5[var8 + 1 - 1 + (var7 + 1) * (par3 + 2)];
-                        int var14 = var5[var8 + 1 + (var7 + 1 + 1) * (par3 + 2)];
+                        int i2 = aint[j1 + 1 + (i1 + 1 - 1) * (par3 + 2)];
+                        int j2 = aint[j1 + 1 + 1 + (i1 + 1) * (par3 + 2)];
+                        int k2 = aint[j1 + 1 - 1 + (i1 + 1) * (par3 + 2)];
+                        int l2 = aint[j1 + 1 + (i1 + 1 + 1) * (par3 + 2)];
 
-                        if (var11 == var9 && var12 == var9 && var13 == var9 && var14 == var9)
+                        if (i2 == k1 && j2 == k1 && k2 == k1 && l2 == k1)
                         {
-                            var6[var8 + var7 * par3] = var10;
+                            aint1[j1 + i1 * par3] = l1;
                         }
                         else
                         {
-                            var6[var8 + var7 * par3] = var9;
+                            aint1[j1 + i1 * par3] = k1;
                         }
                     }
                 }
                 else
                 {
-                    var6[var8 + var7 * par3] = var9;
+                    aint1[j1 + i1 * par3] = k1;
                 }
             }
         }
 
-        return var6;
+        return aint1;
     }
 }

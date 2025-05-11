@@ -45,10 +45,10 @@ public class EntitySenses
         else
         {
             this.entityObj.worldObj.theProfiler.startSection("canSee");
-            boolean var2 = this.entityObj.canEntityBeSeen(par1Entity);
+            boolean flag = this.entityObj.canEntityBeSeen(par1Entity);
             this.entityObj.worldObj.theProfiler.endSection();
 
-            if (var2)
+            if (flag)
             {
                 this.seenEntities.add(par1Entity);
             }
@@ -57,7 +57,7 @@ public class EntitySenses
                 this.unseenEntities.add(par1Entity);
             }
 
-            return var2;
+            return flag;
         }
     }
 }

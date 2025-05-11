@@ -44,8 +44,8 @@ public class ItemSword extends Item
         }
         else
         {
-            Material var3 = par2Block.blockMaterial;
-            return var3 != Material.plants && var3 != Material.vine && var3 != Material.coral && var3 != Material.leaves && var3 != Material.pumpkin ? 1.0F : 1.5F;
+            Material material = par2Block.blockMaterial;
+            return material != Material.plants && material != Material.vine && material != Material.coral && material != Material.leaves && material != Material.pumpkin ? 1.0F : 1.5F;
         }
     }
 
@@ -141,8 +141,8 @@ public class ItemSword extends Item
      */
     public Multimap getItemAttributeModifiers()
     {
-        Multimap var1 = super.getItemAttributeModifiers();
-        var1.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.weaponDamage, 0));
-        return var1;
+        Multimap multimap = super.getItemAttributeModifiers();
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)this.weaponDamage, 0));
+        return multimap;
     }
 }

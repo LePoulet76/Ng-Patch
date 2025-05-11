@@ -32,29 +32,29 @@ public class EntityPickupFX extends EntityFX
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
     {
-        float var8 = ((float)this.age + par2) / (float)this.maxAge;
-        var8 *= var8;
-        double var9 = this.entityToPickUp.posX;
-        double var11 = this.entityToPickUp.posY;
-        double var13 = this.entityToPickUp.posZ;
-        double var15 = this.entityPickingUp.lastTickPosX + (this.entityPickingUp.posX - this.entityPickingUp.lastTickPosX) * (double)par2;
-        double var17 = this.entityPickingUp.lastTickPosY + (this.entityPickingUp.posY - this.entityPickingUp.lastTickPosY) * (double)par2 + (double)this.yOffs;
-        double var19 = this.entityPickingUp.lastTickPosZ + (this.entityPickingUp.posZ - this.entityPickingUp.lastTickPosZ) * (double)par2;
-        double var21 = var9 + (var15 - var9) * (double)var8;
-        double var23 = var11 + (var17 - var11) * (double)var8;
-        double var25 = var13 + (var19 - var13) * (double)var8;
-        int var27 = MathHelper.floor_double(var21);
-        int var28 = MathHelper.floor_double(var23 + (double)(this.yOffset / 2.0F));
-        int var29 = MathHelper.floor_double(var25);
-        int var30 = this.getBrightnessForRender(par2);
-        int var31 = var30 % 65536;
-        int var32 = var30 / 65536;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var31 / 1.0F, (float)var32 / 1.0F);
+        float f6 = ((float)this.age + par2) / (float)this.maxAge;
+        f6 *= f6;
+        double d0 = this.entityToPickUp.posX;
+        double d1 = this.entityToPickUp.posY;
+        double d2 = this.entityToPickUp.posZ;
+        double d3 = this.entityPickingUp.lastTickPosX + (this.entityPickingUp.posX - this.entityPickingUp.lastTickPosX) * (double)par2;
+        double d4 = this.entityPickingUp.lastTickPosY + (this.entityPickingUp.posY - this.entityPickingUp.lastTickPosY) * (double)par2 + (double)this.yOffs;
+        double d5 = this.entityPickingUp.lastTickPosZ + (this.entityPickingUp.posZ - this.entityPickingUp.lastTickPosZ) * (double)par2;
+        double d6 = d0 + (d3 - d0) * (double)f6;
+        double d7 = d1 + (d4 - d1) * (double)f6;
+        double d8 = d2 + (d5 - d2) * (double)f6;
+        int i = MathHelper.floor_double(d6);
+        int j = MathHelper.floor_double(d7 + (double)(this.yOffset / 2.0F));
+        int k = MathHelper.floor_double(d8);
+        int l = this.getBrightnessForRender(par2);
+        int i1 = l % 65536;
+        int j1 = l / 65536;
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)i1 / 1.0F, (float)j1 / 1.0F);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        var21 -= interpPosX;
-        var23 -= interpPosY;
-        var25 -= interpPosZ;
-        RenderManager.instance.renderEntityWithPosYaw(this.entityToPickUp, (double)((float)var21), (double)((float)var23), (double)((float)var25), this.entityToPickUp.rotationYaw, par2);
+        d6 -= interpPosX;
+        d7 -= interpPosY;
+        d8 -= interpPosZ;
+        RenderManager.instance.renderEntityWithPosYaw(this.entityToPickUp, (double)((float)d6), (double)((float)d7), (double)((float)d8), this.entityToPickUp.rotationYaw, par2);
     }
 
     /**

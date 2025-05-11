@@ -54,31 +54,31 @@ public class BlockPumpkin extends BlockDirectional
                 par1World.setBlock(par2, par3, par4, 0, 0, 2);
                 par1World.setBlock(par2, par3 - 1, par4, 0, 0, 2);
                 par1World.setBlock(par2, par3 - 2, par4, 0, 0, 2);
-                EntitySnowman var9 = new EntitySnowman(par1World);
-                var9.setLocationAndAngles((double)par2 + 0.5D, (double)par3 - 1.95D, (double)par4 + 0.5D, 0.0F, 0.0F);
-                par1World.spawnEntityInWorld(var9);
+                EntitySnowman entitysnowman = new EntitySnowman(par1World);
+                entitysnowman.setLocationAndAngles((double)par2 + 0.5D, (double)par3 - 1.95D, (double)par4 + 0.5D, 0.0F, 0.0F);
+                par1World.spawnEntityInWorld(entitysnowman);
                 par1World.notifyBlockChange(par2, par3, par4, 0);
                 par1World.notifyBlockChange(par2, par3 - 1, par4, 0);
                 par1World.notifyBlockChange(par2, par3 - 2, par4, 0);
             }
 
-            for (int var10 = 0; var10 < 120; ++var10)
+            for (int l = 0; l < 120; ++l)
             {
                 par1World.spawnParticle("snowshovel", (double)par2 + par1World.rand.nextDouble(), (double)(par3 - 2) + par1World.rand.nextDouble() * 2.5D, (double)par4 + par1World.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
             }
         }
         else if (par1World.getBlockId(par2, par3 - 1, par4) == Block.blockIron.blockID && par1World.getBlockId(par2, par3 - 2, par4) == Block.blockIron.blockID)
         {
-            boolean var5 = par1World.getBlockId(par2 - 1, par3 - 1, par4) == Block.blockIron.blockID && par1World.getBlockId(par2 + 1, par3 - 1, par4) == Block.blockIron.blockID;
-            boolean var6 = par1World.getBlockId(par2, par3 - 1, par4 - 1) == Block.blockIron.blockID && par1World.getBlockId(par2, par3 - 1, par4 + 1) == Block.blockIron.blockID;
+            boolean flag = par1World.getBlockId(par2 - 1, par3 - 1, par4) == Block.blockIron.blockID && par1World.getBlockId(par2 + 1, par3 - 1, par4) == Block.blockIron.blockID;
+            boolean flag1 = par1World.getBlockId(par2, par3 - 1, par4 - 1) == Block.blockIron.blockID && par1World.getBlockId(par2, par3 - 1, par4 + 1) == Block.blockIron.blockID;
 
-            if (var5 || var6)
+            if (flag || flag1)
             {
                 par1World.setBlock(par2, par3, par4, 0, 0, 2);
                 par1World.setBlock(par2, par3 - 1, par4, 0, 0, 2);
                 par1World.setBlock(par2, par3 - 2, par4, 0, 0, 2);
 
-                if (var5)
+                if (flag)
                 {
                     par1World.setBlock(par2 - 1, par3 - 1, par4, 0, 0, 2);
                     par1World.setBlock(par2 + 1, par3 - 1, par4, 0, 0, 2);
@@ -89,12 +89,12 @@ public class BlockPumpkin extends BlockDirectional
                     par1World.setBlock(par2, par3 - 1, par4 + 1, 0, 0, 2);
                 }
 
-                EntityIronGolem var7 = new EntityIronGolem(par1World);
-                var7.setPlayerCreated(true);
-                var7.setLocationAndAngles((double)par2 + 0.5D, (double)par3 - 1.95D, (double)par4 + 0.5D, 0.0F, 0.0F);
-                par1World.spawnEntityInWorld(var7);
+                EntityIronGolem entityirongolem = new EntityIronGolem(par1World);
+                entityirongolem.setPlayerCreated(true);
+                entityirongolem.setLocationAndAngles((double)par2 + 0.5D, (double)par3 - 1.95D, (double)par4 + 0.5D, 0.0F, 0.0F);
+                par1World.spawnEntityInWorld(entityirongolem);
 
-                for (int var8 = 0; var8 < 120; ++var8)
+                for (int i1 = 0; i1 < 120; ++i1)
                 {
                     par1World.spawnParticle("snowballpoof", (double)par2 + par1World.rand.nextDouble(), (double)(par3 - 2) + par1World.rand.nextDouble() * 3.9D, (double)par4 + par1World.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
                 }
@@ -103,7 +103,7 @@ public class BlockPumpkin extends BlockDirectional
                 par1World.notifyBlockChange(par2, par3 - 1, par4, 0);
                 par1World.notifyBlockChange(par2, par3 - 2, par4, 0);
 
-                if (var5)
+                if (flag)
                 {
                     par1World.notifyBlockChange(par2 - 1, par3 - 1, par4, 0);
                     par1World.notifyBlockChange(par2 + 1, par3 - 1, par4, 0);
@@ -122,8 +122,9 @@ public class BlockPumpkin extends BlockDirectional
      */
     public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
     {
-        int var5 = par1World.getBlockId(par2, par3, par4);
-        return (var5 == 0 || Block.blocksList[var5].blockMaterial.isReplaceable()) && par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4);
+        int l = par1World.getBlockId(par2, par3, par4);
+        Block block = Block.blocksList[l];
+        return (block == null || block.isBlockReplaceable(par1World, par2, par3, par4)) && par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4);
     }
 
     /**
@@ -131,8 +132,8 @@ public class BlockPumpkin extends BlockDirectional
      */
     public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
     {
-        int var7 = MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
-        par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
+        int l = MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
+        par1World.setBlockMetadataWithNotify(par2, par3, par4, l, 2);
     }
 
     @SideOnly(Side.CLIENT)

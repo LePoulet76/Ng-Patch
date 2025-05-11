@@ -99,29 +99,29 @@ public class EntityAIOcelotSit extends EntityAIBase
      */
     protected boolean getNearbySitableBlockDistance()
     {
-        int var1 = (int)this.theOcelot.posY;
-        double var2 = 2.147483647E9D;
+        int i = (int)this.theOcelot.posY;
+        double d0 = 2.147483647E9D;
 
-        for (int var4 = (int)this.theOcelot.posX - 8; (double)var4 < this.theOcelot.posX + 8.0D; ++var4)
+        for (int j = (int)this.theOcelot.posX - 8; (double)j < this.theOcelot.posX + 8.0D; ++j)
         {
-            for (int var5 = (int)this.theOcelot.posZ - 8; (double)var5 < this.theOcelot.posZ + 8.0D; ++var5)
+            for (int k = (int)this.theOcelot.posZ - 8; (double)k < this.theOcelot.posZ + 8.0D; ++k)
             {
-                if (this.isSittableBlock(this.theOcelot.worldObj, var4, var1, var5) && this.theOcelot.worldObj.isAirBlock(var4, var1 + 1, var5))
+                if (this.isSittableBlock(this.theOcelot.worldObj, j, i, k) && this.theOcelot.worldObj.isAirBlock(j, i + 1, k))
                 {
-                    double var6 = this.theOcelot.getDistanceSq((double)var4, (double)var1, (double)var5);
+                    double d1 = this.theOcelot.getDistanceSq((double)j, (double)i, (double)k);
 
-                    if (var6 < var2)
+                    if (d1 < d0)
                     {
-                        this.sitableBlockX = var4;
-                        this.sitableBlockY = var1;
-                        this.sitableBlockZ = var5;
-                        var2 = var6;
+                        this.sitableBlockX = j;
+                        this.sitableBlockY = i;
+                        this.sitableBlockZ = k;
+                        d0 = d1;
                     }
                 }
             }
         }
 
-        return var2 < 2.147483647E9D;
+        return d0 < 2.147483647E9D;
     }
 
     /**
@@ -129,26 +129,26 @@ public class EntityAIOcelotSit extends EntityAIBase
      */
     protected boolean isSittableBlock(World par1World, int par2, int par3, int par4)
     {
-        int var5 = par1World.getBlockId(par2, par3, par4);
-        int var6 = par1World.getBlockMetadata(par2, par3, par4);
+        int l = par1World.getBlockId(par2, par3, par4);
+        int i1 = par1World.getBlockMetadata(par2, par3, par4);
 
-        if (var5 == Block.chest.blockID)
+        if (l == Block.chest.blockID)
         {
-            TileEntityChest var7 = (TileEntityChest)par1World.getBlockTileEntity(par2, par3, par4);
+            TileEntityChest tileentitychest = (TileEntityChest)par1World.getBlockTileEntity(par2, par3, par4);
 
-            if (var7.numUsingPlayers < 1)
+            if (tileentitychest.numUsingPlayers < 1)
             {
                 return true;
             }
         }
         else
         {
-            if (var5 == Block.furnaceBurning.blockID)
+            if (l == Block.furnaceBurning.blockID)
             {
                 return true;
             }
 
-            if (var5 == Block.bed.blockID && !BlockBed.isBlockHeadOfBed(var6))
+            if (l == Block.bed.blockID && !BlockBed.isBlockHeadOfBed(i1))
             {
                 return true;
             }

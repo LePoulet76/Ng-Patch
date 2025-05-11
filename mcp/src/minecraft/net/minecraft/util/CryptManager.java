@@ -1,5 +1,6 @@
 package net.minecraft.util;
 
+import cpw.mods.fml.common.asm.ReobfuscationMarker;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.io.InputStream;
@@ -35,6 +36,7 @@ import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
+@ReobfuscationMarker
 public class CryptManager
 {
     @SideOnly(Side.CLIENT)
@@ -44,22 +46,22 @@ public class CryptManager
      */
     public static SecretKey createNewSharedKey()
     {
-        CipherKeyGenerator var0 = new CipherKeyGenerator();
-        var0.init(new KeyGenerationParameters(new SecureRandom(), 128));
-        return new SecretKeySpec(var0.generateKey(), "AES");
+        CipherKeyGenerator cipherkeygenerator = new CipherKeyGenerator();
+        cipherkeygenerator.init(new KeyGenerationParameters(new SecureRandom(), 128));
+        return new SecretKeySpec(cipherkeygenerator.generateKey(), "AES");
     }
 
     public static KeyPair createNewKeyPair()
     {
         try
         {
-            KeyPairGenerator var0 = KeyPairGenerator.getInstance("RSA");
-            var0.initialize(1024);
-            return var0.generateKeyPair();
+            KeyPairGenerator keypairgenerator = KeyPairGenerator.getInstance("RSA");
+            keypairgenerator.initialize(1024);
+            return keypairgenerator.generateKeyPair();
         }
-        catch (NoSuchAlgorithmException var1)
+        catch (NoSuchAlgorithmException nosuchalgorithmexception)
         {
-            var1.printStackTrace();
+            nosuchalgorithmexception.printStackTrace();
             System.err.println("Key pair generation failed!");
             return null;
         }
@@ -74,9 +76,9 @@ public class CryptManager
         {
             return digestOperation("SHA-1", new byte[][] {par0Str.getBytes("ISO_8859_1"), par2SecretKey.getEncoded(), par1PublicKey.getEncoded()});
         }
-        catch (UnsupportedEncodingException var4)
+        catch (UnsupportedEncodingException unsupportedencodingexception)
         {
-            var4.printStackTrace();
+            unsupportedencodingexception.printStackTrace();
             return null;
         }
     }
@@ -88,21 +90,21 @@ public class CryptManager
     {
         try
         {
-            MessageDigest var2 = MessageDigest.getInstance(par0Str);
-            byte[][] var3 = par1ArrayOfByte;
-            int var4 = par1ArrayOfByte.length;
+            MessageDigest messagedigest = MessageDigest.getInstance(par0Str);
+            byte[][] abyte = par1ArrayOfByte;
+            int i = par1ArrayOfByte.length;
 
-            for (int var5 = 0; var5 < var4; ++var5)
+            for (int j = 0; j < i; ++j)
             {
-                byte[] var6 = var3[var5];
-                var2.update(var6);
+                byte[] abyte1 = abyte[j];
+                messagedigest.update(abyte1);
             }
 
-            return var2.digest();
+            return messagedigest.digest();
         }
-        catch (NoSuchAlgorithmException var7)
+        catch (NoSuchAlgorithmException nosuchalgorithmexception)
         {
-            var7.printStackTrace();
+            nosuchalgorithmexception.printStackTrace();
             return null;
         }
     }
@@ -114,17 +116,17 @@ public class CryptManager
     {
         try
         {
-            X509EncodedKeySpec var1 = new X509EncodedKeySpec(par0ArrayOfByte);
-            KeyFactory var2 = KeyFactory.getInstance("RSA");
-            return var2.generatePublic(var1);
+            X509EncodedKeySpec x509encodedkeyspec = new X509EncodedKeySpec(par0ArrayOfByte);
+            KeyFactory keyfactory = KeyFactory.getInstance("RSA");
+            return keyfactory.generatePublic(x509encodedkeyspec);
         }
-        catch (NoSuchAlgorithmException var3)
+        catch (NoSuchAlgorithmException nosuchalgorithmexception)
         {
-            var3.printStackTrace();
+            nosuchalgorithmexception.printStackTrace();
         }
-        catch (InvalidKeySpecException var4)
+        catch (InvalidKeySpecException invalidkeyspecexception)
         {
-            var4.printStackTrace();
+            invalidkeyspecexception.printStackTrace();
         }
 
         System.err.println("Public key reconstitute failed!");
@@ -166,13 +168,13 @@ public class CryptManager
         {
             return createTheCipherInstance(par0, par1Key.getAlgorithm(), par1Key).doFinal(par2ArrayOfByte);
         }
-        catch (IllegalBlockSizeException var4)
+        catch (IllegalBlockSizeException illegalblocksizeexception)
         {
-            var4.printStackTrace();
+            illegalblocksizeexception.printStackTrace();
         }
-        catch (BadPaddingException var5)
+        catch (BadPaddingException badpaddingexception)
         {
-            var5.printStackTrace();
+            badpaddingexception.printStackTrace();
         }
 
         System.err.println("Cipher data failed!");
@@ -186,21 +188,21 @@ public class CryptManager
     {
         try
         {
-            Cipher var3 = Cipher.getInstance(par1Str);
-            var3.init(par0, par2Key);
-            return var3;
+            Cipher cipher = Cipher.getInstance(par1Str);
+            cipher.init(par0, par2Key);
+            return cipher;
         }
-        catch (InvalidKeyException var4)
+        catch (InvalidKeyException invalidkeyexception)
         {
-            var4.printStackTrace();
+            invalidkeyexception.printStackTrace();
         }
-        catch (NoSuchAlgorithmException var5)
+        catch (NoSuchAlgorithmException nosuchalgorithmexception)
         {
-            var5.printStackTrace();
+            nosuchalgorithmexception.printStackTrace();
         }
-        catch (NoSuchPaddingException var6)
+        catch (NoSuchPaddingException nosuchpaddingexception)
         {
-            var6.printStackTrace();
+            nosuchpaddingexception.printStackTrace();
         }
 
         System.err.println("Cipher creation failed!");
@@ -212,9 +214,9 @@ public class CryptManager
      */
     private static BufferedBlockCipher createBufferedBlockCipher(boolean par0, Key par1Key)
     {
-        BufferedBlockCipher var2 = new BufferedBlockCipher(new CFBBlockCipher(new AESFastEngine(), 8));
-        var2.init(par0, new ParametersWithIV(new KeyParameter(par1Key.getEncoded()), par1Key.getEncoded(), 0, 16));
-        return var2;
+        BufferedBlockCipher bufferedblockcipher = new BufferedBlockCipher(new CFBBlockCipher(new AESFastEngine(), 8));
+        bufferedblockcipher.init(par0, new ParametersWithIV(new KeyParameter(par1Key.getEncoded()), par1Key.getEncoded(), 0, 16));
+        return bufferedblockcipher;
     }
 
     public static OutputStream encryptOuputStream(SecretKey par0SecretKey, OutputStream par1OutputStream)

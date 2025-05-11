@@ -12,6 +12,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 
 public class ContainerEnchantment extends Container
 {
@@ -38,19 +39,19 @@ public class ContainerEnchantment extends Container
         this.posY = par4;
         this.posZ = par5;
         this.addSlotToContainer(new SlotEnchantment(this, this.tableInventory, 0, 25, 47));
-        int var6;
+        int l;
 
-        for (var6 = 0; var6 < 3; ++var6)
+        for (l = 0; l < 3; ++l)
         {
-            for (int var7 = 0; var7 < 9; ++var7)
+            for (int i1 = 0; i1 < 9; ++i1)
             {
-                this.addSlotToContainer(new Slot(par1InventoryPlayer, var7 + var6 * 9 + 9, 8 + var7 * 18, 84 + var6 * 18));
+                this.addSlotToContainer(new Slot(par1InventoryPlayer, i1 + l * 9 + 9, 8 + i1 * 18, 84 + l * 18));
             }
         }
 
-        for (var6 = 0; var6 < 9; ++var6)
+        for (l = 0; l < 9; ++l)
         {
-            this.addSlotToContainer(new Slot(par1InventoryPlayer, var6, 8 + var6 * 18, 142));
+            this.addSlotToContainer(new Slot(par1InventoryPlayer, l, 8 + l * 18, 142));
         }
     }
 
@@ -69,12 +70,12 @@ public class ContainerEnchantment extends Container
     {
         super.detectAndSendChanges();
 
-        for (int var1 = 0; var1 < this.crafters.size(); ++var1)
+        for (int i = 0; i < this.crafters.size(); ++i)
         {
-            ICrafting var2 = (ICrafting)this.crafters.get(var1);
-            var2.sendProgressBarUpdate(this, 0, this.enchantLevels[0]);
-            var2.sendProgressBarUpdate(this, 1, this.enchantLevels[1]);
-            var2.sendProgressBarUpdate(this, 2, this.enchantLevels[2]);
+            ICrafting icrafting = (ICrafting)this.crafters.get(i);
+            icrafting.sendProgressBarUpdate(this, 0, this.enchantLevels[0]);
+            icrafting.sendProgressBarUpdate(this, 1, this.enchantLevels[1]);
+            icrafting.sendProgressBarUpdate(this, 2, this.enchantLevels[2]);
         }
     }
 
@@ -98,63 +99,42 @@ public class ContainerEnchantment extends Container
     {
         if (par1IInventory == this.tableInventory)
         {
-            ItemStack var2 = par1IInventory.getStackInSlot(0);
-            int var3;
+            ItemStack itemstack = par1IInventory.getStackInSlot(0);
+            int i;
 
-            if (var2 != null && var2.isItemEnchantable())
+            if (itemstack != null && itemstack.isItemEnchantable())
             {
                 this.nameSeed = this.rand.nextLong();
 
                 if (!this.worldPointer.isRemote)
                 {
-                    var3 = 0;
-                    int var4;
+                    i = 0;
+                    int j;
+                    float power = 0;
 
-                    for (var4 = -1; var4 <= 1; ++var4)
+                    for (j = -1; j <= 1; ++j)
                     {
-                        for (int var5 = -1; var5 <= 1; ++var5)
+                        for (int k = -1; k <= 1; ++k)
                         {
-                            if ((var4 != 0 || var5 != 0) && this.worldPointer.isAirBlock(this.posX + var5, this.posY, this.posZ + var4) && this.worldPointer.isAirBlock(this.posX + var5, this.posY + 1, this.posZ + var4))
+                            if ((j != 0 || k != 0) && this.worldPointer.isAirBlock(this.posX + k, this.posY, this.posZ + j) && this.worldPointer.isAirBlock(this.posX + k, this.posY + 1, this.posZ + j))
                             {
-                                if (this.worldPointer.getBlockId(this.posX + var5 * 2, this.posY, this.posZ + var4 * 2) == Block.bookShelf.blockID)
+                                power += ForgeHooks.getEnchantPower(worldPointer, posX + k * 2, posY,     posZ + j * 2);
+                                power += ForgeHooks.getEnchantPower(worldPointer, posX + k * 2, posY + 1, posZ + j * 2);
+
+                                if (k != 0 && j != 0)
                                 {
-                                    ++var3;
-                                }
-
-                                if (this.worldPointer.getBlockId(this.posX + var5 * 2, this.posY + 1, this.posZ + var4 * 2) == Block.bookShelf.blockID)
-                                {
-                                    ++var3;
-                                }
-
-                                if (var5 != 0 && var4 != 0)
-                                {
-                                    if (this.worldPointer.getBlockId(this.posX + var5 * 2, this.posY, this.posZ + var4) == Block.bookShelf.blockID)
-                                    {
-                                        ++var3;
-                                    }
-
-                                    if (this.worldPointer.getBlockId(this.posX + var5 * 2, this.posY + 1, this.posZ + var4) == Block.bookShelf.blockID)
-                                    {
-                                        ++var3;
-                                    }
-
-                                    if (this.worldPointer.getBlockId(this.posX + var5, this.posY, this.posZ + var4 * 2) == Block.bookShelf.blockID)
-                                    {
-                                        ++var3;
-                                    }
-
-                                    if (this.worldPointer.getBlockId(this.posX + var5, this.posY + 1, this.posZ + var4 * 2) == Block.bookShelf.blockID)
-                                    {
-                                        ++var3;
-                                    }
+                                    power += ForgeHooks.getEnchantPower(worldPointer, posX + k * 2, posY,     posZ + j    );
+                                    power += ForgeHooks.getEnchantPower(worldPointer, posX + k * 2, posY + 1, posZ + j    );
+                                    power += ForgeHooks.getEnchantPower(worldPointer, posX + k,     posY,     posZ + j * 2);
+                                    power += ForgeHooks.getEnchantPower(worldPointer, posX + k,     posY + 1, posZ + j * 2);
                                 }
                             }
                         }
                     }
 
-                    for (var4 = 0; var4 < 3; ++var4)
+                    for (j = 0; j < 3; ++j)
                     {
-                        this.enchantLevels[var4] = EnchantmentHelper.calcItemStackEnchantability(this.rand, var4, var3, var2);
+                        this.enchantLevels[j] = EnchantmentHelper.calcItemStackEnchantability(this.rand, j, (int)power, itemstack);
                     }
 
                     this.detectAndSendChanges();
@@ -162,9 +142,9 @@ public class ContainerEnchantment extends Container
             }
             else
             {
-                for (var3 = 0; var3 < 3; ++var3)
+                for (i = 0; i < 3; ++i)
                 {
-                    this.enchantLevels[var3] = 0;
+                    this.enchantLevels[i] = 0;
                 }
             }
         }
@@ -175,39 +155,39 @@ public class ContainerEnchantment extends Container
      */
     public boolean enchantItem(EntityPlayer par1EntityPlayer, int par2)
     {
-        ItemStack var3 = this.tableInventory.getStackInSlot(0);
+        ItemStack itemstack = this.tableInventory.getStackInSlot(0);
 
-        if (this.enchantLevels[par2] > 0 && var3 != null && (par1EntityPlayer.experienceLevel >= this.enchantLevels[par2] || par1EntityPlayer.capabilities.isCreativeMode))
+        if (this.enchantLevels[par2] > 0 && itemstack != null && (par1EntityPlayer.experienceLevel >= this.enchantLevels[par2] || par1EntityPlayer.capabilities.isCreativeMode))
         {
             if (!this.worldPointer.isRemote)
             {
-                List var4 = EnchantmentHelper.buildEnchantmentList(this.rand, var3, this.enchantLevels[par2]);
-                boolean var5 = var3.itemID == Item.book.itemID;
+                List list = EnchantmentHelper.buildEnchantmentList(this.rand, itemstack, this.enchantLevels[par2]);
+                boolean flag = itemstack.itemID == Item.book.itemID;
 
-                if (var4 != null)
+                if (list != null)
                 {
                     par1EntityPlayer.addExperienceLevel(-this.enchantLevels[par2]);
 
-                    if (var5)
+                    if (flag)
                     {
-                        var3.itemID = Item.enchantedBook.itemID;
+                        itemstack.itemID = Item.enchantedBook.itemID;
                     }
 
-                    int var6 = var5 ? this.rand.nextInt(var4.size()) : -1;
+                    int j = flag ? this.rand.nextInt(list.size()) : -1;
 
-                    for (int var7 = 0; var7 < var4.size(); ++var7)
+                    for (int k = 0; k < list.size(); ++k)
                     {
-                        EnchantmentData var8 = (EnchantmentData)var4.get(var7);
+                        EnchantmentData enchantmentdata = (EnchantmentData)list.get(k);
 
-                        if (!var5 || var7 == var6)
+                        if (!flag || k == j)
                         {
-                            if (var5)
+                            if (flag)
                             {
-                                Item.enchantedBook.addEnchantment(var3, var8);
+                                Item.enchantedBook.addEnchantment(itemstack, enchantmentdata);
                             }
                             else
                             {
-                                var3.addEnchantment(var8.enchantmentobj, var8.enchantmentLevel);
+                                itemstack.addEnchantment(enchantmentdata.enchantmentobj, enchantmentdata.enchantmentLevel);
                             }
                         }
                     }
@@ -233,11 +213,11 @@ public class ContainerEnchantment extends Container
 
         if (!this.worldPointer.isRemote)
         {
-            ItemStack var2 = this.tableInventory.getStackInSlotOnClosing(0);
+            ItemStack itemstack = this.tableInventory.getStackInSlotOnClosing(0);
 
-            if (var2 != null)
+            if (itemstack != null)
             {
-                par1EntityPlayer.dropPlayerItem(var2);
+                par1EntityPlayer.dropPlayerItem(itemstack);
             }
         }
     }
@@ -252,57 +232,57 @@ public class ContainerEnchantment extends Container
      */
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
-        ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        ItemStack itemstack = null;
+        Slot slot = (Slot)this.inventorySlots.get(par2);
 
-        if (var4 != null && var4.getHasStack())
+        if (slot != null && slot.getHasStack())
         {
-            ItemStack var5 = var4.getStack();
-            var3 = var5.copy();
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
 
             if (par2 == 0)
             {
-                if (!this.mergeItemStack(var5, 1, 37, true))
+                if (!this.mergeItemStack(itemstack1, 1, 37, true))
                 {
                     return null;
                 }
             }
             else
             {
-                if (((Slot)this.inventorySlots.get(0)).getHasStack() || !((Slot)this.inventorySlots.get(0)).isItemValid(var5))
+                if (((Slot)this.inventorySlots.get(0)).getHasStack() || !((Slot)this.inventorySlots.get(0)).isItemValid(itemstack1))
                 {
                     return null;
                 }
 
-                if (var5.hasTagCompound() && var5.stackSize == 1)
+                if (itemstack1.hasTagCompound() && itemstack1.stackSize == 1)
                 {
-                    ((Slot)this.inventorySlots.get(0)).putStack(var5.copy());
-                    var5.stackSize = 0;
+                    ((Slot)this.inventorySlots.get(0)).putStack(itemstack1.copy());
+                    itemstack1.stackSize = 0;
                 }
-                else if (var5.stackSize >= 1)
+                else if (itemstack1.stackSize >= 1)
                 {
-                    ((Slot)this.inventorySlots.get(0)).putStack(new ItemStack(var5.itemID, 1, var5.getItemDamage()));
-                    --var5.stackSize;
+                    ((Slot)this.inventorySlots.get(0)).putStack(new ItemStack(itemstack1.itemID, 1, itemstack1.getItemDamage()));
+                    --itemstack1.stackSize;
                 }
             }
 
-            if (var5.stackSize == 0)
+            if (itemstack1.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
+                slot.putStack((ItemStack)null);
             }
             else
             {
-                var4.onSlotChanged();
+                slot.onSlotChanged();
             }
 
-            if (var5.stackSize == var3.stackSize)
+            if (itemstack1.stackSize == itemstack.stackSize)
             {
                 return null;
             }
 
-            var4.onPickupFromSlot(par1EntityPlayer, var5);
+            slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
         }
 
-        return var3;
+        return itemstack;
     }
 }

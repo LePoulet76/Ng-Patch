@@ -2,7 +2,9 @@ package net.minecraft.world.gen.feature;
 
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSapling;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 public class WorldGenForest extends WorldGenerator
 {
@@ -13,97 +15,108 @@ public class WorldGenForest extends WorldGenerator
 
     public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
     {
-        int var6 = par2Random.nextInt(3) + 5;
-        boolean var7 = true;
+        int l = par2Random.nextInt(3) + 5;
+        boolean flag = true;
 
-        if (par4 >= 1 && par4 + var6 + 1 <= 256)
+        if (par4 >= 1 && par4 + l + 1 <= 256)
         {
-            int var8;
-            int var10;
-            int var11;
-            int var12;
+            int i1;
+            int j1;
+            int k1;
+            int l1;
 
-            for (var8 = par4; var8 <= par4 + 1 + var6; ++var8)
+            for (i1 = par4; i1 <= par4 + 1 + l; ++i1)
             {
-                byte var9 = 1;
+                byte b0 = 1;
 
-                if (var8 == par4)
+                if (i1 == par4)
                 {
-                    var9 = 0;
+                    b0 = 0;
                 }
 
-                if (var8 >= par4 + 1 + var6 - 2)
+                if (i1 >= par4 + 1 + l - 2)
                 {
-                    var9 = 2;
+                    b0 = 2;
                 }
 
-                for (var10 = par3 - var9; var10 <= par3 + var9 && var7; ++var10)
+                for (j1 = par3 - b0; j1 <= par3 + b0 && flag; ++j1)
                 {
-                    for (var11 = par5 - var9; var11 <= par5 + var9 && var7; ++var11)
+                    for (k1 = par5 - b0; k1 <= par5 + b0 && flag; ++k1)
                     {
-                        if (var8 >= 0 && var8 < 256)
+                        if (i1 >= 0 && i1 < 256)
                         {
-                            var12 = par1World.getBlockId(var10, var8, var11);
+                            l1 = par1World.getBlockId(j1, i1, k1);
 
-                            if (var12 != 0 && var12 != Block.leaves.blockID)
+                            Block block = Block.blocksList[l1];
+
+                            if (block != null &&
+                               !block.isAirBlock(par1World, j1, i1, k1) &&
+                               !block.isLeaves(par1World, j1, i1, k1))
                             {
-                                var7 = false;
+                                flag = false;
                             }
                         }
                         else
                         {
-                            var7 = false;
+                            flag = false;
                         }
                     }
                 }
             }
 
-            if (!var7)
+            if (!flag)
             {
                 return false;
             }
             else
             {
-                var8 = par1World.getBlockId(par3, par4 - 1, par5);
+                i1 = par1World.getBlockId(par3, par4 - 1, par5);
+                Block soil = Block.blocksList[i1];
+                boolean isValidSoil = soil != null && soil.canSustainPlant(par1World, par3, par4 - 1, par5, ForgeDirection.UP, (BlockSapling)Block.sapling);
 
-                if ((var8 == Block.grass.blockID || var8 == Block.dirt.blockID) && par4 < 256 - var6 - 1)
+                if (isValidSoil && par4 < 256 - l - 1)
                 {
-                    this.setBlock(par1World, par3, par4 - 1, par5, Block.dirt.blockID);
-                    int var17;
+                    soil.onPlantGrow(par1World, par3, par4 - 1, par5, par3, par4, par5);
+                    int i2;
 
-                    for (var17 = par4 - 3 + var6; var17 <= par4 + var6; ++var17)
+                    for (i2 = par4 - 3 + l; i2 <= par4 + l; ++i2)
                     {
-                        var10 = var17 - (par4 + var6);
-                        var11 = 1 - var10 / 2;
+                        j1 = i2 - (par4 + l);
+                        k1 = 1 - j1 / 2;
 
-                        for (var12 = par3 - var11; var12 <= par3 + var11; ++var12)
+                        for (l1 = par3 - k1; l1 <= par3 + k1; ++l1)
                         {
-                            int var13 = var12 - par3;
+                            int j2 = l1 - par3;
 
-                            for (int var14 = par5 - var11; var14 <= par5 + var11; ++var14)
+                            for (int k2 = par5 - k1; k2 <= par5 + k1; ++k2)
                             {
-                                int var15 = var14 - par5;
+                                int l2 = k2 - par5;
 
-                                if (Math.abs(var13) != var11 || Math.abs(var15) != var11 || par2Random.nextInt(2) != 0 && var10 != 0)
+                                if (Math.abs(j2) != k1 || Math.abs(l2) != k1 || par2Random.nextInt(2) != 0 && j1 != 0)
                                 {
-                                    int var16 = par1World.getBlockId(var12, var17, var14);
+                                    int i3 = par1World.getBlockId(l1, i2, k2);
+                                    Block block = Block.blocksList[i3];
 
-                                    if (var16 == 0 || var16 == Block.leaves.blockID)
+                                    if (block == null || block.canBeReplacedByLeaves(par1World, l1, i2, k2))
                                     {
-                                        this.setBlockAndMetadata(par1World, var12, var17, var14, Block.leaves.blockID, 2);
+                                        this.setBlockAndMetadata(par1World, l1, i2, k2, Block.leaves.blockID, 2);
                                     }
                                 }
                             }
                         }
                     }
 
-                    for (var17 = 0; var17 < var6; ++var17)
+                    for (i2 = 0; i2 < l; ++i2)
                     {
-                        var10 = par1World.getBlockId(par3, par4 + var17, par5);
+                        j1 = par1World.getBlockId(par3, par4 + i2, par5);
 
-                        if (var10 == 0 || var10 == Block.leaves.blockID)
+                        Block block = Block.blocksList[j1];
+
+                        if (block == null || 
+                            block.isAirBlock(par1World, par3, par4 + i2, par5) || 
+                            block.isLeaves(par1World, par3, par4 + i2, par5))
                         {
-                            this.setBlockAndMetadata(par1World, par3, par4 + var17, par5, Block.wood.blockID, 2);
+                            this.setBlockAndMetadata(par1World, par3, par4 + i2, par5, Block.wood.blockID, 2);
                         }
                     }
 

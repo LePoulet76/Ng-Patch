@@ -32,19 +32,19 @@ public class DefaultResourcePack implements ResourcePack
 
     public InputStream getInputStream(ResourceLocation par1ResourceLocation) throws IOException
     {
-        InputStream var2 = this.getResourceStream(par1ResourceLocation);
+        InputStream inputstream = this.getResourceStream(par1ResourceLocation);
 
-        if (var2 != null)
+        if (inputstream != null)
         {
-            return var2;
+            return inputstream;
         }
         else
         {
-            File var3 = (File)this.mapResourceFiles.get(par1ResourceLocation.toString());
+            File file1 = (File)this.mapResourceFiles.get(par1ResourceLocation.toString());
 
-            if (var3 != null)
+            if (file1 != null)
             {
-                return new FileInputStream(var3);
+                return new FileInputStream(file1);
             }
             else
             {
@@ -77,13 +77,13 @@ public class DefaultResourcePack implements ResourcePack
     {
         if (par1File.isDirectory())
         {
-            File[] var2 = par1File.listFiles();
-            int var3 = var2.length;
+            File[] afile = par1File.listFiles();
+            int i = afile.length;
 
-            for (int var4 = 0; var4 < var3; ++var4)
+            for (int j = 0; j < i; ++j)
             {
-                File var5 = var2[var4];
-                this.readAssetsDir(var5);
+                File file2 = afile[j];
+                this.readAssetsDir(file2);
             }
         }
         else

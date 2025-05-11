@@ -12,7 +12,11 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
-public class BlockCactus extends Block
+import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.IPlantable;
+
+public class BlockCactus extends Block implements IPlantable
 {
     @SideOnly(Side.CLIENT)
     private Icon cactusTopIcon;
@@ -33,18 +37,18 @@ public class BlockCactus extends Block
     {
         if (par1World.isAirBlock(par2, par3 + 1, par4))
         {
-            int var6;
+            int l;
 
-            for (var6 = 1; par1World.getBlockId(par2, par3 - var6, par4) == this.blockID; ++var6)
+            for (l = 1; par1World.getBlockId(par2, par3 - l, par4) == this.blockID; ++l)
             {
                 ;
             }
 
-            if (var6 < 3)
+            if (l < 3)
             {
-                int var7 = par1World.getBlockMetadata(par2, par3, par4);
+                int i1 = par1World.getBlockMetadata(par2, par3, par4);
 
-                if (var7 == 15)
+                if (i1 == 15)
                 {
                     par1World.setBlock(par2, par3 + 1, par4, this.blockID);
                     par1World.setBlockMetadataWithNotify(par2, par3, par4, 0, 4);
@@ -52,7 +56,7 @@ public class BlockCactus extends Block
                 }
                 else
                 {
-                    par1World.setBlockMetadataWithNotify(par2, par3, par4, var7 + 1, 4);
+                    par1World.setBlockMetadataWithNotify(par2, par3, par4, i1 + 1, 4);
                 }
             }
         }
@@ -64,8 +68,8 @@ public class BlockCactus extends Block
      */
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
     {
-        float var5 = 0.0625F;
-        return AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + var5), (double)par3, (double)((float)par4 + var5), (double)((float)(par2 + 1) - var5), (double)((float)(par3 + 1) - var5), (double)((float)(par4 + 1) - var5));
+        float f = 0.0625F;
+        return AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + f), (double)par3, (double)((float)par4 + f), (double)((float)(par2 + 1) - f), (double)((float)(par3 + 1) - f), (double)((float)(par4 + 1) - f));
     }
 
     /**
@@ -83,8 +87,8 @@ public class BlockCactus extends Block
      */
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
     {
-        float var5 = 0.0625F;
-        return AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + var5), (double)par3, (double)((float)par4 + var5), (double)((float)(par2 + 1) - var5), (double)(par3 + 1), (double)((float)(par4 + 1) - var5));
+        float f = 0.0625F;
+        return AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + f), (double)par3, (double)((float)par4 + f), (double)((float)(par2 + 1) - f), (double)(par3 + 1), (double)((float)(par4 + 1) - f));
     }
 
     @SideOnly(Side.CLIENT)
@@ -157,8 +161,8 @@ public class BlockCactus extends Block
         }
         else
         {
-            int var5 = par1World.getBlockId(par2, par3 - 1, par4);
-            return var5 == Block.cactus.blockID || var5 == Block.sand.blockID;
+            int l = par1World.getBlockId(par2, par3 - 1, par4);
+            return blocksList[l] != null && blocksList[l].canSustainPlant(par1World, par2, par3 - 1, par4, ForgeDirection.UP, this);
         }
     }
 
@@ -181,5 +185,23 @@ public class BlockCactus extends Block
         this.blockIcon = par1IconRegister.registerIcon(this.getTextureName() + "_side");
         this.cactusTopIcon = par1IconRegister.registerIcon(this.getTextureName() + "_top");
         this.cactusBottomIcon = par1IconRegister.registerIcon(this.getTextureName() + "_bottom");
+    }
+
+    @Override
+    public EnumPlantType getPlantType(World world, int x, int y, int z)
+    {
+        return EnumPlantType.Desert;
+    }
+
+    @Override
+    public int getPlantID(World world, int x, int y, int z)
+    {
+        return blockID;
+    }
+
+    @Override
+    public int getPlantMetadata(World world, int x, int y, int z)
+    {
+        return -1;
     }
 }

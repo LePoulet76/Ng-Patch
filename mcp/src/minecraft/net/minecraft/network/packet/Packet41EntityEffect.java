@@ -96,7 +96,7 @@ public class Packet41EntityEffect extends Packet
      */
     public boolean containsSameEntityIDAs(Packet par1Packet)
     {
-        Packet41EntityEffect var2 = (Packet41EntityEffect)par1Packet;
-        return var2.entityId == this.entityId && var2.effectId == this.effectId;
+        Packet41EntityEffect packet41entityeffect = (Packet41EntityEffect)par1Packet;
+        return packet41entityeffect.entityId == this.entityId && packet41entityeffect.effectId == this.effectId;
     }
 }

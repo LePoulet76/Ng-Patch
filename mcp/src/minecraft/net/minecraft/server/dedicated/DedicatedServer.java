@@ -1,5 +1,6 @@
 package net.minecraft.server.dedicated;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.io.File;
@@ -55,15 +56,17 @@ public class DedicatedServer extends MinecraftServer implements IServer
      */
     protected boolean startServer() throws IOException
     {
-        DedicatedServerCommandThread var1 = new DedicatedServerCommandThread(this);
-        var1.setDaemon(true);
-        var1.start();
+        DedicatedServerCommandThread dedicatedservercommandthread = new DedicatedServerCommandThread(this);
+        dedicatedservercommandthread.setDaemon(true);
+        dedicatedservercommandthread.start();
         this.getLogAgent().logInfo("Starting minecraft server version 1.6.4");
 
         if (Runtime.getRuntime().maxMemory() / 1024L / 1024L < 512L)
         {
             this.getLogAgent().logWarning("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");
         }
+
+        FMLCommonHandler.instance().onServerStart(this);
 
         this.getLogAgent().logInfo("Loading properties");
         this.settings = new PropertyManager(new File("server.properties"), this.getLogAgent());
@@ -97,14 +100,14 @@ public class DedicatedServer extends MinecraftServer implements IServer
         }
 
         this.canSpawnStructures = this.settings.getBooleanProperty("generate-structures", true);
-        int var2 = this.settings.getIntProperty("gamemode", EnumGameType.SURVIVAL.getID());
-        this.gameType = WorldSettings.getGameTypeById(var2);
+        int i = this.settings.getIntProperty("gamemode", EnumGameType.SURVIVAL.getID());
+        this.gameType = WorldSettings.getGameTypeById(i);
         this.getLogAgent().logInfo("Default game type: " + this.gameType);
-        InetAddress var3 = null;
+        InetAddress inetaddress = null;
 
         if (this.getServerHostname().length() > 0)
         {
-            var3 = InetAddress.getByName(this.getServerHostname());
+            inetaddress = InetAddress.getByName(this.getServerHostname());
         }
 
         if (this.getServerPort() < 0)
@@ -118,12 +121,12 @@ public class DedicatedServer extends MinecraftServer implements IServer
 
         try
         {
-            this.networkThread = new DedicatedServerListenThread(this, var3, this.getServerPort());
+            this.networkThread = new DedicatedServerListenThread(this, inetaddress, this.getServerPort());
         }
-        catch (IOException var16)
+        catch (IOException ioexception)
         {
             this.getLogAgent().logWarning("**** FAILED TO BIND TO PORT!");
-            this.getLogAgent().logWarningFormatted("The exception was: {0}", new Object[] {var16.toString()});
+            this.getLogAgent().logWarningFormatted("The exception was: {0}", new Object[] {ioexception.toString()});
             this.getLogAgent().logWarning("Perhaps a server is already running on that port?");
             return false;
         }
@@ -136,52 +139,55 @@ public class DedicatedServer extends MinecraftServer implements IServer
             this.getLogAgent().logWarning("To change this, set \"online-mode\" to \"true\" in the server.properties file.");
         }
 
+        FMLCommonHandler.instance().onServerStarted();
+
         this.setConfigurationManager(new DedicatedPlayerList(this));
-        long var4 = System.nanoTime();
+        long j = System.nanoTime();
 
         if (this.getFolderName() == null)
         {
             this.setFolderName(this.settings.getProperty("level-name", "world"));
         }
 
-        String var6 = this.settings.getProperty("level-seed", "");
-        String var7 = this.settings.getProperty("level-type", "DEFAULT");
-        String var8 = this.settings.getProperty("generator-settings", "");
-        long var9 = (new Random()).nextLong();
+        String s = this.settings.getProperty("level-seed", "");
+        String s1 = this.settings.getProperty("level-type", "DEFAULT");
+        String s2 = this.settings.getProperty("generator-settings", "");
+        long k = (new Random()).nextLong();
 
-        if (var6.length() > 0)
+        if (s.length() > 0)
         {
             try
             {
-                long var11 = Long.parseLong(var6);
+                long l = Long.parseLong(s);
 
-                if (var11 != 0L)
+                if (l != 0L)
                 {
-                    var9 = var11;
+                    k = l;
                 }
             }
-            catch (NumberFormatException var15)
+            catch (NumberFormatException numberformatexception)
             {
-                var9 = (long)var6.hashCode();
+                k = (long)s.hashCode();
             }
         }
 
-        WorldType var17 = WorldType.parseWorldType(var7);
+        WorldType worldtype = WorldType.parseWorldType(s1);
 
-        if (var17 == null)
+        if (worldtype == null)
         {
-            var17 = WorldType.DEFAULT;
+            worldtype = WorldType.DEFAULT;
         }
 
         this.setBuildLimit(this.settings.getIntProperty("max-build-height", 256));
         this.setBuildLimit((this.getBuildLimit() + 8) / 16 * 16);
         this.setBuildLimit(MathHelper.clamp_int(this.getBuildLimit(), 64, 256));
         this.settings.setProperty("max-build-height", Integer.valueOf(this.getBuildLimit()));
+        if (!FMLCommonHandler.instance().handleServerAboutToStart(this)) { return false; }
         this.getLogAgent().logInfo("Preparing level \"" + this.getFolderName() + "\"");
-        this.loadAllWorlds(this.getFolderName(), this.getFolderName(), var9, var17, var8);
-        long var12 = System.nanoTime() - var4;
-        String var14 = String.format("%.3fs", new Object[] {Double.valueOf((double)var12 / 1.0E9D)});
-        this.getLogAgent().logInfo("Done (" + var14 + ")! For help, type \"help\" or \"?\"");
+        this.loadAllWorlds(this.getFolderName(), this.getFolderName(), k, worldtype, s2);
+        long i1 = System.nanoTime() - j;
+        String s3 = String.format("%.3fs", new Object[] {Double.valueOf((double)i1 / 1.0E9D)});
+        this.getLogAgent().logInfo("Done (" + s3 + ")! For help, type \"help\" or \"?\"");
 
         if (this.settings.getBooleanProperty("enable-query", false))
         {
@@ -197,7 +203,7 @@ public class DedicatedServer extends MinecraftServer implements IServer
             this.theRConThreadMain.startThread();
         }
 
-        return true;
+        return FMLCommonHandler.instance().handleServerStarting(this);
     }
 
     public boolean canStructuresSpawn()
@@ -239,9 +245,9 @@ public class DedicatedServer extends MinecraftServer implements IServer
             {
                 Thread.sleep(10L);
             }
-            catch (InterruptedException var3)
+            catch (InterruptedException interruptedexception)
             {
-                var3.printStackTrace();
+                interruptedexception.printStackTrace();
             }
         }
     }
@@ -305,8 +311,8 @@ public class DedicatedServer extends MinecraftServer implements IServer
     {
         while (!this.pendingCommandList.isEmpty())
         {
-            ServerCommand var1 = (ServerCommand)this.pendingCommandList.remove(0);
-            this.getCommandManager().executeCommand(var1.sender, var1.command);
+            ServerCommand servercommand = (ServerCommand)this.pendingCommandList.remove(0);
+            this.getCommandManager().executeCommand(servercommand.sender, servercommand.command);
         }
     }
 
@@ -370,8 +376,8 @@ public class DedicatedServer extends MinecraftServer implements IServer
      */
     public String getSettingsFilename()
     {
-        File var1 = this.settings.getPropertiesFile();
-        return var1 != null ? var1.getAbsolutePath() : "No settings file";
+        File file1 = this.settings.getPropertiesFile();
+        return file1 != null ? file1.getAbsolutePath() : "No settings file";
     }
 
     public boolean getGuiEnabled()
@@ -426,11 +432,11 @@ public class DedicatedServer extends MinecraftServer implements IServer
         }
         else
         {
-            ChunkCoordinates var6 = par1World.getSpawnPoint();
-            int var7 = MathHelper.abs_int(par2 - var6.posX);
-            int var8 = MathHelper.abs_int(par4 - var6.posZ);
-            int var9 = Math.max(var7, var8);
-            return var9 <= this.getSpawnProtectionSize();
+            ChunkCoordinates chunkcoordinates = par1World.getSpawnPoint();
+            int l = MathHelper.abs_int(par2 - chunkcoordinates.posX);
+            int i1 = MathHelper.abs_int(par4 - chunkcoordinates.posZ);
+            int j1 = Math.max(l, i1);
+            return j1 <= this.getSpawnProtectionSize();
         }
     }
 

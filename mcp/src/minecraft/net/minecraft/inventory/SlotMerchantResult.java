@@ -69,50 +69,50 @@ public class SlotMerchantResult extends Slot
     public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack)
     {
         this.onCrafting(par2ItemStack);
-        MerchantRecipe var3 = this.theMerchantInventory.getCurrentRecipe();
+        MerchantRecipe merchantrecipe = this.theMerchantInventory.getCurrentRecipe();
 
-        if (var3 != null)
+        if (merchantrecipe != null)
         {
-            ItemStack var4 = this.theMerchantInventory.getStackInSlot(0);
-            ItemStack var5 = this.theMerchantInventory.getStackInSlot(1);
+            ItemStack itemstack1 = this.theMerchantInventory.getStackInSlot(0);
+            ItemStack itemstack2 = this.theMerchantInventory.getStackInSlot(1);
 
-            if (this.func_75230_a(var3, var4, var5) || this.func_75230_a(var3, var5, var4))
+            if (this.func_75230_a(merchantrecipe, itemstack1, itemstack2) || this.func_75230_a(merchantrecipe, itemstack2, itemstack1))
             {
-                this.theMerchant.useRecipe(var3);
+                this.theMerchant.useRecipe(merchantrecipe);
 
-                if (var4 != null && var4.stackSize <= 0)
+                if (itemstack1 != null && itemstack1.stackSize <= 0)
                 {
-                    var4 = null;
+                    itemstack1 = null;
                 }
 
-                if (var5 != null && var5.stackSize <= 0)
+                if (itemstack2 != null && itemstack2.stackSize <= 0)
                 {
-                    var5 = null;
+                    itemstack2 = null;
                 }
 
-                this.theMerchantInventory.setInventorySlotContents(0, var4);
-                this.theMerchantInventory.setInventorySlotContents(1, var5);
+                this.theMerchantInventory.setInventorySlotContents(0, itemstack1);
+                this.theMerchantInventory.setInventorySlotContents(1, itemstack2);
             }
         }
     }
 
     private boolean func_75230_a(MerchantRecipe par1MerchantRecipe, ItemStack par2ItemStack, ItemStack par3ItemStack)
     {
-        ItemStack var4 = par1MerchantRecipe.getItemToBuy();
-        ItemStack var5 = par1MerchantRecipe.getSecondItemToBuy();
+        ItemStack itemstack2 = par1MerchantRecipe.getItemToBuy();
+        ItemStack itemstack3 = par1MerchantRecipe.getSecondItemToBuy();
 
-        if (par2ItemStack != null && par2ItemStack.itemID == var4.itemID)
+        if (par2ItemStack != null && par2ItemStack.itemID == itemstack2.itemID)
         {
-            if (var5 != null && par3ItemStack != null && var5.itemID == par3ItemStack.itemID)
+            if (itemstack3 != null && par3ItemStack != null && itemstack3.itemID == par3ItemStack.itemID)
             {
-                par2ItemStack.stackSize -= var4.stackSize;
-                par3ItemStack.stackSize -= var5.stackSize;
+                par2ItemStack.stackSize -= itemstack2.stackSize;
+                par3ItemStack.stackSize -= itemstack3.stackSize;
                 return true;
             }
 
-            if (var5 == null && par3ItemStack == null)
+            if (itemstack3 == null && par3ItemStack == null)
             {
-                par2ItemStack.stackSize -= var4.stackSize;
+                par2ItemStack.stackSize -= itemstack2.stackSize;
                 return true;
             }
         }

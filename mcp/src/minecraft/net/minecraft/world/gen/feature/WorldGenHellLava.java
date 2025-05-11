@@ -28,61 +28,61 @@ public class WorldGenHellLava extends WorldGenerator
         }
         else
         {
-            int var6 = 0;
+            int l = 0;
 
             if (par1World.getBlockId(par3 - 1, par4, par5) == Block.netherrack.blockID)
             {
-                ++var6;
+                ++l;
             }
 
             if (par1World.getBlockId(par3 + 1, par4, par5) == Block.netherrack.blockID)
             {
-                ++var6;
+                ++l;
             }
 
             if (par1World.getBlockId(par3, par4, par5 - 1) == Block.netherrack.blockID)
             {
-                ++var6;
+                ++l;
             }
 
             if (par1World.getBlockId(par3, par4, par5 + 1) == Block.netherrack.blockID)
             {
-                ++var6;
+                ++l;
             }
 
             if (par1World.getBlockId(par3, par4 - 1, par5) == Block.netherrack.blockID)
             {
-                ++var6;
+                ++l;
             }
 
-            int var7 = 0;
+            int i1 = 0;
 
             if (par1World.isAirBlock(par3 - 1, par4, par5))
             {
-                ++var7;
+                ++i1;
             }
 
             if (par1World.isAirBlock(par3 + 1, par4, par5))
             {
-                ++var7;
+                ++i1;
             }
 
             if (par1World.isAirBlock(par3, par4, par5 - 1))
             {
-                ++var7;
+                ++i1;
             }
 
             if (par1World.isAirBlock(par3, par4, par5 + 1))
             {
-                ++var7;
+                ++i1;
             }
 
             if (par1World.isAirBlock(par3, par4 - 1, par5))
             {
-                ++var7;
+                ++i1;
             }
 
-            if (!this.field_94524_b && var6 == 4 && var7 == 1 || var6 == 5)
+            if (!this.field_94524_b && l == 4 && i1 == 1 || l == 5)
             {
                 par1World.setBlock(par3, par4, par5, this.hellLavaID, 0, 2);
                 par1World.scheduledUpdatesAreImmediate = true;

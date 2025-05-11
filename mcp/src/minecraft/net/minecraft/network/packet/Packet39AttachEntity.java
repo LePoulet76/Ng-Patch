@@ -71,7 +71,7 @@ public class Packet39AttachEntity extends Packet
      */
     public boolean containsSameEntityIDAs(Packet par1Packet)
     {
-        Packet39AttachEntity var2 = (Packet39AttachEntity)par1Packet;
-        return var2.ridingEntityId == this.ridingEntityId;
+        Packet39AttachEntity packet39attachentity = (Packet39AttachEntity)par1Packet;
+        return packet39attachentity.ridingEntityId == this.ridingEntityId;
     }
 }

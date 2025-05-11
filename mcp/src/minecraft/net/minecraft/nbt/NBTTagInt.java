@@ -61,8 +61,8 @@ public class NBTTagInt extends NBTBase
     {
         if (super.equals(par1Obj))
         {
-            NBTTagInt var2 = (NBTTagInt)par1Obj;
-            return this.data == var2.data;
+            NBTTagInt nbttagint = (NBTTagInt)par1Obj;
+            return this.data == nbttagint.data;
         }
         else
         {

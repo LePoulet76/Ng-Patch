@@ -21,16 +21,16 @@ class CommandSpreadPlayersPosition
 
     double func_111099_a(CommandSpreadPlayersPosition par1CommandSpreadPlayersPosition)
     {
-        double var2 = this.field_111101_a - par1CommandSpreadPlayersPosition.field_111101_a;
-        double var4 = this.field_111100_b - par1CommandSpreadPlayersPosition.field_111100_b;
-        return Math.sqrt(var2 * var2 + var4 * var4);
+        double d0 = this.field_111101_a - par1CommandSpreadPlayersPosition.field_111101_a;
+        double d1 = this.field_111100_b - par1CommandSpreadPlayersPosition.field_111100_b;
+        return Math.sqrt(d0 * d0 + d1 * d1);
     }
 
     void func_111095_a()
     {
-        double var1 = (double)this.func_111096_b();
-        this.field_111101_a /= var1;
-        this.field_111100_b /= var1;
+        double d0 = (double)this.func_111096_b();
+        this.field_111101_a /= d0;
+        this.field_111100_b /= d0;
     }
 
     float func_111096_b()
@@ -46,45 +46,45 @@ class CommandSpreadPlayersPosition
 
     public boolean func_111093_a(double par1, double par3, double par5, double par7)
     {
-        boolean var9 = false;
+        boolean flag = false;
 
         if (this.field_111101_a < par1)
         {
             this.field_111101_a = par1;
-            var9 = true;
+            flag = true;
         }
         else if (this.field_111101_a > par5)
         {
             this.field_111101_a = par5;
-            var9 = true;
+            flag = true;
         }
 
         if (this.field_111100_b < par3)
         {
             this.field_111100_b = par3;
-            var9 = true;
+            flag = true;
         }
         else if (this.field_111100_b > par7)
         {
             this.field_111100_b = par7;
-            var9 = true;
+            flag = true;
         }
 
-        return var9;
+        return flag;
     }
 
     public int func_111092_a(World par1World)
     {
-        int var2 = MathHelper.floor_double(this.field_111101_a);
-        int var3 = MathHelper.floor_double(this.field_111100_b);
+        int i = MathHelper.floor_double(this.field_111101_a);
+        int j = MathHelper.floor_double(this.field_111100_b);
 
-        for (int var4 = 256; var4 > 0; --var4)
+        for (int k = 256; k > 0; --k)
         {
-            int var5 = par1World.getBlockId(var2, var4, var3);
+            int l = par1World.getBlockId(i, k, j);
 
-            if (var5 != 0)
+            if (l != 0)
             {
-                return var4 + 1;
+                return k + 1;
             }
         }
 
@@ -93,17 +93,17 @@ class CommandSpreadPlayersPosition
 
     public boolean func_111098_b(World par1World)
     {
-        int var2 = MathHelper.floor_double(this.field_111101_a);
-        int var3 = MathHelper.floor_double(this.field_111100_b);
+        int i = MathHelper.floor_double(this.field_111101_a);
+        int j = MathHelper.floor_double(this.field_111100_b);
 
-        for (int var4 = 256; var4 > 0; --var4)
+        for (int k = 256; k > 0; --k)
         {
-            int var5 = par1World.getBlockId(var2, var4, var3);
+            int l = par1World.getBlockId(i, k, j);
 
-            if (var5 != 0)
+            if (l != 0)
             {
-                Material var6 = Block.blocksList[var5].blockMaterial;
-                return !var6.isLiquid() && var6 != Material.fire;
+                Material material = Block.blocksList[l].blockMaterial;
+                return !material.isLiquid() && material != Material.fire;
             }
         }
 

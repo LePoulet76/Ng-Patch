@@ -22,11 +22,11 @@ class MinecraftServerGuiINNER2 implements ActionListener
 
     public void actionPerformed(ActionEvent par1ActionEvent)
     {
-        String var2 = this.field_120025_a.getText().trim();
+        String s = this.field_120025_a.getText().trim();
 
-        if (var2.length() > 0)
+        if (s.length() > 0)
         {
-            MinecraftServerGui.func_120017_a(this.field_120024_b).addPendingCommand(var2, MinecraftServer.getServer());
+            MinecraftServerGui.func_120017_a(this.field_120024_b).addPendingCommand(s, MinecraftServer.getServer());
         }
 
         this.field_120025_a.setText("");

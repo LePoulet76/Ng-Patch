@@ -26,9 +26,9 @@ public class CommandSetPlayerTimeout extends CommandBase
     {
         if (par2ArrayOfStr.length == 1)
         {
-            int var3 = parseIntWithMin(par1ICommandSender, par2ArrayOfStr[0], 0);
-            MinecraftServer.getServer().func_143006_e(var3);
-            notifyAdmins(par1ICommandSender, "commands.setidletimeout.success", new Object[] {Integer.valueOf(var3)});
+            int i = parseIntWithMin(par1ICommandSender, par2ArrayOfStr[0], 0);
+            MinecraftServer.getServer().func_143006_e(i);
+            notifyAdmins(par1ICommandSender, "commands.setidletimeout.success", new Object[] {Integer.valueOf(i)});
         }
         else
         {

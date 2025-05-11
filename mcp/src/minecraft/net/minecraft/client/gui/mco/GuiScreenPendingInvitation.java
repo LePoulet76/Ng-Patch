@@ -95,14 +95,14 @@ public class GuiScreenPendingInvitation extends GuiScreen
 
     private void func_130047_j()
     {
-        int var1 = this.field_130058_d;
+        int i = this.field_130058_d;
 
         if (this.field_130060_c.size() - 1 == this.field_130058_d)
         {
             --this.field_130058_d;
         }
 
-        this.field_130060_c.remove(var1);
+        this.field_130060_c.remove(i);
 
         if (this.field_130060_c.size() == 0)
         {

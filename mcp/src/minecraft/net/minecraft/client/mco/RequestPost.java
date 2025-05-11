@@ -23,14 +23,14 @@ public class RequestPost extends Request
             this.field_96367_a.setDoOutput(true);
             this.field_96367_a.setUseCaches(false);
             this.field_96367_a.setRequestMethod("POST");
-            OutputStream var1 = this.field_96367_a.getOutputStream();
-            var1.write(this.field_96373_c);
-            var1.flush();
+            OutputStream outputstream = this.field_96367_a.getOutputStream();
+            outputstream.write(this.field_96373_c);
+            outputstream.flush();
             return this;
         }
-        catch (Exception var2)
+        catch (Exception exception)
         {
-            throw new ExceptionMcoHttp("Failed URL: " + this.field_96365_b, var2);
+            throw new ExceptionMcoHttp("Failed URL: " + this.field_96365_b, exception);
         }
     }
 

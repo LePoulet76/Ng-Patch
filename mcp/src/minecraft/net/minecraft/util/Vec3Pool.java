@@ -33,21 +33,21 @@ public class Vec3Pool
         }
         else
         {
-            Vec3 var7;
+            Vec3 vec3;
 
             if (this.nextFreeSpace >= this.vec3Cache.size())
             {
-                var7 = new Vec3(this, par1, par3, par5);
-                this.vec3Cache.add(var7);
+                vec3 = new Vec3(this, par1, par3, par5);
+                this.vec3Cache.add(vec3);
             }
             else
             {
-                var7 = (Vec3)this.vec3Cache.get(this.nextFreeSpace);
-                var7.setComponents(par1, par3, par5);
+                vec3 = (Vec3)this.vec3Cache.get(this.nextFreeSpace);
+                vec3.setComponents(par1, par3, par5);
             }
 
             ++this.nextFreeSpace;
-            return var7;
+            return vec3;
         }
     }
 
@@ -65,11 +65,11 @@ public class Vec3Pool
 
             if (this.resetCount++ == this.truncateArrayResetThreshold)
             {
-                int var1 = Math.max(this.maximumSizeSinceLastTruncation, this.vec3Cache.size() - this.minimumSize);
+                int i = Math.max(this.maximumSizeSinceLastTruncation, this.vec3Cache.size() - this.minimumSize);
 
-                while (this.vec3Cache.size() > var1)
+                while (this.vec3Cache.size() > i)
                 {
-                    this.vec3Cache.remove(var1);
+                    this.vec3Cache.remove(i);
                 }
 
                 this.maximumSizeSinceLastTruncation = 0;

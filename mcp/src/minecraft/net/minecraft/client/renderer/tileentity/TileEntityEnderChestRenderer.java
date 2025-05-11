@@ -22,11 +22,11 @@ public class TileEntityEnderChestRenderer extends TileEntitySpecialRenderer
      */
     public void renderEnderChest(TileEntityEnderChest par1TileEntityEnderChest, double par2, double par4, double par6, float par8)
     {
-        int var9 = 0;
+        int i = 0;
 
         if (par1TileEntityEnderChest.hasWorldObj())
         {
-            var9 = par1TileEntityEnderChest.getBlockMetadata();
+            i = par1TileEntityEnderChest.getBlockMetadata();
         }
 
         this.bindTexture(field_110637_a);
@@ -36,34 +36,34 @@ public class TileEntityEnderChestRenderer extends TileEntitySpecialRenderer
         GL11.glTranslatef((float)par2, (float)par4 + 1.0F, (float)par6 + 1.0F);
         GL11.glScalef(1.0F, -1.0F, -1.0F);
         GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-        short var10 = 0;
+        short short1 = 0;
 
-        if (var9 == 2)
+        if (i == 2)
         {
-            var10 = 180;
+            short1 = 180;
         }
 
-        if (var9 == 3)
+        if (i == 3)
         {
-            var10 = 0;
+            short1 = 0;
         }
 
-        if (var9 == 4)
+        if (i == 4)
         {
-            var10 = 90;
+            short1 = 90;
         }
 
-        if (var9 == 5)
+        if (i == 5)
         {
-            var10 = -90;
+            short1 = -90;
         }
 
-        GL11.glRotatef((float)var10, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef((float)short1, 0.0F, 1.0F, 0.0F);
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-        float var11 = par1TileEntityEnderChest.prevLidAngle + (par1TileEntityEnderChest.lidAngle - par1TileEntityEnderChest.prevLidAngle) * par8;
-        var11 = 1.0F - var11;
-        var11 = 1.0F - var11 * var11 * var11;
-        this.theEnderChestModel.chestLid.rotateAngleX = -(var11 * (float)Math.PI / 2.0F);
+        float f1 = par1TileEntityEnderChest.prevLidAngle + (par1TileEntityEnderChest.lidAngle - par1TileEntityEnderChest.prevLidAngle) * par8;
+        f1 = 1.0F - f1;
+        f1 = 1.0F - f1 * f1 * f1;
+        this.theEnderChestModel.chestLid.rotateAngleX = -(f1 * (float)Math.PI / 2.0F);
         this.theEnderChestModel.renderAll();
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         GL11.glPopMatrix();

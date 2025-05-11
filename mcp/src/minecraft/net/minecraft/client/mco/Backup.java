@@ -15,19 +15,19 @@ public class Backup extends ValueObject
 
     public static Backup func_110724_a(JsonNode par0JsonNode)
     {
-        Backup var1 = new Backup();
+        Backup backup = new Backup();
 
         try
         {
-            var1.field_110727_a = par0JsonNode.getStringValue(new Object[] {"backupId"});
-            var1.field_110725_b = new Date(Long.parseLong(par0JsonNode.getNumberValue(new Object[] {"lastModifiedDate"})));
-            var1.field_110726_c = Long.parseLong(par0JsonNode.getNumberValue(new Object[] {"size"}));
+            backup.field_110727_a = par0JsonNode.getStringValue(new Object[] {"backupId"});
+            backup.field_110725_b = new Date(Long.parseLong(par0JsonNode.getNumberValue(new Object[] {"lastModifiedDate"})));
+            backup.field_110726_c = Long.parseLong(par0JsonNode.getNumberValue(new Object[] {"size"}));
         }
-        catch (IllegalArgumentException var3)
+        catch (IllegalArgumentException illegalargumentexception)
         {
             ;
         }
 
-        return var1;
+        return backup;
     }
 }

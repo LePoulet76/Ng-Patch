@@ -3,6 +3,7 @@ package net.minecraft.world.biome;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.world.ChunkPosition;
@@ -11,8 +12,13 @@ import net.minecraft.world.WorldType;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
 
+import net.minecraftforge.common.*;
+import net.minecraftforge.event.terraingen.*;
+import static net.minecraft.world.biome.BiomeGenBase.*;
+
 public class WorldChunkManager
 {
+    public static ArrayList<BiomeGenBase> allowedBiomes = new ArrayList<BiomeGenBase>(Arrays.asList(forest, plains, taiga, taigaHills, forestHills, jungle, jungleHills));
     private GenLayer genBiomes;
 
     /** A GenLayer containing the indices into BiomeGenBase.biomeList[] */
@@ -28,21 +34,16 @@ public class WorldChunkManager
     {
         this.biomeCache = new BiomeCache(this);
         this.biomesToSpawnIn = new ArrayList();
-        this.biomesToSpawnIn.add(BiomeGenBase.forest);
-        this.biomesToSpawnIn.add(BiomeGenBase.plains);
-        this.biomesToSpawnIn.add(BiomeGenBase.taiga);
-        this.biomesToSpawnIn.add(BiomeGenBase.taigaHills);
-        this.biomesToSpawnIn.add(BiomeGenBase.forestHills);
-        this.biomesToSpawnIn.add(BiomeGenBase.jungle);
-        this.biomesToSpawnIn.add(BiomeGenBase.jungleHills);
+        this.biomesToSpawnIn.addAll(allowedBiomes);
     }
 
     public WorldChunkManager(long par1, WorldType par3WorldType)
     {
         this();
-        GenLayer[] var4 = GenLayer.initializeAllBiomeGenerators(par1, par3WorldType);
-        this.genBiomes = var4[0];
-        this.biomeIndexLayer = var4[1];
+        GenLayer[] agenlayer = GenLayer.initializeAllBiomeGenerators(par1, par3WorldType);
+        agenlayer = getModdedBiomeGenerators(par3WorldType, par1, agenlayer);
+        this.genBiomes = agenlayer[0];
+        this.biomeIndexLayer = agenlayer[1];
     }
 
     public WorldChunkManager(World par1World)
@@ -78,18 +79,18 @@ public class WorldChunkManager
             par1ArrayOfFloat = new float[par4 * par5];
         }
 
-        int[] var6 = this.biomeIndexLayer.getInts(par2, par3, par4, par5);
+        int[] aint = this.biomeIndexLayer.getInts(par2, par3, par4, par5);
 
-        for (int var7 = 0; var7 < par4 * par5; ++var7)
+        for (int i1 = 0; i1 < par4 * par5; ++i1)
         {
-            float var8 = (float)BiomeGenBase.biomeList[var6[var7]].getIntRainfall() / 65536.0F;
+            float f = (float)BiomeGenBase.biomeList[aint[i1]].getIntRainfall() / 65536.0F;
 
-            if (var8 > 1.0F)
+            if (f > 1.0F)
             {
-                var8 = 1.0F;
+                f = 1.0F;
             }
 
-            par1ArrayOfFloat[var7] = var8;
+            par1ArrayOfFloat[i1] = f;
         }
 
         return par1ArrayOfFloat;
@@ -117,18 +118,18 @@ public class WorldChunkManager
             par1ArrayOfFloat = new float[par4 * par5];
         }
 
-        int[] var6 = this.biomeIndexLayer.getInts(par2, par3, par4, par5);
+        int[] aint = this.biomeIndexLayer.getInts(par2, par3, par4, par5);
 
-        for (int var7 = 0; var7 < par4 * par5; ++var7)
+        for (int i1 = 0; i1 < par4 * par5; ++i1)
         {
-            float var8 = (float)BiomeGenBase.biomeList[var6[var7]].getIntTemperature() / 65536.0F;
+            float f = (float)BiomeGenBase.biomeList[aint[i1]].getIntTemperature() / 65536.0F;
 
-            if (var8 > 1.0F)
+            if (f > 1.0F)
             {
-                var8 = 1.0F;
+                f = 1.0F;
             }
 
-            par1ArrayOfFloat[var7] = var8;
+            par1ArrayOfFloat[i1] = f;
         }
 
         return par1ArrayOfFloat;
@@ -146,11 +147,11 @@ public class WorldChunkManager
             par1ArrayOfBiomeGenBase = new BiomeGenBase[par4 * par5];
         }
 
-        int[] var6 = this.genBiomes.getInts(par2, par3, par4, par5);
+        int[] aint = this.genBiomes.getInts(par2, par3, par4, par5);
 
-        for (int var7 = 0; var7 < par4 * par5; ++var7)
+        for (int i1 = 0; i1 < par4 * par5; ++i1)
         {
-            par1ArrayOfBiomeGenBase[var7] = BiomeGenBase.biomeList[var6[var7]];
+            par1ArrayOfBiomeGenBase[i1] = BiomeGenBase.biomeList[aint[i1]];
         }
 
         return par1ArrayOfBiomeGenBase;
@@ -180,17 +181,17 @@ public class WorldChunkManager
 
         if (par6 && par4 == 16 && par5 == 16 && (par2 & 15) == 0 && (par3 & 15) == 0)
         {
-            BiomeGenBase[] var9 = this.biomeCache.getCachedBiomes(par2, par3);
-            System.arraycopy(var9, 0, par1ArrayOfBiomeGenBase, 0, par4 * par5);
+            BiomeGenBase[] abiomegenbase1 = this.biomeCache.getCachedBiomes(par2, par3);
+            System.arraycopy(abiomegenbase1, 0, par1ArrayOfBiomeGenBase, 0, par4 * par5);
             return par1ArrayOfBiomeGenBase;
         }
         else
         {
-            int[] var7 = this.biomeIndexLayer.getInts(par2, par3, par4, par5);
+            int[] aint = this.biomeIndexLayer.getInts(par2, par3, par4, par5);
 
-            for (int var8 = 0; var8 < par4 * par5; ++var8)
+            for (int i1 = 0; i1 < par4 * par5; ++i1)
             {
-                par1ArrayOfBiomeGenBase[var8] = BiomeGenBase.biomeList[var7[var8]];
+                par1ArrayOfBiomeGenBase[i1] = BiomeGenBase.biomeList[aint[i1]];
             }
 
             return par1ArrayOfBiomeGenBase;
@@ -203,19 +204,19 @@ public class WorldChunkManager
     public boolean areBiomesViable(int par1, int par2, int par3, List par4List)
     {
         IntCache.resetIntCache();
-        int var5 = par1 - par3 >> 2;
-        int var6 = par2 - par3 >> 2;
-        int var7 = par1 + par3 >> 2;
-        int var8 = par2 + par3 >> 2;
-        int var9 = var7 - var5 + 1;
-        int var10 = var8 - var6 + 1;
-        int[] var11 = this.genBiomes.getInts(var5, var6, var9, var10);
+        int l = par1 - par3 >> 2;
+        int i1 = par2 - par3 >> 2;
+        int j1 = par1 + par3 >> 2;
+        int k1 = par2 + par3 >> 2;
+        int l1 = j1 - l + 1;
+        int i2 = k1 - i1 + 1;
+        int[] aint = this.genBiomes.getInts(l, i1, l1, i2);
 
-        for (int var12 = 0; var12 < var9 * var10; ++var12)
+        for (int j2 = 0; j2 < l1 * i2; ++j2)
         {
-            BiomeGenBase var13 = BiomeGenBase.biomeList[var11[var12]];
+            BiomeGenBase biomegenbase = BiomeGenBase.biomeList[aint[j2]];
 
-            if (!par4List.contains(var13))
+            if (!par4List.contains(biomegenbase))
             {
                 return false;
             }
@@ -231,30 +232,30 @@ public class WorldChunkManager
     public ChunkPosition findBiomePosition(int par1, int par2, int par3, List par4List, Random par5Random)
     {
         IntCache.resetIntCache();
-        int var6 = par1 - par3 >> 2;
-        int var7 = par2 - par3 >> 2;
-        int var8 = par1 + par3 >> 2;
-        int var9 = par2 + par3 >> 2;
-        int var10 = var8 - var6 + 1;
-        int var11 = var9 - var7 + 1;
-        int[] var12 = this.genBiomes.getInts(var6, var7, var10, var11);
-        ChunkPosition var13 = null;
-        int var14 = 0;
+        int l = par1 - par3 >> 2;
+        int i1 = par2 - par3 >> 2;
+        int j1 = par1 + par3 >> 2;
+        int k1 = par2 + par3 >> 2;
+        int l1 = j1 - l + 1;
+        int i2 = k1 - i1 + 1;
+        int[] aint = this.genBiomes.getInts(l, i1, l1, i2);
+        ChunkPosition chunkposition = null;
+        int j2 = 0;
 
-        for (int var15 = 0; var15 < var10 * var11; ++var15)
+        for (int k2 = 0; k2 < l1 * i2; ++k2)
         {
-            int var16 = var6 + var15 % var10 << 2;
-            int var17 = var7 + var15 / var10 << 2;
-            BiomeGenBase var18 = BiomeGenBase.biomeList[var12[var15]];
+            int l2 = l + k2 % l1 << 2;
+            int i3 = i1 + k2 / l1 << 2;
+            BiomeGenBase biomegenbase = BiomeGenBase.biomeList[aint[k2]];
 
-            if (par4List.contains(var18) && (var13 == null || par5Random.nextInt(var14 + 1) == 0))
+            if (par4List.contains(biomegenbase) && (chunkposition == null || par5Random.nextInt(j2 + 1) == 0))
             {
-                var13 = new ChunkPosition(var16, 0, var17);
-                ++var14;
+                chunkposition = new ChunkPosition(l2, 0, i3);
+                ++j2;
             }
         }
 
-        return var13;
+        return chunkposition;
     }
 
     /**
@@ -263,5 +264,12 @@ public class WorldChunkManager
     public void cleanupCache()
     {
         this.biomeCache.cleanupCache();
+    }
+
+    public GenLayer[] getModdedBiomeGenerators(WorldType worldType, long seed, GenLayer[] original)
+    {
+        WorldTypeEvent.InitBiomeGens event = new WorldTypeEvent.InitBiomeGens(worldType, seed, original);
+        MinecraftForge.TERRAIN_GEN_BUS.post(event);
+        return event.newBiomeGens;
     }
 }

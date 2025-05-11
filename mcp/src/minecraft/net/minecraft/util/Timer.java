@@ -65,49 +65,49 @@ public class Timer
      */
     public void updateTimer()
     {
-        long var1 = Minecraft.getSystemTime();
-        long var3 = var1 - this.lastSyncSysClock;
-        long var5 = System.nanoTime() / 1000000L;
-        double var7 = (double)var5 / 1000.0D;
+        long i = Minecraft.getSystemTime();
+        long j = i - this.lastSyncSysClock;
+        long k = System.nanoTime() / 1000000L;
+        double d0 = (double)k / 1000.0D;
 
-        if (var3 <= 1000L && var3 >= 0L)
+        if (j <= 1000L && j >= 0L)
         {
-            this.field_74285_i += var3;
+            this.field_74285_i += j;
 
             if (this.field_74285_i > 1000L)
             {
-                long var9 = var5 - this.lastSyncHRClock;
-                double var11 = (double)this.field_74285_i / (double)var9;
-                this.timeSyncAdjustment += (var11 - this.timeSyncAdjustment) * 0.20000000298023224D;
-                this.lastSyncHRClock = var5;
+                long l = k - this.lastSyncHRClock;
+                double d1 = (double)this.field_74285_i / (double)l;
+                this.timeSyncAdjustment += (d1 - this.timeSyncAdjustment) * 0.20000000298023224D;
+                this.lastSyncHRClock = k;
                 this.field_74285_i = 0L;
             }
 
             if (this.field_74285_i < 0L)
             {
-                this.lastSyncHRClock = var5;
+                this.lastSyncHRClock = k;
             }
         }
         else
         {
-            this.lastHRTime = var7;
+            this.lastHRTime = d0;
         }
 
-        this.lastSyncSysClock = var1;
-        double var13 = (var7 - this.lastHRTime) * this.timeSyncAdjustment;
-        this.lastHRTime = var7;
+        this.lastSyncSysClock = i;
+        double d2 = (d0 - this.lastHRTime) * this.timeSyncAdjustment;
+        this.lastHRTime = d0;
 
-        if (var13 < 0.0D)
+        if (d2 < 0.0D)
         {
-            var13 = 0.0D;
+            d2 = 0.0D;
         }
 
-        if (var13 > 1.0D)
+        if (d2 > 1.0D)
         {
-            var13 = 1.0D;
+            d2 = 1.0D;
         }
 
-        this.elapsedPartialTicks = (float)((double)this.elapsedPartialTicks + var13 * (double)this.timerSpeed * (double)this.ticksPerSecond);
+        this.elapsedPartialTicks = (float)((double)this.elapsedPartialTicks + d2 * (double)this.timerSpeed * (double)this.ticksPerSecond);
         this.elapsedTicks = (int)this.elapsedPartialTicks;
         this.elapsedPartialTicks -= (float)this.elapsedTicks;
 

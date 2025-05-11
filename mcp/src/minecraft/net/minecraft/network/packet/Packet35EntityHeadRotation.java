@@ -65,8 +65,8 @@ public class Packet35EntityHeadRotation extends Packet
      */
     public boolean containsSameEntityIDAs(Packet par1Packet)
     {
-        Packet35EntityHeadRotation var2 = (Packet35EntityHeadRotation)par1Packet;
-        return var2.entityId == this.entityId;
+        Packet35EntityHeadRotation packet35entityheadrotation = (Packet35EntityHeadRotation)par1Packet;
+        return packet35entityheadrotation.entityId == this.entityId;
     }
 
     /**

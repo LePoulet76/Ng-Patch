@@ -11,12 +11,12 @@ public interface ICommandSender
      */
     String getCommandSenderName();
 
-    void sendChatToPlayer(ChatMessageComponent var1);
+    void sendChatToPlayer(ChatMessageComponent chatmessagecomponent);
 
     /**
      * Returns true if the command sender is allowed to use the given command.
      */
-    boolean canCommandSenderUseCommand(int var1, String var2);
+    boolean canCommandSenderUseCommand(int i, String s);
 
     /**
      * Return the position for this command sender.

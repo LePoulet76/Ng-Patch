@@ -30,8 +30,8 @@ public class ComponentNetherBridgeNetherStalkRoom extends ComponentNetherBridgeP
      */
     public static ComponentNetherBridgeNetherStalkRoom createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
     {
-        StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -5, -3, 0, 13, 14, 13, par5);
-        return isAboveGround(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentNetherBridgeNetherStalkRoom(par6, par1Random, var7, par5) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -5, -3, 0, 13, 14, 13, par5);
+        return isAboveGround(structureboundingbox) && StructureComponent.findIntersecting(par0List, structureboundingbox) == null ? new ComponentNetherBridgeNetherStalkRoom(par6, par1Random, structureboundingbox, par5) : null;
     }
 
     /**
@@ -51,22 +51,22 @@ public class ComponentNetherBridgeNetherStalkRoom extends ComponentNetherBridgeP
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 8, 5, 0, 10, 12, 1, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 5, 9, 0, 7, 12, 1, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 2, 11, 2, 10, 12, 10, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-        int var4;
+        int i;
 
-        for (var4 = 1; var4 <= 11; var4 += 2)
+        for (i = 1; i <= 11; i += 2)
         {
-            this.fillWithBlocks(par1World, par3StructureBoundingBox, var4, 10, 0, var4, 11, 0, Block.netherFence.blockID, Block.netherFence.blockID, false);
-            this.fillWithBlocks(par1World, par3StructureBoundingBox, var4, 10, 12, var4, 11, 12, Block.netherFence.blockID, Block.netherFence.blockID, false);
-            this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 10, var4, 0, 11, var4, Block.netherFence.blockID, Block.netherFence.blockID, false);
-            this.fillWithBlocks(par1World, par3StructureBoundingBox, 12, 10, var4, 12, 11, var4, Block.netherFence.blockID, Block.netherFence.blockID, false);
-            this.placeBlockAtCurrentPosition(par1World, Block.netherBrick.blockID, 0, var4, 13, 0, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.netherBrick.blockID, 0, var4, 13, 12, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.netherBrick.blockID, 0, 0, 13, var4, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.netherBrick.blockID, 0, 12, 13, var4, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.netherFence.blockID, 0, var4 + 1, 13, 0, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.netherFence.blockID, 0, var4 + 1, 13, 12, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.netherFence.blockID, 0, 0, 13, var4 + 1, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.netherFence.blockID, 0, 12, 13, var4 + 1, par3StructureBoundingBox);
+            this.fillWithBlocks(par1World, par3StructureBoundingBox, i, 10, 0, i, 11, 0, Block.netherFence.blockID, Block.netherFence.blockID, false);
+            this.fillWithBlocks(par1World, par3StructureBoundingBox, i, 10, 12, i, 11, 12, Block.netherFence.blockID, Block.netherFence.blockID, false);
+            this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 10, i, 0, 11, i, Block.netherFence.blockID, Block.netherFence.blockID, false);
+            this.fillWithBlocks(par1World, par3StructureBoundingBox, 12, 10, i, 12, 11, i, Block.netherFence.blockID, Block.netherFence.blockID, false);
+            this.placeBlockAtCurrentPosition(par1World, Block.netherBrick.blockID, 0, i, 13, 0, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.netherBrick.blockID, 0, i, 13, 12, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.netherBrick.blockID, 0, 0, 13, i, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.netherBrick.blockID, 0, 12, 13, i, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.netherFence.blockID, 0, i + 1, 13, 0, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.netherFence.blockID, 0, i + 1, 13, 12, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.netherFence.blockID, 0, 0, 13, i + 1, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.netherFence.blockID, 0, 12, 13, i + 1, par3StructureBoundingBox);
         }
 
         this.placeBlockAtCurrentPosition(par1World, Block.netherFence.blockID, 0, 0, 13, 0, par3StructureBoundingBox);
@@ -74,44 +74,44 @@ public class ComponentNetherBridgeNetherStalkRoom extends ComponentNetherBridgeP
         this.placeBlockAtCurrentPosition(par1World, Block.netherFence.blockID, 0, 0, 13, 0, par3StructureBoundingBox);
         this.placeBlockAtCurrentPosition(par1World, Block.netherFence.blockID, 0, 12, 13, 0, par3StructureBoundingBox);
 
-        for (var4 = 3; var4 <= 9; var4 += 2)
+        for (i = 3; i <= 9; i += 2)
         {
-            this.fillWithBlocks(par1World, par3StructureBoundingBox, 1, 7, var4, 1, 8, var4, Block.netherFence.blockID, Block.netherFence.blockID, false);
-            this.fillWithBlocks(par1World, par3StructureBoundingBox, 11, 7, var4, 11, 8, var4, Block.netherFence.blockID, Block.netherFence.blockID, false);
+            this.fillWithBlocks(par1World, par3StructureBoundingBox, 1, 7, i, 1, 8, i, Block.netherFence.blockID, Block.netherFence.blockID, false);
+            this.fillWithBlocks(par1World, par3StructureBoundingBox, 11, 7, i, 11, 8, i, Block.netherFence.blockID, Block.netherFence.blockID, false);
         }
 
-        var4 = this.getMetadataWithOffset(Block.stairsNetherBrick.blockID, 3);
-        int var5;
-        int var6;
-        int var7;
+        i = this.getMetadataWithOffset(Block.stairsNetherBrick.blockID, 3);
+        int j;
+        int k;
+        int l;
 
-        for (var5 = 0; var5 <= 6; ++var5)
+        for (j = 0; j <= 6; ++j)
         {
-            var6 = var5 + 4;
+            k = j + 4;
 
-            for (var7 = 5; var7 <= 7; ++var7)
+            for (l = 5; l <= 7; ++l)
             {
-                this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, var4, var7, 5 + var5, var6, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, i, l, 5 + j, k, par3StructureBoundingBox);
             }
 
-            if (var6 >= 5 && var6 <= 8)
+            if (k >= 5 && k <= 8)
             {
-                this.fillWithBlocks(par1World, par3StructureBoundingBox, 5, 5, var6, 7, var5 + 4, var6, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+                this.fillWithBlocks(par1World, par3StructureBoundingBox, 5, 5, k, 7, j + 4, k, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
             }
-            else if (var6 >= 9 && var6 <= 10)
+            else if (k >= 9 && k <= 10)
             {
-                this.fillWithBlocks(par1World, par3StructureBoundingBox, 5, 8, var6, 7, var5 + 4, var6, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+                this.fillWithBlocks(par1World, par3StructureBoundingBox, 5, 8, k, 7, j + 4, k, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
             }
 
-            if (var5 >= 1)
+            if (j >= 1)
             {
-                this.fillWithBlocks(par1World, par3StructureBoundingBox, 5, 6 + var5, var6, 7, 9 + var5, var6, 0, 0, false);
+                this.fillWithBlocks(par1World, par3StructureBoundingBox, 5, 6 + j, k, 7, 9 + j, k, 0, 0, false);
             }
         }
 
-        for (var5 = 5; var5 <= 7; ++var5)
+        for (j = 5; j <= 7; ++j)
         {
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, var4, var5, 12, 11, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, i, j, 12, 11, par3StructureBoundingBox);
         }
 
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 5, 6, 7, 5, 7, 7, Block.netherFence.blockID, Block.netherFence.blockID, false);
@@ -123,16 +123,16 @@ public class ComponentNetherBridgeNetherStalkRoom extends ComponentNetherBridgeP
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 9, 5, 2, 10, 5, 3, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 9, 5, 9, 10, 5, 10, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 10, 5, 4, 10, 5, 8, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-        var5 = this.getMetadataWithOffset(Block.stairsNetherBrick.blockID, 0);
-        var6 = this.getMetadataWithOffset(Block.stairsNetherBrick.blockID, 1);
-        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, var6, 4, 5, 2, par3StructureBoundingBox);
-        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, var6, 4, 5, 3, par3StructureBoundingBox);
-        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, var6, 4, 5, 9, par3StructureBoundingBox);
-        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, var6, 4, 5, 10, par3StructureBoundingBox);
-        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, var5, 8, 5, 2, par3StructureBoundingBox);
-        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, var5, 8, 5, 3, par3StructureBoundingBox);
-        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, var5, 8, 5, 9, par3StructureBoundingBox);
-        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, var5, 8, 5, 10, par3StructureBoundingBox);
+        j = this.getMetadataWithOffset(Block.stairsNetherBrick.blockID, 0);
+        k = this.getMetadataWithOffset(Block.stairsNetherBrick.blockID, 1);
+        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, k, 4, 5, 2, par3StructureBoundingBox);
+        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, k, 4, 5, 3, par3StructureBoundingBox);
+        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, k, 4, 5, 9, par3StructureBoundingBox);
+        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, k, 4, 5, 10, par3StructureBoundingBox);
+        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, j, 8, 5, 2, par3StructureBoundingBox);
+        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, j, 8, 5, 3, par3StructureBoundingBox);
+        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, j, 8, 5, 9, par3StructureBoundingBox);
+        this.placeBlockAtCurrentPosition(par1World, Block.stairsNetherBrick.blockID, j, 8, 5, 10, par3StructureBoundingBox);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 3, 4, 4, 4, 4, 8, Block.slowSand.blockID, Block.slowSand.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 8, 4, 4, 9, 4, 8, Block.slowSand.blockID, Block.slowSand.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 3, 5, 4, 4, 5, 8, Block.netherStalk.blockID, Block.netherStalk.blockID, false);
@@ -143,23 +143,23 @@ public class ComponentNetherBridgeNetherStalkRoom extends ComponentNetherBridgeP
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 4, 0, 9, 8, 1, 12, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 0, 4, 3, 1, 8, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 9, 0, 4, 12, 1, 8, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-        int var8;
+        int i1;
 
-        for (var7 = 4; var7 <= 8; ++var7)
+        for (l = 4; l <= 8; ++l)
         {
-            for (var8 = 0; var8 <= 2; ++var8)
+            for (i1 = 0; i1 <= 2; ++i1)
             {
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, var7, -1, var8, par3StructureBoundingBox);
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, var7, -1, 12 - var8, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, l, -1, i1, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, l, -1, 12 - i1, par3StructureBoundingBox);
             }
         }
 
-        for (var7 = 0; var7 <= 2; ++var7)
+        for (l = 0; l <= 2; ++l)
         {
-            for (var8 = 4; var8 <= 8; ++var8)
+            for (i1 = 4; i1 <= 8; ++i1)
             {
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, var7, -1, var8, par3StructureBoundingBox);
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, 12 - var7, -1, var8, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, l, -1, i1, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, 12 - l, -1, i1, par3StructureBoundingBox);
             }
         }
 

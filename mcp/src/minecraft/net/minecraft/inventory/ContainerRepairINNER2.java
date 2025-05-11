@@ -54,12 +54,12 @@ class ContainerRepairINNER2 extends Slot
 
         if (ContainerRepair.getStackSizeUsedInRepair(this.repairContainer) > 0)
         {
-            ItemStack var3 = ContainerRepair.getRepairInputInventory(this.repairContainer).getStackInSlot(1);
+            ItemStack itemstack1 = ContainerRepair.getRepairInputInventory(this.repairContainer).getStackInSlot(1);
 
-            if (var3 != null && var3.stackSize > ContainerRepair.getStackSizeUsedInRepair(this.repairContainer))
+            if (itemstack1 != null && itemstack1.stackSize > ContainerRepair.getStackSizeUsedInRepair(this.repairContainer))
             {
-                var3.stackSize -= ContainerRepair.getStackSizeUsedInRepair(this.repairContainer);
-                ContainerRepair.getRepairInputInventory(this.repairContainer).setInventorySlotContents(1, var3);
+                itemstack1.stackSize -= ContainerRepair.getStackSizeUsedInRepair(this.repairContainer);
+                ContainerRepair.getRepairInputInventory(this.repairContainer).setInventorySlotContents(1, itemstack1);
             }
             else
             {
@@ -75,19 +75,19 @@ class ContainerRepairINNER2 extends Slot
 
         if (!par1EntityPlayer.capabilities.isCreativeMode && !this.field_135071_a.isRemote && this.field_135071_a.getBlockId(this.field_135069_b, this.field_135070_c, this.field_135067_d) == Block.anvil.blockID && par1EntityPlayer.getRNG().nextFloat() < 0.12F)
         {
-            int var6 = this.field_135071_a.getBlockMetadata(this.field_135069_b, this.field_135070_c, this.field_135067_d);
-            int var4 = var6 & 3;
-            int var5 = var6 >> 2;
-            ++var5;
+            int i = this.field_135071_a.getBlockMetadata(this.field_135069_b, this.field_135070_c, this.field_135067_d);
+            int j = i & 3;
+            int k = i >> 2;
+            ++k;
 
-            if (var5 > 2)
+            if (k > 2)
             {
                 this.field_135071_a.setBlockToAir(this.field_135069_b, this.field_135070_c, this.field_135067_d);
                 this.field_135071_a.playAuxSFX(1020, this.field_135069_b, this.field_135070_c, this.field_135067_d, 0);
             }
             else
             {
-                this.field_135071_a.setBlockMetadataWithNotify(this.field_135069_b, this.field_135070_c, this.field_135067_d, var4 | var5 << 2, 2);
+                this.field_135071_a.setBlockMetadataWithNotify(this.field_135069_b, this.field_135070_c, this.field_135067_d, j | k << 2, 2);
                 this.field_135071_a.playAuxSFX(1021, this.field_135069_b, this.field_135070_c, this.field_135067_d, 0);
             }
         }

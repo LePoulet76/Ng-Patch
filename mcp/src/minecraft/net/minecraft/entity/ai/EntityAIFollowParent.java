@@ -29,38 +29,38 @@ public class EntityAIFollowParent extends EntityAIBase
         }
         else
         {
-            List var1 = this.childAnimal.worldObj.getEntitiesWithinAABB(this.childAnimal.getClass(), this.childAnimal.boundingBox.expand(8.0D, 4.0D, 8.0D));
-            EntityAnimal var2 = null;
-            double var3 = Double.MAX_VALUE;
-            Iterator var5 = var1.iterator();
+            List list = this.childAnimal.worldObj.getEntitiesWithinAABB(this.childAnimal.getClass(), this.childAnimal.boundingBox.expand(8.0D, 4.0D, 8.0D));
+            EntityAnimal entityanimal = null;
+            double d0 = Double.MAX_VALUE;
+            Iterator iterator = list.iterator();
 
-            while (var5.hasNext())
+            while (iterator.hasNext())
             {
-                EntityAnimal var6 = (EntityAnimal)var5.next();
+                EntityAnimal entityanimal1 = (EntityAnimal)iterator.next();
 
-                if (var6.getGrowingAge() >= 0)
+                if (entityanimal1.getGrowingAge() >= 0)
                 {
-                    double var7 = this.childAnimal.getDistanceSqToEntity(var6);
+                    double d1 = this.childAnimal.getDistanceSqToEntity(entityanimal1);
 
-                    if (var7 <= var3)
+                    if (d1 <= d0)
                     {
-                        var3 = var7;
-                        var2 = var6;
+                        d0 = d1;
+                        entityanimal = entityanimal1;
                     }
                 }
             }
 
-            if (var2 == null)
+            if (entityanimal == null)
             {
                 return false;
             }
-            else if (var3 < 9.0D)
+            else if (d0 < 9.0D)
             {
                 return false;
             }
             else
             {
-                this.parentAnimal = var2;
+                this.parentAnimal = entityanimal;
                 return true;
             }
         }
@@ -77,8 +77,8 @@ public class EntityAIFollowParent extends EntityAIBase
         }
         else
         {
-            double var1 = this.childAnimal.getDistanceSqToEntity(this.parentAnimal);
-            return var1 >= 9.0D && var1 <= 256.0D;
+            double d0 = this.childAnimal.getDistanceSqToEntity(this.parentAnimal);
+            return d0 >= 9.0D && d0 <= 256.0D;
         }
     }
 

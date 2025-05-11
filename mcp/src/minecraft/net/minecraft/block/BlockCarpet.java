@@ -39,9 +39,9 @@ public class BlockCarpet extends Block
      */
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
     {
-        byte var5 = 0;
-        float var6 = 0.0625F;
-        return AxisAlignedBB.getAABBPool().getAABB((double)par2 + this.minX, (double)par3 + this.minY, (double)par4 + this.minZ, (double)par2 + this.maxX, (double)((float)par3 + (float)var5 * var6), (double)par4 + this.maxZ);
+        byte b0 = 0;
+        float f = 0.0625F;
+        return AxisAlignedBB.getAABBPool().getAABB((double)par2 + this.minX, (double)par3 + this.minY, (double)par4 + this.minZ, (double)par2 + this.maxX, (double)((float)par3 + (float)b0 * f), (double)par4 + this.maxZ);
     }
 
     /**
@@ -79,9 +79,9 @@ public class BlockCarpet extends Block
 
     protected void func_111047_d(int par1)
     {
-        byte var2 = 0;
-        float var3 = (float)(1 * (1 + var2)) / 16.0F;
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, var3, 1.0F);
+        byte b0 = 0;
+        float f = (float)(1 * (1 + b0)) / 16.0F;
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
     }
 
     /**
@@ -149,9 +149,9 @@ public class BlockCarpet extends Block
      */
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (int var4 = 0; var4 < 16; ++var4)
+        for (int j = 0; j < 16; ++j)
         {
-            par3List.add(new ItemStack(par1, 1, var4));
+            par3List.add(new ItemStack(par1, 1, j));
         }
     }
 

@@ -26,23 +26,23 @@ class GuiButtonNextPage extends GuiButton
     {
         if (this.drawButton)
         {
-            boolean var4 = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
+            boolean flag = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             par1Minecraft.getTextureManager().bindTexture(GuiScreenBook.func_110404_g());
-            int var5 = 0;
-            int var6 = 192;
+            int k = 0;
+            int l = 192;
 
-            if (var4)
+            if (flag)
             {
-                var5 += 23;
+                k += 23;
             }
 
             if (!this.nextPage)
             {
-                var6 += 13;
+                l += 13;
             }
 
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, var5, var6, 23, 13);
+            this.drawTexturedModalRect(this.xPosition, this.yPosition, k, l, 23, 13);
         }
     }
 }

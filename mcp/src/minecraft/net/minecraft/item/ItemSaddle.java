@@ -21,11 +21,11 @@ public class ItemSaddle extends Item
     {
         if (par3EntityLivingBase instanceof EntityPig)
         {
-            EntityPig var4 = (EntityPig)par3EntityLivingBase;
+            EntityPig entitypig = (EntityPig)par3EntityLivingBase;
 
-            if (!var4.getSaddled() && !var4.isChild())
+            if (!entitypig.getSaddled() && !entitypig.isChild())
             {
-                var4.setSaddled(true);
+                entitypig.setSaddled(true);
                 --par1ItemStack.stackSize;
             }
 

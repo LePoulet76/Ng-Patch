@@ -50,42 +50,42 @@ public class ComponentStrongholdCrossing extends ComponentStronghold
      */
     public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
     {
-        int var4 = 3;
-        int var5 = 5;
+        int i = 3;
+        int j = 5;
 
         if (this.coordBaseMode == 1 || this.coordBaseMode == 2)
         {
-            var4 = 8 - var4;
-            var5 = 8 - var5;
+            i = 8 - i;
+            j = 8 - j;
         }
 
         this.getNextComponentNormal((ComponentStrongholdStairs2)par1StructureComponent, par2List, par3Random, 5, 1);
 
         if (this.field_74996_b)
         {
-            this.getNextComponentX((ComponentStrongholdStairs2)par1StructureComponent, par2List, par3Random, var4, 1);
+            this.getNextComponentX((ComponentStrongholdStairs2)par1StructureComponent, par2List, par3Random, i, 1);
         }
 
         if (this.field_74997_c)
         {
-            this.getNextComponentX((ComponentStrongholdStairs2)par1StructureComponent, par2List, par3Random, var5, 7);
+            this.getNextComponentX((ComponentStrongholdStairs2)par1StructureComponent, par2List, par3Random, j, 7);
         }
 
         if (this.field_74995_d)
         {
-            this.getNextComponentZ((ComponentStrongholdStairs2)par1StructureComponent, par2List, par3Random, var4, 1);
+            this.getNextComponentZ((ComponentStrongholdStairs2)par1StructureComponent, par2List, par3Random, i, 1);
         }
 
         if (this.field_74999_h)
         {
-            this.getNextComponentZ((ComponentStrongholdStairs2)par1StructureComponent, par2List, par3Random, var5, 7);
+            this.getNextComponentZ((ComponentStrongholdStairs2)par1StructureComponent, par2List, par3Random, j, 7);
         }
     }
 
     public static ComponentStrongholdCrossing findValidPlacement(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
     {
-        StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -4, -3, 0, 10, 9, 11, par5);
-        return canStrongholdGoDeeper(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentStrongholdCrossing(par6, par1Random, var7, par5) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -4, -3, 0, 10, 9, 11, par5);
+        return canStrongholdGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(par0List, structureboundingbox) == null ? new ComponentStrongholdCrossing(par6, par1Random, structureboundingbox, par5) : null;
     }
 
     /**

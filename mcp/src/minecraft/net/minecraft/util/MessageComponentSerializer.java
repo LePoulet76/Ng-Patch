@@ -18,185 +18,185 @@ public class MessageComponentSerializer implements JsonDeserializer, JsonSeriali
 {
     public ChatMessageComponent deserializeComponent(JsonElement par1JsonElement, Type par2Type, JsonDeserializationContext par3JsonDeserializationContext)
     {
-        ChatMessageComponent var4 = new ChatMessageComponent();
-        JsonObject var5 = (JsonObject)par1JsonElement;
-        JsonElement var6 = var5.get("text");
-        JsonElement var7 = var5.get("translate");
-        JsonElement var8 = var5.get("color");
-        JsonElement var9 = var5.get("bold");
-        JsonElement var10 = var5.get("italic");
-        JsonElement var11 = var5.get("underlined");
-        JsonElement var12 = var5.get("obfuscated");
+        ChatMessageComponent chatmessagecomponent = new ChatMessageComponent();
+        JsonObject jsonobject = (JsonObject)par1JsonElement;
+        JsonElement jsonelement1 = jsonobject.get("text");
+        JsonElement jsonelement2 = jsonobject.get("translate");
+        JsonElement jsonelement3 = jsonobject.get("color");
+        JsonElement jsonelement4 = jsonobject.get("bold");
+        JsonElement jsonelement5 = jsonobject.get("italic");
+        JsonElement jsonelement6 = jsonobject.get("underlined");
+        JsonElement jsonelement7 = jsonobject.get("obfuscated");
 
-        if (var8 != null && var8.isJsonPrimitive())
+        if (jsonelement3 != null && jsonelement3.isJsonPrimitive())
         {
-            EnumChatFormatting var13 = EnumChatFormatting.func_96300_b(var8.getAsString());
+            EnumChatFormatting enumchatformatting = EnumChatFormatting.func_96300_b(jsonelement3.getAsString());
 
-            if (var13 == null || !var13.isColor())
+            if (enumchatformatting == null || !enumchatformatting.isColor())
             {
-                throw new JsonParseException("Given color (" + var8.getAsString() + ") is not a valid selection");
+                throw new JsonParseException("Given color (" + jsonelement3.getAsString() + ") is not a valid selection");
             }
 
-            var4.setColor(var13);
+            chatmessagecomponent.setColor(enumchatformatting);
         }
 
-        if (var9 != null && var9.isJsonPrimitive())
+        if (jsonelement4 != null && jsonelement4.isJsonPrimitive())
         {
-            var4.setBold(Boolean.valueOf(var9.getAsBoolean()));
+            chatmessagecomponent.setBold(Boolean.valueOf(jsonelement4.getAsBoolean()));
         }
 
-        if (var10 != null && var10.isJsonPrimitive())
+        if (jsonelement5 != null && jsonelement5.isJsonPrimitive())
         {
-            var4.setItalic(Boolean.valueOf(var10.getAsBoolean()));
+            chatmessagecomponent.setItalic(Boolean.valueOf(jsonelement5.getAsBoolean()));
         }
 
-        if (var11 != null && var11.isJsonPrimitive())
+        if (jsonelement6 != null && jsonelement6.isJsonPrimitive())
         {
-            var4.setUnderline(Boolean.valueOf(var11.getAsBoolean()));
+            chatmessagecomponent.setUnderline(Boolean.valueOf(jsonelement6.getAsBoolean()));
         }
 
-        if (var12 != null && var12.isJsonPrimitive())
+        if (jsonelement7 != null && jsonelement7.isJsonPrimitive())
         {
-            var4.setObfuscated(Boolean.valueOf(var12.getAsBoolean()));
+            chatmessagecomponent.setObfuscated(Boolean.valueOf(jsonelement7.getAsBoolean()));
         }
 
-        if (var6 != null)
+        if (jsonelement1 != null)
         {
-            if (var6.isJsonArray())
+            if (jsonelement1.isJsonArray())
             {
-                JsonArray var17 = var6.getAsJsonArray();
-                Iterator var14 = var17.iterator();
+                JsonArray jsonarray = jsonelement1.getAsJsonArray();
+                Iterator iterator = jsonarray.iterator();
 
-                while (var14.hasNext())
+                while (iterator.hasNext())
                 {
-                    JsonElement var15 = (JsonElement)var14.next();
+                    JsonElement jsonelement8 = (JsonElement)iterator.next();
 
-                    if (var15.isJsonPrimitive())
+                    if (jsonelement8.isJsonPrimitive())
                     {
-                        var4.addText(var15.getAsString());
+                        chatmessagecomponent.addText(jsonelement8.getAsString());
                     }
-                    else if (var15.isJsonObject())
+                    else if (jsonelement8.isJsonObject())
                     {
-                        var4.appendComponent(this.deserializeComponent(var15, par2Type, par3JsonDeserializationContext));
+                        chatmessagecomponent.appendComponent(this.deserializeComponent(jsonelement8, par2Type, par3JsonDeserializationContext));
                     }
                 }
             }
-            else if (var6.isJsonPrimitive())
+            else if (jsonelement1.isJsonPrimitive())
             {
-                var4.addText(var6.getAsString());
+                chatmessagecomponent.addText(jsonelement1.getAsString());
             }
         }
-        else if (var7 != null && var7.isJsonPrimitive())
+        else if (jsonelement2 != null && jsonelement2.isJsonPrimitive())
         {
-            JsonElement var18 = var5.get("using");
+            JsonElement jsonelement9 = jsonobject.get("using");
 
-            if (var18 != null)
+            if (jsonelement9 != null)
             {
-                if (var18.isJsonArray())
+                if (jsonelement9.isJsonArray())
                 {
-                    ArrayList var19 = Lists.newArrayList();
-                    Iterator var20 = var18.getAsJsonArray().iterator();
+                    ArrayList arraylist = Lists.newArrayList();
+                    Iterator iterator1 = jsonelement9.getAsJsonArray().iterator();
 
-                    while (var20.hasNext())
+                    while (iterator1.hasNext())
                     {
-                        JsonElement var16 = (JsonElement)var20.next();
+                        JsonElement jsonelement10 = (JsonElement)iterator1.next();
 
-                        if (var16.isJsonPrimitive())
+                        if (jsonelement10.isJsonPrimitive())
                         {
-                            var19.add(var16.getAsString());
+                            arraylist.add(jsonelement10.getAsString());
                         }
-                        else if (var16.isJsonObject())
+                        else if (jsonelement10.isJsonObject())
                         {
-                            var19.add(this.deserializeComponent(var16, par2Type, par3JsonDeserializationContext));
+                            arraylist.add(this.deserializeComponent(jsonelement10, par2Type, par3JsonDeserializationContext));
                         }
                     }
 
-                    var4.addFormatted(var7.getAsString(), var19.toArray());
+                    chatmessagecomponent.addFormatted(jsonelement2.getAsString(), arraylist.toArray());
                 }
-                else if (var18.isJsonPrimitive())
+                else if (jsonelement9.isJsonPrimitive())
                 {
-                    var4.addFormatted(var7.getAsString(), new Object[] {var18.getAsString()});
+                    chatmessagecomponent.addFormatted(jsonelement2.getAsString(), new Object[] {jsonelement9.getAsString()});
                 }
             }
             else
             {
-                var4.addKey(var7.getAsString());
+                chatmessagecomponent.addKey(jsonelement2.getAsString());
             }
         }
 
-        return var4;
+        return chatmessagecomponent;
     }
 
     public JsonElement serializeComponent(ChatMessageComponent par1ChatMessageComponent, Type par2Type, JsonSerializationContext par3JsonSerializationContext)
     {
-        JsonObject var4 = new JsonObject();
+        JsonObject jsonobject = new JsonObject();
 
         if (par1ChatMessageComponent.getColor() != null)
         {
-            var4.addProperty("color", par1ChatMessageComponent.getColor().func_96297_d());
+            jsonobject.addProperty("color", par1ChatMessageComponent.getColor().func_96297_d());
         }
 
         if (par1ChatMessageComponent.isBold() != null)
         {
-            var4.addProperty("bold", par1ChatMessageComponent.isBold());
+            jsonobject.addProperty("bold", par1ChatMessageComponent.isBold());
         }
 
         if (par1ChatMessageComponent.isItalic() != null)
         {
-            var4.addProperty("italic", par1ChatMessageComponent.isItalic());
+            jsonobject.addProperty("italic", par1ChatMessageComponent.isItalic());
         }
 
         if (par1ChatMessageComponent.isUnderline() != null)
         {
-            var4.addProperty("underlined", par1ChatMessageComponent.isUnderline());
+            jsonobject.addProperty("underlined", par1ChatMessageComponent.isUnderline());
         }
 
         if (par1ChatMessageComponent.isObfuscated() != null)
         {
-            var4.addProperty("obfuscated", par1ChatMessageComponent.isObfuscated());
+            jsonobject.addProperty("obfuscated", par1ChatMessageComponent.isObfuscated());
         }
 
         if (par1ChatMessageComponent.getText() != null)
         {
-            var4.addProperty("text", par1ChatMessageComponent.getText());
+            jsonobject.addProperty("text", par1ChatMessageComponent.getText());
         }
         else if (par1ChatMessageComponent.getTranslationKey() != null)
         {
-            var4.addProperty("translate", par1ChatMessageComponent.getTranslationKey());
+            jsonobject.addProperty("translate", par1ChatMessageComponent.getTranslationKey());
 
             if (par1ChatMessageComponent.getSubComponents() != null && !par1ChatMessageComponent.getSubComponents().isEmpty())
             {
-                var4.add("using", this.serializeComponentChildren(par1ChatMessageComponent, par2Type, par3JsonSerializationContext));
+                jsonobject.add("using", this.serializeComponentChildren(par1ChatMessageComponent, par2Type, par3JsonSerializationContext));
             }
         }
         else if (par1ChatMessageComponent.getSubComponents() != null && !par1ChatMessageComponent.getSubComponents().isEmpty())
         {
-            var4.add("text", this.serializeComponentChildren(par1ChatMessageComponent, par2Type, par3JsonSerializationContext));
+            jsonobject.add("text", this.serializeComponentChildren(par1ChatMessageComponent, par2Type, par3JsonSerializationContext));
         }
 
-        return var4;
+        return jsonobject;
     }
 
     private JsonArray serializeComponentChildren(ChatMessageComponent par1ChatMessageComponent, Type par2Type, JsonSerializationContext par3JsonSerializationContext)
     {
-        JsonArray var4 = new JsonArray();
-        Iterator var5 = par1ChatMessageComponent.getSubComponents().iterator();
+        JsonArray jsonarray = new JsonArray();
+        Iterator iterator = par1ChatMessageComponent.getSubComponents().iterator();
 
-        while (var5.hasNext())
+        while (iterator.hasNext())
         {
-            ChatMessageComponent var6 = (ChatMessageComponent)var5.next();
+            ChatMessageComponent chatmessagecomponent1 = (ChatMessageComponent)iterator.next();
 
-            if (var6.getText() != null)
+            if (chatmessagecomponent1.getText() != null)
             {
-                var4.add(new JsonPrimitive(var6.getText()));
+                jsonarray.add(new JsonPrimitive(chatmessagecomponent1.getText()));
             }
             else
             {
-                var4.add(this.serializeComponent(var6, par2Type, par3JsonSerializationContext));
+                jsonarray.add(this.serializeComponent(chatmessagecomponent1, par2Type, par3JsonSerializationContext));
             }
         }
 
-        return var4;
+        return jsonarray;
     }
 
     public Object deserialize(JsonElement par1JsonElement, Type par2Type, JsonDeserializationContext par3JsonDeserializationContext)

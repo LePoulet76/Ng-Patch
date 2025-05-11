@@ -1,5 +1,6 @@
 package net.minecraft.network;
 
+import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.net.InetSocketAddress;
@@ -7,6 +8,11 @@ import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+import com.google.common.collect.Queues;
+
 import net.minecraft.logging.ILogAgent;
 import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet;
@@ -14,7 +20,7 @@ import net.minecraft.network.packet.Packet;
 public class MemoryConnection implements INetworkManager
 {
     private static final SocketAddress mySocketAddress = new InetSocketAddress("127.0.0.1", 0);
-    private final List readPacketCache = Collections.synchronizedList(new ArrayList());
+    private final Queue<Packet> readPacketCache = Queues.newConcurrentLinkedQueue();
     private final ILogAgent field_98214_c;
     private MemoryConnection pairedConnection;
     private NetHandler myNetHandler;
@@ -75,15 +81,15 @@ public class MemoryConnection implements INetworkManager
      */
     public void processReadPackets()
     {
-        int var1 = 2500;
+        int i = 2500;
 
-        while (var1-- >= 0 && !this.readPacketCache.isEmpty())
+        while (i-- >= 0 && !this.readPacketCache.isEmpty())
         {
-            Packet var2 = (Packet)this.readPacketCache.remove(0);
-            var2.processPacket(this.myNetHandler);
+            Packet packet = readPacketCache.poll();
+            packet.processPacket(this.myNetHandler);
         }
 
-        if (this.readPacketCache.size() > var1)
+        if (this.readPacketCache.size() > i)
         {
             this.field_98214_c.logWarning("Memory connection overburdened; after processing 2500 packets, we still have " + this.readPacketCache.size() + " to go!");
         }
@@ -91,6 +97,7 @@ public class MemoryConnection implements INetworkManager
         if (this.shuttingDown && this.readPacketCache.isEmpty())
         {
             this.myNetHandler.handleErrorMessage(this.shutdownReason, this.field_74439_g);
+            FMLNetworkHandler.onConnectionClosed(this, this.myNetHandler.getPlayer());
         }
     }
 

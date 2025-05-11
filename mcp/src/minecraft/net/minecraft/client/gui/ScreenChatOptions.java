@@ -33,54 +33,54 @@ public class ScreenChatOptions extends GuiScreen
      */
     public void initGui()
     {
-        int var1 = 0;
+        int i = 0;
         this.theChatOptions = I18n.getString("options.chat.title");
         this.field_82268_n = I18n.getString("options.multiplayer.title");
-        EnumOptions[] var2 = allScreenChatOptions;
-        int var3 = var2.length;
-        int var4;
-        EnumOptions var5;
+        EnumOptions[] aenumoptions = allScreenChatOptions;
+        int j = aenumoptions.length;
+        int k;
+        EnumOptions enumoptions;
 
-        for (var4 = 0; var4 < var3; ++var4)
+        for (k = 0; k < j; ++k)
         {
-            var5 = var2[var4];
+            enumoptions = aenumoptions[k];
 
-            if (var5.getEnumFloat())
+            if (enumoptions.getEnumFloat())
             {
-                this.buttonList.add(new GuiSlider(var5.returnEnumOrdinal(), this.width / 2 - 155 + var1 % 2 * 160, this.height / 6 + 24 * (var1 >> 1), var5, this.theSettings.getKeyBinding(var5), this.theSettings.getOptionFloatValue(var5)));
+                this.buttonList.add(new GuiSlider(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 + 24 * (i >> 1), enumoptions, this.theSettings.getKeyBinding(enumoptions), this.theSettings.getOptionFloatValue(enumoptions)));
             }
             else
             {
-                this.buttonList.add(new GuiSmallButton(var5.returnEnumOrdinal(), this.width / 2 - 155 + var1 % 2 * 160, this.height / 6 + 24 * (var1 >> 1), var5, this.theSettings.getKeyBinding(var5)));
+                this.buttonList.add(new GuiSmallButton(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 + 24 * (i >> 1), enumoptions, this.theSettings.getKeyBinding(enumoptions)));
             }
 
-            ++var1;
+            ++i;
         }
 
-        if (var1 % 2 == 1)
+        if (i % 2 == 1)
         {
-            ++var1;
+            ++i;
         }
 
-        this.field_82269_o = this.height / 6 + 24 * (var1 >> 1);
-        var1 += 2;
-        var2 = allMultiplayerOptions;
-        var3 = var2.length;
+        this.field_82269_o = this.height / 6 + 24 * (i >> 1);
+        i += 2;
+        aenumoptions = allMultiplayerOptions;
+        j = aenumoptions.length;
 
-        for (var4 = 0; var4 < var3; ++var4)
+        for (k = 0; k < j; ++k)
         {
-            var5 = var2[var4];
+            enumoptions = aenumoptions[k];
 
-            if (var5.getEnumFloat())
+            if (enumoptions.getEnumFloat())
             {
-                this.buttonList.add(new GuiSlider(var5.returnEnumOrdinal(), this.width / 2 - 155 + var1 % 2 * 160, this.height / 6 + 24 * (var1 >> 1), var5, this.theSettings.getKeyBinding(var5), this.theSettings.getOptionFloatValue(var5)));
+                this.buttonList.add(new GuiSlider(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 + 24 * (i >> 1), enumoptions, this.theSettings.getKeyBinding(enumoptions), this.theSettings.getOptionFloatValue(enumoptions)));
             }
             else
             {
-                this.buttonList.add(new GuiSmallButton(var5.returnEnumOrdinal(), this.width / 2 - 155 + var1 % 2 * 160, this.height / 6 + 24 * (var1 >> 1), var5, this.theSettings.getKeyBinding(var5)));
+                this.buttonList.add(new GuiSmallButton(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 + 24 * (i >> 1), enumoptions, this.theSettings.getKeyBinding(enumoptions)));
             }
 
-            ++var1;
+            ++i;
         }
 
         this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.getString("gui.done")));

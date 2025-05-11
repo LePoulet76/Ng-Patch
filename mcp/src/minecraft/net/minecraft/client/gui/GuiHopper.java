@@ -42,8 +42,8 @@ public class GuiHopper extends GuiContainer
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(hopperGuiTextures);
-        int var4 = (this.width - this.xSize) / 2;
-        int var5 = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(var4, var5, 0, 0, this.xSize, this.ySize);
+        int k = (this.width - this.xSize) / 2;
+        int l = (this.height - this.ySize) / 2;
+        this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
     }
 }

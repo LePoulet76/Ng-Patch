@@ -18,15 +18,15 @@ public class MapGenMineshaft extends MapGenStructure
 
     public MapGenMineshaft(Map par1Map)
     {
-        Iterator var2 = par1Map.entrySet().iterator();
+        Iterator iterator = par1Map.entrySet().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
+            Entry entry = (Entry)iterator.next();
 
-            if (((String)var3.getKey()).equals("chance"))
+            if (((String)entry.getKey()).equals("chance"))
             {
-                this.field_82673_e = MathHelper.parseDoubleWithDefault((String)var3.getValue(), this.field_82673_e);
+                this.field_82673_e = MathHelper.parseDoubleWithDefault((String)entry.getValue(), this.field_82673_e);
             }
         }
     }

@@ -42,39 +42,34 @@ public class EntitySmallFireball extends EntityFireball
             }
             else
             {
-                int var2 = par1MovingObjectPosition.blockX;
-                int var3 = par1MovingObjectPosition.blockY;
-                int var4 = par1MovingObjectPosition.blockZ;
+                int i = par1MovingObjectPosition.blockX;
+                int j = par1MovingObjectPosition.blockY;
+                int k = par1MovingObjectPosition.blockZ;
 
                 switch (par1MovingObjectPosition.sideHit)
                 {
                     case 0:
-                        --var3;
+                        --j;
                         break;
-
                     case 1:
-                        ++var3;
+                        ++j;
                         break;
-
                     case 2:
-                        --var4;
+                        --k;
                         break;
-
                     case 3:
-                        ++var4;
+                        ++k;
                         break;
-
                     case 4:
-                        --var2;
+                        --i;
                         break;
-
                     case 5:
-                        ++var2;
+                        ++i;
                 }
 
-                if (this.worldObj.isAirBlock(var2, var3, var4))
+                if (this.worldObj.isAirBlock(i, j, k))
                 {
-                    this.worldObj.setBlock(var2, var3, var4, Block.fire.blockID);
+                    this.worldObj.setBlock(i, j, k, Block.fire.blockID);
                 }
             }
 

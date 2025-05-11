@@ -58,16 +58,16 @@ public class ModelBook extends ModelBase
      */
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
-        float var8 = (MathHelper.sin(par1 * 0.02F) * 0.1F + 1.25F) * par4;
-        this.coverRight.rotateAngleY = (float)Math.PI + var8;
-        this.coverLeft.rotateAngleY = -var8;
-        this.pagesRight.rotateAngleY = var8;
-        this.pagesLeft.rotateAngleY = -var8;
-        this.flippingPageRight.rotateAngleY = var8 - var8 * 2.0F * par2;
-        this.flippingPageLeft.rotateAngleY = var8 - var8 * 2.0F * par3;
-        this.pagesRight.rotationPointX = MathHelper.sin(var8);
-        this.pagesLeft.rotationPointX = MathHelper.sin(var8);
-        this.flippingPageRight.rotationPointX = MathHelper.sin(var8);
-        this.flippingPageLeft.rotationPointX = MathHelper.sin(var8);
+        float f6 = (MathHelper.sin(par1 * 0.02F) * 0.1F + 1.25F) * par4;
+        this.coverRight.rotateAngleY = (float)Math.PI + f6;
+        this.coverLeft.rotateAngleY = -f6;
+        this.pagesRight.rotateAngleY = f6;
+        this.pagesLeft.rotateAngleY = -f6;
+        this.flippingPageRight.rotateAngleY = f6 - f6 * 2.0F * par2;
+        this.flippingPageLeft.rotateAngleY = f6 - f6 * 2.0F * par3;
+        this.pagesRight.rotationPointX = MathHelper.sin(f6);
+        this.pagesLeft.rotationPointX = MathHelper.sin(f6);
+        this.flippingPageRight.rotationPointX = MathHelper.sin(f6);
+        this.flippingPageLeft.rotationPointX = MathHelper.sin(f6);
     }
 }

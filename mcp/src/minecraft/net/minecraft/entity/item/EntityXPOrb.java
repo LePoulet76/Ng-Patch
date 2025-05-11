@@ -68,29 +68,29 @@ public class EntityXPOrb extends Entity
     @SideOnly(Side.CLIENT)
     public int getBrightnessForRender(float par1)
     {
-        float var2 = 0.5F;
+        float f1 = 0.5F;
 
-        if (var2 < 0.0F)
+        if (f1 < 0.0F)
         {
-            var2 = 0.0F;
+            f1 = 0.0F;
         }
 
-        if (var2 > 1.0F)
+        if (f1 > 1.0F)
         {
-            var2 = 1.0F;
+            f1 = 1.0F;
         }
 
-        int var3 = super.getBrightnessForRender(par1);
-        int var4 = var3 & 255;
-        int var5 = var3 >> 16 & 255;
-        var4 += (int)(var2 * 15.0F * 16.0F);
+        int i = super.getBrightnessForRender(par1);
+        int j = i & 255;
+        int k = i >> 16 & 255;
+        j += (int)(f1 * 15.0F * 16.0F);
 
-        if (var4 > 240)
+        if (j > 240)
         {
-            var4 = 240;
+            j = 240;
         }
 
-        return var4 | var5 << 16;
+        return j | k << 16;
     }
 
     /**
@@ -119,13 +119,13 @@ public class EntityXPOrb extends Entity
         }
 
         this.pushOutOfBlocks(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
-        double var1 = 8.0D;
+        double d0 = 8.0D;
 
         if (this.xpTargetColor < this.xpColor - 20 + this.entityId % 100)
         {
-            if (this.closestPlayer == null || this.closestPlayer.getDistanceSqToEntity(this) > var1 * var1)
+            if (this.closestPlayer == null || this.closestPlayer.getDistanceSqToEntity(this) > d0 * d0)
             {
-                this.closestPlayer = this.worldObj.getClosestPlayerToEntity(this, var1);
+                this.closestPlayer = this.worldObj.getClosestPlayerToEntity(this, d0);
             }
 
             this.xpTargetColor = this.xpColor;
@@ -133,38 +133,38 @@ public class EntityXPOrb extends Entity
 
         if (this.closestPlayer != null)
         {
-            double var3 = (this.closestPlayer.posX - this.posX) / var1;
-            double var5 = (this.closestPlayer.posY + (double)this.closestPlayer.getEyeHeight() - this.posY) / var1;
-            double var7 = (this.closestPlayer.posZ - this.posZ) / var1;
-            double var9 = Math.sqrt(var3 * var3 + var5 * var5 + var7 * var7);
-            double var11 = 1.0D - var9;
+            double d1 = (this.closestPlayer.posX - this.posX) / d0;
+            double d2 = (this.closestPlayer.posY + (double)this.closestPlayer.getEyeHeight() - this.posY) / d0;
+            double d3 = (this.closestPlayer.posZ - this.posZ) / d0;
+            double d4 = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3);
+            double d5 = 1.0D - d4;
 
-            if (var11 > 0.0D)
+            if (d5 > 0.0D)
             {
-                var11 *= var11;
-                this.motionX += var3 / var9 * var11 * 0.1D;
-                this.motionY += var5 / var9 * var11 * 0.1D;
-                this.motionZ += var7 / var9 * var11 * 0.1D;
+                d5 *= d5;
+                this.motionX += d1 / d4 * d5 * 0.1D;
+                this.motionY += d2 / d4 * d5 * 0.1D;
+                this.motionZ += d3 / d4 * d5 * 0.1D;
             }
         }
 
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        float var13 = 0.98F;
+        float f = 0.98F;
 
         if (this.onGround)
         {
-            var13 = 0.58800006F;
-            int var4 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+            f = 0.58800006F;
+            int i = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
 
-            if (var4 > 0)
+            if (i > 0)
             {
-                var13 = Block.blocksList[var4].slipperiness * 0.98F;
+                f = Block.blocksList[i].slipperiness * 0.98F;
             }
         }
 
-        this.motionX *= (double)var13;
+        this.motionX *= (double)f;
         this.motionY *= 0.9800000190734863D;
-        this.motionZ *= (double)var13;
+        this.motionZ *= (double)f;
 
         if (this.onGround)
         {

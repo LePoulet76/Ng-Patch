@@ -26,14 +26,14 @@ public class PlayerListComponent extends JList implements IUpdatePlayerListBox
     {
         if (this.field_120014_b++ % 20 == 0)
         {
-            Vector var1 = new Vector();
+            Vector vector = new Vector();
 
-            for (int var2 = 0; var2 < this.field_120015_a.getConfigurationManager().playerEntityList.size(); ++var2)
+            for (int i = 0; i < this.field_120015_a.getConfigurationManager().playerEntityList.size(); ++i)
             {
-                var1.add(((EntityPlayerMP)this.field_120015_a.getConfigurationManager().playerEntityList.get(var2)).getCommandSenderName());
+                vector.add(((EntityPlayerMP)this.field_120015_a.getConfigurationManager().playerEntityList.get(i)).getCommandSenderName());
             }
 
-            this.setListData(var1);
+            this.setListData(vector);
         }
     }
 }

@@ -31,21 +31,21 @@ public class RenderWolf extends RenderLiving
 
     protected int func_82447_a(EntityWolf par1EntityWolf, int par2, float par3)
     {
-        float var4;
+        float f1;
 
         if (par2 == 0 && par1EntityWolf.getWolfShaking())
         {
-            var4 = par1EntityWolf.getBrightness(par3) * par1EntityWolf.getShadingWhileShaking(par3);
+            f1 = par1EntityWolf.getBrightness(par3) * par1EntityWolf.getShadingWhileShaking(par3);
             this.bindTexture(wolfTextures);
-            GL11.glColor3f(var4, var4, var4);
+            GL11.glColor3f(f1, f1, f1);
             return 1;
         }
         else if (par2 == 1 && par1EntityWolf.isTamed())
         {
             this.bindTexture(wolfCollarTextures);
-            var4 = 1.0F;
-            int var5 = par1EntityWolf.getCollarColor();
-            GL11.glColor3f(var4 * EntitySheep.fleeceColorTable[var5][0], var4 * EntitySheep.fleeceColorTable[var5][1], var4 * EntitySheep.fleeceColorTable[var5][2]);
+            f1 = 1.0F;
+            int j = par1EntityWolf.getCollarColor();
+            GL11.glColor3f(f1 * EntitySheep.fleeceColorTable[j][0], f1 * EntitySheep.fleeceColorTable[j][1], f1 * EntitySheep.fleeceColorTable[j][2]);
             return 1;
         }
         else

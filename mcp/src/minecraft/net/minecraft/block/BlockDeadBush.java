@@ -13,8 +13,8 @@ public class BlockDeadBush extends BlockFlower
     protected BlockDeadBush(int par1)
     {
         super(par1, Material.vine);
-        float var2 = 0.4F;
-        this.setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, 0.8F, 0.5F + var2);
+        float f = 0.4F;
+        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.8F, 0.5F + f);
     }
 
     /**

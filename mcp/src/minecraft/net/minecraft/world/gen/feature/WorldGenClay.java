@@ -27,25 +27,25 @@ public class WorldGenClay extends WorldGenerator
         }
         else
         {
-            int var6 = par2Random.nextInt(this.numberOfBlocks - 2) + 2;
-            byte var7 = 1;
+            int l = par2Random.nextInt(this.numberOfBlocks - 2) + 2;
+            byte b0 = 1;
 
-            for (int var8 = par3 - var6; var8 <= par3 + var6; ++var8)
+            for (int i1 = par3 - l; i1 <= par3 + l; ++i1)
             {
-                for (int var9 = par5 - var6; var9 <= par5 + var6; ++var9)
+                for (int j1 = par5 - l; j1 <= par5 + l; ++j1)
                 {
-                    int var10 = var8 - par3;
-                    int var11 = var9 - par5;
+                    int k1 = i1 - par3;
+                    int l1 = j1 - par5;
 
-                    if (var10 * var10 + var11 * var11 <= var6 * var6)
+                    if (k1 * k1 + l1 * l1 <= l * l)
                     {
-                        for (int var12 = par4 - var7; var12 <= par4 + var7; ++var12)
+                        for (int i2 = par4 - b0; i2 <= par4 + b0; ++i2)
                         {
-                            int var13 = par1World.getBlockId(var8, var12, var9);
+                            int j2 = par1World.getBlockId(i1, i2, j1);
 
-                            if (var13 == Block.dirt.blockID || var13 == Block.blockClay.blockID)
+                            if (j2 == Block.dirt.blockID || j2 == Block.blockClay.blockID)
                             {
-                                par1World.setBlock(var8, var12, var9, this.clayBlockId, 0, 2);
+                                par1World.setBlock(i1, i2, j1, this.clayBlockId, 0, 2);
                             }
                         }
                     }

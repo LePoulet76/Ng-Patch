@@ -11,18 +11,18 @@ public interface AttributeInstance
 
     double getBaseValue();
 
-    void setAttribute(double var1);
+    void setAttribute(double d0);
 
     Collection func_111122_c();
 
     /**
      * Returns attribute modifier, if any, by the given UUID
      */
-    AttributeModifier getModifier(UUID var1);
+    AttributeModifier getModifier(UUID uuid);
 
-    void applyModifier(AttributeModifier var1);
+    void applyModifier(AttributeModifier attributemodifier);
 
-    void removeModifier(AttributeModifier var1);
+    void removeModifier(AttributeModifier attributemodifier);
 
     @SideOnly(Side.CLIENT)
     void func_142049_d();

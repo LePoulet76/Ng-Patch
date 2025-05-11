@@ -44,16 +44,16 @@ public enum EnumOptions
 
     public static EnumOptions getEnumOptions(int par0)
     {
-        EnumOptions[] var1 = values();
-        int var2 = var1.length;
+        EnumOptions[] aenumoptions = values();
+        int j = aenumoptions.length;
 
-        for (int var3 = 0; var3 < var2; ++var3)
+        for (int k = 0; k < j; ++k)
         {
-            EnumOptions var4 = var1[var3];
+            EnumOptions enumoptions = aenumoptions[k];
 
-            if (var4.returnEnumOrdinal() == par0)
+            if (enumoptions.returnEnumOrdinal() == par0)
             {
-                return var4;
+                return enumoptions;
             }
         }
 

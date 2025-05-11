@@ -15,25 +15,25 @@ final class DispenserBehaviorFire extends BehaviorDefaultDispenseItem
      */
     protected ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
     {
-        EnumFacing var3 = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
-        World var4 = par1IBlockSource.getWorld();
-        int var5 = par1IBlockSource.getXInt() + var3.getFrontOffsetX();
-        int var6 = par1IBlockSource.getYInt() + var3.getFrontOffsetY();
-        int var7 = par1IBlockSource.getZInt() + var3.getFrontOffsetZ();
+        EnumFacing enumfacing = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
+        World world = par1IBlockSource.getWorld();
+        int i = par1IBlockSource.getXInt() + enumfacing.getFrontOffsetX();
+        int j = par1IBlockSource.getYInt() + enumfacing.getFrontOffsetY();
+        int k = par1IBlockSource.getZInt() + enumfacing.getFrontOffsetZ();
 
-        if (var4.isAirBlock(var5, var6, var7))
+        if (world.isAirBlock(i, j, k))
         {
-            var4.setBlock(var5, var6, var7, Block.fire.blockID);
+            world.setBlock(i, j, k, Block.fire.blockID);
 
-            if (par2ItemStack.attemptDamageItem(1, var4.rand))
+            if (par2ItemStack.attemptDamageItem(1, world.rand))
             {
                 par2ItemStack.stackSize = 0;
             }
         }
-        else if (var4.getBlockId(var5, var6, var7) == Block.tnt.blockID)
+        else if (world.getBlockId(i, j, k) == Block.tnt.blockID)
         {
-            Block.tnt.onBlockDestroyedByPlayer(var4, var5, var6, var7, 1);
-            var4.setBlockToAir(var5, var6, var7);
+            Block.tnt.onBlockDestroyedByPlayer(world, i, j, k, 1);
+            world.setBlockToAir(i, j, k);
         }
         else
         {

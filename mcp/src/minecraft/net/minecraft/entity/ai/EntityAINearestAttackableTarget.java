@@ -52,17 +52,17 @@ public class EntityAINearestAttackableTarget extends EntityAITarget
         }
         else
         {
-            double var1 = this.getTargetDistance();
-            List var3 = this.taskOwner.worldObj.selectEntitiesWithinAABB(this.targetClass, this.taskOwner.boundingBox.expand(var1, 4.0D, var1), this.targetEntitySelector);
-            Collections.sort(var3, this.theNearestAttackableTargetSorter);
+            double d0 = this.getTargetDistance();
+            List list = this.taskOwner.worldObj.selectEntitiesWithinAABB(this.targetClass, this.taskOwner.boundingBox.expand(d0, 4.0D, d0), this.targetEntitySelector);
+            Collections.sort(list, this.theNearestAttackableTargetSorter);
 
-            if (var3.isEmpty())
+            if (list.isEmpty())
             {
                 return false;
             }
             else
             {
-                this.targetEntity = (EntityLivingBase)var3.get(0);
+                this.targetEntity = (EntityLivingBase)list.get(0);
                 return true;
             }
         }

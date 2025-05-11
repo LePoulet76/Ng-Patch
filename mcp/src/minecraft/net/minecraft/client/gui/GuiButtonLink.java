@@ -16,14 +16,14 @@ public class GuiButtonLink extends GuiButton
     {
         try
         {
-            URI var2 = new URI(par1Str);
-            Class var3 = Class.forName("java.awt.Desktop");
-            Object var4 = var3.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-            var3.getMethod("browse", new Class[] {URI.class}).invoke(var4, new Object[] {var2});
+            URI uri = new URI(par1Str);
+            Class oclass = Class.forName("java.awt.Desktop");
+            Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
+            oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {uri});
         }
-        catch (Throwable var5)
+        catch (Throwable throwable)
         {
-            var5.printStackTrace();
+            throwable.printStackTrace();
         }
     }
 }

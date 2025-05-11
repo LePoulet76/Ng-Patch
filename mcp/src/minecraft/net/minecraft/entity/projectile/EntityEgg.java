@@ -35,23 +35,23 @@ public class EntityEgg extends EntityThrowable
 
         if (!this.worldObj.isRemote && this.rand.nextInt(8) == 0)
         {
-            byte var2 = 1;
+            byte b0 = 1;
 
             if (this.rand.nextInt(32) == 0)
             {
-                var2 = 4;
+                b0 = 4;
             }
 
-            for (int var3 = 0; var3 < var2; ++var3)
+            for (int i = 0; i < b0; ++i)
             {
-                EntityChicken var4 = new EntityChicken(this.worldObj);
-                var4.setGrowingAge(-24000);
-                var4.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-                this.worldObj.spawnEntityInWorld(var4);
+                EntityChicken entitychicken = new EntityChicken(this.worldObj);
+                entitychicken.setGrowingAge(-24000);
+                entitychicken.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                this.worldObj.spawnEntityInWorld(entitychicken);
             }
         }
 
-        for (int var5 = 0; var5 < 8; ++var5)
+        for (int j = 0; j < 8; ++j)
         {
             this.worldObj.spawnParticle("snowballpoof", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
         }

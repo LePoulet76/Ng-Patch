@@ -70,22 +70,22 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
         this.field_71082_cx = 0.0F;
         super.onUpdate();
         this.prevLimbSwingAmount = this.limbSwingAmount;
-        double var1 = this.posX - this.prevPosX;
-        double var3 = this.posZ - this.prevPosZ;
-        float var5 = MathHelper.sqrt_double(var1 * var1 + var3 * var3) * 4.0F;
+        double d0 = this.posX - this.prevPosX;
+        double d1 = this.posZ - this.prevPosZ;
+        float f = MathHelper.sqrt_double(d0 * d0 + d1 * d1) * 4.0F;
 
-        if (var5 > 1.0F)
+        if (f > 1.0F)
         {
-            var5 = 1.0F;
+            f = 1.0F;
         }
 
-        this.limbSwingAmount += (var5 - this.limbSwingAmount) * 0.4F;
+        this.limbSwingAmount += (f - this.limbSwingAmount) * 0.4F;
         this.limbSwing += this.limbSwingAmount;
 
         if (!this.isItemInUse && this.isEating() && this.inventory.mainInventory[this.inventory.currentItem] != null)
         {
-            ItemStack var6 = this.inventory.mainInventory[this.inventory.currentItem];
-            this.setItemInUse(this.inventory.mainInventory[this.inventory.currentItem], Item.itemsList[var6.itemID].getMaxItemUseDuration(var6));
+            ItemStack itemstack = this.inventory.mainInventory[this.inventory.currentItem];
+            this.setItemInUse(this.inventory.mainInventory[this.inventory.currentItem], Item.itemsList[itemstack.itemID].getMaxItemUseDuration(itemstack));
             this.isItemInUse = true;
         }
         else if (this.isItemInUse && !this.isEating())
@@ -110,49 +110,49 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
 
         if (this.otherPlayerMPPosRotationIncrements > 0)
         {
-            double var1 = this.posX + (this.otherPlayerMPX - this.posX) / (double)this.otherPlayerMPPosRotationIncrements;
-            double var3 = this.posY + (this.otherPlayerMPY - this.posY) / (double)this.otherPlayerMPPosRotationIncrements;
-            double var5 = this.posZ + (this.otherPlayerMPZ - this.posZ) / (double)this.otherPlayerMPPosRotationIncrements;
-            double var7;
+            double d0 = this.posX + (this.otherPlayerMPX - this.posX) / (double)this.otherPlayerMPPosRotationIncrements;
+            double d1 = this.posY + (this.otherPlayerMPY - this.posY) / (double)this.otherPlayerMPPosRotationIncrements;
+            double d2 = this.posZ + (this.otherPlayerMPZ - this.posZ) / (double)this.otherPlayerMPPosRotationIncrements;
+            double d3;
 
-            for (var7 = this.otherPlayerMPYaw - (double)this.rotationYaw; var7 < -180.0D; var7 += 360.0D)
+            for (d3 = this.otherPlayerMPYaw - (double)this.rotationYaw; d3 < -180.0D; d3 += 360.0D)
             {
                 ;
             }
 
-            while (var7 >= 180.0D)
+            while (d3 >= 180.0D)
             {
-                var7 -= 360.0D;
+                d3 -= 360.0D;
             }
 
-            this.rotationYaw = (float)((double)this.rotationYaw + var7 / (double)this.otherPlayerMPPosRotationIncrements);
+            this.rotationYaw = (float)((double)this.rotationYaw + d3 / (double)this.otherPlayerMPPosRotationIncrements);
             this.rotationPitch = (float)((double)this.rotationPitch + (this.otherPlayerMPPitch - (double)this.rotationPitch) / (double)this.otherPlayerMPPosRotationIncrements);
             --this.otherPlayerMPPosRotationIncrements;
-            this.setPosition(var1, var3, var5);
+            this.setPosition(d0, d1, d2);
             this.setRotation(this.rotationYaw, this.rotationPitch);
         }
 
         this.prevCameraYaw = this.cameraYaw;
-        float var9 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        float var2 = (float)Math.atan(-this.motionY * 0.20000000298023224D) * 15.0F;
+        float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        float f1 = (float)Math.atan(-this.motionY * 0.20000000298023224D) * 15.0F;
 
-        if (var9 > 0.1F)
+        if (f > 0.1F)
         {
-            var9 = 0.1F;
+            f = 0.1F;
         }
 
         if (!this.onGround || this.getHealth() <= 0.0F)
         {
-            var9 = 0.0F;
+            f = 0.0F;
         }
 
         if (this.onGround || this.getHealth() <= 0.0F)
         {
-            var2 = 0.0F;
+            f1 = 0.0F;
         }
 
-        this.cameraYaw += (var9 - this.cameraYaw) * 0.4F;
-        this.cameraPitch += (var2 - this.cameraPitch) * 0.8F;
+        this.cameraYaw += (f - this.cameraYaw) * 0.4F;
+        this.cameraPitch += (f1 - this.cameraPitch) * 0.8F;
     }
 
     /**
@@ -170,7 +170,8 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer
         }
     }
 
-    public float getEyeHeight()
+    @Override
+    public float getDefaultEyeHeight()
     {
         return 1.82F;
     }

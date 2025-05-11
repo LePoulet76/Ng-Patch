@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.boss.EntityDragon;
@@ -59,19 +61,24 @@ public class EntityTracker
      */
     public void addEntityToTracker(Entity par1Entity)
     {
+        if (EntityRegistry.instance().tryTrackingEntity(this, par1Entity))
+        {
+            return;
+        }
+
         if (par1Entity instanceof EntityPlayerMP)
         {
             this.addEntityToTracker(par1Entity, 512, 2);
-            EntityPlayerMP var2 = (EntityPlayerMP)par1Entity;
-            Iterator var3 = this.trackedEntities.iterator();
+            EntityPlayerMP entityplayermp = (EntityPlayerMP)par1Entity;
+            Iterator iterator = this.trackedEntities.iterator();
 
-            while (var3.hasNext())
+            while (iterator.hasNext())
             {
-                EntityTrackerEntry var4 = (EntityTrackerEntry)var3.next();
+                EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
 
-                if (var4.myEntity != var2)
+                if (entitytrackerentry.myEntity != entityplayermp)
                 {
-                    var4.tryStartWachingThis(var2);
+                    entitytrackerentry.tryStartWachingThis(entityplayermp);
                 }
             }
         }
@@ -192,29 +199,29 @@ public class EntityTracker
                 throw new IllegalStateException("Entity is already tracked!");
             }
 
-            EntityTrackerEntry var5 = new EntityTrackerEntry(par1Entity, par2, par3, par4);
-            this.trackedEntities.add(var5);
-            this.trackedEntityIDs.addKey(par1Entity.entityId, var5);
-            var5.sendEventsToPlayers(this.theWorld.playerEntities);
+            EntityTrackerEntry entitytrackerentry = new EntityTrackerEntry(par1Entity, par2, par3, par4);
+            this.trackedEntities.add(entitytrackerentry);
+            this.trackedEntityIDs.addKey(par1Entity.entityId, entitytrackerentry);
+            entitytrackerentry.sendEventsToPlayers(this.theWorld.playerEntities);
         }
-        catch (Throwable var11)
+        catch (Throwable throwable)
         {
-            CrashReport var6 = CrashReport.makeCrashReport(var11, "Adding entity to track");
-            CrashReportCategory var7 = var6.makeCategory("Entity To Track");
-            var7.addCrashSection("Tracking range", par2 + " blocks");
-            var7.addCrashSectionCallable("Update interval", new CallableEntityTracker(this, par3));
-            par1Entity.addEntityCrashInfo(var7);
-            CrashReportCategory var8 = var6.makeCategory("Entity That Is Already Tracked");
-            ((EntityTrackerEntry)this.trackedEntityIDs.lookup(par1Entity.entityId)).myEntity.addEntityCrashInfo(var8);
+            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Adding entity to track");
+            CrashReportCategory crashreportcategory = crashreport.makeCategory("Entity To Track");
+            crashreportcategory.addCrashSection("Tracking range", par2 + " blocks");
+            crashreportcategory.addCrashSectionCallable("Update interval", new CallableEntityTracker(this, par3));
+            par1Entity.addEntityCrashInfo(crashreportcategory);
+            CrashReportCategory crashreportcategory1 = crashreport.makeCategory("Entity That Is Already Tracked");
+            ((EntityTrackerEntry)this.trackedEntityIDs.lookup(par1Entity.entityId)).myEntity.addEntityCrashInfo(crashreportcategory1);
 
             try
             {
-                throw new ReportedException(var6);
+                throw new ReportedException(crashreport);
             }
-            catch (ReportedException var10)
+            catch (ReportedException reportedexception)
             {
                 System.err.println("\"Silently\" catching entity tracking error.");
-                var10.printStackTrace();
+                reportedexception.printStackTrace();
             }
         }
     }
@@ -223,53 +230,53 @@ public class EntityTracker
     {
         if (par1Entity instanceof EntityPlayerMP)
         {
-            EntityPlayerMP var2 = (EntityPlayerMP)par1Entity;
-            Iterator var3 = this.trackedEntities.iterator();
+            EntityPlayerMP entityplayermp = (EntityPlayerMP)par1Entity;
+            Iterator iterator = this.trackedEntities.iterator();
 
-            while (var3.hasNext())
+            while (iterator.hasNext())
             {
-                EntityTrackerEntry var4 = (EntityTrackerEntry)var3.next();
-                var4.removeFromWatchingList(var2);
+                EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
+                entitytrackerentry.removeFromWatchingList(entityplayermp);
             }
         }
 
-        EntityTrackerEntry var5 = (EntityTrackerEntry)this.trackedEntityIDs.removeObject(par1Entity.entityId);
+        EntityTrackerEntry entitytrackerentry1 = (EntityTrackerEntry)this.trackedEntityIDs.removeObject(par1Entity.entityId);
 
-        if (var5 != null)
+        if (entitytrackerentry1 != null)
         {
-            this.trackedEntities.remove(var5);
-            var5.informAllAssociatedPlayersOfItemDestruction();
+            this.trackedEntities.remove(entitytrackerentry1);
+            entitytrackerentry1.informAllAssociatedPlayersOfItemDestruction();
         }
     }
 
     public void updateTrackedEntities()
     {
-        ArrayList var1 = new ArrayList();
-        Iterator var2 = this.trackedEntities.iterator();
+        ArrayList arraylist = new ArrayList();
+        Iterator iterator = this.trackedEntities.iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            EntityTrackerEntry var3 = (EntityTrackerEntry)var2.next();
-            var3.sendLocationToAllClients(this.theWorld.playerEntities);
+            EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
+            entitytrackerentry.sendLocationToAllClients(this.theWorld.playerEntities);
 
-            if (var3.playerEntitiesUpdated && var3.myEntity instanceof EntityPlayerMP)
+            if (entitytrackerentry.playerEntitiesUpdated && entitytrackerentry.myEntity instanceof EntityPlayerMP)
             {
-                var1.add((EntityPlayerMP)var3.myEntity);
+                arraylist.add((EntityPlayerMP)entitytrackerentry.myEntity);
             }
         }
 
-        for (int var6 = 0; var6 < var1.size(); ++var6)
+        for (int i = 0; i < arraylist.size(); ++i)
         {
-            EntityPlayerMP var7 = (EntityPlayerMP)var1.get(var6);
-            Iterator var4 = this.trackedEntities.iterator();
+            EntityPlayerMP entityplayermp = (EntityPlayerMP)arraylist.get(i);
+            Iterator iterator1 = this.trackedEntities.iterator();
 
-            while (var4.hasNext())
+            while (iterator1.hasNext())
             {
-                EntityTrackerEntry var5 = (EntityTrackerEntry)var4.next();
+                EntityTrackerEntry entitytrackerentry1 = (EntityTrackerEntry)iterator1.next();
 
-                if (var5.myEntity != var7)
+                if (entitytrackerentry1.myEntity != entityplayermp)
                 {
-                    var5.tryStartWachingThis(var7);
+                    entitytrackerentry1.tryStartWachingThis(entityplayermp);
                 }
             }
         }
@@ -280,11 +287,11 @@ public class EntityTracker
      */
     public void sendPacketToAllPlayersTrackingEntity(Entity par1Entity, Packet par2Packet)
     {
-        EntityTrackerEntry var3 = (EntityTrackerEntry)this.trackedEntityIDs.lookup(par1Entity.entityId);
+        EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)this.trackedEntityIDs.lookup(par1Entity.entityId);
 
-        if (var3 != null)
+        if (entitytrackerentry != null)
         {
-            var3.sendPacketToAllTrackingPlayers(par2Packet);
+            entitytrackerentry.sendPacketToAllTrackingPlayers(par2Packet);
         }
     }
 
@@ -293,36 +300,36 @@ public class EntityTracker
      */
     public void sendPacketToAllAssociatedPlayers(Entity par1Entity, Packet par2Packet)
     {
-        EntityTrackerEntry var3 = (EntityTrackerEntry)this.trackedEntityIDs.lookup(par1Entity.entityId);
+        EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)this.trackedEntityIDs.lookup(par1Entity.entityId);
 
-        if (var3 != null)
+        if (entitytrackerentry != null)
         {
-            var3.sendPacketToAllAssociatedPlayers(par2Packet);
+            entitytrackerentry.sendPacketToAllAssociatedPlayers(par2Packet);
         }
     }
 
     public void removePlayerFromTrackers(EntityPlayerMP par1EntityPlayerMP)
     {
-        Iterator var2 = this.trackedEntities.iterator();
+        Iterator iterator = this.trackedEntities.iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            EntityTrackerEntry var3 = (EntityTrackerEntry)var2.next();
-            var3.removePlayerFromTracker(par1EntityPlayerMP);
+            EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
+            entitytrackerentry.removePlayerFromTracker(par1EntityPlayerMP);
         }
     }
 
     public void func_85172_a(EntityPlayerMP par1EntityPlayerMP, Chunk par2Chunk)
     {
-        Iterator var3 = this.trackedEntities.iterator();
+        Iterator iterator = this.trackedEntities.iterator();
 
-        while (var3.hasNext())
+        while (iterator.hasNext())
         {
-            EntityTrackerEntry var4 = (EntityTrackerEntry)var3.next();
+            EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
 
-            if (var4.myEntity != par1EntityPlayerMP && var4.myEntity.chunkCoordX == par2Chunk.xPosition && var4.myEntity.chunkCoordZ == par2Chunk.zPosition)
+            if (entitytrackerentry.myEntity != par1EntityPlayerMP && entitytrackerentry.myEntity.chunkCoordX == par2Chunk.xPosition && entitytrackerentry.myEntity.chunkCoordZ == par2Chunk.zPosition)
             {
-                var4.tryStartWachingThis(par1EntityPlayerMP);
+                entitytrackerentry.tryStartWachingThis(par1EntityPlayerMP);
             }
         }
     }

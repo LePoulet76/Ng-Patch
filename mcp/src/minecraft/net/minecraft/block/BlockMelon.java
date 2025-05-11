@@ -51,14 +51,14 @@ public class BlockMelon extends Block
      */
     public int quantityDroppedWithBonus(int par1, Random par2Random)
     {
-        int var3 = this.quantityDropped(par2Random) + par2Random.nextInt(1 + par1);
+        int j = this.quantityDropped(par2Random) + par2Random.nextInt(1 + par1);
 
-        if (var3 > 9)
+        if (j > 9)
         {
-            var3 = 9;
+            j = 9;
         }
 
-        return var3;
+        return j;
     }
 
     @SideOnly(Side.CLIENT)

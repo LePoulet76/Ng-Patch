@@ -55,8 +55,8 @@ public class IconFlipped implements Icon
      */
     public float getInterpolatedU(double par1)
     {
-        float var3 = this.getMaxU() - this.getMinU();
-        return this.getMinU() + var3 * ((float)par1 / 16.0F);
+        float f = this.getMaxU() - this.getMinU();
+        return this.getMinU() + f * ((float)par1 / 16.0F);
     }
 
     /**
@@ -80,8 +80,8 @@ public class IconFlipped implements Icon
      */
     public float getInterpolatedV(double par1)
     {
-        float var3 = this.getMaxV() - this.getMinV();
-        return this.getMinV() + var3 * ((float)par1 / 16.0F);
+        float f = this.getMaxV() - this.getMinV();
+        return this.getMinV() + f * ((float)par1 / 16.0F);
     }
 
     public String getIconName()

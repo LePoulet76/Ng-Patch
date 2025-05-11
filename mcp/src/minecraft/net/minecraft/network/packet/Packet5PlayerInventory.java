@@ -87,7 +87,7 @@ public class Packet5PlayerInventory extends Packet
      */
     public boolean containsSameEntityIDAs(Packet par1Packet)
     {
-        Packet5PlayerInventory var2 = (Packet5PlayerInventory)par1Packet;
-        return var2.entityID == this.entityID && var2.slot == this.slot;
+        Packet5PlayerInventory packet5playerinventory = (Packet5PlayerInventory)par1Packet;
+        return packet5playerinventory.entityID == this.entityID && packet5playerinventory.slot == this.slot;
     }
 }

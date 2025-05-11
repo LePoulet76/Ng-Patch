@@ -56,18 +56,18 @@ public class ItemEnchantedBook extends Item
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
         super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
-        NBTTagList var5 = this.func_92110_g(par1ItemStack);
+        NBTTagList nbttaglist = this.func_92110_g(par1ItemStack);
 
-        if (var5 != null)
+        if (nbttaglist != null)
         {
-            for (int var6 = 0; var6 < var5.tagCount(); ++var6)
+            for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                short var7 = ((NBTTagCompound)var5.tagAt(var6)).getShort("id");
-                short var8 = ((NBTTagCompound)var5.tagAt(var6)).getShort("lvl");
+                short short1 = ((NBTTagCompound)nbttaglist.tagAt(i)).getShort("id");
+                short short2 = ((NBTTagCompound)nbttaglist.tagAt(i)).getShort("lvl");
 
-                if (Enchantment.enchantmentsList[var7] != null)
+                if (Enchantment.enchantmentsList[short1] != null)
                 {
-                    par3List.add(Enchantment.enchantmentsList[var7].getTranslatedName(var8));
+                    par3List.add(Enchantment.enchantmentsList[short1].getTranslatedName(short2));
                 }
             }
         }
@@ -78,31 +78,31 @@ public class ItemEnchantedBook extends Item
      */
     public void addEnchantment(ItemStack par1ItemStack, EnchantmentData par2EnchantmentData)
     {
-        NBTTagList var3 = this.func_92110_g(par1ItemStack);
-        boolean var4 = true;
+        NBTTagList nbttaglist = this.func_92110_g(par1ItemStack);
+        boolean flag = true;
 
-        for (int var5 = 0; var5 < var3.tagCount(); ++var5)
+        for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
-            NBTTagCompound var6 = (NBTTagCompound)var3.tagAt(var5);
+            NBTTagCompound nbttagcompound = (NBTTagCompound)nbttaglist.tagAt(i);
 
-            if (var6.getShort("id") == par2EnchantmentData.enchantmentobj.effectId)
+            if (nbttagcompound.getShort("id") == par2EnchantmentData.enchantmentobj.effectId)
             {
-                if (var6.getShort("lvl") < par2EnchantmentData.enchantmentLevel)
+                if (nbttagcompound.getShort("lvl") < par2EnchantmentData.enchantmentLevel)
                 {
-                    var6.setShort("lvl", (short)par2EnchantmentData.enchantmentLevel);
+                    nbttagcompound.setShort("lvl", (short)par2EnchantmentData.enchantmentLevel);
                 }
 
-                var4 = false;
+                flag = false;
                 break;
             }
         }
 
-        if (var4)
+        if (flag)
         {
-            NBTTagCompound var7 = new NBTTagCompound();
-            var7.setShort("id", (short)par2EnchantmentData.enchantmentobj.effectId);
-            var7.setShort("lvl", (short)par2EnchantmentData.enchantmentLevel);
-            var3.appendTag(var7);
+            NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+            nbttagcompound1.setShort("id", (short)par2EnchantmentData.enchantmentobj.effectId);
+            nbttagcompound1.setShort("lvl", (short)par2EnchantmentData.enchantmentLevel);
+            nbttaglist.appendTag(nbttagcompound1);
         }
 
         if (!par1ItemStack.hasTagCompound())
@@ -110,7 +110,7 @@ public class ItemEnchantedBook extends Item
             par1ItemStack.setTagCompound(new NBTTagCompound());
         }
 
-        par1ItemStack.getTagCompound().setTag("StoredEnchantments", var3);
+        par1ItemStack.getTagCompound().setTag("StoredEnchantments", nbttaglist);
     }
 
     /**
@@ -118,17 +118,17 @@ public class ItemEnchantedBook extends Item
      */
     public ItemStack getEnchantedItemStack(EnchantmentData par1EnchantmentData)
     {
-        ItemStack var2 = new ItemStack(this);
-        this.addEnchantment(var2, par1EnchantmentData);
-        return var2;
+        ItemStack itemstack = new ItemStack(this);
+        this.addEnchantment(itemstack, par1EnchantmentData);
+        return itemstack;
     }
 
     @SideOnly(Side.CLIENT)
     public void func_92113_a(Enchantment par1Enchantment, List par2List)
     {
-        for (int var3 = par1Enchantment.getMinLevel(); var3 <= par1Enchantment.getMaxLevel(); ++var3)
+        for (int i = par1Enchantment.getMinLevel(); i <= par1Enchantment.getMaxLevel(); ++i)
         {
-            par2List.add(this.getEnchantedItemStack(new EnchantmentData(par1Enchantment, var3)));
+            par2List.add(this.getEnchantedItemStack(new EnchantmentData(par1Enchantment, i)));
         }
     }
 
@@ -139,10 +139,10 @@ public class ItemEnchantedBook extends Item
 
     public WeightedRandomChestContent func_92112_a(Random par1Random, int par2, int par3, int par4)
     {
-        Enchantment var5 = Enchantment.enchantmentsBookList[par1Random.nextInt(Enchantment.enchantmentsBookList.length)];
-        ItemStack var6 = new ItemStack(this.itemID, 1, 0);
-        int var7 = MathHelper.getRandomIntegerInRange(par1Random, var5.getMinLevel(), var5.getMaxLevel());
-        this.addEnchantment(var6, new EnchantmentData(var5, var7));
-        return new WeightedRandomChestContent(var6, par2, par3, par4);
+        Enchantment enchantment = Enchantment.enchantmentsBookList[par1Random.nextInt(Enchantment.enchantmentsBookList.length)];
+        ItemStack itemstack = new ItemStack(this.itemID, 1, 0);
+        int l = MathHelper.getRandomIntegerInRange(par1Random, enchantment.getMinLevel(), enchantment.getMaxLevel());
+        this.addEnchantment(itemstack, new EnchantmentData(enchantment, l));
+        return new WeightedRandomChestContent(itemstack, par2, par3, par4);
     }
 }

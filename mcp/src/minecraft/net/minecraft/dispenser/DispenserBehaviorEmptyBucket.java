@@ -17,39 +17,39 @@ final class DispenserBehaviorEmptyBucket extends BehaviorDefaultDispenseItem
      */
     public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
     {
-        EnumFacing var3 = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
-        World var4 = par1IBlockSource.getWorld();
-        int var5 = par1IBlockSource.getXInt() + var3.getFrontOffsetX();
-        int var6 = par1IBlockSource.getYInt() + var3.getFrontOffsetY();
-        int var7 = par1IBlockSource.getZInt() + var3.getFrontOffsetZ();
-        Material var8 = var4.getBlockMaterial(var5, var6, var7);
-        int var9 = var4.getBlockMetadata(var5, var6, var7);
-        Item var10;
+        EnumFacing enumfacing = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
+        World world = par1IBlockSource.getWorld();
+        int i = par1IBlockSource.getXInt() + enumfacing.getFrontOffsetX();
+        int j = par1IBlockSource.getYInt() + enumfacing.getFrontOffsetY();
+        int k = par1IBlockSource.getZInt() + enumfacing.getFrontOffsetZ();
+        Material material = world.getBlockMaterial(i, j, k);
+        int l = world.getBlockMetadata(i, j, k);
+        Item item;
 
-        if (Material.water.equals(var8) && var9 == 0)
+        if (Material.water.equals(material) && l == 0)
         {
-            var10 = Item.bucketWater;
+            item = Item.bucketWater;
         }
         else
         {
-            if (!Material.lava.equals(var8) || var9 != 0)
+            if (!Material.lava.equals(material) || l != 0)
             {
                 return super.dispenseStack(par1IBlockSource, par2ItemStack);
             }
 
-            var10 = Item.bucketLava;
+            item = Item.bucketLava;
         }
 
-        var4.setBlockToAir(var5, var6, var7);
+        world.setBlockToAir(i, j, k);
 
         if (--par2ItemStack.stackSize == 0)
         {
-            par2ItemStack.itemID = var10.itemID;
+            par2ItemStack.itemID = item.itemID;
             par2ItemStack.stackSize = 1;
         }
-        else if (((TileEntityDispenser)par1IBlockSource.getBlockTileEntity()).addItem(new ItemStack(var10)) < 0)
+        else if (((TileEntityDispenser)par1IBlockSource.getBlockTileEntity()).addItem(new ItemStack(item)) < 0)
         {
-            this.defaultDispenserItemBehavior.dispense(par1IBlockSource, new ItemStack(var10));
+            this.defaultDispenserItemBehavior.dispense(par1IBlockSource, new ItemStack(item));
         }
 
         return par2ItemStack;

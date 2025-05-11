@@ -1,5 +1,6 @@
 package net.minecraft.server.integrated;
 
+import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.io.IOException;
@@ -37,30 +38,30 @@ public class IntegratedServerListenThread extends NetworkListenThread
     {
         if (this.myServerListenThread == null)
         {
-            int var1 = -1;
+            int i = -1;
 
             try
             {
-                var1 = HttpUtil.func_76181_a();
+                i = HttpUtil.func_76181_a();
             }
-            catch (IOException var4)
+            catch (IOException ioexception)
             {
                 ;
             }
 
-            if (var1 <= 0)
+            if (i <= 0)
             {
-                var1 = 25564;
+                i = 25564;
             }
 
             try
             {
-                this.myServerListenThread = new ServerListenThread(this, (InetAddress)null, var1);
+                this.myServerListenThread = new ServerListenThread(this, (InetAddress)null, i);
                 this.myServerListenThread.start();
             }
-            catch (IOException var3)
+            catch (IOException ioexception1)
             {
-                throw var3;
+                throw ioexception1;
             }
         }
 
@@ -87,13 +88,13 @@ public class IntegratedServerListenThread extends NetworkListenThread
     {
         if (this.theMemoryConnection != null)
         {
-            EntityPlayerMP var1 = this.getIntegratedServer().getConfigurationManager().createPlayerForUser(this.field_71759_e);
+            EntityPlayerMP entityplayermp = this.getIntegratedServer().getConfigurationManager().createPlayerForUser(this.field_71759_e);
 
-            if (var1 != null)
+            if (entityplayermp != null)
             {
                 this.netMemoryConnection.pairWith(this.theMemoryConnection);
                 this.field_71756_f = true;
-                this.getIntegratedServer().getConfigurationManager().initializeConnectionToPlayer(this.netMemoryConnection, var1);
+                this.getIntegratedServer().getConfigurationManager().initializeConnectionToPlayer(this.netMemoryConnection, entityplayermp);
             }
 
             this.theMemoryConnection = null;

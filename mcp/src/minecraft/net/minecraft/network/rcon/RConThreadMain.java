@@ -71,15 +71,15 @@ public class RConThreadMain extends RConThreadBase
      */
     private void cleanClientThreadsMap()
     {
-        Iterator var1 = this.clientThreads.entrySet().iterator();
+        Iterator iterator = this.clientThreads.entrySet().iterator();
 
-        while (var1.hasNext())
+        while (iterator.hasNext())
         {
-            Entry var2 = (Entry)var1.next();
+            Entry entry = (Entry)iterator.next();
 
-            if (!((RConThreadClient)var2.getValue()).isRunning())
+            if (!((RConThreadClient)entry.getValue()).isRunning())
             {
-                var1.remove();
+                iterator.remove();
             }
         }
     }
@@ -94,22 +94,22 @@ public class RConThreadMain extends RConThreadBase
             {
                 try
                 {
-                    Socket var1 = this.serverSocket.accept();
-                    var1.setSoTimeout(500);
-                    RConThreadClient var2 = new RConThreadClient(this.server, var1);
-                    var2.startThread();
-                    this.clientThreads.put(var1.getRemoteSocketAddress(), var2);
+                    Socket socket = this.serverSocket.accept();
+                    socket.setSoTimeout(500);
+                    RConThreadClient rconthreadclient = new RConThreadClient(this.server, socket);
+                    rconthreadclient.startThread();
+                    this.clientThreads.put(socket.getRemoteSocketAddress(), rconthreadclient);
                     this.cleanClientThreadsMap();
                 }
-                catch (SocketTimeoutException var7)
+                catch (SocketTimeoutException sockettimeoutexception)
                 {
                     this.cleanClientThreadsMap();
                 }
-                catch (IOException var8)
+                catch (IOException ioexception)
                 {
                     if (this.running)
                     {
-                        this.logInfo("IO: " + var8.getMessage());
+                        this.logInfo("IO: " + ioexception.getMessage());
                     }
                 }
             }
@@ -139,9 +139,9 @@ public class RConThreadMain extends RConThreadBase
                     this.serverSocket.setSoTimeout(500);
                     super.startThread();
                 }
-                catch (IOException var2)
+                catch (IOException ioexception)
                 {
-                    this.logWarning("Unable to initialise rcon on " + this.hostname + ":" + this.rconPort + " : " + var2.getMessage());
+                    this.logWarning("Unable to initialise rcon on " + this.hostname + ":" + this.rconPort + " : " + ioexception.getMessage());
                 }
             }
         }

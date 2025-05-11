@@ -15,15 +15,15 @@ final class DispenserBehaviorMobEgg extends BehaviorDefaultDispenseItem
      */
     public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
     {
-        EnumFacing var3 = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
-        double var4 = par1IBlockSource.getX() + (double)var3.getFrontOffsetX();
-        double var6 = (double)((float)par1IBlockSource.getYInt() + 0.2F);
-        double var8 = par1IBlockSource.getZ() + (double)var3.getFrontOffsetZ();
-        Entity var10 = ItemMonsterPlacer.spawnCreature(par1IBlockSource.getWorld(), par2ItemStack.getItemDamage(), var4, var6, var8);
+        EnumFacing enumfacing = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
+        double d0 = par1IBlockSource.getX() + (double)enumfacing.getFrontOffsetX();
+        double d1 = (double)((float)par1IBlockSource.getYInt() + 0.2F);
+        double d2 = par1IBlockSource.getZ() + (double)enumfacing.getFrontOffsetZ();
+        Entity entity = ItemMonsterPlacer.spawnCreature(par1IBlockSource.getWorld(), par2ItemStack.getItemDamage(), d0, d1, d2);
 
-        if (var10 instanceof EntityLivingBase && par2ItemStack.hasDisplayName())
+        if (entity instanceof EntityLivingBase && par2ItemStack.hasDisplayName())
         {
-            ((EntityLiving)var10).setCustomNameTag(par2ItemStack.getDisplayName());
+            ((EntityLiving)entity).setCustomNameTag(par2ItemStack.getDisplayName());
         }
 
         par2ItemStack.splitStack(1);

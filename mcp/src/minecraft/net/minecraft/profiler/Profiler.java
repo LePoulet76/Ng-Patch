@@ -59,23 +59,23 @@ public class Profiler
     {
         if (this.profilingEnabled)
         {
-            long var1 = System.nanoTime();
-            long var3 = ((Long)this.timestampList.remove(this.timestampList.size() - 1)).longValue();
+            long i = System.nanoTime();
+            long j = ((Long)this.timestampList.remove(this.timestampList.size() - 1)).longValue();
             this.sectionList.remove(this.sectionList.size() - 1);
-            long var5 = var1 - var3;
+            long k = i - j;
 
             if (this.profilingMap.containsKey(this.profilingSection))
             {
-                this.profilingMap.put(this.profilingSection, Long.valueOf(((Long)this.profilingMap.get(this.profilingSection)).longValue() + var5));
+                this.profilingMap.put(this.profilingSection, Long.valueOf(((Long)this.profilingMap.get(this.profilingSection)).longValue() + k));
             }
             else
             {
-                this.profilingMap.put(this.profilingSection, Long.valueOf(var5));
+                this.profilingMap.put(this.profilingSection, Long.valueOf(k));
             }
 
-            if (var5 > 100000000L)
+            if (k > 100000000L)
             {
-                System.out.println("Something\'s taking too long! \'" + this.profilingSection + "\' took aprox " + (double)var5 / 1000000.0D + " ms");
+                System.out.println("Something\'s taking too long! \'" + this.profilingSection + "\' took aprox " + (double)k / 1000000.0D + " ms");
             }
 
             this.profilingSection = !this.sectionList.isEmpty() ? (String)this.sectionList.get(this.sectionList.size() - 1) : "";
@@ -93,73 +93,73 @@ public class Profiler
         }
         else
         {
-            long var3 = this.profilingMap.containsKey("root") ? ((Long)this.profilingMap.get("root")).longValue() : 0L;
-            long var5 = this.profilingMap.containsKey(par1Str) ? ((Long)this.profilingMap.get(par1Str)).longValue() : -1L;
-            ArrayList var7 = new ArrayList();
+            long i = this.profilingMap.containsKey("root") ? ((Long)this.profilingMap.get("root")).longValue() : 0L;
+            long j = this.profilingMap.containsKey(par1Str) ? ((Long)this.profilingMap.get(par1Str)).longValue() : -1L;
+            ArrayList arraylist = new ArrayList();
 
             if (par1Str.length() > 0)
             {
                 par1Str = par1Str + ".";
             }
 
-            long var8 = 0L;
-            Iterator var10 = this.profilingMap.keySet().iterator();
+            long k = 0L;
+            Iterator iterator = this.profilingMap.keySet().iterator();
 
-            while (var10.hasNext())
+            while (iterator.hasNext())
             {
-                String var11 = (String)var10.next();
+                String s1 = (String)iterator.next();
 
-                if (var11.length() > par1Str.length() && var11.startsWith(par1Str) && var11.indexOf(".", par1Str.length() + 1) < 0)
+                if (s1.length() > par1Str.length() && s1.startsWith(par1Str) && s1.indexOf(".", par1Str.length() + 1) < 0)
                 {
-                    var8 += ((Long)this.profilingMap.get(var11)).longValue();
+                    k += ((Long)this.profilingMap.get(s1)).longValue();
                 }
             }
 
-            float var20 = (float)var8;
+            float f = (float)k;
 
-            if (var8 < var5)
+            if (k < j)
             {
-                var8 = var5;
+                k = j;
             }
 
-            if (var3 < var8)
+            if (i < k)
             {
-                var3 = var8;
+                i = k;
             }
 
-            Iterator var21 = this.profilingMap.keySet().iterator();
-            String var12;
+            Iterator iterator1 = this.profilingMap.keySet().iterator();
+            String s2;
 
-            while (var21.hasNext())
+            while (iterator1.hasNext())
             {
-                var12 = (String)var21.next();
+                s2 = (String)iterator1.next();
 
-                if (var12.length() > par1Str.length() && var12.startsWith(par1Str) && var12.indexOf(".", par1Str.length() + 1) < 0)
+                if (s2.length() > par1Str.length() && s2.startsWith(par1Str) && s2.indexOf(".", par1Str.length() + 1) < 0)
                 {
-                    long var13 = ((Long)this.profilingMap.get(var12)).longValue();
-                    double var15 = (double)var13 * 100.0D / (double)var8;
-                    double var17 = (double)var13 * 100.0D / (double)var3;
-                    String var19 = var12.substring(par1Str.length());
-                    var7.add(new ProfilerResult(var19, var15, var17));
+                    long l = ((Long)this.profilingMap.get(s2)).longValue();
+                    double d0 = (double)l * 100.0D / (double)k;
+                    double d1 = (double)l * 100.0D / (double)i;
+                    String s3 = s2.substring(par1Str.length());
+                    arraylist.add(new ProfilerResult(s3, d0, d1));
                 }
             }
 
-            var21 = this.profilingMap.keySet().iterator();
+            iterator1 = this.profilingMap.keySet().iterator();
 
-            while (var21.hasNext())
+            while (iterator1.hasNext())
             {
-                var12 = (String)var21.next();
-                this.profilingMap.put(var12, Long.valueOf(((Long)this.profilingMap.get(var12)).longValue() * 999L / 1000L));
+                s2 = (String)iterator1.next();
+                this.profilingMap.put(s2, Long.valueOf(((Long)this.profilingMap.get(s2)).longValue() * 999L / 1000L));
             }
 
-            if ((float)var8 > var20)
+            if ((float)k > f)
             {
-                var7.add(new ProfilerResult("unspecified", (double)((float)var8 - var20) * 100.0D / (double)var8, (double)((float)var8 - var20) * 100.0D / (double)var3));
+                arraylist.add(new ProfilerResult("unspecified", (double)((float)k - f) * 100.0D / (double)k, (double)((float)k - f) * 100.0D / (double)i));
             }
 
-            Collections.sort(var7);
-            var7.add(0, new ProfilerResult(par1Str, 100.0D, (double)var8 * 100.0D / (double)var3));
-            return var7;
+            Collections.sort(arraylist);
+            arraylist.add(0, new ProfilerResult(par1Str, 100.0D, (double)k * 100.0D / (double)i));
+            return arraylist;
         }
     }
 

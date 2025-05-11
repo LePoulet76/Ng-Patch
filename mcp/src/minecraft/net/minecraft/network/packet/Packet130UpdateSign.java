@@ -35,9 +35,9 @@ public class Packet130UpdateSign extends Packet
         this.zPosition = par1DataInput.readInt();
         this.signLines = new String[4];
 
-        for (int var2 = 0; var2 < 4; ++var2)
+        for (int i = 0; i < 4; ++i)
         {
-            this.signLines[var2] = readString(par1DataInput, 15);
+            this.signLines[i] = readString(par1DataInput, 15);
         }
     }
 
@@ -50,9 +50,9 @@ public class Packet130UpdateSign extends Packet
         par1DataOutput.writeShort(this.yPosition);
         par1DataOutput.writeInt(this.zPosition);
 
-        for (int var2 = 0; var2 < 4; ++var2)
+        for (int i = 0; i < 4; ++i)
         {
-            writeString(this.signLines[var2], par1DataOutput);
+            writeString(this.signLines[i], par1DataOutput);
         }
     }
 
@@ -69,13 +69,13 @@ public class Packet130UpdateSign extends Packet
      */
     public int getPacketSize()
     {
-        int var1 = 0;
+        int i = 0;
 
-        for (int var2 = 0; var2 < 4; ++var2)
+        for (int j = 0; j < 4; ++j)
         {
-            var1 += this.signLines[var2].length();
+            i += this.signLines[j].length();
         }
 
-        return var1;
+        return i;
     }
 }

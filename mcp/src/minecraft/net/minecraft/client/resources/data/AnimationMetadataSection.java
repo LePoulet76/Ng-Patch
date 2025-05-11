@@ -51,8 +51,8 @@ public class AnimationMetadataSection implements MetadataSection
 
     public int getFrameTimeSingle(int par1)
     {
-        AnimationFrame var2 = this.getAnimationFrame(par1);
-        return var2.hasNoTime() ? this.frameTime : var2.getFrameTime();
+        AnimationFrame animationframe = this.getAnimationFrame(par1);
+        return animationframe.hasNoTime() ? this.frameTime : animationframe.getFrameTime();
     }
 
     public boolean frameHasTime(int par1)
@@ -67,15 +67,15 @@ public class AnimationMetadataSection implements MetadataSection
 
     public Set getFrameIndexSet()
     {
-        HashSet var1 = Sets.newHashSet();
-        Iterator var2 = this.animationFrames.iterator();
+        HashSet hashset = Sets.newHashSet();
+        Iterator iterator = this.animationFrames.iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            AnimationFrame var3 = (AnimationFrame)var2.next();
-            var1.add(Integer.valueOf(var3.getFrameIndex()));
+            AnimationFrame animationframe = (AnimationFrame)iterator.next();
+            hashset.add(Integer.valueOf(animationframe.getFrameIndex()));
         }
 
-        return var1;
+        return hashset;
     }
 }

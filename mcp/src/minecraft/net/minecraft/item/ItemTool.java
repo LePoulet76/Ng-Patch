@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 
 public class ItemTool extends Item
 {
@@ -40,9 +41,9 @@ public class ItemTool extends Item
      */
     public float getStrVsBlock(ItemStack par1ItemStack, Block par2Block)
     {
-        for (int var3 = 0; var3 < this.blocksEffectiveAgainst.length; ++var3)
+        for (int i = 0; i < this.blocksEffectiveAgainst.length; ++i)
         {
-            if (this.blocksEffectiveAgainst[var3] == par2Block)
+            if (this.blocksEffectiveAgainst[i] == par2Block)
             {
                 return this.efficiencyOnProperMaterial;
             }
@@ -110,8 +111,19 @@ public class ItemTool extends Item
      */
     public Multimap getItemAttributeModifiers()
     {
-        Multimap var1 = super.getItemAttributeModifiers();
-        var1.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Tool modifier", (double)this.damageVsEntity, 0));
-        return var1;
+        Multimap multimap = super.getItemAttributeModifiers();
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Tool modifier", (double)this.damageVsEntity, 0));
+        return multimap;
+    }
+
+    /** FORGE: Overridden to allow custom tool effectiveness */
+    @Override
+    public float getStrVsBlock(ItemStack stack, Block block, int meta) 
+    {
+        if (ForgeHooks.isToolEffective(stack, block, meta))
+        {
+            return efficiencyOnProperMaterial;
+        }
+        return getStrVsBlock(stack, block);
     }
 }

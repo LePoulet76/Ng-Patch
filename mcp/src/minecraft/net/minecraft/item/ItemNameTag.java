@@ -24,9 +24,9 @@ public class ItemNameTag extends Item
         }
         else if (par3EntityLivingBase instanceof EntityLiving)
         {
-            EntityLiving var4 = (EntityLiving)par3EntityLivingBase;
-            var4.setCustomNameTag(par1ItemStack.getDisplayName());
-            var4.func_110163_bv();
+            EntityLiving entityliving = (EntityLiving)par3EntityLivingBase;
+            entityliving.setCustomNameTag(par1ItemStack.getDisplayName());
+            entityliving.func_110163_bv();
             --par1ItemStack.stackSize;
             return true;
         }

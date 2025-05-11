@@ -15,13 +15,22 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.common.MinecraftForge;
+
 import org.lwjgl.opengl.GL11;
+import static net.minecraftforge.client.IItemRenderer.ItemRenderType.EQUIPPED;
+import static net.minecraftforge.client.IItemRenderer.ItemRendererHelper.BLOCK_3D;
 
 @SideOnly(Side.CLIENT)
 public class RenderPlayer extends RendererLivingEntity
@@ -44,39 +53,48 @@ public class RenderPlayer extends RendererLivingEntity
      */
     protected int setArmorModel(AbstractClientPlayer par1AbstractClientPlayer, int par2, float par3)
     {
-        ItemStack var4 = par1AbstractClientPlayer.inventory.armorItemInSlot(3 - par2);
+        ItemStack itemstack = par1AbstractClientPlayer.inventory.armorItemInSlot(3 - par2);
 
-        if (var4 != null)
+        RenderPlayerEvent.SetArmorModel event = new RenderPlayerEvent.SetArmorModel(par1AbstractClientPlayer, this, 3 - par2, par3, itemstack);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.result != -1)
         {
-            Item var5 = var4.getItem();
+            return event.result;
+        }
 
-            if (var5 instanceof ItemArmor)
+        if (itemstack != null)
+        {
+            Item item = itemstack.getItem();
+
+            if (item instanceof ItemArmor)
             {
-                ItemArmor var6 = (ItemArmor)var5;
-                this.bindTexture(RenderBiped.func_110857_a(var6, par2));
-                ModelBiped var7 = par2 == 2 ? this.modelArmor : this.modelArmorChestplate;
-                var7.bipedHead.showModel = par2 == 0;
-                var7.bipedHeadwear.showModel = par2 == 0;
-                var7.bipedBody.showModel = par2 == 1 || par2 == 2;
-                var7.bipedRightArm.showModel = par2 == 1;
-                var7.bipedLeftArm.showModel = par2 == 1;
-                var7.bipedRightLeg.showModel = par2 == 2 || par2 == 3;
-                var7.bipedLeftLeg.showModel = par2 == 2 || par2 == 3;
-                this.setRenderPassModel(var7);
-                var7.onGround = this.mainModel.onGround;
-                var7.isRiding = this.mainModel.isRiding;
-                var7.isChild = this.mainModel.isChild;
-                float var8 = 1.0F;
+                ItemArmor itemarmor = (ItemArmor)item;
+                this.bindTexture(RenderBiped.getArmorResource(par1AbstractClientPlayer, itemstack, par2, null));
+                ModelBiped modelbiped = par2 == 2 ? this.modelArmor : this.modelArmorChestplate;
+                modelbiped.bipedHead.showModel = par2 == 0;
+                modelbiped.bipedHeadwear.showModel = par2 == 0;
+                modelbiped.bipedBody.showModel = par2 == 1 || par2 == 2;
+                modelbiped.bipedRightArm.showModel = par2 == 1;
+                modelbiped.bipedLeftArm.showModel = par2 == 1;
+                modelbiped.bipedRightLeg.showModel = par2 == 2 || par2 == 3;
+                modelbiped.bipedLeftLeg.showModel = par2 == 2 || par2 == 3;
+                modelbiped = ForgeHooksClient.getArmorModel(par1AbstractClientPlayer, itemstack, par2, modelbiped);
+                this.setRenderPassModel(modelbiped);
+                modelbiped.onGround = this.mainModel.onGround;
+                modelbiped.isRiding = this.mainModel.isRiding;
+                modelbiped.isChild = this.mainModel.isChild;
+                float f1 = 1.0F;
 
-                if (var6.getArmorMaterial() == EnumArmorMaterial.CLOTH)
+                //Move outside if to allow for more then just CLOTH
+                int j = itemarmor.getColor(itemstack);
+                if (j != -1)
                 {
-                    int var9 = var6.getColor(var4);
-                    float var10 = (float)(var9 >> 16 & 255) / 255.0F;
-                    float var11 = (float)(var9 >> 8 & 255) / 255.0F;
-                    float var12 = (float)(var9 & 255) / 255.0F;
-                    GL11.glColor3f(var8 * var10, var8 * var11, var8 * var12);
+                    float f2 = (float)(j >> 16 & 255) / 255.0F;
+                    float f3 = (float)(j >> 8 & 255) / 255.0F;
+                    float f4 = (float)(j & 255) / 255.0F;
+                    GL11.glColor3f(f1 * f2, f1 * f3, f1 * f4);
 
-                    if (var4.isItemEnchanted())
+                    if (itemstack.isItemEnchanted())
                     {
                         return 31;
                     }
@@ -84,9 +102,9 @@ public class RenderPlayer extends RendererLivingEntity
                     return 16;
                 }
 
-                GL11.glColor3f(var8, var8, var8);
+                GL11.glColor3f(f1, f1, f1);
 
-                if (var4.isItemEnchanted())
+                if (itemstack.isItemEnchanted())
                 {
                     return 15;
                 }
@@ -100,54 +118,56 @@ public class RenderPlayer extends RendererLivingEntity
 
     protected void func_130220_b(AbstractClientPlayer par1AbstractClientPlayer, int par2, float par3)
     {
-        ItemStack var4 = par1AbstractClientPlayer.inventory.armorItemInSlot(3 - par2);
+        ItemStack itemstack = par1AbstractClientPlayer.inventory.armorItemInSlot(3 - par2);
 
-        if (var4 != null)
+        if (itemstack != null)
         {
-            Item var5 = var4.getItem();
+            Item item = itemstack.getItem();
 
-            if (var5 instanceof ItemArmor)
+            if (item instanceof ItemArmor)
             {
-                this.bindTexture(RenderBiped.func_110858_a((ItemArmor)var5, par2, "overlay"));
-                float var6 = 1.0F;
-                GL11.glColor3f(var6, var6, var6);
+                this.bindTexture(RenderBiped.getArmorResource(par1AbstractClientPlayer, itemstack, par2, "overlay"));
+                float f1 = 1.0F;
+                GL11.glColor3f(f1, f1, f1);
             }
         }
     }
 
     public void func_130009_a(AbstractClientPlayer par1AbstractClientPlayer, double par2, double par4, double par6, float par8, float par9)
     {
-        float var10 = 1.0F;
-        GL11.glColor3f(var10, var10, var10);
-        ItemStack var11 = par1AbstractClientPlayer.inventory.getCurrentItem();
-        this.modelArmorChestplate.heldItemRight = this.modelArmor.heldItemRight = this.modelBipedMain.heldItemRight = var11 != null ? 1 : 0;
+        if (MinecraftForge.EVENT_BUS.post(new RenderPlayerEvent.Pre(par1AbstractClientPlayer, this, par9))) return;
+        float f2 = 1.0F;
+        GL11.glColor3f(f2, f2, f2);
+        ItemStack itemstack = par1AbstractClientPlayer.inventory.getCurrentItem();
+        this.modelArmorChestplate.heldItemRight = this.modelArmor.heldItemRight = this.modelBipedMain.heldItemRight = itemstack != null ? 1 : 0;
 
-        if (var11 != null && par1AbstractClientPlayer.getItemInUseCount() > 0)
+        if (itemstack != null && par1AbstractClientPlayer.getItemInUseCount() > 0)
         {
-            EnumAction var12 = var11.getItemUseAction();
+            EnumAction enumaction = itemstack.getItemUseAction();
 
-            if (var12 == EnumAction.block)
+            if (enumaction == EnumAction.block)
             {
                 this.modelArmorChestplate.heldItemRight = this.modelArmor.heldItemRight = this.modelBipedMain.heldItemRight = 3;
             }
-            else if (var12 == EnumAction.bow)
+            else if (enumaction == EnumAction.bow)
             {
                 this.modelArmorChestplate.aimedBow = this.modelArmor.aimedBow = this.modelBipedMain.aimedBow = true;
             }
         }
 
         this.modelArmorChestplate.isSneak = this.modelArmor.isSneak = this.modelBipedMain.isSneak = par1AbstractClientPlayer.isSneaking();
-        double var14 = par4 - (double)par1AbstractClientPlayer.yOffset;
+        double d3 = par4 - (double)par1AbstractClientPlayer.yOffset;
 
         if (par1AbstractClientPlayer.isSneaking() && !(par1AbstractClientPlayer instanceof EntityPlayerSP))
         {
-            var14 -= 0.125D;
+            d3 -= 0.125D;
         }
 
-        super.doRenderLiving(par1AbstractClientPlayer, par2, var14, par6, par8, par9);
+        super.doRenderLiving(par1AbstractClientPlayer, par2, d3, par6, par8, par9);
         this.modelArmorChestplate.aimedBow = this.modelArmor.aimedBow = this.modelBipedMain.aimedBow = false;
         this.modelArmorChestplate.isSneak = this.modelArmor.isSneak = this.modelBipedMain.isSneak = false;
         this.modelArmorChestplate.heldItemRight = this.modelArmor.heldItemRight = this.modelBipedMain.heldItemRight = 0;
+        MinecraftForge.EVENT_BUS.post(new RenderPlayerEvent.Post(par1AbstractClientPlayer, this, par9));
     }
 
     protected ResourceLocation func_110817_a(AbstractClientPlayer par1AbstractClientPlayer)
@@ -160,42 +180,51 @@ public class RenderPlayer extends RendererLivingEntity
      */
     protected void renderSpecials(AbstractClientPlayer par1AbstractClientPlayer, float par2)
     {
-        float var3 = 1.0F;
-        GL11.glColor3f(var3, var3, var3);
+        RenderPlayerEvent.Specials.Pre event = new RenderPlayerEvent.Specials.Pre(par1AbstractClientPlayer, this, par2);
+        if (MinecraftForge.EVENT_BUS.post(event))
+        {
+            return;
+        }
+
+        float f1 = 1.0F;
+        GL11.glColor3f(f1, f1, f1);
         super.renderEquippedItems(par1AbstractClientPlayer, par2);
         super.renderArrowsStuckInEntity(par1AbstractClientPlayer, par2);
-        ItemStack var4 = par1AbstractClientPlayer.inventory.armorItemInSlot(3);
+        ItemStack itemstack = par1AbstractClientPlayer.inventory.armorItemInSlot(3);
 
-        if (var4 != null)
+        if (itemstack != null && event.renderHelmet)
         {
             GL11.glPushMatrix();
             this.modelBipedMain.bipedHead.postRender(0.0625F);
-            float var5;
+            float f2;
 
-            if (var4.getItem().itemID < 256)
+            if (itemstack != null && itemstack.getItem() instanceof ItemBlock)
             {
-                if (RenderBlocks.renderItemIn3d(Block.blocksList[var4.itemID].getRenderType()))
+                IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(itemstack, EQUIPPED);
+                boolean is3D = (customRenderer != null && customRenderer.shouldUseRenderHelper(EQUIPPED, itemstack, BLOCK_3D));
+
+                if (is3D || RenderBlocks.renderItemIn3d(Block.blocksList[itemstack.itemID].getRenderType()))
                 {
-                    var5 = 0.625F;
+                    f2 = 0.625F;
                     GL11.glTranslatef(0.0F, -0.25F, 0.0F);
                     GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-                    GL11.glScalef(var5, -var5, -var5);
+                    GL11.glScalef(f2, -f2, -f2);
                 }
 
-                this.renderManager.itemRenderer.renderItem(par1AbstractClientPlayer, var4, 0);
+                this.renderManager.itemRenderer.renderItem(par1AbstractClientPlayer, itemstack, 0);
             }
-            else if (var4.getItem().itemID == Item.skull.itemID)
+            else if (itemstack.getItem().itemID == Item.skull.itemID)
             {
-                var5 = 1.0625F;
-                GL11.glScalef(var5, -var5, -var5);
-                String var6 = "";
+                f2 = 1.0625F;
+                GL11.glScalef(f2, -f2, -f2);
+                String s = "";
 
-                if (var4.hasTagCompound() && var4.getTagCompound().hasKey("SkullOwner"))
+                if (itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("SkullOwner"))
                 {
-                    var6 = var4.getTagCompound().getString("SkullOwner");
+                    s = itemstack.getTagCompound().getString("SkullOwner");
                 }
 
-                TileEntitySkullRenderer.skullRenderer.func_82393_a(-0.5F, 0.0F, -0.5F, 1, 180.0F, var4.getItemDamage(), var6);
+                TileEntitySkullRenderer.skullRenderer.func_82393_a(-0.5F, 0.0F, -0.5F, 1, 180.0F, itemstack.getItemDamage(), s);
             }
 
             GL11.glPopMatrix();
@@ -205,79 +234,80 @@ public class RenderPlayer extends RendererLivingEntity
         {
             this.bindTexture(par1AbstractClientPlayer.getLocationSkin());
 
-            for (int var23 = 0; var23 < 2; ++var23)
+            for (int i = 0; i < 2; ++i)
             {
-                float var25 = par1AbstractClientPlayer.prevRotationYaw + (par1AbstractClientPlayer.rotationYaw - par1AbstractClientPlayer.prevRotationYaw) * par2 - (par1AbstractClientPlayer.prevRenderYawOffset + (par1AbstractClientPlayer.renderYawOffset - par1AbstractClientPlayer.prevRenderYawOffset) * par2);
-                float var7 = par1AbstractClientPlayer.prevRotationPitch + (par1AbstractClientPlayer.rotationPitch - par1AbstractClientPlayer.prevRotationPitch) * par2;
+                float f3 = par1AbstractClientPlayer.prevRotationYaw + (par1AbstractClientPlayer.rotationYaw - par1AbstractClientPlayer.prevRotationYaw) * par2 - (par1AbstractClientPlayer.prevRenderYawOffset + (par1AbstractClientPlayer.renderYawOffset - par1AbstractClientPlayer.prevRenderYawOffset) * par2);
+                float f4 = par1AbstractClientPlayer.prevRotationPitch + (par1AbstractClientPlayer.rotationPitch - par1AbstractClientPlayer.prevRotationPitch) * par2;
                 GL11.glPushMatrix();
-                GL11.glRotatef(var25, 0.0F, 1.0F, 0.0F);
-                GL11.glRotatef(var7, 1.0F, 0.0F, 0.0F);
-                GL11.glTranslatef(0.375F * (float)(var23 * 2 - 1), 0.0F, 0.0F);
+                GL11.glRotatef(f3, 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(f4, 1.0F, 0.0F, 0.0F);
+                GL11.glTranslatef(0.375F * (float)(i * 2 - 1), 0.0F, 0.0F);
                 GL11.glTranslatef(0.0F, -0.375F, 0.0F);
-                GL11.glRotatef(-var7, 1.0F, 0.0F, 0.0F);
-                GL11.glRotatef(-var25, 0.0F, 1.0F, 0.0F);
-                float var8 = 1.3333334F;
-                GL11.glScalef(var8, var8, var8);
+                GL11.glRotatef(-f4, 1.0F, 0.0F, 0.0F);
+                GL11.glRotatef(-f3, 0.0F, 1.0F, 0.0F);
+                float f5 = 1.3333334F;
+                GL11.glScalef(f5, f5, f5);
                 this.modelBipedMain.renderEars(0.0625F);
                 GL11.glPopMatrix();
             }
         }
 
-        boolean var24 = par1AbstractClientPlayer.getTextureCape().isTextureUploaded();
-        boolean var26 = !par1AbstractClientPlayer.isInvisible();
-        boolean var27 = !par1AbstractClientPlayer.getHideCape();
-        float var14;
+        boolean flag = par1AbstractClientPlayer.getTextureCape().isTextureUploaded();
+        boolean flag1 = !par1AbstractClientPlayer.isInvisible();
+        boolean flag2 = !par1AbstractClientPlayer.getHideCape();
+        flag = event.renderCape && flag;
+        float f6;
 
-        if (var24 && var26 && var27)
+        if (flag && flag1 && flag2)
         {
             this.bindTexture(par1AbstractClientPlayer.getLocationCape());
             GL11.glPushMatrix();
             GL11.glTranslatef(0.0F, 0.0F, 0.125F);
-            double var28 = par1AbstractClientPlayer.field_71091_bM + (par1AbstractClientPlayer.field_71094_bP - par1AbstractClientPlayer.field_71091_bM) * (double)par2 - (par1AbstractClientPlayer.prevPosX + (par1AbstractClientPlayer.posX - par1AbstractClientPlayer.prevPosX) * (double)par2);
-            double var10 = par1AbstractClientPlayer.field_71096_bN + (par1AbstractClientPlayer.field_71095_bQ - par1AbstractClientPlayer.field_71096_bN) * (double)par2 - (par1AbstractClientPlayer.prevPosY + (par1AbstractClientPlayer.posY - par1AbstractClientPlayer.prevPosY) * (double)par2);
-            double var12 = par1AbstractClientPlayer.field_71097_bO + (par1AbstractClientPlayer.field_71085_bR - par1AbstractClientPlayer.field_71097_bO) * (double)par2 - (par1AbstractClientPlayer.prevPosZ + (par1AbstractClientPlayer.posZ - par1AbstractClientPlayer.prevPosZ) * (double)par2);
-            var14 = par1AbstractClientPlayer.prevRenderYawOffset + (par1AbstractClientPlayer.renderYawOffset - par1AbstractClientPlayer.prevRenderYawOffset) * par2;
-            double var15 = (double)MathHelper.sin(var14 * (float)Math.PI / 180.0F);
-            double var17 = (double)(-MathHelper.cos(var14 * (float)Math.PI / 180.0F));
-            float var19 = (float)var10 * 10.0F;
+            double d0 = par1AbstractClientPlayer.field_71091_bM + (par1AbstractClientPlayer.field_71094_bP - par1AbstractClientPlayer.field_71091_bM) * (double)par2 - (par1AbstractClientPlayer.prevPosX + (par1AbstractClientPlayer.posX - par1AbstractClientPlayer.prevPosX) * (double)par2);
+            double d1 = par1AbstractClientPlayer.field_71096_bN + (par1AbstractClientPlayer.field_71095_bQ - par1AbstractClientPlayer.field_71096_bN) * (double)par2 - (par1AbstractClientPlayer.prevPosY + (par1AbstractClientPlayer.posY - par1AbstractClientPlayer.prevPosY) * (double)par2);
+            double d2 = par1AbstractClientPlayer.field_71097_bO + (par1AbstractClientPlayer.field_71085_bR - par1AbstractClientPlayer.field_71097_bO) * (double)par2 - (par1AbstractClientPlayer.prevPosZ + (par1AbstractClientPlayer.posZ - par1AbstractClientPlayer.prevPosZ) * (double)par2);
+            f6 = par1AbstractClientPlayer.prevRenderYawOffset + (par1AbstractClientPlayer.renderYawOffset - par1AbstractClientPlayer.prevRenderYawOffset) * par2;
+            double d3 = (double)MathHelper.sin(f6 * (float)Math.PI / 180.0F);
+            double d4 = (double)(-MathHelper.cos(f6 * (float)Math.PI / 180.0F));
+            float f7 = (float)d1 * 10.0F;
 
-            if (var19 < -6.0F)
+            if (f7 < -6.0F)
             {
-                var19 = -6.0F;
+                f7 = -6.0F;
             }
 
-            if (var19 > 32.0F)
+            if (f7 > 32.0F)
             {
-                var19 = 32.0F;
+                f7 = 32.0F;
             }
 
-            float var20 = (float)(var28 * var15 + var12 * var17) * 100.0F;
-            float var21 = (float)(var28 * var17 - var12 * var15) * 100.0F;
+            float f8 = (float)(d0 * d3 + d2 * d4) * 100.0F;
+            float f9 = (float)(d0 * d4 - d2 * d3) * 100.0F;
 
-            if (var20 < 0.0F)
+            if (f8 < 0.0F)
             {
-                var20 = 0.0F;
+                f8 = 0.0F;
             }
 
-            float var22 = par1AbstractClientPlayer.prevCameraYaw + (par1AbstractClientPlayer.cameraYaw - par1AbstractClientPlayer.prevCameraYaw) * par2;
-            var19 += MathHelper.sin((par1AbstractClientPlayer.prevDistanceWalkedModified + (par1AbstractClientPlayer.distanceWalkedModified - par1AbstractClientPlayer.prevDistanceWalkedModified) * par2) * 6.0F) * 32.0F * var22;
+            float f10 = par1AbstractClientPlayer.prevCameraYaw + (par1AbstractClientPlayer.cameraYaw - par1AbstractClientPlayer.prevCameraYaw) * par2;
+            f7 += MathHelper.sin((par1AbstractClientPlayer.prevDistanceWalkedModified + (par1AbstractClientPlayer.distanceWalkedModified - par1AbstractClientPlayer.prevDistanceWalkedModified) * par2) * 6.0F) * 32.0F * f10;
 
             if (par1AbstractClientPlayer.isSneaking())
             {
-                var19 += 25.0F;
+                f7 += 25.0F;
             }
 
-            GL11.glRotatef(6.0F + var20 / 2.0F + var19, 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(var21 / 2.0F, 0.0F, 0.0F, 1.0F);
-            GL11.glRotatef(-var21 / 2.0F, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(6.0F + f8 / 2.0F + f7, 1.0F, 0.0F, 0.0F);
+            GL11.glRotatef(f9 / 2.0F, 0.0F, 0.0F, 1.0F);
+            GL11.glRotatef(-f9 / 2.0F, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
             this.modelBipedMain.renderCloak(0.0625F);
             GL11.glPopMatrix();
         }
 
-        ItemStack var29 = par1AbstractClientPlayer.inventory.getCurrentItem();
+        ItemStack itemstack1 = par1AbstractClientPlayer.inventory.getCurrentItem();
 
-        if (var29 != null)
+        if (itemstack1 != null && event.renderItem)
         {
             GL11.glPushMatrix();
             this.modelBipedMain.bipedRightArm.postRender(0.0625F);
@@ -285,47 +315,51 @@ public class RenderPlayer extends RendererLivingEntity
 
             if (par1AbstractClientPlayer.fishEntity != null)
             {
-                var29 = new ItemStack(Item.stick);
+                itemstack1 = new ItemStack(Item.stick);
             }
 
-            EnumAction var9 = null;
+            EnumAction enumaction = null;
 
             if (par1AbstractClientPlayer.getItemInUseCount() > 0)
             {
-                var9 = var29.getItemUseAction();
+                enumaction = itemstack1.getItemUseAction();
             }
 
-            float var30;
+            float f11;
 
-            if (var29.itemID < 256 && RenderBlocks.renderItemIn3d(Block.blocksList[var29.itemID].getRenderType()))
+            IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(itemstack1, EQUIPPED);
+            boolean is3D = (customRenderer != null && customRenderer.shouldUseRenderHelper(EQUIPPED, itemstack1, BLOCK_3D));
+            boolean isBlock = itemstack1.itemID < Block.blocksList.length && itemstack1.getItemSpriteNumber() == 0;
+
+            if (is3D || (isBlock && RenderBlocks.renderItemIn3d(Block.blocksList[itemstack1.itemID].getRenderType())))
             {
-                var30 = 0.5F;
+                f11 = 0.5F;
                 GL11.glTranslatef(0.0F, 0.1875F, -0.3125F);
-                var30 *= 0.75F;
+                f11 *= 0.75F;
                 GL11.glRotatef(20.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-                GL11.glScalef(-var30, -var30, var30);
+                GL11.glScalef(-f11, -f11, f11);
             }
-            else if (var29.itemID == Item.bow.itemID)
+            else if (itemstack1.itemID == Item.bow.itemID)
             {
-                var30 = 0.625F;
+                f11 = 0.625F;
                 GL11.glTranslatef(0.0F, 0.125F, 0.3125F);
                 GL11.glRotatef(-20.0F, 0.0F, 1.0F, 0.0F);
-                GL11.glScalef(var30, -var30, var30);
+                GL11.glScalef(f11, -f11, f11);
                 GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
             }
-            else if (Item.itemsList[var29.itemID].isFull3D())
+            else if (Item.itemsList[itemstack1.itemID].isFull3D())
             {
-                var30 = 0.625F;
+                f11 = 0.625F;
 
-                if (Item.itemsList[var29.itemID].shouldRotateAroundWhenRendering())
+                if (Item.itemsList[itemstack1.itemID].shouldRotateAroundWhenRendering())
                 {
                     GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
                     GL11.glTranslatef(0.0F, -0.125F, 0.0F);
                 }
 
-                if (par1AbstractClientPlayer.getItemInUseCount() > 0 && var9 == EnumAction.block)
+                if (par1AbstractClientPlayer.getItemInUseCount() > 0 && enumaction == EnumAction.block)
                 {
                     GL11.glTranslatef(0.05F, 0.0F, -0.1F);
                     GL11.glRotatef(-50.0F, 0.0F, 1.0F, 0.0F);
@@ -334,74 +368,75 @@ public class RenderPlayer extends RendererLivingEntity
                 }
 
                 GL11.glTranslatef(0.0F, 0.1875F, 0.0F);
-                GL11.glScalef(var30, -var30, var30);
+                GL11.glScalef(f11, -f11, f11);
                 GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
             }
             else
             {
-                var30 = 0.375F;
+                f11 = 0.375F;
                 GL11.glTranslatef(0.25F, 0.1875F, -0.1875F);
-                GL11.glScalef(var30, var30, var30);
+                GL11.glScalef(f11, f11, f11);
                 GL11.glRotatef(60.0F, 0.0F, 0.0F, 1.0F);
                 GL11.glRotatef(-90.0F, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(20.0F, 0.0F, 0.0F, 1.0F);
             }
 
-            float var13;
-            int var32;
-            float var33;
+            float f12;
+            int j;
+            float f13;
 
-            if (var29.getItem().requiresMultipleRenderPasses())
+            if (itemstack1.getItem().requiresMultipleRenderPasses())
             {
-                for (var32 = 0; var32 <= 1; ++var32)
+                for (j = 0; j < itemstack1.getItem().getRenderPasses(itemstack1.getItemDamage()); ++j)
                 {
-                    int var11 = var29.getItem().getColorFromItemStack(var29, var32);
-                    var33 = (float)(var11 >> 16 & 255) / 255.0F;
-                    var13 = (float)(var11 >> 8 & 255) / 255.0F;
-                    var14 = (float)(var11 & 255) / 255.0F;
-                    GL11.glColor4f(var33, var13, var14, 1.0F);
-                    this.renderManager.itemRenderer.renderItem(par1AbstractClientPlayer, var29, var32);
+                    int k = itemstack1.getItem().getColorFromItemStack(itemstack1, j);
+                    f13 = (float)(k >> 16 & 255) / 255.0F;
+                    f12 = (float)(k >> 8 & 255) / 255.0F;
+                    f6 = (float)(k & 255) / 255.0F;
+                    GL11.glColor4f(f13, f12, f6, 1.0F);
+                    this.renderManager.itemRenderer.renderItem(par1AbstractClientPlayer, itemstack1, j);
                 }
             }
             else
             {
-                var32 = var29.getItem().getColorFromItemStack(var29, 0);
-                float var31 = (float)(var32 >> 16 & 255) / 255.0F;
-                var33 = (float)(var32 >> 8 & 255) / 255.0F;
-                var13 = (float)(var32 & 255) / 255.0F;
-                GL11.glColor4f(var31, var33, var13, 1.0F);
-                this.renderManager.itemRenderer.renderItem(par1AbstractClientPlayer, var29, 0);
+                j = itemstack1.getItem().getColorFromItemStack(itemstack1, 0);
+                float f14 = (float)(j >> 16 & 255) / 255.0F;
+                f13 = (float)(j >> 8 & 255) / 255.0F;
+                f12 = (float)(j & 255) / 255.0F;
+                GL11.glColor4f(f14, f13, f12, 1.0F);
+                this.renderManager.itemRenderer.renderItem(par1AbstractClientPlayer, itemstack1, 0);
             }
 
             GL11.glPopMatrix();
         }
+        MinecraftForge.EVENT_BUS.post(new RenderPlayerEvent.Specials.Post(par1AbstractClientPlayer, this, par2));
     }
 
     protected void renderPlayerScale(AbstractClientPlayer par1AbstractClientPlayer, float par2)
     {
-        float var3 = 0.9375F;
-        GL11.glScalef(var3, var3, var3);
+        float f1 = 0.9375F;
+        GL11.glScalef(f1, f1, f1);
     }
 
     protected void func_96450_a(AbstractClientPlayer par1AbstractClientPlayer, double par2, double par4, double par6, String par8Str, float par9, double par10)
     {
         if (par10 < 100.0D)
         {
-            Scoreboard var12 = par1AbstractClientPlayer.getWorldScoreboard();
-            ScoreObjective var13 = var12.func_96539_a(2);
+            Scoreboard scoreboard = par1AbstractClientPlayer.getWorldScoreboard();
+            ScoreObjective scoreobjective = scoreboard.func_96539_a(2);
 
-            if (var13 != null)
+            if (scoreobjective != null)
             {
-                Score var14 = var12.func_96529_a(par1AbstractClientPlayer.getEntityName(), var13);
+                Score score = scoreboard.func_96529_a(par1AbstractClientPlayer.getEntityName(), scoreobjective);
 
                 if (par1AbstractClientPlayer.isPlayerSleeping())
                 {
-                    this.renderLivingLabel(par1AbstractClientPlayer, var14.getScorePoints() + " " + var13.getDisplayName(), par2, par4 - 1.5D, par6, 64);
+                    this.renderLivingLabel(par1AbstractClientPlayer, score.getScorePoints() + " " + scoreobjective.getDisplayName(), par2, par4 - 1.5D, par6, 64);
                 }
                 else
                 {
-                    this.renderLivingLabel(par1AbstractClientPlayer, var14.getScorePoints() + " " + var13.getDisplayName(), par2, par4, par6, 64);
+                    this.renderLivingLabel(par1AbstractClientPlayer, score.getScorePoints() + " " + scoreobjective.getDisplayName(), par2, par4, par6, 64);
                 }
 
                 par4 += (double)((float)this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * par9);
@@ -413,8 +448,8 @@ public class RenderPlayer extends RendererLivingEntity
 
     public void renderFirstPersonArm(EntityPlayer par1EntityPlayer)
     {
-        float var2 = 1.0F;
-        GL11.glColor3f(var2, var2, var2);
+        float f = 1.0F;
+        GL11.glColor3f(f, f, f);
         this.modelBipedMain.onGround = 0.0F;
         this.modelBipedMain.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, par1EntityPlayer);
         this.modelBipedMain.bipedRightArm.render(0.0625F);

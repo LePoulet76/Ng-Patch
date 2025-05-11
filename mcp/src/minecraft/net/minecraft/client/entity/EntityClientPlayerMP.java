@@ -94,11 +94,11 @@ public class EntityClientPlayerMP extends EntityPlayerSP
      */
     public void sendMotionUpdates()
     {
-        boolean var1 = this.isSprinting();
+        boolean flag = this.isSprinting();
 
-        if (var1 != this.wasSneaking)
+        if (flag != this.wasSneaking)
         {
-            if (var1)
+            if (flag)
             {
                 this.sendQueue.addToSendQueue(new Packet19EntityAction(this, 4));
             }
@@ -107,14 +107,14 @@ public class EntityClientPlayerMP extends EntityPlayerSP
                 this.sendQueue.addToSendQueue(new Packet19EntityAction(this, 5));
             }
 
-            this.wasSneaking = var1;
+            this.wasSneaking = flag;
         }
 
-        boolean var2 = this.isSneaking();
+        boolean flag1 = this.isSneaking();
 
-        if (var2 != this.shouldStopSneaking)
+        if (flag1 != this.shouldStopSneaking)
         {
-            if (var2)
+            if (flag1)
             {
                 this.sendQueue.addToSendQueue(new Packet19EntityAction(this, 1));
             }
@@ -123,31 +123,31 @@ public class EntityClientPlayerMP extends EntityPlayerSP
                 this.sendQueue.addToSendQueue(new Packet19EntityAction(this, 2));
             }
 
-            this.shouldStopSneaking = var2;
+            this.shouldStopSneaking = flag1;
         }
 
-        double var3 = this.posX - this.oldPosX;
-        double var5 = this.boundingBox.minY - this.oldMinY;
-        double var7 = this.posZ - this.oldPosZ;
-        double var9 = (double)(this.rotationYaw - this.oldRotationYaw);
-        double var11 = (double)(this.rotationPitch - this.oldRotationPitch);
-        boolean var13 = var3 * var3 + var5 * var5 + var7 * var7 > 9.0E-4D || this.field_71168_co >= 20;
-        boolean var14 = var9 != 0.0D || var11 != 0.0D;
+        double d0 = this.posX - this.oldPosX;
+        double d1 = this.boundingBox.minY - this.oldMinY;
+        double d2 = this.posZ - this.oldPosZ;
+        double d3 = (double)(this.rotationYaw - this.oldRotationYaw);
+        double d4 = (double)(this.rotationPitch - this.oldRotationPitch);
+        boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4D || this.field_71168_co >= 20;
+        boolean flag3 = d3 != 0.0D || d4 != 0.0D;
 
         if (this.ridingEntity != null)
         {
             this.sendQueue.addToSendQueue(new Packet13PlayerLookMove(this.motionX, -999.0D, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
-            var13 = false;
+            flag2 = false;
         }
-        else if (var13 && var14)
+        else if (flag2 && flag3)
         {
             this.sendQueue.addToSendQueue(new Packet13PlayerLookMove(this.posX, this.boundingBox.minY, this.posY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround));
         }
-        else if (var13)
+        else if (flag2)
         {
             this.sendQueue.addToSendQueue(new Packet11PlayerPosition(this.posX, this.boundingBox.minY, this.posY, this.posZ, this.onGround));
         }
-        else if (var14)
+        else if (flag3)
         {
             this.sendQueue.addToSendQueue(new Packet12PlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
         }
@@ -159,7 +159,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
         ++this.field_71168_co;
         this.wasOnGround = this.onGround;
 
-        if (var13)
+        if (flag2)
         {
             this.oldPosX = this.posX;
             this.oldMinY = this.boundingBox.minY;
@@ -168,7 +168,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
             this.field_71168_co = 0;
         }
 
-        if (var14)
+        if (flag3)
         {
             this.oldRotationYaw = this.rotationYaw;
             this.oldRotationPitch = this.rotationPitch;
@@ -180,8 +180,8 @@ public class EntityClientPlayerMP extends EntityPlayerSP
      */
     public EntityItem dropOneItem(boolean par1)
     {
-        int var2 = par1 ? 3 : 4;
-        this.sendQueue.addToSendQueue(new Packet14BlockDig(var2, 0, 0, 0, 0));
+        int i = par1 ? 3 : 4;
+        this.sendQueue.addToSendQueue(new Packet14BlockDig(i, 0, 0, 0, 0));
         return null;
     }
 

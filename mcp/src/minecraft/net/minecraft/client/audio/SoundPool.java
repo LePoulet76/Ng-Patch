@@ -41,7 +41,7 @@ public class SoundPool
     {
         try
         {
-            String var2 = par1Str;
+            String s1 = par1Str;
             par1Str = par1Str.substring(0, par1Str.indexOf("."));
 
             if (this.isGetRandomSound)
@@ -53,29 +53,29 @@ public class SoundPool
             }
 
             par1Str = par1Str.replaceAll("/", ".");
-            Object var3 = (List)this.nameToSoundPoolEntriesMapping.get(par1Str);
+            Object object = (List)this.nameToSoundPoolEntriesMapping.get(par1Str);
 
-            if (var3 == null)
+            if (object == null)
             {
-                var3 = Lists.newArrayList();
-                this.nameToSoundPoolEntriesMapping.put(par1Str, var3);
+                object = Lists.newArrayList();
+                this.nameToSoundPoolEntriesMapping.put(par1Str, object);
             }
 
-            ((List)var3).add(new SoundPoolEntry(var2, this.func_110654_c(var2)));
+            ((List)object).add(new SoundPoolEntry(s1, this.func_110654_c(s1)));
         }
-        catch (MalformedURLException var4)
+        catch (MalformedURLException malformedurlexception)
         {
-            var4.printStackTrace();
-            throw new RuntimeException(var4);
+            malformedurlexception.printStackTrace();
+            throw new RuntimeException(malformedurlexception);
         }
     }
 
     private URL func_110654_c(String par1Str) throws MalformedURLException
     {
-        ResourceLocation var2 = new ResourceLocation(par1Str);
-        String var3 = String.format("%s:%s:%s/%s", new Object[] {"mcsounddomain", var2.getResourceDomain(), this.soundType, var2.getResourcePath()});
-        SoundPoolProtocolHandler var4 = new SoundPoolProtocolHandler(this);
-        return new URL((URL)null, var3, var4);
+        ResourceLocation resourcelocation = new ResourceLocation(par1Str);
+        String s1 = String.format("%s:%s:%s/%s", new Object[] {"mcsounddomain", resourcelocation.getResourceDomain(), this.soundType, resourcelocation.getResourcePath()});
+        SoundPoolProtocolHandler soundpoolprotocolhandler = new SoundPoolProtocolHandler(this);
+        return new URL((URL)null, s1, soundpoolprotocolhandler);
     }
 
     /**
@@ -83,8 +83,8 @@ public class SoundPool
      */
     public SoundPoolEntry getRandomSoundFromSoundPool(String par1Str)
     {
-        List var2 = (List)this.nameToSoundPoolEntriesMapping.get(par1Str);
-        return var2 == null ? null : (SoundPoolEntry)var2.get(this.rand.nextInt(var2.size()));
+        List list = (List)this.nameToSoundPoolEntriesMapping.get(par1Str);
+        return list == null ? null : (SoundPoolEntry)list.get(this.rand.nextInt(list.size()));
     }
 
     /**
@@ -98,8 +98,8 @@ public class SoundPool
         }
         else
         {
-            ArrayList var1 = Lists.newArrayList(this.nameToSoundPoolEntriesMapping.keySet());
-            return this.getRandomSoundFromSoundPool((String)var1.get(this.rand.nextInt(var1.size())));
+            ArrayList arraylist = Lists.newArrayList(this.nameToSoundPoolEntriesMapping.keySet());
+            return this.getRandomSoundFromSoundPool((String)arraylist.get(this.rand.nextInt(arraylist.size())));
         }
     }
 

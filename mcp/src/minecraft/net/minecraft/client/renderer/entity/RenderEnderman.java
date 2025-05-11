@@ -42,9 +42,9 @@ public class RenderEnderman extends RenderLiving
 
         if (par1EntityEnderman.isScreaming())
         {
-            double var10 = 0.02D;
-            par2 += this.rnd.nextGaussian() * var10;
-            par6 += this.rnd.nextGaussian() * var10;
+            double d3 = 0.02D;
+            par2 += this.rnd.nextGaussian() * d3;
+            par6 += this.rnd.nextGaussian() * d3;
         }
 
         super.doRenderLiving(par1EntityEnderman, par2, par4, par6, par8, par9);
@@ -66,16 +66,16 @@ public class RenderEnderman extends RenderLiving
         {
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             GL11.glPushMatrix();
-            float var3 = 0.5F;
+            float f1 = 0.5F;
             GL11.glTranslatef(0.0F, 0.6875F, -0.75F);
-            var3 *= 1.0F;
+            f1 *= 1.0F;
             GL11.glRotatef(20.0F, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-            GL11.glScalef(-var3, -var3, var3);
-            int var4 = par1EntityEnderman.getBrightnessForRender(par2);
-            int var5 = var4 % 65536;
-            int var6 = var4 / 65536;
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var5 / 1.0F, (float)var6 / 1.0F);
+            GL11.glScalef(-f1, -f1, f1);
+            int i = par1EntityEnderman.getBrightnessForRender(par2);
+            int j = i % 65536;
+            int k = i / 65536;
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j / 1.0F, (float)k / 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.bindTexture(TextureMap.locationBlocksTexture);
@@ -97,7 +97,7 @@ public class RenderEnderman extends RenderLiving
         else
         {
             this.bindTexture(endermanEyesTexture);
-            float var4 = 1.0F;
+            float f1 = 1.0F;
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glDisable(GL11.GL_ALPHA_TEST);
             GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
@@ -112,13 +112,13 @@ public class RenderEnderman extends RenderLiving
                 GL11.glDepthMask(true);
             }
 
-            char var5 = 61680;
-            int var6 = var5 % 65536;
-            int var7 = var5 / 65536;
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var6 / 1.0F, (float)var7 / 1.0F);
+            char c0 = 61680;
+            int j = c0 % 65536;
+            int k = c0 / 65536;
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j / 1.0F, (float)k / 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, var4);
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, f1);
             return 1;
         }
     }

@@ -13,16 +13,16 @@ class CallableTileEntityData implements Callable
 
     public String callTileEntityDataInfo()
     {
-        int var1 = this.theTileEntity.worldObj.getBlockMetadata(this.theTileEntity.xCoord, this.theTileEntity.yCoord, this.theTileEntity.zCoord);
+        int i = this.theTileEntity.worldObj.getBlockMetadata(this.theTileEntity.xCoord, this.theTileEntity.yCoord, this.theTileEntity.zCoord);
 
-        if (var1 < 0)
+        if (i < 0)
         {
-            return "Unknown? (Got " + var1 + ")";
+            return "Unknown? (Got " + i + ")";
         }
         else
         {
-            String var2 = String.format("%4s", new Object[] {Integer.toBinaryString(var1)}).replace(" ", "0");
-            return String.format("%1$d / 0x%1$X / 0b%2$s", new Object[] {Integer.valueOf(var1), var2});
+            String s = String.format("%4s", new Object[] {Integer.toBinaryString(i)}).replace(" ", "0");
+            return String.format("%1$d / 0x%1$X / 0b%2$s", new Object[] {Integer.valueOf(i), s});
         }
     }
 

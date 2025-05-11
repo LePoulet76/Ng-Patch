@@ -69,8 +69,8 @@ class GuiScreenPendingInvitationList extends GuiScreenSelectLocation
 
     private void func_130119_b(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
     {
-        PendingInvite var6 = (PendingInvite)GuiScreenPendingInvitation.func_130042_e(this.field_130120_a).get(par1);
-        this.field_130120_a.drawString(GuiScreenPendingInvitation.func_130045_k(this.field_130120_a), var6.field_130092_b, par2 + 2, par3 + 1, 16777215);
-        this.field_130120_a.drawString(GuiScreenPendingInvitation.func_130052_l(this.field_130120_a), var6.field_130093_c, par2 + 2, par3 + 12, 7105644);
+        PendingInvite pendinginvite = (PendingInvite)GuiScreenPendingInvitation.func_130042_e(this.field_130120_a).get(par1);
+        this.field_130120_a.drawString(GuiScreenPendingInvitation.func_130045_k(this.field_130120_a), pendinginvite.field_130092_b, par2 + 2, par3 + 1, 16777215);
+        this.field_130120_a.drawString(GuiScreenPendingInvitation.func_130052_l(this.field_130120_a), pendinginvite.field_130093_c, par2 + 2, par3 + 12, 7105644);
     }
 }

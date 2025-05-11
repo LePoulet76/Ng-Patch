@@ -25,9 +25,9 @@ public class GLAllocation
      */
     public static synchronized int generateDisplayLists(int par0)
     {
-        int var1 = GL11.glGenLists(par0);
-        field_74531_a.put(Integer.valueOf(var1), Integer.valueOf(par0));
-        return var1;
+        int j = GL11.glGenLists(par0);
+        field_74531_a.put(Integer.valueOf(j), Integer.valueOf(par0));
+        return j;
     }
 
     public static synchronized void deleteDisplayLists(int par0)
@@ -37,9 +37,9 @@ public class GLAllocation
 
     public static synchronized void func_98302_b()
     {
-        for (int var0 = 0; var0 < field_74530_b.size(); ++var0)
+        for (int i = 0; i < field_74530_b.size(); ++i)
         {
-            GL11.glDeleteTextures(((Integer)field_74530_b.get(var0)).intValue());
+            GL11.glDeleteTextures(((Integer)field_74530_b.get(i)).intValue());
         }
 
         field_74530_b.clear();
@@ -50,12 +50,12 @@ public class GLAllocation
      */
     public static synchronized void deleteTexturesAndDisplayLists()
     {
-        Iterator var0 = field_74531_a.entrySet().iterator();
+        Iterator iterator = field_74531_a.entrySet().iterator();
 
-        while (var0.hasNext())
+        while (iterator.hasNext())
         {
-            Entry var1 = (Entry)var0.next();
-            GL11.glDeleteLists(((Integer)var1.getKey()).intValue(), ((Integer)var1.getValue()).intValue());
+            Entry entry = (Entry)iterator.next();
+            GL11.glDeleteLists(((Integer)entry.getKey()).intValue(), ((Integer)entry.getValue()).intValue());
         }
 
         field_74531_a.clear();

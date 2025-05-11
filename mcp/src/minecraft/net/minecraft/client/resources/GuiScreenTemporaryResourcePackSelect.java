@@ -49,55 +49,55 @@ public class GuiScreenTemporaryResourcePackSelect extends GuiScreen
         {
             if (par1GuiButton.id == 5)
             {
-                File var2 = GuiScreenTemporaryResourcePackSelectSelectionList.func_110510_a(this.field_110346_c).getDirResourcepacks();
-                String var3 = var2.getAbsolutePath();
+                File file1 = GuiScreenTemporaryResourcePackSelectSelectionList.func_110510_a(this.field_110346_c).getDirResourcepacks();
+                String s = file1.getAbsolutePath();
 
                 if (Util.getOSType() == EnumOS.MACOS)
                 {
                     try
                     {
-                        this.mc.getLogAgent().logInfo(var3);
-                        Runtime.getRuntime().exec(new String[] {"/usr/bin/open", var3});
+                        this.mc.getLogAgent().logInfo(s);
+                        Runtime.getRuntime().exec(new String[] {"/usr/bin/open", s});
                         return;
                     }
-                    catch (IOException var9)
+                    catch (IOException ioexception)
                     {
-                        var9.printStackTrace();
+                        ioexception.printStackTrace();
                     }
                 }
                 else if (Util.getOSType() == EnumOS.WINDOWS)
                 {
-                    String var4 = String.format("cmd.exe /C start \"Open file\" \"%s\"", new Object[] {var3});
+                    String s1 = String.format("cmd.exe /C start \"Open file\" \"%s\"", new Object[] {s});
 
                     try
                     {
-                        Runtime.getRuntime().exec(var4);
+                        Runtime.getRuntime().exec(s1);
                         return;
                     }
-                    catch (IOException var8)
+                    catch (IOException ioexception1)
                     {
-                        var8.printStackTrace();
+                        ioexception1.printStackTrace();
                     }
                 }
 
-                boolean var10 = false;
+                boolean flag = false;
 
                 try
                 {
-                    Class var5 = Class.forName("java.awt.Desktop");
-                    Object var6 = var5.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-                    var5.getMethod("browse", new Class[] {URI.class}).invoke(var6, new Object[] {var2.toURI()});
+                    Class oclass = Class.forName("java.awt.Desktop");
+                    Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
+                    oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {file1.toURI()});
                 }
-                catch (Throwable var7)
+                catch (Throwable throwable)
                 {
-                    var7.printStackTrace();
-                    var10 = true;
+                    throwable.printStackTrace();
+                    flag = true;
                 }
 
-                if (var10)
+                if (flag)
                 {
                     this.mc.getLogAgent().logInfo("Opening via system class!");
-                    Sys.openURL("file://" + var3);
+                    Sys.openURL("file://" + s);
                 }
             }
             else if (par1GuiButton.id == 6)

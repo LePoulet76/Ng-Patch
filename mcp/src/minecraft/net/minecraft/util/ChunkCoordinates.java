@@ -34,8 +34,8 @@ public class ChunkCoordinates implements Comparable
         }
         else
         {
-            ChunkCoordinates var2 = (ChunkCoordinates)par1Obj;
-            return this.posX == var2.posX && this.posY == var2.posY && this.posZ == var2.posZ;
+            ChunkCoordinates chunkcoordinates = (ChunkCoordinates)par1Obj;
+            return this.posX == chunkcoordinates.posX && this.posY == chunkcoordinates.posY && this.posZ == chunkcoordinates.posZ;
         }
     }
 
@@ -64,10 +64,10 @@ public class ChunkCoordinates implements Comparable
      */
     public float getDistanceSquared(int par1, int par2, int par3)
     {
-        float var4 = (float)(this.posX - par1);
-        float var5 = (float)(this.posY - par2);
-        float var6 = (float)(this.posZ - par3);
-        return var4 * var4 + var5 * var5 + var6 * var6;
+        float f = (float)(this.posX - par1);
+        float f1 = (float)(this.posY - par2);
+        float f2 = (float)(this.posZ - par3);
+        return f * f + f1 * f1 + f2 * f2;
     }
 
     /**

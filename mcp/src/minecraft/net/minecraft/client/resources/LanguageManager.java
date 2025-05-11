@@ -3,6 +3,8 @@ package net.minecraft.client.resources;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.io.IOException;
@@ -34,52 +36,53 @@ public class LanguageManager implements ResourceManagerReloadListener
     public void parseLanguageMetadata(List par1List)
     {
         this.languageMap.clear();
-        Iterator var2 = par1List.iterator();
+        Iterator iterator = par1List.iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            ResourcePack var3 = (ResourcePack)var2.next();
+            ResourcePack resourcepack = (ResourcePack)iterator.next();
 
             try
             {
-                LanguageMetadataSection var4 = (LanguageMetadataSection)var3.getPackMetadata(this.field_135047_b, "language");
+                LanguageMetadataSection languagemetadatasection = (LanguageMetadataSection)resourcepack.getPackMetadata(this.field_135047_b, "language");
 
-                if (var4 != null)
+                if (languagemetadatasection != null)
                 {
-                    Iterator var5 = var4.getLanguages().iterator();
+                    Iterator iterator1 = languagemetadatasection.getLanguages().iterator();
 
-                    while (var5.hasNext())
+                    while (iterator1.hasNext())
                     {
-                        Language var6 = (Language)var5.next();
+                        Language language = (Language)iterator1.next();
 
-                        if (!this.languageMap.containsKey(var6.getLanguageCode()))
+                        if (!this.languageMap.containsKey(language.getLanguageCode()))
                         {
-                            this.languageMap.put(var6.getLanguageCode(), var6);
+                            this.languageMap.put(language.getLanguageCode(), language);
                         }
                     }
                 }
             }
-            catch (RuntimeException var7)
+            catch (RuntimeException runtimeexception)
             {
-                Minecraft.getMinecraft().getLogAgent().logWarningException("Unable to parse metadata section of resourcepack: " + var3.getPackName(), var7);
+                Minecraft.getMinecraft().getLogAgent().logWarningException("Unable to parse metadata section of resourcepack: " + resourcepack.getPackName(), runtimeexception);
             }
-            catch (IOException var8)
+            catch (IOException ioexception)
             {
-                Minecraft.getMinecraft().getLogAgent().logWarningException("Unable to parse metadata section of resourcepack: " + var3.getPackName(), var8);
+                Minecraft.getMinecraft().getLogAgent().logWarningException("Unable to parse metadata section of resourcepack: " + resourcepack.getPackName(), ioexception);
             }
         }
     }
 
     public void onResourceManagerReload(ResourceManager par1ResourceManager)
     {
-        ArrayList var2 = Lists.newArrayList(new String[] {"en_US"});
+        ArrayList arraylist = Lists.newArrayList(new String[] {"en_US"});
 
         if (!"en_US".equals(this.currentLanguage))
         {
-            var2.add(this.currentLanguage);
+            arraylist.add(this.currentLanguage);
         }
 
-        currentLocale.loadLocaleDataFiles(par1ResourceManager, var2);
+        currentLocale.loadLocaleDataFiles(par1ResourceManager, arraylist);
+        LanguageRegistry.instance().loadLanguageTable(currentLocale.field_135032_a, this.currentLanguage);
         StringTranslate.func_135063_a(currentLocale.field_135032_a);
     }
 

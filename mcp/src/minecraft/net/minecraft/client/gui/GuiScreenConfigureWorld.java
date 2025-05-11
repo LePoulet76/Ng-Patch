@@ -117,9 +117,9 @@ public class GuiScreenConfigureWorld extends GuiScreen
             }
             else if (par1GuiButton.id == 1)
             {
-                String var2 = I18n.getString("mco.configure.world.close.question.line1");
-                String var3 = I18n.getString("mco.configure.world.close.question.line2");
-                this.mc.displayGuiScreen(new GuiScreenConfirmation(this, GuiScreenConfirmationType.Info, var2, var3, 1));
+                String s = I18n.getString("mco.configure.world.close.question.line1");
+                String s1 = I18n.getString("mco.configure.world.close.question.line2");
+                this.mc.displayGuiScreen(new GuiScreenConfirmation(this, GuiScreenConfirmationType.Info, s, s1, 1));
             }
             else if (par1GuiButton.id == 0)
             {
@@ -150,24 +150,24 @@ public class GuiScreenConfigureWorld extends GuiScreen
 
     private void func_96268_g()
     {
-        McoClient var1 = new McoClient(this.mc.getSession());
+        McoClient mcoclient = new McoClient(this.mc.getSession());
 
         try
         {
-            Boolean var2 = var1.func_96383_b(this.field_96280_b.field_96408_a);
+            Boolean obool = mcoclient.func_96383_b(this.field_96280_b.field_96408_a);
 
-            if (var2.booleanValue())
+            if (obool.booleanValue())
             {
                 this.field_102020_y = true;
                 this.field_96280_b.field_96404_d = "OPEN";
                 this.initGui();
             }
         }
-        catch (ExceptionMcoService var3)
+        catch (ExceptionMcoService exceptionmcoservice)
         {
-            this.mc.getLogAgent().logSevere(var3.toString());
+            this.mc.getLogAgent().logSevere(exceptionmcoservice.toString());
         }
-        catch (IOException var4)
+        catch (IOException ioexception)
         {
             this.mc.getLogAgent().logWarning("Realms: could not parse response");
         }
@@ -175,24 +175,24 @@ public class GuiScreenConfigureWorld extends GuiScreen
 
     private void func_96275_h()
     {
-        McoClient var1 = new McoClient(this.mc.getSession());
+        McoClient mcoclient = new McoClient(this.mc.getSession());
 
         try
         {
-            boolean var2 = var1.func_96378_c(this.field_96280_b.field_96408_a).booleanValue();
+            boolean flag = mcoclient.func_96378_c(this.field_96280_b.field_96408_a).booleanValue();
 
-            if (var2)
+            if (flag)
             {
                 this.field_102020_y = true;
                 this.field_96280_b.field_96404_d = "CLOSED";
                 this.initGui();
             }
         }
-        catch (ExceptionMcoService var3)
+        catch (ExceptionMcoService exceptionmcoservice)
         {
-            this.mc.getLogAgent().logSevere(var3.toString());
+            this.mc.getLogAgent().logSevere(exceptionmcoservice.toString());
         }
-        catch (IOException var4)
+        catch (IOException ioexception)
         {
             this.mc.getLogAgent().logWarning("Realms: could not parse response");
         }
@@ -203,8 +203,8 @@ public class GuiScreenConfigureWorld extends GuiScreen
         if (this.field_96284_p >= 0 && this.field_96284_p < this.field_96280_b.field_96402_f.size())
         {
             this.field_96283_q = (String)this.field_96280_b.field_96402_f.get(this.field_96284_p);
-            GuiYesNo var1 = new GuiYesNo(this, "Warning!", I18n.getString("mco.configure.world.uninvite.question") + " \'" + this.field_96283_q + "\'", 3);
-            this.mc.displayGuiScreen(var1);
+            GuiYesNo guiyesno = new GuiYesNo(this, "Warning!", I18n.getString("mco.configure.world.uninvite.question") + " \'" + this.field_96283_q + "\'", 3);
+            this.mc.displayGuiScreen(guiyesno);
         }
     }
 
@@ -214,15 +214,15 @@ public class GuiScreenConfigureWorld extends GuiScreen
         {
             if (par1)
             {
-                McoClient var3 = new McoClient(this.mc.getSession());
+                McoClient mcoclient = new McoClient(this.mc.getSession());
 
                 try
                 {
-                    var3.func_96381_a(this.field_96280_b.field_96408_a, this.field_96283_q);
+                    mcoclient.func_96381_a(this.field_96280_b.field_96408_a, this.field_96283_q);
                 }
-                catch (ExceptionMcoService var5)
+                catch (ExceptionMcoService exceptionmcoservice)
                 {
-                    this.mc.getLogAgent().logSevere(var5.toString());
+                    this.mc.getLogAgent().logSevere(exceptionmcoservice.toString());
                 }
 
                 this.func_96267_d(this.field_96284_p);
@@ -286,8 +286,8 @@ public class GuiScreenConfigureWorld extends GuiScreen
         }
         else
         {
-            String var1 = this.field_96280_b.field_96404_d.toLowerCase();
-            return Character.toUpperCase(var1.charAt(0)) + var1.substring(1);
+            String s = this.field_96280_b.field_96404_d.toLowerCase();
+            return Character.toUpperCase(s.charAt(0)) + s.substring(1);
         }
     }
 

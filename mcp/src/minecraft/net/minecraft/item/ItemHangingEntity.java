@@ -35,8 +35,8 @@ public class ItemHangingEntity extends Item
         }
         else
         {
-            int var11 = Direction.facingToDirection[par7];
-            EntityHanging var12 = this.createHangingEntity(par3World, par4, par5, par6, var11);
+            int i1 = Direction.facingToDirection[par7];
+            EntityHanging entityhanging = this.createHangingEntity(par3World, par4, par5, par6, i1);
 
             if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
             {
@@ -44,11 +44,11 @@ public class ItemHangingEntity extends Item
             }
             else
             {
-                if (var12 != null && var12.onValidSurface())
+                if (entityhanging != null && entityhanging.onValidSurface())
                 {
                     if (!par3World.isRemote)
                     {
-                        par3World.spawnEntityInWorld(var12);
+                        par3World.spawnEntityInWorld(entityhanging);
                     }
 
                     --par1ItemStack.stackSize;

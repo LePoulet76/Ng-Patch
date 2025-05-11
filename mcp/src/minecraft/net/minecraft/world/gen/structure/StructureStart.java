@@ -38,15 +38,15 @@ public abstract class StructureStart
      */
     public void generateStructure(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
     {
-        Iterator var4 = this.components.iterator();
+        Iterator iterator = this.components.iterator();
 
-        while (var4.hasNext())
+        while (iterator.hasNext())
         {
-            StructureComponent var5 = (StructureComponent)var4.next();
+            StructureComponent structurecomponent = (StructureComponent)iterator.next();
 
-            if (var5.getBoundingBox().intersectsWith(par3StructureBoundingBox) && !var5.addComponentParts(par1World, par2Random, par3StructureBoundingBox))
+            if (structurecomponent.getBoundingBox().intersectsWith(par3StructureBoundingBox) && !structurecomponent.addComponentParts(par1World, par2Random, par3StructureBoundingBox))
             {
-                var4.remove();
+                iterator.remove();
             }
         }
     }
@@ -57,34 +57,39 @@ public abstract class StructureStart
     protected void updateBoundingBox()
     {
         this.boundingBox = StructureBoundingBox.getNewBoundingBox();
-        Iterator var1 = this.components.iterator();
+        Iterator iterator = this.components.iterator();
 
-        while (var1.hasNext())
+        while (iterator.hasNext())
         {
-            StructureComponent var2 = (StructureComponent)var1.next();
-            this.boundingBox.expandTo(var2.getBoundingBox());
+            StructureComponent structurecomponent = (StructureComponent)iterator.next();
+            this.boundingBox.expandTo(structurecomponent.getBoundingBox());
         }
     }
 
     public NBTTagCompound func_143021_a(int par1, int par2)
     {
-        NBTTagCompound var3 = new NBTTagCompound();
-        var3.setString("id", MapGenStructureIO.func_143033_a(this));
-        var3.setInteger("ChunkX", par1);
-        var3.setInteger("ChunkZ", par2);
-        var3.setTag("BB", this.boundingBox.func_143047_a("BB"));
-        NBTTagList var4 = new NBTTagList("Children");
-        Iterator var5 = this.components.iterator();
-
-        while (var5.hasNext())
+        if (MapGenStructureIO.func_143033_a(this) == null)
         {
-            StructureComponent var6 = (StructureComponent)var5.next();
-            var4.appendTag(var6.func_143010_b());
+            throw new RuntimeException("StructureStart \"" + this.getClass().getName() + "\" missing ID Mapping, Modder see MapGenStructureIO");
         }
 
-        var3.setTag("Children", var4);
-        this.func_143022_a(var3);
-        return var3;
+        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        nbttagcompound.setString("id", MapGenStructureIO.func_143033_a(this));
+        nbttagcompound.setInteger("ChunkX", par1);
+        nbttagcompound.setInteger("ChunkZ", par2);
+        nbttagcompound.setTag("BB", this.boundingBox.func_143047_a("BB"));
+        NBTTagList nbttaglist = new NBTTagList("Children");
+        Iterator iterator = this.components.iterator();
+
+        while (iterator.hasNext())
+        {
+            StructureComponent structurecomponent = (StructureComponent)iterator.next();
+            nbttaglist.appendTag(structurecomponent.func_143010_b());
+        }
+
+        nbttagcompound.setTag("Children", nbttaglist);
+        this.func_143022_a(nbttagcompound);
+        return nbttagcompound;
     }
 
     public void func_143022_a(NBTTagCompound par1NBTTagCompound) {}
@@ -99,11 +104,11 @@ public abstract class StructureStart
             this.boundingBox = new StructureBoundingBox(par2NBTTagCompound.getIntArray("BB"));
         }
 
-        NBTTagList var3 = par2NBTTagCompound.getTagList("Children");
+        NBTTagList nbttaglist = par2NBTTagCompound.getTagList("Children");
 
-        for (int var4 = 0; var4 < var3.tagCount(); ++var4)
+        for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
-            this.components.add(MapGenStructureIO.func_143032_b((NBTTagCompound)var3.tagAt(var4), par1World));
+            this.components.add(MapGenStructureIO.func_143032_b((NBTTagCompound)nbttaglist.tagAt(i), par1World));
         }
 
         this.func_143017_b(par2NBTTagCompound);
@@ -116,48 +121,48 @@ public abstract class StructureStart
      */
     protected void markAvailableHeight(World par1World, Random par2Random, int par3)
     {
-        int var4 = 63 - par3;
-        int var5 = this.boundingBox.getYSize() + 1;
+        int j = 63 - par3;
+        int k = this.boundingBox.getYSize() + 1;
 
-        if (var5 < var4)
+        if (k < j)
         {
-            var5 += par2Random.nextInt(var4 - var5);
+            k += par2Random.nextInt(j - k);
         }
 
-        int var6 = var5 - this.boundingBox.maxY;
-        this.boundingBox.offset(0, var6, 0);
-        Iterator var7 = this.components.iterator();
+        int l = k - this.boundingBox.maxY;
+        this.boundingBox.offset(0, l, 0);
+        Iterator iterator = this.components.iterator();
 
-        while (var7.hasNext())
+        while (iterator.hasNext())
         {
-            StructureComponent var8 = (StructureComponent)var7.next();
-            var8.getBoundingBox().offset(0, var6, 0);
+            StructureComponent structurecomponent = (StructureComponent)iterator.next();
+            structurecomponent.getBoundingBox().offset(0, l, 0);
         }
     }
 
     protected void setRandomHeight(World par1World, Random par2Random, int par3, int par4)
     {
-        int var5 = par4 - par3 + 1 - this.boundingBox.getYSize();
-        boolean var6 = true;
-        int var10;
+        int k = par4 - par3 + 1 - this.boundingBox.getYSize();
+        boolean flag = true;
+        int l;
 
-        if (var5 > 1)
+        if (k > 1)
         {
-            var10 = par3 + par2Random.nextInt(var5);
+            l = par3 + par2Random.nextInt(k);
         }
         else
         {
-            var10 = par3;
+            l = par3;
         }
 
-        int var7 = var10 - this.boundingBox.minY;
-        this.boundingBox.offset(0, var7, 0);
-        Iterator var8 = this.components.iterator();
+        int i1 = l - this.boundingBox.minY;
+        this.boundingBox.offset(0, i1, 0);
+        Iterator iterator = this.components.iterator();
 
-        while (var8.hasNext())
+        while (iterator.hasNext())
         {
-            StructureComponent var9 = (StructureComponent)var8.next();
-            var9.getBoundingBox().offset(0, var7, 0);
+            StructureComponent structurecomponent = (StructureComponent)iterator.next();
+            structurecomponent.getBoundingBox().offset(0, i1, 0);
         }
     }
 

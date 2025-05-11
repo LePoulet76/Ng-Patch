@@ -50,10 +50,10 @@ public class RenderIronGolem extends RenderLiving
 
         if ((double)par1EntityIronGolem.limbSwingAmount >= 0.01D)
         {
-            float var5 = 13.0F;
-            float var6 = par1EntityIronGolem.limbSwing - par1EntityIronGolem.limbSwingAmount * (1.0F - par4) + 6.0F;
-            float var7 = (Math.abs(var6 % var5 - var5 * 0.5F) - var5 * 0.25F) / (var5 * 0.25F);
-            GL11.glRotatef(6.5F * var7, 0.0F, 0.0F, 1.0F);
+            float f3 = 13.0F;
+            float f4 = par1EntityIronGolem.limbSwing - par1EntityIronGolem.limbSwingAmount * (1.0F - par4) + 6.0F;
+            float f5 = (Math.abs(f4 % f3 - f3 * 0.5F) - f3 * 0.25F) / (f3 * 0.25F);
+            GL11.glRotatef(6.5F * f5, 0.0F, 0.0F, 1.0F);
         }
     }
 
@@ -71,12 +71,12 @@ public class RenderIronGolem extends RenderLiving
             GL11.glRotatef(5.0F + 180.0F * this.ironGolemModel.ironGolemRightArm.rotateAngleX / (float)Math.PI, 1.0F, 0.0F, 0.0F);
             GL11.glTranslatef(-0.6875F, 1.25F, -0.9375F);
             GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
-            float var3 = 0.8F;
-            GL11.glScalef(var3, -var3, var3);
-            int var4 = par1EntityIronGolem.getBrightnessForRender(par2);
-            int var5 = var4 % 65536;
-            int var6 = var4 / 65536;
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var5 / 1.0F, (float)var6 / 1.0F);
+            float f1 = 0.8F;
+            GL11.glScalef(f1, -f1, f1);
+            int i = par1EntityIronGolem.getBrightnessForRender(par2);
+            int j = i % 65536;
+            int k = i / 65536;
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j / 1.0F, (float)k / 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.bindTexture(TextureMap.locationBlocksTexture);

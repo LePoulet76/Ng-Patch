@@ -18,14 +18,14 @@ class CallableMemoryInfo implements Callable
      */
     public String getMemoryInfoAsString()
     {
-        Runtime var1 = Runtime.getRuntime();
-        long var2 = var1.maxMemory();
-        long var4 = var1.totalMemory();
-        long var6 = var1.freeMemory();
-        long var8 = var2 / 1024L / 1024L;
-        long var10 = var4 / 1024L / 1024L;
-        long var12 = var6 / 1024L / 1024L;
-        return var6 + " bytes (" + var12 + " MB) / " + var4 + " bytes (" + var10 + " MB) up to " + var2 + " bytes (" + var8 + " MB)";
+        Runtime runtime = Runtime.getRuntime();
+        long i = runtime.maxMemory();
+        long j = runtime.totalMemory();
+        long k = runtime.freeMemory();
+        long l = i / 1024L / 1024L;
+        long i1 = j / 1024L / 1024L;
+        long j1 = k / 1024L / 1024L;
+        return k + " bytes (" + j1 + " MB) / " + j + " bytes (" + i1 + " MB) up to " + i + " bytes (" + l + " MB)";
     }
 
     public Object call()

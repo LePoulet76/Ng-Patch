@@ -28,33 +28,33 @@ public class CommandTime extends CommandBase
     {
         if (par2ArrayOfStr.length > 1)
         {
-            int var3;
+            int i;
 
             if (par2ArrayOfStr[0].equals("set"))
             {
                 if (par2ArrayOfStr[1].equals("day"))
                 {
-                    var3 = 0;
+                    i = 0;
                 }
                 else if (par2ArrayOfStr[1].equals("night"))
                 {
-                    var3 = 12500;
+                    i = 12500;
                 }
                 else
                 {
-                    var3 = parseIntWithMin(par1ICommandSender, par2ArrayOfStr[1], 0);
+                    i = parseIntWithMin(par1ICommandSender, par2ArrayOfStr[1], 0);
                 }
 
-                this.setTime(par1ICommandSender, var3);
-                notifyAdmins(par1ICommandSender, "commands.time.set", new Object[] {Integer.valueOf(var3)});
+                this.setTime(par1ICommandSender, i);
+                notifyAdmins(par1ICommandSender, "commands.time.set", new Object[] {Integer.valueOf(i)});
                 return;
             }
 
             if (par2ArrayOfStr[0].equals("add"))
             {
-                var3 = parseIntWithMin(par1ICommandSender, par2ArrayOfStr[1], 0);
-                this.addTime(par1ICommandSender, var3);
-                notifyAdmins(par1ICommandSender, "commands.time.added", new Object[] {Integer.valueOf(var3)});
+                i = parseIntWithMin(par1ICommandSender, par2ArrayOfStr[1], 0);
+                this.addTime(par1ICommandSender, i);
+                notifyAdmins(par1ICommandSender, "commands.time.added", new Object[] {Integer.valueOf(i)});
                 return;
             }
         }
@@ -75,9 +75,9 @@ public class CommandTime extends CommandBase
      */
     protected void setTime(ICommandSender par1ICommandSender, int par2)
     {
-        for (int var3 = 0; var3 < MinecraftServer.getServer().worldServers.length; ++var3)
+        for (int j = 0; j < MinecraftServer.getServer().worldServers.length; ++j)
         {
-            MinecraftServer.getServer().worldServers[var3].setWorldTime((long)par2);
+            MinecraftServer.getServer().worldServers[j].setWorldTime((long)par2);
         }
     }
 
@@ -86,10 +86,10 @@ public class CommandTime extends CommandBase
      */
     protected void addTime(ICommandSender par1ICommandSender, int par2)
     {
-        for (int var3 = 0; var3 < MinecraftServer.getServer().worldServers.length; ++var3)
+        for (int j = 0; j < MinecraftServer.getServer().worldServers.length; ++j)
         {
-            WorldServer var4 = MinecraftServer.getServer().worldServers[var3];
-            var4.setWorldTime(var4.getWorldTime() + (long)par2);
+            WorldServer worldserver = MinecraftServer.getServer().worldServers[j];
+            worldserver.setWorldTime(worldserver.getWorldTime() + (long)par2);
         }
     }
 }

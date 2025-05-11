@@ -20,8 +20,8 @@ public class ColorizerGrass
     public static int getGrassColor(double par0, double par2)
     {
         par2 *= par0;
-        int var4 = (int)((1.0D - par0) * 255.0D);
-        int var5 = (int)((1.0D - par2) * 255.0D);
-        return grassBuffer[var5 << 8 | var4];
+        int i = (int)((1.0D - par0) * 255.0D);
+        int j = (int)((1.0D - par2) * 255.0D);
+        return grassBuffer[j << 8 | i];
     }
 }

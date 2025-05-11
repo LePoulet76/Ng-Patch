@@ -71,50 +71,50 @@ public class BlockWall extends Block
      */
     public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        boolean var5 = this.canConnectWallTo(par1IBlockAccess, par2, par3, par4 - 1);
-        boolean var6 = this.canConnectWallTo(par1IBlockAccess, par2, par3, par4 + 1);
-        boolean var7 = this.canConnectWallTo(par1IBlockAccess, par2 - 1, par3, par4);
-        boolean var8 = this.canConnectWallTo(par1IBlockAccess, par2 + 1, par3, par4);
-        float var9 = 0.25F;
-        float var10 = 0.75F;
-        float var11 = 0.25F;
-        float var12 = 0.75F;
-        float var13 = 1.0F;
+        boolean flag = this.canConnectWallTo(par1IBlockAccess, par2, par3, par4 - 1);
+        boolean flag1 = this.canConnectWallTo(par1IBlockAccess, par2, par3, par4 + 1);
+        boolean flag2 = this.canConnectWallTo(par1IBlockAccess, par2 - 1, par3, par4);
+        boolean flag3 = this.canConnectWallTo(par1IBlockAccess, par2 + 1, par3, par4);
+        float f = 0.25F;
+        float f1 = 0.75F;
+        float f2 = 0.25F;
+        float f3 = 0.75F;
+        float f4 = 1.0F;
 
-        if (var5)
+        if (flag)
         {
-            var11 = 0.0F;
+            f2 = 0.0F;
         }
 
-        if (var6)
+        if (flag1)
         {
-            var12 = 1.0F;
+            f3 = 1.0F;
         }
 
-        if (var7)
+        if (flag2)
         {
-            var9 = 0.0F;
+            f = 0.0F;
         }
 
-        if (var8)
+        if (flag3)
         {
-            var10 = 1.0F;
+            f1 = 1.0F;
         }
 
-        if (var5 && var6 && !var7 && !var8)
+        if (flag && flag1 && !flag2 && !flag3)
         {
-            var13 = 0.8125F;
-            var9 = 0.3125F;
-            var10 = 0.6875F;
+            f4 = 0.8125F;
+            f = 0.3125F;
+            f1 = 0.6875F;
         }
-        else if (!var5 && !var6 && var7 && var8)
+        else if (!flag && !flag1 && flag2 && flag3)
         {
-            var13 = 0.8125F;
-            var11 = 0.3125F;
-            var12 = 0.6875F;
+            f4 = 0.8125F;
+            f2 = 0.3125F;
+            f3 = 0.6875F;
         }
 
-        this.setBlockBounds(var9, 0.0F, var11, var10, var13, var12);
+        this.setBlockBounds(f, 0.0F, f2, f1, f4, f3);
     }
 
     /**
@@ -133,12 +133,12 @@ public class BlockWall extends Block
      */
     public boolean canConnectWallTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int var5 = par1IBlockAccess.getBlockId(par2, par3, par4);
+        int l = par1IBlockAccess.getBlockId(par2, par3, par4);
 
-        if (var5 != this.blockID && var5 != Block.fenceGate.blockID)
+        if (l != this.blockID && l != Block.fenceGate.blockID)
         {
-            Block var6 = Block.blocksList[var5];
-            return var6 != null && var6.blockMaterial.isOpaque() && var6.renderAsNormalBlock() ? var6.blockMaterial != Material.pumpkin : false;
+            Block block = Block.blocksList[l];
+            return block != null && block.blockMaterial.isOpaque() && block.renderAsNormalBlock() ? block.blockMaterial != Material.pumpkin : false;
         }
         else
         {

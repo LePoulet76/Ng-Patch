@@ -20,27 +20,27 @@ class LogFormatter extends Formatter
 
     public String format(LogRecord par1LogRecord)
     {
-        StringBuilder var2 = new StringBuilder();
-        var2.append(this.field_98228_b.format(Long.valueOf(par1LogRecord.getMillis())));
+        StringBuilder stringbuilder = new StringBuilder();
+        stringbuilder.append(this.field_98228_b.format(Long.valueOf(par1LogRecord.getMillis())));
 
         if (LogAgent.func_98237_a(this.field_98229_a) != null)
         {
-            var2.append(LogAgent.func_98237_a(this.field_98229_a));
+            stringbuilder.append(LogAgent.func_98237_a(this.field_98229_a));
         }
 
-        var2.append(" [").append(par1LogRecord.getLevel().getName()).append("] ");
-        var2.append(this.formatMessage(par1LogRecord));
-        var2.append('\n');
-        Throwable var3 = par1LogRecord.getThrown();
+        stringbuilder.append(" [").append(par1LogRecord.getLevel().getName()).append("] ");
+        stringbuilder.append(this.formatMessage(par1LogRecord));
+        stringbuilder.append('\n');
+        Throwable throwable = par1LogRecord.getThrown();
 
-        if (var3 != null)
+        if (throwable != null)
         {
-            StringWriter var4 = new StringWriter();
-            var3.printStackTrace(new PrintWriter(var4));
-            var2.append(var4.toString());
+            StringWriter stringwriter = new StringWriter();
+            throwable.printStackTrace(new PrintWriter(stringwriter));
+            stringbuilder.append(stringwriter.toString());
         }
 
-        return var2.toString();
+        return stringbuilder.toString();
     }
 
     LogFormatter(LogAgent par1LogAgent, LogAgentEmptyAnon par2LogAgentEmptyAnon)

@@ -41,32 +41,32 @@ public class BlockPressurePlate extends BlockBasePressurePlate
      */
     protected int getPlateState(World par1World, int par2, int par3, int par4)
     {
-        List var5 = null;
+        List list = null;
 
         if (this.triggerMobType == EnumMobType.everything)
         {
-            var5 = par1World.getEntitiesWithinAABBExcludingEntity((Entity)null, this.getSensitiveAABB(par2, par3, par4));
+            list = par1World.getEntitiesWithinAABBExcludingEntity((Entity)null, this.getSensitiveAABB(par2, par3, par4));
         }
 
         if (this.triggerMobType == EnumMobType.mobs)
         {
-            var5 = par1World.getEntitiesWithinAABB(EntityLivingBase.class, this.getSensitiveAABB(par2, par3, par4));
+            list = par1World.getEntitiesWithinAABB(EntityLivingBase.class, this.getSensitiveAABB(par2, par3, par4));
         }
 
         if (this.triggerMobType == EnumMobType.players)
         {
-            var5 = par1World.getEntitiesWithinAABB(EntityPlayer.class, this.getSensitiveAABB(par2, par3, par4));
+            list = par1World.getEntitiesWithinAABB(EntityPlayer.class, this.getSensitiveAABB(par2, par3, par4));
         }
 
-        if (var5 != null && !var5.isEmpty())
+        if (list != null && !list.isEmpty())
         {
-            Iterator var6 = var5.iterator();
+            Iterator iterator = list.iterator();
 
-            while (var6.hasNext())
+            while (iterator.hasNext())
             {
-                Entity var7 = (Entity)var6.next();
+                Entity entity = (Entity)iterator.next();
 
-                if (!var7.doesEntityNotTriggerPressurePlate())
+                if (!entity.doesEntityNotTriggerPressurePlate())
                 {
                     return 15;
                 }

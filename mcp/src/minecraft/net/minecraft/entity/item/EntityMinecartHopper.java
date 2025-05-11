@@ -9,6 +9,8 @@ import net.minecraft.tileentity.Hopper;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.minecart.MinecartInteractEvent;
 
 public class EntityMinecartHopper extends EntityMinecartContainer implements Hopper
 {
@@ -54,6 +56,10 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements Hop
      */
     public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
+        if(MinecraftForge.EVENT_BUS.post(new MinecartInteractEvent(this, par1EntityPlayer))) 
+        {
+            return true;
+        }
         if (!this.worldObj.isRemote)
         {
             par1EntityPlayer.displayGUIHopperMinecart(this);
@@ -67,11 +73,11 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements Hop
      */
     public void onActivatorRailPass(int par1, int par2, int par3, boolean par4)
     {
-        boolean var5 = !par4;
+        boolean flag1 = !par4;
 
-        if (var5 != this.getBlocked())
+        if (flag1 != this.getBlocked())
         {
-            this.setBlocked(var5);
+            this.setBlocked(flag1);
         }
     }
 
@@ -155,11 +161,11 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements Hop
         }
         else
         {
-            List var1 = this.worldObj.selectEntitiesWithinAABB(EntityItem.class, this.boundingBox.expand(0.25D, 0.0D, 0.25D), IEntitySelector.selectAnything);
+            List list = this.worldObj.selectEntitiesWithinAABB(EntityItem.class, this.boundingBox.expand(0.25D, 0.0D, 0.25D), IEntitySelector.selectAnything);
 
-            if (var1.size() > 0)
+            if (list.size() > 0)
             {
-                TileEntityHopper.insertStackFromEntity(this, (EntityItem)var1.get(0));
+                TileEntityHopper.insertStackFromEntity(this, (EntityItem)list.get(0));
             }
 
             return false;

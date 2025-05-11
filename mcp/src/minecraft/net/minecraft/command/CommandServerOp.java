@@ -44,22 +44,22 @@ public class CommandServerOp extends CommandBase
     {
         if (par2ArrayOfStr.length == 1)
         {
-            String var3 = par2ArrayOfStr[par2ArrayOfStr.length - 1];
-            ArrayList var4 = new ArrayList();
-            String[] var5 = MinecraftServer.getServer().getAllUsernames();
-            int var6 = var5.length;
+            String s = par2ArrayOfStr[par2ArrayOfStr.length - 1];
+            ArrayList arraylist = new ArrayList();
+            String[] astring1 = MinecraftServer.getServer().getAllUsernames();
+            int i = astring1.length;
 
-            for (int var7 = 0; var7 < var6; ++var7)
+            for (int j = 0; j < i; ++j)
             {
-                String var8 = var5[var7];
+                String s1 = astring1[j];
 
-                if (!MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(var8) && doesStringStartWith(var3, var8))
+                if (!MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(s1) && doesStringStartWith(s, s1))
                 {
-                    var4.add(var8);
+                    arraylist.add(s1);
                 }
             }
 
-            return var4;
+            return arraylist;
         }
         else
         {

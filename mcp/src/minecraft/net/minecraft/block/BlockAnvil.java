@@ -58,8 +58,8 @@ public class BlockAnvil extends BlockSand
     {
         if (this.field_82521_b == 3 && par1 == 1)
         {
-            int var3 = (par2 >> 2) % this.iconArray.length;
-            return this.iconArray[var3];
+            int k = (par2 >> 2) % this.iconArray.length;
+            return this.iconArray[k];
         }
         else
         {
@@ -78,9 +78,9 @@ public class BlockAnvil extends BlockSand
         this.blockIcon = par1IconRegister.registerIcon("anvil_base");
         this.iconArray = new Icon[anvilIconNames.length];
 
-        for (int var2 = 0; var2 < this.iconArray.length; ++var2)
+        for (int i = 0; i < this.iconArray.length; ++i)
         {
-            this.iconArray[var2] = par1IconRegister.registerIcon(anvilIconNames[var2]);
+            this.iconArray[i] = par1IconRegister.registerIcon(anvilIconNames[i]);
         }
     }
 
@@ -89,29 +89,29 @@ public class BlockAnvil extends BlockSand
      */
     public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
     {
-        int var7 = MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-        int var8 = par1World.getBlockMetadata(par2, par3, par4) >> 2;
-        ++var7;
-        var7 %= 4;
+        int l = MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int i1 = par1World.getBlockMetadata(par2, par3, par4) >> 2;
+        ++l;
+        l %= 4;
 
-        if (var7 == 0)
+        if (l == 0)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, 2 | var8 << 2, 2);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, 2 | i1 << 2, 2);
         }
 
-        if (var7 == 1)
+        if (l == 1)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, 3 | var8 << 2, 2);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, 3 | i1 << 2, 2);
         }
 
-        if (var7 == 2)
+        if (l == 2)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, 0 | var8 << 2, 2);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, 0 | i1 << 2, 2);
         }
 
-        if (var7 == 3)
+        if (l == 3)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, 1 | var8 << 2, 2);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, 1 | i1 << 2, 2);
         }
     }
 
@@ -152,9 +152,9 @@ public class BlockAnvil extends BlockSand
      */
     public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 3;
+        int l = par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 3;
 
-        if (var5 != 3 && var5 != 1)
+        if (l != 3 && l != 1)
         {
             this.setBlockBounds(0.125F, 0.0F, 0.0F, 0.875F, 1.0F, 1.0F);
         }

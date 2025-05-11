@@ -138,14 +138,14 @@ public class EntityCreeper extends EntityMob
         if (this.isEntityAlive())
         {
             this.lastActiveTime = this.timeSinceIgnited;
-            int var1 = this.getCreeperState();
+            int i = this.getCreeperState();
 
-            if (var1 > 0 && this.timeSinceIgnited == 0)
+            if (i > 0 && this.timeSinceIgnited == 0)
             {
                 this.playSound("random.fuse", 1.0F, 0.5F);
             }
 
-            this.timeSinceIgnited += var1;
+            this.timeSinceIgnited += i;
 
             if (this.timeSinceIgnited < 0)
             {
@@ -158,15 +158,15 @@ public class EntityCreeper extends EntityMob
 
                 if (!this.worldObj.isRemote)
                 {
-                    boolean var2 = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
+                    boolean flag = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
 
                     if (this.getPowered())
                     {
-                        this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(this.explosionRadius * 2), var2);
+                        this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(this.explosionRadius * 2), flag);
                     }
                     else
                     {
-                        this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)this.explosionRadius, var2);
+                        this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)this.explosionRadius, flag);
                     }
 
                     this.setDead();
@@ -202,8 +202,8 @@ public class EntityCreeper extends EntityMob
 
         if (par1DamageSource.getEntity() instanceof EntitySkeleton)
         {
-            int var2 = Item.record13.itemID + this.rand.nextInt(Item.recordWait.itemID - Item.record13.itemID + 1);
-            this.dropItem(var2, 1);
+            int i = Item.record13.itemID + this.rand.nextInt(Item.recordWait.itemID - Item.record13.itemID + 1);
+            this.dropItem(i, 1);
         }
     }
 

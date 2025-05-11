@@ -89,10 +89,10 @@ public class GuiInventory extends InventoryEffectRenderer
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(field_110408_a);
-        int var4 = this.guiLeft;
-        int var5 = this.guiTop;
-        this.drawTexturedModalRect(var4, var5, 0, 0, this.xSize, this.ySize);
-        func_110423_a(var4 + 51, var5 + 75, 30, (float)(var4 + 51) - this.xSize_lo, (float)(var5 + 75 - 50) - this.ySize_lo, this.mc.thePlayer);
+        int k = this.guiLeft;
+        int l = this.guiTop;
+        this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
+        func_110423_a(k + 51, l + 75, 30, (float)(k + 51) - this.xSize_lo, (float)(l + 75 - 50) - this.ySize_lo, this.mc.thePlayer);
     }
 
     public static void func_110423_a(int par0, int par1, int par2, float par3, float par4, EntityLivingBase par5EntityLivingBase)
@@ -102,11 +102,11 @@ public class GuiInventory extends InventoryEffectRenderer
         GL11.glTranslatef((float)par0, (float)par1, 50.0F);
         GL11.glScalef((float)(-par2), (float)par2, (float)par2);
         GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-        float var6 = par5EntityLivingBase.renderYawOffset;
-        float var7 = par5EntityLivingBase.rotationYaw;
-        float var8 = par5EntityLivingBase.rotationPitch;
-        float var9 = par5EntityLivingBase.prevRotationYawHead;
-        float var10 = par5EntityLivingBase.rotationYawHead;
+        float f2 = par5EntityLivingBase.renderYawOffset;
+        float f3 = par5EntityLivingBase.rotationYaw;
+        float f4 = par5EntityLivingBase.rotationPitch;
+        float f5 = par5EntityLivingBase.prevRotationYawHead;
+        float f6 = par5EntityLivingBase.rotationYawHead;
         GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
         RenderHelper.enableStandardItemLighting();
         GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
@@ -119,11 +119,11 @@ public class GuiInventory extends InventoryEffectRenderer
         GL11.glTranslatef(0.0F, par5EntityLivingBase.yOffset, 0.0F);
         RenderManager.instance.playerViewY = 180.0F;
         RenderManager.instance.renderEntityWithPosYaw(par5EntityLivingBase, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
-        par5EntityLivingBase.renderYawOffset = var6;
-        par5EntityLivingBase.rotationYaw = var7;
-        par5EntityLivingBase.rotationPitch = var8;
-        par5EntityLivingBase.prevRotationYawHead = var9;
-        par5EntityLivingBase.rotationYawHead = var10;
+        par5EntityLivingBase.renderYawOffset = f2;
+        par5EntityLivingBase.rotationYaw = f3;
+        par5EntityLivingBase.rotationPitch = f4;
+        par5EntityLivingBase.prevRotationYawHead = f5;
+        par5EntityLivingBase.rotationYawHead = f6;
         GL11.glPopMatrix();
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);

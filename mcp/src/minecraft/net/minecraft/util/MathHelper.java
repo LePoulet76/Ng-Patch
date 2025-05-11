@@ -42,8 +42,8 @@ public class MathHelper
      */
     public static int floor_float(float par0)
     {
-        int var1 = (int)par0;
-        return par0 < (float)var1 ? var1 - 1 : var1;
+        int i = (int)par0;
+        return par0 < (float)i ? i - 1 : i;
     }
 
     @SideOnly(Side.CLIENT)
@@ -61,8 +61,8 @@ public class MathHelper
      */
     public static int floor_double(double par0)
     {
-        int var2 = (int)par0;
-        return par0 < (double)var2 ? var2 - 1 : var2;
+        int i = (int)par0;
+        return par0 < (double)i ? i - 1 : i;
     }
 
     /**
@@ -70,8 +70,8 @@ public class MathHelper
      */
     public static long floor_double_long(double par0)
     {
-        long var2 = (long)par0;
-        return par0 < (double)var2 ? var2 - 1L : var2;
+        long i = (long)par0;
+        return par0 < (double)i ? i - 1L : i;
     }
 
     public static float abs(float par0)
@@ -89,14 +89,14 @@ public class MathHelper
 
     public static int ceiling_float_int(float par0)
     {
-        int var1 = (int)par0;
-        return par0 > (float)var1 ? var1 + 1 : var1;
+        int i = (int)par0;
+        return par0 > (float)i ? i + 1 : i;
     }
 
     public static int ceiling_double_int(double par0)
     {
-        int var2 = (int)par0;
-        return par0 > (double)var2 ? var2 + 1 : var2;
+        int i = (int)par0;
+        return par0 > (double)i ? i + 1 : i;
     }
 
     /**
@@ -167,17 +167,17 @@ public class MathHelper
 
     public static double average(long[] par0ArrayOfLong)
     {
-        long var1 = 0L;
-        long[] var3 = par0ArrayOfLong;
-        int var4 = par0ArrayOfLong.length;
+        long i = 0L;
+        long[] along1 = par0ArrayOfLong;
+        int j = par0ArrayOfLong.length;
 
-        for (int var5 = 0; var5 < var4; ++var5)
+        for (int k = 0; k < j; ++k)
         {
-            long var6 = var3[var5];
-            var1 += var6;
+            long l = along1[k];
+            i += l;
         }
 
-        return (double)var1 / (double)par0ArrayOfLong.length;
+        return (double)i / (double)par0ArrayOfLong.length;
     }
 
     /**
@@ -225,18 +225,18 @@ public class MathHelper
      */
     public static int parseIntWithDefault(String par0Str, int par1)
     {
-        int var2 = par1;
+        int j = par1;
 
         try
         {
-            var2 = Integer.parseInt(par0Str);
+            j = Integer.parseInt(par0Str);
         }
-        catch (Throwable var4)
+        catch (Throwable throwable)
         {
             ;
         }
 
-        return var2;
+        return j;
     }
 
     /**
@@ -244,23 +244,23 @@ public class MathHelper
      */
     public static int parseIntWithDefaultAndMax(String par0Str, int par1, int par2)
     {
-        int var3 = par1;
+        int k = par1;
 
         try
         {
-            var3 = Integer.parseInt(par0Str);
+            k = Integer.parseInt(par0Str);
         }
-        catch (Throwable var5)
+        catch (Throwable throwable)
         {
             ;
         }
 
-        if (var3 < par2)
+        if (k < par2)
         {
-            var3 = par2;
+            k = par2;
         }
 
-        return var3;
+        return k;
     }
 
     /**
@@ -268,46 +268,46 @@ public class MathHelper
      */
     public static double parseDoubleWithDefault(String par0Str, double par1)
     {
-        double var3 = par1;
+        double d1 = par1;
 
         try
         {
-            var3 = Double.parseDouble(par0Str);
+            d1 = Double.parseDouble(par0Str);
         }
-        catch (Throwable var6)
+        catch (Throwable throwable)
         {
             ;
         }
 
-        return var3;
+        return d1;
     }
 
     public static double func_82713_a(String par0Str, double par1, double par3)
     {
-        double var5 = par1;
+        double d2 = par1;
 
         try
         {
-            var5 = Double.parseDouble(par0Str);
+            d2 = Double.parseDouble(par0Str);
         }
-        catch (Throwable var8)
+        catch (Throwable throwable)
         {
             ;
         }
 
-        if (var5 < par3)
+        if (d2 < par3)
         {
-            var5 = par3;
+            d2 = par3;
         }
 
-        return var5;
+        return d2;
     }
 
     static
     {
-        for (int var0 = 0; var0 < 65536; ++var0)
+        for (int i = 0; i < 65536; ++i)
         {
-            SIN_TABLE[var0] = (float)Math.sin((double)var0 * Math.PI * 2.0D / 65536.0D);
+            SIN_TABLE[i] = (float)Math.sin((double)i * Math.PI * 2.0D / 65536.0D);
         }
     }
 }

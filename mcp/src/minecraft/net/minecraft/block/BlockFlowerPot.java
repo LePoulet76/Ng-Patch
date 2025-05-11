@@ -22,9 +22,9 @@ public class BlockFlowerPot extends Block
      */
     public void setBlockBoundsForItemRender()
     {
-        float var1 = 0.375F;
-        float var2 = var1 / 2.0F;
-        this.setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, var1, 0.5F + var2);
+        float f = 0.375F;
+        float f1 = f / 2.0F;
+        this.setBlockBounds(0.5F - f1, 0.0F, 0.5F - f1, 0.5F + f1, f, 0.5F + f1);
     }
 
     /**
@@ -57,9 +57,9 @@ public class BlockFlowerPot extends Block
      */
     public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
-        ItemStack var10 = par5EntityPlayer.inventory.getCurrentItem();
+        ItemStack itemstack = par5EntityPlayer.inventory.getCurrentItem();
 
-        if (var10 == null)
+        if (itemstack == null)
         {
             return false;
         }
@@ -69,13 +69,13 @@ public class BlockFlowerPot extends Block
         }
         else
         {
-            int var11 = getMetaForPlant(var10);
+            int i1 = getMetaForPlant(itemstack);
 
-            if (var11 > 0)
+            if (i1 > 0)
             {
-                par1World.setBlockMetadataWithNotify(par2, par3, par4, var11, 2);
+                par1World.setBlockMetadataWithNotify(par2, par3, par4, i1, 2);
 
-                if (!par5EntityPlayer.capabilities.isCreativeMode && --var10.stackSize <= 0)
+                if (!par5EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
                 {
                     par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, (ItemStack)null);
                 }
@@ -96,8 +96,8 @@ public class BlockFlowerPot extends Block
      */
     public int idPicked(World par1World, int par2, int par3, int par4)
     {
-        ItemStack var5 = getPlantForMeta(par1World.getBlockMetadata(par2, par3, par4));
-        return var5 == null ? Item.flowerPot.itemID : var5.itemID;
+        ItemStack itemstack = getPlantForMeta(par1World.getBlockMetadata(par2, par3, par4));
+        return itemstack == null ? Item.flowerPot.itemID : itemstack.itemID;
     }
 
     /**
@@ -105,8 +105,8 @@ public class BlockFlowerPot extends Block
      */
     public int getDamageValue(World par1World, int par2, int par3, int par4)
     {
-        ItemStack var5 = getPlantForMeta(par1World.getBlockMetadata(par2, par3, par4));
-        return var5 == null ? Item.flowerPot.itemID : var5.getItemDamage();
+        ItemStack itemstack = getPlantForMeta(par1World.getBlockMetadata(par2, par3, par4));
+        return itemstack == null ? Item.flowerPot.itemID : itemstack.getItemDamage();
     }
 
     @SideOnly(Side.CLIENT)
@@ -149,11 +149,11 @@ public class BlockFlowerPot extends Block
 
         if (par5 > 0)
         {
-            ItemStack var8 = getPlantForMeta(par5);
+            ItemStack itemstack = getPlantForMeta(par5);
 
-            if (var8 != null)
+            if (itemstack != null)
             {
-                this.dropBlockAsItem_do(par1World, par2, par3, par4, var8);
+                this.dropBlockAsItem_do(par1World, par2, par3, par4, itemstack);
             }
         }
     }
@@ -175,37 +175,26 @@ public class BlockFlowerPot extends Block
         {
             case 1:
                 return new ItemStack(Block.plantRed);
-
             case 2:
                 return new ItemStack(Block.plantYellow);
-
             case 3:
                 return new ItemStack(Block.sapling, 1, 0);
-
             case 4:
                 return new ItemStack(Block.sapling, 1, 1);
-
             case 5:
                 return new ItemStack(Block.sapling, 1, 2);
-
             case 6:
                 return new ItemStack(Block.sapling, 1, 3);
-
             case 7:
                 return new ItemStack(Block.mushroomRed);
-
             case 8:
                 return new ItemStack(Block.mushroomBrown);
-
             case 9:
                 return new ItemStack(Block.cactus);
-
             case 10:
                 return new ItemStack(Block.deadBush);
-
             case 11:
                 return new ItemStack(Block.tallGrass, 1, 2);
-
             default:
                 return null;
         }
@@ -216,53 +205,50 @@ public class BlockFlowerPot extends Block
      */
     public static int getMetaForPlant(ItemStack par0ItemStack)
     {
-        int var1 = par0ItemStack.getItem().itemID;
+        int i = par0ItemStack.getItem().itemID;
 
-        if (var1 == Block.plantRed.blockID)
+        if (i == Block.plantRed.blockID)
         {
             return 1;
         }
-        else if (var1 == Block.plantYellow.blockID)
+        else if (i == Block.plantYellow.blockID)
         {
             return 2;
         }
-        else if (var1 == Block.cactus.blockID)
+        else if (i == Block.cactus.blockID)
         {
             return 9;
         }
-        else if (var1 == Block.mushroomBrown.blockID)
+        else if (i == Block.mushroomBrown.blockID)
         {
             return 8;
         }
-        else if (var1 == Block.mushroomRed.blockID)
+        else if (i == Block.mushroomRed.blockID)
         {
             return 7;
         }
-        else if (var1 == Block.deadBush.blockID)
+        else if (i == Block.deadBush.blockID)
         {
             return 10;
         }
         else
         {
-            if (var1 == Block.sapling.blockID)
+            if (i == Block.sapling.blockID)
             {
                 switch (par0ItemStack.getItemDamage())
                 {
                     case 0:
                         return 3;
-
                     case 1:
                         return 4;
-
                     case 2:
                         return 5;
-
                     case 3:
                         return 6;
                 }
             }
 
-            if (var1 == Block.tallGrass.blockID)
+            if (i == Block.tallGrass.blockID)
             {
                 switch (par0ItemStack.getItemDamage())
                 {

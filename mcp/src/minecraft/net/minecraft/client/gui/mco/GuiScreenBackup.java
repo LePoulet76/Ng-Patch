@@ -67,9 +67,9 @@ public class GuiScreenBackup extends GuiScreen
         {
             if (par1GuiButton.id == 1)
             {
-                String var2 = I18n.getString("mco.configure.world.restore.question.line1");
-                String var3 = I18n.getString("mco.configure.world.restore.question.line2");
-                this.mc.displayGuiScreen(new GuiScreenConfirmation(this, GuiScreenConfirmationType.Warning, var2, var3, 1));
+                String s = I18n.getString("mco.configure.world.restore.question.line1");
+                String s1 = I18n.getString("mco.configure.world.restore.question.line2");
+                this.mc.displayGuiScreen(new GuiScreenConfirmation(this, GuiScreenConfirmationType.Warning, s, s1, 1));
             }
             else if (par1GuiButton.id == 0)
             {
@@ -98,11 +98,11 @@ public class GuiScreenBackup extends GuiScreen
     {
         if (this.field_110376_e >= 0 && this.field_110376_e < this.field_110378_c.size())
         {
-            Backup var1 = (Backup)this.field_110378_c.get(this.field_110376_e);
-            GuiScreenBackupRestoreTask var2 = new GuiScreenBackupRestoreTask(this, var1, (GuiScreenBackupDownloadThread)null);
-            GuiScreenLongRunningTask var3 = new GuiScreenLongRunningTask(this.mc, this.field_110380_a, var2);
-            var3.func_98117_g();
-            this.mc.displayGuiScreen(var3);
+            Backup backup = (Backup)this.field_110378_c.get(this.field_110376_e);
+            GuiScreenBackupRestoreTask guiscreenbackuprestoretask = new GuiScreenBackupRestoreTask(this, backup, (GuiScreenBackupDownloadThread)null);
+            GuiScreenLongRunningTask guiscreenlongrunningtask = new GuiScreenLongRunningTask(this.mc, this.field_110380_a, guiscreenbackuprestoretask);
+            guiscreenlongrunningtask.func_98117_g();
+            this.mc.displayGuiScreen(guiscreenlongrunningtask);
         }
     }
 

@@ -28,11 +28,11 @@ public class CommandServerKick extends CommandBase
     {
         if (par2ArrayOfStr.length > 0 && par2ArrayOfStr[0].length() > 1)
         {
-            EntityPlayerMP var3 = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(par2ArrayOfStr[0]);
-            String var4 = "Kicked by an operator.";
-            boolean var5 = false;
+            EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(par2ArrayOfStr[0]);
+            String s = "Kicked by an operator.";
+            boolean flag = false;
 
-            if (var3 == null)
+            if (entityplayermp == null)
             {
                 throw new PlayerNotFoundException();
             }
@@ -40,19 +40,19 @@ public class CommandServerKick extends CommandBase
             {
                 if (par2ArrayOfStr.length >= 2)
                 {
-                    var4 = func_82360_a(par1ICommandSender, par2ArrayOfStr, 1);
-                    var5 = true;
+                    s = func_82360_a(par1ICommandSender, par2ArrayOfStr, 1);
+                    flag = true;
                 }
 
-                var3.playerNetServerHandler.kickPlayerFromServer(var4);
+                entityplayermp.playerNetServerHandler.kickPlayerFromServer(s);
 
-                if (var5)
+                if (flag)
                 {
-                    notifyAdmins(par1ICommandSender, "commands.kick.success.reason", new Object[] {var3.getEntityName(), var4});
+                    notifyAdmins(par1ICommandSender, "commands.kick.success.reason", new Object[] {entityplayermp.getEntityName(), s});
                 }
                 else
                 {
-                    notifyAdmins(par1ICommandSender, "commands.kick.success", new Object[] {var3.getEntityName()});
+                    notifyAdmins(par1ICommandSender, "commands.kick.success", new Object[] {entityplayermp.getEntityName()});
                 }
             }
         }

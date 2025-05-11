@@ -48,15 +48,15 @@ public class EntityAIVillagerMate extends EntityAIBase
             }
             else
             {
-                Entity var1 = this.worldObj.findNearestEntityWithinAABB(EntityVillager.class, this.villagerObj.boundingBox.expand(8.0D, 3.0D, 8.0D), this.villagerObj);
+                Entity entity = this.worldObj.findNearestEntityWithinAABB(EntityVillager.class, this.villagerObj.boundingBox.expand(8.0D, 3.0D, 8.0D), this.villagerObj);
 
-                if (var1 == null)
+                if (entity == null)
                 {
                     return false;
                 }
                 else
                 {
-                    this.mate = (EntityVillager)var1;
+                    this.mate = (EntityVillager)entity;
                     return this.mate.getGrowingAge() == 0;
                 }
             }
@@ -121,19 +121,19 @@ public class EntityAIVillagerMate extends EntityAIBase
         }
         else
         {
-            int var1 = (int)((double)((float)this.villageObj.getNumVillageDoors()) * 0.35D);
-            return this.villageObj.getNumVillagers() < var1;
+            int i = (int)((double)((float)this.villageObj.getNumVillageDoors()) * 0.35D);
+            return this.villageObj.getNumVillagers() < i;
         }
     }
 
     private void giveBirth()
     {
-        EntityVillager var1 = this.villagerObj.func_90012_b(this.mate);
+        EntityVillager entityvillager = this.villagerObj.func_90012_b(this.mate);
         this.mate.setGrowingAge(6000);
         this.villagerObj.setGrowingAge(6000);
-        var1.setGrowingAge(-24000);
-        var1.setLocationAndAngles(this.villagerObj.posX, this.villagerObj.posY, this.villagerObj.posZ, 0.0F, 0.0F);
-        this.worldObj.spawnEntityInWorld(var1);
-        this.worldObj.setEntityState(var1, (byte)12);
+        entityvillager.setGrowingAge(-24000);
+        entityvillager.setLocationAndAngles(this.villagerObj.posX, this.villagerObj.posY, this.villagerObj.posZ, 0.0F, 0.0F);
+        this.worldObj.spawnEntityInWorld(entityvillager);
+        this.worldObj.setEntityState(entityvillager, (byte)12);
     }
 }

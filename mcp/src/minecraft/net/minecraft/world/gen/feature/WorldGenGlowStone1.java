@@ -20,59 +20,59 @@ public class WorldGenGlowStone1 extends WorldGenerator
         {
             par1World.setBlock(par3, par4, par5, Block.glowStone.blockID, 0, 2);
 
-            for (int var6 = 0; var6 < 1500; ++var6)
+            for (int l = 0; l < 1500; ++l)
             {
-                int var7 = par3 + par2Random.nextInt(8) - par2Random.nextInt(8);
-                int var8 = par4 - par2Random.nextInt(12);
-                int var9 = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
+                int i1 = par3 + par2Random.nextInt(8) - par2Random.nextInt(8);
+                int j1 = par4 - par2Random.nextInt(12);
+                int k1 = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
 
-                if (par1World.getBlockId(var7, var8, var9) == 0)
+                if (par1World.getBlockId(i1, j1, k1) == 0)
                 {
-                    int var10 = 0;
+                    int l1 = 0;
 
-                    for (int var11 = 0; var11 < 6; ++var11)
+                    for (int i2 = 0; i2 < 6; ++i2)
                     {
-                        int var12 = 0;
+                        int j2 = 0;
 
-                        if (var11 == 0)
+                        if (i2 == 0)
                         {
-                            var12 = par1World.getBlockId(var7 - 1, var8, var9);
+                            j2 = par1World.getBlockId(i1 - 1, j1, k1);
                         }
 
-                        if (var11 == 1)
+                        if (i2 == 1)
                         {
-                            var12 = par1World.getBlockId(var7 + 1, var8, var9);
+                            j2 = par1World.getBlockId(i1 + 1, j1, k1);
                         }
 
-                        if (var11 == 2)
+                        if (i2 == 2)
                         {
-                            var12 = par1World.getBlockId(var7, var8 - 1, var9);
+                            j2 = par1World.getBlockId(i1, j1 - 1, k1);
                         }
 
-                        if (var11 == 3)
+                        if (i2 == 3)
                         {
-                            var12 = par1World.getBlockId(var7, var8 + 1, var9);
+                            j2 = par1World.getBlockId(i1, j1 + 1, k1);
                         }
 
-                        if (var11 == 4)
+                        if (i2 == 4)
                         {
-                            var12 = par1World.getBlockId(var7, var8, var9 - 1);
+                            j2 = par1World.getBlockId(i1, j1, k1 - 1);
                         }
 
-                        if (var11 == 5)
+                        if (i2 == 5)
                         {
-                            var12 = par1World.getBlockId(var7, var8, var9 + 1);
+                            j2 = par1World.getBlockId(i1, j1, k1 + 1);
                         }
 
-                        if (var12 == Block.glowStone.blockID)
+                        if (j2 == Block.glowStone.blockID)
                         {
-                            ++var10;
+                            ++l1;
                         }
                     }
 
-                    if (var10 == 1)
+                    if (l1 == 1)
                     {
-                        par1World.setBlock(var7, var8, var9, Block.glowStone.blockID, 0, 2);
+                        par1World.setBlock(i1, j1, k1, Block.glowStone.blockID, 0, 2);
                     }
                 }
             }

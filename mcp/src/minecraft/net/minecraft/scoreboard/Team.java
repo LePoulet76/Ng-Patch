@@ -15,7 +15,7 @@ public abstract class Team
 
     public abstract String func_96661_b();
 
-    public abstract String func_142053_d(String var1);
+    public abstract String func_142053_d(String s);
 
     @SideOnly(Side.CLIENT)
     public abstract boolean func_98297_h();

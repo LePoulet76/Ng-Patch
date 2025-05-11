@@ -54,21 +54,21 @@ public abstract class EntityAITarget extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        EntityLivingBase var1 = this.taskOwner.getAttackTarget();
+        EntityLivingBase entitylivingbase = this.taskOwner.getAttackTarget();
 
-        if (var1 == null)
+        if (entitylivingbase == null)
         {
             return false;
         }
-        else if (!var1.isEntityAlive())
+        else if (!entitylivingbase.isEntityAlive())
         {
             return false;
         }
         else
         {
-            double var2 = this.getTargetDistance();
+            double d0 = this.getTargetDistance();
 
-            if (this.taskOwner.getDistanceSqToEntity(var1) > var2 * var2)
+            if (this.taskOwner.getDistanceSqToEntity(entitylivingbase) > d0 * d0)
             {
                 return false;
             }
@@ -76,7 +76,7 @@ public abstract class EntityAITarget extends EntityAIBase
             {
                 if (this.shouldCheckSight)
                 {
-                    if (this.taskOwner.getEntitySenses().canSee(var1))
+                    if (this.taskOwner.getEntitySenses().canSee(entitylivingbase))
                     {
                         this.field_75298_g = 0;
                     }
@@ -93,8 +93,8 @@ public abstract class EntityAITarget extends EntityAIBase
 
     protected double getTargetDistance()
     {
-        AttributeInstance var1 = this.taskOwner.getEntityAttribute(SharedMonsterAttributes.followRange);
-        return var1 == null ? 16.0D : var1.getAttributeValue();
+        AttributeInstance attributeinstance = this.taskOwner.getEntityAttribute(SharedMonsterAttributes.followRange);
+        return attributeinstance == null ? 16.0D : attributeinstance.getAttributeValue();
     }
 
     /**
@@ -194,25 +194,25 @@ public abstract class EntityAITarget extends EntityAIBase
     private boolean canEasilyReach(EntityLivingBase par1EntityLivingBase)
     {
         this.targetSearchDelay = 10 + this.taskOwner.getRNG().nextInt(5);
-        PathEntity var2 = this.taskOwner.getNavigator().getPathToEntityLiving(par1EntityLivingBase);
+        PathEntity pathentity = this.taskOwner.getNavigator().getPathToEntityLiving(par1EntityLivingBase);
 
-        if (var2 == null)
+        if (pathentity == null)
         {
             return false;
         }
         else
         {
-            PathPoint var3 = var2.getFinalPathPoint();
+            PathPoint pathpoint = pathentity.getFinalPathPoint();
 
-            if (var3 == null)
+            if (pathpoint == null)
             {
                 return false;
             }
             else
             {
-                int var4 = var3.xCoord - MathHelper.floor_double(par1EntityLivingBase.posX);
-                int var5 = var3.zCoord - MathHelper.floor_double(par1EntityLivingBase.posZ);
-                return (double)(var4 * var4 + var5 * var5) <= 2.25D;
+                int i = pathpoint.xCoord - MathHelper.floor_double(par1EntityLivingBase.posX);
+                int j = pathpoint.zCoord - MathHelper.floor_double(par1EntityLivingBase.posZ);
+                return (double)(i * i + j * j) <= 2.25D;
             }
         }
     }

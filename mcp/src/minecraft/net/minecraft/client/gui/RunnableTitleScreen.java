@@ -19,36 +19,36 @@ class RunnableTitleScreen extends Thread
 
     public void run()
     {
-        McoClient var1 = new McoClient(GuiMainMenu.func_110348_a(this.theMainMenu).getSession());
-        boolean var2 = false;
+        McoClient mcoclient = new McoClient(GuiMainMenu.func_110348_a(this.theMainMenu).getSession());
+        boolean flag = false;
 
-        for (int var3 = 0; var3 < 3; ++var3)
+        for (int i = 0; i < 3; ++i)
         {
             try
             {
-                Boolean var4 = var1.func_96375_b();
+                Boolean obool = mcoclient.func_96375_b();
 
-                if (var4.booleanValue())
+                if (obool.booleanValue())
                 {
                     GuiMainMenu.func_130021_b(this.theMainMenu);
                 }
 
-                GuiMainMenu.func_110349_a(var4.booleanValue());
+                GuiMainMenu.func_110349_a(obool.booleanValue());
             }
-            catch (ExceptionRetryCall var6)
+            catch (ExceptionRetryCall exceptionretrycall)
             {
-                var2 = true;
+                flag = true;
             }
-            catch (ExceptionMcoService var7)
+            catch (ExceptionMcoService exceptionmcoservice)
             {
-                GuiMainMenu.func_130018_c(this.theMainMenu).getLogAgent().logSevere(var7.toString());
+                GuiMainMenu.func_130018_c(this.theMainMenu).getLogAgent().logSevere(exceptionmcoservice.toString());
             }
-            catch (IOException var8)
+            catch (IOException ioexception)
             {
                 GuiMainMenu.func_130019_d(this.theMainMenu).getLogAgent().logWarning("Realms: could not parse response");
             }
 
-            if (!var2)
+            if (!flag)
             {
                 break;
             }
@@ -57,7 +57,7 @@ class RunnableTitleScreen extends Thread
             {
                 Thread.sleep(10000L);
             }
-            catch (InterruptedException var5)
+            catch (InterruptedException interruptedexception)
             {
                 Thread.currentThread().interrupt();
             }

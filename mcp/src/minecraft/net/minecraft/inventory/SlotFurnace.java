@@ -1,5 +1,6 @@
 package net.minecraft.inventory;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -67,35 +68,37 @@ public class SlotFurnace extends Slot
 
         if (!this.thePlayer.worldObj.isRemote)
         {
-            int var2 = this.field_75228_b;
-            float var3 = FurnaceRecipes.smelting().getExperience(par1ItemStack.itemID);
-            int var4;
+            int i = this.field_75228_b;
+            float f = FurnaceRecipes.smelting().getExperience(par1ItemStack);
+            int j;
 
-            if (var3 == 0.0F)
+            if (f == 0.0F)
             {
-                var2 = 0;
+                i = 0;
             }
-            else if (var3 < 1.0F)
+            else if (f < 1.0F)
             {
-                var4 = MathHelper.floor_float((float)var2 * var3);
+                j = MathHelper.floor_float((float)i * f);
 
-                if (var4 < MathHelper.ceiling_float_int((float)var2 * var3) && (float)Math.random() < (float)var2 * var3 - (float)var4)
+                if (j < MathHelper.ceiling_float_int((float)i * f) && (float)Math.random() < (float)i * f - (float)j)
                 {
-                    ++var4;
+                    ++j;
                 }
 
-                var2 = var4;
+                i = j;
             }
 
-            while (var2 > 0)
+            while (i > 0)
             {
-                var4 = EntityXPOrb.getXPSplit(var2);
-                var2 -= var4;
-                this.thePlayer.worldObj.spawnEntityInWorld(new EntityXPOrb(this.thePlayer.worldObj, this.thePlayer.posX, this.thePlayer.posY + 0.5D, this.thePlayer.posZ + 0.5D, var4));
+                j = EntityXPOrb.getXPSplit(i);
+                i -= j;
+                this.thePlayer.worldObj.spawnEntityInWorld(new EntityXPOrb(this.thePlayer.worldObj, this.thePlayer.posX, this.thePlayer.posY + 0.5D, this.thePlayer.posZ + 0.5D, j));
             }
         }
 
         this.field_75228_b = 0;
+
+        GameRegistry.onItemSmelted(thePlayer, par1ItemStack);
 
         if (par1ItemStack.itemID == Item.ingotIron.itemID)
         {

@@ -31,80 +31,80 @@ public class CommandPlaySound extends CommandBase
         }
         else
         {
-            byte var3 = 0;
-            int var36 = var3 + 1;
-            String var4 = par2ArrayOfStr[var3];
-            EntityPlayerMP var5 = getPlayer(par1ICommandSender, par2ArrayOfStr[var36++]);
-            double var6 = (double)var5.getPlayerCoordinates().posX;
-            double var8 = (double)var5.getPlayerCoordinates().posY;
-            double var10 = (double)var5.getPlayerCoordinates().posZ;
-            double var12 = 1.0D;
-            double var14 = 1.0D;
-            double var16 = 0.0D;
+            byte b0 = 0;
+            int i = b0 + 1;
+            String s = par2ArrayOfStr[b0];
+            EntityPlayerMP entityplayermp = getPlayer(par1ICommandSender, par2ArrayOfStr[i++]);
+            double d0 = (double)entityplayermp.getPlayerCoordinates().posX;
+            double d1 = (double)entityplayermp.getPlayerCoordinates().posY;
+            double d2 = (double)entityplayermp.getPlayerCoordinates().posZ;
+            double d3 = 1.0D;
+            double d4 = 1.0D;
+            double d5 = 0.0D;
 
-            if (par2ArrayOfStr.length > var36)
+            if (par2ArrayOfStr.length > i)
             {
-                var6 = func_110666_a(par1ICommandSender, var6, par2ArrayOfStr[var36++]);
+                d0 = func_110666_a(par1ICommandSender, d0, par2ArrayOfStr[i++]);
             }
 
-            if (par2ArrayOfStr.length > var36)
+            if (par2ArrayOfStr.length > i)
             {
-                var8 = func_110665_a(par1ICommandSender, var8, par2ArrayOfStr[var36++], 0, 0);
+                d1 = func_110665_a(par1ICommandSender, d1, par2ArrayOfStr[i++], 0, 0);
             }
 
-            if (par2ArrayOfStr.length > var36)
+            if (par2ArrayOfStr.length > i)
             {
-                var10 = func_110666_a(par1ICommandSender, var10, par2ArrayOfStr[var36++]);
+                d2 = func_110666_a(par1ICommandSender, d2, par2ArrayOfStr[i++]);
             }
 
-            if (par2ArrayOfStr.length > var36)
+            if (par2ArrayOfStr.length > i)
             {
-                var12 = func_110661_a(par1ICommandSender, par2ArrayOfStr[var36++], 0.0D, 3.4028234663852886E38D);
+                d3 = func_110661_a(par1ICommandSender, par2ArrayOfStr[i++], 0.0D, 3.4028234663852886E38D);
             }
 
-            if (par2ArrayOfStr.length > var36)
+            if (par2ArrayOfStr.length > i)
             {
-                var14 = func_110661_a(par1ICommandSender, par2ArrayOfStr[var36++], 0.0D, 2.0D);
+                d4 = func_110661_a(par1ICommandSender, par2ArrayOfStr[i++], 0.0D, 2.0D);
             }
 
-            if (par2ArrayOfStr.length > var36)
+            if (par2ArrayOfStr.length > i)
             {
-                var16 = func_110661_a(par1ICommandSender, par2ArrayOfStr[var36++], 0.0D, 1.0D);
+                d5 = func_110661_a(par1ICommandSender, par2ArrayOfStr[i++], 0.0D, 1.0D);
             }
 
-            double var18 = var12 > 1.0D ? var12 * 16.0D : 16.0D;
-            double var20 = var5.getDistance(var6, var8, var10);
+            double d6 = d3 > 1.0D ? d3 * 16.0D : 16.0D;
+            double d7 = entityplayermp.getDistance(d0, d1, d2);
 
-            if (var20 > var18)
+            if (d7 > d6)
             {
-                if (var16 <= 0.0D)
+                if (d5 <= 0.0D)
                 {
-                    throw new CommandException("commands.playsound.playerTooFar", new Object[] {var5.getEntityName()});
+                    throw new CommandException("commands.playsound.playerTooFar", new Object[] {entityplayermp.getEntityName()});
                 }
 
-                double var22 = var6 - var5.posX;
-                double var24 = var8 - var5.posY;
-                double var26 = var10 - var5.posZ;
-                double var28 = Math.sqrt(var22 * var22 + var24 * var24 + var26 * var26);
-                double var30 = var5.posX;
-                double var32 = var5.posY;
-                double var34 = var5.posZ;
+                double d8 = d0 - entityplayermp.posX;
+                double d9 = d1 - entityplayermp.posY;
+                double d10 = d2 - entityplayermp.posZ;
+                double d11 = Math.sqrt(d8 * d8 + d9 * d9 + d10 * d10);
+                double d12 = entityplayermp.posX;
+                double d13 = entityplayermp.posY;
+                double d14 = entityplayermp.posZ;
 
-                if (var28 > 0.0D)
+                if (d11 > 0.0D)
                 {
-                    var30 += var22 / var28 * 2.0D;
-                    var32 += var24 / var28 * 2.0D;
-                    var34 += var26 / var28 * 2.0D;
+                    d12 += d8 / d11 * 2.0D;
+                    d13 += d9 / d11 * 2.0D;
+                    d14 += d10 / d11 * 2.0D;
                 }
 
-                var5.playerNetServerHandler.sendPacketToPlayer(new Packet62LevelSound(var4, var30, var32, var34, (float)var16, (float)var14));
+                entityplayermp.playerNetServerHandler.sendPacketToPlayer(new Packet62LevelSound(s, d12, d13, d14, (float)d5, (float)d4));
             }
             else
             {
-                var5.playerNetServerHandler.sendPacketToPlayer(new Packet62LevelSound(var4, var6, var8, var10, (float)var12, (float)var14));
+                entityplayermp.playerNetServerHandler.sendPacketToPlayer(new Packet62LevelSound(s, d0, d1, d2, (float)d3, (float)d4));
             }
 
-            notifyAdmins(par1ICommandSender, "commands.playsound.success", new Object[] {var4, var5.getEntityName()});
+            notifyAdmins(par1ICommandSender, "commands.playsound.success", new Object[] {s, entityplayermp.getEntityName()});
         }
     }
 

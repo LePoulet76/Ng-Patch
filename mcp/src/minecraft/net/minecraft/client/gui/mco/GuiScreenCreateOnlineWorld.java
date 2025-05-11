@@ -116,10 +116,10 @@ public class GuiScreenCreateOnlineWorld extends ScreenWithCallback
     {
         if (this.func_96249_i())
         {
-            TaskWorldCreation var1 = new TaskWorldCreation(this, this.field_96257_c.getText(), "Minecraft Realms Server", this.field_98109_n, this.field_110356_u);
-            GuiScreenLongRunningTask var2 = new GuiScreenLongRunningTask(this.mc, this.field_96260_a, var1);
-            var2.func_98117_g();
-            this.mc.displayGuiScreen(var2);
+            TaskWorldCreation taskworldcreation = new TaskWorldCreation(this, this.field_96257_c.getText(), "Minecraft Realms Server", this.field_98109_n, this.field_110356_u);
+            GuiScreenLongRunningTask guiscreenlongrunningtask = new GuiScreenLongRunningTask(this.mc, this.field_96260_a, taskworldcreation);
+            guiscreenlongrunningtask.func_98117_g();
+            this.mc.displayGuiScreen(guiscreenlongrunningtask);
         }
     }
 

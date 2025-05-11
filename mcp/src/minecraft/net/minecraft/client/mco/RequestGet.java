@@ -21,9 +21,9 @@ public class RequestGet extends Request
             this.field_96367_a.setRequestMethod("GET");
             return this;
         }
-        catch (Exception var2)
+        catch (Exception exception)
         {
-            throw new ExceptionMcoHttp("Failed URL: " + this.field_96365_b, var2);
+            throw new ExceptionMcoHttp("Failed URL: " + this.field_96365_b, exception);
         }
     }
 

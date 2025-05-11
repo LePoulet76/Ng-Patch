@@ -55,14 +55,14 @@ public class BlockHopper extends BlockContainer
     {
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
         super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-        float var8 = 0.125F;
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, var8, 1.0F, 1.0F);
+        float f = 0.125F;
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
         super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var8);
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
         super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-        this.setBlockBounds(1.0F - var8, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-        this.setBlockBounds(0.0F, 0.0F, 1.0F - var8, 1.0F, 1.0F, 1.0F);
+        this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
         super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
     }
@@ -72,14 +72,14 @@ public class BlockHopper extends BlockContainer
      */
     public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
     {
-        int var10 = Facing.oppositeSide[par5];
+        int j1 = Facing.oppositeSide[par5];
 
-        if (var10 == 1)
+        if (j1 == 1)
         {
-            var10 = 0;
+            j1 = 0;
         }
 
-        return var10;
+        return j1;
     }
 
     /**
@@ -99,8 +99,8 @@ public class BlockHopper extends BlockContainer
 
         if (par6ItemStack.hasDisplayName())
         {
-            TileEntityHopper var7 = getHopperTile(par1World, par2, par3, par4);
-            var7.setInventoryName(par6ItemStack.getDisplayName());
+            TileEntityHopper tileentityhopper = getHopperTile(par1World, par2, par3, par4);
+            tileentityhopper.setInventoryName(par6ItemStack.getDisplayName());
         }
     }
 
@@ -124,11 +124,11 @@ public class BlockHopper extends BlockContainer
         }
         else
         {
-            TileEntityHopper var10 = getHopperTile(par1World, par2, par3, par4);
+            TileEntityHopper tileentityhopper = getHopperTile(par1World, par2, par3, par4);
 
-            if (var10 != null)
+            if (tileentityhopper != null)
             {
-                par5EntityPlayer.displayGUIHopper(var10);
+                par5EntityPlayer.displayGUIHopper(tileentityhopper);
             }
 
             return true;
@@ -149,14 +149,14 @@ public class BlockHopper extends BlockContainer
      */
     private void updateMetadata(World par1World, int par2, int par3, int par4)
     {
-        int var5 = par1World.getBlockMetadata(par2, par3, par4);
-        int var6 = getDirectionFromMetadata(var5);
-        boolean var7 = !par1World.isBlockIndirectlyGettingPowered(par2, par3, par4);
-        boolean var8 = getIsBlockNotPoweredFromMetadata(var5);
+        int l = par1World.getBlockMetadata(par2, par3, par4);
+        int i1 = getDirectionFromMetadata(l);
+        boolean flag = !par1World.isBlockIndirectlyGettingPowered(par2, par3, par4);
+        boolean flag1 = getIsBlockNotPoweredFromMetadata(l);
 
-        if (var7 != var8)
+        if (flag != flag1)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, var6 | (var7 ? 0 : 8), 4);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, i1 | (flag ? 0 : 8), 4);
         }
     }
 
@@ -167,42 +167,42 @@ public class BlockHopper extends BlockContainer
      */
     public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
-        TileEntityHopper var7 = (TileEntityHopper)par1World.getBlockTileEntity(par2, par3, par4);
+        TileEntityHopper tileentityhopper = (TileEntityHopper)par1World.getBlockTileEntity(par2, par3, par4);
 
-        if (var7 != null)
+        if (tileentityhopper != null)
         {
-            for (int var8 = 0; var8 < var7.getSizeInventory(); ++var8)
+            for (int j1 = 0; j1 < tileentityhopper.getSizeInventory(); ++j1)
             {
-                ItemStack var9 = var7.getStackInSlot(var8);
+                ItemStack itemstack = tileentityhopper.getStackInSlot(j1);
 
-                if (var9 != null)
+                if (itemstack != null)
                 {
-                    float var10 = this.field_94457_a.nextFloat() * 0.8F + 0.1F;
-                    float var11 = this.field_94457_a.nextFloat() * 0.8F + 0.1F;
-                    float var12 = this.field_94457_a.nextFloat() * 0.8F + 0.1F;
+                    float f = this.field_94457_a.nextFloat() * 0.8F + 0.1F;
+                    float f1 = this.field_94457_a.nextFloat() * 0.8F + 0.1F;
+                    float f2 = this.field_94457_a.nextFloat() * 0.8F + 0.1F;
 
-                    while (var9.stackSize > 0)
+                    while (itemstack.stackSize > 0)
                     {
-                        int var13 = this.field_94457_a.nextInt(21) + 10;
+                        int k1 = this.field_94457_a.nextInt(21) + 10;
 
-                        if (var13 > var9.stackSize)
+                        if (k1 > itemstack.stackSize)
                         {
-                            var13 = var9.stackSize;
+                            k1 = itemstack.stackSize;
                         }
 
-                        var9.stackSize -= var13;
-                        EntityItem var14 = new EntityItem(par1World, (double)((float)par2 + var10), (double)((float)par3 + var11), (double)((float)par4 + var12), new ItemStack(var9.itemID, var13, var9.getItemDamage()));
+                        itemstack.stackSize -= k1;
+                        EntityItem entityitem = new EntityItem(par1World, (double)((float)par2 + f), (double)((float)par3 + f1), (double)((float)par4 + f2), new ItemStack(itemstack.itemID, k1, itemstack.getItemDamage()));
 
-                        if (var9.hasTagCompound())
+                        if (itemstack.hasTagCompound())
                         {
-                            var14.getEntityItem().setTagCompound((NBTTagCompound)var9.getTagCompound().copy());
+                            entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
                         }
 
-                        float var15 = 0.05F;
-                        var14.motionX = (double)((float)this.field_94457_a.nextGaussian() * var15);
-                        var14.motionY = (double)((float)this.field_94457_a.nextGaussian() * var15 + 0.2F);
-                        var14.motionZ = (double)((float)this.field_94457_a.nextGaussian() * var15);
-                        par1World.spawnEntityInWorld(var14);
+                        float f3 = 0.05F;
+                        entityitem.motionX = (double)((float)this.field_94457_a.nextGaussian() * f3);
+                        entityitem.motionY = (double)((float)this.field_94457_a.nextGaussian() * f3 + 0.2F);
+                        entityitem.motionZ = (double)((float)this.field_94457_a.nextGaussian() * f3);
+                        par1World.spawnEntityInWorld(entityitem);
                     }
                 }
             }

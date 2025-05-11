@@ -1,5 +1,6 @@
 package net.minecraft.logging;
 
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.logging.ConsoleHandler;
@@ -29,30 +30,27 @@ public class LogAgent implements ILogAgent
      */
     private void setupLogger()
     {
-        this.serverLogger.setUseParentHandlers(false);
-        Handler[] var1 = this.serverLogger.getHandlers();
-        int var2 = var1.length;
+        this.serverLogger.setParent(FMLLog.getLogger());
+        Handler[] ahandler = this.serverLogger.getHandlers();
+        int i = ahandler.length;
 
-        for (int var3 = 0; var3 < var2; ++var3)
+        for (int j = 0; j < i; ++j)
         {
-            Handler var4 = var1[var3];
-            this.serverLogger.removeHandler(var4);
+            Handler handler = ahandler[j];
+            this.serverLogger.removeHandler(handler);
         }
 
-        LogFormatter var6 = new LogFormatter(this, (LogAgentEmptyAnon)null);
-        ConsoleHandler var7 = new ConsoleHandler();
-        var7.setFormatter(var6);
-        this.serverLogger.addHandler(var7);
+        LogFormatter logformatter = new LogFormatter(this, (LogAgentEmptyAnon)null);
 
         try
         {
-            FileHandler var8 = new FileHandler(this.logFile, true);
-            var8.setFormatter(var6);
-            this.serverLogger.addHandler(var8);
+            FileHandler filehandler = new FileHandler(this.logFile, true);
+            filehandler.setFormatter(logformatter);
+            this.serverLogger.addHandler(filehandler);
         }
-        catch (Exception var5)
+        catch (Exception exception)
         {
-            this.serverLogger.log(Level.WARNING, "Failed to log " + this.loggerName + " to " + this.logFile, var5);
+            this.serverLogger.log(Level.WARNING, "Failed to log " + this.loggerName + " to " + this.logFile, exception);
         }
     }
 
@@ -74,7 +72,7 @@ public class LogAgent implements ILogAgent
 
     public void logWarningFormatted(String par1Str, Object ... par2ArrayOfObj)
     {
-        this.serverLogger.log(Level.WARNING, par1Str, par2ArrayOfObj);
+        this.serverLogger.log(Level.WARNING, String.format(par1Str, par2ArrayOfObj));
     }
 
     public void logWarningException(String par1Str, Throwable par2Throwable)

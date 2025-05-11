@@ -67,19 +67,19 @@ public class GuiStats extends GuiScreen
     {
         this.buttonList.add(new GuiButton(0, this.width / 2 + 4, this.height - 28, 150, 20, I18n.getString("gui.done")));
         this.buttonList.add(new GuiButton(1, this.width / 2 - 154, this.height - 52, 100, 20, I18n.getString("stat.generalButton")));
-        GuiButton var1;
-        this.buttonList.add(var1 = new GuiButton(2, this.width / 2 - 46, this.height - 52, 100, 20, I18n.getString("stat.blocksButton")));
-        GuiButton var2;
-        this.buttonList.add(var2 = new GuiButton(3, this.width / 2 + 62, this.height - 52, 100, 20, I18n.getString("stat.itemsButton")));
+        GuiButton guibutton;
+        this.buttonList.add(guibutton = new GuiButton(2, this.width / 2 - 46, this.height - 52, 100, 20, I18n.getString("stat.blocksButton")));
+        GuiButton guibutton1;
+        this.buttonList.add(guibutton1 = new GuiButton(3, this.width / 2 + 62, this.height - 52, 100, 20, I18n.getString("stat.itemsButton")));
 
         if (this.slotBlock.getSize() == 0)
         {
-            var1.enabled = false;
+            guibutton.enabled = false;
         }
 
         if (this.slotItem.getSize() == 0)
         {
-            var2.enabled = false;
+            guibutton1.enabled = false;
         }
     }
 
@@ -151,17 +151,17 @@ public class GuiStats extends GuiScreen
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(statIcons);
-        float var5 = 0.0078125F;
-        float var6 = 0.0078125F;
-        boolean var7 = true;
-        boolean var8 = true;
-        Tessellator var9 = Tessellator.instance;
-        var9.startDrawingQuads();
-        var9.addVertexWithUV((double)(par1 + 0), (double)(par2 + 18), (double)this.zLevel, (double)((float)(par3 + 0) * 0.0078125F), (double)((float)(par4 + 18) * 0.0078125F));
-        var9.addVertexWithUV((double)(par1 + 18), (double)(par2 + 18), (double)this.zLevel, (double)((float)(par3 + 18) * 0.0078125F), (double)((float)(par4 + 18) * 0.0078125F));
-        var9.addVertexWithUV((double)(par1 + 18), (double)(par2 + 0), (double)this.zLevel, (double)((float)(par3 + 18) * 0.0078125F), (double)((float)(par4 + 0) * 0.0078125F));
-        var9.addVertexWithUV((double)(par1 + 0), (double)(par2 + 0), (double)this.zLevel, (double)((float)(par3 + 0) * 0.0078125F), (double)((float)(par4 + 0) * 0.0078125F));
-        var9.draw();
+        float f = 0.0078125F;
+        float f1 = 0.0078125F;
+        boolean flag = true;
+        boolean flag1 = true;
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV((double)(par1 + 0), (double)(par2 + 18), (double)this.zLevel, (double)((float)(par3 + 0) * 0.0078125F), (double)((float)(par4 + 18) * 0.0078125F));
+        tessellator.addVertexWithUV((double)(par1 + 18), (double)(par2 + 18), (double)this.zLevel, (double)((float)(par3 + 18) * 0.0078125F), (double)((float)(par4 + 18) * 0.0078125F));
+        tessellator.addVertexWithUV((double)(par1 + 18), (double)(par2 + 0), (double)this.zLevel, (double)((float)(par3 + 18) * 0.0078125F), (double)((float)(par4 + 0) * 0.0078125F));
+        tessellator.addVertexWithUV((double)(par1 + 0), (double)(par2 + 0), (double)this.zLevel, (double)((float)(par3 + 0) * 0.0078125F), (double)((float)(par4 + 0) * 0.0078125F));
+        tessellator.draw();
     }
 
     static Minecraft getMinecraft(GuiStats par0GuiStats)

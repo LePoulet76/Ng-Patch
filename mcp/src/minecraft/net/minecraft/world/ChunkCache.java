@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3Pool;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.common.ForgeDirection;
 
 public class ChunkCache implements IBlockAccess
 {
@@ -26,34 +27,34 @@ public class ChunkCache implements IBlockAccess
         this.worldObj = par1World;
         this.chunkX = par2 - par8 >> 4;
         this.chunkZ = par4 - par8 >> 4;
-        int var9 = par5 + par8 >> 4;
-        int var10 = par7 + par8 >> 4;
-        this.chunkArray = new Chunk[var9 - this.chunkX + 1][var10 - this.chunkZ + 1];
+        int l1 = par5 + par8 >> 4;
+        int i2 = par7 + par8 >> 4;
+        this.chunkArray = new Chunk[l1 - this.chunkX + 1][i2 - this.chunkZ + 1];
         this.isEmpty = true;
-        int var11;
-        int var12;
-        Chunk var13;
+        int j2;
+        int k2;
+        Chunk chunk;
 
-        for (var11 = this.chunkX; var11 <= var9; ++var11)
+        for (j2 = this.chunkX; j2 <= l1; ++j2)
         {
-            for (var12 = this.chunkZ; var12 <= var10; ++var12)
+            for (k2 = this.chunkZ; k2 <= i2; ++k2)
             {
-                var13 = par1World.getChunkFromChunkCoords(var11, var12);
+                chunk = par1World.getChunkFromChunkCoords(j2, k2);
 
-                if (var13 != null)
+                if (chunk != null)
                 {
-                    this.chunkArray[var11 - this.chunkX][var12 - this.chunkZ] = var13;
+                    this.chunkArray[j2 - this.chunkX][k2 - this.chunkZ] = chunk;
                 }
             }
         }
 
-        for (var11 = par2 >> 4; var11 <= par5 >> 4; ++var11)
+        for (j2 = par2 >> 4; j2 <= par5 >> 4; ++j2)
         {
-            for (var12 = par4 >> 4; var12 <= par7 >> 4; ++var12)
+            for (k2 = par4 >> 4; k2 <= par7 >> 4; ++k2)
             {
-                var13 = this.chunkArray[var11 - this.chunkX][var12 - this.chunkZ];
+                chunk = this.chunkArray[j2 - this.chunkX][k2 - this.chunkZ];
 
-                if (var13 != null && !var13.getAreLevelsEmpty(par3, par6))
+                if (chunk != null && !chunk.getAreLevelsEmpty(par3, par6))
                 {
                     this.isEmpty = false;
                 }
@@ -86,13 +87,13 @@ public class ChunkCache implements IBlockAccess
         }
         else
         {
-            int var4 = (par1 >> 4) - this.chunkX;
-            int var5 = (par3 >> 4) - this.chunkZ;
+            int l = (par1 >> 4) - this.chunkX;
+            int i1 = (par3 >> 4) - this.chunkZ;
 
-            if (var4 >= 0 && var4 < this.chunkArray.length && var5 >= 0 && var5 < this.chunkArray[var4].length)
+            if (l >= 0 && l < this.chunkArray.length && i1 >= 0 && i1 < this.chunkArray[l].length)
             {
-                Chunk var6 = this.chunkArray[var4][var5];
-                return var6 == null ? 0 : var6.getBlockID(par1 & 15, par2, par3 & 15);
+                Chunk chunk = this.chunkArray[l][i1];
+                return chunk == null ? 0 : chunk.getBlockID(par1 & 15, par2, par3 & 15);
             }
             else
             {
@@ -106,22 +107,30 @@ public class ChunkCache implements IBlockAccess
      */
     public TileEntity getBlockTileEntity(int par1, int par2, int par3)
     {
-        int var4 = (par1 >> 4) - this.chunkX;
-        int var5 = (par3 >> 4) - this.chunkZ;
-        return this.chunkArray[var4][var5].getChunkBlockTileEntity(par1 & 15, par2, par3 & 15);
+        int l = (par1 >> 4) - this.chunkX;
+        int i1 = (par3 >> 4) - this.chunkZ;
+        if (l >= 0 && l < this.chunkArray.length && i1 >= 0 && i1 < this.chunkArray[l].length)
+        {
+            Chunk chunk = this.chunkArray[l][i1];
+            return chunk == null ? null : chunk.getChunkBlockTileEntity(par1 & 15, par2, par3 & 15);
+        }
+        else
+        {
+            return null;
+        }
     }
 
     @SideOnly(Side.CLIENT)
     public float getBrightness(int par1, int par2, int par3, int par4)
     {
-        int var5 = this.getLightValue(par1, par2, par3);
+        int i1 = this.getLightValue(par1, par2, par3);
 
-        if (var5 < par4)
+        if (i1 < par4)
         {
-            var5 = par4;
+            i1 = par4;
         }
 
-        return this.worldObj.provider.lightBrightnessTable[var5];
+        return this.worldObj.provider.lightBrightnessTable[i1];
     }
 
     @SideOnly(Side.CLIENT)
@@ -131,15 +140,15 @@ public class ChunkCache implements IBlockAccess
      */
     public int getLightBrightnessForSkyBlocks(int par1, int par2, int par3, int par4)
     {
-        int var5 = this.getSkyBlockTypeBrightness(EnumSkyBlock.Sky, par1, par2, par3);
-        int var6 = this.getSkyBlockTypeBrightness(EnumSkyBlock.Block, par1, par2, par3);
+        int i1 = this.getSkyBlockTypeBrightness(EnumSkyBlock.Sky, par1, par2, par3);
+        int j1 = this.getSkyBlockTypeBrightness(EnumSkyBlock.Block, par1, par2, par3);
 
-        if (var6 < par4)
+        if (j1 < par4)
         {
-            var6 = par4;
+            j1 = par4;
         }
 
-        return var5 << 20 | var6 << 4;
+        return i1 << 20 | j1 << 4;
     }
 
     /**
@@ -157,9 +166,14 @@ public class ChunkCache implements IBlockAccess
         }
         else
         {
-            int var4 = (par1 >> 4) - this.chunkX;
-            int var5 = (par3 >> 4) - this.chunkZ;
-            return this.chunkArray[var4][var5].getBlockMetadata(par1 & 15, par2, par3 & 15);
+            int l = (par1 >> 4) - this.chunkX;
+            int i1 = (par3 >> 4) - this.chunkZ;
+            if (l >= 0 && l < this.chunkArray.length && i1 >= 0 && i1 < this.chunkArray[l].length)
+            {
+                Chunk chunk = this.chunkArray[l][i1];
+                return chunk == null ? 0 : chunk.getBlockMetadata(par1 & 15, par2, par3 & 15);
+            }
+            return 0;
         }
     }
 
@@ -193,42 +207,42 @@ public class ChunkCache implements IBlockAccess
     {
         if (par1 >= -30000000 && par3 >= -30000000 && par1 < 30000000 && par3 <= 30000000)
         {
-            int var5;
-            int var6;
+            int l;
+            int i1;
 
             if (par4)
             {
-                var5 = this.getBlockId(par1, par2, par3);
+                l = this.getBlockId(par1, par2, par3);
 
-                if (var5 == Block.stoneSingleSlab.blockID || var5 == Block.woodSingleSlab.blockID || var5 == Block.tilledField.blockID || var5 == Block.stairsWoodOak.blockID || var5 == Block.stairsCobblestone.blockID)
+                if (l == Block.stoneSingleSlab.blockID || l == Block.woodSingleSlab.blockID || l == Block.tilledField.blockID || l == Block.stairsWoodOak.blockID || l == Block.stairsCobblestone.blockID)
                 {
-                    var6 = this.getLightValueExt(par1, par2 + 1, par3, false);
-                    int var7 = this.getLightValueExt(par1 + 1, par2, par3, false);
-                    int var8 = this.getLightValueExt(par1 - 1, par2, par3, false);
-                    int var9 = this.getLightValueExt(par1, par2, par3 + 1, false);
-                    int var10 = this.getLightValueExt(par1, par2, par3 - 1, false);
+                    i1 = this.getLightValueExt(par1, par2 + 1, par3, false);
+                    int j1 = this.getLightValueExt(par1 + 1, par2, par3, false);
+                    int k1 = this.getLightValueExt(par1 - 1, par2, par3, false);
+                    int l1 = this.getLightValueExt(par1, par2, par3 + 1, false);
+                    int i2 = this.getLightValueExt(par1, par2, par3 - 1, false);
 
-                    if (var7 > var6)
+                    if (j1 > i1)
                     {
-                        var6 = var7;
+                        i1 = j1;
                     }
 
-                    if (var8 > var6)
+                    if (k1 > i1)
                     {
-                        var6 = var8;
+                        i1 = k1;
                     }
 
-                    if (var9 > var6)
+                    if (l1 > i1)
                     {
-                        var6 = var9;
+                        i1 = l1;
                     }
 
-                    if (var10 > var6)
+                    if (i2 > i1)
                     {
-                        var6 = var10;
+                        i1 = i2;
                     }
 
-                    return var6;
+                    return i1;
                 }
             }
 
@@ -238,20 +252,20 @@ public class ChunkCache implements IBlockAccess
             }
             else if (par2 >= 256)
             {
-                var5 = 15 - this.worldObj.skylightSubtracted;
+                l = 15 - this.worldObj.skylightSubtracted;
 
-                if (var5 < 0)
+                if (l < 0)
                 {
-                    var5 = 0;
+                    l = 0;
                 }
 
-                return var5;
+                return l;
             }
             else
             {
-                var5 = (par1 >> 4) - this.chunkX;
-                var6 = (par3 >> 4) - this.chunkZ;
-                return this.chunkArray[var5][var6].getBlockLightValue(par1 & 15, par2, par3 & 15, this.worldObj.skylightSubtracted);
+                l = (par1 >> 4) - this.chunkX;
+                i1 = (par3 >> 4) - this.chunkZ;
+                return this.chunkArray[l][i1].getBlockLightValue(par1 & 15, par2, par3 & 15, this.worldObj.skylightSubtracted);
             }
         }
         else
@@ -265,8 +279,8 @@ public class ChunkCache implements IBlockAccess
      */
     public Material getBlockMaterial(int par1, int par2, int par3)
     {
-        int var4 = this.getBlockId(par1, par2, par3);
-        return var4 == 0 ? Material.air : Block.blocksList[var4].blockMaterial;
+        int l = this.getBlockId(par1, par2, par3);
+        return l == 0 ? Material.air : Block.blocksList[l].blockMaterial;
     }
 
     @SideOnly(Side.CLIENT)
@@ -286,8 +300,8 @@ public class ChunkCache implements IBlockAccess
      */
     public boolean isBlockOpaqueCube(int par1, int par2, int par3)
     {
-        Block var4 = Block.blocksList[this.getBlockId(par1, par2, par3)];
-        return var4 == null ? false : var4.isOpaqueCube();
+        Block block = Block.blocksList[this.getBlockId(par1, par2, par3)];
+        return block == null ? false : block.isOpaqueCube();
     }
 
     /**
@@ -295,8 +309,8 @@ public class ChunkCache implements IBlockAccess
      */
     public boolean isBlockNormalCube(int par1, int par2, int par3)
     {
-        Block var4 = Block.blocksList[this.getBlockId(par1, par2, par3)];
-        return var4 == null ? false : var4.blockMaterial.blocksMovement() && var4.renderAsNormalBlock();
+        Block block = Block.blocksList[this.getBlockId(par1, par2, par3)];
+        return block == null ? false : block.blockMaterial.blocksMovement() && block.renderAsNormalBlock();
     }
 
     @SideOnly(Side.CLIENT)
@@ -306,8 +320,7 @@ public class ChunkCache implements IBlockAccess
      */
     public boolean doesBlockHaveSolidTopSurface(int par1, int par2, int par3)
     {
-        Block var4 = Block.blocksList[this.getBlockId(par1, par2, par3)];
-        return this.worldObj.isBlockTopFacingSurfaceSolid(var4, this.getBlockMetadata(par1, par2, par3));
+        return this.worldObj.doesBlockHaveSolidTopSurface(par1, par2, par3);
     }
 
     /**
@@ -318,15 +331,13 @@ public class ChunkCache implements IBlockAccess
         return this.worldObj.getWorldVec3Pool();
     }
 
-    @SideOnly(Side.CLIENT)
-
     /**
      * Returns true if the block at the specified coordinates is empty
      */
     public boolean isAirBlock(int par1, int par2, int par3)
     {
-        Block var4 = Block.blocksList[this.getBlockId(par1, par2, par3)];
-        return var4 == null;
+        int id = getBlockId(par1, par2, par3);
+        return id == 0 || Block.blocksList[id] == null || Block.blocksList[id].isAirBlock(this.worldObj, par1, par2, par3);
     }
 
     @SideOnly(Side.CLIENT)
@@ -355,44 +366,44 @@ public class ChunkCache implements IBlockAccess
             }
             else
             {
-                int var5;
-                int var6;
+                int l;
+                int i1;
 
                 if (Block.useNeighborBrightness[this.getBlockId(par2, par3, par4)])
                 {
-                    var5 = this.getSpecialBlockBrightness(par1EnumSkyBlock, par2, par3 + 1, par4);
-                    var6 = this.getSpecialBlockBrightness(par1EnumSkyBlock, par2 + 1, par3, par4);
-                    int var7 = this.getSpecialBlockBrightness(par1EnumSkyBlock, par2 - 1, par3, par4);
-                    int var8 = this.getSpecialBlockBrightness(par1EnumSkyBlock, par2, par3, par4 + 1);
-                    int var9 = this.getSpecialBlockBrightness(par1EnumSkyBlock, par2, par3, par4 - 1);
+                    l = this.getSpecialBlockBrightness(par1EnumSkyBlock, par2, par3 + 1, par4);
+                    i1 = this.getSpecialBlockBrightness(par1EnumSkyBlock, par2 + 1, par3, par4);
+                    int j1 = this.getSpecialBlockBrightness(par1EnumSkyBlock, par2 - 1, par3, par4);
+                    int k1 = this.getSpecialBlockBrightness(par1EnumSkyBlock, par2, par3, par4 + 1);
+                    int l1 = this.getSpecialBlockBrightness(par1EnumSkyBlock, par2, par3, par4 - 1);
 
-                    if (var6 > var5)
+                    if (i1 > l)
                     {
-                        var5 = var6;
+                        l = i1;
                     }
 
-                    if (var7 > var5)
+                    if (j1 > l)
                     {
-                        var5 = var7;
+                        l = j1;
                     }
 
-                    if (var8 > var5)
+                    if (k1 > l)
                     {
-                        var5 = var8;
+                        l = k1;
                     }
 
-                    if (var9 > var5)
+                    if (l1 > l)
                     {
-                        var5 = var9;
+                        l = l1;
                     }
 
-                    return var5;
+                    return l;
                 }
                 else
                 {
-                    var5 = (par2 >> 4) - this.chunkX;
-                    var6 = (par4 >> 4) - this.chunkZ;
-                    return this.chunkArray[var5][var6].getSavedLightValue(par1EnumSkyBlock, par2 & 15, par3, par4 & 15);
+                    l = (par2 >> 4) - this.chunkX;
+                    i1 = (par4 >> 4) - this.chunkZ;
+                    return this.chunkArray[l][i1].getSavedLightValue(par1EnumSkyBlock, par2 & 15, par3, par4 & 15);
                 }
             }
         }
@@ -421,9 +432,9 @@ public class ChunkCache implements IBlockAccess
 
         if (par3 >= 0 && par3 < 256 && par2 >= -30000000 && par4 >= -30000000 && par2 < 30000000 && par4 <= 30000000)
         {
-            int var5 = (par2 >> 4) - this.chunkX;
-            int var6 = (par4 >> 4) - this.chunkZ;
-            return this.chunkArray[var5][var6].getSavedLightValue(par1EnumSkyBlock, par2 & 15, par3, par4 & 15);
+            int l = (par2 >> 4) - this.chunkX;
+            int i1 = (par4 >> 4) - this.chunkZ;
+            return this.chunkArray[l][i1].getSavedLightValue(par1EnumSkyBlock, par2 & 15, par3, par4 & 15);
         }
         else
         {
@@ -446,7 +457,25 @@ public class ChunkCache implements IBlockAccess
      */
     public int isBlockProvidingPowerTo(int par1, int par2, int par3, int par4)
     {
-        int var5 = this.getBlockId(par1, par2, par3);
-        return var5 == 0 ? 0 : Block.blocksList[var5].isProvidingStrongPower(this, par1, par2, par3, par4);
+        int i1 = this.getBlockId(par1, par2, par3);
+        return i1 == 0 ? 0 : Block.blocksList[i1].isProvidingStrongPower(this, par1, par2, par3, par4);
+    }
+
+    public boolean isBlockSolidOnSide(int x, int y, int z, ForgeDirection side, boolean _default)
+    {
+        if (x < -30000000 || z < -30000000 || x >= 30000000 || z >= 30000000)
+        {
+            return _default;
+        }
+
+        int blockId = getBlockId(x, y, z);
+        Block block = Block.blocksList[blockId];
+
+        if (block != null)
+        {
+            return block.isBlockSolidOnSide(this.worldObj, x, y, z, side);
+        }
+
+        return false;
     }
 }

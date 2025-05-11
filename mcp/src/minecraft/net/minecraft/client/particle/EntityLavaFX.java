@@ -27,22 +27,22 @@ public class EntityLavaFX extends EntityFX
 
     public int getBrightnessForRender(float par1)
     {
-        float var2 = ((float)this.particleAge + par1) / (float)this.particleMaxAge;
+        float f1 = ((float)this.particleAge + par1) / (float)this.particleMaxAge;
 
-        if (var2 < 0.0F)
+        if (f1 < 0.0F)
         {
-            var2 = 0.0F;
+            f1 = 0.0F;
         }
 
-        if (var2 > 1.0F)
+        if (f1 > 1.0F)
         {
-            var2 = 1.0F;
+            f1 = 1.0F;
         }
 
-        int var3 = super.getBrightnessForRender(par1);
-        short var4 = 240;
-        int var5 = var3 >> 16 & 255;
-        return var4 | var5 << 16;
+        int i = super.getBrightnessForRender(par1);
+        short short1 = 240;
+        int j = i >> 16 & 255;
+        return short1 | j << 16;
     }
 
     /**
@@ -55,8 +55,8 @@ public class EntityLavaFX extends EntityFX
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
     {
-        float var8 = ((float)this.particleAge + par2) / (float)this.particleMaxAge;
-        this.particleScale = this.lavaParticleScale * (1.0F - var8 * var8);
+        float f6 = ((float)this.particleAge + par2) / (float)this.particleMaxAge;
+        this.particleScale = this.lavaParticleScale * (1.0F - f6 * f6);
         super.renderParticle(par1Tessellator, par2, par3, par4, par5, par6, par7);
     }
 
@@ -74,9 +74,9 @@ public class EntityLavaFX extends EntityFX
             this.setDead();
         }
 
-        float var1 = (float)this.particleAge / (float)this.particleMaxAge;
+        float f = (float)this.particleAge / (float)this.particleMaxAge;
 
-        if (this.rand.nextFloat() > var1)
+        if (this.rand.nextFloat() > f)
         {
             this.worldObj.spawnParticle("smoke", this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ);
         }

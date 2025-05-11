@@ -42,14 +42,14 @@ public class BlockMushroomCap extends Block
      */
     public int quantityDropped(Random par1Random)
     {
-        int var2 = par1Random.nextInt(10) - 7;
+        int i = par1Random.nextInt(10) - 7;
 
-        if (var2 < 0)
+        if (i < 0)
         {
-            var2 = 0;
+            i = 0;
         }
 
-        return var2;
+        return i;
     }
 
     /**
@@ -80,9 +80,9 @@ public class BlockMushroomCap extends Block
     {
         this.iconArray = new Icon[field_94429_a.length];
 
-        for (int var2 = 0; var2 < this.iconArray.length; ++var2)
+        for (int i = 0; i < this.iconArray.length; ++i)
         {
-            this.iconArray[var2] = par1IconRegister.registerIcon(this.getTextureName() + "_" + field_94429_a[var2]);
+            this.iconArray[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + field_94429_a[i]);
         }
 
         this.field_94427_cP = par1IconRegister.registerIcon(this.getTextureName() + "_" + "inside");

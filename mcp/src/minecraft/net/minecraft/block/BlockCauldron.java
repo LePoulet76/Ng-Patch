@@ -64,14 +64,14 @@ public class BlockCauldron extends Block
     {
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.3125F, 1.0F);
         super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-        float var8 = 0.125F;
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, var8, 1.0F, 1.0F);
+        float f = 0.125F;
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
         super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var8);
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
         super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-        this.setBlockBounds(1.0F - var8, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-        this.setBlockBounds(0.0F, 0.0F, 1.0F - var8, 1.0F, 1.0F, 1.0F);
+        this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
         super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
         this.setBlockBoundsForItemRender();
     }
@@ -126,20 +126,20 @@ public class BlockCauldron extends Block
         }
         else
         {
-            ItemStack var10 = par5EntityPlayer.inventory.getCurrentItem();
+            ItemStack itemstack = par5EntityPlayer.inventory.getCurrentItem();
 
-            if (var10 == null)
+            if (itemstack == null)
             {
                 return true;
             }
             else
             {
-                int var11 = par1World.getBlockMetadata(par2, par3, par4);
-                int var12 = func_111045_h_(var11);
+                int i1 = par1World.getBlockMetadata(par2, par3, par4);
+                int j1 = func_111045_h_(i1);
 
-                if (var10.itemID == Item.bucketWater.itemID)
+                if (itemstack.itemID == Item.bucketWater.itemID)
                 {
-                    if (var12 < 3)
+                    if (j1 < 3)
                     {
                         if (!par5EntityPlayer.capabilities.isCreativeMode)
                         {
@@ -154,37 +154,37 @@ public class BlockCauldron extends Block
                 }
                 else
                 {
-                    if (var10.itemID == Item.glassBottle.itemID)
+                    if (itemstack.itemID == Item.glassBottle.itemID)
                     {
-                        if (var12 > 0)
+                        if (j1 > 0)
                         {
-                            ItemStack var13 = new ItemStack(Item.potion, 1, 0);
+                            ItemStack itemstack1 = new ItemStack(Item.potion, 1, 0);
 
-                            if (!par5EntityPlayer.inventory.addItemStackToInventory(var13))
+                            if (!par5EntityPlayer.inventory.addItemStackToInventory(itemstack1))
                             {
-                                par1World.spawnEntityInWorld(new EntityItem(par1World, (double)par2 + 0.5D, (double)par3 + 1.5D, (double)par4 + 0.5D, var13));
+                                par1World.spawnEntityInWorld(new EntityItem(par1World, (double)par2 + 0.5D, (double)par3 + 1.5D, (double)par4 + 0.5D, itemstack1));
                             }
                             else if (par5EntityPlayer instanceof EntityPlayerMP)
                             {
                                 ((EntityPlayerMP)par5EntityPlayer).sendContainerToPlayer(par5EntityPlayer.inventoryContainer);
                             }
 
-                            --var10.stackSize;
+                            --itemstack.stackSize;
 
-                            if (var10.stackSize <= 0)
+                            if (itemstack.stackSize <= 0)
                             {
                                 par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, (ItemStack)null);
                             }
 
-                            par1World.setBlockMetadataWithNotify(par2, par3, par4, var12 - 1, 2);
+                            par1World.setBlockMetadataWithNotify(par2, par3, par4, j1 - 1, 2);
                             par1World.func_96440_m(par2, par3, par4, this.blockID);
                         }
                     }
-                    else if (var12 > 0 && var10.getItem() instanceof ItemArmor && ((ItemArmor)var10.getItem()).getArmorMaterial() == EnumArmorMaterial.CLOTH)
+                    else if (j1 > 0 && itemstack.getItem() instanceof ItemArmor && ((ItemArmor)itemstack.getItem()).getArmorMaterial() == EnumArmorMaterial.CLOTH)
                     {
-                        ItemArmor var14 = (ItemArmor)var10.getItem();
-                        var14.removeColor(var10);
-                        par1World.setBlockMetadataWithNotify(par2, par3, par4, var12 - 1, 2);
+                        ItemArmor itemarmor = (ItemArmor)itemstack.getItem();
+                        itemarmor.removeColor(itemstack);
+                        par1World.setBlockMetadataWithNotify(par2, par3, par4, j1 - 1, 2);
                         par1World.func_96440_m(par2, par3, par4, this.blockID);
                         return true;
                     }
@@ -202,11 +202,11 @@ public class BlockCauldron extends Block
     {
         if (par1World.rand.nextInt(20) == 1)
         {
-            int var5 = par1World.getBlockMetadata(par2, par3, par4);
+            int l = par1World.getBlockMetadata(par2, par3, par4);
 
-            if (var5 < 3)
+            if (l < 3)
             {
-                par1World.setBlockMetadataWithNotify(par2, par3, par4, var5 + 1, 2);
+                par1World.setBlockMetadataWithNotify(par2, par3, par4, l + 1, 2);
             }
         }
     }
@@ -244,8 +244,8 @@ public class BlockCauldron extends Block
      */
     public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
     {
-        int var6 = par1World.getBlockMetadata(par2, par3, par4);
-        return func_111045_h_(var6);
+        int i1 = par1World.getBlockMetadata(par2, par3, par4);
+        return func_111045_h_(i1);
     }
 
     public static int func_111045_h_(int par0)

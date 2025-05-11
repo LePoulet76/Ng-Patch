@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -55,21 +57,21 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
     {
         try
         {
-            File var1 = new File(this.worldDirectory, "session.lock");
-            DataOutputStream var2 = new DataOutputStream(new FileOutputStream(var1));
+            File file1 = new File(this.worldDirectory, "session.lock");
+            DataOutputStream dataoutputstream = new DataOutputStream(new FileOutputStream(file1));
 
             try
             {
-                var2.writeLong(this.initializationTime);
+                dataoutputstream.writeLong(this.initializationTime);
             }
             finally
             {
-                var2.close();
+                dataoutputstream.close();
             }
         }
-        catch (IOException var7)
+        catch (IOException ioexception)
         {
-            var7.printStackTrace();
+            ioexception.printStackTrace();
             throw new RuntimeException("Failed to check session lock, aborting");
         }
     }
@@ -89,22 +91,22 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
     {
         try
         {
-            File var1 = new File(this.worldDirectory, "session.lock");
-            DataInputStream var2 = new DataInputStream(new FileInputStream(var1));
+            File file1 = new File(this.worldDirectory, "session.lock");
+            DataInputStream datainputstream = new DataInputStream(new FileInputStream(file1));
 
             try
             {
-                if (var2.readLong() != this.initializationTime)
+                if (datainputstream.readLong() != this.initializationTime)
                 {
                     throw new MinecraftException("The save is being accessed from another location, aborting");
                 }
             }
             finally
             {
-                var2.close();
+                datainputstream.close();
             }
         }
-        catch (IOException var7)
+        catch (IOException ioexception)
         {
             throw new MinecraftException("Failed to check session lock, aborting");
         }
@@ -123,37 +125,47 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
      */
     public WorldInfo loadWorldInfo()
     {
-        File var1 = new File(this.worldDirectory, "level.dat");
-        NBTTagCompound var2;
-        NBTTagCompound var3;
+        File file1 = new File(this.worldDirectory, "level.dat");
+        NBTTagCompound nbttagcompound;
+        NBTTagCompound nbttagcompound1;
 
-        if (var1.exists())
+        WorldInfo worldInfo = null;
+
+        if (file1.exists())
         {
             try
             {
-                var2 = CompressedStreamTools.readCompressed(new FileInputStream(var1));
-                var3 = var2.getCompoundTag("Data");
-                return new WorldInfo(var3);
+                nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file1));
+                nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
+                worldInfo = new WorldInfo(nbttagcompound1);
+                FMLCommonHandler.instance().handleWorldDataLoad(this, worldInfo, nbttagcompound);
+                return worldInfo;
             }
-            catch (Exception var5)
+            catch (Exception exception)
             {
-                var5.printStackTrace();
+                if (FMLCommonHandler.instance().shouldServerBeKilledQuietly())
+                {
+                    throw (RuntimeException)exception;
+                }
+                exception.printStackTrace();
             }
         }
 
-        var1 = new File(this.worldDirectory, "level.dat_old");
+        file1 = new File(this.worldDirectory, "level.dat_old");
 
-        if (var1.exists())
+        if (file1.exists())
         {
             try
             {
-                var2 = CompressedStreamTools.readCompressed(new FileInputStream(var1));
-                var3 = var2.getCompoundTag("Data");
-                return new WorldInfo(var3);
+                nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file1));
+                nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
+                worldInfo = new WorldInfo(nbttagcompound1);
+                FMLCommonHandler.instance().handleWorldDataLoad(this, worldInfo, nbttagcompound);
+                return worldInfo;
             }
-            catch (Exception var4)
+            catch (Exception exception1)
             {
-                var4.printStackTrace();
+                exception1.printStackTrace();
             }
         }
 
@@ -165,39 +177,41 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
      */
     public void saveWorldInfoWithPlayer(WorldInfo par1WorldInfo, NBTTagCompound par2NBTTagCompound)
     {
-        NBTTagCompound var3 = par1WorldInfo.cloneNBTCompound(par2NBTTagCompound);
-        NBTTagCompound var4 = new NBTTagCompound();
-        var4.setTag("Data", var3);
+        NBTTagCompound nbttagcompound1 = par1WorldInfo.cloneNBTCompound(par2NBTTagCompound);
+        NBTTagCompound nbttagcompound2 = new NBTTagCompound();
+        nbttagcompound2.setTag("Data", nbttagcompound1);
+
+        FMLCommonHandler.instance().handleWorldDataSave(this, par1WorldInfo, nbttagcompound2);
 
         try
         {
-            File var5 = new File(this.worldDirectory, "level.dat_new");
-            File var6 = new File(this.worldDirectory, "level.dat_old");
-            File var7 = new File(this.worldDirectory, "level.dat");
-            CompressedStreamTools.writeCompressed(var4, new FileOutputStream(var5));
+            File file1 = new File(this.worldDirectory, "level.dat_new");
+            File file2 = new File(this.worldDirectory, "level.dat_old");
+            File file3 = new File(this.worldDirectory, "level.dat");
+            CompressedStreamTools.writeCompressed(nbttagcompound2, new FileOutputStream(file1));
 
-            if (var6.exists())
+            if (file2.exists())
             {
-                var6.delete();
+                file2.delete();
             }
 
-            var7.renameTo(var6);
+            file3.renameTo(file2);
 
-            if (var7.exists())
+            if (file3.exists())
             {
-                var7.delete();
+                file3.delete();
             }
 
-            var5.renameTo(var7);
+            file1.renameTo(file3);
 
-            if (var5.exists())
+            if (file1.exists())
             {
-                var5.delete();
+                file1.delete();
             }
         }
-        catch (Exception var8)
+        catch (Exception exception)
         {
-            var8.printStackTrace();
+            exception.printStackTrace();
         }
     }
 
@@ -206,39 +220,41 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
      */
     public void saveWorldInfo(WorldInfo par1WorldInfo)
     {
-        NBTTagCompound var2 = par1WorldInfo.getNBTTagCompound();
-        NBTTagCompound var3 = new NBTTagCompound();
-        var3.setTag("Data", var2);
+        NBTTagCompound nbttagcompound = par1WorldInfo.getNBTTagCompound();
+        NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+        nbttagcompound1.setTag("Data", nbttagcompound);
+
+        FMLCommonHandler.instance().handleWorldDataSave(this, par1WorldInfo, nbttagcompound1);
 
         try
         {
-            File var4 = new File(this.worldDirectory, "level.dat_new");
-            File var5 = new File(this.worldDirectory, "level.dat_old");
-            File var6 = new File(this.worldDirectory, "level.dat");
-            CompressedStreamTools.writeCompressed(var3, new FileOutputStream(var4));
+            File file1 = new File(this.worldDirectory, "level.dat_new");
+            File file2 = new File(this.worldDirectory, "level.dat_old");
+            File file3 = new File(this.worldDirectory, "level.dat");
+            CompressedStreamTools.writeCompressed(nbttagcompound1, new FileOutputStream(file1));
 
-            if (var5.exists())
+            if (file2.exists())
             {
-                var5.delete();
+                file2.delete();
             }
 
-            var6.renameTo(var5);
+            file3.renameTo(file2);
 
-            if (var6.exists())
+            if (file3.exists())
             {
-                var6.delete();
+                file3.delete();
             }
 
-            var4.renameTo(var6);
+            file1.renameTo(file3);
 
-            if (var4.exists())
+            if (file1.exists())
             {
-                var4.delete();
+                file1.delete();
             }
         }
-        catch (Exception var7)
+        catch (Exception exception)
         {
-            var7.printStackTrace();
+            exception.printStackTrace();
         }
     }
 
@@ -249,20 +265,20 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
     {
         try
         {
-            NBTTagCompound var2 = new NBTTagCompound();
-            par1EntityPlayer.writeToNBT(var2);
-            File var3 = new File(this.playersDirectory, par1EntityPlayer.getCommandSenderName() + ".dat.tmp");
-            File var4 = new File(this.playersDirectory, par1EntityPlayer.getCommandSenderName() + ".dat");
-            CompressedStreamTools.writeCompressed(var2, new FileOutputStream(var3));
+            NBTTagCompound nbttagcompound = new NBTTagCompound();
+            par1EntityPlayer.writeToNBT(nbttagcompound);
+            File file1 = new File(this.playersDirectory, par1EntityPlayer.getCommandSenderName() + ".dat.tmp");
+            File file2 = new File(this.playersDirectory, par1EntityPlayer.getCommandSenderName() + ".dat");
+            CompressedStreamTools.writeCompressed(nbttagcompound, new FileOutputStream(file1));
 
-            if (var4.exists())
+            if (file2.exists())
             {
-                var4.delete();
+                file2.delete();
             }
 
-            var3.renameTo(var4);
+            file1.renameTo(file2);
         }
-        catch (Exception var5)
+        catch (Exception exception)
         {
             MinecraftServer.getServer().getLogAgent().logWarning("Failed to save player data for " + par1EntityPlayer.getCommandSenderName());
         }
@@ -273,14 +289,14 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
      */
     public NBTTagCompound readPlayerData(EntityPlayer par1EntityPlayer)
     {
-        NBTTagCompound var2 = this.getPlayerData(par1EntityPlayer.getCommandSenderName());
+        NBTTagCompound nbttagcompound = this.getPlayerData(par1EntityPlayer.getCommandSenderName());
 
-        if (var2 != null)
+        if (nbttagcompound != null)
         {
-            par1EntityPlayer.readFromNBT(var2);
+            par1EntityPlayer.readFromNBT(nbttagcompound);
         }
 
-        return var2;
+        return nbttagcompound;
     }
 
     /**
@@ -290,14 +306,14 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
     {
         try
         {
-            File var2 = new File(this.playersDirectory, par1Str + ".dat");
+            File file1 = new File(this.playersDirectory, par1Str + ".dat");
 
-            if (var2.exists())
+            if (file1.exists())
             {
-                return CompressedStreamTools.readCompressed(new FileInputStream(var2));
+                return CompressedStreamTools.readCompressed(new FileInputStream(file1));
             }
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
             MinecraftServer.getServer().getLogAgent().logWarning("Failed to load player data for " + par1Str);
         }
@@ -318,17 +334,17 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
      */
     public String[] getAvailablePlayerDat()
     {
-        String[] var1 = this.playersDirectory.list();
+        String[] astring = this.playersDirectory.list();
 
-        for (int var2 = 0; var2 < var1.length; ++var2)
+        for (int i = 0; i < astring.length; ++i)
         {
-            if (var1[var2].endsWith(".dat"))
+            if (astring[i].endsWith(".dat"))
             {
-                var1[var2] = var1[var2].substring(0, var1[var2].length() - 4);
+                astring[i] = astring[i].substring(0, astring[i].length() - 4);
             }
         }
 
-        return var1;
+        return astring;
     }
 
     /**

@@ -22,7 +22,7 @@ class CallableLvl1 implements Callable
         {
             return String.format("ID #%d (%s // %s)", new Object[] {Integer.valueOf(this.field_85179_a), Block.blocksList[this.field_85179_a].getUnlocalizedName(), Block.blocksList[this.field_85179_a].getClass().getCanonicalName()});
         }
-        catch (Throwable var2)
+        catch (Throwable throwable)
         {
             return "ID #" + this.field_85179_a;
         }

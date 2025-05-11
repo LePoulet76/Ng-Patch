@@ -67,44 +67,44 @@ public class Packet23VehicleSpawn extends Packet
 
         if (par3 > 0)
         {
-            double var4 = par1Entity.motionX;
-            double var6 = par1Entity.motionY;
-            double var8 = par1Entity.motionZ;
-            double var10 = 3.9D;
+            double d0 = par1Entity.motionX;
+            double d1 = par1Entity.motionY;
+            double d2 = par1Entity.motionZ;
+            double d3 = 3.9D;
 
-            if (var4 < -var10)
+            if (d0 < -d3)
             {
-                var4 = -var10;
+                d0 = -d3;
             }
 
-            if (var6 < -var10)
+            if (d1 < -d3)
             {
-                var6 = -var10;
+                d1 = -d3;
             }
 
-            if (var8 < -var10)
+            if (d2 < -d3)
             {
-                var8 = -var10;
+                d2 = -d3;
             }
 
-            if (var4 > var10)
+            if (d0 > d3)
             {
-                var4 = var10;
+                d0 = d3;
             }
 
-            if (var6 > var10)
+            if (d1 > d3)
             {
-                var6 = var10;
+                d1 = d3;
             }
 
-            if (var8 > var10)
+            if (d2 > d3)
             {
-                var8 = var10;
+                d2 = d3;
             }
 
-            this.speedX = (int)(var4 * 8000.0D);
-            this.speedY = (int)(var6 * 8000.0D);
-            this.speedZ = (int)(var8 * 8000.0D);
+            this.speedX = (int)(d0 * 8000.0D);
+            this.speedY = (int)(d1 * 8000.0D);
+            this.speedZ = (int)(d2 * 8000.0D);
         }
     }
 

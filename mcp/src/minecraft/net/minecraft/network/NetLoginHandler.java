@@ -11,11 +11,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import javax.crypto.SecretKey;
+
+import cpw.mods.fml.common.network.FMLNetworkHandler;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet1Login;
 import net.minecraft.network.packet.Packet205ClientCommand;
+import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.network.packet.Packet252SharedKey;
 import net.minecraft.network.packet.Packet253ServerAuthData;
 import net.minecraft.network.packet.Packet254ServerPing;
@@ -67,7 +71,7 @@ public class NetLoginHandler extends NetHandler
             this.initializePlayerConnection();
         }
 
-        if (this.connectionTimer++ == 600)
+        if (this.connectionTimer++ == 6000)
         {
             this.raiseErrorAndDisconnect("Took too long to log in");
         }
@@ -86,9 +90,9 @@ public class NetLoginHandler extends NetHandler
             this.myTCPConnection.serverShutdown();
             this.connectionComplete = true;
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
-            var3.printStackTrace();
+            exception.printStackTrace();
         }
     }
 
@@ -108,7 +112,7 @@ public class NetLoginHandler extends NetHandler
             }
             else
             {
-                PublicKey var2 = this.mcServer.getKeyPair().getPublic();
+                PublicKey publickey = this.mcServer.getKeyPair().getPublic();
 
                 if (par1Packet2ClientProtocol.getProtocolVersion() != 78)
                 {
@@ -126,7 +130,7 @@ public class NetLoginHandler extends NetHandler
                     this.loginServerId = this.mcServer.isServerInOnlineMode() ? Long.toString(rand.nextLong(), 16) : "-";
                     this.verifyToken = new byte[4];
                     rand.nextBytes(this.verifyToken);
-                    this.myTCPConnection.addToSendQueue(new Packet253ServerAuthData(this.loginServerId, var2, this.verifyToken));
+                    this.myTCPConnection.addToSendQueue(new Packet253ServerAuthData(this.loginServerId, publickey, this.verifyToken));
                 }
             }
         }
@@ -134,10 +138,10 @@ public class NetLoginHandler extends NetHandler
 
     public void handleSharedKey(Packet252SharedKey par1Packet252SharedKey)
     {
-        PrivateKey var2 = this.mcServer.getKeyPair().getPrivate();
-        this.sharedKey = par1Packet252SharedKey.getSharedKey(var2);
+        PrivateKey privatekey = this.mcServer.getKeyPair().getPrivate();
+        this.sharedKey = par1Packet252SharedKey.getSharedKey(privatekey);
 
-        if (!Arrays.equals(this.verifyToken, par1Packet252SharedKey.getVerifyToken(var2)))
+        if (!Arrays.equals(this.verifyToken, par1Packet252SharedKey.getVerifyToken(privatekey)))
         {
             this.raiseErrorAndDisconnect("Invalid client reply");
         }
@@ -168,26 +172,33 @@ public class NetLoginHandler extends NetHandler
         }
     }
 
-    public void handleLogin(Packet1Login par1Packet1Login) {}
+    public void handleLogin(Packet1Login par1Packet1Login)
+    {
+        FMLNetworkHandler.handleLoginPacketOnServer(this, par1Packet1Login);
+    }
 
     /**
      * on success the specified username is connected to the minecraftInstance, otherwise they are packet255'd
      */
     public void initializePlayerConnection()
     {
-        String var1 = this.mcServer.getConfigurationManager().allowUserToConnect(this.myTCPConnection.getSocketAddress(), this.clientUsername);
+        FMLNetworkHandler.onConnectionReceivedFromClient(this, this.mcServer, this.myTCPConnection.getSocketAddress(), this.clientUsername);
+    }
 
-        if (var1 != null)
+    public void completeConnection(String s)
+    {
+
+        if (s != null)
         {
-            this.raiseErrorAndDisconnect(var1);
+            this.raiseErrorAndDisconnect(s);
         }
         else
         {
-            EntityPlayerMP var2 = this.mcServer.getConfigurationManager().createPlayerForUser(this.clientUsername);
+            EntityPlayerMP entityplayermp = this.mcServer.getConfigurationManager().createPlayerForUser(this.clientUsername);
 
-            if (var2 != null)
+            if (entityplayermp != null)
             {
-                this.mcServer.getConfigurationManager().initializeConnectionToPlayer(this.myTCPConnection, var2);
+                this.mcServer.getConfigurationManager().initializeConnectionToPlayer(this.myTCPConnection, entityplayermp);
             }
         }
 
@@ -207,53 +218,53 @@ public class NetLoginHandler extends NetHandler
     {
         try
         {
-            ServerConfigurationManager var2 = this.mcServer.getConfigurationManager();
-            String var3 = null;
+            ServerConfigurationManager serverconfigurationmanager = this.mcServer.getConfigurationManager();
+            String s = null;
 
             if (par1Packet254ServerPing.func_140050_d())
             {
-                var3 = this.mcServer.getMOTD() + "\u00a7" + var2.getCurrentPlayerCount() + "\u00a7" + var2.getMaxPlayers();
+                s = this.mcServer.getMOTD() + "\u00a7" + serverconfigurationmanager.getCurrentPlayerCount() + "\u00a7" + serverconfigurationmanager.getMaxPlayers();
             }
             else
             {
-                List var4 = Arrays.asList(new Serializable[] {Integer.valueOf(1), Integer.valueOf(78), this.mcServer.getMinecraftVersion(), this.mcServer.getMOTD(), Integer.valueOf(var2.getCurrentPlayerCount()), Integer.valueOf(var2.getMaxPlayers())});
-                Object var6;
+                List list = Arrays.asList(new Serializable[] {Integer.valueOf(1), Integer.valueOf(78), this.mcServer.getMinecraftVersion(), this.mcServer.getMOTD(), Integer.valueOf(serverconfigurationmanager.getCurrentPlayerCount()), Integer.valueOf(serverconfigurationmanager.getMaxPlayers())});
+                Object object;
 
-                for (Iterator var5 = var4.iterator(); var5.hasNext(); var3 = var3 + var6.toString().replaceAll("\u0000", ""))
+                for (Iterator iterator = list.iterator(); iterator.hasNext(); s = s + object.toString().replaceAll("\u0000", ""))
                 {
-                    var6 = var5.next();
+                    object = iterator.next();
 
-                    if (var3 == null)
+                    if (s == null)
                     {
-                        var3 = "\u00a7";
+                        s = "\u00a7";
                     }
                     else
                     {
-                        var3 = var3 + "\u0000";
+                        s = s + "\u0000";
                     }
                 }
             }
 
-            InetAddress var8 = null;
+            InetAddress inetaddress = null;
 
             if (this.myTCPConnection.getSocket() != null)
             {
-                var8 = this.myTCPConnection.getSocket().getInetAddress();
+                inetaddress = this.myTCPConnection.getSocket().getInetAddress();
             }
 
-            this.myTCPConnection.addToSendQueue(new Packet255KickDisconnect(var3));
+            this.myTCPConnection.addToSendQueue(new Packet255KickDisconnect(s));
             this.myTCPConnection.serverShutdown();
 
-            if (var8 != null && this.mcServer.getNetworkThread() instanceof DedicatedServerListenThread)
+            if (inetaddress != null && this.mcServer.getNetworkThread() instanceof DedicatedServerListenThread)
             {
-                ((DedicatedServerListenThread)this.mcServer.getNetworkThread()).func_71761_a(var8);
+                ((DedicatedServerListenThread)this.mcServer.getNetworkThread()).func_71761_a(inetaddress);
             }
 
             this.connectionComplete = true;
         }
-        catch (Exception var7)
+        catch (Exception exception)
         {
-            var7.printStackTrace();
+            exception.printStackTrace();
         }
     }
 
@@ -319,5 +330,23 @@ public class NetLoginHandler extends NetHandler
     public static boolean func_72531_a(NetLoginHandler par0NetLoginHandler, boolean par1)
     {
         return par0NetLoginHandler.field_72544_i = par1;
+    }
+    
+
+    public void handleCustomPayload(Packet250CustomPayload par1Packet250CustomPayload)
+    {
+        FMLNetworkHandler.handlePacket250Packet(par1Packet250CustomPayload, myTCPConnection, this);
+    }
+
+    @Override
+    public void handleVanilla250Packet(Packet250CustomPayload payload)
+    {
+        // NOOP for login
+    }
+
+    @Override
+    public EntityPlayer getPlayer()
+    {
+        return null;
     }
 }

@@ -26,8 +26,8 @@ public class GuiBrewingStand extends GuiContainer
      */
     protected void drawGuiContainerForegroundLayer(int par1, int par2)
     {
-        String var3 = this.brewingStand.isInvNameLocalized() ? this.brewingStand.getInvName() : I18n.getString(this.brewingStand.getInvName());
-        this.fontRenderer.drawString(var3, this.xSize / 2 - this.fontRenderer.getStringWidth(var3) / 2, 6, 4210752);
+        String s = this.brewingStand.isInvNameLocalized() ? this.brewingStand.getInvName() : I18n.getString(this.brewingStand.getInvName());
+        this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
         this.fontRenderer.drawString(I18n.getString("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
     }
 
@@ -38,55 +38,49 @@ public class GuiBrewingStand extends GuiContainer
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(brewingStandGuiTextures);
-        int var4 = (this.width - this.xSize) / 2;
-        int var5 = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(var4, var5, 0, 0, this.xSize, this.ySize);
-        int var6 = this.brewingStand.getBrewTime();
+        int k = (this.width - this.xSize) / 2;
+        int l = (this.height - this.ySize) / 2;
+        this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
+        int i1 = this.brewingStand.getBrewTime();
 
-        if (var6 > 0)
+        if (i1 > 0)
         {
-            int var7 = (int)(28.0F * (1.0F - (float)var6 / 400.0F));
+            int j1 = (int)(28.0F * (1.0F - (float)i1 / 400.0F));
 
-            if (var7 > 0)
+            if (j1 > 0)
             {
-                this.drawTexturedModalRect(var4 + 97, var5 + 16, 176, 0, 9, var7);
+                this.drawTexturedModalRect(k + 97, l + 16, 176, 0, 9, j1);
             }
 
-            int var8 = var6 / 2 % 7;
+            int k1 = i1 / 2 % 7;
 
-            switch (var8)
+            switch (k1)
             {
                 case 0:
-                    var7 = 29;
+                    j1 = 29;
                     break;
-
                 case 1:
-                    var7 = 24;
+                    j1 = 24;
                     break;
-
                 case 2:
-                    var7 = 20;
+                    j1 = 20;
                     break;
-
                 case 3:
-                    var7 = 16;
+                    j1 = 16;
                     break;
-
                 case 4:
-                    var7 = 11;
+                    j1 = 11;
                     break;
-
                 case 5:
-                    var7 = 6;
+                    j1 = 6;
                     break;
-
                 case 6:
-                    var7 = 0;
+                    j1 = 0;
             }
 
-            if (var7 > 0)
+            if (j1 > 0)
             {
-                this.drawTexturedModalRect(var4 + 65, var5 + 14 + 29 - var7, 185, 29 - var7, 12, var7);
+                this.drawTexturedModalRect(k + 65, l + 14 + 29 - j1, 185, 29 - j1, 12, j1);
             }
         }
     }

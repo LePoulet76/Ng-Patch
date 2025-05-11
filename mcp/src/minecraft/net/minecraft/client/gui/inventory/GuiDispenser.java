@@ -26,8 +26,8 @@ public class GuiDispenser extends GuiContainer
      */
     protected void drawGuiContainerForegroundLayer(int par1, int par2)
     {
-        String var3 = this.theDispenser.isInvNameLocalized() ? this.theDispenser.getInvName() : I18n.getString(this.theDispenser.getInvName());
-        this.fontRenderer.drawString(var3, this.xSize / 2 - this.fontRenderer.getStringWidth(var3) / 2, 6, 4210752);
+        String s = this.theDispenser.isInvNameLocalized() ? this.theDispenser.getInvName() : I18n.getString(this.theDispenser.getInvName());
+        this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
         this.fontRenderer.drawString(I18n.getString("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
     }
 
@@ -38,8 +38,8 @@ public class GuiDispenser extends GuiContainer
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(dispenserGuiTextures);
-        int var4 = (this.width - this.xSize) / 2;
-        int var5 = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(var4, var5, 0, 0, this.xSize, this.ySize);
+        int k = (this.width - this.xSize) / 2;
+        int l = (this.height - this.ySize) / 2;
+        this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
     }
 }

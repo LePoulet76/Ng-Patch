@@ -16,10 +16,10 @@ public class EntityBodyHelper
 
     public void func_75664_a()
     {
-        double var1 = this.theLiving.posX - this.theLiving.prevPosX;
-        double var3 = this.theLiving.posZ - this.theLiving.prevPosZ;
+        double d0 = this.theLiving.posX - this.theLiving.prevPosX;
+        double d1 = this.theLiving.posZ - this.theLiving.prevPosZ;
 
-        if (var1 * var1 + var3 * var3 > 2.500000277905201E-7D)
+        if (d0 * d0 + d1 * d1 > 2.500000277905201E-7D)
         {
             this.theLiving.renderYawOffset = this.theLiving.rotationYaw;
             this.theLiving.rotationYawHead = this.func_75665_a(this.theLiving.renderYawOffset, this.theLiving.rotationYawHead, 75.0F);
@@ -28,7 +28,7 @@ public class EntityBodyHelper
         }
         else
         {
-            float var5 = 75.0F;
+            float f = 75.0F;
 
             if (Math.abs(this.theLiving.rotationYawHead - this.field_75667_c) > 15.0F)
             {
@@ -38,32 +38,32 @@ public class EntityBodyHelper
             else
             {
                 ++this.field_75666_b;
-                boolean var6 = true;
+                boolean flag = true;
 
                 if (this.field_75666_b > 10)
                 {
-                    var5 = Math.max(1.0F - (float)(this.field_75666_b - 10) / 10.0F, 0.0F) * 75.0F;
+                    f = Math.max(1.0F - (float)(this.field_75666_b - 10) / 10.0F, 0.0F) * 75.0F;
                 }
             }
 
-            this.theLiving.renderYawOffset = this.func_75665_a(this.theLiving.rotationYawHead, this.theLiving.renderYawOffset, var5);
+            this.theLiving.renderYawOffset = this.func_75665_a(this.theLiving.rotationYawHead, this.theLiving.renderYawOffset, f);
         }
     }
 
     private float func_75665_a(float par1, float par2, float par3)
     {
-        float var4 = MathHelper.wrapAngleTo180_float(par1 - par2);
+        float f3 = MathHelper.wrapAngleTo180_float(par1 - par2);
 
-        if (var4 < -par3)
+        if (f3 < -par3)
         {
-            var4 = -par3;
+            f3 = -par3;
         }
 
-        if (var4 >= par3)
+        if (f3 >= par3)
         {
-            var4 = par3;
+            f3 = par3;
         }
 
-        return par1 - var4;
+        return par1 - f3;
     }
 }

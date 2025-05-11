@@ -16,6 +16,8 @@ public class BlockBaseRailLogic
     /** The chunk position the rail is at. */
     private List railChunkPosition;
 
+    private final boolean canMakeSlopes;
+
     final BlockRailBase theRail;
 
     public BlockBaseRailLogic(BlockRailBase par1BlockRailBase, World par2World, int par3, int par4, int par5)
@@ -26,20 +28,14 @@ public class BlockBaseRailLogic
         this.railX = par3;
         this.railY = par4;
         this.railZ = par5;
-        int var6 = par2World.getBlockId(par3, par4, par5);
-        int var7 = par2World.getBlockMetadata(par3, par4, par5);
+        int l = par2World.getBlockId(par3, par4, par5);
 
-        if (((BlockRailBase)Block.blocksList[var6]).isPowered)
-        {
-            this.isStraightRail = true;
-            var7 &= -9;
-        }
-        else
-        {
-            this.isStraightRail = false;
-        }
+        BlockRailBase target = (BlockRailBase)Block.blocksList[l];
+        int i1 = target.getBasicRailMetadata(par2World, null, par3, par4, par5);
+        isStraightRail = !target.isFlexibleRail(par2World, par3, par4, par5);
+        canMakeSlopes = target.canMakeSlopes(par2World, par3, par4, par5);
 
-        this.setBasicRail(var7);
+        this.setBasicRail(i1);
     }
 
     private void setBasicRail(int par1)
@@ -100,17 +96,17 @@ public class BlockBaseRailLogic
 
     private void refreshConnectedTracks()
     {
-        for (int var1 = 0; var1 < this.railChunkPosition.size(); ++var1)
+        for (int i = 0; i < this.railChunkPosition.size(); ++i)
         {
-            BlockBaseRailLogic var2 = this.getRailLogic((ChunkPosition)this.railChunkPosition.get(var1));
+            BlockBaseRailLogic blockbaseraillogic = this.getRailLogic((ChunkPosition)this.railChunkPosition.get(i));
 
-            if (var2 != null && var2.isRailChunkPositionCorrect(this))
+            if (blockbaseraillogic != null && blockbaseraillogic.isRailChunkPositionCorrect(this))
             {
-                this.railChunkPosition.set(var1, new ChunkPosition(var2.railX, var2.railY, var2.railZ));
+                this.railChunkPosition.set(i, new ChunkPosition(blockbaseraillogic.railX, blockbaseraillogic.railY, blockbaseraillogic.railZ));
             }
             else
             {
-                this.railChunkPosition.remove(var1--);
+                this.railChunkPosition.remove(i--);
             }
         }
     }
@@ -130,11 +126,11 @@ public class BlockBaseRailLogic
      */
     private boolean isRailChunkPositionCorrect(BlockBaseRailLogic par1BlockBaseRailLogic)
     {
-        for (int var2 = 0; var2 < this.railChunkPosition.size(); ++var2)
+        for (int i = 0; i < this.railChunkPosition.size(); ++i)
         {
-            ChunkPosition var3 = (ChunkPosition)this.railChunkPosition.get(var2);
+            ChunkPosition chunkposition = (ChunkPosition)this.railChunkPosition.get(i);
 
-            if (var3.x == par1BlockBaseRailLogic.railX && var3.z == par1BlockBaseRailLogic.railZ)
+            if (chunkposition.x == par1BlockBaseRailLogic.railX && chunkposition.z == par1BlockBaseRailLogic.railZ)
             {
                 return true;
             }
@@ -145,11 +141,11 @@ public class BlockBaseRailLogic
 
     private boolean isPartOfTrack(int par1, int par2, int par3)
     {
-        for (int var4 = 0; var4 < this.railChunkPosition.size(); ++var4)
+        for (int l = 0; l < this.railChunkPosition.size(); ++l)
         {
-            ChunkPosition var5 = (ChunkPosition)this.railChunkPosition.get(var4);
+            ChunkPosition chunkposition = (ChunkPosition)this.railChunkPosition.get(l);
 
-            if (var5.x == par1 && var5.z == par3)
+            if (chunkposition.x == par1 && chunkposition.z == par3)
             {
                 return true;
             }
@@ -160,29 +156,29 @@ public class BlockBaseRailLogic
 
     public int getNumberOfAdjacentTracks()
     {
-        int var1 = 0;
+        int i = 0;
 
         if (this.isMinecartTrack(this.railX, this.railY, this.railZ - 1))
         {
-            ++var1;
+            ++i;
         }
 
         if (this.isMinecartTrack(this.railX, this.railY, this.railZ + 1))
         {
-            ++var1;
+            ++i;
         }
 
         if (this.isMinecartTrack(this.railX - 1, this.railY, this.railZ))
         {
-            ++var1;
+            ++i;
         }
 
         if (this.isMinecartTrack(this.railX + 1, this.railY, this.railZ))
         {
-            ++var1;
+            ++i;
         }
 
-        return var1;
+        return i;
     }
 
     private boolean canConnectTo(BlockBaseRailLogic par1BlockBaseRailLogic)
@@ -193,257 +189,257 @@ public class BlockBaseRailLogic
     private void connectToNeighbor(BlockBaseRailLogic par1BlockBaseRailLogic)
     {
         this.railChunkPosition.add(new ChunkPosition(par1BlockBaseRailLogic.railX, par1BlockBaseRailLogic.railY, par1BlockBaseRailLogic.railZ));
-        boolean var2 = this.isPartOfTrack(this.railX, this.railY, this.railZ - 1);
-        boolean var3 = this.isPartOfTrack(this.railX, this.railY, this.railZ + 1);
-        boolean var4 = this.isPartOfTrack(this.railX - 1, this.railY, this.railZ);
-        boolean var5 = this.isPartOfTrack(this.railX + 1, this.railY, this.railZ);
-        byte var6 = -1;
+        boolean flag = this.isPartOfTrack(this.railX, this.railY, this.railZ - 1);
+        boolean flag1 = this.isPartOfTrack(this.railX, this.railY, this.railZ + 1);
+        boolean flag2 = this.isPartOfTrack(this.railX - 1, this.railY, this.railZ);
+        boolean flag3 = this.isPartOfTrack(this.railX + 1, this.railY, this.railZ);
+        byte b0 = -1;
 
-        if (var2 || var3)
+        if (flag || flag1)
         {
-            var6 = 0;
+            b0 = 0;
         }
 
-        if (var4 || var5)
+        if (flag2 || flag3)
         {
-            var6 = 1;
+            b0 = 1;
         }
 
         if (!this.isStraightRail)
         {
-            if (var3 && var5 && !var2 && !var4)
+            if (flag1 && flag3 && !flag && !flag2)
             {
-                var6 = 6;
+                b0 = 6;
             }
 
-            if (var3 && var4 && !var2 && !var5)
+            if (flag1 && flag2 && !flag && !flag3)
             {
-                var6 = 7;
+                b0 = 7;
             }
 
-            if (var2 && var4 && !var3 && !var5)
+            if (flag && flag2 && !flag1 && !flag3)
             {
-                var6 = 8;
+                b0 = 8;
             }
 
-            if (var2 && var5 && !var3 && !var4)
+            if (flag && flag3 && !flag1 && !flag2)
             {
-                var6 = 9;
+                b0 = 9;
             }
         }
 
-        if (var6 == 0)
+        if (b0 == 0 && canMakeSlopes)
         {
             if (BlockRailBase.isRailBlockAt(this.logicWorld, this.railX, this.railY + 1, this.railZ - 1))
             {
-                var6 = 4;
+                b0 = 4;
             }
 
             if (BlockRailBase.isRailBlockAt(this.logicWorld, this.railX, this.railY + 1, this.railZ + 1))
             {
-                var6 = 5;
+                b0 = 5;
             }
         }
 
-        if (var6 == 1)
+        if (b0 == 1 && canMakeSlopes)
         {
             if (BlockRailBase.isRailBlockAt(this.logicWorld, this.railX + 1, this.railY + 1, this.railZ))
             {
-                var6 = 2;
+                b0 = 2;
             }
 
             if (BlockRailBase.isRailBlockAt(this.logicWorld, this.railX - 1, this.railY + 1, this.railZ))
             {
-                var6 = 3;
+                b0 = 3;
             }
         }
 
-        if (var6 < 0)
+        if (b0 < 0)
         {
-            var6 = 0;
+            b0 = 0;
         }
 
-        int var7 = var6;
+        int i = b0;
 
         if (this.isStraightRail)
         {
-            var7 = this.logicWorld.getBlockMetadata(this.railX, this.railY, this.railZ) & 8 | var6;
+            i = this.logicWorld.getBlockMetadata(this.railX, this.railY, this.railZ) & 8 | b0;
         }
 
-        this.logicWorld.setBlockMetadataWithNotify(this.railX, this.railY, this.railZ, var7, 3);
+        this.logicWorld.setBlockMetadataWithNotify(this.railX, this.railY, this.railZ, i, 3);
     }
 
     private boolean canConnectFrom(int par1, int par2, int par3)
     {
-        BlockBaseRailLogic var4 = this.getRailLogic(new ChunkPosition(par1, par2, par3));
+        BlockBaseRailLogic blockbaseraillogic = this.getRailLogic(new ChunkPosition(par1, par2, par3));
 
-        if (var4 == null)
+        if (blockbaseraillogic == null)
         {
             return false;
         }
         else
         {
-            var4.refreshConnectedTracks();
-            return var4.canConnectTo(this);
+            blockbaseraillogic.refreshConnectedTracks();
+            return blockbaseraillogic.canConnectTo(this);
         }
     }
 
     public void func_94511_a(boolean par1, boolean par2)
     {
-        boolean var3 = this.canConnectFrom(this.railX, this.railY, this.railZ - 1);
-        boolean var4 = this.canConnectFrom(this.railX, this.railY, this.railZ + 1);
-        boolean var5 = this.canConnectFrom(this.railX - 1, this.railY, this.railZ);
-        boolean var6 = this.canConnectFrom(this.railX + 1, this.railY, this.railZ);
-        byte var7 = -1;
+        boolean flag2 = this.canConnectFrom(this.railX, this.railY, this.railZ - 1);
+        boolean flag3 = this.canConnectFrom(this.railX, this.railY, this.railZ + 1);
+        boolean flag4 = this.canConnectFrom(this.railX - 1, this.railY, this.railZ);
+        boolean flag5 = this.canConnectFrom(this.railX + 1, this.railY, this.railZ);
+        byte b0 = -1;
 
-        if ((var3 || var4) && !var5 && !var6)
+        if ((flag2 || flag3) && !flag4 && !flag5)
         {
-            var7 = 0;
+            b0 = 0;
         }
 
-        if ((var5 || var6) && !var3 && !var4)
+        if ((flag4 || flag5) && !flag2 && !flag3)
         {
-            var7 = 1;
+            b0 = 1;
         }
 
         if (!this.isStraightRail)
         {
-            if (var4 && var6 && !var3 && !var5)
+            if (flag3 && flag5 && !flag2 && !flag4)
             {
-                var7 = 6;
+                b0 = 6;
             }
 
-            if (var4 && var5 && !var3 && !var6)
+            if (flag3 && flag4 && !flag2 && !flag5)
             {
-                var7 = 7;
+                b0 = 7;
             }
 
-            if (var3 && var5 && !var4 && !var6)
+            if (flag2 && flag4 && !flag3 && !flag5)
             {
-                var7 = 8;
+                b0 = 8;
             }
 
-            if (var3 && var6 && !var4 && !var5)
+            if (flag2 && flag5 && !flag3 && !flag4)
             {
-                var7 = 9;
+                b0 = 9;
             }
         }
 
-        if (var7 == -1)
+        if (b0 == -1)
         {
-            if (var3 || var4)
+            if (flag2 || flag3)
             {
-                var7 = 0;
+                b0 = 0;
             }
 
-            if (var5 || var6)
+            if (flag4 || flag5)
             {
-                var7 = 1;
+                b0 = 1;
             }
 
             if (!this.isStraightRail)
             {
                 if (par1)
                 {
-                    if (var4 && var6)
+                    if (flag3 && flag5)
                     {
-                        var7 = 6;
+                        b0 = 6;
                     }
 
-                    if (var5 && var4)
+                    if (flag4 && flag3)
                     {
-                        var7 = 7;
+                        b0 = 7;
                     }
 
-                    if (var6 && var3)
+                    if (flag5 && flag2)
                     {
-                        var7 = 9;
+                        b0 = 9;
                     }
 
-                    if (var3 && var5)
+                    if (flag2 && flag4)
                     {
-                        var7 = 8;
+                        b0 = 8;
                     }
                 }
                 else
                 {
-                    if (var3 && var5)
+                    if (flag2 && flag4)
                     {
-                        var7 = 8;
+                        b0 = 8;
                     }
 
-                    if (var6 && var3)
+                    if (flag5 && flag2)
                     {
-                        var7 = 9;
+                        b0 = 9;
                     }
 
-                    if (var5 && var4)
+                    if (flag4 && flag3)
                     {
-                        var7 = 7;
+                        b0 = 7;
                     }
 
-                    if (var4 && var6)
+                    if (flag3 && flag5)
                     {
-                        var7 = 6;
+                        b0 = 6;
                     }
                 }
             }
         }
 
-        if (var7 == 0)
+        if (b0 == 0 && canMakeSlopes)
         {
             if (BlockRailBase.isRailBlockAt(this.logicWorld, this.railX, this.railY + 1, this.railZ - 1))
             {
-                var7 = 4;
+                b0 = 4;
             }
 
             if (BlockRailBase.isRailBlockAt(this.logicWorld, this.railX, this.railY + 1, this.railZ + 1))
             {
-                var7 = 5;
+                b0 = 5;
             }
         }
 
-        if (var7 == 1)
+        if (b0 == 1 && canMakeSlopes)
         {
             if (BlockRailBase.isRailBlockAt(this.logicWorld, this.railX + 1, this.railY + 1, this.railZ))
             {
-                var7 = 2;
+                b0 = 2;
             }
 
             if (BlockRailBase.isRailBlockAt(this.logicWorld, this.railX - 1, this.railY + 1, this.railZ))
             {
-                var7 = 3;
+                b0 = 3;
             }
         }
 
-        if (var7 < 0)
+        if (b0 < 0)
         {
-            var7 = 0;
+            b0 = 0;
         }
 
-        this.setBasicRail(var7);
-        int var8 = var7;
+        this.setBasicRail(b0);
+        int i = b0;
 
         if (this.isStraightRail)
         {
-            var8 = this.logicWorld.getBlockMetadata(this.railX, this.railY, this.railZ) & 8 | var7;
+            i = this.logicWorld.getBlockMetadata(this.railX, this.railY, this.railZ) & 8 | b0;
         }
 
-        if (par2 || this.logicWorld.getBlockMetadata(this.railX, this.railY, this.railZ) != var8)
+        if (par2 || this.logicWorld.getBlockMetadata(this.railX, this.railY, this.railZ) != i)
         {
-            this.logicWorld.setBlockMetadataWithNotify(this.railX, this.railY, this.railZ, var8, 3);
+            this.logicWorld.setBlockMetadataWithNotify(this.railX, this.railY, this.railZ, i, 3);
 
-            for (int var9 = 0; var9 < this.railChunkPosition.size(); ++var9)
+            for (int j = 0; j < this.railChunkPosition.size(); ++j)
             {
-                BlockBaseRailLogic var10 = this.getRailLogic((ChunkPosition)this.railChunkPosition.get(var9));
+                BlockBaseRailLogic blockbaseraillogic = this.getRailLogic((ChunkPosition)this.railChunkPosition.get(j));
 
-                if (var10 != null)
+                if (blockbaseraillogic != null)
                 {
-                    var10.refreshConnectedTracks();
+                    blockbaseraillogic.refreshConnectedTracks();
 
-                    if (var10.canConnectTo(this))
+                    if (blockbaseraillogic.canConnectTo(this))
                     {
-                        var10.connectToNeighbor(this);
+                        blockbaseraillogic.connectToNeighbor(this);
                     }
                 }
             }

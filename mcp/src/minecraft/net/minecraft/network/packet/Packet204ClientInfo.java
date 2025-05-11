@@ -35,9 +35,9 @@ public class Packet204ClientInfo extends Packet
     {
         this.language = readString(par1DataInput, 7);
         this.renderDistance = par1DataInput.readByte();
-        byte var2 = par1DataInput.readByte();
-        this.chatVisisble = var2 & 7;
-        this.chatColours = (var2 & 8) == 8;
+        byte b0 = par1DataInput.readByte();
+        this.chatVisisble = b0 & 7;
+        this.chatColours = (b0 & 8) == 8;
         this.gameDifficulty = par1DataInput.readByte();
         this.showCape = par1DataInput.readBoolean();
     }

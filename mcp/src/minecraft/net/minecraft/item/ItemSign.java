@@ -73,8 +73,8 @@ public class ItemSign extends Item
             {
                 if (par7 == 1)
                 {
-                    int var11 = MathHelper.floor_double((double)((par2EntityPlayer.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
-                    par3World.setBlock(par4, par5, par6, Block.signPost.blockID, var11, 3);
+                    int i1 = MathHelper.floor_double((double)((par2EntityPlayer.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
+                    par3World.setBlock(par4, par5, par6, Block.signPost.blockID, i1, 3);
                 }
                 else
                 {
@@ -82,11 +82,11 @@ public class ItemSign extends Item
                 }
 
                 --par1ItemStack.stackSize;
-                TileEntitySign var12 = (TileEntitySign)par3World.getBlockTileEntity(par4, par5, par6);
+                TileEntitySign tileentitysign = (TileEntitySign)par3World.getBlockTileEntity(par4, par5, par6);
 
-                if (var12 != null)
+                if (tileentitysign != null)
                 {
-                    par2EntityPlayer.displayGUIEditSign(var12);
+                    par2EntityPlayer.displayGUIEditSign(tileentitysign);
                 }
 
                 return true;

@@ -178,28 +178,28 @@ public class Potion
      */
     public void affectEntity(EntityLivingBase par1EntityLivingBase, EntityLivingBase par2EntityLivingBase, int par3, double par4)
     {
-        int var6;
+        int j;
 
         if ((this.id != heal.id || par2EntityLivingBase.isEntityUndead()) && (this.id != harm.id || !par2EntityLivingBase.isEntityUndead()))
         {
             if (this.id == harm.id && !par2EntityLivingBase.isEntityUndead() || this.id == heal.id && par2EntityLivingBase.isEntityUndead())
             {
-                var6 = (int)(par4 * (double)(6 << par3) + 0.5D);
+                j = (int)(par4 * (double)(6 << par3) + 0.5D);
 
                 if (par1EntityLivingBase == null)
                 {
-                    par2EntityLivingBase.attackEntityFrom(DamageSource.magic, (float)var6);
+                    par2EntityLivingBase.attackEntityFrom(DamageSource.magic, (float)j);
                 }
                 else
                 {
-                    par2EntityLivingBase.attackEntityFrom(DamageSource.causeIndirectMagicDamage(par2EntityLivingBase, par1EntityLivingBase), (float)var6);
+                    par2EntityLivingBase.attackEntityFrom(DamageSource.causeIndirectMagicDamage(par2EntityLivingBase, par1EntityLivingBase), (float)j);
                 }
             }
         }
         else
         {
-            var6 = (int)(par4 * (double)(4 << par3) + 0.5D);
-            par2EntityLivingBase.heal((float)var6);
+            j = (int)(par4 * (double)(4 << par3) + 0.5D);
+            par2EntityLivingBase.heal((float)j);
         }
     }
 
@@ -216,22 +216,22 @@ public class Potion
      */
     public boolean isReady(int par1, int par2)
     {
-        int var3;
+        int k;
 
         if (this.id == regeneration.id)
         {
-            var3 = 50 >> par2;
-            return var3 > 0 ? par1 % var3 == 0 : true;
+            k = 50 >> par2;
+            return k > 0 ? par1 % k == 0 : true;
         }
         else if (this.id == poison.id)
         {
-            var3 = 25 >> par2;
-            return var3 > 0 ? par1 % var3 == 0 : true;
+            k = 25 >> par2;
+            return k > 0 ? par1 % k == 0 : true;
         }
         else if (this.id == wither.id)
         {
-            var3 = 40 >> par2;
-            return var3 > 0 ? par1 % var3 == 0 : true;
+            k = 40 >> par2;
+            return k > 0 ? par1 % k == 0 : true;
         }
         else
         {
@@ -301,8 +301,8 @@ public class Potion
         }
         else
         {
-            int var1 = par0PotionEffect.getDuration();
-            return StringUtils.ticksToElapsedTime(var1);
+            int i = par0PotionEffect.getDuration();
+            return StringUtils.ticksToElapsedTime(i);
         }
     }
 
@@ -326,23 +326,23 @@ public class Potion
 
     public Potion func_111184_a(Attribute par1Attribute, String par2Str, double par3, int par5)
     {
-        AttributeModifier var6 = new AttributeModifier(UUID.fromString(par2Str), this.getName(), par3, par5);
-        this.field_111188_I.put(par1Attribute, var6);
+        AttributeModifier attributemodifier = new AttributeModifier(UUID.fromString(par2Str), this.getName(), par3, par5);
+        this.field_111188_I.put(par1Attribute, attributemodifier);
         return this;
     }
 
     public void removeAttributesModifiersFromEntity(EntityLivingBase par1EntityLivingBase, BaseAttributeMap par2BaseAttributeMap, int par3)
     {
-        Iterator var4 = this.field_111188_I.entrySet().iterator();
+        Iterator iterator = this.field_111188_I.entrySet().iterator();
 
-        while (var4.hasNext())
+        while (iterator.hasNext())
         {
-            Entry var5 = (Entry)var4.next();
-            AttributeInstance var6 = par2BaseAttributeMap.getAttributeInstance((Attribute)var5.getKey());
+            Entry entry = (Entry)iterator.next();
+            AttributeInstance attributeinstance = par2BaseAttributeMap.getAttributeInstance((Attribute)entry.getKey());
 
-            if (var6 != null)
+            if (attributeinstance != null)
             {
-                var6.removeModifier((AttributeModifier)var5.getValue());
+                attributeinstance.removeModifier((AttributeModifier)entry.getValue());
             }
         }
     }
@@ -355,18 +355,18 @@ public class Potion
 
     public void applyAttributesModifiersToEntity(EntityLivingBase par1EntityLivingBase, BaseAttributeMap par2BaseAttributeMap, int par3)
     {
-        Iterator var4 = this.field_111188_I.entrySet().iterator();
+        Iterator iterator = this.field_111188_I.entrySet().iterator();
 
-        while (var4.hasNext())
+        while (iterator.hasNext())
         {
-            Entry var5 = (Entry)var4.next();
-            AttributeInstance var6 = par2BaseAttributeMap.getAttributeInstance((Attribute)var5.getKey());
+            Entry entry = (Entry)iterator.next();
+            AttributeInstance attributeinstance = par2BaseAttributeMap.getAttributeInstance((Attribute)entry.getKey());
 
-            if (var6 != null)
+            if (attributeinstance != null)
             {
-                AttributeModifier var7 = (AttributeModifier)var5.getValue();
-                var6.removeModifier(var7);
-                var6.applyModifier(new AttributeModifier(var7.getID(), this.getName() + " " + par3, this.func_111183_a(par3, var7), var7.getOperation()));
+                AttributeModifier attributemodifier = (AttributeModifier)entry.getValue();
+                attributeinstance.removeModifier(attributemodifier);
+                attributeinstance.applyModifier(new AttributeModifier(attributemodifier.getID(), this.getName() + " " + par3, this.func_111183_a(par3, attributemodifier), attributemodifier.getOperation()));
             }
         }
     }

@@ -43,21 +43,21 @@ public class AABBPool
      */
     public AxisAlignedBB getAABB(double par1, double par3, double par5, double par7, double par9, double par11)
     {
-        AxisAlignedBB var13;
+        AxisAlignedBB axisalignedbb;
 
         if (this.nextPoolIndex >= this.listAABB.size())
         {
-            var13 = new AxisAlignedBB(par1, par3, par5, par7, par9, par11);
-            this.listAABB.add(var13);
+            axisalignedbb = new AxisAlignedBB(par1, par3, par5, par7, par9, par11);
+            this.listAABB.add(axisalignedbb);
         }
         else
         {
-            var13 = (AxisAlignedBB)this.listAABB.get(this.nextPoolIndex);
-            var13.setBounds(par1, par3, par5, par7, par9, par11);
+            axisalignedbb = (AxisAlignedBB)this.listAABB.get(this.nextPoolIndex);
+            axisalignedbb.setBounds(par1, par3, par5, par7, par9, par11);
         }
 
         ++this.nextPoolIndex;
-        return var13;
+        return axisalignedbb;
     }
 
     /**
@@ -73,11 +73,11 @@ public class AABBPool
 
         if (this.numCleans++ == this.maxNumCleans)
         {
-            int var1 = Math.max(this.maxPoolIndex, this.listAABB.size() - this.numEntriesToRemove);
+            int i = Math.max(this.maxPoolIndex, this.listAABB.size() - this.numEntriesToRemove);
 
-            while (this.listAABB.size() > var1)
+            while (this.listAABB.size() > i)
             {
-                this.listAABB.remove(var1);
+                this.listAABB.remove(i);
             }
 
             this.maxPoolIndex = 0;

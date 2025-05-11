@@ -6,24 +6,24 @@ public interface ICommand extends Comparable
 {
     String getCommandName();
 
-    String getCommandUsage(ICommandSender var1);
+    String getCommandUsage(ICommandSender icommandsender);
 
     List getCommandAliases();
 
-    void processCommand(ICommandSender var1, String[] var2);
+    void processCommand(ICommandSender icommandsender, String[] astring);
 
     /**
      * Returns true if the given command sender is allowed to use this command.
      */
-    boolean canCommandSenderUseCommand(ICommandSender var1);
+    boolean canCommandSenderUseCommand(ICommandSender icommandsender);
 
     /**
      * Adds the strings available in this command to the given list of tab completion options.
      */
-    List addTabCompletionOptions(ICommandSender var1, String[] var2);
+    List addTabCompletionOptions(ICommandSender icommandsender, String[] astring);
 
     /**
      * Return whether the specified command parameter index is a username parameter.
      */
-    boolean isUsernameIndex(String[] var1, int var2);
+    boolean isUsernameIndex(String[] astring, int i);
 }

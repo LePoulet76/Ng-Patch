@@ -28,23 +28,23 @@ public class EntityCaveSpider extends EntitySpider
         {
             if (par1Entity instanceof EntityLivingBase)
             {
-                byte var2 = 0;
+                byte b0 = 0;
 
                 if (this.worldObj.difficultySetting > 1)
                 {
                     if (this.worldObj.difficultySetting == 2)
                     {
-                        var2 = 7;
+                        b0 = 7;
                     }
                     else if (this.worldObj.difficultySetting == 3)
                     {
-                        var2 = 15;
+                        b0 = 15;
                     }
                 }
 
-                if (var2 > 0)
+                if (b0 > 0)
                 {
-                    ((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(Potion.poison.id, var2 * 20, 0));
+                    ((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(Potion.poison.id, b0 * 20, 0));
                 }
             }
 

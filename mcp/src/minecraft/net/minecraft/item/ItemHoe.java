@@ -6,6 +6,9 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.Event.Result;
+import net.minecraftforge.event.entity.player.UseHoeEvent;
 
 public class ItemHoe extends Item
 {
@@ -32,13 +35,25 @@ public class ItemHoe extends Item
         }
         else
         {
-            int var11 = par3World.getBlockId(par4, par5, par6);
-            int var12 = par3World.getBlockId(par4, par5 + 1, par6);
-
-            if (par7 != 0 && var12 == 0 && (var11 == Block.grass.blockID || var11 == Block.dirt.blockID))
+            UseHoeEvent event = new UseHoeEvent(par2EntityPlayer, par1ItemStack, par3World, par4, par5, par6);
+            if (MinecraftForge.EVENT_BUS.post(event))
             {
-                Block var13 = Block.tilledField;
-                par3World.playSoundEffect((double)((float)par4 + 0.5F), (double)((float)par5 + 0.5F), (double)((float)par6 + 0.5F), var13.stepSound.getStepSound(), (var13.stepSound.getVolume() + 1.0F) / 2.0F, var13.stepSound.getPitch() * 0.8F);
+                return false;
+            }
+
+            if (event.getResult() == Result.ALLOW)
+            {
+                par1ItemStack.damageItem(1, par2EntityPlayer);
+                return true;
+            }
+
+            int i1 = par3World.getBlockId(par4, par5, par6);
+            boolean air = par3World.isAirBlock(par4, par5 + 1, par6);
+
+            if (par7 != 0 && air && (i1 == Block.grass.blockID || i1 == Block.dirt.blockID))
+            {
+                Block block = Block.tilledField;
+                par3World.playSoundEffect((double)((float)par4 + 0.5F), (double)((float)par5 + 0.5F), (double)((float)par6 + 0.5F), block.stepSound.getStepSound(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
 
                 if (par3World.isRemote)
                 {
@@ -46,7 +61,7 @@ public class ItemHoe extends Item
                 }
                 else
                 {
-                    par3World.setBlock(par4, par5, par6, var13.blockID);
+                    par3World.setBlock(par4, par5, par6, block.blockID);
                     par1ItemStack.damageItem(1, par2EntityPlayer);
                     return true;
                 }

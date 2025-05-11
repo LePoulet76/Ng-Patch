@@ -38,31 +38,31 @@ public class SoundUpdaterMinecart implements IUpdatePlayerListBox
      */
     public void update()
     {
-        boolean var1 = false;
-        boolean var2 = this.playerSPRidingMinecart;
-        boolean var3 = this.minecartIsDead;
-        boolean var4 = this.minecartIsMoving;
-        float var5 = this.minecartMoveSoundVolume;
-        float var6 = this.minecartSoundPitch;
-        float var7 = this.minecartRideSoundVolume;
-        double var8 = this.minecartSpeed;
+        boolean flag = false;
+        boolean flag1 = this.playerSPRidingMinecart;
+        boolean flag2 = this.minecartIsDead;
+        boolean flag3 = this.minecartIsMoving;
+        float f = this.minecartMoveSoundVolume;
+        float f1 = this.minecartSoundPitch;
+        float f2 = this.minecartRideSoundVolume;
+        double d0 = this.minecartSpeed;
         this.playerSPRidingMinecart = this.thePlayer != null && this.theMinecart.riddenByEntity == this.thePlayer;
         this.minecartIsDead = this.theMinecart.isDead;
         this.minecartSpeed = (double)MathHelper.sqrt_double(this.theMinecart.motionX * this.theMinecart.motionX + this.theMinecart.motionZ * this.theMinecart.motionZ);
         this.minecartIsMoving = this.minecartSpeed >= 0.01D;
 
-        if (var2 && !this.playerSPRidingMinecart)
+        if (flag1 && !this.playerSPRidingMinecart)
         {
             this.theSoundManager.stopEntitySound(this.thePlayer);
         }
 
         if (this.minecartIsDead || !this.silent && this.minecartMoveSoundVolume == 0.0F && this.minecartRideSoundVolume == 0.0F)
         {
-            if (!var3)
+            if (!flag2)
             {
                 this.theSoundManager.stopEntitySound(this.theMinecart);
 
-                if (var2 || this.playerSPRidingMinecart)
+                if (flag1 || this.playerSPRidingMinecart)
                 {
                     this.theSoundManager.stopEntitySound(this.thePlayer);
                 }
@@ -80,14 +80,14 @@ public class SoundUpdaterMinecart implements IUpdatePlayerListBox
         {
             this.theSoundManager.playEntitySound("minecart.base", this.theMinecart, this.minecartMoveSoundVolume, this.minecartSoundPitch, false);
             this.silent = false;
-            var1 = true;
+            flag = true;
         }
 
         if (this.playerSPRidingMinecart && !this.theSoundManager.isEntitySoundPlaying(this.thePlayer) && this.minecartRideSoundVolume > 0.0F)
         {
             this.theSoundManager.playEntitySound("minecart.inside", this.thePlayer, this.minecartRideSoundVolume, 1.0F, true);
             this.silent = false;
-            var1 = true;
+            flag = true;
         }
 
         if (this.minecartIsMoving)
@@ -102,12 +102,12 @@ public class SoundUpdaterMinecart implements IUpdatePlayerListBox
                 this.minecartSoundPitch = 1.0F;
             }
 
-            float var10 = MathHelper.clamp_float((float)this.minecartSpeed, 0.0F, 4.0F) / 4.0F;
-            this.minecartRideSoundVolume = 0.0F + var10 * 0.75F;
-            var10 = MathHelper.clamp_float(var10 * 2.0F, 0.0F, 1.0F);
-            this.minecartMoveSoundVolume = 0.0F + var10 * 0.7F;
+            float f3 = MathHelper.clamp_float((float)this.minecartSpeed, 0.0F, 4.0F) / 4.0F;
+            this.minecartRideSoundVolume = 0.0F + f3 * 0.75F;
+            f3 = MathHelper.clamp_float(f3 * 2.0F, 0.0F, 1.0F);
+            this.minecartMoveSoundVolume = 0.0F + f3 * 0.7F;
         }
-        else if (var4)
+        else if (flag3)
         {
             this.minecartMoveSoundVolume = 0.0F;
             this.minecartSoundPitch = 0.0F;
@@ -116,23 +116,23 @@ public class SoundUpdaterMinecart implements IUpdatePlayerListBox
 
         if (!this.silent)
         {
-            if (this.minecartSoundPitch != var6)
+            if (this.minecartSoundPitch != f1)
             {
                 this.theSoundManager.setEntitySoundPitch(this.theMinecart, this.minecartSoundPitch);
             }
 
-            if (this.minecartMoveSoundVolume != var5)
+            if (this.minecartMoveSoundVolume != f)
             {
                 this.theSoundManager.setEntitySoundVolume(this.theMinecart, this.minecartMoveSoundVolume);
             }
 
-            if (this.minecartRideSoundVolume != var7)
+            if (this.minecartRideSoundVolume != f2)
             {
                 this.theSoundManager.setEntitySoundVolume(this.thePlayer, this.minecartRideSoundVolume);
             }
         }
 
-        if (!var1 && (this.minecartMoveSoundVolume > 0.0F || this.minecartRideSoundVolume > 0.0F))
+        if (!flag && (this.minecartMoveSoundVolume > 0.0F || this.minecartRideSoundVolume > 0.0F))
         {
             this.theSoundManager.updateSoundLocation(this.theMinecart);
 

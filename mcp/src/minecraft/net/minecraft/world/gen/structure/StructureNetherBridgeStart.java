@@ -11,16 +11,16 @@ public class StructureNetherBridgeStart extends StructureStart
     public StructureNetherBridgeStart(World par1World, Random par2Random, int par3, int par4)
     {
         super(par3, par4);
-        ComponentNetherBridgeStartPiece var5 = new ComponentNetherBridgeStartPiece(par2Random, (par3 << 4) + 2, (par4 << 4) + 2);
-        this.components.add(var5);
-        var5.buildComponent(var5, this.components, par2Random);
-        ArrayList var6 = var5.field_74967_d;
+        ComponentNetherBridgeStartPiece componentnetherbridgestartpiece = new ComponentNetherBridgeStartPiece(par2Random, (par3 << 4) + 2, (par4 << 4) + 2);
+        this.components.add(componentnetherbridgestartpiece);
+        componentnetherbridgestartpiece.buildComponent(componentnetherbridgestartpiece, this.components, par2Random);
+        ArrayList arraylist = componentnetherbridgestartpiece.field_74967_d;
 
-        while (!var6.isEmpty())
+        while (!arraylist.isEmpty())
         {
-            int var7 = par2Random.nextInt(var6.size());
-            StructureComponent var8 = (StructureComponent)var6.remove(var7);
-            var8.buildComponent(var5, this.components, par2Random);
+            int k = par2Random.nextInt(arraylist.size());
+            StructureComponent structurecomponent = (StructureComponent)arraylist.remove(k);
+            structurecomponent.buildComponent(componentnetherbridgestartpiece, this.components, par2Random);
         }
 
         this.updateBoundingBox();

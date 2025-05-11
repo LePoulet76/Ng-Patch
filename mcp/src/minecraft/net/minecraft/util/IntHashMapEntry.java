@@ -46,16 +46,16 @@ class IntHashMapEntry
         }
         else
         {
-            IntHashMapEntry var2 = (IntHashMapEntry)par1Obj;
-            Integer var3 = Integer.valueOf(this.getHash());
-            Integer var4 = Integer.valueOf(var2.getHash());
+            IntHashMapEntry inthashmapentry = (IntHashMapEntry)par1Obj;
+            Integer integer = Integer.valueOf(this.getHash());
+            Integer integer1 = Integer.valueOf(inthashmapentry.getHash());
 
-            if (var3 == var4 || var3 != null && var3.equals(var4))
+            if (integer == integer1 || integer != null && integer.equals(integer1))
             {
-                Object var5 = this.getValue();
-                Object var6 = var2.getValue();
+                Object object1 = this.getValue();
+                Object object2 = inthashmapentry.getValue();
 
-                if (var5 == var6 || var5 != null && var5.equals(var6))
+                if (object1 == object2 || object1 != null && object1.equals(object2))
                 {
                     return true;
                 }

@@ -24,13 +24,13 @@ class GuiBeaconButtonPower extends GuiBeaconButton
 
     public void func_82251_b(int par1, int par2)
     {
-        String var3 = I18n.getString(Potion.potionTypes[this.field_82261_l].getName());
+        String s = I18n.getString(Potion.potionTypes[this.field_82261_l].getName());
 
         if (this.field_82262_m >= 3 && this.field_82261_l != Potion.regeneration.id)
         {
-            var3 = var3 + " II";
+            s = s + " II";
         }
 
-        this.beaconGui.drawCreativeTabHoveringText(var3, par1, par2);
+        this.beaconGui.drawCreativeTabHoveringText(s, par1, par2);
     }
 }

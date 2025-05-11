@@ -8,12 +8,12 @@ public interface IPlayerFileData
     /**
      * Writes the player data to disk from the specified PlayerEntityMP.
      */
-    void writePlayerData(EntityPlayer var1);
+    void writePlayerData(EntityPlayer entityplayer);
 
     /**
      * Reads the player data from disk into the specified PlayerEntityMP.
      */
-    NBTTagCompound readPlayerData(EntityPlayer var1);
+    NBTTagCompound readPlayerData(EntityPlayer entityplayer);
 
     /**
      * Returns an array of usernames for which player.dat exists for.

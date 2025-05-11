@@ -35,8 +35,8 @@ public class NBTTagByteArray extends NBTBase
      */
     void load(DataInput par1DataInput, int par2) throws IOException
     {
-        int var3 = par1DataInput.readInt();
-        this.byteArray = new byte[var3];
+        int j = par1DataInput.readInt();
+        this.byteArray = new byte[j];
         par1DataInput.readFully(this.byteArray);
     }
 
@@ -58,9 +58,9 @@ public class NBTTagByteArray extends NBTBase
      */
     public NBTBase copy()
     {
-        byte[] var1 = new byte[this.byteArray.length];
-        System.arraycopy(this.byteArray, 0, var1, 0, this.byteArray.length);
-        return new NBTTagByteArray(this.getName(), var1);
+        byte[] abyte = new byte[this.byteArray.length];
+        System.arraycopy(this.byteArray, 0, abyte, 0, this.byteArray.length);
+        return new NBTTagByteArray(this.getName(), abyte);
     }
 
     public boolean equals(Object par1Obj)

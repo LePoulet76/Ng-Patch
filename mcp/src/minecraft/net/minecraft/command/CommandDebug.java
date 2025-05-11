@@ -54,13 +54,13 @@ public class CommandDebug extends CommandBase
                     throw new CommandException("commands.debug.notStarted", new Object[0]);
                 }
 
-                long var3 = MinecraftServer.getSystemTimeMillis();
-                int var5 = MinecraftServer.getServer().getTickCounter();
-                long var6 = var3 - this.startTime;
-                int var8 = var5 - this.startTicks;
-                this.saveProfilerResults(var6, var8);
+                long i = MinecraftServer.getSystemTimeMillis();
+                int j = MinecraftServer.getServer().getTickCounter();
+                long k = i - this.startTime;
+                int l = j - this.startTicks;
+                this.saveProfilerResults(k, l);
                 MinecraftServer.getServer().theProfiler.profilingEnabled = false;
-                notifyAdmins(par1ICommandSender, "commands.debug.stop", new Object[] {Float.valueOf((float)var6 / 1000.0F), Integer.valueOf(var8)});
+                notifyAdmins(par1ICommandSender, "commands.debug.stop", new Object[] {Float.valueOf((float)k / 1000.0F), Integer.valueOf(l)});
                 return;
             }
         }
@@ -70,69 +70,69 @@ public class CommandDebug extends CommandBase
 
     private void saveProfilerResults(long par1, int par3)
     {
-        File var4 = new File(MinecraftServer.getServer().getFile("debug"), "profile-results-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + ".txt");
-        var4.getParentFile().mkdirs();
+        File file1 = new File(MinecraftServer.getServer().getFile("debug"), "profile-results-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + ".txt");
+        file1.getParentFile().mkdirs();
 
         try
         {
-            FileWriter var5 = new FileWriter(var4);
-            var5.write(this.getProfilerResults(par1, par3));
-            var5.close();
+            FileWriter filewriter = new FileWriter(file1);
+            filewriter.write(this.getProfilerResults(par1, par3));
+            filewriter.close();
         }
-        catch (Throwable var6)
+        catch (Throwable throwable)
         {
-            MinecraftServer.getServer().getLogAgent().logSevereException("Could not save profiler results to " + var4, var6);
+            MinecraftServer.getServer().getLogAgent().logSevereException("Could not save profiler results to " + file1, throwable);
         }
     }
 
     private String getProfilerResults(long par1, int par3)
     {
-        StringBuilder var4 = new StringBuilder();
-        var4.append("---- Minecraft Profiler Results ----\n");
-        var4.append("// ");
-        var4.append(getWittyComment());
-        var4.append("\n\n");
-        var4.append("Time span: ").append(par1).append(" ms\n");
-        var4.append("Tick span: ").append(par3).append(" ticks\n");
-        var4.append("// This is approximately ").append(String.format("%.2f", new Object[] {Float.valueOf((float)par3 / ((float)par1 / 1000.0F))})).append(" ticks per second. It should be ").append(20).append(" ticks per second\n\n");
-        var4.append("--- BEGIN PROFILE DUMP ---\n\n");
-        this.getProfileDump(0, "root", var4);
-        var4.append("--- END PROFILE DUMP ---\n\n");
-        return var4.toString();
+        StringBuilder stringbuilder = new StringBuilder();
+        stringbuilder.append("---- Minecraft Profiler Results ----\n");
+        stringbuilder.append("// ");
+        stringbuilder.append(getWittyComment());
+        stringbuilder.append("\n\n");
+        stringbuilder.append("Time span: ").append(par1).append(" ms\n");
+        stringbuilder.append("Tick span: ").append(par3).append(" ticks\n");
+        stringbuilder.append("// This is approximately ").append(String.format("%.2f", new Object[] {Float.valueOf((float)par3 / ((float)par1 / 1000.0F))})).append(" ticks per second. It should be ").append(20).append(" ticks per second\n\n");
+        stringbuilder.append("--- BEGIN PROFILE DUMP ---\n\n");
+        this.getProfileDump(0, "root", stringbuilder);
+        stringbuilder.append("--- END PROFILE DUMP ---\n\n");
+        return stringbuilder.toString();
     }
 
     private void getProfileDump(int par1, String par2Str, StringBuilder par3StringBuilder)
     {
-        List var4 = MinecraftServer.getServer().theProfiler.getProfilingData(par2Str);
+        List list = MinecraftServer.getServer().theProfiler.getProfilingData(par2Str);
 
-        if (var4 != null && var4.size() >= 3)
+        if (list != null && list.size() >= 3)
         {
-            for (int var5 = 1; var5 < var4.size(); ++var5)
+            for (int j = 1; j < list.size(); ++j)
             {
-                ProfilerResult var6 = (ProfilerResult)var4.get(var5);
+                ProfilerResult profilerresult = (ProfilerResult)list.get(j);
                 par3StringBuilder.append(String.format("[%02d] ", new Object[] {Integer.valueOf(par1)}));
 
-                for (int var7 = 0; var7 < par1; ++var7)
+                for (int k = 0; k < par1; ++k)
                 {
                     par3StringBuilder.append(" ");
                 }
 
-                par3StringBuilder.append(var6.field_76331_c);
+                par3StringBuilder.append(profilerresult.field_76331_c);
                 par3StringBuilder.append(" - ");
-                par3StringBuilder.append(String.format("%.2f", new Object[] {Double.valueOf(var6.field_76332_a)}));
+                par3StringBuilder.append(String.format("%.2f", new Object[] {Double.valueOf(profilerresult.field_76332_a)}));
                 par3StringBuilder.append("%/");
-                par3StringBuilder.append(String.format("%.2f", new Object[] {Double.valueOf(var6.field_76330_b)}));
+                par3StringBuilder.append(String.format("%.2f", new Object[] {Double.valueOf(profilerresult.field_76330_b)}));
                 par3StringBuilder.append("%\n");
 
-                if (!var6.field_76331_c.equals("unspecified"))
+                if (!profilerresult.field_76331_c.equals("unspecified"))
                 {
                     try
                     {
-                        this.getProfileDump(par1 + 1, par2Str + "." + var6.field_76331_c, par3StringBuilder);
+                        this.getProfileDump(par1 + 1, par2Str + "." + profilerresult.field_76331_c, par3StringBuilder);
                     }
-                    catch (Exception var8)
+                    catch (Exception exception)
                     {
-                        par3StringBuilder.append("[[ EXCEPTION " + var8 + " ]]");
+                        par3StringBuilder.append("[[ EXCEPTION " + exception + " ]]");
                     }
                 }
             }
@@ -144,13 +144,13 @@ public class CommandDebug extends CommandBase
      */
     private static String getWittyComment()
     {
-        String[] var0 = new String[] {"Shiny numbers!", "Am I not running fast enough? :(", "I\'m working as hard as I can!", "Will I ever be good enough for you? :(", "Speedy. Zoooooom!", "Hello world", "40% better than a crash report.", "Now with extra numbers", "Now with less numbers", "Now with the same numbers", "You should add flames to things, it makes them go faster!", "Do you feel the need for... optimization?", "*cracks redstone whip*", "Maybe if you treated it better then it\'ll have more motivation to work faster! Poor server."};
+        String[] astring = new String[] {"Shiny numbers!", "Am I not running fast enough? :(", "I\'m working as hard as I can!", "Will I ever be good enough for you? :(", "Speedy. Zoooooom!", "Hello world", "40% better than a crash report.", "Now with extra numbers", "Now with less numbers", "Now with the same numbers", "You should add flames to things, it makes them go faster!", "Do you feel the need for... optimization?", "*cracks redstone whip*", "Maybe if you treated it better then it\'ll have more motivation to work faster! Poor server."};
 
         try
         {
-            return var0[(int)(System.nanoTime() % (long)var0.length)];
+            return astring[(int)(System.nanoTime() % (long)astring.length)];
         }
-        catch (Throwable var2)
+        catch (Throwable throwable)
         {
             return "Witty comment unavailable :(";
         }

@@ -7,6 +7,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class CreativeTabs
 {
@@ -34,8 +35,22 @@ public class CreativeTabs
     private boolean drawTitle = true;
     private EnumEnchantmentType[] field_111230_s;
 
+    public CreativeTabs(String label)
+    {
+        this(getNextID(), label);
+    }
+
     public CreativeTabs(int par1, String par2Str)
     {
+        if (par1 >= creativeTabArray.length)
+        {
+            CreativeTabs[] tmp = new CreativeTabs[par1 + 1];
+            for (int x = 0; x < creativeTabArray.length; x++)
+            {
+                tmp[x] = creativeTabArray[x];
+            }
+            creativeTabArray = tmp;
+        }
         this.tabIndex = par1;
         this.tabLabel = par2Str;
         creativeTabArray[par1] = this;
@@ -122,6 +137,10 @@ public class CreativeTabs
      */
     public int getTabColumn()
     {
+        if (tabIndex > 11)
+        {
+            return ((tabIndex - 12) % 10) % 5;
+        }
         return this.tabIndex % 6;
     }
 
@@ -132,6 +151,10 @@ public class CreativeTabs
      */
     public boolean isTabInFirstRow()
     {
+        if (tabIndex > 11)
+        {
+            return ((tabIndex - 12) % 10) < 5;
+        }
         return this.tabIndex < 6;
     }
 
@@ -156,14 +179,14 @@ public class CreativeTabs
         }
         else
         {
-            EnumEnchantmentType[] var2 = this.field_111230_s;
-            int var3 = var2.length;
+            EnumEnchantmentType[] aenumenchantmenttype = this.field_111230_s;
+            int i = aenumenchantmenttype.length;
 
-            for (int var4 = 0; var4 < var3; ++var4)
+            for (int j = 0; j < i; ++j)
             {
-                EnumEnchantmentType var5 = var2[var4];
+                EnumEnchantmentType enumenchantmenttype1 = aenumenchantmenttype[j];
 
-                if (var5 == par1EnumEnchantmentType)
+                if (enumenchantmenttype1 == par1EnumEnchantmentType)
                 {
                     return true;
                 }
@@ -180,16 +203,24 @@ public class CreativeTabs
      */
     public void displayAllReleventItems(List par1List)
     {
-        Item[] var2 = Item.itemsList;
-        int var3 = var2.length;
+        Item[] aitem = Item.itemsList;
+        int i = aitem.length;
 
-        for (int var4 = 0; var4 < var3; ++var4)
+        for (int j = 0; j < i; ++j)
         {
-            Item var5 = var2[var4];
+            Item item = aitem[j];
 
-            if (var5 != null && var5.getCreativeTab() == this)
+            if (item == null)
             {
-                var5.getSubItems(var5.itemID, this, par1List);
+                continue;
+            }
+
+            for (CreativeTabs tab : item.getCreativeTabs())
+            {
+                if (tab == this)
+                {
+                    item.getSubItems(item.itemID, this, par1List);
+                }
             }
         }
 
@@ -206,30 +237,62 @@ public class CreativeTabs
      */
     public void addEnchantmentBooksToList(List par1List, EnumEnchantmentType ... par2ArrayOfEnumEnchantmentType)
     {
-        Enchantment[] var3 = Enchantment.enchantmentsList;
-        int var4 = var3.length;
+        Enchantment[] aenchantment = Enchantment.enchantmentsList;
+        int i = aenchantment.length;
 
-        for (int var5 = 0; var5 < var4; ++var5)
+        for (int j = 0; j < i; ++j)
         {
-            Enchantment var6 = var3[var5];
+            Enchantment enchantment = aenchantment[j];
 
-            if (var6 != null && var6.type != null)
+            if (enchantment != null && enchantment.type != null)
             {
-                boolean var7 = false;
+                boolean flag = false;
 
-                for (int var8 = 0; var8 < par2ArrayOfEnumEnchantmentType.length && !var7; ++var8)
+                for (int k = 0; k < par2ArrayOfEnumEnchantmentType.length && !flag; ++k)
                 {
-                    if (var6.type == par2ArrayOfEnumEnchantmentType[var8])
+                    if (enchantment.type == par2ArrayOfEnumEnchantmentType[k])
                     {
-                        var7 = true;
+                        flag = true;
                     }
                 }
 
-                if (var7)
+                if (flag)
                 {
-                    par1List.add(Item.enchantedBook.getEnchantedItemStack(new EnchantmentData(var6, var6.getMaxLevel())));
+                    par1List.add(Item.enchantedBook.getEnchantedItemStack(new EnchantmentData(enchantment, enchantment.getMaxLevel())));
                 }
             }
         }
+    }
+
+    public int getTabPage()
+    {
+        if (tabIndex > 11)
+        {
+            return ((tabIndex - 12) / 10) + 1;
+        }
+        return 0;
+    }
+
+    public static int getNextID()
+    {
+        return creativeTabArray.length;
+    }
+
+    /**
+     * Get the ItemStack that will be rendered to the tab.
+     */
+    public ItemStack getIconItemStack()
+    {
+        return new ItemStack(getTabIconItem());
+    }
+
+    /**
+     * Determines if the search bar should be shown for this tab.
+     * 
+     * @return True to show the bar
+     */
+    public boolean hasSearchBar()
+    {
+        return tabIndex == CreativeTabs.tabAllSearch.tabIndex;
     }
 }

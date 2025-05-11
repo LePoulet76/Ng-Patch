@@ -24,9 +24,9 @@ public class ItemLeash extends Item
      */
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
-        int var11 = par3World.getBlockId(par4, par5, par6);
+        int i1 = par3World.getBlockId(par4, par5, par6);
 
-        if (Block.blocksList[var11] != null && Block.blocksList[var11].getRenderType() == 11)
+        if (Block.blocksList[i1] != null && Block.blocksList[i1].getRenderType() == 11)
         {
             if (par3World.isRemote)
             {
@@ -46,32 +46,32 @@ public class ItemLeash extends Item
 
     public static boolean func_135066_a(EntityPlayer par0EntityPlayer, World par1World, int par2, int par3, int par4)
     {
-        EntityLeashKnot var5 = EntityLeashKnot.getKnotForBlock(par1World, par2, par3, par4);
-        boolean var6 = false;
-        double var7 = 7.0D;
-        List var9 = par1World.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getAABBPool().getAABB((double)par2 - var7, (double)par3 - var7, (double)par4 - var7, (double)par2 + var7, (double)par3 + var7, (double)par4 + var7));
+        EntityLeashKnot entityleashknot = EntityLeashKnot.getKnotForBlock(par1World, par2, par3, par4);
+        boolean flag = false;
+        double d0 = 7.0D;
+        List list = par1World.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getAABBPool().getAABB((double)par2 - d0, (double)par3 - d0, (double)par4 - d0, (double)par2 + d0, (double)par3 + d0, (double)par4 + d0));
 
-        if (var9 != null)
+        if (list != null)
         {
-            Iterator var10 = var9.iterator();
+            Iterator iterator = list.iterator();
 
-            while (var10.hasNext())
+            while (iterator.hasNext())
             {
-                EntityLiving var11 = (EntityLiving)var10.next();
+                EntityLiving entityliving = (EntityLiving)iterator.next();
 
-                if (var11.getLeashed() && var11.getLeashedToEntity() == par0EntityPlayer)
+                if (entityliving.getLeashed() && entityliving.getLeashedToEntity() == par0EntityPlayer)
                 {
-                    if (var5 == null)
+                    if (entityleashknot == null)
                     {
-                        var5 = EntityLeashKnot.func_110129_a(par1World, par2, par3, par4);
+                        entityleashknot = EntityLeashKnot.func_110129_a(par1World, par2, par3, par4);
                     }
 
-                    var11.setLeashedToEntity(var5, true);
-                    var6 = true;
+                    entityliving.setLeashedToEntity(entityleashknot, true);
+                    flag = true;
                 }
             }
         }
 
-        return var6;
+        return flag;
     }
 }

@@ -25,10 +25,10 @@ public class EntityTNTPrimed extends Entity
     {
         this(par1World);
         this.setPosition(par2, par4, par6);
-        float var9 = (float)(Math.random() * Math.PI * 2.0D);
-        this.motionX = (double)(-((float)Math.sin((double)var9)) * 0.02F);
+        float f = (float)(Math.random() * Math.PI * 2.0D);
+        this.motionX = (double)(-((float)Math.sin((double)f)) * 0.02F);
         this.motionY = 0.20000000298023224D;
-        this.motionZ = (double)(-((float)Math.cos((double)var9)) * 0.02F);
+        this.motionZ = (double)(-((float)Math.cos((double)f)) * 0.02F);
         this.fuse = 80;
         this.prevPosX = par2;
         this.prevPosY = par4;
@@ -93,8 +93,8 @@ public class EntityTNTPrimed extends Entity
 
     private void explode()
     {
-        float var1 = 4.0F;
-        this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, var1, true);
+        float f = 4.0F;
+        this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, f, true);
     }
 
     /**

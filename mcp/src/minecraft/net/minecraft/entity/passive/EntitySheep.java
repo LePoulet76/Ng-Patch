@@ -2,6 +2,8 @@ package net.minecraft.entity.passive;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
@@ -26,7 +28,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class EntitySheep extends EntityAnimal
+import net.minecraftforge.common.IShearable;
+
+public class EntitySheep extends EntityAnimal implements IShearable
 {
     private final InventoryCrafting field_90016_e = new InventoryCrafting(new ContainerSheep(this), 2, 1);
 
@@ -141,28 +145,6 @@ public class EntitySheep extends EntityAnimal
      */
     public boolean interact(EntityPlayer par1EntityPlayer)
     {
-        ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
-
-        if (var2 != null && var2.itemID == Item.shears.itemID && !this.getSheared() && !this.isChild())
-        {
-            if (!this.worldObj.isRemote)
-            {
-                this.setSheared(true);
-                int var3 = 1 + this.rand.nextInt(3);
-
-                for (int var4 = 0; var4 < var3; ++var4)
-                {
-                    EntityItem var5 = this.entityDropItem(new ItemStack(Block.cloth.blockID, 1, this.getFleeceColor()), 1.0F);
-                    var5.motionY += (double)(this.rand.nextFloat() * 0.05F);
-                    var5.motionX += (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
-                    var5.motionZ += (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
-                }
-            }
-
-            var2.damageItem(1, par1EntityPlayer);
-            this.playSound("mob.sheep.shear", 1.0F, 1.0F);
-        }
-
         return super.interact(par1EntityPlayer);
     }
 
@@ -177,8 +159,8 @@ public class EntitySheep extends EntityAnimal
     {
         if (this.sheepTimer > 4 && this.sheepTimer <= 36)
         {
-            float var2 = ((float)(this.sheepTimer - 4) - par1) / 32.0F;
-            return ((float)Math.PI / 5F) + ((float)Math.PI * 7F / 100F) * MathHelper.sin(var2 * 28.7F);
+            float f1 = ((float)(this.sheepTimer - 4) - par1) / 32.0F;
+            return ((float)Math.PI / 5F) + ((float)Math.PI * 7F / 100F) * MathHelper.sin(f1 * 28.7F);
         }
         else
         {
@@ -245,8 +227,8 @@ public class EntitySheep extends EntityAnimal
 
     public void setFleeceColor(int par1)
     {
-        byte var2 = this.dataWatcher.getWatchableObjectByte(16);
-        this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 & 240 | par1 & 15)));
+        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
+        this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & 240 | par1 & 15)));
     }
 
     /**
@@ -262,15 +244,15 @@ public class EntitySheep extends EntityAnimal
      */
     public void setSheared(boolean par1)
     {
-        byte var2 = this.dataWatcher.getWatchableObjectByte(16);
+        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
 
         if (par1)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 | 16)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 16)));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 & -17)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -17)));
         }
     }
 
@@ -279,17 +261,17 @@ public class EntitySheep extends EntityAnimal
      */
     public static int getRandomFleeceColor(Random par0Random)
     {
-        int var1 = par0Random.nextInt(100);
-        return var1 < 5 ? 15 : (var1 < 10 ? 7 : (var1 < 15 ? 8 : (var1 < 18 ? 12 : (par0Random.nextInt(500) == 0 ? 6 : 0))));
+        int i = par0Random.nextInt(100);
+        return i < 5 ? 15 : (i < 10 ? 7 : (i < 15 ? 8 : (i < 18 ? 12 : (par0Random.nextInt(500) == 0 ? 6 : 0))));
     }
 
     public EntitySheep func_90015_b(EntityAgeable par1EntityAgeable)
     {
-        EntitySheep var2 = (EntitySheep)par1EntityAgeable;
-        EntitySheep var3 = new EntitySheep(this.worldObj);
-        int var4 = this.func_90014_a(this, var2);
-        var3.setFleeceColor(15 - var4);
-        return var3;
+        EntitySheep entitysheep = (EntitySheep)par1EntityAgeable;
+        EntitySheep entitysheep1 = new EntitySheep(this.worldObj);
+        int i = this.func_90014_a(this, entitysheep);
+        entitysheep1.setFleeceColor(15 - i);
+        return entitysheep1;
     }
 
     /**
@@ -315,23 +297,23 @@ public class EntitySheep extends EntityAnimal
 
     private int func_90014_a(EntityAnimal par1EntityAnimal, EntityAnimal par2EntityAnimal)
     {
-        int var3 = this.func_90013_b(par1EntityAnimal);
-        int var4 = this.func_90013_b(par2EntityAnimal);
-        this.field_90016_e.getStackInSlot(0).setItemDamage(var3);
-        this.field_90016_e.getStackInSlot(1).setItemDamage(var4);
-        ItemStack var5 = CraftingManager.getInstance().findMatchingRecipe(this.field_90016_e, ((EntitySheep)par1EntityAnimal).worldObj);
-        int var6;
+        int i = this.func_90013_b(par1EntityAnimal);
+        int j = this.func_90013_b(par2EntityAnimal);
+        this.field_90016_e.getStackInSlot(0).setItemDamage(i);
+        this.field_90016_e.getStackInSlot(1).setItemDamage(j);
+        ItemStack itemstack = CraftingManager.getInstance().findMatchingRecipe(this.field_90016_e, ((EntitySheep)par1EntityAnimal).worldObj);
+        int k;
 
-        if (var5 != null && var5.getItem().itemID == Item.dyePowder.itemID)
+        if (itemstack != null && itemstack.getItem().itemID == Item.dyePowder.itemID)
         {
-            var6 = var5.getItemDamage();
+            k = itemstack.getItemDamage();
         }
         else
         {
-            var6 = this.worldObj.rand.nextBoolean() ? var3 : var4;
+            k = this.worldObj.rand.nextBoolean() ? i : j;
         }
 
-        return var6;
+        return k;
     }
 
     private int func_90013_b(EntityAnimal par1EntityAnimal)
@@ -342,5 +324,25 @@ public class EntitySheep extends EntityAnimal
     public EntityAgeable createChild(EntityAgeable par1EntityAgeable)
     {
         return this.func_90015_b(par1EntityAgeable);
+    }
+
+    @Override
+    public boolean isShearable(ItemStack item, World world, int X, int Y, int Z)
+    {
+        return !getSheared() && !isChild();
+    }
+
+    @Override
+    public ArrayList<ItemStack> onSheared(ItemStack item, World world, int X, int Y, int Z, int fortune)
+    {
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+        setSheared(true);
+        int i = 1 + rand.nextInt(3);
+        for (int j = 0; j < i; j++)
+        {
+            ret.add(new ItemStack(Block.cloth.blockID, 1, getFleeceColor()));
+        }
+        this.worldObj.playSoundAtEntity(this, "mob.sheep.shear", 1.0F, 1.0F);
+        return ret;
     }
 }

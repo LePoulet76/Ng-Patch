@@ -37,8 +37,8 @@ public class ItemLeaves extends ItemBlock
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack par1ItemStack, int par2)
     {
-        int var3 = par1ItemStack.getItemDamage();
-        return (var3 & 1) == 1 ? ColorizerFoliage.getFoliageColorPine() : ((var3 & 2) == 2 ? ColorizerFoliage.getFoliageColorBirch() : ColorizerFoliage.getFoliageColorBasic());
+        int j = par1ItemStack.getItemDamage();
+        return (j & 1) == 1 ? ColorizerFoliage.getFoliageColorPine() : ((j & 2) == 2 ? ColorizerFoliage.getFoliageColorBirch() : ColorizerFoliage.getFoliageColorBasic());
     }
 
     /**
@@ -47,13 +47,13 @@ public class ItemLeaves extends ItemBlock
      */
     public String getUnlocalizedName(ItemStack par1ItemStack)
     {
-        int var2 = par1ItemStack.getItemDamage();
+        int i = par1ItemStack.getItemDamage();
 
-        if (var2 < 0 || var2 >= BlockLeaves.LEAF_TYPES.length)
+        if (i < 0 || i >= BlockLeaves.LEAF_TYPES.length)
         {
-            var2 = 0;
+            i = 0;
         }
 
-        return super.getUnlocalizedName() + "." + BlockLeaves.LEAF_TYPES[var2];
+        return super.getUnlocalizedName() + "." + BlockLeaves.LEAF_TYPES[i];
     }
 }

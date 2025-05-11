@@ -22,8 +22,8 @@ public class ComponentNetherBridgeEnd extends ComponentNetherBridgePiece
 
     public static ComponentNetherBridgeEnd func_74971_a(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
     {
-        StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -3, 0, 5, 10, 8, par5);
-        return isAboveGround(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentNetherBridgeEnd(par6, par1Random, var7, par5) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -3, 0, 5, 10, 8, par5);
+        return isAboveGround(structureboundingbox) && StructureComponent.findIntersecting(par0List, structureboundingbox) == null ? new ComponentNetherBridgeEnd(par6, par1Random, structureboundingbox, par5) : null;
     }
 
     protected void func_143011_b(NBTTagCompound par1NBTTagCompound)
@@ -44,37 +44,37 @@ public class ComponentNetherBridgeEnd extends ComponentNetherBridgePiece
      */
     public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
     {
-        Random var4 = new Random((long)this.fillSeed);
-        int var5;
-        int var6;
-        int var7;
+        Random random1 = new Random((long)this.fillSeed);
+        int i;
+        int j;
+        int k;
 
-        for (var5 = 0; var5 <= 4; ++var5)
+        for (i = 0; i <= 4; ++i)
         {
-            for (var6 = 3; var6 <= 4; ++var6)
+            for (j = 3; j <= 4; ++j)
             {
-                var7 = var4.nextInt(8);
-                this.fillWithBlocks(par1World, par3StructureBoundingBox, var5, var6, 0, var5, var6, var7, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+                k = random1.nextInt(8);
+                this.fillWithBlocks(par1World, par3StructureBoundingBox, i, j, 0, i, j, k, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
             }
         }
 
-        var5 = var4.nextInt(8);
-        this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 5, 0, 0, 5, var5, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-        var5 = var4.nextInt(8);
-        this.fillWithBlocks(par1World, par3StructureBoundingBox, 4, 5, 0, 4, 5, var5, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+        i = random1.nextInt(8);
+        this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 5, 0, 0, 5, i, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+        i = random1.nextInt(8);
+        this.fillWithBlocks(par1World, par3StructureBoundingBox, 4, 5, 0, 4, 5, i, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
 
-        for (var5 = 0; var5 <= 4; ++var5)
+        for (i = 0; i <= 4; ++i)
         {
-            var6 = var4.nextInt(5);
-            this.fillWithBlocks(par1World, par3StructureBoundingBox, var5, 2, 0, var5, 2, var6, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+            j = random1.nextInt(5);
+            this.fillWithBlocks(par1World, par3StructureBoundingBox, i, 2, 0, i, 2, j, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
         }
 
-        for (var5 = 0; var5 <= 4; ++var5)
+        for (i = 0; i <= 4; ++i)
         {
-            for (var6 = 0; var6 <= 1; ++var6)
+            for (j = 0; j <= 1; ++j)
             {
-                var7 = var4.nextInt(3);
-                this.fillWithBlocks(par1World, par3StructureBoundingBox, var5, var6, 0, var5, var6, var7, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+                k = random1.nextInt(3);
+                this.fillWithBlocks(par1World, par3StructureBoundingBox, i, j, 0, i, j, k, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
             }
         }
 

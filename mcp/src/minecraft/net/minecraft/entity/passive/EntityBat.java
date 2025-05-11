@@ -96,15 +96,15 @@ public class EntityBat extends EntityAmbientCreature
 
     public void setIsBatHanging(boolean par1)
     {
-        byte var2 = this.dataWatcher.getWatchableObjectByte(16);
+        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
 
         if (par1)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 | 1)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 1)));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 & -2)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -2)));
         }
     }
 
@@ -171,16 +171,16 @@ public class EntityBat extends EntityAmbientCreature
                 this.currentFlightTarget = new ChunkCoordinates((int)this.posX + this.rand.nextInt(7) - this.rand.nextInt(7), (int)this.posY + this.rand.nextInt(6) - 2, (int)this.posZ + this.rand.nextInt(7) - this.rand.nextInt(7));
             }
 
-            double var1 = (double)this.currentFlightTarget.posX + 0.5D - this.posX;
-            double var3 = (double)this.currentFlightTarget.posY + 0.1D - this.posY;
-            double var5 = (double)this.currentFlightTarget.posZ + 0.5D - this.posZ;
-            this.motionX += (Math.signum(var1) * 0.5D - this.motionX) * 0.10000000149011612D;
-            this.motionY += (Math.signum(var3) * 0.699999988079071D - this.motionY) * 0.10000000149011612D;
-            this.motionZ += (Math.signum(var5) * 0.5D - this.motionZ) * 0.10000000149011612D;
-            float var7 = (float)(Math.atan2(this.motionZ, this.motionX) * 180.0D / Math.PI) - 90.0F;
-            float var8 = MathHelper.wrapAngleTo180_float(var7 - this.rotationYaw);
+            double d0 = (double)this.currentFlightTarget.posX + 0.5D - this.posX;
+            double d1 = (double)this.currentFlightTarget.posY + 0.1D - this.posY;
+            double d2 = (double)this.currentFlightTarget.posZ + 0.5D - this.posZ;
+            this.motionX += (Math.signum(d0) * 0.5D - this.motionX) * 0.10000000149011612D;
+            this.motionY += (Math.signum(d1) * 0.699999988079071D - this.motionY) * 0.10000000149011612D;
+            this.motionZ += (Math.signum(d2) * 0.5D - this.motionZ) * 0.10000000149011612D;
+            float f = (float)(Math.atan2(this.motionZ, this.motionX) * 180.0D / Math.PI) - 90.0F;
+            float f1 = MathHelper.wrapAngleTo180_float(f - this.rotationYaw);
             this.moveForward = 0.5F;
-            this.rotationYaw += var8;
+            this.rotationYaw += f1;
 
             if (this.rand.nextInt(100) == 0 && this.worldObj.isBlockNormalCube(MathHelper.floor_double(this.posX), (int)this.posY + 1, MathHelper.floor_double(this.posZ)))
             {
@@ -260,21 +260,21 @@ public class EntityBat extends EntityAmbientCreature
      */
     public boolean getCanSpawnHere()
     {
-        int var1 = MathHelper.floor_double(this.boundingBox.minY);
+        int i = MathHelper.floor_double(this.boundingBox.minY);
 
-        if (var1 >= 63)
+        if (i >= 63)
         {
             return false;
         }
         else
         {
-            int var2 = MathHelper.floor_double(this.posX);
-            int var3 = MathHelper.floor_double(this.posZ);
-            int var4 = this.worldObj.getBlockLightValue(var2, var1, var3);
-            byte var5 = 4;
-            Calendar var6 = this.worldObj.getCurrentDate();
+            int j = MathHelper.floor_double(this.posX);
+            int k = MathHelper.floor_double(this.posZ);
+            int l = this.worldObj.getBlockLightValue(j, i, k);
+            byte b0 = 4;
+            Calendar calendar = this.worldObj.getCurrentDate();
 
-            if ((var6.get(2) + 1 != 10 || var6.get(5) < 20) && (var6.get(2) + 1 != 11 || var6.get(5) > 3))
+            if ((calendar.get(2) + 1 != 10 || calendar.get(5) < 20) && (calendar.get(2) + 1 != 11 || calendar.get(5) > 3))
             {
                 if (this.rand.nextBoolean())
                 {
@@ -283,10 +283,10 @@ public class EntityBat extends EntityAmbientCreature
             }
             else
             {
-                var5 = 7;
+                b0 = 7;
             }
 
-            return var4 > this.rand.nextInt(var5) ? false : super.getCanSpawnHere();
+            return l > this.rand.nextInt(b0) ? false : super.getCanSpawnHere();
         }
     }
 }

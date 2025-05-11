@@ -21,9 +21,9 @@ class TcpMonitorThread extends Thread
                 this.theTcpConnection.networkShutdown("disconnect.closed", new Object[0]);
             }
         }
-        catch (Exception var2)
+        catch (Exception exception)
         {
-            var2.printStackTrace();
+            exception.printStackTrace();
         }
     }
 }

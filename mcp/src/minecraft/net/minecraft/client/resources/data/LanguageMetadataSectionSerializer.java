@@ -18,48 +18,48 @@ public class LanguageMetadataSectionSerializer extends BaseMetadataSectionSerial
 {
     public LanguageMetadataSection func_135020_a(JsonElement par1JsonElement, Type par2Type, JsonDeserializationContext par3JsonDeserializationContext)
     {
-        JsonObject var4 = par1JsonElement.getAsJsonObject();
-        HashSet var5 = Sets.newHashSet();
-        Iterator var6 = var4.entrySet().iterator();
-        String var8;
-        String var11;
-        String var12;
-        boolean var13;
+        JsonObject jsonobject = par1JsonElement.getAsJsonObject();
+        HashSet hashset = Sets.newHashSet();
+        Iterator iterator = jsonobject.entrySet().iterator();
+        String s;
+        String s1;
+        String s2;
+        boolean flag;
 
         do
         {
-            if (!var6.hasNext())
+            if (!iterator.hasNext())
             {
-                return new LanguageMetadataSection(var5);
+                return new LanguageMetadataSection(hashset);
             }
 
-            Entry var7 = (Entry)var6.next();
-            var8 = (String)var7.getKey();
-            JsonElement var9 = (JsonElement)var7.getValue();
+            Entry entry = (Entry)iterator.next();
+            s = (String)entry.getKey();
+            JsonElement jsonelement1 = (JsonElement)entry.getValue();
 
-            if (!var9.isJsonObject())
+            if (!jsonelement1.isJsonObject())
             {
-                throw new JsonParseException("Invalid language->\'" + var8 + "\': expected object, was " + var9);
+                throw new JsonParseException("Invalid language->\'" + s + "\': expected object, was " + jsonelement1);
             }
 
-            JsonObject var10 = var9.getAsJsonObject();
-            var11 = this.func_110486_a(var10.get("region"), "region", "", 0, Integer.MAX_VALUE);
-            var12 = this.func_110486_a(var10.get("name"), "name", "", 0, Integer.MAX_VALUE);
-            var13 = this.func_110484_a(var10.get("bidirectional"), "bidirectional", Boolean.valueOf(false));
+            JsonObject jsonobject1 = jsonelement1.getAsJsonObject();
+            s1 = this.func_110486_a(jsonobject1.get("region"), "region", "", 0, Integer.MAX_VALUE);
+            s2 = this.func_110486_a(jsonobject1.get("name"), "name", "", 0, Integer.MAX_VALUE);
+            flag = this.func_110484_a(jsonobject1.get("bidirectional"), "bidirectional", Boolean.valueOf(false));
 
-            if (var11.isEmpty())
+            if (s1.isEmpty())
             {
-                throw new JsonParseException("Invalid language->\'" + var8 + "\'->region: empty value");
+                throw new JsonParseException("Invalid language->\'" + s + "\'->region: empty value");
             }
 
-            if (var12.isEmpty())
+            if (s2.isEmpty())
             {
-                throw new JsonParseException("Invalid language->\'" + var8 + "\'->name: empty value");
+                throw new JsonParseException("Invalid language->\'" + s + "\'->name: empty value");
             }
         }
-        while (var5.add(new Language(var8, var11, var12, var13)));
+        while (hashset.add(new Language(s, s1, s2, flag)));
 
-        throw new JsonParseException("Duplicate language->\'" + var8 + "\' defined");
+        throw new JsonParseException("Duplicate language->\'" + s + "\' defined");
     }
 
     /**

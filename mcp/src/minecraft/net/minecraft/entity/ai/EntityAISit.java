@@ -35,8 +35,8 @@ public class EntityAISit extends EntityAIBase
         }
         else
         {
-            EntityLivingBase var1 = this.theEntity.func_130012_q();
-            return var1 == null ? true : (this.theEntity.getDistanceSqToEntity(var1) < 144.0D && var1.getAITarget() != null ? false : this.isSitting);
+            EntityLivingBase entitylivingbase = this.theEntity.func_130012_q();
+            return entitylivingbase == null ? true : (this.theEntity.getDistanceSqToEntity(entitylivingbase) < 144.0D && entitylivingbase.getAITarget() != null ? false : this.isSitting);
         }
     }
 

@@ -54,28 +54,28 @@ public class ItemPotion extends Item
     {
         if (par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey("CustomPotionEffects"))
         {
-            ArrayList var6 = new ArrayList();
-            NBTTagList var3 = par1ItemStack.getTagCompound().getTagList("CustomPotionEffects");
+            ArrayList arraylist = new ArrayList();
+            NBTTagList nbttaglist = par1ItemStack.getTagCompound().getTagList("CustomPotionEffects");
 
-            for (int var4 = 0; var4 < var3.tagCount(); ++var4)
+            for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                NBTTagCompound var5 = (NBTTagCompound)var3.tagAt(var4);
-                var6.add(PotionEffect.readCustomPotionEffectFromNBT(var5));
+                NBTTagCompound nbttagcompound = (NBTTagCompound)nbttaglist.tagAt(i);
+                arraylist.add(PotionEffect.readCustomPotionEffectFromNBT(nbttagcompound));
             }
 
-            return var6;
+            return arraylist;
         }
         else
         {
-            List var2 = (List)this.effectCache.get(Integer.valueOf(par1ItemStack.getItemDamage()));
+            List list = (List)this.effectCache.get(Integer.valueOf(par1ItemStack.getItemDamage()));
 
-            if (var2 == null)
+            if (list == null)
             {
-                var2 = PotionHelper.getPotionEffects(par1ItemStack.getItemDamage(), false);
-                this.effectCache.put(Integer.valueOf(par1ItemStack.getItemDamage()), var2);
+                list = PotionHelper.getPotionEffects(par1ItemStack.getItemDamage(), false);
+                this.effectCache.put(Integer.valueOf(par1ItemStack.getItemDamage()), list);
             }
 
-            return var2;
+            return list;
         }
     }
 
@@ -84,15 +84,15 @@ public class ItemPotion extends Item
      */
     public List getEffects(int par1)
     {
-        List var2 = (List)this.effectCache.get(Integer.valueOf(par1));
+        List list = (List)this.effectCache.get(Integer.valueOf(par1));
 
-        if (var2 == null)
+        if (list == null)
         {
-            var2 = PotionHelper.getPotionEffects(par1, false);
-            this.effectCache.put(Integer.valueOf(par1), var2);
+            list = PotionHelper.getPotionEffects(par1, false);
+            this.effectCache.put(Integer.valueOf(par1), list);
         }
 
-        return var2;
+        return list;
     }
 
     public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
@@ -104,16 +104,16 @@ public class ItemPotion extends Item
 
         if (!par2World.isRemote)
         {
-            List var4 = this.getEffects(par1ItemStack);
+            List list = this.getEffects(par1ItemStack);
 
-            if (var4 != null)
+            if (list != null)
             {
-                Iterator var5 = var4.iterator();
+                Iterator iterator = list.iterator();
 
-                while (var5.hasNext())
+                while (iterator.hasNext())
                 {
-                    PotionEffect var6 = (PotionEffect)var5.next();
-                    par3EntityPlayer.addPotionEffect(new PotionEffect(var6));
+                    PotionEffect potioneffect = (PotionEffect)iterator.next();
+                    par3EntityPlayer.addPotionEffect(new PotionEffect(potioneffect));
                 }
             }
         }
@@ -233,23 +233,23 @@ public class ItemPotion extends Item
     @SideOnly(Side.CLIENT)
     public boolean isEffectInstant(int par1)
     {
-        List var2 = this.getEffects(par1);
+        List list = this.getEffects(par1);
 
-        if (var2 != null && !var2.isEmpty())
+        if (list != null && !list.isEmpty())
         {
-            Iterator var3 = var2.iterator();
-            PotionEffect var4;
+            Iterator iterator = list.iterator();
+            PotionEffect potioneffect;
 
             do
             {
-                if (!var3.hasNext())
+                if (!iterator.hasNext())
                 {
                     return false;
                 }
 
-                var4 = (PotionEffect)var3.next();
+                potioneffect = (PotionEffect)iterator.next();
             }
-            while (!Potion.potionTypes[var4.getPotionID()].isInstant());
+            while (!Potion.potionTypes[potioneffect.getPotionID()].isInstant());
 
             return true;
         }
@@ -267,26 +267,26 @@ public class ItemPotion extends Item
         }
         else
         {
-            String var2 = "";
+            String s = "";
 
             if (isSplash(par1ItemStack.getItemDamage()))
             {
-                var2 = StatCollector.translateToLocal("potion.prefix.grenade").trim() + " ";
+                s = StatCollector.translateToLocal("potion.prefix.grenade").trim() + " ";
             }
 
-            List var3 = Item.potion.getEffects(par1ItemStack);
-            String var4;
+            List list = Item.potion.getEffects(par1ItemStack);
+            String s1;
 
-            if (var3 != null && !var3.isEmpty())
+            if (list != null && !list.isEmpty())
             {
-                var4 = ((PotionEffect)var3.get(0)).getEffectName();
-                var4 = var4 + ".postfix";
-                return var2 + StatCollector.translateToLocal(var4).trim();
+                s1 = ((PotionEffect)list.get(0)).getEffectName();
+                s1 = s1 + ".postfix";
+                return s + StatCollector.translateToLocal(s1).trim();
             }
             else
             {
-                var4 = PotionHelper.func_77905_c(par1ItemStack.getItemDamage());
-                return StatCollector.translateToLocal(var4).trim() + " " + super.getItemDisplayName(par1ItemStack);
+                s1 = PotionHelper.func_77905_c(par1ItemStack.getItemDamage());
+                return StatCollector.translateToLocal(s1).trim() + " " + super.getItemDisplayName(par1ItemStack);
             }
         }
     }
@@ -300,90 +300,90 @@ public class ItemPotion extends Item
     {
         if (par1ItemStack.getItemDamage() != 0)
         {
-            List var5 = Item.potion.getEffects(par1ItemStack);
-            HashMultimap var6 = HashMultimap.create();
-            Iterator var16;
+            List list1 = Item.potion.getEffects(par1ItemStack);
+            HashMultimap hashmultimap = HashMultimap.create();
+            Iterator iterator;
 
-            if (var5 != null && !var5.isEmpty())
+            if (list1 != null && !list1.isEmpty())
             {
-                var16 = var5.iterator();
+                iterator = list1.iterator();
 
-                while (var16.hasNext())
+                while (iterator.hasNext())
                 {
-                    PotionEffect var8 = (PotionEffect)var16.next();
-                    String var9 = StatCollector.translateToLocal(var8.getEffectName()).trim();
-                    Potion var10 = Potion.potionTypes[var8.getPotionID()];
-                    Map var11 = var10.func_111186_k();
+                    PotionEffect potioneffect = (PotionEffect)iterator.next();
+                    String s = StatCollector.translateToLocal(potioneffect.getEffectName()).trim();
+                    Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
+                    Map map = potion.func_111186_k();
 
-                    if (var11 != null && var11.size() > 0)
+                    if (map != null && map.size() > 0)
                     {
-                        Iterator var12 = var11.entrySet().iterator();
+                        Iterator iterator1 = map.entrySet().iterator();
 
-                        while (var12.hasNext())
+                        while (iterator1.hasNext())
                         {
-                            Entry var13 = (Entry)var12.next();
-                            AttributeModifier var14 = (AttributeModifier)var13.getValue();
-                            AttributeModifier var15 = new AttributeModifier(var14.getName(), var10.func_111183_a(var8.getAmplifier(), var14), var14.getOperation());
-                            var6.put(((Attribute)var13.getKey()).getAttributeUnlocalizedName(), var15);
+                            Entry entry = (Entry)iterator1.next();
+                            AttributeModifier attributemodifier = (AttributeModifier)entry.getValue();
+                            AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(), potion.func_111183_a(potioneffect.getAmplifier(), attributemodifier), attributemodifier.getOperation());
+                            hashmultimap.put(((Attribute)entry.getKey()).getAttributeUnlocalizedName(), attributemodifier1);
                         }
                     }
 
-                    if (var8.getAmplifier() > 0)
+                    if (potioneffect.getAmplifier() > 0)
                     {
-                        var9 = var9 + " " + StatCollector.translateToLocal("potion.potency." + var8.getAmplifier()).trim();
+                        s = s + " " + StatCollector.translateToLocal("potion.potency." + potioneffect.getAmplifier()).trim();
                     }
 
-                    if (var8.getDuration() > 20)
+                    if (potioneffect.getDuration() > 20)
                     {
-                        var9 = var9 + " (" + Potion.getDurationString(var8) + ")";
+                        s = s + " (" + Potion.getDurationString(potioneffect) + ")";
                     }
 
-                    if (var10.isBadEffect())
+                    if (potion.isBadEffect())
                     {
-                        par3List.add(EnumChatFormatting.RED + var9);
+                        par3List.add(EnumChatFormatting.RED + s);
                     }
                     else
                     {
-                        par3List.add(EnumChatFormatting.GRAY + var9);
+                        par3List.add(EnumChatFormatting.GRAY + s);
                     }
                 }
             }
             else
             {
-                String var7 = StatCollector.translateToLocal("potion.empty").trim();
-                par3List.add(EnumChatFormatting.GRAY + var7);
+                String s1 = StatCollector.translateToLocal("potion.empty").trim();
+                par3List.add(EnumChatFormatting.GRAY + s1);
             }
 
-            if (!var6.isEmpty())
+            if (!hashmultimap.isEmpty())
             {
                 par3List.add("");
                 par3List.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("potion.effects.whenDrank"));
-                var16 = var6.entries().iterator();
+                iterator = hashmultimap.entries().iterator();
 
-                while (var16.hasNext())
+                while (iterator.hasNext())
                 {
-                    Entry var17 = (Entry)var16.next();
-                    AttributeModifier var19 = (AttributeModifier)var17.getValue();
-                    double var18 = var19.getAmount();
-                    double var20;
+                    Entry entry1 = (Entry)iterator.next();
+                    AttributeModifier attributemodifier2 = (AttributeModifier)entry1.getValue();
+                    double d0 = attributemodifier2.getAmount();
+                    double d1;
 
-                    if (var19.getOperation() != 1 && var19.getOperation() != 2)
+                    if (attributemodifier2.getOperation() != 1 && attributemodifier2.getOperation() != 2)
                     {
-                        var20 = var19.getAmount();
+                        d1 = attributemodifier2.getAmount();
                     }
                     else
                     {
-                        var20 = var19.getAmount() * 100.0D;
+                        d1 = attributemodifier2.getAmount() * 100.0D;
                     }
 
-                    if (var18 > 0.0D)
+                    if (d0 > 0.0D)
                     {
-                        par3List.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted("attribute.modifier.plus." + var19.getOperation(), new Object[] {ItemStack.field_111284_a.format(var20), StatCollector.translateToLocal("attribute.name." + (String)var17.getKey())}));
+                        par3List.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted("attribute.modifier.plus." + attributemodifier2.getOperation(), new Object[] {ItemStack.field_111284_a.format(d1), StatCollector.translateToLocal("attribute.name." + (String)entry1.getKey())}));
                     }
-                    else if (var18 < 0.0D)
+                    else if (d0 < 0.0D)
                     {
-                        var20 *= -1.0D;
-                        par3List.add(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted("attribute.modifier.take." + var19.getOperation(), new Object[] {ItemStack.field_111284_a.format(var20), StatCollector.translateToLocal("attribute.name." + (String)var17.getKey())}));
+                        d1 *= -1.0D;
+                        par3List.add(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted("attribute.modifier.take." + attributemodifier2.getOperation(), new Object[] {ItemStack.field_111284_a.format(d1), StatCollector.translateToLocal("attribute.name." + (String)entry1.getKey())}));
                     }
                 }
             }
@@ -393,8 +393,8 @@ public class ItemPotion extends Item
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack par1ItemStack)
     {
-        List var2 = this.getEffects(par1ItemStack);
-        return var2 != null && !var2.isEmpty();
+        List list = this.getEffects(par1ItemStack);
+        return list != null && !list.isEmpty();
     }
 
     @SideOnly(Side.CLIENT)
@@ -405,58 +405,58 @@ public class ItemPotion extends Item
     public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
         super.getSubItems(par1, par2CreativeTabs, par3List);
-        int var5;
+        int j;
 
         if (field_77835_b.isEmpty())
         {
-            for (int var4 = 0; var4 <= 15; ++var4)
+            for (int k = 0; k <= 15; ++k)
             {
-                for (var5 = 0; var5 <= 1; ++var5)
+                for (j = 0; j <= 1; ++j)
                 {
-                    int var6;
+                    int l;
 
-                    if (var5 == 0)
+                    if (j == 0)
                     {
-                        var6 = var4 | 8192;
+                        l = k | 8192;
                     }
                     else
                     {
-                        var6 = var4 | 16384;
+                        l = k | 16384;
                     }
 
-                    for (int var7 = 0; var7 <= 2; ++var7)
+                    for (int i1 = 0; i1 <= 2; ++i1)
                     {
-                        int var8 = var6;
+                        int j1 = l;
 
-                        if (var7 != 0)
+                        if (i1 != 0)
                         {
-                            if (var7 == 1)
+                            if (i1 == 1)
                             {
-                                var8 = var6 | 32;
+                                j1 = l | 32;
                             }
-                            else if (var7 == 2)
+                            else if (i1 == 2)
                             {
-                                var8 = var6 | 64;
+                                j1 = l | 64;
                             }
                         }
 
-                        List var9 = PotionHelper.getPotionEffects(var8, false);
+                        List list1 = PotionHelper.getPotionEffects(j1, false);
 
-                        if (var9 != null && !var9.isEmpty())
+                        if (list1 != null && !list1.isEmpty())
                         {
-                            field_77835_b.put(var9, Integer.valueOf(var8));
+                            field_77835_b.put(list1, Integer.valueOf(j1));
                         }
                     }
                 }
             }
         }
 
-        Iterator var10 = field_77835_b.values().iterator();
+        Iterator iterator = field_77835_b.values().iterator();
 
-        while (var10.hasNext())
+        while (iterator.hasNext())
         {
-            var5 = ((Integer)var10.next()).intValue();
-            par3List.add(new ItemStack(par1, 1, var5));
+            j = ((Integer)iterator.next()).intValue();
+            par3List.add(new ItemStack(par1, 1, j));
         }
     }
 

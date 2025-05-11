@@ -16,75 +16,75 @@ public class GenLayerShore extends GenLayer
      */
     public int[] getInts(int par1, int par2, int par3, int par4)
     {
-        int[] var5 = this.parent.getInts(par1 - 1, par2 - 1, par3 + 2, par4 + 2);
-        int[] var6 = IntCache.getIntCache(par3 * par4);
+        int[] aint = this.parent.getInts(par1 - 1, par2 - 1, par3 + 2, par4 + 2);
+        int[] aint1 = IntCache.getIntCache(par3 * par4);
 
-        for (int var7 = 0; var7 < par4; ++var7)
+        for (int i1 = 0; i1 < par4; ++i1)
         {
-            for (int var8 = 0; var8 < par3; ++var8)
+            for (int j1 = 0; j1 < par3; ++j1)
             {
-                this.initChunkSeed((long)(var8 + par1), (long)(var7 + par2));
-                int var9 = var5[var8 + 1 + (var7 + 1) * (par3 + 2)];
-                int var10;
-                int var11;
-                int var12;
-                int var13;
+                this.initChunkSeed((long)(j1 + par1), (long)(i1 + par2));
+                int k1 = aint[j1 + 1 + (i1 + 1) * (par3 + 2)];
+                int l1;
+                int i2;
+                int j2;
+                int k2;
 
-                if (var9 == BiomeGenBase.mushroomIsland.biomeID)
+                if (k1 == BiomeGenBase.mushroomIsland.biomeID)
                 {
-                    var10 = var5[var8 + 1 + (var7 + 1 - 1) * (par3 + 2)];
-                    var11 = var5[var8 + 1 + 1 + (var7 + 1) * (par3 + 2)];
-                    var12 = var5[var8 + 1 - 1 + (var7 + 1) * (par3 + 2)];
-                    var13 = var5[var8 + 1 + (var7 + 1 + 1) * (par3 + 2)];
+                    l1 = aint[j1 + 1 + (i1 + 1 - 1) * (par3 + 2)];
+                    i2 = aint[j1 + 1 + 1 + (i1 + 1) * (par3 + 2)];
+                    j2 = aint[j1 + 1 - 1 + (i1 + 1) * (par3 + 2)];
+                    k2 = aint[j1 + 1 + (i1 + 1 + 1) * (par3 + 2)];
 
-                    if (var10 != BiomeGenBase.ocean.biomeID && var11 != BiomeGenBase.ocean.biomeID && var12 != BiomeGenBase.ocean.biomeID && var13 != BiomeGenBase.ocean.biomeID)
+                    if (l1 != BiomeGenBase.ocean.biomeID && i2 != BiomeGenBase.ocean.biomeID && j2 != BiomeGenBase.ocean.biomeID && k2 != BiomeGenBase.ocean.biomeID)
                     {
-                        var6[var8 + var7 * par3] = var9;
+                        aint1[j1 + i1 * par3] = k1;
                     }
                     else
                     {
-                        var6[var8 + var7 * par3] = BiomeGenBase.mushroomIslandShore.biomeID;
+                        aint1[j1 + i1 * par3] = BiomeGenBase.mushroomIslandShore.biomeID;
                     }
                 }
-                else if (var9 != BiomeGenBase.ocean.biomeID && var9 != BiomeGenBase.river.biomeID && var9 != BiomeGenBase.swampland.biomeID && var9 != BiomeGenBase.extremeHills.biomeID)
+                else if (k1 != BiomeGenBase.ocean.biomeID && k1 != BiomeGenBase.river.biomeID && k1 != BiomeGenBase.swampland.biomeID && k1 != BiomeGenBase.extremeHills.biomeID)
                 {
-                    var10 = var5[var8 + 1 + (var7 + 1 - 1) * (par3 + 2)];
-                    var11 = var5[var8 + 1 + 1 + (var7 + 1) * (par3 + 2)];
-                    var12 = var5[var8 + 1 - 1 + (var7 + 1) * (par3 + 2)];
-                    var13 = var5[var8 + 1 + (var7 + 1 + 1) * (par3 + 2)];
+                    l1 = aint[j1 + 1 + (i1 + 1 - 1) * (par3 + 2)];
+                    i2 = aint[j1 + 1 + 1 + (i1 + 1) * (par3 + 2)];
+                    j2 = aint[j1 + 1 - 1 + (i1 + 1) * (par3 + 2)];
+                    k2 = aint[j1 + 1 + (i1 + 1 + 1) * (par3 + 2)];
 
-                    if (var10 != BiomeGenBase.ocean.biomeID && var11 != BiomeGenBase.ocean.biomeID && var12 != BiomeGenBase.ocean.biomeID && var13 != BiomeGenBase.ocean.biomeID)
+                    if (l1 != BiomeGenBase.ocean.biomeID && i2 != BiomeGenBase.ocean.biomeID && j2 != BiomeGenBase.ocean.biomeID && k2 != BiomeGenBase.ocean.biomeID)
                     {
-                        var6[var8 + var7 * par3] = var9;
+                        aint1[j1 + i1 * par3] = k1;
                     }
                     else
                     {
-                        var6[var8 + var7 * par3] = BiomeGenBase.beach.biomeID;
+                        aint1[j1 + i1 * par3] = BiomeGenBase.beach.biomeID;
                     }
                 }
-                else if (var9 == BiomeGenBase.extremeHills.biomeID)
+                else if (k1 == BiomeGenBase.extremeHills.biomeID)
                 {
-                    var10 = var5[var8 + 1 + (var7 + 1 - 1) * (par3 + 2)];
-                    var11 = var5[var8 + 1 + 1 + (var7 + 1) * (par3 + 2)];
-                    var12 = var5[var8 + 1 - 1 + (var7 + 1) * (par3 + 2)];
-                    var13 = var5[var8 + 1 + (var7 + 1 + 1) * (par3 + 2)];
+                    l1 = aint[j1 + 1 + (i1 + 1 - 1) * (par3 + 2)];
+                    i2 = aint[j1 + 1 + 1 + (i1 + 1) * (par3 + 2)];
+                    j2 = aint[j1 + 1 - 1 + (i1 + 1) * (par3 + 2)];
+                    k2 = aint[j1 + 1 + (i1 + 1 + 1) * (par3 + 2)];
 
-                    if (var10 == BiomeGenBase.extremeHills.biomeID && var11 == BiomeGenBase.extremeHills.biomeID && var12 == BiomeGenBase.extremeHills.biomeID && var13 == BiomeGenBase.extremeHills.biomeID)
+                    if (l1 == BiomeGenBase.extremeHills.biomeID && i2 == BiomeGenBase.extremeHills.biomeID && j2 == BiomeGenBase.extremeHills.biomeID && k2 == BiomeGenBase.extremeHills.biomeID)
                     {
-                        var6[var8 + var7 * par3] = var9;
+                        aint1[j1 + i1 * par3] = k1;
                     }
                     else
                     {
-                        var6[var8 + var7 * par3] = BiomeGenBase.extremeHillsEdge.biomeID;
+                        aint1[j1 + i1 * par3] = BiomeGenBase.extremeHillsEdge.biomeID;
                     }
                 }
                 else
                 {
-                    var6[var8 + var7 * par3] = var9;
+                    aint1[j1 + i1 * par3] = k1;
                 }
             }
         }
 
-        return var6;
+        return aint1;
     }
 }

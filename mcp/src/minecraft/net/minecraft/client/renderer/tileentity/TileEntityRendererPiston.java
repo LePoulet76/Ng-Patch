@@ -22,11 +22,11 @@ public class TileEntityRendererPiston extends TileEntitySpecialRenderer
 
     public void renderPiston(TileEntityPiston par1TileEntityPiston, double par2, double par4, double par6, float par8)
     {
-        Block var9 = Block.blocksList[par1TileEntityPiston.getStoredBlockID()];
+        Block block = Block.blocksList[par1TileEntityPiston.getStoredBlockID()];
 
-        if (var9 != null && par1TileEntityPiston.getProgress(par8) < 1.0F)
+        if (block != null && par1TileEntityPiston.getProgress(par8) < 1.0F)
         {
-            Tessellator var10 = Tessellator.instance;
+            Tessellator tessellator = Tessellator.instance;
             this.bindTexture(TextureMap.locationBlocksTexture);
             RenderHelper.disableStandardItemLighting();
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -42,29 +42,29 @@ public class TileEntityRendererPiston extends TileEntitySpecialRenderer
                 GL11.glShadeModel(GL11.GL_FLAT);
             }
 
-            var10.startDrawingQuads();
-            var10.setTranslation((double)((float)par2 - (float)par1TileEntityPiston.xCoord + par1TileEntityPiston.getOffsetX(par8)), (double)((float)par4 - (float)par1TileEntityPiston.yCoord + par1TileEntityPiston.getOffsetY(par8)), (double)((float)par6 - (float)par1TileEntityPiston.zCoord + par1TileEntityPiston.getOffsetZ(par8)));
-            var10.setColorOpaque(1, 1, 1);
+            tessellator.startDrawingQuads();
+            tessellator.setTranslation((double)((float)par2 - (float)par1TileEntityPiston.xCoord + par1TileEntityPiston.getOffsetX(par8)), (double)((float)par4 - (float)par1TileEntityPiston.yCoord + par1TileEntityPiston.getOffsetY(par8)), (double)((float)par6 - (float)par1TileEntityPiston.zCoord + par1TileEntityPiston.getOffsetZ(par8)));
+            tessellator.setColorOpaque(1, 1, 1);
 
-            if (var9 == Block.pistonExtension && par1TileEntityPiston.getProgress(par8) < 0.5F)
+            if (block == Block.pistonExtension && par1TileEntityPiston.getProgress(par8) < 0.5F)
             {
-                this.blockRenderer.renderPistonExtensionAllFaces(var9, par1TileEntityPiston.xCoord, par1TileEntityPiston.yCoord, par1TileEntityPiston.zCoord, false);
+                this.blockRenderer.renderPistonExtensionAllFaces(block, par1TileEntityPiston.xCoord, par1TileEntityPiston.yCoord, par1TileEntityPiston.zCoord, false);
             }
             else if (par1TileEntityPiston.shouldRenderHead() && !par1TileEntityPiston.isExtending())
             {
-                Block.pistonExtension.setHeadTexture(((BlockPistonBase)var9).getPistonExtensionTexture());
+                Block.pistonExtension.setHeadTexture(((BlockPistonBase)block).getPistonExtensionTexture());
                 this.blockRenderer.renderPistonExtensionAllFaces(Block.pistonExtension, par1TileEntityPiston.xCoord, par1TileEntityPiston.yCoord, par1TileEntityPiston.zCoord, par1TileEntityPiston.getProgress(par8) < 0.5F);
                 Block.pistonExtension.clearHeadTexture();
-                var10.setTranslation((double)((float)par2 - (float)par1TileEntityPiston.xCoord), (double)((float)par4 - (float)par1TileEntityPiston.yCoord), (double)((float)par6 - (float)par1TileEntityPiston.zCoord));
-                this.blockRenderer.renderPistonBaseAllFaces(var9, par1TileEntityPiston.xCoord, par1TileEntityPiston.yCoord, par1TileEntityPiston.zCoord);
+                tessellator.setTranslation((double)((float)par2 - (float)par1TileEntityPiston.xCoord), (double)((float)par4 - (float)par1TileEntityPiston.yCoord), (double)((float)par6 - (float)par1TileEntityPiston.zCoord));
+                this.blockRenderer.renderPistonBaseAllFaces(block, par1TileEntityPiston.xCoord, par1TileEntityPiston.yCoord, par1TileEntityPiston.zCoord);
             }
             else
             {
-                this.blockRenderer.renderBlockAllFaces(var9, par1TileEntityPiston.xCoord, par1TileEntityPiston.yCoord, par1TileEntityPiston.zCoord);
+                this.blockRenderer.renderBlockAllFaces(block, par1TileEntityPiston.xCoord, par1TileEntityPiston.yCoord, par1TileEntityPiston.zCoord);
             }
 
-            var10.setTranslation(0.0D, 0.0D, 0.0D);
-            var10.draw();
+            tessellator.setTranslation(0.0D, 0.0D, 0.0D);
+            tessellator.draw();
             RenderHelper.enableStandardItemLighting();
         }
     }

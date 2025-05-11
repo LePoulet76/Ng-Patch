@@ -244,20 +244,20 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected ScoreObjective getScoreObjective(String par1Str, boolean par2)
     {
-        Scoreboard var3 = this.getScoreboardFromWorldServer();
-        ScoreObjective var4 = var3.getObjective(par1Str);
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
+        ScoreObjective scoreobjective = scoreboard.getObjective(par1Str);
 
-        if (var4 == null)
+        if (scoreobjective == null)
         {
             throw new CommandException("commands.scoreboard.objectiveNotFound", new Object[] {par1Str});
         }
-        else if (par2 && var4.getCriteria().isReadOnly())
+        else if (par2 && scoreobjective.getCriteria().isReadOnly())
         {
             throw new CommandException("commands.scoreboard.objectiveReadOnly", new Object[] {par1Str});
         }
         else
         {
-            return var4;
+            return scoreobjective;
         }
     }
 
@@ -266,16 +266,16 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected ScorePlayerTeam getTeam(String par1Str)
     {
-        Scoreboard var2 = this.getScoreboardFromWorldServer();
-        ScorePlayerTeam var3 = var2.func_96508_e(par1Str);
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
+        ScorePlayerTeam scoreplayerteam = scoreboard.func_96508_e(par1Str);
 
-        if (var3 == null)
+        if (scoreplayerteam == null)
         {
             throw new CommandException("commands.scoreboard.teamNotFound", new Object[] {par1Str});
         }
         else
         {
-            return var3;
+            return scoreplayerteam;
         }
     }
 
@@ -284,25 +284,25 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void addObjective(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, int par3)
     {
-        String var4 = par2ArrayOfStr[par3++];
-        String var5 = par2ArrayOfStr[par3++];
-        Scoreboard var6 = this.getScoreboardFromWorldServer();
-        ScoreObjectiveCriteria var7 = (ScoreObjectiveCriteria)ScoreObjectiveCriteria.field_96643_a.get(var5);
+        String s = par2ArrayOfStr[par3++];
+        String s1 = par2ArrayOfStr[par3++];
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
+        ScoreObjectiveCriteria scoreobjectivecriteria = (ScoreObjectiveCriteria)ScoreObjectiveCriteria.field_96643_a.get(s1);
 
-        if (var7 == null)
+        if (scoreobjectivecriteria == null)
         {
-            String[] var9 = (String[])ScoreObjectiveCriteria.field_96643_a.keySet().toArray(new String[0]);
-            throw new WrongUsageException("commands.scoreboard.objectives.add.wrongType", new Object[] {joinNiceString(var9)});
+            String[] astring1 = (String[])ScoreObjectiveCriteria.field_96643_a.keySet().toArray(new String[0]);
+            throw new WrongUsageException("commands.scoreboard.objectives.add.wrongType", new Object[] {joinNiceString(astring1)});
         }
-        else if (var6.getObjective(var4) != null)
+        else if (scoreboard.getObjective(s) != null)
         {
-            throw new CommandException("commands.scoreboard.objectives.add.alreadyExists", new Object[] {var4});
+            throw new CommandException("commands.scoreboard.objectives.add.alreadyExists", new Object[] {s});
         }
-        else if (var4.length() > 16)
+        else if (s.length() > 16)
         {
-            throw new SyntaxErrorException("commands.scoreboard.objectives.add.tooLong", new Object[] {var4, Integer.valueOf(16)});
+            throw new SyntaxErrorException("commands.scoreboard.objectives.add.tooLong", new Object[] {s, Integer.valueOf(16)});
         }
-        else if (var4.length() == 0)
+        else if (s.length() == 0)
         {
             throw new WrongUsageException("commands.scoreboard.objectives.add.usage", new Object[0]);
         }
@@ -310,28 +310,28 @@ public class ServerCommandScoreboard extends CommandBase
         {
             if (par2ArrayOfStr.length > par3)
             {
-                String var8 = func_82360_a(par1ICommandSender, par2ArrayOfStr, par3);
+                String s2 = func_82360_a(par1ICommandSender, par2ArrayOfStr, par3);
 
-                if (var8.length() > 32)
+                if (s2.length() > 32)
                 {
-                    throw new SyntaxErrorException("commands.scoreboard.objectives.add.displayTooLong", new Object[] {var8, Integer.valueOf(32)});
+                    throw new SyntaxErrorException("commands.scoreboard.objectives.add.displayTooLong", new Object[] {s2, Integer.valueOf(32)});
                 }
 
-                if (var8.length() > 0)
+                if (s2.length() > 0)
                 {
-                    var6.func_96535_a(var4, var7).setDisplayName(var8);
+                    scoreboard.func_96535_a(s, scoreobjectivecriteria).setDisplayName(s2);
                 }
                 else
                 {
-                    var6.func_96535_a(var4, var7);
+                    scoreboard.func_96535_a(s, scoreobjectivecriteria);
                 }
             }
             else
             {
-                var6.func_96535_a(var4, var7);
+                scoreboard.func_96535_a(s, scoreobjectivecriteria);
             }
 
-            notifyAdmins(par1ICommandSender, "commands.scoreboard.objectives.add.success", new Object[] {var4});
+            notifyAdmins(par1ICommandSender, "commands.scoreboard.objectives.add.success", new Object[] {s});
         }
     }
 
@@ -340,18 +340,18 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void addTeam(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, int par3)
     {
-        String var4 = par2ArrayOfStr[par3++];
-        Scoreboard var5 = this.getScoreboardFromWorldServer();
+        String s = par2ArrayOfStr[par3++];
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
 
-        if (var5.func_96508_e(var4) != null)
+        if (scoreboard.func_96508_e(s) != null)
         {
-            throw new CommandException("commands.scoreboard.teams.add.alreadyExists", new Object[] {var4});
+            throw new CommandException("commands.scoreboard.teams.add.alreadyExists", new Object[] {s});
         }
-        else if (var4.length() > 16)
+        else if (s.length() > 16)
         {
-            throw new SyntaxErrorException("commands.scoreboard.teams.add.tooLong", new Object[] {var4, Integer.valueOf(16)});
+            throw new SyntaxErrorException("commands.scoreboard.teams.add.tooLong", new Object[] {s, Integer.valueOf(16)});
         }
-        else if (var4.length() == 0)
+        else if (s.length() == 0)
         {
             throw new WrongUsageException("commands.scoreboard.teams.add.usage", new Object[0]);
         }
@@ -359,28 +359,28 @@ public class ServerCommandScoreboard extends CommandBase
         {
             if (par2ArrayOfStr.length > par3)
             {
-                String var6 = func_82360_a(par1ICommandSender, par2ArrayOfStr, par3);
+                String s1 = func_82360_a(par1ICommandSender, par2ArrayOfStr, par3);
 
-                if (var6.length() > 32)
+                if (s1.length() > 32)
                 {
-                    throw new SyntaxErrorException("commands.scoreboard.teams.add.displayTooLong", new Object[] {var6, Integer.valueOf(32)});
+                    throw new SyntaxErrorException("commands.scoreboard.teams.add.displayTooLong", new Object[] {s1, Integer.valueOf(32)});
                 }
 
-                if (var6.length() > 0)
+                if (s1.length() > 0)
                 {
-                    var5.createTeam(var4).setTeamName(var6);
+                    scoreboard.createTeam(s).setTeamName(s1);
                 }
                 else
                 {
-                    var5.createTeam(var4);
+                    scoreboard.createTeam(s);
                 }
             }
             else
             {
-                var5.createTeam(var4);
+                scoreboard.createTeam(s);
             }
 
-            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.add.success", new Object[] {var4});
+            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.add.success", new Object[] {s});
         }
     }
 
@@ -389,64 +389,64 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void setTeamOption(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, int par3)
     {
-        ScorePlayerTeam var4 = this.getTeam(par2ArrayOfStr[par3++]);
-        String var5 = par2ArrayOfStr[par3++].toLowerCase();
+        ScorePlayerTeam scoreplayerteam = this.getTeam(par2ArrayOfStr[par3++]);
+        String s = par2ArrayOfStr[par3++].toLowerCase();
 
-        if (!var5.equalsIgnoreCase("color") && !var5.equalsIgnoreCase("friendlyfire") && !var5.equalsIgnoreCase("seeFriendlyInvisibles"))
+        if (!s.equalsIgnoreCase("color") && !s.equalsIgnoreCase("friendlyfire") && !s.equalsIgnoreCase("seeFriendlyInvisibles"))
         {
             throw new WrongUsageException("commands.scoreboard.teams.option.usage", new Object[0]);
         }
         else if (par2ArrayOfStr.length == 4)
         {
-            if (var5.equalsIgnoreCase("color"))
+            if (s.equalsIgnoreCase("color"))
             {
-                throw new WrongUsageException("commands.scoreboard.teams.option.noValue", new Object[] {var5, func_96333_a(EnumChatFormatting.func_96296_a(true, false))});
+                throw new WrongUsageException("commands.scoreboard.teams.option.noValue", new Object[] {s, func_96333_a(EnumChatFormatting.func_96296_a(true, false))});
             }
-            else if (!var5.equalsIgnoreCase("friendlyfire") && !var5.equalsIgnoreCase("seeFriendlyInvisibles"))
+            else if (!s.equalsIgnoreCase("friendlyfire") && !s.equalsIgnoreCase("seeFriendlyInvisibles"))
             {
                 throw new WrongUsageException("commands.scoreboard.teams.option.usage", new Object[0]);
             }
             else
             {
-                throw new WrongUsageException("commands.scoreboard.teams.option.noValue", new Object[] {var5, func_96333_a(Arrays.asList(new String[]{"true", "false"}))});
+                throw new WrongUsageException("commands.scoreboard.teams.option.noValue", new Object[] {s, func_96333_a(Arrays.asList(new String[]{"true", "false"}))});
             }
         }
         else
         {
-            String var6 = par2ArrayOfStr[par3++];
+            String s1 = par2ArrayOfStr[par3++];
 
-            if (var5.equalsIgnoreCase("color"))
+            if (s.equalsIgnoreCase("color"))
             {
-                EnumChatFormatting var7 = EnumChatFormatting.func_96300_b(var6);
+                EnumChatFormatting enumchatformatting = EnumChatFormatting.func_96300_b(s1);
 
-                if (var6 == null)
+                if (s1 == null)
                 {
-                    throw new WrongUsageException("commands.scoreboard.teams.option.noValue", new Object[] {var5, func_96333_a(EnumChatFormatting.func_96296_a(true, false))});
+                    throw new WrongUsageException("commands.scoreboard.teams.option.noValue", new Object[] {s, func_96333_a(EnumChatFormatting.func_96296_a(true, false))});
                 }
 
-                var4.setNamePrefix(var7.toString());
-                var4.setNameSuffix(EnumChatFormatting.RESET.toString());
+                scoreplayerteam.setNamePrefix(enumchatformatting.toString());
+                scoreplayerteam.setNameSuffix(EnumChatFormatting.RESET.toString());
             }
-            else if (var5.equalsIgnoreCase("friendlyfire"))
+            else if (s.equalsIgnoreCase("friendlyfire"))
             {
-                if (!var6.equalsIgnoreCase("true") && !var6.equalsIgnoreCase("false"))
+                if (!s1.equalsIgnoreCase("true") && !s1.equalsIgnoreCase("false"))
                 {
-                    throw new WrongUsageException("commands.scoreboard.teams.option.noValue", new Object[] {var5, func_96333_a(Arrays.asList(new String[]{"true", "false"}))});
+                    throw new WrongUsageException("commands.scoreboard.teams.option.noValue", new Object[] {s, func_96333_a(Arrays.asList(new String[]{"true", "false"}))});
                 }
 
-                var4.setAllowFriendlyFire(var6.equalsIgnoreCase("true"));
+                scoreplayerteam.setAllowFriendlyFire(s1.equalsIgnoreCase("true"));
             }
-            else if (var5.equalsIgnoreCase("seeFriendlyInvisibles"))
+            else if (s.equalsIgnoreCase("seeFriendlyInvisibles"))
             {
-                if (!var6.equalsIgnoreCase("true") && !var6.equalsIgnoreCase("false"))
+                if (!s1.equalsIgnoreCase("true") && !s1.equalsIgnoreCase("false"))
                 {
-                    throw new WrongUsageException("commands.scoreboard.teams.option.noValue", new Object[] {var5, func_96333_a(Arrays.asList(new String[]{"true", "false"}))});
+                    throw new WrongUsageException("commands.scoreboard.teams.option.noValue", new Object[] {s, func_96333_a(Arrays.asList(new String[]{"true", "false"}))});
                 }
 
-                var4.setSeeFriendlyInvisiblesEnabled(var6.equalsIgnoreCase("true"));
+                scoreplayerteam.setSeeFriendlyInvisiblesEnabled(s1.equalsIgnoreCase("true"));
             }
 
-            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.option.success", new Object[] {var5, var4.func_96661_b(), var6});
+            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.option.success", new Object[] {s, scoreplayerteam.func_96661_b(), s1});
         }
     }
 
@@ -455,10 +455,10 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void removeTeam(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, int par3)
     {
-        Scoreboard var4 = this.getScoreboardFromWorldServer();
-        ScorePlayerTeam var5 = this.getTeam(par2ArrayOfStr[par3++]);
-        var4.func_96511_d(var5);
-        notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.remove.success", new Object[] {var5.func_96661_b()});
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
+        ScorePlayerTeam scoreplayerteam = this.getTeam(par2ArrayOfStr[par3++]);
+        scoreboard.func_96511_d(scoreplayerteam);
+        notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.remove.success", new Object[] {scoreplayerteam.func_96661_b()});
     }
 
     /**
@@ -466,37 +466,37 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void getTeamList(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, int par3)
     {
-        Scoreboard var4 = this.getScoreboardFromWorldServer();
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
 
         if (par2ArrayOfStr.length > par3)
         {
-            ScorePlayerTeam var5 = this.getTeam(par2ArrayOfStr[par3++]);
-            Collection var6 = var5.getMembershipCollection();
+            ScorePlayerTeam scoreplayerteam = this.getTeam(par2ArrayOfStr[par3++]);
+            Collection collection = scoreplayerteam.getMembershipCollection();
 
-            if (var6.size() <= 0)
+            if (collection.size() <= 0)
             {
-                throw new CommandException("commands.scoreboard.teams.list.player.empty", new Object[] {var5.func_96661_b()});
+                throw new CommandException("commands.scoreboard.teams.list.player.empty", new Object[] {scoreplayerteam.func_96661_b()});
             }
 
-            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.teams.list.player.count", new Object[] {Integer.valueOf(var6.size()), var5.func_96661_b()}).setColor(EnumChatFormatting.DARK_GREEN));
-            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromText(joinNiceString(var6.toArray())));
+            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.teams.list.player.count", new Object[] {Integer.valueOf(collection.size()), scoreplayerteam.func_96661_b()}).setColor(EnumChatFormatting.DARK_GREEN));
+            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromText(joinNiceString(collection.toArray())));
         }
         else
         {
-            Collection var8 = var4.func_96525_g();
+            Collection collection1 = scoreboard.func_96525_g();
 
-            if (var8.size() <= 0)
+            if (collection1.size() <= 0)
             {
                 throw new CommandException("commands.scoreboard.teams.list.empty", new Object[0]);
             }
 
-            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.teams.list.count", new Object[] {Integer.valueOf(var8.size())}).setColor(EnumChatFormatting.DARK_GREEN));
-            Iterator var9 = var8.iterator();
+            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.teams.list.count", new Object[] {Integer.valueOf(collection1.size())}).setColor(EnumChatFormatting.DARK_GREEN));
+            Iterator iterator = collection1.iterator();
 
-            while (var9.hasNext())
+            while (iterator.hasNext())
             {
-                ScorePlayerTeam var7 = (ScorePlayerTeam)var9.next();
-                par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.teams.list.entry", new Object[] {var7.func_96661_b(), var7.func_96669_c(), Integer.valueOf(var7.getMembershipCollection().size())}));
+                ScorePlayerTeam scoreplayerteam1 = (ScorePlayerTeam)iterator.next();
+                par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.teams.list.entry", new Object[] {scoreplayerteam1.func_96661_b(), scoreplayerteam1.func_96669_c(), Integer.valueOf(scoreplayerteam1.getMembershipCollection().size())}));
             }
         }
     }
@@ -506,30 +506,30 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void joinTeam(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, int par3)
     {
-        Scoreboard var4 = this.getScoreboardFromWorldServer();
-        ScorePlayerTeam var5 = var4.func_96508_e(par2ArrayOfStr[par3++]);
-        HashSet var6 = new HashSet();
-        String var7;
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
+        ScorePlayerTeam scoreplayerteam = scoreboard.func_96508_e(par2ArrayOfStr[par3++]);
+        HashSet hashset = new HashSet();
+        String s;
 
         if (par1ICommandSender instanceof EntityPlayer && par3 == par2ArrayOfStr.length)
         {
-            var7 = getCommandSenderAsPlayer(par1ICommandSender).getEntityName();
-            var4.addPlayerToTeam(var7, var5);
-            var6.add(var7);
+            s = getCommandSenderAsPlayer(par1ICommandSender).getEntityName();
+            scoreboard.addPlayerToTeam(s, scoreplayerteam);
+            hashset.add(s);
         }
         else
         {
             while (par3 < par2ArrayOfStr.length)
             {
-                var7 = func_96332_d(par1ICommandSender, par2ArrayOfStr[par3++]);
-                var4.addPlayerToTeam(var7, var5);
-                var6.add(var7);
+                s = func_96332_d(par1ICommandSender, par2ArrayOfStr[par3++]);
+                scoreboard.addPlayerToTeam(s, scoreplayerteam);
+                hashset.add(s);
             }
         }
 
-        if (!var6.isEmpty())
+        if (!hashset.isEmpty())
         {
-            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.join.success", new Object[] {Integer.valueOf(var6.size()), var5.func_96661_b(), joinNiceString(var6.toArray(new String[0]))});
+            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.join.success", new Object[] {Integer.valueOf(hashset.size()), scoreplayerteam.func_96661_b(), joinNiceString(hashset.toArray(new String[0]))});
         }
     }
 
@@ -538,49 +538,49 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void leaveTeam(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, int par3)
     {
-        Scoreboard var4 = this.getScoreboardFromWorldServer();
-        HashSet var5 = new HashSet();
-        HashSet var6 = new HashSet();
-        String var7;
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
+        HashSet hashset = new HashSet();
+        HashSet hashset1 = new HashSet();
+        String s;
 
         if (par1ICommandSender instanceof EntityPlayer && par3 == par2ArrayOfStr.length)
         {
-            var7 = getCommandSenderAsPlayer(par1ICommandSender).getEntityName();
+            s = getCommandSenderAsPlayer(par1ICommandSender).getEntityName();
 
-            if (var4.removePlayerFromTeams(var7))
+            if (scoreboard.removePlayerFromTeams(s))
             {
-                var5.add(var7);
+                hashset.add(s);
             }
             else
             {
-                var6.add(var7);
+                hashset1.add(s);
             }
         }
         else
         {
             while (par3 < par2ArrayOfStr.length)
             {
-                var7 = func_96332_d(par1ICommandSender, par2ArrayOfStr[par3++]);
+                s = func_96332_d(par1ICommandSender, par2ArrayOfStr[par3++]);
 
-                if (var4.removePlayerFromTeams(var7))
+                if (scoreboard.removePlayerFromTeams(s))
                 {
-                    var5.add(var7);
+                    hashset.add(s);
                 }
                 else
                 {
-                    var6.add(var7);
+                    hashset1.add(s);
                 }
             }
         }
 
-        if (!var5.isEmpty())
+        if (!hashset.isEmpty())
         {
-            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.leave.success", new Object[] {Integer.valueOf(var5.size()), joinNiceString(var5.toArray(new String[0]))});
+            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.leave.success", new Object[] {Integer.valueOf(hashset.size()), joinNiceString(hashset.toArray(new String[0]))});
         }
 
-        if (!var6.isEmpty())
+        if (!hashset1.isEmpty())
         {
-            throw new CommandException("commands.scoreboard.teams.leave.failure", new Object[] {Integer.valueOf(var6.size()), joinNiceString(var6.toArray(new String[0]))});
+            throw new CommandException("commands.scoreboard.teams.leave.failure", new Object[] {Integer.valueOf(hashset1.size()), joinNiceString(hashset1.toArray(new String[0]))});
         }
     }
 
@@ -589,25 +589,25 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void emptyTeam(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, int par3)
     {
-        Scoreboard var4 = this.getScoreboardFromWorldServer();
-        ScorePlayerTeam var5 = this.getTeam(par2ArrayOfStr[par3++]);
-        ArrayList var6 = new ArrayList(var5.getMembershipCollection());
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
+        ScorePlayerTeam scoreplayerteam = this.getTeam(par2ArrayOfStr[par3++]);
+        ArrayList arraylist = new ArrayList(scoreplayerteam.getMembershipCollection());
 
-        if (var6.isEmpty())
+        if (arraylist.isEmpty())
         {
-            throw new CommandException("commands.scoreboard.teams.empty.alreadyEmpty", new Object[] {var5.func_96661_b()});
+            throw new CommandException("commands.scoreboard.teams.empty.alreadyEmpty", new Object[] {scoreplayerteam.func_96661_b()});
         }
         else
         {
-            Iterator var7 = var6.iterator();
+            Iterator iterator = arraylist.iterator();
 
-            while (var7.hasNext())
+            while (iterator.hasNext())
             {
-                String var8 = (String)var7.next();
-                var4.removePlayerFromTeam(var8, var5);
+                String s = (String)iterator.next();
+                scoreboard.removePlayerFromTeam(s, scoreplayerteam);
             }
 
-            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.empty.success", new Object[] {Integer.valueOf(var6.size()), var5.func_96661_b()});
+            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.empty.success", new Object[] {Integer.valueOf(arraylist.size()), scoreplayerteam.func_96661_b()});
         }
     }
 
@@ -616,9 +616,9 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void removeObjective(ICommandSender par1ICommandSender, String par2Str)
     {
-        Scoreboard var3 = this.getScoreboardFromWorldServer();
-        ScoreObjective var4 = this.getScoreObjective(par2Str, false);
-        var3.func_96519_k(var4);
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
+        ScoreObjective scoreobjective = this.getScoreObjective(par2Str, false);
+        scoreboard.func_96519_k(scoreobjective);
         notifyAdmins(par1ICommandSender, "commands.scoreboard.objectives.remove.success", new Object[] {par2Str});
     }
 
@@ -627,22 +627,22 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void getObjectivesList(ICommandSender par1ICommandSender)
     {
-        Scoreboard var2 = this.getScoreboardFromWorldServer();
-        Collection var3 = var2.getScoreObjectives();
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
+        Collection collection = scoreboard.getScoreObjectives();
 
-        if (var3.size() <= 0)
+        if (collection.size() <= 0)
         {
             throw new CommandException("commands.scoreboard.objectives.list.empty", new Object[0]);
         }
         else
         {
-            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.objectives.list.count", new Object[] {Integer.valueOf(var3.size())}).setColor(EnumChatFormatting.DARK_GREEN));
-            Iterator var4 = var3.iterator();
+            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.objectives.list.count", new Object[] {Integer.valueOf(collection.size())}).setColor(EnumChatFormatting.DARK_GREEN));
+            Iterator iterator = collection.iterator();
 
-            while (var4.hasNext())
+            while (iterator.hasNext())
             {
-                ScoreObjective var5 = (ScoreObjective)var4.next();
-                par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.objectives.list.entry", new Object[] {var5.getName(), var5.getDisplayName(), var5.getCriteria().func_96636_a()}));
+                ScoreObjective scoreobjective = (ScoreObjective)iterator.next();
+                par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.objectives.list.entry", new Object[] {scoreobjective.getName(), scoreobjective.getDisplayName(), scoreobjective.getCriteria().func_96636_a()}));
             }
         }
     }
@@ -652,31 +652,31 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void setObjectivesDisplay(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, int par3)
     {
-        Scoreboard var4 = this.getScoreboardFromWorldServer();
-        String var5 = par2ArrayOfStr[par3++];
-        int var6 = Scoreboard.getObjectiveDisplaySlotNumber(var5);
-        ScoreObjective var7 = null;
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
+        String s = par2ArrayOfStr[par3++];
+        int j = Scoreboard.getObjectiveDisplaySlotNumber(s);
+        ScoreObjective scoreobjective = null;
 
         if (par2ArrayOfStr.length == 4)
         {
-            var7 = this.getScoreObjective(par2ArrayOfStr[par3++], false);
+            scoreobjective = this.getScoreObjective(par2ArrayOfStr[par3++], false);
         }
 
-        if (var6 < 0)
+        if (j < 0)
         {
-            throw new CommandException("commands.scoreboard.objectives.setdisplay.invalidSlot", new Object[] {var5});
+            throw new CommandException("commands.scoreboard.objectives.setdisplay.invalidSlot", new Object[] {s});
         }
         else
         {
-            var4.func_96530_a(var6, var7);
+            scoreboard.func_96530_a(j, scoreobjective);
 
-            if (var7 != null)
+            if (scoreobjective != null)
             {
-                notifyAdmins(par1ICommandSender, "commands.scoreboard.objectives.setdisplay.successSet", new Object[] {Scoreboard.getObjectiveDisplaySlot(var6), var7.getName()});
+                notifyAdmins(par1ICommandSender, "commands.scoreboard.objectives.setdisplay.successSet", new Object[] {Scoreboard.getObjectiveDisplaySlot(j), scoreobjective.getName()});
             }
             else
             {
-                notifyAdmins(par1ICommandSender, "commands.scoreboard.objectives.setdisplay.successCleared", new Object[] {Scoreboard.getObjectiveDisplaySlot(var6)});
+                notifyAdmins(par1ICommandSender, "commands.scoreboard.objectives.setdisplay.successCleared", new Object[] {Scoreboard.getObjectiveDisplaySlot(j)});
             }
         }
     }
@@ -686,38 +686,38 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void listPlayers(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, int par3)
     {
-        Scoreboard var4 = this.getScoreboardFromWorldServer();
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
 
         if (par2ArrayOfStr.length > par3)
         {
-            String var5 = func_96332_d(par1ICommandSender, par2ArrayOfStr[par3++]);
-            Map var6 = var4.func_96510_d(var5);
+            String s = func_96332_d(par1ICommandSender, par2ArrayOfStr[par3++]);
+            Map map = scoreboard.func_96510_d(s);
 
-            if (var6.size() <= 0)
+            if (map.size() <= 0)
             {
-                throw new CommandException("commands.scoreboard.players.list.player.empty", new Object[] {var5});
+                throw new CommandException("commands.scoreboard.players.list.player.empty", new Object[] {s});
             }
 
-            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.players.list.player.count", new Object[] {Integer.valueOf(var6.size()), var5}).setColor(EnumChatFormatting.DARK_GREEN));
-            Iterator var7 = var6.values().iterator();
+            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.players.list.player.count", new Object[] {Integer.valueOf(map.size()), s}).setColor(EnumChatFormatting.DARK_GREEN));
+            Iterator iterator = map.values().iterator();
 
-            while (var7.hasNext())
+            while (iterator.hasNext())
             {
-                Score var8 = (Score)var7.next();
-                par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.players.list.player.entry", new Object[] {Integer.valueOf(var8.getScorePoints()), var8.func_96645_d().getDisplayName(), var8.func_96645_d().getName()}));
+                Score score = (Score)iterator.next();
+                par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.players.list.player.entry", new Object[] {Integer.valueOf(score.getScorePoints()), score.func_96645_d().getDisplayName(), score.func_96645_d().getName()}));
             }
         }
         else
         {
-            Collection var9 = var4.getObjectiveNames();
+            Collection collection = scoreboard.getObjectiveNames();
 
-            if (var9.size() <= 0)
+            if (collection.size() <= 0)
             {
                 throw new CommandException("commands.scoreboard.players.list.empty", new Object[0]);
             }
 
-            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.players.list.count", new Object[] {Integer.valueOf(var9.size())}).setColor(EnumChatFormatting.DARK_GREEN));
-            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromText(joinNiceString(var9.toArray())));
+            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.scoreboard.players.list.count", new Object[] {Integer.valueOf(collection.size())}).setColor(EnumChatFormatting.DARK_GREEN));
+            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromText(joinNiceString(collection.toArray())));
         }
     }
 
@@ -726,27 +726,27 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void setPlayerScore(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, int par3)
     {
-        String var4 = par2ArrayOfStr[par3 - 1];
-        String var5 = func_96332_d(par1ICommandSender, par2ArrayOfStr[par3++]);
-        ScoreObjective var6 = this.getScoreObjective(par2ArrayOfStr[par3++], true);
-        int var7 = var4.equalsIgnoreCase("set") ? parseInt(par1ICommandSender, par2ArrayOfStr[par3++]) : parseIntWithMin(par1ICommandSender, par2ArrayOfStr[par3++], 1);
-        Scoreboard var8 = this.getScoreboardFromWorldServer();
-        Score var9 = var8.func_96529_a(var5, var6);
+        String s = par2ArrayOfStr[par3 - 1];
+        String s1 = func_96332_d(par1ICommandSender, par2ArrayOfStr[par3++]);
+        ScoreObjective scoreobjective = this.getScoreObjective(par2ArrayOfStr[par3++], true);
+        int j = s.equalsIgnoreCase("set") ? parseInt(par1ICommandSender, par2ArrayOfStr[par3++]) : parseIntWithMin(par1ICommandSender, par2ArrayOfStr[par3++], 1);
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
+        Score score = scoreboard.func_96529_a(s1, scoreobjective);
 
-        if (var4.equalsIgnoreCase("set"))
+        if (s.equalsIgnoreCase("set"))
         {
-            var9.func_96647_c(var7);
+            score.func_96647_c(j);
         }
-        else if (var4.equalsIgnoreCase("add"))
+        else if (s.equalsIgnoreCase("add"))
         {
-            var9.func_96649_a(var7);
+            score.func_96649_a(j);
         }
         else
         {
-            var9.func_96646_b(var7);
+            score.func_96646_b(j);
         }
 
-        notifyAdmins(par1ICommandSender, "commands.scoreboard.players.set.success", new Object[] {var6.getName(), var5, Integer.valueOf(var9.getScorePoints())});
+        notifyAdmins(par1ICommandSender, "commands.scoreboard.players.set.success", new Object[] {scoreobjective.getName(), s1, Integer.valueOf(score.getScorePoints())});
     }
 
     /**
@@ -754,10 +754,10 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected void resetPlayerScore(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, int par3)
     {
-        Scoreboard var4 = this.getScoreboardFromWorldServer();
-        String var5 = func_96332_d(par1ICommandSender, par2ArrayOfStr[par3++]);
-        var4.func_96515_c(var5);
-        notifyAdmins(par1ICommandSender, "commands.scoreboard.players.reset.success", new Object[] {var5});
+        Scoreboard scoreboard = this.getScoreboardFromWorldServer();
+        String s = func_96332_d(par1ICommandSender, par2ArrayOfStr[par3++]);
+        scoreboard.func_96515_c(s);
+        notifyAdmins(par1ICommandSender, "commands.scoreboard.players.reset.success", new Object[] {s});
     }
 
     /**
@@ -902,21 +902,21 @@ public class ServerCommandScoreboard extends CommandBase
      */
     protected List getScoreObjectivesList(boolean par1)
     {
-        Collection var2 = this.getScoreboardFromWorldServer().getScoreObjectives();
-        ArrayList var3 = new ArrayList();
-        Iterator var4 = var2.iterator();
+        Collection collection = this.getScoreboardFromWorldServer().getScoreObjectives();
+        ArrayList arraylist = new ArrayList();
+        Iterator iterator = collection.iterator();
 
-        while (var4.hasNext())
+        while (iterator.hasNext())
         {
-            ScoreObjective var5 = (ScoreObjective)var4.next();
+            ScoreObjective scoreobjective = (ScoreObjective)iterator.next();
 
-            if (!par1 || !var5.getCriteria().isReadOnly())
+            if (!par1 || !scoreobjective.getCriteria().isReadOnly())
             {
-                var3.add(var5.getName());
+                arraylist.add(scoreobjective.getName());
             }
         }
 
-        return var3;
+        return arraylist;
     }
 
     /**

@@ -8,6 +8,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.ChestGenHooks;
+import static net.minecraftforge.common.ChestGenHooks.*;
+
 public class ComponentStrongholdChestCorridor extends ComponentStronghold
 {
     /** List of items that Stronghold chests can contain. */
@@ -46,8 +49,8 @@ public class ComponentStrongholdChestCorridor extends ComponentStronghold
 
     public static ComponentStrongholdChestCorridor findValidPlacement(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
     {
-        StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, 7, par5);
-        return canStrongholdGoDeeper(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentStrongholdChestCorridor(par6, par1Random, var7, par5) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, 7, par5);
+        return canStrongholdGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(par0List, structureboundingbox) == null ? new ComponentStrongholdChestCorridor(par6, par1Random, structureboundingbox, par5) : null;
     }
 
     /**
@@ -70,23 +73,23 @@ public class ComponentStrongholdChestCorridor extends ComponentStronghold
             this.placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 5, 3, 1, 5, par3StructureBoundingBox);
             this.placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 5, 3, 2, 2, par3StructureBoundingBox);
             this.placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 5, 3, 2, 4, par3StructureBoundingBox);
-            int var4;
+            int i;
 
-            for (var4 = 2; var4 <= 4; ++var4)
+            for (i = 2; i <= 4; ++i)
             {
-                this.placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 5, 2, 1, var4, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 5, 2, 1, i, par3StructureBoundingBox);
             }
 
             if (!this.hasMadeChest)
             {
-                var4 = this.getYWithOffset(2);
-                int var5 = this.getXWithOffset(3, 3);
-                int var6 = this.getZWithOffset(3, 3);
+                i = this.getYWithOffset(2);
+                int j = this.getXWithOffset(3, 3);
+                int k = this.getZWithOffset(3, 3);
 
-                if (par3StructureBoundingBox.isVecInside(var5, var4, var6))
+                if (par3StructureBoundingBox.isVecInside(j, i, k))
                 {
                     this.hasMadeChest = true;
-                    this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 3, 2, 3, WeightedRandomChestContent.func_92080_a(strongholdChestContents, new WeightedRandomChestContent[] {Item.enchantedBook.func_92114_b(par2Random)}), 2 + par2Random.nextInt(2));
+                    this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 3, 2, 3, ChestGenHooks.getItems(STRONGHOLD_CORRIDOR, par2Random), ChestGenHooks.getCount(STRONGHOLD_CORRIDOR, par2Random));
                 }
             }
 

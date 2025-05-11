@@ -5,17 +5,17 @@ public interface IServer
     /**
      * Gets an integer property. If it does not exist, set it to the specified value.
      */
-    int getIntProperty(String var1, int var2);
+    int getIntProperty(String s, int i);
 
     /**
      * Gets a string property. If it does not exist, set it to the specified value.
      */
-    String getStringProperty(String var1, String var2);
+    String getStringProperty(String s, String s1);
 
     /**
      * Saves an Object with the given property name.
      */
-    void setProperty(String var1, Object var2);
+    void setProperty(String s, Object object);
 
     /**
      * Saves all of the server properties to the properties file.
@@ -69,7 +69,7 @@ public interface IServer
      */
     String getPlugins();
 
-    String executeCommand(String var1);
+    String executeCommand(String s);
 
     /**
      * Returns true if debugging is enabled, false otherwise.
@@ -79,20 +79,20 @@ public interface IServer
     /**
      * Logs the message with a level of INFO.
      */
-    void logInfo(String var1);
+    void logInfo(String s);
 
     /**
      * Logs the message with a level of WARN.
      */
-    void logWarning(String var1);
+    void logWarning(String s);
 
     /**
      * Logs the error message with a level of SEVERE.
      */
-    void logSevere(String var1);
+    void logSevere(String s);
 
     /**
      * If isDebuggingEnabled(), logs the message with a level of INFO.
      */
-    void logDebug(String var1);
+    void logDebug(String s);
 }

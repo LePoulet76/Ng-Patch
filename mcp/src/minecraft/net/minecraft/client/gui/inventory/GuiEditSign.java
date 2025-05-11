@@ -58,11 +58,11 @@ public class GuiEditSign extends GuiScreen
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
-        NetClientHandler var1 = this.mc.getNetHandler();
+        NetClientHandler netclienthandler = this.mc.getNetHandler();
 
-        if (var1 != null)
+        if (netclienthandler != null)
         {
-            var1.addToSendQueue(new Packet130UpdateSign(this.entitySign.xCoord, this.entitySign.yCoord, this.entitySign.zCoord, this.entitySign.signText));
+            netclienthandler.addToSendQueue(new Packet130UpdateSign(this.entitySign.xCoord, this.entitySign.yCoord, this.entitySign.zCoord, this.entitySign.signText));
         }
 
         this.entitySign.setEditable(true);
@@ -131,38 +131,38 @@ public class GuiEditSign extends GuiScreen
         this.drawCenteredString(this.fontRenderer, this.screenTitle, this.width / 2, 40, 16777215);
         GL11.glPushMatrix();
         GL11.glTranslatef((float)(this.width / 2), 0.0F, 50.0F);
-        float var4 = 93.75F;
-        GL11.glScalef(-var4, -var4, -var4);
+        float f1 = 93.75F;
+        GL11.glScalef(-f1, -f1, -f1);
         GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
-        Block var5 = this.entitySign.getBlockType();
+        Block block = this.entitySign.getBlockType();
 
-        if (var5 == Block.signPost)
+        if (block == Block.signPost)
         {
-            float var6 = (float)(this.entitySign.getBlockMetadata() * 360) / 16.0F;
-            GL11.glRotatef(var6, 0.0F, 1.0F, 0.0F);
+            float f2 = (float)(this.entitySign.getBlockMetadata() * 360) / 16.0F;
+            GL11.glRotatef(f2, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0.0F, -1.0625F, 0.0F);
         }
         else
         {
-            int var8 = this.entitySign.getBlockMetadata();
-            float var7 = 0.0F;
+            int k = this.entitySign.getBlockMetadata();
+            float f3 = 0.0F;
 
-            if (var8 == 2)
+            if (k == 2)
             {
-                var7 = 180.0F;
+                f3 = 180.0F;
             }
 
-            if (var8 == 4)
+            if (k == 4)
             {
-                var7 = 90.0F;
+                f3 = 90.0F;
             }
 
-            if (var8 == 5)
+            if (k == 5)
             {
-                var7 = -90.0F;
+                f3 = -90.0F;
             }
 
-            GL11.glRotatef(var7, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(f3, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0.0F, -1.0625F, 0.0F);
         }
 

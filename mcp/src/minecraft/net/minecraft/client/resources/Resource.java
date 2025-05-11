@@ -12,5 +12,5 @@ public interface Resource
 
     boolean hasMetadata();
 
-    MetadataSection getMetadata(String var1);
+    MetadataSection getMetadata(String s);
 }

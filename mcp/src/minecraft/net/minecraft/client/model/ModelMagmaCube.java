@@ -14,24 +14,24 @@ public class ModelMagmaCube extends ModelBase
 
     public ModelMagmaCube()
     {
-        for (int var1 = 0; var1 < this.field_78109_a.length; ++var1)
+        for (int i = 0; i < this.field_78109_a.length; ++i)
         {
-            byte var2 = 0;
-            int var3 = var1;
+            byte b0 = 0;
+            int j = i;
 
-            if (var1 == 2)
+            if (i == 2)
             {
-                var2 = 24;
-                var3 = 10;
+                b0 = 24;
+                j = 10;
             }
-            else if (var1 == 3)
+            else if (i == 3)
             {
-                var2 = 24;
-                var3 = 19;
+                b0 = 24;
+                j = 19;
             }
 
-            this.field_78109_a[var1] = new ModelRenderer(this, var2, var3);
-            this.field_78109_a[var1].addBox(-4.0F, (float)(16 + var1), -4.0F, 8, 1, 8);
+            this.field_78109_a[i] = new ModelRenderer(this, b0, j);
+            this.field_78109_a[i].addBox(-4.0F, (float)(16 + i), -4.0F, 8, 1, 8);
         }
 
         this.field_78108_b = new ModelRenderer(this, 0, 16);
@@ -44,17 +44,17 @@ public class ModelMagmaCube extends ModelBase
      */
     public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
-        EntityMagmaCube var5 = (EntityMagmaCube)par1EntityLivingBase;
-        float var6 = var5.prevSquishFactor + (var5.squishFactor - var5.prevSquishFactor) * par4;
+        EntityMagmaCube entitymagmacube = (EntityMagmaCube)par1EntityLivingBase;
+        float f3 = entitymagmacube.prevSquishFactor + (entitymagmacube.squishFactor - entitymagmacube.prevSquishFactor) * par4;
 
-        if (var6 < 0.0F)
+        if (f3 < 0.0F)
         {
-            var6 = 0.0F;
+            f3 = 0.0F;
         }
 
-        for (int var7 = 0; var7 < this.field_78109_a.length; ++var7)
+        for (int i = 0; i < this.field_78109_a.length; ++i)
         {
-            this.field_78109_a[var7].rotationPointY = (float)(-(4 - var7)) * var6 * 1.7F;
+            this.field_78109_a[i].rotationPointY = (float)(-(4 - i)) * f3 * 1.7F;
         }
     }
 
@@ -66,9 +66,9 @@ public class ModelMagmaCube extends ModelBase
         this.setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
         this.field_78108_b.render(par7);
 
-        for (int var8 = 0; var8 < this.field_78109_a.length; ++var8)
+        for (int i = 0; i < this.field_78109_a.length; ++i)
         {
-            this.field_78109_a[var8].render(par7);
+            this.field_78109_a[i].render(par7);
         }
     }
 }

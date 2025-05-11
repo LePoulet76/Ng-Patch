@@ -42,15 +42,15 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
         }
         else
         {
-            Village var1 = this.theEntity.worldObj.villageCollectionObj.findNearestVillage(MathHelper.floor_double(this.theEntity.posX), MathHelper.floor_double(this.theEntity.posY), MathHelper.floor_double(this.theEntity.posZ), 0);
+            Village village = this.theEntity.worldObj.villageCollectionObj.findNearestVillage(MathHelper.floor_double(this.theEntity.posX), MathHelper.floor_double(this.theEntity.posY), MathHelper.floor_double(this.theEntity.posZ), 0);
 
-            if (var1 == null)
+            if (village == null)
             {
                 return false;
             }
             else
             {
-                this.doorInfo = this.func_75412_a(var1);
+                this.doorInfo = this.func_75412_a(village);
 
                 if (this.doorInfo == null)
                 {
@@ -58,10 +58,10 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
                 }
                 else
                 {
-                    boolean var2 = this.theEntity.getNavigator().getCanBreakDoors();
+                    boolean flag = this.theEntity.getNavigator().getCanBreakDoors();
                     this.theEntity.getNavigator().setBreakDoors(false);
                     this.entityPathNavigate = this.theEntity.getNavigator().getPathToXYZ((double)this.doorInfo.posX, (double)this.doorInfo.posY, (double)this.doorInfo.posZ);
-                    this.theEntity.getNavigator().setBreakDoors(var2);
+                    this.theEntity.getNavigator().setBreakDoors(flag);
 
                     if (this.entityPathNavigate != null)
                     {
@@ -69,17 +69,17 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
                     }
                     else
                     {
-                        Vec3 var3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 10, 7, this.theEntity.worldObj.getWorldVec3Pool().getVecFromPool((double)this.doorInfo.posX, (double)this.doorInfo.posY, (double)this.doorInfo.posZ));
+                        Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 10, 7, this.theEntity.worldObj.getWorldVec3Pool().getVecFromPool((double)this.doorInfo.posX, (double)this.doorInfo.posY, (double)this.doorInfo.posZ));
 
-                        if (var3 == null)
+                        if (vec3 == null)
                         {
                             return false;
                         }
                         else
                         {
                             this.theEntity.getNavigator().setBreakDoors(false);
-                            this.entityPathNavigate = this.theEntity.getNavigator().getPathToXYZ(var3.xCoord, var3.yCoord, var3.zCoord);
-                            this.theEntity.getNavigator().setBreakDoors(var2);
+                            this.entityPathNavigate = this.theEntity.getNavigator().getPathToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord);
+                            this.theEntity.getNavigator().setBreakDoors(flag);
                             return this.entityPathNavigate != null;
                         }
                     }
@@ -99,8 +99,8 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
         }
         else
         {
-            float var1 = this.theEntity.width + 4.0F;
-            return this.theEntity.getDistanceSq((double)this.doorInfo.posX, (double)this.doorInfo.posY, (double)this.doorInfo.posZ) > (double)(var1 * var1);
+            float f = this.theEntity.width + 4.0F;
+            return this.theEntity.getDistanceSq((double)this.doorInfo.posX, (double)this.doorInfo.posY, (double)this.doorInfo.posZ) > (double)(f * f);
         }
     }
 
@@ -125,41 +125,41 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
 
     private VillageDoorInfo func_75412_a(Village par1Village)
     {
-        VillageDoorInfo var2 = null;
-        int var3 = Integer.MAX_VALUE;
-        List var4 = par1Village.getVillageDoorInfoList();
-        Iterator var5 = var4.iterator();
+        VillageDoorInfo villagedoorinfo = null;
+        int i = Integer.MAX_VALUE;
+        List list = par1Village.getVillageDoorInfoList();
+        Iterator iterator = list.iterator();
 
-        while (var5.hasNext())
+        while (iterator.hasNext())
         {
-            VillageDoorInfo var6 = (VillageDoorInfo)var5.next();
-            int var7 = var6.getDistanceSquared(MathHelper.floor_double(this.theEntity.posX), MathHelper.floor_double(this.theEntity.posY), MathHelper.floor_double(this.theEntity.posZ));
+            VillageDoorInfo villagedoorinfo1 = (VillageDoorInfo)iterator.next();
+            int j = villagedoorinfo1.getDistanceSquared(MathHelper.floor_double(this.theEntity.posX), MathHelper.floor_double(this.theEntity.posY), MathHelper.floor_double(this.theEntity.posZ));
 
-            if (var7 < var3 && !this.func_75413_a(var6))
+            if (j < i && !this.func_75413_a(villagedoorinfo1))
             {
-                var2 = var6;
-                var3 = var7;
+                villagedoorinfo = villagedoorinfo1;
+                i = j;
             }
         }
 
-        return var2;
+        return villagedoorinfo;
     }
 
     private boolean func_75413_a(VillageDoorInfo par1VillageDoorInfo)
     {
-        Iterator var2 = this.doorList.iterator();
-        VillageDoorInfo var3;
+        Iterator iterator = this.doorList.iterator();
+        VillageDoorInfo villagedoorinfo1;
 
         do
         {
-            if (!var2.hasNext())
+            if (!iterator.hasNext())
             {
                 return false;
             }
 
-            var3 = (VillageDoorInfo)var2.next();
+            villagedoorinfo1 = (VillageDoorInfo)iterator.next();
         }
-        while (par1VillageDoorInfo.posX != var3.posX || par1VillageDoorInfo.posY != var3.posY || par1VillageDoorInfo.posZ != var3.posZ);
+        while (par1VillageDoorInfo.posX != villagedoorinfo1.posX || par1VillageDoorInfo.posY != villagedoorinfo1.posY || par1VillageDoorInfo.posZ != villagedoorinfo1.posZ);
 
         return true;
     }

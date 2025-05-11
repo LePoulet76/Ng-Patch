@@ -18,12 +18,12 @@ public class RecipesIngots
      */
     public void addRecipes(CraftingManager par1CraftingManager)
     {
-        for (int var2 = 0; var2 < this.recipeItems.length; ++var2)
+        for (int i = 0; i < this.recipeItems.length; ++i)
         {
-            Block var3 = (Block)this.recipeItems[var2][0];
-            ItemStack var4 = (ItemStack)this.recipeItems[var2][1];
-            par1CraftingManager.addRecipe(new ItemStack(var3), new Object[] {"###", "###", "###", '#', var4});
-            par1CraftingManager.addRecipe(var4, new Object[] {"#", '#', var3});
+            Block block = (Block)this.recipeItems[i][0];
+            ItemStack itemstack = (ItemStack)this.recipeItems[i][1];
+            par1CraftingManager.addRecipe(new ItemStack(block), new Object[] {"###", "###", "###", '#', itemstack});
+            par1CraftingManager.addRecipe(itemstack, new Object[] {"#", '#', block});
         }
 
         par1CraftingManager.addRecipe(new ItemStack(Item.ingotGold), new Object[] {"###", "###", "###", '#', Item.goldNugget});

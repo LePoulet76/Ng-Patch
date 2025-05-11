@@ -23,7 +23,7 @@ public abstract class BaseAttributeMap
         return (AttributeInstance)this.attributesByName.get(par1Str);
     }
 
-    public abstract AttributeInstance func_111150_b(Attribute var1);
+    public abstract AttributeInstance func_111150_b(Attribute attribute);
 
     public Collection getAllAttributes()
     {
@@ -34,33 +34,33 @@ public abstract class BaseAttributeMap
 
     public void removeAttributeModifiers(Multimap par1Multimap)
     {
-        Iterator var2 = par1Multimap.entries().iterator();
+        Iterator iterator = par1Multimap.entries().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
-            AttributeInstance var4 = this.getAttributeInstanceByName((String)var3.getKey());
+            Entry entry = (Entry)iterator.next();
+            AttributeInstance attributeinstance = this.getAttributeInstanceByName((String)entry.getKey());
 
-            if (var4 != null)
+            if (attributeinstance != null)
             {
-                var4.removeModifier((AttributeModifier)var3.getValue());
+                attributeinstance.removeModifier((AttributeModifier)entry.getValue());
             }
         }
     }
 
     public void applyAttributeModifiers(Multimap par1Multimap)
     {
-        Iterator var2 = par1Multimap.entries().iterator();
+        Iterator iterator = par1Multimap.entries().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
-            AttributeInstance var4 = this.getAttributeInstanceByName((String)var3.getKey());
+            Entry entry = (Entry)iterator.next();
+            AttributeInstance attributeinstance = this.getAttributeInstanceByName((String)entry.getKey());
 
-            if (var4 != null)
+            if (attributeinstance != null)
             {
-                var4.removeModifier((AttributeModifier)var3.getValue());
-                var4.applyModifier((AttributeModifier)var3.getValue());
+                attributeinstance.removeModifier((AttributeModifier)entry.getValue());
+                attributeinstance.applyModifier((AttributeModifier)entry.getValue());
             }
         }
     }

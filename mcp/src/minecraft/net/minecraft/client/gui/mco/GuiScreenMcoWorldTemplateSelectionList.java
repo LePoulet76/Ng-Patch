@@ -70,9 +70,9 @@ class GuiScreenMcoWorldTemplateSelectionList extends GuiScreenSelectLocation
 
     private void func_111244_b(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
     {
-        WorldTemplate var6 = (WorldTemplate)GuiScreenMcoWorldTemplate.func_110395_c(this.field_111245_a).get(par1);
-        this.field_111245_a.drawString(GuiScreenMcoWorldTemplate.func_110389_g(this.field_111245_a), var6.field_110732_b, par2 + 2, par3 + 1, 16777215);
-        this.field_111245_a.drawString(GuiScreenMcoWorldTemplate.func_110387_h(this.field_111245_a), var6.field_110731_d, par2 + 2, par3 + 12, 7105644);
-        this.field_111245_a.drawString(GuiScreenMcoWorldTemplate.func_110384_i(this.field_111245_a), var6.field_110733_c, par2 + 2 + 207 - GuiScreenMcoWorldTemplate.func_130063_j(this.field_111245_a).getStringWidth(var6.field_110733_c), par3 + 1, 5000268);
+        WorldTemplate worldtemplate = (WorldTemplate)GuiScreenMcoWorldTemplate.func_110395_c(this.field_111245_a).get(par1);
+        this.field_111245_a.drawString(GuiScreenMcoWorldTemplate.func_110389_g(this.field_111245_a), worldtemplate.field_110732_b, par2 + 2, par3 + 1, 16777215);
+        this.field_111245_a.drawString(GuiScreenMcoWorldTemplate.func_110387_h(this.field_111245_a), worldtemplate.field_110731_d, par2 + 2, par3 + 12, 7105644);
+        this.field_111245_a.drawString(GuiScreenMcoWorldTemplate.func_110384_i(this.field_111245_a), worldtemplate.field_110733_c, par2 + 2 + 207 - GuiScreenMcoWorldTemplate.func_130063_j(this.field_111245_a).getStringWidth(worldtemplate.field_110733_c), par3 + 1, 5000268);
     }
 }

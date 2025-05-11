@@ -39,17 +39,17 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
         }
         else
         {
-            PathNavigate var1 = this.theEntity.getNavigator();
-            PathEntity var2 = var1.getPath();
+            PathNavigate pathnavigate = this.theEntity.getNavigator();
+            PathEntity pathentity = pathnavigate.getPath();
 
-            if (var2 != null && !var2.isFinished() && var1.getCanBreakDoors())
+            if (pathentity != null && !pathentity.isFinished() && pathnavigate.getCanBreakDoors())
             {
-                for (int var3 = 0; var3 < Math.min(var2.getCurrentPathIndex() + 2, var2.getCurrentPathLength()); ++var3)
+                for (int i = 0; i < Math.min(pathentity.getCurrentPathIndex() + 2, pathentity.getCurrentPathLength()); ++i)
                 {
-                    PathPoint var4 = var2.getPathPointFromIndex(var3);
-                    this.entityPosX = var4.xCoord;
-                    this.entityPosY = var4.yCoord + 1;
-                    this.entityPosZ = var4.zCoord;
+                    PathPoint pathpoint = pathentity.getPathPointFromIndex(i);
+                    this.entityPosX = pathpoint.xCoord;
+                    this.entityPosY = pathpoint.yCoord + 1;
+                    this.entityPosZ = pathpoint.zCoord;
 
                     if (this.theEntity.getDistanceSq((double)this.entityPosX, this.theEntity.posY, (double)this.entityPosZ) <= 2.25D)
                     {
@@ -98,11 +98,11 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
      */
     public void updateTask()
     {
-        float var1 = (float)((double)((float)this.entityPosX + 0.5F) - this.theEntity.posX);
-        float var2 = (float)((double)((float)this.entityPosZ + 0.5F) - this.theEntity.posZ);
-        float var3 = this.entityPositionX * var1 + this.entityPositionZ * var2;
+        float f = (float)((double)((float)this.entityPosX + 0.5F) - this.theEntity.posX);
+        float f1 = (float)((double)((float)this.entityPosZ + 0.5F) - this.theEntity.posZ);
+        float f2 = this.entityPositionX * f + this.entityPositionZ * f1;
 
-        if (var3 < 0.0F)
+        if (f2 < 0.0F)
         {
             this.hasStoppedDoorInteraction = true;
         }
@@ -113,7 +113,7 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
      */
     private BlockDoor findUsableDoor(int par1, int par2, int par3)
     {
-        int var4 = this.theEntity.worldObj.getBlockId(par1, par2, par3);
-        return var4 != Block.doorWood.blockID ? null : (BlockDoor)Block.blocksList[var4];
+        int l = this.theEntity.worldObj.getBlockId(par1, par2, par3);
+        return l != Block.doorWood.blockID ? null : (BlockDoor)Block.blocksList[l];
     }
 }

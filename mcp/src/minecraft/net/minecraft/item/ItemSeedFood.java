@@ -1,9 +1,13 @@
 package net.minecraft.item;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.IPlantable;
 
-public class ItemSeedFood extends ItemFood
+public class ItemSeedFood extends ItemFood implements IPlantable
 {
     /** Block ID of the crop this seed food should place. */
     private int cropId;
@@ -30,9 +34,10 @@ public class ItemSeedFood extends ItemFood
         }
         else if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
         {
-            int var11 = par3World.getBlockId(par4, par5, par6);
+            int i1 = par3World.getBlockId(par4, par5, par6);
+            Block soil = Block.blocksList[i1];
 
-            if (var11 == this.soilId && par3World.isAirBlock(par4, par5 + 1, par6))
+            if (soil != null && soil.canSustainPlant(par3World, par4, par5, par6, ForgeDirection.UP, this) && par3World.isAirBlock(par4, par5 + 1, par6))
             {
                 par3World.setBlock(par4, par5 + 1, par6, this.cropId);
                 --par1ItemStack.stackSize;
@@ -47,5 +52,23 @@ public class ItemSeedFood extends ItemFood
         {
             return false;
         }
+    }
+
+    @Override
+    public EnumPlantType getPlantType(World world, int x, int y, int z)
+    {
+        return EnumPlantType.Crop;
+    }
+
+    @Override
+    public int getPlantID(World world, int x, int y, int z)
+    {
+        return cropId;
+    }
+
+    @Override
+    public int getPlantMetadata(World world, int x, int y, int z)
+    {
+        return 0;
     }
 }

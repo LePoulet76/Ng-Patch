@@ -21,24 +21,18 @@ public class AnvilSaveHandler extends SaveHandler
      */
     public IChunkLoader getChunkLoader(WorldProvider par1WorldProvider)
     {
-        File var2 = this.getWorldDirectory();
-        File var3;
+        File file1 = this.getWorldDirectory();
+        File file2;
 
-        if (par1WorldProvider instanceof WorldProviderHell)
+        if (par1WorldProvider.getSaveFolder() != null)
         {
-            var3 = new File(var2, "DIM-1");
-            var3.mkdirs();
-            return new AnvilChunkLoader(var3);
-        }
-        else if (par1WorldProvider instanceof WorldProviderEnd)
-        {
-            var3 = new File(var2, "DIM1");
-            var3.mkdirs();
-            return new AnvilChunkLoader(var3);
+            file2 = new File(file1, par1WorldProvider.getSaveFolder());
+            file2.mkdirs();
+            return new AnvilChunkLoader(file2);
         }
         else
         {
-            return new AnvilChunkLoader(var2);
+            return new AnvilChunkLoader(file1);
         }
     }
 
@@ -60,9 +54,9 @@ public class AnvilSaveHandler extends SaveHandler
         {
             ThreadedFileIOBase.threadedIOInstance.waitForFinish();
         }
-        catch (InterruptedException var2)
+        catch (InterruptedException interruptedexception)
         {
-            var2.printStackTrace();
+            interruptedexception.printStackTrace();
         }
 
         RegionFileCache.clearRegionFileReferences();

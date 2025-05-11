@@ -51,7 +51,7 @@ public abstract class CommandBase implements ICommand
         {
             return Integer.parseInt(par1Str);
         }
-        catch (NumberFormatException var3)
+        catch (NumberFormatException numberformatexception)
         {
             throw new NumberInvalidException("commands.generic.num.invalid", new Object[] {par1Str});
         }
@@ -70,19 +70,19 @@ public abstract class CommandBase implements ICommand
      */
     public static int parseIntBounded(ICommandSender par0ICommandSender, String par1Str, int par2, int par3)
     {
-        int var4 = parseInt(par0ICommandSender, par1Str);
+        int k = parseInt(par0ICommandSender, par1Str);
 
-        if (var4 < par2)
+        if (k < par2)
         {
-            throw new NumberInvalidException("commands.generic.num.tooSmall", new Object[] {Integer.valueOf(var4), Integer.valueOf(par2)});
+            throw new NumberInvalidException("commands.generic.num.tooSmall", new Object[] {Integer.valueOf(k), Integer.valueOf(par2)});
         }
-        else if (var4 > par3)
+        else if (k > par3)
         {
-            throw new NumberInvalidException("commands.generic.num.tooBig", new Object[] {Integer.valueOf(var4), Integer.valueOf(par3)});
+            throw new NumberInvalidException("commands.generic.num.tooBig", new Object[] {Integer.valueOf(k), Integer.valueOf(par3)});
         }
         else
         {
-            return var4;
+            return k;
         }
     }
 
@@ -93,18 +93,18 @@ public abstract class CommandBase implements ICommand
     {
         try
         {
-            double var2 = Double.parseDouble(par1Str);
+            double d0 = Double.parseDouble(par1Str);
 
-            if (!Doubles.isFinite(var2))
+            if (!Doubles.isFinite(d0))
             {
                 throw new NumberInvalidException("commands.generic.double.invalid", new Object[] {par1Str});
             }
             else
             {
-                return var2;
+                return d0;
             }
         }
-        catch (NumberFormatException var4)
+        catch (NumberFormatException numberformatexception)
         {
             throw new NumberInvalidException("commands.generic.double.invalid", new Object[] {par1Str});
         }
@@ -117,19 +117,19 @@ public abstract class CommandBase implements ICommand
 
     public static double func_110661_a(ICommandSender par0ICommandSender, String par1Str, double par2, double par4)
     {
-        double var6 = parseDouble(par0ICommandSender, par1Str);
+        double d2 = parseDouble(par0ICommandSender, par1Str);
 
-        if (var6 < par2)
+        if (d2 < par2)
         {
-            throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] {Double.valueOf(var6), Double.valueOf(par2)});
+            throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] {Double.valueOf(d2), Double.valueOf(par2)});
         }
-        else if (var6 > par4)
+        else if (d2 > par4)
         {
-            throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] {Double.valueOf(var6), Double.valueOf(par4)});
+            throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] {Double.valueOf(d2), Double.valueOf(par4)});
         }
         else
         {
-            return var6;
+            return d2;
         }
     }
 
@@ -169,34 +169,34 @@ public abstract class CommandBase implements ICommand
 
     public static EntityPlayerMP getPlayer(ICommandSender par0ICommandSender, String par1Str)
     {
-        EntityPlayerMP var2 = PlayerSelector.matchOnePlayer(par0ICommandSender, par1Str);
+        EntityPlayerMP entityplayermp = PlayerSelector.matchOnePlayer(par0ICommandSender, par1Str);
 
-        if (var2 != null)
+        if (entityplayermp != null)
         {
-            return var2;
+            return entityplayermp;
         }
         else
         {
-            var2 = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(par1Str);
+            entityplayermp = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(par1Str);
 
-            if (var2 == null)
+            if (entityplayermp == null)
             {
                 throw new PlayerNotFoundException();
             }
             else
             {
-                return var2;
+                return entityplayermp;
             }
         }
     }
 
     public static String func_96332_d(ICommandSender par0ICommandSender, String par1Str)
     {
-        EntityPlayerMP var2 = PlayerSelector.matchOnePlayer(par0ICommandSender, par1Str);
+        EntityPlayerMP entityplayermp = PlayerSelector.matchOnePlayer(par0ICommandSender, par1Str);
 
-        if (var2 != null)
+        if (entityplayermp != null)
         {
-            return var2.getEntityName();
+            return entityplayermp.getEntityName();
         }
         else if (PlayerSelector.hasArguments(par1Str))
         {
@@ -215,35 +215,35 @@ public abstract class CommandBase implements ICommand
 
     public static String func_82361_a(ICommandSender par0ICommandSender, String[] par1ArrayOfStr, int par2, boolean par3)
     {
-        StringBuilder var4 = new StringBuilder();
+        StringBuilder stringbuilder = new StringBuilder();
 
-        for (int var5 = par2; var5 < par1ArrayOfStr.length; ++var5)
+        for (int j = par2; j < par1ArrayOfStr.length; ++j)
         {
-            if (var5 > par2)
+            if (j > par2)
             {
-                var4.append(" ");
+                stringbuilder.append(" ");
             }
 
-            String var6 = par1ArrayOfStr[var5];
+            String s = par1ArrayOfStr[j];
 
             if (par3)
             {
-                String var7 = PlayerSelector.matchPlayersAsString(par0ICommandSender, var6);
+                String s1 = PlayerSelector.matchPlayersAsString(par0ICommandSender, s);
 
-                if (var7 != null)
+                if (s1 != null)
                 {
-                    var6 = var7;
+                    s = s1;
                 }
-                else if (PlayerSelector.hasArguments(var6))
+                else if (PlayerSelector.hasArguments(s))
                 {
                     throw new PlayerNotFoundException();
                 }
             }
 
-            var4.append(var6);
+            stringbuilder.append(s);
         }
 
-        return var4.toString();
+        return stringbuilder.toString();
     }
 
     public static double func_110666_a(ICommandSender par0ICommandSender, double par1, String par3Str)
@@ -253,47 +253,47 @@ public abstract class CommandBase implements ICommand
 
     public static double func_110665_a(ICommandSender par0ICommandSender, double par1, String par3Str, int par4, int par5)
     {
-        boolean var6 = par3Str.startsWith("~");
+        boolean flag = par3Str.startsWith("~");
 
-        if (var6 && Double.isNaN(par1))
+        if (flag && Double.isNaN(par1))
         {
             throw new NumberInvalidException("commands.generic.num.invalid", new Object[] {Double.valueOf(par1)});
         }
         else
         {
-            double var7 = var6 ? par1 : 0.0D;
+            double d1 = flag ? par1 : 0.0D;
 
-            if (!var6 || par3Str.length() > 1)
+            if (!flag || par3Str.length() > 1)
             {
-                boolean var9 = par3Str.contains(".");
+                boolean flag1 = par3Str.contains(".");
 
-                if (var6)
+                if (flag)
                 {
                     par3Str = par3Str.substring(1);
                 }
 
-                var7 += parseDouble(par0ICommandSender, par3Str);
+                d1 += parseDouble(par0ICommandSender, par3Str);
 
-                if (!var9 && !var6)
+                if (!flag1 && !flag)
                 {
-                    var7 += 0.5D;
+                    d1 += 0.5D;
                 }
             }
 
             if (par4 != 0 || par5 != 0)
             {
-                if (var7 < (double)par4)
+                if (d1 < (double)par4)
                 {
-                    throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] {Double.valueOf(var7), Integer.valueOf(par4)});
+                    throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] {Double.valueOf(d1), Integer.valueOf(par4)});
                 }
 
-                if (var7 > (double)par5)
+                if (d1 > (double)par5)
                 {
-                    throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] {Double.valueOf(var7), Integer.valueOf(par5)});
+                    throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] {Double.valueOf(d1), Integer.valueOf(par5)});
                 }
             }
 
-            return var7;
+            return d1;
         }
     }
 
@@ -302,28 +302,28 @@ public abstract class CommandBase implements ICommand
      */
     public static String joinNiceString(Object[] par0ArrayOfObj)
     {
-        StringBuilder var1 = new StringBuilder();
+        StringBuilder stringbuilder = new StringBuilder();
 
-        for (int var2 = 0; var2 < par0ArrayOfObj.length; ++var2)
+        for (int i = 0; i < par0ArrayOfObj.length; ++i)
         {
-            String var3 = par0ArrayOfObj[var2].toString();
+            String s = par0ArrayOfObj[i].toString();
 
-            if (var2 > 0)
+            if (i > 0)
             {
-                if (var2 == par0ArrayOfObj.length - 1)
+                if (i == par0ArrayOfObj.length - 1)
                 {
-                    var1.append(" and ");
+                    stringbuilder.append(" and ");
                 }
                 else
                 {
-                    var1.append(", ");
+                    stringbuilder.append(", ");
                 }
             }
 
-            var1.append(var3);
+            stringbuilder.append(s);
         }
 
-        return var1.toString();
+        return stringbuilder.toString();
     }
 
     public static String func_96333_a(Collection par0Collection)
@@ -333,16 +333,16 @@ public abstract class CommandBase implements ICommand
 
     public static String func_110663_b(Collection par0Collection)
     {
-        String[] var1 = new String[par0Collection.size()];
-        int var2 = 0;
-        EntityLivingBase var4;
+        String[] astring = new String[par0Collection.size()];
+        int i = 0;
+        EntityLivingBase entitylivingbase;
 
-        for (Iterator var3 = par0Collection.iterator(); var3.hasNext(); var1[var2++] = var4.getTranslatedEntityName())
+        for (Iterator iterator = par0Collection.iterator(); iterator.hasNext(); astring[i++] = entitylivingbase.getTranslatedEntityName())
         {
-            var4 = (EntityLivingBase)var3.next();
+            entitylivingbase = (EntityLivingBase)iterator.next();
         }
 
-        return joinNiceString(var1);
+        return joinNiceString(astring);
     }
 
     /**
@@ -359,22 +359,22 @@ public abstract class CommandBase implements ICommand
      */
     public static List getListOfStringsMatchingLastWord(String[] par0ArrayOfStr, String ... par1ArrayOfStr)
     {
-        String var2 = par0ArrayOfStr[par0ArrayOfStr.length - 1];
-        ArrayList var3 = new ArrayList();
-        String[] var4 = par1ArrayOfStr;
-        int var5 = par1ArrayOfStr.length;
+        String s1 = par0ArrayOfStr[par0ArrayOfStr.length - 1];
+        ArrayList arraylist = new ArrayList();
+        String[] astring1 = par1ArrayOfStr;
+        int i = par1ArrayOfStr.length;
 
-        for (int var6 = 0; var6 < var5; ++var6)
+        for (int j = 0; j < i; ++j)
         {
-            String var7 = var4[var6];
+            String s2 = astring1[j];
 
-            if (doesStringStartWith(var2, var7))
+            if (doesStringStartWith(s1, s2))
             {
-                var3.add(var7);
+                arraylist.add(s2);
             }
         }
 
-        return var3;
+        return arraylist;
     }
 
     /**
@@ -383,21 +383,21 @@ public abstract class CommandBase implements ICommand
      */
     public static List getListOfStringsFromIterableMatchingLastWord(String[] par0ArrayOfStr, Iterable par1Iterable)
     {
-        String var2 = par0ArrayOfStr[par0ArrayOfStr.length - 1];
-        ArrayList var3 = new ArrayList();
-        Iterator var4 = par1Iterable.iterator();
+        String s = par0ArrayOfStr[par0ArrayOfStr.length - 1];
+        ArrayList arraylist = new ArrayList();
+        Iterator iterator = par1Iterable.iterator();
 
-        while (var4.hasNext())
+        while (iterator.hasNext())
         {
-            String var5 = (String)var4.next();
+            String s1 = (String)iterator.next();
 
-            if (doesStringStartWith(var2, var5))
+            if (doesStringStartWith(s, s1))
             {
-                var3.add(var5);
+                arraylist.add(s1);
             }
         }
 
-        return var3;
+        return arraylist;
     }
 
     /**

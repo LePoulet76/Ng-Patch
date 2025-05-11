@@ -7,6 +7,10 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.*;
+import net.minecraftforge.event.Event.*;
+import net.minecraftforge.event.terraingen.*;
+
 public abstract class ComponentVillage extends StructureComponent
 {
     protected int field_143015_k = -1;
@@ -14,6 +18,7 @@ public abstract class ComponentVillage extends StructureComponent
     /** The number of villagers that have been spawned in this component. */
     private int villagersSpawned;
     private boolean field_143014_b;
+    private ComponentVillageStartPiece startPiece;
 
     public ComponentVillage() {}
 
@@ -24,6 +29,7 @@ public abstract class ComponentVillage extends StructureComponent
         if (par1ComponentVillageStartPiece != null)
         {
             this.field_143014_b = par1ComponentVillageStartPiece.inDesert;
+            startPiece = par1ComponentVillageStartPiece;
         }
     }
 
@@ -50,16 +56,12 @@ public abstract class ComponentVillage extends StructureComponent
         {
             case 0:
                 return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY + par4, this.boundingBox.minZ + par5, 1, this.getComponentType());
-
             case 1:
                 return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX + par5, this.boundingBox.minY + par4, this.boundingBox.minZ - 1, 2, this.getComponentType());
-
             case 2:
                 return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY + par4, this.boundingBox.minZ + par5, 1, this.getComponentType());
-
             case 3:
                 return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX + par5, this.boundingBox.minY + par4, this.boundingBox.minZ - 1, 2, this.getComponentType());
-
             default:
                 return null;
         }
@@ -74,16 +76,12 @@ public abstract class ComponentVillage extends StructureComponent
         {
             case 0:
                 return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY + par4, this.boundingBox.minZ + par5, 3, this.getComponentType());
-
             case 1:
                 return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX + par5, this.boundingBox.minY + par4, this.boundingBox.maxZ + 1, 0, this.getComponentType());
-
             case 2:
                 return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY + par4, this.boundingBox.minZ + par5, 3, this.getComponentType());
-
             case 3:
                 return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, this.boundingBox.minX + par5, this.boundingBox.minY + par4, this.boundingBox.maxZ + 1, 0, this.getComponentType());
-
             default:
                 return null;
         }
@@ -95,28 +93,28 @@ public abstract class ComponentVillage extends StructureComponent
      */
     protected int getAverageGroundLevel(World par1World, StructureBoundingBox par2StructureBoundingBox)
     {
-        int var3 = 0;
-        int var4 = 0;
+        int i = 0;
+        int j = 0;
 
-        for (int var5 = this.boundingBox.minZ; var5 <= this.boundingBox.maxZ; ++var5)
+        for (int k = this.boundingBox.minZ; k <= this.boundingBox.maxZ; ++k)
         {
-            for (int var6 = this.boundingBox.minX; var6 <= this.boundingBox.maxX; ++var6)
+            for (int l = this.boundingBox.minX; l <= this.boundingBox.maxX; ++l)
             {
-                if (par2StructureBoundingBox.isVecInside(var6, 64, var5))
+                if (par2StructureBoundingBox.isVecInside(l, 64, k))
                 {
-                    var3 += Math.max(par1World.getTopSolidOrLiquidBlock(var6, var5), par1World.provider.getAverageGroundLevel());
-                    ++var4;
+                    i += Math.max(par1World.getTopSolidOrLiquidBlock(l, k), par1World.provider.getAverageGroundLevel());
+                    ++j;
                 }
             }
         }
 
-        if (var4 == 0)
+        if (j == 0)
         {
             return -1;
         }
         else
         {
-            return var3 / var4;
+            return i / j;
         }
     }
 
@@ -133,21 +131,21 @@ public abstract class ComponentVillage extends StructureComponent
     {
         if (this.villagersSpawned < par6)
         {
-            for (int var7 = this.villagersSpawned; var7 < par6; ++var7)
+            for (int i1 = this.villagersSpawned; i1 < par6; ++i1)
             {
-                int var8 = this.getXWithOffset(par3 + var7, par5);
-                int var9 = this.getYWithOffset(par4);
-                int var10 = this.getZWithOffset(par3 + var7, par5);
+                int j1 = this.getXWithOffset(par3 + i1, par5);
+                int k1 = this.getYWithOffset(par4);
+                int l1 = this.getZWithOffset(par3 + i1, par5);
 
-                if (!par2StructureBoundingBox.isVecInside(var8, var9, var10))
+                if (!par2StructureBoundingBox.isVecInside(j1, k1, l1))
                 {
                     break;
                 }
 
                 ++this.villagersSpawned;
-                EntityVillager var11 = new EntityVillager(par1World, this.getVillagerType(var7));
-                var11.setLocationAndAngles((double)var8 + 0.5D, (double)var9, (double)var10 + 0.5D, 0.0F, 0.0F);
-                par1World.spawnEntityInWorld(var11);
+                EntityVillager entityvillager = new EntityVillager(par1World, this.getVillagerType(i1));
+                entityvillager.setLocationAndAngles((double)j1 + 0.5D, (double)k1, (double)l1 + 0.5D, 0.0F, 0.0F);
+                par1World.spawnEntityInWorld(entityvillager);
             }
         }
     }
@@ -165,6 +163,10 @@ public abstract class ComponentVillage extends StructureComponent
      */
     protected int getBiomeSpecificBlock(int par1, int par2)
     {
+        BiomeEvent.GetVillageBlockID event = new BiomeEvent.GetVillageBlockID(startPiece == null ? null : startPiece.biome, par1, par2);
+        MinecraftForge.TERRAIN_GEN_BUS.post(event);
+        if (event.getResult() == Result.DENY) return event.replacement;
+
         if (this.field_143014_b)
         {
             if (par1 == Block.wood.blockID)
@@ -206,6 +208,10 @@ public abstract class ComponentVillage extends StructureComponent
      */
     protected int getBiomeSpecificBlockMetadata(int par1, int par2)
     {
+        BiomeEvent.GetVillageBlockMeta event = new BiomeEvent.GetVillageBlockMeta(startPiece == null ? null : startPiece.biome, par1, par2);
+        MinecraftForge.TERRAIN_GEN_BUS.post(event);
+        if (event.getResult() == Result.DENY) return event.replacement;
+
         if (this.field_143014_b)
         {
             if (par1 == Block.wood.blockID)
@@ -232,9 +238,9 @@ public abstract class ComponentVillage extends StructureComponent
      */
     protected void placeBlockAtCurrentPosition(World par1World, int par2, int par3, int par4, int par5, int par6, StructureBoundingBox par7StructureBoundingBox)
     {
-        int var8 = this.getBiomeSpecificBlock(par2, par3);
-        int var9 = this.getBiomeSpecificBlockMetadata(par2, par3);
-        super.placeBlockAtCurrentPosition(par1World, var8, var9, par4, par5, par6, par7StructureBoundingBox);
+        int j1 = this.getBiomeSpecificBlock(par2, par3);
+        int k1 = this.getBiomeSpecificBlockMetadata(par2, par3);
+        super.placeBlockAtCurrentPosition(par1World, j1, k1, par4, par5, par6, par7StructureBoundingBox);
     }
 
     /**
@@ -243,11 +249,11 @@ public abstract class ComponentVillage extends StructureComponent
      */
     protected void fillWithBlocks(World par1World, StructureBoundingBox par2StructureBoundingBox, int par3, int par4, int par5, int par6, int par7, int par8, int par9, int par10, boolean par11)
     {
-        int var12 = this.getBiomeSpecificBlock(par9, 0);
-        int var13 = this.getBiomeSpecificBlockMetadata(par9, 0);
-        int var14 = this.getBiomeSpecificBlock(par10, 0);
-        int var15 = this.getBiomeSpecificBlockMetadata(par10, 0);
-        super.fillWithMetadataBlocks(par1World, par2StructureBoundingBox, par3, par4, par5, par6, par7, par8, var12, var13, var14, var15, par11);
+        int i2 = this.getBiomeSpecificBlock(par9, 0);
+        int j2 = this.getBiomeSpecificBlockMetadata(par9, 0);
+        int k2 = this.getBiomeSpecificBlock(par10, 0);
+        int l2 = this.getBiomeSpecificBlockMetadata(par10, 0);
+        super.fillWithMetadataBlocks(par1World, par2StructureBoundingBox, par3, par4, par5, par6, par7, par8, i2, j2, k2, l2, par11);
     }
 
     /**
@@ -255,8 +261,8 @@ public abstract class ComponentVillage extends StructureComponent
      */
     protected void fillCurrentPositionBlocksDownwards(World par1World, int par2, int par3, int par4, int par5, int par6, StructureBoundingBox par7StructureBoundingBox)
     {
-        int var8 = this.getBiomeSpecificBlock(par2, par3);
-        int var9 = this.getBiomeSpecificBlockMetadata(par2, par3);
-        super.fillCurrentPositionBlocksDownwards(par1World, var8, var9, par4, par5, par6, par7StructureBoundingBox);
+        int j1 = this.getBiomeSpecificBlock(par2, par3);
+        int k1 = this.getBiomeSpecificBlockMetadata(par2, par3);
+        super.fillCurrentPositionBlocksDownwards(par1World, j1, k1, par4, par5, par6, par7StructureBoundingBox);
     }
 }

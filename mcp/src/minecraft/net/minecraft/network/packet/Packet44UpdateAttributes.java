@@ -23,12 +23,12 @@ public class Packet44UpdateAttributes extends Packet
     public Packet44UpdateAttributes(int par1, Collection par2Collection)
     {
         this.field_111005_a = par1;
-        Iterator var3 = par2Collection.iterator();
+        Iterator iterator = par2Collection.iterator();
 
-        while (var3.hasNext())
+        while (iterator.hasNext())
         {
-            AttributeInstance var4 = (AttributeInstance)var3.next();
-            this.field_111004_b.add(new Packet44UpdateAttributesSnapshot(this, var4.func_111123_a().getAttributeUnlocalizedName(), var4.getBaseValue(), var4.func_111122_c()));
+            AttributeInstance attributeinstance = (AttributeInstance)iterator.next();
+            this.field_111004_b.add(new Packet44UpdateAttributesSnapshot(this, attributeinstance.func_111123_a().getAttributeUnlocalizedName(), attributeinstance.getBaseValue(), attributeinstance.func_111122_c()));
         }
     }
 
@@ -38,22 +38,22 @@ public class Packet44UpdateAttributes extends Packet
     public void readPacketData(DataInput par1DataInput) throws IOException
     {
         this.field_111005_a = par1DataInput.readInt();
-        int var2 = par1DataInput.readInt();
+        int i = par1DataInput.readInt();
 
-        for (int var3 = 0; var3 < var2; ++var3)
+        for (int j = 0; j < i; ++j)
         {
-            String var4 = readString(par1DataInput, 64);
-            double var5 = par1DataInput.readDouble();
-            ArrayList var7 = new ArrayList();
-            short var8 = par1DataInput.readShort();
+            String s = readString(par1DataInput, 64);
+            double d0 = par1DataInput.readDouble();
+            ArrayList arraylist = new ArrayList();
+            short short1 = par1DataInput.readShort();
 
-            for (int var9 = 0; var9 < var8; ++var9)
+            for (int k = 0; k < short1; ++k)
             {
-                UUID var10 = new UUID(par1DataInput.readLong(), par1DataInput.readLong());
-                var7.add(new AttributeModifier(var10, "Unknown synced attribute modifier", par1DataInput.readDouble(), par1DataInput.readByte()));
+                UUID uuid = new UUID(par1DataInput.readLong(), par1DataInput.readLong());
+                arraylist.add(new AttributeModifier(uuid, "Unknown synced attribute modifier", par1DataInput.readDouble(), par1DataInput.readByte()));
             }
 
-            this.field_111004_b.add(new Packet44UpdateAttributesSnapshot(this, var4, var5, var7));
+            this.field_111004_b.add(new Packet44UpdateAttributesSnapshot(this, s, d0, arraylist));
         }
     }
 
@@ -64,23 +64,23 @@ public class Packet44UpdateAttributes extends Packet
     {
         par1DataOutput.writeInt(this.field_111005_a);
         par1DataOutput.writeInt(this.field_111004_b.size());
-        Iterator var2 = this.field_111004_b.iterator();
+        Iterator iterator = this.field_111004_b.iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            Packet44UpdateAttributesSnapshot var3 = (Packet44UpdateAttributesSnapshot)var2.next();
-            writeString(var3.func_142040_a(), par1DataOutput);
-            par1DataOutput.writeDouble(var3.func_142041_b());
-            par1DataOutput.writeShort(var3.func_142039_c().size());
-            Iterator var4 = var3.func_142039_c().iterator();
+            Packet44UpdateAttributesSnapshot packet44updateattributessnapshot = (Packet44UpdateAttributesSnapshot)iterator.next();
+            writeString(packet44updateattributessnapshot.func_142040_a(), par1DataOutput);
+            par1DataOutput.writeDouble(packet44updateattributessnapshot.func_142041_b());
+            par1DataOutput.writeShort(packet44updateattributessnapshot.func_142039_c().size());
+            Iterator iterator1 = packet44updateattributessnapshot.func_142039_c().iterator();
 
-            while (var4.hasNext())
+            while (iterator1.hasNext())
             {
-                AttributeModifier var5 = (AttributeModifier)var4.next();
-                par1DataOutput.writeLong(var5.getID().getMostSignificantBits());
-                par1DataOutput.writeLong(var5.getID().getLeastSignificantBits());
-                par1DataOutput.writeDouble(var5.getAmount());
-                par1DataOutput.writeByte(var5.getOperation());
+                AttributeModifier attributemodifier = (AttributeModifier)iterator1.next();
+                par1DataOutput.writeLong(attributemodifier.getID().getMostSignificantBits());
+                par1DataOutput.writeLong(attributemodifier.getID().getLeastSignificantBits());
+                par1DataOutput.writeDouble(attributemodifier.getAmount());
+                par1DataOutput.writeByte(attributemodifier.getOperation());
             }
         }
     }

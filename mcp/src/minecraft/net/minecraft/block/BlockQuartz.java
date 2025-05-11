@@ -80,12 +80,10 @@ public class BlockQuartz extends Block
                 case 1:
                     par9 = 2;
                     break;
-
                 case 2:
                 case 3:
                     par9 = 4;
                     break;
-
                 case 4:
                 case 5:
                     par9 = 3;
@@ -142,15 +140,15 @@ public class BlockQuartz extends Block
     {
         this.quartzblockIcons = new Icon[quartzBlockTextureTypes.length];
 
-        for (int var2 = 0; var2 < this.quartzblockIcons.length; ++var2)
+        for (int i = 0; i < this.quartzblockIcons.length; ++i)
         {
-            if (quartzBlockTextureTypes[var2] == null)
+            if (quartzBlockTextureTypes[i] == null)
             {
-                this.quartzblockIcons[var2] = this.quartzblockIcons[var2 - 1];
+                this.quartzblockIcons[i] = this.quartzblockIcons[i - 1];
             }
             else
             {
-                this.quartzblockIcons[var2] = par1IconRegister.registerIcon(this.getTextureName() + "_" + quartzBlockTextureTypes[var2]);
+                this.quartzblockIcons[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + quartzBlockTextureTypes[i]);
             }
         }
 

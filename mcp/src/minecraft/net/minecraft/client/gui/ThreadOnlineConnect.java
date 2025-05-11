@@ -38,7 +38,7 @@ class ThreadOnlineConnect extends Thread
             this.field_96594_c.setMessage(I18n.getString("mco.connect.authorizing"));
             TaskOnlineConnect.func_96580_a(this.field_96594_c).addToSendQueue(new Packet2ClientProtocol(78, this.field_96594_c.getMinecraft().getSession().getUsername(), this.field_96595_a, this.field_96593_b));
         }
-        catch (UnknownHostException var2)
+        catch (UnknownHostException unknownhostexception)
         {
             if (this.field_96594_c.wasScreenClosed())
             {
@@ -47,24 +47,24 @@ class ThreadOnlineConnect extends Thread
 
             this.field_96594_c.getMinecraft().displayGuiScreen(new GuiScreenDisconnectedOnline(TaskOnlineConnect.func_98172_a(this.field_96594_c), "connect.failed", "disconnect.genericReason", new Object[] {"Unknown host \'" + this.field_96595_a + "\'"}));
         }
-        catch (ConnectException var3)
+        catch (ConnectException connectexception)
         {
             if (this.field_96594_c.wasScreenClosed())
             {
                 return;
             }
 
-            this.field_96594_c.getMinecraft().displayGuiScreen(new GuiScreenDisconnectedOnline(TaskOnlineConnect.func_98172_a(this.field_96594_c), "connect.failed", "disconnect.genericReason", new Object[] {var3.getMessage()}));
+            this.field_96594_c.getMinecraft().displayGuiScreen(new GuiScreenDisconnectedOnline(TaskOnlineConnect.func_98172_a(this.field_96594_c), "connect.failed", "disconnect.genericReason", new Object[] {connectexception.getMessage()}));
         }
-        catch (Exception var4)
+        catch (Exception exception)
         {
             if (this.field_96594_c.wasScreenClosed())
             {
                 return;
             }
 
-            var4.printStackTrace();
-            this.field_96594_c.getMinecraft().displayGuiScreen(new GuiScreenDisconnectedOnline(TaskOnlineConnect.func_98172_a(this.field_96594_c), "connect.failed", "disconnect.genericReason", new Object[] {var4.toString()}));
+            exception.printStackTrace();
+            this.field_96594_c.getMinecraft().displayGuiScreen(new GuiScreenDisconnectedOnline(TaskOnlineConnect.func_98172_a(this.field_96594_c), "connect.failed", "disconnect.genericReason", new Object[] {exception.toString()}));
         }
     }
 }

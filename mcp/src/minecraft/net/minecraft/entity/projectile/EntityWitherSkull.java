@@ -54,14 +54,14 @@ public class EntityWitherSkull extends EntityFireball
      */
     public float getBlockExplosionResistance(Explosion par1Explosion, World par2World, int par3, int par4, int par5, Block par6Block)
     {
-        float var7 = super.getBlockExplosionResistance(par1Explosion, par2World, par3, par4, par5, par6Block);
+        float f = super.getBlockExplosionResistance(par1Explosion, par2World, par3, par4, par5, par6Block);
 
         if (this.isInvulnerable() && par6Block != Block.bedrock && par6Block != Block.endPortal && par6Block != Block.endPortalFrame)
         {
-            var7 = Math.min(0.8F, var7);
+            f = Math.min(0.8F, f);
         }
 
-        return var7;
+        return f;
     }
 
     /**
@@ -87,23 +87,23 @@ public class EntityWitherSkull extends EntityFireball
 
                 if (par1MovingObjectPosition.entityHit instanceof EntityLivingBase)
                 {
-                    byte var2 = 0;
+                    byte b0 = 0;
 
                     if (this.worldObj.difficultySetting > 1)
                     {
                         if (this.worldObj.difficultySetting == 2)
                         {
-                            var2 = 10;
+                            b0 = 10;
                         }
                         else if (this.worldObj.difficultySetting == 3)
                         {
-                            var2 = 40;
+                            b0 = 40;
                         }
                     }
 
-                    if (var2 > 0)
+                    if (b0 > 0)
                     {
-                        ((EntityLivingBase)par1MovingObjectPosition.entityHit).addPotionEffect(new PotionEffect(Potion.wither.id, 20 * var2, 1));
+                        ((EntityLivingBase)par1MovingObjectPosition.entityHit).addPotionEffect(new PotionEffect(Potion.wither.id, 20 * b0, 1));
                     }
                 }
             }

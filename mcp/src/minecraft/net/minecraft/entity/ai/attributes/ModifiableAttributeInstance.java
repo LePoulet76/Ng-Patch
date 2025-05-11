@@ -28,9 +28,9 @@ public class ModifiableAttributeInstance implements AttributeInstance
         this.field_111136_b = par2Attribute;
         this.baseValue = par2Attribute.getDefaultValue();
 
-        for (int var3 = 0; var3 < 3; ++var3)
+        for (int i = 0; i < 3; ++i)
         {
-            this.field_111137_c.put(Integer.valueOf(var3), new HashSet());
+            this.field_111137_c.put(Integer.valueOf(i), new HashSet());
         }
     }
 
@@ -60,14 +60,14 @@ public class ModifiableAttributeInstance implements AttributeInstance
 
     public Collection func_111122_c()
     {
-        HashSet var1 = new HashSet();
+        HashSet hashset = new HashSet();
 
-        for (int var2 = 0; var2 < 3; ++var2)
+        for (int i = 0; i < 3; ++i)
         {
-            var1.addAll(this.func_111130_a(var2));
+            hashset.addAll(this.func_111130_a(i));
         }
 
-        return var1;
+        return hashset;
     }
 
     /**
@@ -86,16 +86,16 @@ public class ModifiableAttributeInstance implements AttributeInstance
         }
         else
         {
-            Object var2 = (Set)this.field_111134_d.get(par1AttributeModifier.getName());
+            Object object = (Set)this.field_111134_d.get(par1AttributeModifier.getName());
 
-            if (var2 == null)
+            if (object == null)
             {
-                var2 = new HashSet();
-                this.field_111134_d.put(par1AttributeModifier.getName(), var2);
+                object = new HashSet();
+                this.field_111134_d.put(par1AttributeModifier.getName(), object);
             }
 
             ((Set)this.field_111137_c.get(Integer.valueOf(par1AttributeModifier.getOperation()))).add(par1AttributeModifier);
-            ((Set)var2).add(par1AttributeModifier);
+            ((Set)object).add(par1AttributeModifier);
             this.field_111135_e.put(par1AttributeModifier.getID(), par1AttributeModifier);
             this.func_111131_f();
         }
@@ -109,19 +109,19 @@ public class ModifiableAttributeInstance implements AttributeInstance
 
     public void removeModifier(AttributeModifier par1AttributeModifier)
     {
-        for (int var2 = 0; var2 < 3; ++var2)
+        for (int i = 0; i < 3; ++i)
         {
-            Set var3 = (Set)this.field_111137_c.get(Integer.valueOf(var2));
-            var3.remove(par1AttributeModifier);
+            Set set = (Set)this.field_111137_c.get(Integer.valueOf(i));
+            set.remove(par1AttributeModifier);
         }
 
-        Set var4 = (Set)this.field_111134_d.get(par1AttributeModifier.getName());
+        Set set1 = (Set)this.field_111134_d.get(par1AttributeModifier.getName());
 
-        if (var4 != null)
+        if (set1 != null)
         {
-            var4.remove(par1AttributeModifier);
+            set1.remove(par1AttributeModifier);
 
-            if (var4.isEmpty())
+            if (set1.isEmpty())
             {
                 this.field_111134_d.remove(par1AttributeModifier.getName());
             }
@@ -134,17 +134,17 @@ public class ModifiableAttributeInstance implements AttributeInstance
     @SideOnly(Side.CLIENT)
     public void func_142049_d()
     {
-        Collection var1 = this.func_111122_c();
+        Collection collection = this.func_111122_c();
 
-        if (var1 != null)
+        if (collection != null)
         {
-            ArrayList var4 = new ArrayList(var1);
-            Iterator var2 = var4.iterator();
+            ArrayList arraylist = new ArrayList(collection);
+            Iterator iterator = arraylist.iterator();
 
-            while (var2.hasNext())
+            while (iterator.hasNext())
             {
-                AttributeModifier var3 = (AttributeModifier)var2.next();
-                this.removeModifier(var3);
+                AttributeModifier attributemodifier = (AttributeModifier)iterator.next();
+                this.removeModifier(attributemodifier);
             }
         }
     }
@@ -162,28 +162,28 @@ public class ModifiableAttributeInstance implements AttributeInstance
 
     private double func_111129_g()
     {
-        double var1 = this.getBaseValue();
-        AttributeModifier var4;
+        double d0 = this.getBaseValue();
+        AttributeModifier attributemodifier;
 
-        for (Iterator var3 = this.func_111130_a(0).iterator(); var3.hasNext(); var1 += var4.getAmount())
+        for (Iterator iterator = this.func_111130_a(0).iterator(); iterator.hasNext(); d0 += attributemodifier.getAmount())
         {
-            var4 = (AttributeModifier)var3.next();
+            attributemodifier = (AttributeModifier)iterator.next();
         }
 
-        double var7 = var1;
-        Iterator var5;
-        AttributeModifier var6;
+        double d1 = d0;
+        Iterator iterator1;
+        AttributeModifier attributemodifier1;
 
-        for (var5 = this.func_111130_a(1).iterator(); var5.hasNext(); var7 += var1 * var6.getAmount())
+        for (iterator1 = this.func_111130_a(1).iterator(); iterator1.hasNext(); d1 += d0 * attributemodifier1.getAmount())
         {
-            var6 = (AttributeModifier)var5.next();
+            attributemodifier1 = (AttributeModifier)iterator1.next();
         }
 
-        for (var5 = this.func_111130_a(2).iterator(); var5.hasNext(); var7 *= 1.0D + var6.getAmount())
+        for (iterator1 = this.func_111130_a(2).iterator(); iterator1.hasNext(); d1 *= 1.0D + attributemodifier1.getAmount())
         {
-            var6 = (AttributeModifier)var5.next();
+            attributemodifier1 = (AttributeModifier)iterator1.next();
         }
 
-        return this.field_111136_b.clampValue(var7);
+        return this.field_111136_b.clampValue(d1);
     }
 }

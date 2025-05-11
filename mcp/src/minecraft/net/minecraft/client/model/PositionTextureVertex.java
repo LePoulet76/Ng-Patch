@@ -4,7 +4,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.Vec3;
 
-@SideOnly(Side.CLIENT)
 public class PositionTextureVertex
 {
     public Vec3 vector3D;

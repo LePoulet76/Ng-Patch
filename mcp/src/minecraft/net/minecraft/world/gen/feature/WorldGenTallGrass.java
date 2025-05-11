@@ -18,22 +18,28 @@ public class WorldGenTallGrass extends WorldGenerator
 
     public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
     {
-        int var11;
+        int l;
 
-        for (boolean var6 = false; ((var11 = par1World.getBlockId(par3, par4, par5)) == 0 || var11 == Block.leaves.blockID) && par4 > 0; --par4)
+        Block block = null;
+        do 
         {
-            ;
-        }
-
-        for (int var7 = 0; var7 < 128; ++var7)
-        {
-            int var8 = par3 + par2Random.nextInt(8) - par2Random.nextInt(8);
-            int var9 = par4 + par2Random.nextInt(4) - par2Random.nextInt(4);
-            int var10 = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
-
-            if (par1World.isAirBlock(var8, var9, var10) && Block.blocksList[this.tallGrassID].canBlockStay(par1World, var8, var9, var10))
+            block = Block.blocksList[par1World.getBlockId(par3,  par4, par5)];
+            if (block != null && !block.isLeaves(par1World, par3, par4, par5))
             {
-                par1World.setBlock(var8, var9, var10, this.tallGrassID, this.tallGrassMetadata, 2);
+                break;
+            }
+            par4--;
+        } while (par4 > 0);
+
+        for (int i1 = 0; i1 < 128; ++i1)
+        {
+            int j1 = par3 + par2Random.nextInt(8) - par2Random.nextInt(8);
+            int k1 = par4 + par2Random.nextInt(4) - par2Random.nextInt(4);
+            int l1 = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
+
+            if (par1World.isAirBlock(j1, k1, l1) && Block.blocksList[this.tallGrassID].canBlockStay(par1World, j1, k1, l1))
+            {
+                par1World.setBlock(j1, k1, l1, this.tallGrassID, this.tallGrassMetadata, 2);
             }
         }
 

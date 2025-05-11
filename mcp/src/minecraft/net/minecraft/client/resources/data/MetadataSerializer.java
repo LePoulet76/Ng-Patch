@@ -42,15 +42,15 @@ public class MetadataSerializer
         }
         else
         {
-            MetadataSerializerRegistration var3 = (MetadataSerializerRegistration)this.metadataSectionSerializerRegistry.getObject(par1Str);
+            MetadataSerializerRegistration metadataserializerregistration = (MetadataSerializerRegistration)this.metadataSectionSerializerRegistry.getObject(par1Str);
 
-            if (var3 == null)
+            if (metadataserializerregistration == null)
             {
                 throw new IllegalArgumentException("Don\'t know how to handle metadata section \'" + par1Str + "\'");
             }
             else
             {
-                return (MetadataSection)this.getGson().fromJson(par2JsonObject.getAsJsonObject(par1Str), var3.field_110500_b);
+                return (MetadataSection)this.getGson().fromJson(par2JsonObject.getAsJsonObject(par1Str), metadataserializerregistration.field_110500_b);
             }
         }
     }

@@ -21,28 +21,28 @@ class CallableJVMFlags implements Callable
      */
     public String getJVMFlagsAsString()
     {
-        RuntimeMXBean var1 = ManagementFactory.getRuntimeMXBean();
-        List var2 = var1.getInputArguments();
-        int var3 = 0;
-        StringBuilder var4 = new StringBuilder();
-        Iterator var5 = var2.iterator();
+        RuntimeMXBean runtimemxbean = ManagementFactory.getRuntimeMXBean();
+        List list = runtimemxbean.getInputArguments();
+        int i = 0;
+        StringBuilder stringbuilder = new StringBuilder();
+        Iterator iterator = list.iterator();
 
-        while (var5.hasNext())
+        while (iterator.hasNext())
         {
-            String var6 = (String)var5.next();
+            String s = (String)iterator.next();
 
-            if (var6.startsWith("-X"))
+            if (s.startsWith("-X"))
             {
-                if (var3++ > 0)
+                if (i++ > 0)
                 {
-                    var4.append(" ");
+                    stringbuilder.append(" ");
                 }
 
-                var4.append(var6);
+                stringbuilder.append(s);
             }
         }
 
-        return String.format("%d total; %s", new Object[] {Integer.valueOf(var3), var4.toString()});
+        return String.format("%d total; %s", new Object[] {Integer.valueOf(i), stringbuilder.toString()});
     }
 
     public Object call()

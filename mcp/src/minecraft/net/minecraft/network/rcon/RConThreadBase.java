@@ -115,12 +115,12 @@ public abstract class RConThreadBase implements Runnable
         }
         else
         {
-            boolean var3 = false;
+            boolean flag1 = false;
 
             if (!par1DatagramSocket.isClosed())
             {
                 par1DatagramSocket.close();
-                var3 = true;
+                flag1 = true;
             }
 
             if (par2)
@@ -128,7 +128,7 @@ public abstract class RConThreadBase implements Runnable
                 this.socketList.remove(par1DatagramSocket);
             }
 
-            return var3;
+            return flag1;
         }
     }
 
@@ -153,19 +153,19 @@ public abstract class RConThreadBase implements Runnable
         }
         else
         {
-            boolean var3 = false;
+            boolean flag1 = false;
 
             try
             {
                 if (!par1ServerSocket.isClosed())
                 {
                     par1ServerSocket.close();
-                    var3 = true;
+                    flag1 = true;
                 }
             }
-            catch (IOException var5)
+            catch (IOException ioexception)
             {
-                this.logWarning("IO: " + var5.getMessage());
+                this.logWarning("IO: " + ioexception.getMessage());
             }
 
             if (par2)
@@ -173,7 +173,7 @@ public abstract class RConThreadBase implements Runnable
                 this.serverSocketList.remove(par1ServerSocket);
             }
 
-            return var3;
+            return flag1;
         }
     }
 
@@ -190,37 +190,37 @@ public abstract class RConThreadBase implements Runnable
      */
     protected void closeAllSockets_do(boolean par1)
     {
-        int var2 = 0;
-        Iterator var3 = this.socketList.iterator();
+        int i = 0;
+        Iterator iterator = this.socketList.iterator();
 
-        while (var3.hasNext())
+        while (iterator.hasNext())
         {
-            DatagramSocket var4 = (DatagramSocket)var3.next();
+            DatagramSocket datagramsocket = (DatagramSocket)iterator.next();
 
-            if (this.closeSocket(var4, false))
+            if (this.closeSocket(datagramsocket, false))
             {
-                ++var2;
+                ++i;
             }
         }
 
         this.socketList.clear();
-        var3 = this.serverSocketList.iterator();
+        iterator = this.serverSocketList.iterator();
 
-        while (var3.hasNext())
+        while (iterator.hasNext())
         {
-            ServerSocket var5 = (ServerSocket)var3.next();
+            ServerSocket serversocket = (ServerSocket)iterator.next();
 
-            if (this.closeServerSocket_do(var5, false))
+            if (this.closeServerSocket_do(serversocket, false))
             {
-                ++var2;
+                ++i;
             }
         }
 
         this.serverSocketList.clear();
 
-        if (par1 && 0 < var2)
+        if (par1 && 0 < i)
         {
-            this.logWarning("Force closed " + var2 + " sockets");
+            this.logWarning("Force closed " + i + " sockets");
         }
     }
 }

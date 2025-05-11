@@ -50,7 +50,7 @@ class SelectionListInvited extends SelectionListBase
 
     private void func_98263_b(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
     {
-        String var6 = (String)GuiScreenConfigureWorld.func_96266_d(this.theGuiScreenConfigureWorld).field_96402_f.get(par1);
-        this.theGuiScreenConfigureWorld.drawString(GuiScreenConfigureWorld.func_96273_f(this.theGuiScreenConfigureWorld), var6, par2 + 2, par3 + 1, 16777215);
+        String s = (String)GuiScreenConfigureWorld.func_96266_d(this.theGuiScreenConfigureWorld).field_96402_f.get(par1);
+        this.theGuiScreenConfigureWorld.drawString(GuiScreenConfigureWorld.func_96273_f(this.theGuiScreenConfigureWorld), s, par2 + 2, par3 + 1, 16777215);
     }
 }

@@ -26,9 +26,9 @@ public class WorldGeneratorBonusChest extends WorldGenerator
 
     public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
     {
-        int var12;
+        int l;
 
-        for (boolean var6 = false; ((var12 = par1World.getBlockId(par3, par4, par5)) == 0 || var12 == Block.leaves.blockID) && par4 > 1; --par4)
+        for (boolean flag = false; ((l = par1World.getBlockId(par3, par4, par5)) == 0 || l == Block.leaves.blockID) && par4 > 1; --par4)
         {
             ;
         }
@@ -41,40 +41,40 @@ public class WorldGeneratorBonusChest extends WorldGenerator
         {
             ++par4;
 
-            for (int var7 = 0; var7 < 4; ++var7)
+            for (int i1 = 0; i1 < 4; ++i1)
             {
-                int var8 = par3 + par2Random.nextInt(4) - par2Random.nextInt(4);
-                int var9 = par4 + par2Random.nextInt(3) - par2Random.nextInt(3);
-                int var10 = par5 + par2Random.nextInt(4) - par2Random.nextInt(4);
+                int j1 = par3 + par2Random.nextInt(4) - par2Random.nextInt(4);
+                int k1 = par4 + par2Random.nextInt(3) - par2Random.nextInt(3);
+                int l1 = par5 + par2Random.nextInt(4) - par2Random.nextInt(4);
 
-                if (par1World.isAirBlock(var8, var9, var10) && par1World.doesBlockHaveSolidTopSurface(var8, var9 - 1, var10))
+                if (par1World.isAirBlock(j1, k1, l1) && par1World.doesBlockHaveSolidTopSurface(j1, k1 - 1, l1))
                 {
-                    par1World.setBlock(var8, var9, var10, Block.chest.blockID, 0, 2);
-                    TileEntityChest var11 = (TileEntityChest)par1World.getBlockTileEntity(var8, var9, var10);
+                    par1World.setBlock(j1, k1, l1, Block.chest.blockID, 0, 2);
+                    TileEntityChest tileentitychest = (TileEntityChest)par1World.getBlockTileEntity(j1, k1, l1);
 
-                    if (var11 != null && var11 != null)
+                    if (tileentitychest != null && tileentitychest != null)
                     {
-                        WeightedRandomChestContent.generateChestContents(par2Random, this.theBonusChestGenerator, var11, this.itemsToGenerateInBonusChest);
+                        WeightedRandomChestContent.generateChestContents(par2Random, this.theBonusChestGenerator, tileentitychest, this.itemsToGenerateInBonusChest);
                     }
 
-                    if (par1World.isAirBlock(var8 - 1, var9, var10) && par1World.doesBlockHaveSolidTopSurface(var8 - 1, var9 - 1, var10))
+                    if (par1World.isAirBlock(j1 - 1, k1, l1) && par1World.doesBlockHaveSolidTopSurface(j1 - 1, k1 - 1, l1))
                     {
-                        par1World.setBlock(var8 - 1, var9, var10, Block.torchWood.blockID, 0, 2);
+                        par1World.setBlock(j1 - 1, k1, l1, Block.torchWood.blockID, 0, 2);
                     }
 
-                    if (par1World.isAirBlock(var8 + 1, var9, var10) && par1World.doesBlockHaveSolidTopSurface(var8 - 1, var9 - 1, var10))
+                    if (par1World.isAirBlock(j1 + 1, k1, l1) && par1World.doesBlockHaveSolidTopSurface(j1 - 1, k1 - 1, l1))
                     {
-                        par1World.setBlock(var8 + 1, var9, var10, Block.torchWood.blockID, 0, 2);
+                        par1World.setBlock(j1 + 1, k1, l1, Block.torchWood.blockID, 0, 2);
                     }
 
-                    if (par1World.isAirBlock(var8, var9, var10 - 1) && par1World.doesBlockHaveSolidTopSurface(var8 - 1, var9 - 1, var10))
+                    if (par1World.isAirBlock(j1, k1, l1 - 1) && par1World.doesBlockHaveSolidTopSurface(j1 - 1, k1 - 1, l1))
                     {
-                        par1World.setBlock(var8, var9, var10 - 1, Block.torchWood.blockID, 0, 2);
+                        par1World.setBlock(j1, k1, l1 - 1, Block.torchWood.blockID, 0, 2);
                     }
 
-                    if (par1World.isAirBlock(var8, var9, var10 + 1) && par1World.doesBlockHaveSolidTopSurface(var8 - 1, var9 - 1, var10))
+                    if (par1World.isAirBlock(j1, k1, l1 + 1) && par1World.doesBlockHaveSolidTopSurface(j1 - 1, k1 - 1, l1))
                     {
-                        par1World.setBlock(var8, var9, var10 + 1, Block.torchWood.blockID, 0, 2);
+                        par1World.setBlock(j1, k1, l1 + 1, Block.torchWood.blockID, 0, 2);
                     }
 
                     return true;

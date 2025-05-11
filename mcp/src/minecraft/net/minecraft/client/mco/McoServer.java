@@ -43,7 +43,7 @@ public class McoServer
             {
                 this.field_96409_n = URLDecoder.decode(this.field_96407_c, "UTF-8");
             }
-            catch (UnsupportedEncodingException var2)
+            catch (UnsupportedEncodingException unsupportedencodingexception)
             {
                 this.field_96409_n = this.field_96407_c;
             }
@@ -60,7 +60,7 @@ public class McoServer
             {
                 this.field_96410_o = URLDecoder.decode(this.field_96406_b, "UTF-8");
             }
-            catch (UnsupportedEncodingException var2)
+            catch (UnsupportedEncodingException unsupportedencodingexception)
             {
                 this.field_96410_o = this.field_96406_b;
             }
@@ -92,67 +92,67 @@ public class McoServer
 
     public static McoServer func_98163_a(JsonNode par0JsonNode)
     {
-        McoServer var1 = new McoServer();
+        McoServer mcoserver = new McoServer();
 
         try
         {
-            var1.field_96408_a = Long.parseLong(par0JsonNode.getNumberValue(new Object[] {"id"}));
-            var1.field_96406_b = par0JsonNode.getStringValue(new Object[] {"name"});
-            var1.field_96407_c = par0JsonNode.getStringValue(new Object[] {"motd"});
-            var1.field_96404_d = par0JsonNode.getStringValue(new Object[] {"state"});
-            var1.field_96405_e = par0JsonNode.getStringValue(new Object[] {"owner"});
+            mcoserver.field_96408_a = Long.parseLong(par0JsonNode.getNumberValue(new Object[] {"id"}));
+            mcoserver.field_96406_b = par0JsonNode.getStringValue(new Object[] {"name"});
+            mcoserver.field_96407_c = par0JsonNode.getStringValue(new Object[] {"motd"});
+            mcoserver.field_96404_d = par0JsonNode.getStringValue(new Object[] {"state"});
+            mcoserver.field_96405_e = par0JsonNode.getStringValue(new Object[] {"owner"});
 
             if (par0JsonNode.isArrayNode(new Object[] {"invited"}))
             {
-                var1.field_96402_f = func_98164_a(par0JsonNode.getArrayNode(new Object[] {"invited"}));
+                mcoserver.field_96402_f = func_98164_a(par0JsonNode.getArrayNode(new Object[] {"invited"}));
             }
             else
             {
-                var1.field_96402_f = new ArrayList();
+                mcoserver.field_96402_f = new ArrayList();
             }
 
-            var1.field_104063_i = Integer.parseInt(par0JsonNode.getNumberValue(new Object[] {"daysLeft"}));
-            var1.field_96403_g = par0JsonNode.getStringValue(new Object[] {"ip"});
-            var1.field_98166_h = par0JsonNode.getBooleanValue(new Object[] {"expired"}).booleanValue();
-            var1.field_110729_i = Integer.parseInt(par0JsonNode.getNumberValue(new Object[] {"difficulty"}));
-            var1.field_110728_j = Integer.parseInt(par0JsonNode.getNumberValue(new Object[] {"gameMode"}));
+            mcoserver.field_104063_i = Integer.parseInt(par0JsonNode.getNumberValue(new Object[] {"daysLeft"}));
+            mcoserver.field_96403_g = par0JsonNode.getStringValue(new Object[] {"ip"});
+            mcoserver.field_98166_h = par0JsonNode.getBooleanValue(new Object[] {"expired"}).booleanValue();
+            mcoserver.field_110729_i = Integer.parseInt(par0JsonNode.getNumberValue(new Object[] {"difficulty"}));
+            mcoserver.field_110728_j = Integer.parseInt(par0JsonNode.getNumberValue(new Object[] {"gameMode"}));
         }
-        catch (IllegalArgumentException var3)
+        catch (IllegalArgumentException illegalargumentexception)
         {
             ;
         }
 
-        return var1;
+        return mcoserver;
     }
 
     private static List func_98164_a(List par0List)
     {
-        ArrayList var1 = new ArrayList();
-        Iterator var2 = par0List.iterator();
+        ArrayList arraylist = new ArrayList();
+        Iterator iterator = par0List.iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            JsonNode var3 = (JsonNode)var2.next();
-            var1.add(var3.getStringValue(new Object[0]));
+            JsonNode jsonnode = (JsonNode)iterator.next();
+            arraylist.add(jsonnode.getStringValue(new Object[0]));
         }
 
-        return var1;
+        return arraylist;
     }
 
     public static McoServer func_98165_c(String par0Str)
     {
-        McoServer var1 = new McoServer();
+        McoServer mcoserver = new McoServer();
 
         try
         {
-            var1 = func_98163_a((new JdomParser()).parse(par0Str));
+            mcoserver = func_98163_a((new JdomParser()).parse(par0Str));
         }
-        catch (InvalidSyntaxException var3)
+        catch (InvalidSyntaxException invalidsyntaxexception)
         {
             ;
         }
 
-        return var1;
+        return mcoserver;
     }
 
     public int hashCode()
@@ -176,8 +176,8 @@ public class McoServer
         }
         else
         {
-            McoServer var2 = (McoServer)par1Obj;
-            return (new EqualsBuilder()).append(this.field_96408_a, var2.field_96408_a).append(this.field_96406_b, var2.field_96406_b).append(this.field_96407_c, var2.field_96407_c).append(this.field_96404_d, var2.field_96404_d).append(this.field_96405_e, var2.field_96405_e).append(this.field_98166_h, var2.field_98166_h).isEquals();
+            McoServer mcoserver = (McoServer)par1Obj;
+            return (new EqualsBuilder()).append(this.field_96408_a, mcoserver.field_96408_a).append(this.field_96406_b, mcoserver.field_96406_b).append(this.field_96407_c, mcoserver.field_96407_c).append(this.field_96404_d, mcoserver.field_96404_d).append(this.field_96405_e, mcoserver.field_96405_e).append(this.field_98166_h, mcoserver.field_98166_h).isEquals();
         }
     }
 }

@@ -24,16 +24,16 @@ public class ChunkCoordIntPair
 
     public int hashCode()
     {
-        long var1 = chunkXZ2Int(this.chunkXPos, this.chunkZPos);
-        int var3 = (int)var1;
-        int var4 = (int)(var1 >> 32);
-        return var3 ^ var4;
+        long i = chunkXZ2Int(this.chunkXPos, this.chunkZPos);
+        int j = (int)i;
+        int k = (int)(i >> 32);
+        return j ^ k;
     }
 
     public boolean equals(Object par1Obj)
     {
-        ChunkCoordIntPair var2 = (ChunkCoordIntPair)par1Obj;
-        return var2.chunkXPos == this.chunkXPos && var2.chunkZPos == this.chunkZPos;
+        ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair)par1Obj;
+        return chunkcoordintpair.chunkXPos == this.chunkXPos && chunkcoordintpair.chunkZPos == this.chunkZPos;
     }
 
     public int getCenterXPos()

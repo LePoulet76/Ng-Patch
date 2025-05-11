@@ -28,29 +28,29 @@ public class CommandServerSaveAll extends CommandBase
 
     public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
-        MinecraftServer var3 = MinecraftServer.getServer();
+        MinecraftServer minecraftserver = MinecraftServer.getServer();
         par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("commands.save.start"));
 
-        if (var3.getConfigurationManager() != null)
+        if (minecraftserver.getConfigurationManager() != null)
         {
-            var3.getConfigurationManager().saveAllPlayerData();
+            minecraftserver.getConfigurationManager().saveAllPlayerData();
         }
 
         try
         {
-            int var4;
-            WorldServer var5;
-            boolean var6;
+            int i;
+            WorldServer worldserver;
+            boolean flag;
 
-            for (var4 = 0; var4 < var3.worldServers.length; ++var4)
+            for (i = 0; i < minecraftserver.worldServers.length; ++i)
             {
-                if (var3.worldServers[var4] != null)
+                if (minecraftserver.worldServers[i] != null)
                 {
-                    var5 = var3.worldServers[var4];
-                    var6 = var5.canNotSave;
-                    var5.canNotSave = false;
-                    var5.saveAllChunks(true, (IProgressUpdate)null);
-                    var5.canNotSave = var6;
+                    worldserver = minecraftserver.worldServers[i];
+                    flag = worldserver.canNotSave;
+                    worldserver.canNotSave = false;
+                    worldserver.saveAllChunks(true, (IProgressUpdate)null);
+                    worldserver.canNotSave = flag;
                 }
             }
 
@@ -58,24 +58,24 @@ public class CommandServerSaveAll extends CommandBase
             {
                 par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("commands.save.flushStart"));
 
-                for (var4 = 0; var4 < var3.worldServers.length; ++var4)
+                for (i = 0; i < minecraftserver.worldServers.length; ++i)
                 {
-                    if (var3.worldServers[var4] != null)
+                    if (minecraftserver.worldServers[i] != null)
                     {
-                        var5 = var3.worldServers[var4];
-                        var6 = var5.canNotSave;
-                        var5.canNotSave = false;
-                        var5.saveChunkData();
-                        var5.canNotSave = var6;
+                        worldserver = minecraftserver.worldServers[i];
+                        flag = worldserver.canNotSave;
+                        worldserver.canNotSave = false;
+                        worldserver.saveChunkData();
+                        worldserver.canNotSave = flag;
                     }
                 }
 
                 par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("commands.save.flushEnd"));
             }
         }
-        catch (MinecraftException var7)
+        catch (MinecraftException minecraftexception)
         {
-            notifyAdmins(par1ICommandSender, "commands.save.failed", new Object[] {var7.getMessage()});
+            notifyAdmins(par1ICommandSender, "commands.save.failed", new Object[] {minecraftexception.getMessage()});
             return;
         }
 

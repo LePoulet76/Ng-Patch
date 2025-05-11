@@ -29,10 +29,10 @@ public class EntityDamageSourceIndirect extends EntityDamageSource
      */
     public ChatMessageComponent getDeathMessage(EntityLivingBase par1EntityLivingBase)
     {
-        String var2 = this.indirectEntity == null ? this.damageSourceEntity.getTranslatedEntityName() : this.indirectEntity.getTranslatedEntityName();
-        ItemStack var3 = this.indirectEntity instanceof EntityLivingBase ? ((EntityLivingBase)this.indirectEntity).getHeldItem() : null;
-        String var4 = "death.attack." + this.damageType;
-        String var5 = var4 + ".item";
-        return var3 != null && var3.hasDisplayName() && StatCollector.func_94522_b(var5) ? ChatMessageComponent.createFromTranslationWithSubstitutions(var5, new Object[] {par1EntityLivingBase.getTranslatedEntityName(), var2, var3.getDisplayName()}): ChatMessageComponent.createFromTranslationWithSubstitutions(var4, new Object[] {par1EntityLivingBase.getTranslatedEntityName(), var2});
+        String s = this.indirectEntity == null ? this.damageSourceEntity.getTranslatedEntityName() : this.indirectEntity.getTranslatedEntityName();
+        ItemStack itemstack = this.indirectEntity instanceof EntityLivingBase ? ((EntityLivingBase)this.indirectEntity).getHeldItem() : null;
+        String s1 = "death.attack." + this.damageType;
+        String s2 = s1 + ".item";
+        return itemstack != null && itemstack.hasDisplayName() && StatCollector.func_94522_b(s2) ? ChatMessageComponent.createFromTranslationWithSubstitutions(s2, new Object[] {par1EntityLivingBase.getTranslatedEntityName(), s, itemstack.getDisplayName()}): ChatMessageComponent.createFromTranslationWithSubstitutions(s1, new Object[] {par1EntityLivingBase.getTranslatedEntityName(), s});
     }
 }

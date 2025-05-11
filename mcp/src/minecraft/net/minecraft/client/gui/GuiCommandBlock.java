@@ -71,21 +71,21 @@ public class GuiCommandBlock extends GuiScreen
             }
             else if (par1GuiButton.id == 0)
             {
-                String var2 = "MC|AdvCdm";
-                ByteArrayOutputStream var3 = new ByteArrayOutputStream();
-                DataOutputStream var4 = new DataOutputStream(var3);
+                String s = "MC|AdvCdm";
+                ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+                DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream);
 
                 try
                 {
-                    var4.writeInt(this.commandBlock.xCoord);
-                    var4.writeInt(this.commandBlock.yCoord);
-                    var4.writeInt(this.commandBlock.zCoord);
-                    Packet.writeString(this.commandTextField.getText(), var4);
-                    this.mc.getNetHandler().addToSendQueue(new Packet250CustomPayload(var2, var3.toByteArray()));
+                    dataoutputstream.writeInt(this.commandBlock.xCoord);
+                    dataoutputstream.writeInt(this.commandBlock.yCoord);
+                    dataoutputstream.writeInt(this.commandBlock.zCoord);
+                    Packet.writeString(this.commandTextField.getText(), dataoutputstream);
+                    this.mc.getNetHandler().addToSendQueue(new Packet250CustomPayload(s, bytearrayoutputstream.toByteArray()));
                 }
-                catch (Exception var6)
+                catch (Exception exception)
                 {
-                    var6.printStackTrace();
+                    exception.printStackTrace();
                 }
 
                 this.mc.displayGuiScreen((GuiScreen)null);

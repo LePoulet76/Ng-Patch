@@ -9,21 +9,21 @@ public class SpiderEffectsGroupData implements EntityLivingData
 
     public void func_111104_a(Random par1Random)
     {
-        int var2 = par1Random.nextInt(5);
+        int i = par1Random.nextInt(5);
 
-        if (var2 <= 1)
+        if (i <= 1)
         {
             this.field_111105_a = Potion.moveSpeed.id;
         }
-        else if (var2 <= 2)
+        else if (i <= 2)
         {
             this.field_111105_a = Potion.damageBoost.id;
         }
-        else if (var2 <= 3)
+        else if (i <= 3)
         {
             this.field_111105_a = Potion.regeneration.id;
         }
-        else if (var2 <= 4)
+        else if (i <= 4)
         {
             this.field_111105_a = Potion.invisibility.id;
         }

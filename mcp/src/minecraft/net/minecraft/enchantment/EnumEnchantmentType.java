@@ -35,8 +35,8 @@ public enum EnumEnchantmentType
             }
             else
             {
-                ItemArmor var2 = (ItemArmor)par1Item;
-                return var2.armorType == 0 ? this == armor_head : (var2.armorType == 2 ? this == armor_legs : (var2.armorType == 1 ? this == armor_torso : (var2.armorType == 3 ? this == armor_feet : false)));
+                ItemArmor itemarmor = (ItemArmor)par1Item;
+                return itemarmor.armorType == 0 ? this == armor_head : (itemarmor.armorType == 2 ? this == armor_legs : (itemarmor.armorType == 1 ? this == armor_torso : (itemarmor.armorType == 3 ? this == armor_feet : false)));
             }
         }
         else

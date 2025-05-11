@@ -11,6 +11,10 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.ArrowLooseEvent;
+import net.minecraftforge.event.entity.player.ArrowNockEvent;
+
 public class ItemBow extends Item
 {
     public static final String[] bowPullIconNameArray = new String[] {"pulling_0", "pulling_1", "pulling_2"};
@@ -30,56 +34,65 @@ public class ItemBow extends Item
      */
     public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, int par4)
     {
-        boolean var5 = par3EntityPlayer.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0;
+        int j = this.getMaxItemUseDuration(par1ItemStack) - par4;
 
-        if (var5 || par3EntityPlayer.inventory.hasItem(Item.arrow.itemID))
+        ArrowLooseEvent event = new ArrowLooseEvent(par3EntityPlayer, par1ItemStack, j);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.isCanceled())
         {
-            int var6 = this.getMaxItemUseDuration(par1ItemStack) - par4;
-            float var7 = (float)var6 / 20.0F;
-            var7 = (var7 * var7 + var7 * 2.0F) / 3.0F;
+            return;
+        }
+        j = event.charge;
 
-            if ((double)var7 < 0.1D)
+        boolean flag = par3EntityPlayer.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0;
+
+        if (flag || par3EntityPlayer.inventory.hasItem(Item.arrow.itemID))
+        {
+            float f = (float)j / 20.0F;
+            f = (f * f + f * 2.0F) / 3.0F;
+
+            if ((double)f < 0.1D)
             {
                 return;
             }
 
-            if (var7 > 1.0F)
+            if (f > 1.0F)
             {
-                var7 = 1.0F;
+                f = 1.0F;
             }
 
-            EntityArrow var8 = new EntityArrow(par2World, par3EntityPlayer, var7 * 2.0F);
+            EntityArrow entityarrow = new EntityArrow(par2World, par3EntityPlayer, f * 2.0F);
 
-            if (var7 == 1.0F)
+            if (f == 1.0F)
             {
-                var8.setIsCritical(true);
+                entityarrow.setIsCritical(true);
             }
 
-            int var9 = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, par1ItemStack);
+            int k = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, par1ItemStack);
 
-            if (var9 > 0)
+            if (k > 0)
             {
-                var8.setDamage(var8.getDamage() + (double)var9 * 0.5D + 0.5D);
+                entityarrow.setDamage(entityarrow.getDamage() + (double)k * 0.5D + 0.5D);
             }
 
-            int var10 = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, par1ItemStack);
+            int l = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, par1ItemStack);
 
-            if (var10 > 0)
+            if (l > 0)
             {
-                var8.setKnockbackStrength(var10);
+                entityarrow.setKnockbackStrength(l);
             }
 
             if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, par1ItemStack) > 0)
             {
-                var8.setFire(100);
+                entityarrow.setFire(100);
             }
 
             par1ItemStack.damageItem(1, par3EntityPlayer);
-            par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + var7 * 0.5F);
+            par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 
-            if (var5)
+            if (flag)
             {
-                var8.canBePickedUp = 2;
+                entityarrow.canBePickedUp = 2;
             }
             else
             {
@@ -88,7 +101,7 @@ public class ItemBow extends Item
 
             if (!par2World.isRemote)
             {
-                par2World.spawnEntityInWorld(var8);
+                par2World.spawnEntityInWorld(entityarrow);
             }
         }
     }
@@ -119,6 +132,13 @@ public class ItemBow extends Item
      */
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
+        ArrowNockEvent event = new ArrowNockEvent(par3EntityPlayer, par1ItemStack);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.isCanceled())
+        {
+            return event.result;
+        }
+
         if (par3EntityPlayer.capabilities.isCreativeMode || par3EntityPlayer.inventory.hasItem(Item.arrow.itemID))
         {
             par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
@@ -141,9 +161,9 @@ public class ItemBow extends Item
         this.itemIcon = par1IconRegister.registerIcon(this.getIconString() + "_standby");
         this.iconArray = new Icon[bowPullIconNameArray.length];
 
-        for (int var2 = 0; var2 < this.iconArray.length; ++var2)
+        for (int i = 0; i < this.iconArray.length; ++i)
         {
-            this.iconArray[var2] = par1IconRegister.registerIcon(this.getIconString() + "_" + bowPullIconNameArray[var2]);
+            this.iconArray[i] = par1IconRegister.registerIcon(this.getIconString() + "_" + bowPullIconNameArray[i]);
         }
     }
 

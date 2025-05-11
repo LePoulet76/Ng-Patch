@@ -20,12 +20,12 @@ public class RenderLeashKnot extends Render
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glTranslatef((float)par2, (float)par4, (float)par6);
-        float var10 = 0.0625F;
+        float f2 = 0.0625F;
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glScalef(-1.0F, -1.0F, 1.0F);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         this.bindEntityTexture(par1EntityLeashKnot);
-        this.leashKnotModel.render(par1EntityLeashKnot, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, var10);
+        this.leashKnotModel.render(par1EntityLeashKnot, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, f2);
         GL11.glPopMatrix();
     }
 

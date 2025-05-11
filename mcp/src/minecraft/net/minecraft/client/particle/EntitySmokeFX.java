@@ -35,19 +35,19 @@ public class EntitySmokeFX extends EntityFX
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
     {
-        float var8 = ((float)this.particleAge + par2) / (float)this.particleMaxAge * 32.0F;
+        float f6 = ((float)this.particleAge + par2) / (float)this.particleMaxAge * 32.0F;
 
-        if (var8 < 0.0F)
+        if (f6 < 0.0F)
         {
-            var8 = 0.0F;
+            f6 = 0.0F;
         }
 
-        if (var8 > 1.0F)
+        if (f6 > 1.0F)
         {
-            var8 = 1.0F;
+            f6 = 1.0F;
         }
 
-        this.particleScale = this.smokeParticleScale * var8;
+        this.particleScale = this.smokeParticleScale * f6;
         super.renderParticle(par1Tessellator, par2, par3, par4, par5, par6, par7);
     }
 

@@ -33,15 +33,15 @@ public class TextureManager implements Tickable, ResourceManagerReloadListener
 
     public void bindTexture(ResourceLocation par1ResourceLocation)
     {
-        Object var2 = (TextureObject)this.mapTextureObjects.get(par1ResourceLocation);
+        Object object = (TextureObject)this.mapTextureObjects.get(par1ResourceLocation);
 
-        if (var2 == null)
+        if (object == null)
         {
-            var2 = new SimpleTexture(par1ResourceLocation);
-            this.loadTexture(par1ResourceLocation, (TextureObject)var2);
+            object = new SimpleTexture(par1ResourceLocation);
+            this.loadTexture(par1ResourceLocation, (TextureObject)object);
         }
 
-        TextureUtil.bindTexture(((TextureObject)var2).getGlTextureId());
+        TextureUtil.bindTexture(((TextureObject)object).getGlTextureId());
     }
 
     public ResourceLocation getResourceLocation(int par1)
@@ -77,30 +77,30 @@ public class TextureManager implements Tickable, ResourceManagerReloadListener
 
     public boolean loadTexture(ResourceLocation par1ResourceLocation, TextureObject par2TextureObject)
     {
-        boolean var3 = true;
+        boolean flag = true;
 
         try
         {
             ((TextureObject)par2TextureObject).loadTexture(this.theResourceManager);
         }
-        catch (IOException var8)
+        catch (IOException ioexception)
         {
-            Minecraft.getMinecraft().getLogAgent().logWarningException("Failed to load texture: " + par1ResourceLocation, var8);
+            Minecraft.getMinecraft().getLogAgent().logWarningException("Failed to load texture: " + par1ResourceLocation, ioexception);
             par2TextureObject = TextureUtil.missingTexture;
             this.mapTextureObjects.put(par1ResourceLocation, par2TextureObject);
-            var3 = false;
+            flag = false;
         }
-        catch (Throwable var9)
+        catch (Throwable throwable)
         {
-            CrashReport var5 = CrashReport.makeCrashReport(var9, "Registering texture");
-            CrashReportCategory var6 = var5.makeCategory("Resource location being registered");
-            var6.addCrashSection("Resource location", par1ResourceLocation);
-            var6.addCrashSectionCallable("Texture object class", new TextureManagerINNER1(this, (TextureObject)par2TextureObject));
-            throw new ReportedException(var5);
+            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Registering texture");
+            CrashReportCategory crashreportcategory = crashreport.makeCategory("Resource location being registered");
+            crashreportcategory.addCrashSection("Resource location", par1ResourceLocation);
+            crashreportcategory.addCrashSectionCallable("Texture object class", new TextureManagerINNER1(this, (TextureObject)par2TextureObject));
+            throw new ReportedException(crashreport);
         }
 
         this.mapTextureObjects.put(par1ResourceLocation, par2TextureObject);
-        return var3;
+        return flag;
     }
 
     public TextureObject getTexture(ResourceLocation par1ResourceLocation)
@@ -110,42 +110,42 @@ public class TextureManager implements Tickable, ResourceManagerReloadListener
 
     public ResourceLocation getDynamicTextureLocation(String par1Str, DynamicTexture par2DynamicTexture)
     {
-        Integer var3 = (Integer)this.mapTextureCounters.get(par1Str);
+        Integer integer = (Integer)this.mapTextureCounters.get(par1Str);
 
-        if (var3 == null)
+        if (integer == null)
         {
-            var3 = Integer.valueOf(1);
+            integer = Integer.valueOf(1);
         }
         else
         {
-            var3 = Integer.valueOf(var3.intValue() + 1);
+            integer = Integer.valueOf(integer.intValue() + 1);
         }
 
-        this.mapTextureCounters.put(par1Str, var3);
-        ResourceLocation var4 = new ResourceLocation(String.format("dynamic/%s_%d", new Object[] {par1Str, var3}));
-        this.loadTexture(var4, par2DynamicTexture);
-        return var4;
+        this.mapTextureCounters.put(par1Str, integer);
+        ResourceLocation resourcelocation = new ResourceLocation(String.format("dynamic/%s_%d", new Object[] {par1Str, integer}));
+        this.loadTexture(resourcelocation, par2DynamicTexture);
+        return resourcelocation;
     }
 
     public void tick()
     {
-        Iterator var1 = this.listTickables.iterator();
+        Iterator iterator = this.listTickables.iterator();
 
-        while (var1.hasNext())
+        while (iterator.hasNext())
         {
-            Tickable var2 = (Tickable)var1.next();
-            var2.tick();
+            Tickable tickable = (Tickable)iterator.next();
+            tickable.tick();
         }
     }
 
     public void onResourceManagerReload(ResourceManager par1ResourceManager)
     {
-        Iterator var2 = this.mapTextureObjects.entrySet().iterator();
+        Iterator iterator = this.mapTextureObjects.entrySet().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
-            this.loadTexture((ResourceLocation)var3.getKey(), (TextureObject)var3.getValue());
+            Entry entry = (Entry)iterator.next();
+            this.loadTexture((ResourceLocation)entry.getKey(), (TextureObject)entry.getValue());
         }
     }
 }

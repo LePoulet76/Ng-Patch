@@ -11,15 +11,15 @@ public class WeightedRandom
      */
     public static int getTotalWeight(Collection par0Collection)
     {
-        int var1 = 0;
-        WeightedRandomItem var3;
+        int i = 0;
+        WeightedRandomItem weightedrandomitem;
 
-        for (Iterator var2 = par0Collection.iterator(); var2.hasNext(); var1 += var3.itemWeight)
+        for (Iterator iterator = par0Collection.iterator(); iterator.hasNext(); i += weightedrandomitem.itemWeight)
         {
-            var3 = (WeightedRandomItem)var2.next();
+            weightedrandomitem = (WeightedRandomItem)iterator.next();
         }
 
-        return var1;
+        return i;
     }
 
     /**
@@ -33,23 +33,23 @@ public class WeightedRandom
         }
         else
         {
-            int var3 = par0Random.nextInt(par2);
-            Iterator var4 = par1Collection.iterator();
-            WeightedRandomItem var5;
+            int j = par0Random.nextInt(par2);
+            Iterator iterator = par1Collection.iterator();
+            WeightedRandomItem weightedrandomitem;
 
             do
             {
-                if (!var4.hasNext())
+                if (!iterator.hasNext())
                 {
                     return null;
                 }
 
-                var5 = (WeightedRandomItem)var4.next();
-                var3 -= var5.itemWeight;
+                weightedrandomitem = (WeightedRandomItem)iterator.next();
+                j -= weightedrandomitem.itemWeight;
             }
-            while (var3 >= 0);
+            while (j >= 0);
 
-            return var5;
+            return weightedrandomitem;
         }
     }
 
@@ -66,17 +66,17 @@ public class WeightedRandom
      */
     public static int getTotalWeight(WeightedRandomItem[] par0ArrayOfWeightedRandomItem)
     {
-        int var1 = 0;
-        WeightedRandomItem[] var2 = par0ArrayOfWeightedRandomItem;
-        int var3 = par0ArrayOfWeightedRandomItem.length;
+        int i = 0;
+        WeightedRandomItem[] aweightedrandomitem1 = par0ArrayOfWeightedRandomItem;
+        int j = par0ArrayOfWeightedRandomItem.length;
 
-        for (int var4 = 0; var4 < var3; ++var4)
+        for (int k = 0; k < j; ++k)
         {
-            WeightedRandomItem var5 = var2[var4];
-            var1 += var5.itemWeight;
+            WeightedRandomItem weightedrandomitem = aweightedrandomitem1[k];
+            i += weightedrandomitem.itemWeight;
         }
 
-        return var1;
+        return i;
     }
 
     /**
@@ -90,18 +90,18 @@ public class WeightedRandom
         }
         else
         {
-            int var3 = par0Random.nextInt(par2);
-            WeightedRandomItem[] var4 = par1ArrayOfWeightedRandomItem;
-            int var5 = par1ArrayOfWeightedRandomItem.length;
+            int j = par0Random.nextInt(par2);
+            WeightedRandomItem[] aweightedrandomitem1 = par1ArrayOfWeightedRandomItem;
+            int k = par1ArrayOfWeightedRandomItem.length;
 
-            for (int var6 = 0; var6 < var5; ++var6)
+            for (int l = 0; l < k; ++l)
             {
-                WeightedRandomItem var7 = var4[var6];
-                var3 -= var7.itemWeight;
+                WeightedRandomItem weightedrandomitem = aweightedrandomitem1[l];
+                j -= weightedrandomitem.itemWeight;
 
-                if (var3 < 0)
+                if (j < 0)
                 {
-                    return var7;
+                    return weightedrandomitem;
                 }
             }
 

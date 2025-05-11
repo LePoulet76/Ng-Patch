@@ -27,20 +27,20 @@ public class CommandSetSpawnpoint extends CommandBase
 
     public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
-        EntityPlayerMP var3 = par2ArrayOfStr.length == 0 ? getCommandSenderAsPlayer(par1ICommandSender) : getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
+        EntityPlayerMP entityplayermp = par2ArrayOfStr.length == 0 ? getCommandSenderAsPlayer(par1ICommandSender) : getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
 
         if (par2ArrayOfStr.length == 4)
         {
-            if (var3.worldObj != null)
+            if (entityplayermp.worldObj != null)
             {
-                byte var4 = 1;
-                int var5 = 30000000;
-                int var9 = var4 + 1;
-                int var6 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[var4], -var5, var5);
-                int var7 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[var9++], 0, 256);
-                int var8 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[var9++], -var5, var5);
-                var3.setSpawnChunk(new ChunkCoordinates(var6, var7, var8), true);
-                notifyAdmins(par1ICommandSender, "commands.spawnpoint.success", new Object[] {var3.getEntityName(), Integer.valueOf(var6), Integer.valueOf(var7), Integer.valueOf(var8)});
+                byte b0 = 1;
+                int i = 30000000;
+                int j = b0 + 1;
+                int k = parseIntBounded(par1ICommandSender, par2ArrayOfStr[b0], -i, i);
+                int l = parseIntBounded(par1ICommandSender, par2ArrayOfStr[j++], 0, 256);
+                int i1 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[j++], -i, i);
+                entityplayermp.setSpawnChunk(new ChunkCoordinates(k, l, i1), true);
+                notifyAdmins(par1ICommandSender, "commands.spawnpoint.success", new Object[] {entityplayermp.getEntityName(), Integer.valueOf(k), Integer.valueOf(l), Integer.valueOf(i1)});
             }
         }
         else
@@ -50,9 +50,9 @@ public class CommandSetSpawnpoint extends CommandBase
                 throw new WrongUsageException("commands.spawnpoint.usage", new Object[0]);
             }
 
-            ChunkCoordinates var10 = var3.getPlayerCoordinates();
-            var3.setSpawnChunk(var10, true);
-            notifyAdmins(par1ICommandSender, "commands.spawnpoint.success", new Object[] {var3.getEntityName(), Integer.valueOf(var10.posX), Integer.valueOf(var10.posY), Integer.valueOf(var10.posZ)});
+            ChunkCoordinates chunkcoordinates = entityplayermp.getPlayerCoordinates();
+            entityplayermp.setSpawnChunk(chunkcoordinates, true);
+            notifyAdmins(par1ICommandSender, "commands.spawnpoint.success", new Object[] {entityplayermp.getEntityName(), Integer.valueOf(chunkcoordinates.posX), Integer.valueOf(chunkcoordinates.posY), Integer.valueOf(chunkcoordinates.posZ)});
         }
     }
 

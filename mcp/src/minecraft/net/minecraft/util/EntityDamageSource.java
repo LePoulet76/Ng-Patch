@@ -25,10 +25,10 @@ public class EntityDamageSource extends DamageSource
      */
     public ChatMessageComponent getDeathMessage(EntityLivingBase par1EntityLivingBase)
     {
-        ItemStack var2 = this.damageSourceEntity instanceof EntityLivingBase ? ((EntityLivingBase)this.damageSourceEntity).getHeldItem() : null;
-        String var3 = "death.attack." + this.damageType;
-        String var4 = var3 + ".item";
-        return var2 != null && var2.hasDisplayName() && StatCollector.func_94522_b(var4) ? ChatMessageComponent.createFromTranslationWithSubstitutions(var4, new Object[] {par1EntityLivingBase.getTranslatedEntityName(), this.damageSourceEntity.getTranslatedEntityName(), var2.getDisplayName()}): ChatMessageComponent.createFromTranslationWithSubstitutions(var3, new Object[] {par1EntityLivingBase.getTranslatedEntityName(), this.damageSourceEntity.getTranslatedEntityName()});
+        ItemStack itemstack = this.damageSourceEntity instanceof EntityLivingBase ? ((EntityLivingBase)this.damageSourceEntity).getHeldItem() : null;
+        String s = "death.attack." + this.damageType;
+        String s1 = s + ".item";
+        return itemstack != null && itemstack.hasDisplayName() && StatCollector.func_94522_b(s1) ? ChatMessageComponent.createFromTranslationWithSubstitutions(s1, new Object[] {par1EntityLivingBase.getTranslatedEntityName(), this.damageSourceEntity.getTranslatedEntityName(), itemstack.getDisplayName()}): ChatMessageComponent.createFromTranslationWithSubstitutions(s, new Object[] {par1EntityLivingBase.getTranslatedEntityName(), this.damageSourceEntity.getTranslatedEntityName()});
     }
 
     /**

@@ -38,7 +38,7 @@ public interface Icon
     /**
      * Gets a U coordinate on the icon. 0 returns uMin and 16 returns uMax. Other arguments return in-between values.
      */
-    float getInterpolatedU(double var1);
+    float getInterpolatedU(double d0);
 
     @SideOnly(Side.CLIENT)
 
@@ -59,7 +59,7 @@ public interface Icon
     /**
      * Gets a V coordinate on the icon. 0 returns vMin and 16 returns vMax. Other arguments return in-between values.
      */
-    float getInterpolatedV(double var1);
+    float getInterpolatedV(double d0);
 
     @SideOnly(Side.CLIENT)
     String getIconName();

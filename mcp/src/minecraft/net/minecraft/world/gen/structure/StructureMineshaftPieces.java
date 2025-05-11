@@ -21,34 +21,34 @@ public class StructureMineshaftPieces
 
     private static StructureComponent getRandomComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
     {
-        int var7 = par1Random.nextInt(100);
-        StructureBoundingBox var8;
+        int j1 = par1Random.nextInt(100);
+        StructureBoundingBox structureboundingbox;
 
-        if (var7 >= 80)
+        if (j1 >= 80)
         {
-            var8 = ComponentMineshaftCross.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
+            structureboundingbox = ComponentMineshaftCross.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
 
-            if (var8 != null)
+            if (structureboundingbox != null)
             {
-                return new ComponentMineshaftCross(par6, par1Random, var8, par5);
+                return new ComponentMineshaftCross(par6, par1Random, structureboundingbox, par5);
             }
         }
-        else if (var7 >= 70)
+        else if (j1 >= 70)
         {
-            var8 = ComponentMineshaftStairs.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
+            structureboundingbox = ComponentMineshaftStairs.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
 
-            if (var8 != null)
+            if (structureboundingbox != null)
             {
-                return new ComponentMineshaftStairs(par6, par1Random, var8, par5);
+                return new ComponentMineshaftStairs(par6, par1Random, structureboundingbox, par5);
             }
         }
         else
         {
-            var8 = ComponentMineshaftCorridor.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
+            structureboundingbox = ComponentMineshaftCorridor.findValidPlacement(par0List, par1Random, par2, par3, par4, par5);
 
-            if (var8 != null)
+            if (structureboundingbox != null)
             {
-                return new ComponentMineshaftCorridor(par6, par1Random, var8, par5);
+                return new ComponentMineshaftCorridor(par6, par1Random, structureboundingbox, par5);
             }
         }
 
@@ -63,15 +63,15 @@ public class StructureMineshaftPieces
         }
         else if (Math.abs(par3 - par0StructureComponent.getBoundingBox().minX) <= 80 && Math.abs(par5 - par0StructureComponent.getBoundingBox().minZ) <= 80)
         {
-            StructureComponent var8 = getRandomComponent(par1List, par2Random, par3, par4, par5, par6, par7 + 1);
+            StructureComponent structurecomponent1 = getRandomComponent(par1List, par2Random, par3, par4, par5, par6, par7 + 1);
 
-            if (var8 != null)
+            if (structurecomponent1 != null)
             {
-                par1List.add(var8);
-                var8.buildComponent(par0StructureComponent, par1List, par2Random);
+                par1List.add(structurecomponent1);
+                structurecomponent1.buildComponent(par0StructureComponent, par1List, par2Random);
             }
 
-            return var8;
+            return structurecomponent1;
         }
         else
         {

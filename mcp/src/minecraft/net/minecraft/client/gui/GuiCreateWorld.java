@@ -136,13 +136,13 @@ public class GuiCreateWorld extends GuiScreen
     private void makeUseableName()
     {
         this.folderName = this.textboxWorldName.getText().trim();
-        char[] var1 = ChatAllowedCharacters.allowedCharactersArray;
-        int var2 = var1.length;
+        char[] achar = ChatAllowedCharacters.allowedCharactersArray;
+        int i = achar.length;
 
-        for (int var3 = 0; var3 < var2; ++var3)
+        for (int j = 0; j < i; ++j)
         {
-            char var4 = var1[var3];
-            this.folderName = this.folderName.replace(var4, '_');
+            char c0 = achar[j];
+            this.folderName = this.folderName.replace(c0, '_');
         }
 
         if (MathHelper.stringNullOrLengthZero(this.folderName))
@@ -196,14 +196,14 @@ public class GuiCreateWorld extends GuiScreen
     public static String func_73913_a(ISaveFormat par0ISaveFormat, String par1Str)
     {
         par1Str = par1Str.replaceAll("[\\./\"]", "_");
-        String[] var2 = ILLEGAL_WORLD_NAMES;
-        int var3 = var2.length;
+        String[] astring = ILLEGAL_WORLD_NAMES;
+        int i = astring.length;
 
-        for (int var4 = 0; var4 < var3; ++var4)
+        for (int j = 0; j < i; ++j)
         {
-            String var5 = var2[var4];
+            String s1 = astring[j];
 
-            if (par1Str.equalsIgnoreCase(var5))
+            if (par1Str.equalsIgnoreCase(s1))
             {
                 par1Str = "_" + par1Str + "_";
             }
@@ -246,41 +246,43 @@ public class GuiCreateWorld extends GuiScreen
                 }
 
                 this.createClicked = true;
-                long var2 = (new Random()).nextLong();
-                String var4 = this.textboxSeed.getText();
+                long i = (new Random()).nextLong();
+                String s = this.textboxSeed.getText();
 
-                if (!MathHelper.stringNullOrLengthZero(var4))
+                if (!MathHelper.stringNullOrLengthZero(s))
                 {
                     try
                     {
-                        long var5 = Long.parseLong(var4);
+                        long j = Long.parseLong(s);
 
-                        if (var5 != 0L)
+                        if (j != 0L)
                         {
-                            var2 = var5;
+                            i = j;
                         }
                     }
-                    catch (NumberFormatException var7)
+                    catch (NumberFormatException numberformatexception)
                     {
-                        var2 = (long)var4.hashCode();
+                        i = (long)s.hashCode();
                     }
                 }
 
-                EnumGameType var8 = EnumGameType.getByName(this.gameMode);
-                WorldSettings var6 = new WorldSettings(var2, var8, this.generateStructures, this.isHardcore, WorldType.worldTypes[this.worldTypeId]);
-                var6.func_82750_a(this.generatorOptionsToUse);
+                WorldType.worldTypes[this.worldTypeId].onGUICreateWorldPress();
+
+                EnumGameType enumgametype = EnumGameType.getByName(this.gameMode);
+                WorldSettings worldsettings = new WorldSettings(i, enumgametype, this.generateStructures, this.isHardcore, WorldType.worldTypes[this.worldTypeId]);
+                worldsettings.func_82750_a(this.generatorOptionsToUse);
 
                 if (this.bonusItems && !this.isHardcore)
                 {
-                    var6.enableBonusChest();
+                    worldsettings.enableBonusChest();
                 }
 
                 if (this.commandsAllowed && !this.isHardcore)
                 {
-                    var6.enableCommands();
+                    worldsettings.enableCommands();
                 }
 
-                this.mc.launchIntegratedServer(this.folderName, this.textboxWorldName.getText().trim(), var6);
+                this.mc.launchIntegratedServer(this.folderName, this.textboxWorldName.getText().trim(), worldsettings);
                 this.mc.statFileWriter.readStat(StatList.createWorldStat, 1);
             }
             else if (par1GuiButton.id == 3)
@@ -374,7 +376,7 @@ public class GuiCreateWorld extends GuiScreen
             }
             else if (par1GuiButton.id == 8)
             {
-                this.mc.displayGuiScreen(new GuiCreateFlatWorld(this, this.generatorOptionsToUse));
+                WorldType.worldTypes[this.worldTypeId].onCustomizeButton(this.mc, this);
             }
         }
     }
@@ -392,7 +394,7 @@ public class GuiCreateWorld extends GuiScreen
         this.buttonBonusItems.drawButton = this.moreOptions;
         this.buttonWorldType.drawButton = this.moreOptions;
         this.buttonAllowCommands.drawButton = this.moreOptions;
-        this.buttonCustomize.drawButton = this.moreOptions && WorldType.worldTypes[this.worldTypeId] == WorldType.FLAT;
+        this.buttonCustomize.drawButton = this.moreOptions && (WorldType.worldTypes[this.worldTypeId].isCustomizable());
 
         if (this.moreOptions)
         {

@@ -25,26 +25,26 @@ public class RecipesMapExtending extends ShapedRecipes
         }
         else
         {
-            ItemStack var3 = null;
+            ItemStack itemstack = null;
 
-            for (int var4 = 0; var4 < par1InventoryCrafting.getSizeInventory() && var3 == null; ++var4)
+            for (int i = 0; i < par1InventoryCrafting.getSizeInventory() && itemstack == null; ++i)
             {
-                ItemStack var5 = par1InventoryCrafting.getStackInSlot(var4);
+                ItemStack itemstack1 = par1InventoryCrafting.getStackInSlot(i);
 
-                if (var5 != null && var5.itemID == Item.map.itemID)
+                if (itemstack1 != null && itemstack1.itemID == Item.map.itemID)
                 {
-                    var3 = var5;
+                    itemstack = itemstack1;
                 }
             }
 
-            if (var3 == null)
+            if (itemstack == null)
             {
                 return false;
             }
             else
             {
-                MapData var6 = Item.map.getMapData(var3, par2World);
-                return var6 == null ? false : var6.scale < 4;
+                MapData mapdata = Item.map.getMapData(itemstack, par2World);
+                return mapdata == null ? false : mapdata.scale < 4;
             }
         }
     }
@@ -54,27 +54,27 @@ public class RecipesMapExtending extends ShapedRecipes
      */
     public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
     {
-        ItemStack var2 = null;
+        ItemStack itemstack = null;
 
-        for (int var3 = 0; var3 < par1InventoryCrafting.getSizeInventory() && var2 == null; ++var3)
+        for (int i = 0; i < par1InventoryCrafting.getSizeInventory() && itemstack == null; ++i)
         {
-            ItemStack var4 = par1InventoryCrafting.getStackInSlot(var3);
+            ItemStack itemstack1 = par1InventoryCrafting.getStackInSlot(i);
 
-            if (var4 != null && var4.itemID == Item.map.itemID)
+            if (itemstack1 != null && itemstack1.itemID == Item.map.itemID)
             {
-                var2 = var4;
+                itemstack = itemstack1;
             }
         }
 
-        var2 = var2.copy();
-        var2.stackSize = 1;
+        itemstack = itemstack.copy();
+        itemstack.stackSize = 1;
 
-        if (var2.getTagCompound() == null)
+        if (itemstack.getTagCompound() == null)
         {
-            var2.setTagCompound(new NBTTagCompound());
+            itemstack.setTagCompound(new NBTTagCompound());
         }
 
-        var2.getTagCompound().setBoolean("map_is_scaling", true);
-        return var2;
+        itemstack.getTagCompound().setBoolean("map_is_scaling", true);
+        return itemstack;
     }
 }

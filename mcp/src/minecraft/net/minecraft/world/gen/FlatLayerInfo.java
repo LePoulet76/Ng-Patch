@@ -67,18 +67,18 @@ public class FlatLayerInfo
 
     public String toString()
     {
-        String var1 = Integer.toString(this.layerFillBlock);
+        String s = Integer.toString(this.layerFillBlock);
 
         if (this.layerCount > 1)
         {
-            var1 = this.layerCount + "x" + var1;
+            s = this.layerCount + "x" + s;
         }
 
         if (this.layerFillBlockMeta > 0)
         {
-            var1 = var1 + ":" + this.layerFillBlockMeta;
+            s = s + ":" + this.layerFillBlockMeta;
         }
 
-        return var1;
+        return s;
     }
 }

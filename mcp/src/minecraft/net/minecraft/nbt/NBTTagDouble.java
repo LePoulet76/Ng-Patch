@@ -61,8 +61,8 @@ public class NBTTagDouble extends NBTBase
     {
         if (super.equals(par1Obj))
         {
-            NBTTagDouble var2 = (NBTTagDouble)par1Obj;
-            return this.data == var2.data;
+            NBTTagDouble nbttagdouble = (NBTTagDouble)par1Obj;
+            return this.data == nbttagdouble.data;
         }
         else
         {
@@ -72,7 +72,7 @@ public class NBTTagDouble extends NBTBase
 
     public int hashCode()
     {
-        long var1 = Double.doubleToLongBits(this.data);
-        return super.hashCode() ^ (int)(var1 ^ var1 >>> 32);
+        long i = Double.doubleToLongBits(this.data);
+        return super.hashCode() ^ (int)(i ^ i >>> 32);
     }
 }

@@ -15,9 +15,9 @@ public class NibbleArrayReader
 
     public int get(int par1, int par2, int par3)
     {
-        int var4 = par1 << this.depthBitsPlusFour | par3 << this.depthBits | par2;
-        int var5 = var4 >> 1;
-        int var6 = var4 & 1;
-        return var6 == 0 ? this.data[var5] & 15 : this.data[var5] >> 4 & 15;
+        int l = par1 << this.depthBitsPlusFour | par3 << this.depthBits | par2;
+        int i1 = l >> 1;
+        int j1 = l & 1;
+        return j1 == 0 ? this.data[i1] & 15 : this.data[i1] >> 4 & 15;
     }
 }

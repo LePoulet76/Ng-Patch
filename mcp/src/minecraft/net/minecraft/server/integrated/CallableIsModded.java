@@ -22,16 +22,16 @@ class CallableIsModded implements Callable
      */
     public String getMinecraftIsModded()
     {
-        String var1 = ClientBrandRetriever.getClientModName();
+        String s = ClientBrandRetriever.getClientModName();
 
-        if (!var1.equals("vanilla"))
+        if (!s.equals("vanilla"))
         {
-            return "Definitely; Client brand changed to \'" + var1 + "\'";
+            return "Definitely; Client brand changed to \'" + s + "\'";
         }
         else
         {
-            var1 = this.theIntegratedServer.getServerModName();
-            return !var1.equals("vanilla") ? "Definitely; Server brand changed to \'" + var1 + "\'" : (Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and both client + server brands are untouched.");
+            s = this.theIntegratedServer.getServerModName();
+            return !s.equals("vanilla") ? "Definitely; Server brand changed to \'" + s + "\'" : (Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and both client + server brands are untouched.");
         }
     }
 

@@ -15,22 +15,22 @@ public class ModelGhast extends ModelBase
 
     public ModelGhast()
     {
-        byte var1 = -16;
+        byte b0 = -16;
         this.body = new ModelRenderer(this, 0, 0);
         this.body.addBox(-8.0F, -8.0F, -8.0F, 16, 16, 16);
-        this.body.rotationPointY += (float)(24 + var1);
-        Random var2 = new Random(1660L);
+        this.body.rotationPointY += (float)(24 + b0);
+        Random random = new Random(1660L);
 
-        for (int var3 = 0; var3 < this.tentacles.length; ++var3)
+        for (int i = 0; i < this.tentacles.length; ++i)
         {
-            this.tentacles[var3] = new ModelRenderer(this, 0, 0);
-            float var4 = (((float)(var3 % 3) - (float)(var3 / 3 % 2) * 0.5F + 0.25F) / 2.0F * 2.0F - 1.0F) * 5.0F;
-            float var5 = ((float)(var3 / 3) / 2.0F * 2.0F - 1.0F) * 5.0F;
-            int var6 = var2.nextInt(7) + 8;
-            this.tentacles[var3].addBox(-1.0F, 0.0F, -1.0F, 2, var6, 2);
-            this.tentacles[var3].rotationPointX = var4;
-            this.tentacles[var3].rotationPointZ = var5;
-            this.tentacles[var3].rotationPointY = (float)(31 + var1);
+            this.tentacles[i] = new ModelRenderer(this, 0, 0);
+            float f = (((float)(i % 3) - (float)(i / 3 % 2) * 0.5F + 0.25F) / 2.0F * 2.0F - 1.0F) * 5.0F;
+            float f1 = ((float)(i / 3) / 2.0F * 2.0F - 1.0F) * 5.0F;
+            int j = random.nextInt(7) + 8;
+            this.tentacles[i].addBox(-1.0F, 0.0F, -1.0F, 2, j, 2);
+            this.tentacles[i].rotationPointX = f;
+            this.tentacles[i].rotationPointZ = f1;
+            this.tentacles[i].rotationPointY = (float)(31 + b0);
         }
     }
 
@@ -41,9 +41,9 @@ public class ModelGhast extends ModelBase
      */
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
-        for (int var8 = 0; var8 < this.tentacles.length; ++var8)
+        for (int i = 0; i < this.tentacles.length; ++i)
         {
-            this.tentacles[var8].rotateAngleX = 0.2F * MathHelper.sin(par3 * 0.3F + (float)var8) + 0.4F;
+            this.tentacles[i].rotateAngleX = 0.2F * MathHelper.sin(par3 * 0.3F + (float)i) + 0.4F;
         }
     }
 
@@ -56,13 +56,13 @@ public class ModelGhast extends ModelBase
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, 0.6F, 0.0F);
         this.body.render(par7);
-        ModelRenderer[] var8 = this.tentacles;
-        int var9 = var8.length;
+        ModelRenderer[] amodelrenderer = this.tentacles;
+        int i = amodelrenderer.length;
 
-        for (int var10 = 0; var10 < var9; ++var10)
+        for (int j = 0; j < i; ++j)
         {
-            ModelRenderer var11 = var8[var10];
-            var11.render(par7);
+            ModelRenderer modelrenderer = amodelrenderer[j];
+            modelrenderer.render(par7);
         }
 
         GL11.glPopMatrix();

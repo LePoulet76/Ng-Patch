@@ -34,10 +34,10 @@ public class MapInfo
         this.field_76210_c = new int[128];
         this.entityplayerObj = par2EntityPlayer;
 
-        for (int var3 = 0; var3 < this.field_76209_b.length; ++var3)
+        for (int i = 0; i < this.field_76209_b.length; ++i)
         {
-            this.field_76209_b[var3] = 0;
-            this.field_76210_c[var3] = 127;
+            this.field_76209_b[i] = 0;
+            this.field_76210_c[i] = 127;
         }
     }
 
@@ -47,80 +47,80 @@ public class MapInfo
      */
     public byte[] getPlayersOnMap(ItemStack par1ItemStack)
     {
-        byte[] var2;
+        byte[] abyte;
 
         if (!this.field_82570_i)
         {
-            var2 = new byte[] {(byte)2, this.mapDataObj.scale};
+            abyte = new byte[] {(byte)2, this.mapDataObj.scale};
             this.field_82570_i = true;
-            return var2;
+            return abyte;
         }
         else
         {
-            int var3;
-            int var10;
+            int i;
+            int j;
 
             if (--this.ticksUntilPlayerLocationMapUpdate < 0)
             {
                 this.ticksUntilPlayerLocationMapUpdate = 4;
-                var2 = new byte[this.mapDataObj.playersVisibleOnMap.size() * 3 + 1];
-                var2[0] = 1;
-                var3 = 0;
+                abyte = new byte[this.mapDataObj.playersVisibleOnMap.size() * 3 + 1];
+                abyte[0] = 1;
+                i = 0;
 
-                for (Iterator var4 = this.mapDataObj.playersVisibleOnMap.values().iterator(); var4.hasNext(); ++var3)
+                for (Iterator iterator = this.mapDataObj.playersVisibleOnMap.values().iterator(); iterator.hasNext(); ++i)
                 {
-                    MapCoord var5 = (MapCoord)var4.next();
-                    var2[var3 * 3 + 1] = (byte)(var5.iconSize << 4 | var5.iconRotation & 15);
-                    var2[var3 * 3 + 2] = var5.centerX;
-                    var2[var3 * 3 + 3] = var5.centerZ;
+                    MapCoord mapcoord = (MapCoord)iterator.next();
+                    abyte[i * 3 + 1] = (byte)(mapcoord.iconSize << 4 | mapcoord.iconRotation & 15);
+                    abyte[i * 3 + 2] = mapcoord.centerX;
+                    abyte[i * 3 + 3] = mapcoord.centerZ;
                 }
 
-                boolean var9 = !par1ItemStack.isOnItemFrame();
+                boolean flag = !par1ItemStack.isOnItemFrame();
 
-                if (this.lastPlayerLocationOnMap != null && this.lastPlayerLocationOnMap.length == var2.length)
+                if (this.lastPlayerLocationOnMap != null && this.lastPlayerLocationOnMap.length == abyte.length)
                 {
-                    for (var10 = 0; var10 < var2.length; ++var10)
+                    for (j = 0; j < abyte.length; ++j)
                     {
-                        if (var2[var10] != this.lastPlayerLocationOnMap[var10])
+                        if (abyte[j] != this.lastPlayerLocationOnMap[j])
                         {
-                            var9 = false;
+                            flag = false;
                             break;
                         }
                     }
                 }
                 else
                 {
-                    var9 = false;
+                    flag = false;
                 }
 
-                if (!var9)
+                if (!flag)
                 {
-                    this.lastPlayerLocationOnMap = var2;
-                    return var2;
+                    this.lastPlayerLocationOnMap = abyte;
+                    return abyte;
                 }
             }
 
-            for (int var8 = 0; var8 < 1; ++var8)
+            for (int k = 0; k < 1; ++k)
             {
-                var3 = this.currentRandomNumber++ * 11 % 128;
+                i = this.currentRandomNumber++ * 11 % 128;
 
-                if (this.field_76209_b[var3] >= 0)
+                if (this.field_76209_b[i] >= 0)
                 {
-                    int var11 = this.field_76210_c[var3] - this.field_76209_b[var3] + 1;
-                    var10 = this.field_76209_b[var3];
-                    byte[] var6 = new byte[var11 + 3];
-                    var6[0] = 0;
-                    var6[1] = (byte)var3;
-                    var6[2] = (byte)var10;
+                    int l = this.field_76210_c[i] - this.field_76209_b[i] + 1;
+                    j = this.field_76209_b[i];
+                    byte[] abyte1 = new byte[l + 3];
+                    abyte1[0] = 0;
+                    abyte1[1] = (byte)i;
+                    abyte1[2] = (byte)j;
 
-                    for (int var7 = 0; var7 < var6.length - 3; ++var7)
+                    for (int i1 = 0; i1 < abyte1.length - 3; ++i1)
                     {
-                        var6[var7 + 3] = this.mapDataObj.colors[(var7 + var10) * 128 + var3];
+                        abyte1[i1 + 3] = this.mapDataObj.colors[(i1 + j) * 128 + i];
                     }
 
-                    this.field_76210_c[var3] = -1;
-                    this.field_76209_b[var3] = -1;
-                    return var6;
+                    this.field_76210_c[i] = -1;
+                    this.field_76209_b[i] = -1;
+                    return abyte1;
                 }
             }
 

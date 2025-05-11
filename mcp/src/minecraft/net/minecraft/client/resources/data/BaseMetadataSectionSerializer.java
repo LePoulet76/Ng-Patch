@@ -31,24 +31,24 @@ public abstract class BaseMetadataSectionSerializer implements MetadataSectionSe
         {
             try
             {
-                float var6 = par1JsonElement.getAsFloat();
+                float f2 = par1JsonElement.getAsFloat();
 
-                if (var6 < par4)
+                if (f2 < par4)
                 {
-                    throw new JsonParseException("Invalid " + par2Str + ": expected float >= " + par4 + ", was " + var6);
+                    throw new JsonParseException("Invalid " + par2Str + ": expected float >= " + par4 + ", was " + f2);
                 }
-                else if (var6 > par5)
+                else if (f2 > par5)
                 {
-                    throw new JsonParseException("Invalid " + par2Str + ": expected float <= " + par5 + ", was " + var6);
+                    throw new JsonParseException("Invalid " + par2Str + ": expected float <= " + par5 + ", was " + f2);
                 }
                 else
                 {
-                    return var6;
+                    return f2;
                 }
             }
-            catch (NumberFormatException var7)
+            catch (NumberFormatException numberformatexception)
             {
-                throw new JsonParseException("Invalid " + par2Str + ": expected float, was " + par1JsonElement, var7);
+                throw new JsonParseException("Invalid " + par2Str + ": expected float, was " + par1JsonElement, numberformatexception);
             }
         }
     }
@@ -76,24 +76,24 @@ public abstract class BaseMetadataSectionSerializer implements MetadataSectionSe
         {
             try
             {
-                int var6 = par1JsonElement.getAsInt();
+                int k = par1JsonElement.getAsInt();
 
-                if (var6 < par4)
+                if (k < par4)
                 {
-                    throw new JsonParseException("Invalid " + par2Str + ": expected int >= " + par4 + ", was " + var6);
+                    throw new JsonParseException("Invalid " + par2Str + ": expected int >= " + par4 + ", was " + k);
                 }
-                else if (var6 > par5)
+                else if (k > par5)
                 {
-                    throw new JsonParseException("Invalid " + par2Str + ": expected int <= " + par5 + ", was " + var6);
+                    throw new JsonParseException("Invalid " + par2Str + ": expected int <= " + par5 + ", was " + k);
                 }
                 else
                 {
-                    return var6;
+                    return k;
                 }
             }
-            catch (NumberFormatException var7)
+            catch (NumberFormatException numberformatexception)
             {
-                throw new JsonParseException("Invalid " + par2Str + ": expected int, was " + par1JsonElement, var7);
+                throw new JsonParseException("Invalid " + par2Str + ": expected int, was " + par1JsonElement, numberformatexception);
             }
         }
     }
@@ -119,19 +119,19 @@ public abstract class BaseMetadataSectionSerializer implements MetadataSectionSe
         }
         else
         {
-            String var6 = par1JsonElement.getAsString();
+            String s2 = par1JsonElement.getAsString();
 
-            if (var6.length() < par4)
+            if (s2.length() < par4)
             {
-                throw new JsonParseException("Invalid " + par2Str + ": expected string length >= " + par4 + ", was " + var6);
+                throw new JsonParseException("Invalid " + par2Str + ": expected string length >= " + par4 + ", was " + s2);
             }
-            else if (var6.length() > par5)
+            else if (s2.length() > par5)
             {
-                throw new JsonParseException("Invalid " + par2Str + ": expected string length <= " + par5 + ", was " + var6);
+                throw new JsonParseException("Invalid " + par2Str + ": expected string length <= " + par5 + ", was " + s2);
             }
             else
             {
-                return var6;
+                return s2;
             }
         }
     }
@@ -157,8 +157,8 @@ public abstract class BaseMetadataSectionSerializer implements MetadataSectionSe
         }
         else
         {
-            boolean var4 = par1JsonElement.getAsBoolean();
-            return var4;
+            boolean flag = par1JsonElement.getAsBoolean();
+            return flag;
         }
     }
 }

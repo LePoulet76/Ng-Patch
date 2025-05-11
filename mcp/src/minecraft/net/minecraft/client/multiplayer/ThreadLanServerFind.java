@@ -34,36 +34,36 @@ public class ThreadLanServerFind extends Thread
 
     public void run()
     {
-        byte[] var2 = new byte[1024];
+        byte[] abyte = new byte[1024];
 
         while (!this.isInterrupted())
         {
-            DatagramPacket var1 = new DatagramPacket(var2, var2.length);
+            DatagramPacket datagrampacket = new DatagramPacket(abyte, abyte.length);
 
             try
             {
-                this.socket.receive(var1);
+                this.socket.receive(datagrampacket);
             }
-            catch (SocketTimeoutException var5)
+            catch (SocketTimeoutException sockettimeoutexception)
             {
                 continue;
             }
-            catch (IOException var6)
+            catch (IOException ioexception)
             {
-                var6.printStackTrace();
+                ioexception.printStackTrace();
                 break;
             }
 
-            String var3 = new String(var1.getData(), var1.getOffset(), var1.getLength());
-            Minecraft.getMinecraft().getLogAgent().logFine(var1.getAddress() + ": " + var3);
-            this.localServerList.func_77551_a(var3, var1.getAddress());
+            String s = new String(datagrampacket.getData(), datagrampacket.getOffset(), datagrampacket.getLength());
+            Minecraft.getMinecraft().getLogAgent().logFine(datagrampacket.getAddress() + ": " + s);
+            this.localServerList.func_77551_a(s, datagrampacket.getAddress());
         }
 
         try
         {
             this.socket.leaveGroup(this.broadcastAddress);
         }
-        catch (IOException var4)
+        catch (IOException ioexception1)
         {
             ;
         }

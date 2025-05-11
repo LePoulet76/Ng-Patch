@@ -38,14 +38,14 @@ public class BlockOre extends Block
     {
         if (par1 > 0 && this.blockID != this.idDropped(0, par2Random, par1))
         {
-            int var3 = par2Random.nextInt(par1 + 2) - 1;
+            int j = par2Random.nextInt(par1 + 2) - 1;
 
-            if (var3 < 0)
+            if (j < 0)
             {
-                var3 = 0;
+                j = 0;
             }
 
-            return this.quantityDropped(par2Random) * (var3 + 1);
+            return this.quantityDropped(par2Random) * (j + 1);
         }
         else
         {
@@ -60,33 +60,39 @@ public class BlockOre extends Block
     {
         super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5, par6, par7);
 
+    }
+    
+    @Override
+    public int getExpDrop(World par1World, int par5, int par7)
+    {
         if (this.idDropped(par5, par1World.rand, par7) != this.blockID)
         {
-            int var8 = 0;
+            int j1 = 0;
 
             if (this.blockID == Block.oreCoal.blockID)
             {
-                var8 = MathHelper.getRandomIntegerInRange(par1World.rand, 0, 2);
+                j1 = MathHelper.getRandomIntegerInRange(par1World.rand, 0, 2);
             }
             else if (this.blockID == Block.oreDiamond.blockID)
             {
-                var8 = MathHelper.getRandomIntegerInRange(par1World.rand, 3, 7);
+                j1 = MathHelper.getRandomIntegerInRange(par1World.rand, 3, 7);
             }
             else if (this.blockID == Block.oreEmerald.blockID)
             {
-                var8 = MathHelper.getRandomIntegerInRange(par1World.rand, 3, 7);
+                j1 = MathHelper.getRandomIntegerInRange(par1World.rand, 3, 7);
             }
             else if (this.blockID == Block.oreLapis.blockID)
             {
-                var8 = MathHelper.getRandomIntegerInRange(par1World.rand, 2, 5);
+                j1 = MathHelper.getRandomIntegerInRange(par1World.rand, 2, 5);
             }
             else if (this.blockID == Block.oreNetherQuartz.blockID)
             {
-                var8 = MathHelper.getRandomIntegerInRange(par1World.rand, 2, 5);
+                j1 = MathHelper.getRandomIntegerInRange(par1World.rand, 2, 5);
             }
-
-            this.dropXpOnBlockBreak(par1World, par2, par3, par4, var8);
+            return j1;
         }
+
+        return 0;
     }
 
     /**

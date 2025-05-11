@@ -201,20 +201,20 @@ public class ChatMessageComponent
             {
                 this.translationKey = par1Str;
                 this.field_111091_i = Lists.newArrayList();
-                Object[] var3 = par2ArrayOfObj;
-                int var4 = par2ArrayOfObj.length;
+                Object[] aobject = par2ArrayOfObj;
+                int i = par2ArrayOfObj.length;
 
-                for (int var5 = 0; var5 < var4; ++var5)
+                for (int j = 0; j < i; ++j)
                 {
-                    Object var6 = var3[var5];
+                    Object object1 = aobject[j];
 
-                    if (var6 instanceof ChatMessageComponent)
+                    if (object1 instanceof ChatMessageComponent)
                     {
-                        this.field_111091_i.add((ChatMessageComponent)var6);
+                        this.field_111091_i.add((ChatMessageComponent)object1);
                     }
                     else
                     {
-                        this.field_111091_i.add(createFromText(var6.toString()));
+                        this.field_111091_i.add(createFromText(object1.toString()));
                     }
                 }
             }
@@ -244,64 +244,64 @@ public class ChatMessageComponent
      */
     public String toStringWithDefaultFormatting(boolean par1, EnumChatFormatting par2EnumChatFormatting, boolean par3, boolean par4, boolean par5, boolean par6)
     {
-        StringBuilder var7 = new StringBuilder();
-        EnumChatFormatting var8 = this.color == null ? par2EnumChatFormatting : this.color;
-        boolean var9 = this.bold == null ? par3 : this.bold.booleanValue();
-        boolean var10 = this.italic == null ? par4 : this.italic.booleanValue();
-        boolean var11 = this.underline == null ? par5 : this.underline.booleanValue();
-        boolean var12 = this.obfuscated == null ? par6 : this.obfuscated.booleanValue();
+        StringBuilder stringbuilder = new StringBuilder();
+        EnumChatFormatting enumchatformatting1 = this.color == null ? par2EnumChatFormatting : this.color;
+        boolean flag5 = this.bold == null ? par3 : this.bold.booleanValue();
+        boolean flag6 = this.italic == null ? par4 : this.italic.booleanValue();
+        boolean flag7 = this.underline == null ? par5 : this.underline.booleanValue();
+        boolean flag8 = this.obfuscated == null ? par6 : this.obfuscated.booleanValue();
 
         if (this.translationKey != null)
         {
             if (par1)
             {
-                appendFormattingToString(var7, var8, var9, var10, var11, var12);
+                appendFormattingToString(stringbuilder, enumchatformatting1, flag5, flag6, flag7, flag8);
             }
 
             if (this.field_111091_i != null)
             {
-                String[] var13 = new String[this.field_111091_i.size()];
+                String[] astring = new String[this.field_111091_i.size()];
 
-                for (int var14 = 0; var14 < this.field_111091_i.size(); ++var14)
+                for (int i = 0; i < this.field_111091_i.size(); ++i)
                 {
-                    var13[var14] = ((ChatMessageComponent)this.field_111091_i.get(var14)).toStringWithDefaultFormatting(par1, var8, var9, var10, var11, var12);
+                    astring[i] = ((ChatMessageComponent)this.field_111091_i.get(i)).toStringWithDefaultFormatting(par1, enumchatformatting1, flag5, flag6, flag7, flag8);
                 }
 
-                var7.append(StatCollector.translateToLocalFormatted(this.translationKey, (Object[]) var13));
+                stringbuilder.append(StatCollector.translateToLocalFormatted(this.translationKey, astring));
             }
             else
             {
-                var7.append(StatCollector.translateToLocal(this.translationKey));
+                stringbuilder.append(StatCollector.translateToLocal(this.translationKey));
             }
         }
         else if (this.text != null)
         {
             if (par1)
             {
-                appendFormattingToString(var7, var8, var9, var10, var11, var12);
+                appendFormattingToString(stringbuilder, enumchatformatting1, flag5, flag6, flag7, flag8);
             }
 
-            var7.append(this.text);
+            stringbuilder.append(this.text);
         }
         else
         {
-            ChatMessageComponent var16;
+            ChatMessageComponent chatmessagecomponent;
 
             if (this.field_111091_i != null)
             {
-                for (Iterator var15 = this.field_111091_i.iterator(); var15.hasNext(); var7.append(var16.toStringWithDefaultFormatting(par1, var8, var9, var10, var11, var12)))
+                for (Iterator iterator = this.field_111091_i.iterator(); iterator.hasNext(); stringbuilder.append(chatmessagecomponent.toStringWithDefaultFormatting(par1, enumchatformatting1, flag5, flag6, flag7, flag8)))
                 {
-                    var16 = (ChatMessageComponent)var15.next();
+                    chatmessagecomponent = (ChatMessageComponent)iterator.next();
 
                     if (par1)
                     {
-                        appendFormattingToString(var7, var8, var9, var10, var11, var12);
+                        appendFormattingToString(stringbuilder, enumchatformatting1, flag5, flag6, flag7, flag8);
                     }
                 }
             }
         }
 
-        return var7.toString();
+        return stringbuilder.toString();
     }
 
     private static void appendFormattingToString(StringBuilder par0StringBuilder, EnumChatFormatting par1EnumChatFormatting, boolean par2, boolean par3, boolean par4, boolean par5)
@@ -343,34 +343,34 @@ public class ChatMessageComponent
         {
             return (ChatMessageComponent)field_111089_a.fromJson(par0Str, ChatMessageComponent.class);
         }
-        catch (Throwable var4)
+        catch (Throwable throwable)
         {
-            CrashReport var2 = CrashReport.makeCrashReport(var4, "Deserializing Message");
-            CrashReportCategory var3 = var2.makeCategory("Serialized Message");
-            var3.addCrashSection("JSON string", par0Str);
-            throw new ReportedException(var2);
+            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Deserializing Message");
+            CrashReportCategory crashreportcategory = crashreport.makeCategory("Serialized Message");
+            crashreportcategory.addCrashSection("JSON string", par0Str);
+            throw new ReportedException(crashreport);
         }
     }
 
     public static ChatMessageComponent createFromText(String par0Str)
     {
-        ChatMessageComponent var1 = new ChatMessageComponent();
-        var1.addText(par0Str);
-        return var1;
+        ChatMessageComponent chatmessagecomponent = new ChatMessageComponent();
+        chatmessagecomponent.addText(par0Str);
+        return chatmessagecomponent;
     }
 
     public static ChatMessageComponent createFromTranslationKey(String par0Str)
     {
-        ChatMessageComponent var1 = new ChatMessageComponent();
-        var1.addKey(par0Str);
-        return var1;
+        ChatMessageComponent chatmessagecomponent = new ChatMessageComponent();
+        chatmessagecomponent.addKey(par0Str);
+        return chatmessagecomponent;
     }
 
     public static ChatMessageComponent createFromTranslationWithSubstitutions(String par0Str, Object ... par1ArrayOfObj)
     {
-        ChatMessageComponent var2 = new ChatMessageComponent();
-        var2.addFormatted(par0Str, par1ArrayOfObj);
-        return var2;
+        ChatMessageComponent chatmessagecomponent = new ChatMessageComponent();
+        chatmessagecomponent.addFormatted(par0Str, par1ArrayOfObj);
+        return chatmessagecomponent;
     }
 
     public String toJson()

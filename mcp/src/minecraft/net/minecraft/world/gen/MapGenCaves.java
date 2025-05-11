@@ -4,6 +4,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 
 public class MapGenCaves extends MapGenBase
 {
@@ -20,39 +21,39 @@ public class MapGenCaves extends MapGenBase
      */
     protected void generateCaveNode(long par1, int par3, int par4, byte[] par5ArrayOfByte, double par6, double par8, double par10, float par12, float par13, float par14, int par15, int par16, double par17)
     {
-        double var19 = (double)(par3 * 16 + 8);
-        double var21 = (double)(par4 * 16 + 8);
-        float var23 = 0.0F;
-        float var24 = 0.0F;
-        Random var25 = new Random(par1);
+        double d4 = (double)(par3 * 16 + 8);
+        double d5 = (double)(par4 * 16 + 8);
+        float f3 = 0.0F;
+        float f4 = 0.0F;
+        Random random = new Random(par1);
 
         if (par16 <= 0)
         {
-            int var26 = this.range * 16 - 16;
-            par16 = var26 - var25.nextInt(var26 / 4);
+            int j1 = this.range * 16 - 16;
+            par16 = j1 - random.nextInt(j1 / 4);
         }
 
-        boolean var54 = false;
+        boolean flag = false;
 
         if (par15 == -1)
         {
             par15 = par16 / 2;
-            var54 = true;
+            flag = true;
         }
 
-        int var27 = var25.nextInt(par16 / 2) + par16 / 4;
+        int k1 = random.nextInt(par16 / 2) + par16 / 4;
 
-        for (boolean var28 = var25.nextInt(6) == 0; par15 < par16; ++par15)
+        for (boolean flag1 = random.nextInt(6) == 0; par15 < par16; ++par15)
         {
-            double var29 = 1.5D + (double)(MathHelper.sin((float)par15 * (float)Math.PI / (float)par16) * par12 * 1.0F);
-            double var31 = var29 * par17;
-            float var33 = MathHelper.cos(par14);
-            float var34 = MathHelper.sin(par14);
-            par6 += (double)(MathHelper.cos(par13) * var33);
-            par8 += (double)var34;
-            par10 += (double)(MathHelper.sin(par13) * var33);
+            double d6 = 1.5D + (double)(MathHelper.sin((float)par15 * (float)Math.PI / (float)par16) * par12 * 1.0F);
+            double d7 = d6 * par17;
+            float f5 = MathHelper.cos(par14);
+            float f6 = MathHelper.sin(par14);
+            par6 += (double)(MathHelper.cos(par13) * f5);
+            par8 += (double)f6;
+            par10 += (double)(MathHelper.sin(par13) * f5);
 
-            if (var28)
+            if (flag1)
             {
                 par14 *= 0.92F;
             }
@@ -61,151 +62,134 @@ public class MapGenCaves extends MapGenBase
                 par14 *= 0.7F;
             }
 
-            par14 += var24 * 0.1F;
-            par13 += var23 * 0.1F;
-            var24 *= 0.9F;
-            var23 *= 0.75F;
-            var24 += (var25.nextFloat() - var25.nextFloat()) * var25.nextFloat() * 2.0F;
-            var23 += (var25.nextFloat() - var25.nextFloat()) * var25.nextFloat() * 4.0F;
+            par14 += f4 * 0.1F;
+            par13 += f3 * 0.1F;
+            f4 *= 0.9F;
+            f3 *= 0.75F;
+            f4 += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 2.0F;
+            f3 += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 4.0F;
 
-            if (!var54 && par15 == var27 && par12 > 1.0F && par16 > 0)
+            if (!flag && par15 == k1 && par12 > 1.0F && par16 > 0)
             {
-                this.generateCaveNode(var25.nextLong(), par3, par4, par5ArrayOfByte, par6, par8, par10, var25.nextFloat() * 0.5F + 0.5F, par13 - ((float)Math.PI / 2F), par14 / 3.0F, par15, par16, 1.0D);
-                this.generateCaveNode(var25.nextLong(), par3, par4, par5ArrayOfByte, par6, par8, par10, var25.nextFloat() * 0.5F + 0.5F, par13 + ((float)Math.PI / 2F), par14 / 3.0F, par15, par16, 1.0D);
+                this.generateCaveNode(random.nextLong(), par3, par4, par5ArrayOfByte, par6, par8, par10, random.nextFloat() * 0.5F + 0.5F, par13 - ((float)Math.PI / 2F), par14 / 3.0F, par15, par16, 1.0D);
+                this.generateCaveNode(random.nextLong(), par3, par4, par5ArrayOfByte, par6, par8, par10, random.nextFloat() * 0.5F + 0.5F, par13 + ((float)Math.PI / 2F), par14 / 3.0F, par15, par16, 1.0D);
                 return;
             }
 
-            if (var54 || var25.nextInt(4) != 0)
+            if (flag || random.nextInt(4) != 0)
             {
-                double var35 = par6 - var19;
-                double var37 = par10 - var21;
-                double var39 = (double)(par16 - par15);
-                double var41 = (double)(par12 + 2.0F + 16.0F);
+                double d8 = par6 - d4;
+                double d9 = par10 - d5;
+                double d10 = (double)(par16 - par15);
+                double d11 = (double)(par12 + 2.0F + 16.0F);
 
-                if (var35 * var35 + var37 * var37 - var39 * var39 > var41 * var41)
+                if (d8 * d8 + d9 * d9 - d10 * d10 > d11 * d11)
                 {
                     return;
                 }
 
-                if (par6 >= var19 - 16.0D - var29 * 2.0D && par10 >= var21 - 16.0D - var29 * 2.0D && par6 <= var19 + 16.0D + var29 * 2.0D && par10 <= var21 + 16.0D + var29 * 2.0D)
+                if (par6 >= d4 - 16.0D - d6 * 2.0D && par10 >= d5 - 16.0D - d6 * 2.0D && par6 <= d4 + 16.0D + d6 * 2.0D && par10 <= d5 + 16.0D + d6 * 2.0D)
                 {
-                    int var55 = MathHelper.floor_double(par6 - var29) - par3 * 16 - 1;
-                    int var36 = MathHelper.floor_double(par6 + var29) - par3 * 16 + 1;
-                    int var56 = MathHelper.floor_double(par8 - var31) - 1;
-                    int var38 = MathHelper.floor_double(par8 + var31) + 1;
-                    int var57 = MathHelper.floor_double(par10 - var29) - par4 * 16 - 1;
-                    int var40 = MathHelper.floor_double(par10 + var29) - par4 * 16 + 1;
+                    int l1 = MathHelper.floor_double(par6 - d6) - par3 * 16 - 1;
+                    int i2 = MathHelper.floor_double(par6 + d6) - par3 * 16 + 1;
+                    int j2 = MathHelper.floor_double(par8 - d7) - 1;
+                    int k2 = MathHelper.floor_double(par8 + d7) + 1;
+                    int l2 = MathHelper.floor_double(par10 - d6) - par4 * 16 - 1;
+                    int i3 = MathHelper.floor_double(par10 + d6) - par4 * 16 + 1;
 
-                    if (var55 < 0)
+                    if (l1 < 0)
                     {
-                        var55 = 0;
+                        l1 = 0;
                     }
 
-                    if (var36 > 16)
+                    if (i2 > 16)
                     {
-                        var36 = 16;
+                        i2 = 16;
                     }
 
-                    if (var56 < 1)
+                    if (j2 < 1)
                     {
-                        var56 = 1;
+                        j2 = 1;
                     }
 
-                    if (var38 > 120)
+                    if (k2 > 120)
                     {
-                        var38 = 120;
+                        k2 = 120;
                     }
 
-                    if (var57 < 0)
+                    if (l2 < 0)
                     {
-                        var57 = 0;
+                        l2 = 0;
                     }
 
-                    if (var40 > 16)
+                    if (i3 > 16)
                     {
-                        var40 = 16;
+                        i3 = 16;
                     }
 
-                    boolean var58 = false;
-                    int var42;
-                    int var45;
+                    boolean flag2 = false;
+                    int j3;
+                    int k3;
 
-                    for (var42 = var55; !var58 && var42 < var36; ++var42)
+                    for (j3 = l1; !flag2 && j3 < i2; ++j3)
                     {
-                        for (int var43 = var57; !var58 && var43 < var40; ++var43)
+                        for (int l3 = l2; !flag2 && l3 < i3; ++l3)
                         {
-                            for (int var44 = var38 + 1; !var58 && var44 >= var56 - 1; --var44)
+                            for (int i4 = k2 + 1; !flag2 && i4 >= j2 - 1; --i4)
                             {
-                                var45 = (var42 * 16 + var43) * 128 + var44;
+                                k3 = (j3 * 16 + l3) * 128 + i4;
 
-                                if (var44 >= 0 && var44 < 128)
+                                if (i4 >= 0 && i4 < 128)
                                 {
-                                    if (par5ArrayOfByte[var45] == Block.waterMoving.blockID || par5ArrayOfByte[var45] == Block.waterStill.blockID)
+                                    if (isOceanBlock(par5ArrayOfByte, k3, j3, i4, l3, par3, par4))
                                     {
-                                        var58 = true;
+                                        flag2 = true;
                                     }
 
-                                    if (var44 != var56 - 1 && var42 != var55 && var42 != var36 - 1 && var43 != var57 && var43 != var40 - 1)
+                                    if (i4 != j2 - 1 && j3 != l1 && j3 != i2 - 1 && l3 != l2 && l3 != i3 - 1)
                                     {
-                                        var44 = var56;
+                                        i4 = j2;
                                     }
                                 }
                             }
                         }
                     }
 
-                    if (!var58)
+                    if (!flag2)
                     {
-                        for (var42 = var55; var42 < var36; ++var42)
+                        for (j3 = l1; j3 < i2; ++j3)
                         {
-                            double var59 = ((double)(var42 + par3 * 16) + 0.5D - par6) / var29;
+                            double d12 = ((double)(j3 + par3 * 16) + 0.5D - par6) / d6;
 
-                            for (var45 = var57; var45 < var40; ++var45)
+                            for (k3 = l2; k3 < i3; ++k3)
                             {
-                                double var46 = ((double)(var45 + par4 * 16) + 0.5D - par10) / var29;
-                                int var48 = (var42 * 16 + var45) * 128 + var38;
-                                boolean var49 = false;
+                                double d13 = ((double)(k3 + par4 * 16) + 0.5D - par10) / d6;
+                                int j4 = (j3 * 16 + k3) * 128 + k2;
+                                boolean flag3 = false;
 
-                                if (var59 * var59 + var46 * var46 < 1.0D)
+                                if (d12 * d12 + d13 * d13 < 1.0D)
                                 {
-                                    for (int var50 = var38 - 1; var50 >= var56; --var50)
+                                    for (int k4 = k2 - 1; k4 >= j2; --k4)
                                     {
-                                        double var51 = ((double)var50 + 0.5D - par8) / var31;
+                                        double d14 = ((double)k4 + 0.5D - par8) / d7;
 
-                                        if (var51 > -0.7D && var59 * var59 + var51 * var51 + var46 * var46 < 1.0D)
+                                        if (d14 > -0.7D && d12 * d12 + d14 * d14 + d13 * d13 < 1.0D)
                                         {
-                                            byte var53 = par5ArrayOfByte[var48];
-
-                                            if (var53 == Block.grass.blockID)
+                                            if (isTopBlock(par5ArrayOfByte, j4, j3, k4, k3, par3, par4))
                                             {
-                                                var49 = true;
+                                                flag3 = true;
                                             }
 
-                                            if (var53 == Block.stone.blockID || var53 == Block.dirt.blockID || var53 == Block.grass.blockID)
-                                            {
-                                                if (var50 < 10)
-                                                {
-                                                    par5ArrayOfByte[var48] = (byte)Block.lavaMoving.blockID;
-                                                }
-                                                else
-                                                {
-                                                    par5ArrayOfByte[var48] = 0;
-
-                                                    if (var49 && par5ArrayOfByte[var48 - 1] == Block.dirt.blockID)
-                                                    {
-                                                        par5ArrayOfByte[var48 - 1] = this.worldObj.getBiomeGenForCoords(var42 + par3 * 16, var45 + par4 * 16).topBlock;
-                                                    }
-                                                }
-                                            }
+                                            digBlock(par5ArrayOfByte, j4, j3, k4, k3, par3, par4, flag3);
                                         }
 
-                                        --var48;
+                                        --j4;
                                     }
                                 }
                             }
                         }
 
-                        if (var54)
+                        if (flag)
                         {
                             break;
                         }
@@ -220,38 +204,100 @@ public class MapGenCaves extends MapGenBase
      */
     protected void recursiveGenerate(World par1World, int par2, int par3, int par4, int par5, byte[] par6ArrayOfByte)
     {
-        int var7 = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(40) + 1) + 1);
+        int i1 = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(40) + 1) + 1);
 
         if (this.rand.nextInt(15) != 0)
         {
-            var7 = 0;
+            i1 = 0;
         }
 
-        for (int var8 = 0; var8 < var7; ++var8)
+        for (int j1 = 0; j1 < i1; ++j1)
         {
-            double var9 = (double)(par2 * 16 + this.rand.nextInt(16));
-            double var11 = (double)this.rand.nextInt(this.rand.nextInt(120) + 8);
-            double var13 = (double)(par3 * 16 + this.rand.nextInt(16));
-            int var15 = 1;
+            double d0 = (double)(par2 * 16 + this.rand.nextInt(16));
+            double d1 = (double)this.rand.nextInt(this.rand.nextInt(120) + 8);
+            double d2 = (double)(par3 * 16 + this.rand.nextInt(16));
+            int k1 = 1;
 
             if (this.rand.nextInt(4) == 0)
             {
-                this.generateLargeCaveNode(this.rand.nextLong(), par4, par5, par6ArrayOfByte, var9, var11, var13);
-                var15 += this.rand.nextInt(4);
+                this.generateLargeCaveNode(this.rand.nextLong(), par4, par5, par6ArrayOfByte, d0, d1, d2);
+                k1 += this.rand.nextInt(4);
             }
 
-            for (int var16 = 0; var16 < var15; ++var16)
+            for (int l1 = 0; l1 < k1; ++l1)
             {
-                float var17 = this.rand.nextFloat() * (float)Math.PI * 2.0F;
-                float var18 = (this.rand.nextFloat() - 0.5F) * 2.0F / 8.0F;
-                float var19 = this.rand.nextFloat() * 2.0F + this.rand.nextFloat();
+                float f = this.rand.nextFloat() * (float)Math.PI * 2.0F;
+                float f1 = (this.rand.nextFloat() - 0.5F) * 2.0F / 8.0F;
+                float f2 = this.rand.nextFloat() * 2.0F + this.rand.nextFloat();
 
                 if (this.rand.nextInt(10) == 0)
                 {
-                    var19 *= this.rand.nextFloat() * this.rand.nextFloat() * 3.0F + 1.0F;
+                    f2 *= this.rand.nextFloat() * this.rand.nextFloat() * 3.0F + 1.0F;
                 }
 
-                this.generateCaveNode(this.rand.nextLong(), par4, par5, par6ArrayOfByte, var9, var11, var13, var19, var17, var18, 0, 0, 1.0D);
+                this.generateCaveNode(this.rand.nextLong(), par4, par5, par6ArrayOfByte, d0, d1, d2, f2, f, f1, 0, 0, 1.0D);
+            }
+        }
+    }
+
+    protected boolean isOceanBlock(byte[] data, int index, int x, int y, int z, int chunkX, int chunkZ)
+    {
+        return data[index] == Block.waterMoving.blockID || data[index] == Block.waterStill.blockID;
+    }
+
+    //Exception biomes to make sure we generate like vanilla
+    private boolean isExceptionBiome(BiomeGenBase biome)
+    {
+        if (biome == BiomeGenBase.mushroomIsland) return true;
+        if (biome == BiomeGenBase.beach) return true;
+        if (biome == BiomeGenBase.desert) return true;
+        return false;
+    }
+
+    //Determine if the block at the specified location is the top block for the biome, we take into account
+    //Vanilla bugs to make sure that we generate the map the same way vanilla does.
+    private boolean isTopBlock(byte[] data, int index, int x, int y, int z, int chunkX, int chunkZ)
+    {
+        BiomeGenBase biome = worldObj.getBiomeGenForCoords(x + chunkX * 16, z + chunkZ * 16);
+        return (isExceptionBiome(biome) ? data[index] == Block.grass.blockID : data[index] == biome.topBlock);
+    }
+
+    /**
+     * Digs out the current block, default implementation removes stone, filler, and top block
+     * Sets the block to lava if y is less then 10, and air other wise.
+     * If setting to air, it also checks to see if we've broken the surface and if so 
+     * tries to make the floor the biome's top block
+     * 
+     * @param data Block data array
+     * @param index Pre-calculated index into block data
+     * @param x local X position
+     * @param y local Y position
+     * @param z local Z position
+     * @param chunkX Chunk X position
+     * @param chunkZ Chunk Y position
+     * @param foundTop True if we've encountered the biome's top block. Ideally if we've broken the surface.
+     */
+    protected void digBlock(byte[] data, int index, int x, int y, int z, int chunkX, int chunkZ, boolean foundTop)
+    {
+        BiomeGenBase biome = worldObj.getBiomeGenForCoords(x + chunkX * 16, z + chunkZ * 16);
+        int top    = (isExceptionBiome(biome) ? Block.grass.blockID : biome.topBlock);
+        int filler = (isExceptionBiome(biome) ? Block.dirt.blockID  : biome.fillerBlock);
+        int block  = data[index];
+
+        if (block == Block.stone.blockID || block == filler || block == top)
+        {
+            if (y < 10)
+            {
+                data[index] = (byte)Block.lavaMoving.blockID;
+            }
+            else
+            {
+                data[index] = 0;
+
+                if (foundTop && data[index - 1] == filler)
+                {
+                    data[index - 1] = (byte)top;
+                }
             }
         }
     }

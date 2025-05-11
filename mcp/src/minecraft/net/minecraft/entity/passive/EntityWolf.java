@@ -264,14 +264,14 @@ public class EntityWolf extends EntityTameable
 
             if (this.timeWolfIsShaking > 0.4F)
             {
-                float var1 = (float)this.boundingBox.minY;
-                int var2 = (int)(MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float)Math.PI) * 7.0F);
+                float f = (float)this.boundingBox.minY;
+                int i = (int)(MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float)Math.PI) * 7.0F);
 
-                for (int var3 = 0; var3 < var2; ++var3)
+                for (int j = 0; j < i; ++j)
                 {
-                    float var4 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                    float var5 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                    this.worldObj.spawnParticle("splash", this.posX + (double)var4, (double)(var1 + 0.8F), this.posZ + (double)var5, this.motionX, this.motionY, this.motionZ);
+                    float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
+                    float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
+                    this.worldObj.spawnParticle("splash", this.posX + (double)f1, (double)(f + 0.8F), this.posZ + (double)f2, this.motionX, this.motionY, this.motionZ);
                 }
             }
         }
@@ -296,18 +296,18 @@ public class EntityWolf extends EntityTameable
     @SideOnly(Side.CLIENT)
     public float getShakeAngle(float par1, float par2)
     {
-        float var3 = (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * par1 + par2) / 1.8F;
+        float f2 = (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * par1 + par2) / 1.8F;
 
-        if (var3 < 0.0F)
+        if (f2 < 0.0F)
         {
-            var3 = 0.0F;
+            f2 = 0.0F;
         }
-        else if (var3 > 1.0F)
+        else if (f2 > 1.0F)
         {
-            var3 = 1.0F;
+            f2 = 1.0F;
         }
 
-        return MathHelper.sin(var3 * (float)Math.PI) * MathHelper.sin(var3 * (float)Math.PI * 11.0F) * 0.15F * (float)Math.PI;
+        return MathHelper.sin(f2 * (float)Math.PI) * MathHelper.sin(f2 * (float)Math.PI * 11.0F) * 0.15F * (float)Math.PI;
     }
 
     @SideOnly(Side.CLIENT)
@@ -341,10 +341,10 @@ public class EntityWolf extends EntityTameable
         }
         else
         {
-            Entity var3 = par1DamageSource.getEntity();
+            Entity entity = par1DamageSource.getEntity();
             this.aiSit.setSitting(false);
 
-            if (var3 != null && !(var3 instanceof EntityPlayer) && !(var3 instanceof EntityArrow))
+            if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow))
             {
                 par2 = (par2 + 1.0F) / 2.0F;
             }
@@ -355,8 +355,8 @@ public class EntityWolf extends EntityTameable
 
     public boolean attackEntityAsMob(Entity par1Entity)
     {
-        int var2 = this.isTamed() ? 4 : 2;
-        return par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float)var2);
+        int i = this.isTamed() ? 4 : 2;
+        return par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float)i);
     }
 
     public void setTamed(boolean par1)
@@ -378,26 +378,26 @@ public class EntityWolf extends EntityTameable
      */
     public boolean interact(EntityPlayer par1EntityPlayer)
     {
-        ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
+        ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
 
         if (this.isTamed())
         {
-            if (var2 != null)
+            if (itemstack != null)
             {
-                if (Item.itemsList[var2.itemID] instanceof ItemFood)
+                if (Item.itemsList[itemstack.itemID] instanceof ItemFood)
                 {
-                    ItemFood var3 = (ItemFood)Item.itemsList[var2.itemID];
+                    ItemFood itemfood = (ItemFood)Item.itemsList[itemstack.itemID];
 
-                    if (var3.isWolfsFavoriteMeat() && this.dataWatcher.getWatchableObjectFloat(18) < 20.0F)
+                    if (itemfood.isWolfsFavoriteMeat() && this.dataWatcher.getWatchableObjectFloat(18) < 20.0F)
                     {
                         if (!par1EntityPlayer.capabilities.isCreativeMode)
                         {
-                            --var2.stackSize;
+                            --itemstack.stackSize;
                         }
 
-                        this.heal((float)var3.getHealAmount());
+                        this.heal((float)itemfood.getHealAmount());
 
-                        if (var2.stackSize <= 0)
+                        if (itemstack.stackSize <= 0)
                         {
                             par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
                         }
@@ -405,15 +405,15 @@ public class EntityWolf extends EntityTameable
                         return true;
                     }
                 }
-                else if (var2.itemID == Item.dyePowder.itemID)
+                else if (itemstack.itemID == Item.dyePowder.itemID)
                 {
-                    int var4 = BlockColored.getBlockFromDye(var2.getItemDamage());
+                    int i = BlockColored.getBlockFromDye(itemstack.getItemDamage());
 
-                    if (var4 != this.getCollarColor())
+                    if (i != this.getCollarColor())
                     {
-                        this.setCollarColor(var4);
+                        this.setCollarColor(i);
 
-                        if (!par1EntityPlayer.capabilities.isCreativeMode && --var2.stackSize <= 0)
+                        if (!par1EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
                         {
                             par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
                         }
@@ -423,7 +423,7 @@ public class EntityWolf extends EntityTameable
                 }
             }
 
-            if (par1EntityPlayer.getCommandSenderName().equalsIgnoreCase(this.getOwnerName()) && !this.worldObj.isRemote && !this.isBreedingItem(var2))
+            if (par1EntityPlayer.getCommandSenderName().equalsIgnoreCase(this.getOwnerName()) && !this.worldObj.isRemote && !this.isBreedingItem(itemstack))
             {
                 this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
@@ -432,14 +432,14 @@ public class EntityWolf extends EntityTameable
                 this.setAttackTarget((EntityLivingBase)null);
             }
         }
-        else if (var2 != null && var2.itemID == Item.bone.itemID && !this.isAngry())
+        else if (itemstack != null && itemstack.itemID == Item.bone.itemID && !this.isAngry())
         {
             if (!par1EntityPlayer.capabilities.isCreativeMode)
             {
-                --var2.stackSize;
+                --itemstack.stackSize;
             }
 
-            if (var2.stackSize <= 0)
+            if (itemstack.stackSize <= 0)
             {
                 par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
             }
@@ -521,15 +521,15 @@ public class EntityWolf extends EntityTameable
      */
     public void setAngry(boolean par1)
     {
-        byte var2 = this.dataWatcher.getWatchableObjectByte(16);
+        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
 
         if (par1)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 | 2)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 2)));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(var2 & -3)));
+            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -3)));
         }
     }
 
@@ -554,16 +554,16 @@ public class EntityWolf extends EntityTameable
      */
     public EntityWolf spawnBabyAnimal(EntityAgeable par1EntityAgeable)
     {
-        EntityWolf var2 = new EntityWolf(this.worldObj);
-        String var3 = this.getOwnerName();
+        EntityWolf entitywolf = new EntityWolf(this.worldObj);
+        String s = this.getOwnerName();
 
-        if (var3 != null && var3.trim().length() > 0)
+        if (s != null && s.trim().length() > 0)
         {
-            var2.setOwner(var3);
-            var2.setTamed(true);
+            entitywolf.setOwner(s);
+            entitywolf.setTamed(true);
         }
 
-        return var2;
+        return entitywolf;
     }
 
     public void func_70918_i(boolean par1)
@@ -597,8 +597,8 @@ public class EntityWolf extends EntityTameable
         }
         else
         {
-            EntityWolf var2 = (EntityWolf)par1EntityAnimal;
-            return !var2.isTamed() ? false : (var2.isSitting() ? false : this.isInLove() && var2.isInLove());
+            EntityWolf entitywolf = (EntityWolf)par1EntityAnimal;
+            return !entitywolf.isTamed() ? false : (entitywolf.isSitting() ? false : this.isInLove() && entitywolf.isInLove());
         }
     }
 
@@ -621,9 +621,9 @@ public class EntityWolf extends EntityTameable
         {
             if (par1EntityLivingBase instanceof EntityWolf)
             {
-                EntityWolf var3 = (EntityWolf)par1EntityLivingBase;
+                EntityWolf entitywolf = (EntityWolf)par1EntityLivingBase;
 
-                if (var3.isTamed() && var3.func_130012_q() == par2EntityLivingBase)
+                if (entitywolf.isTamed() && entitywolf.func_130012_q() == par2EntityLivingBase)
                 {
                     return false;
                 }

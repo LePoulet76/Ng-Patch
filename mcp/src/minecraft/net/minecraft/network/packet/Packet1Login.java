@@ -3,6 +3,8 @@ package net.minecraft.network.packet;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+
+import cpw.mods.fml.common.network.FMLNetworkHandler;
 import net.minecraft.world.EnumGameType;
 import net.minecraft.world.WorldType;
 
@@ -26,7 +28,12 @@ public class Packet1Login extends Packet
     /** The maximum players. */
     public byte maxPlayers;
 
-    public Packet1Login() {}
+    private boolean vanillaCompatible;
+    
+    public Packet1Login()
+    {
+        this.vanillaCompatible = FMLNetworkHandler.vanillaLoginPacketCompatibility();
+    }
 
     public Packet1Login(int par1, WorldType par2WorldType, EnumGameType par3EnumGameType, boolean par4, int par5, int par6, int par7, int par8)
     {
@@ -38,6 +45,7 @@ public class Packet1Login extends Packet
         this.worldHeight = (byte)par7;
         this.maxPlayers = (byte)par8;
         this.hardcoreMode = par4;
+        this.vanillaCompatible = false;
     }
 
     /**
@@ -46,19 +54,28 @@ public class Packet1Login extends Packet
     public void readPacketData(DataInput par1DataInput) throws IOException
     {
         this.clientEntityId = par1DataInput.readInt();
-        String var2 = readString(par1DataInput, 16);
-        this.terrainType = WorldType.parseWorldType(var2);
+        String s = readString(par1DataInput, 16);
+        this.terrainType = WorldType.parseWorldType(s);
 
         if (this.terrainType == null)
         {
             this.terrainType = WorldType.DEFAULT;
         }
 
-        byte var3 = par1DataInput.readByte();
-        this.hardcoreMode = (var3 & 8) == 8;
-        int var4 = var3 & -9;
-        this.gameType = EnumGameType.getByID(var4);
-        this.dimension = par1DataInput.readByte();
+        byte b0 = par1DataInput.readByte();
+        this.hardcoreMode = (b0 & 8) == 8;
+        int i = b0 & -9;
+        this.gameType = EnumGameType.getByID(i);
+
+        if (vanillaCompatible)
+        {
+            this.dimension = par1DataInput.readByte();
+        }
+        else
+        {
+            this.dimension = par1DataInput.readInt();
+        }
+
         this.difficultySetting = par1DataInput.readByte();
         this.worldHeight = par1DataInput.readByte();
         this.maxPlayers = par1DataInput.readByte();
@@ -71,15 +88,24 @@ public class Packet1Login extends Packet
     {
         par1DataOutput.writeInt(this.clientEntityId);
         writeString(this.terrainType == null ? "" : this.terrainType.getWorldTypeName(), par1DataOutput);
-        int var2 = this.gameType.getID();
+        int i = this.gameType.getID();
 
         if (this.hardcoreMode)
         {
-            var2 |= 8;
+            i |= 8;
         }
 
-        par1DataOutput.writeByte(var2);
-        par1DataOutput.writeByte(this.dimension);
+        par1DataOutput.writeByte(i);
+
+        if (vanillaCompatible)
+        {
+            par1DataOutput.writeByte(this.dimension);
+        }
+        else
+        {
+            par1DataOutput.writeInt(this.dimension);
+        }
+
         par1DataOutput.writeByte(this.difficultySetting);
         par1DataOutput.writeByte(this.worldHeight);
         par1DataOutput.writeByte(this.maxPlayers);
@@ -98,13 +124,13 @@ public class Packet1Login extends Packet
      */
     public int getPacketSize()
     {
-        int var1 = 0;
+        int i = 0;
 
         if (this.terrainType != null)
         {
-            var1 = this.terrainType.getWorldTypeName().length();
+            i = this.terrainType.getWorldTypeName().length();
         }
 
-        return 6 + 2 * var1 + 4 + 4 + 1 + 1 + 1;
+        return 6 + 2 * i + 4 + 4 + 1 + 1 + 1 + (vanillaCompatible ? 0 : 3);
     }
 }

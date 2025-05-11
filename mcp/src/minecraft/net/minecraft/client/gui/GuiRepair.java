@@ -40,9 +40,9 @@ public class GuiRepair extends GuiContainer implements ICrafting
     {
         super.initGui();
         Keyboard.enableRepeatEvents(true);
-        int var1 = (this.width - this.xSize) / 2;
-        int var2 = (this.height - this.ySize) / 2;
-        this.itemNameField = new GuiTextField(this.fontRenderer, var1 + 62, var2 + 24, 103, 12);
+        int i = (this.width - this.xSize) / 2;
+        int j = (this.height - this.ySize) / 2;
+        this.itemNameField = new GuiTextField(this.fontRenderer, i + 62, j + 24, 103, 12);
         this.itemNameField.setTextColor(-1);
         this.itemNameField.setDisabledTextColour(-1);
         this.itemNameField.setEnableBackgroundDrawing(false);
@@ -71,43 +71,43 @@ public class GuiRepair extends GuiContainer implements ICrafting
 
         if (this.repairContainer.maximumCost > 0)
         {
-            int var3 = 8453920;
-            boolean var4 = true;
-            String var5 = I18n.getStringParams("container.repair.cost", new Object[] {Integer.valueOf(this.repairContainer.maximumCost)});
+            int k = 8453920;
+            boolean flag = true;
+            String s = I18n.getStringParams("container.repair.cost", new Object[] {Integer.valueOf(this.repairContainer.maximumCost)});
 
             if (this.repairContainer.maximumCost >= 40 && !this.mc.thePlayer.capabilities.isCreativeMode)
             {
-                var5 = I18n.getString("container.repair.expensive");
-                var3 = 16736352;
+                s = I18n.getString("container.repair.expensive");
+                k = 16736352;
             }
             else if (!this.repairContainer.getSlot(2).getHasStack())
             {
-                var4 = false;
+                flag = false;
             }
             else if (!this.repairContainer.getSlot(2).canTakeStack(this.field_82325_q.player))
             {
-                var3 = 16736352;
+                k = 16736352;
             }
 
-            if (var4)
+            if (flag)
             {
-                int var6 = -16777216 | (var3 & 16579836) >> 2 | var3 & -16777216;
-                int var7 = this.xSize - 8 - this.fontRenderer.getStringWidth(var5);
-                byte var8 = 67;
+                int l = -16777216 | (k & 16579836) >> 2 | k & -16777216;
+                int i1 = this.xSize - 8 - this.fontRenderer.getStringWidth(s);
+                byte b0 = 67;
 
                 if (this.fontRenderer.getUnicodeFlag())
                 {
-                    drawRect(var7 - 3, var8 - 2, this.xSize - 7, var8 + 10, -16777216);
-                    drawRect(var7 - 2, var8 - 1, this.xSize - 8, var8 + 9, -12895429);
+                    drawRect(i1 - 3, b0 - 2, this.xSize - 7, b0 + 10, -16777216);
+                    drawRect(i1 - 2, b0 - 1, this.xSize - 8, b0 + 9, -12895429);
                 }
                 else
                 {
-                    this.fontRenderer.drawString(var5, var7, var8 + 1, var6);
-                    this.fontRenderer.drawString(var5, var7 + 1, var8, var6);
-                    this.fontRenderer.drawString(var5, var7 + 1, var8 + 1, var6);
+                    this.fontRenderer.drawString(s, i1, b0 + 1, l);
+                    this.fontRenderer.drawString(s, i1 + 1, b0, l);
+                    this.fontRenderer.drawString(s, i1 + 1, b0 + 1, l);
                 }
 
-                this.fontRenderer.drawString(var5, var7, var8, var3);
+                this.fontRenderer.drawString(s, i1, b0, k);
             }
         }
 
@@ -131,16 +131,16 @@ public class GuiRepair extends GuiContainer implements ICrafting
 
     private void func_135015_g()
     {
-        String var1 = this.itemNameField.getText();
-        Slot var2 = this.repairContainer.getSlot(0);
+        String s = this.itemNameField.getText();
+        Slot slot = this.repairContainer.getSlot(0);
 
-        if (var2 != null && var2.getHasStack() && !var2.getStack().hasDisplayName() && var1.equals(var2.getStack().getDisplayName()))
+        if (slot != null && slot.getHasStack() && !slot.getStack().hasDisplayName() && s.equals(slot.getStack().getDisplayName()))
         {
-            var1 = "";
+            s = "";
         }
 
-        this.repairContainer.updateItemName(var1);
-        this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", var1.getBytes()));
+        this.repairContainer.updateItemName(s);
+        this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", s.getBytes()));
     }
 
     /**
@@ -169,14 +169,14 @@ public class GuiRepair extends GuiContainer implements ICrafting
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(anvilGuiTextures);
-        int var4 = (this.width - this.xSize) / 2;
-        int var5 = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(var4, var5, 0, 0, this.xSize, this.ySize);
-        this.drawTexturedModalRect(var4 + 59, var5 + 20, 0, this.ySize + (this.repairContainer.getSlot(0).getHasStack() ? 0 : 16), 110, 16);
+        int k = (this.width - this.xSize) / 2;
+        int l = (this.height - this.ySize) / 2;
+        this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
+        this.drawTexturedModalRect(k + 59, l + 20, 0, this.ySize + (this.repairContainer.getSlot(0).getHasStack() ? 0 : 16), 110, 16);
 
         if ((this.repairContainer.getSlot(0).getHasStack() || this.repairContainer.getSlot(1).getHasStack()) && !this.repairContainer.getSlot(2).getHasStack())
         {
-            this.drawTexturedModalRect(var4 + 99, var5 + 45, this.xSize, 0, 28, 21);
+            this.drawTexturedModalRect(k + 99, l + 45, this.xSize, 0, 28, 21);
         }
     }
 

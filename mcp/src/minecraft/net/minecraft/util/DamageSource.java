@@ -183,10 +183,10 @@ public class DamageSource
      */
     public ChatMessageComponent getDeathMessage(EntityLivingBase par1EntityLivingBase)
     {
-        EntityLivingBase var2 = par1EntityLivingBase.func_94060_bK();
-        String var3 = "death.attack." + this.damageType;
-        String var4 = var3 + ".player";
-        return var2 != null && StatCollector.func_94522_b(var4) ? ChatMessageComponent.createFromTranslationWithSubstitutions(var4, new Object[] {par1EntityLivingBase.getTranslatedEntityName(), var2.getTranslatedEntityName()}): ChatMessageComponent.createFromTranslationWithSubstitutions(var3, new Object[] {par1EntityLivingBase.getTranslatedEntityName()});
+        EntityLivingBase entitylivingbase1 = par1EntityLivingBase.func_94060_bK();
+        String s = "death.attack." + this.damageType;
+        String s1 = s + ".player";
+        return entitylivingbase1 != null && StatCollector.func_94522_b(s1) ? ChatMessageComponent.createFromTranslationWithSubstitutions(s1, new Object[] {par1EntityLivingBase.getTranslatedEntityName(), entitylivingbase1.getTranslatedEntityName()}): ChatMessageComponent.createFromTranslationWithSubstitutions(s, new Object[] {par1EntityLivingBase.getTranslatedEntityName()});
     }
 
     /**

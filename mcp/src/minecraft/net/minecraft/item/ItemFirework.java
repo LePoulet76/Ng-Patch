@@ -26,8 +26,8 @@ public class ItemFirework extends Item
     {
         if (!par3World.isRemote)
         {
-            EntityFireworkRocket var11 = new EntityFireworkRocket(par3World, (double)((float)par4 + par8), (double)((float)par5 + par9), (double)((float)par6 + par10), par1ItemStack);
-            par3World.spawnEntityInWorld(var11);
+            EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(par3World, (double)((float)par4 + par8), (double)((float)par5 + par9), (double)((float)par6 + par10), par1ItemStack);
+            par3World.spawnEntityInWorld(entityfireworkrocket);
 
             if (!par2EntityPlayer.capabilities.isCreativeMode)
             {
@@ -51,33 +51,33 @@ public class ItemFirework extends Item
     {
         if (par1ItemStack.hasTagCompound())
         {
-            NBTTagCompound var5 = par1ItemStack.getTagCompound().getCompoundTag("Fireworks");
+            NBTTagCompound nbttagcompound = par1ItemStack.getTagCompound().getCompoundTag("Fireworks");
 
-            if (var5 != null)
+            if (nbttagcompound != null)
             {
-                if (var5.hasKey("Flight"))
+                if (nbttagcompound.hasKey("Flight"))
                 {
-                    par3List.add(StatCollector.translateToLocal("item.fireworks.flight") + " " + var5.getByte("Flight"));
+                    par3List.add(StatCollector.translateToLocal("item.fireworks.flight") + " " + nbttagcompound.getByte("Flight"));
                 }
 
-                NBTTagList var6 = var5.getTagList("Explosions");
+                NBTTagList nbttaglist = nbttagcompound.getTagList("Explosions");
 
-                if (var6 != null && var6.tagCount() > 0)
+                if (nbttaglist != null && nbttaglist.tagCount() > 0)
                 {
-                    for (int var7 = 0; var7 < var6.tagCount(); ++var7)
+                    for (int i = 0; i < nbttaglist.tagCount(); ++i)
                     {
-                        NBTTagCompound var8 = (NBTTagCompound)var6.tagAt(var7);
-                        ArrayList var9 = new ArrayList();
-                        ItemFireworkCharge.func_92107_a(var8, var9);
+                        NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.tagAt(i);
+                        ArrayList arraylist = new ArrayList();
+                        ItemFireworkCharge.func_92107_a(nbttagcompound1, arraylist);
 
-                        if (var9.size() > 0)
+                        if (arraylist.size() > 0)
                         {
-                            for (int var10 = 1; var10 < var9.size(); ++var10)
+                            for (int j = 1; j < arraylist.size(); ++j)
                             {
-                                var9.set(var10, "  " + (String)var9.get(var10));
+                                arraylist.set(j, "  " + (String)arraylist.get(j));
                             }
 
-                            par3List.addAll(var9);
+                            par3List.addAll(arraylist);
                         }
                     }
                 }

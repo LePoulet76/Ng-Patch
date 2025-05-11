@@ -14,15 +14,15 @@ class CallableTileEntityID implements Callable
 
     public String callTileEntityID()
     {
-        int var1 = this.theTileEntity.worldObj.getBlockId(this.theTileEntity.xCoord, this.theTileEntity.yCoord, this.theTileEntity.zCoord);
+        int i = this.theTileEntity.worldObj.getBlockId(this.theTileEntity.xCoord, this.theTileEntity.yCoord, this.theTileEntity.zCoord);
 
         try
         {
-            return String.format("ID #%d (%s // %s)", new Object[] {Integer.valueOf(var1), Block.blocksList[var1].getUnlocalizedName(), Block.blocksList[var1].getClass().getCanonicalName()});
+            return String.format("ID #%d (%s // %s)", new Object[] {Integer.valueOf(i), Block.blocksList[i].getUnlocalizedName(), Block.blocksList[i].getClass().getCanonicalName()});
         }
-        catch (Throwable var3)
+        catch (Throwable throwable)
         {
-            return "ID #" + var1;
+            return "ID #" + i;
         }
     }
 

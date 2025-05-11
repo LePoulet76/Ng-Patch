@@ -38,12 +38,12 @@ public class RenderSquid extends RenderLiving
      */
     protected void rotateSquidsCorpse(EntitySquid par1EntitySquid, float par2, float par3, float par4)
     {
-        float var5 = par1EntitySquid.prevSquidPitch + (par1EntitySquid.squidPitch - par1EntitySquid.prevSquidPitch) * par4;
-        float var6 = par1EntitySquid.prevSquidYaw + (par1EntitySquid.squidYaw - par1EntitySquid.prevSquidYaw) * par4;
+        float f3 = par1EntitySquid.prevSquidPitch + (par1EntitySquid.squidPitch - par1EntitySquid.prevSquidPitch) * par4;
+        float f4 = par1EntitySquid.prevSquidYaw + (par1EntitySquid.squidYaw - par1EntitySquid.prevSquidYaw) * par4;
         GL11.glTranslatef(0.0F, 0.5F, 0.0F);
         GL11.glRotatef(180.0F - par3, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(var5, 1.0F, 0.0F, 0.0F);
-        GL11.glRotatef(var6, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(f3, 1.0F, 0.0F, 0.0F);
+        GL11.glRotatef(f4, 0.0F, 1.0F, 0.0F);
         GL11.glTranslatef(0.0F, -1.2F, 0.0F);
     }
 

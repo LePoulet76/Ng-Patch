@@ -7,5 +7,5 @@ import net.minecraft.util.Icon;
 @SideOnly(Side.CLIENT)
 public interface IconRegister
 {
-    Icon registerIcon(String var1);
+    Icon registerIcon(String s);
 }

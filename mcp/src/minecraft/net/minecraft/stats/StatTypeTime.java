@@ -12,11 +12,11 @@ final class StatTypeTime implements IStatType
      */
     public String format(int par1)
     {
-        double var2 = (double)par1 / 20.0D;
-        double var4 = var2 / 60.0D;
-        double var6 = var4 / 60.0D;
-        double var8 = var6 / 24.0D;
-        double var10 = var8 / 365.0D;
-        return var10 > 0.5D ? StatBase.getDecimalFormat().format(var10) + " y" : (var8 > 0.5D ? StatBase.getDecimalFormat().format(var8) + " d" : (var6 > 0.5D ? StatBase.getDecimalFormat().format(var6) + " h" : (var4 > 0.5D ? StatBase.getDecimalFormat().format(var4) + " m" : var2 + " s")));
+        double d0 = (double)par1 / 20.0D;
+        double d1 = d0 / 60.0D;
+        double d2 = d1 / 60.0D;
+        double d3 = d2 / 24.0D;
+        double d4 = d3 / 365.0D;
+        return d4 > 0.5D ? StatBase.getDecimalFormat().format(d4) + " y" : (d3 > 0.5D ? StatBase.getDecimalFormat().format(d3) + " d" : (d2 > 0.5D ? StatBase.getDecimalFormat().format(d2) + " h" : (d1 > 0.5D ? StatBase.getDecimalFormat().format(d1) + " m" : d0 + " s")));
     }
 }

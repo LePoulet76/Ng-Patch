@@ -32,7 +32,6 @@ abstract class ComponentScatteredFeature extends StructureComponent
             case 2:
                 this.boundingBox = new StructureBoundingBox(par2, par3, par4, par2 + par5 - 1, par3 + par6 - 1, par4 + par7 - 1);
                 break;
-
             default:
                 this.boundingBox = new StructureBoundingBox(par2, par3, par4, par2 + par7 - 1, par3 + par6 - 1, par4 + par5 - 1);
         }
@@ -62,28 +61,28 @@ abstract class ComponentScatteredFeature extends StructureComponent
         }
         else
         {
-            int var4 = 0;
-            int var5 = 0;
+            int j = 0;
+            int k = 0;
 
-            for (int var6 = this.boundingBox.minZ; var6 <= this.boundingBox.maxZ; ++var6)
+            for (int l = this.boundingBox.minZ; l <= this.boundingBox.maxZ; ++l)
             {
-                for (int var7 = this.boundingBox.minX; var7 <= this.boundingBox.maxX; ++var7)
+                for (int i1 = this.boundingBox.minX; i1 <= this.boundingBox.maxX; ++i1)
                 {
-                    if (par2StructureBoundingBox.isVecInside(var7, 64, var6))
+                    if (par2StructureBoundingBox.isVecInside(i1, 64, l))
                     {
-                        var4 += Math.max(par1World.getTopSolidOrLiquidBlock(var7, var6), par1World.provider.getAverageGroundLevel());
-                        ++var5;
+                        j += Math.max(par1World.getTopSolidOrLiquidBlock(i1, l), par1World.provider.getAverageGroundLevel());
+                        ++k;
                     }
                 }
             }
 
-            if (var5 == 0)
+            if (k == 0)
             {
                 return false;
             }
             else
             {
-                this.field_74936_d = var4 / var5;
+                this.field_74936_d = j / k;
                 this.boundingBox.offset(0, this.field_74936_d - this.boundingBox.minY + par3, 0);
                 return true;
             }

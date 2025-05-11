@@ -21,17 +21,17 @@ public class BlockNote extends BlockContainer
      */
     public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
     {
-        boolean var6 = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4);
-        TileEntityNote var7 = (TileEntityNote)par1World.getBlockTileEntity(par2, par3, par4);
+        boolean flag = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4);
+        TileEntityNote tileentitynote = (TileEntityNote)par1World.getBlockTileEntity(par2, par3, par4);
 
-        if (var7 != null && var7.previousRedstoneState != var6)
+        if (tileentitynote != null && tileentitynote.previousRedstoneState != flag)
         {
-            if (var6)
+            if (flag)
             {
-                var7.triggerNote(par1World, par2, par3, par4);
+                tileentitynote.triggerNote(par1World, par2, par3, par4);
             }
 
-            var7.previousRedstoneState = var6;
+            tileentitynote.previousRedstoneState = flag;
         }
     }
 
@@ -46,12 +46,12 @@ public class BlockNote extends BlockContainer
         }
         else
         {
-            TileEntityNote var10 = (TileEntityNote)par1World.getBlockTileEntity(par2, par3, par4);
+            TileEntityNote tileentitynote = (TileEntityNote)par1World.getBlockTileEntity(par2, par3, par4);
 
-            if (var10 != null)
+            if (tileentitynote != null)
             {
-                var10.changePitch();
-                var10.triggerNote(par1World, par2, par3, par4);
+                tileentitynote.changePitch();
+                tileentitynote.triggerNote(par1World, par2, par3, par4);
             }
 
             return true;
@@ -65,11 +65,11 @@ public class BlockNote extends BlockContainer
     {
         if (!par1World.isRemote)
         {
-            TileEntityNote var6 = (TileEntityNote)par1World.getBlockTileEntity(par2, par3, par4);
+            TileEntityNote tileentitynote = (TileEntityNote)par1World.getBlockTileEntity(par2, par3, par4);
 
-            if (var6 != null)
+            if (tileentitynote != null)
             {
-                var6.triggerNote(par1World, par2, par3, par4);
+                tileentitynote.triggerNote(par1World, par2, par3, par4);
             }
         }
     }
@@ -88,30 +88,30 @@ public class BlockNote extends BlockContainer
      */
     public boolean onBlockEventReceived(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
-        float var7 = (float)Math.pow(2.0D, (double)(par6 - 12) / 12.0D);
-        String var8 = "harp";
+        float f = (float)Math.pow(2.0D, (double)(par6 - 12) / 12.0D);
+        String s = "harp";
 
         if (par5 == 1)
         {
-            var8 = "bd";
+            s = "bd";
         }
 
         if (par5 == 2)
         {
-            var8 = "snare";
+            s = "snare";
         }
 
         if (par5 == 3)
         {
-            var8 = "hat";
+            s = "hat";
         }
 
         if (par5 == 4)
         {
-            var8 = "bassattack";
+            s = "bassattack";
         }
 
-        par1World.playSoundEffect((double)par2 + 0.5D, (double)par3 + 0.5D, (double)par4 + 0.5D, "note." + var8, 3.0F, var7);
+        par1World.playSoundEffect((double)par2 + 0.5D, (double)par3 + 0.5D, (double)par4 + 0.5D, "note." + s, 3.0F, f);
         par1World.spawnParticle("note", (double)par2 + 0.5D, (double)par3 + 1.2D, (double)par4 + 0.5D, (double)par6 / 24.0D, 0.0D, 0.0D);
         return true;
     }

@@ -42,11 +42,11 @@ public class EntityFireworkSparkFX extends EntityFX
 
     public void setColour(int par1)
     {
-        float var2 = (float)((par1 & 16711680) >> 16) / 255.0F;
-        float var3 = (float)((par1 & 65280) >> 8) / 255.0F;
-        float var4 = (float)((par1 & 255) >> 0) / 255.0F;
-        float var5 = 1.0F;
-        this.setRBGColorF(var2 * var5, var3 * var5, var4 * var5);
+        float f = (float)((par1 & 16711680) >> 16) / 255.0F;
+        float f1 = (float)((par1 & 65280) >> 8) / 255.0F;
+        float f2 = (float)((par1 & 255) >> 0) / 255.0F;
+        float f3 = 1.0F;
+        this.setRBGColorF(f * f3, f1 * f3, f2 * f3);
     }
 
     public void setFadeColour(int par1)
@@ -122,20 +122,20 @@ public class EntityFireworkSparkFX extends EntityFX
 
         if (this.field_92054_ax && this.particleAge < this.particleMaxAge / 2 && (this.particleAge + this.particleMaxAge) % 2 == 0)
         {
-            EntityFireworkSparkFX var1 = new EntityFireworkSparkFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, this.field_92047_az);
-            var1.setRBGColorF(this.particleRed, this.particleGreen, this.particleBlue);
-            var1.particleAge = var1.particleMaxAge / 2;
+            EntityFireworkSparkFX entityfireworksparkfx = new EntityFireworkSparkFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, this.field_92047_az);
+            entityfireworksparkfx.setRBGColorF(this.particleRed, this.particleGreen, this.particleBlue);
+            entityfireworksparkfx.particleAge = entityfireworksparkfx.particleMaxAge / 2;
 
             if (this.hasFadeColour)
             {
-                var1.hasFadeColour = true;
-                var1.fadeColourRed = this.fadeColourRed;
-                var1.fadeColourGreen = this.fadeColourGreen;
-                var1.fadeColourBlue = this.fadeColourBlue;
+                entityfireworksparkfx.hasFadeColour = true;
+                entityfireworksparkfx.fadeColourRed = this.fadeColourRed;
+                entityfireworksparkfx.fadeColourGreen = this.fadeColourGreen;
+                entityfireworksparkfx.fadeColourBlue = this.fadeColourBlue;
             }
 
-            var1.field_92048_ay = this.field_92048_ay;
-            this.field_92047_az.addEffect(var1);
+            entityfireworksparkfx.field_92048_ay = this.field_92048_ay;
+            this.field_92047_az.addEffect(entityfireworksparkfx);
         }
     }
 

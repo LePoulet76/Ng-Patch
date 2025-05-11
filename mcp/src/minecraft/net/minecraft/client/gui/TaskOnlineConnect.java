@@ -29,54 +29,54 @@ public class TaskOnlineConnect extends TaskLongRunning
     public void run()
     {
         this.setMessage(I18n.getString("mco.connect.connecting"));
-        McoClient var1 = new McoClient(this.getMinecraft().getSession());
-        boolean var2 = false;
-        boolean var3 = false;
-        int var4 = 5;
-        McoServerAddress var5 = null;
+        McoClient mcoclient = new McoClient(this.getMinecraft().getSession());
+        boolean flag = false;
+        boolean flag1 = false;
+        int i = 5;
+        McoServerAddress mcoserveraddress = null;
 
-        for (int var6 = 0; var6 < 10 && !this.wasScreenClosed(); ++var6)
+        for (int j = 0; j < 10 && !this.wasScreenClosed(); ++j)
         {
             try
             {
-                var5 = var1.func_96374_a(this.field_96585_c.field_96408_a);
-                var2 = true;
+                mcoserveraddress = mcoclient.func_96374_a(this.field_96585_c.field_96408_a);
+                flag = true;
             }
-            catch (ExceptionRetryCall var8)
+            catch (ExceptionRetryCall exceptionretrycall)
             {
-                var4 = var8.field_96393_c;
+                i = exceptionretrycall.field_96393_c;
             }
-            catch (ExceptionMcoService var9)
+            catch (ExceptionMcoService exceptionmcoservice)
             {
-                var3 = true;
-                this.setFailedMessage(var9.toString());
-                Minecraft.getMinecraft().getLogAgent().logSevere(var9.toString());
+                flag1 = true;
+                this.setFailedMessage(exceptionmcoservice.toString());
+                Minecraft.getMinecraft().getLogAgent().logSevere(exceptionmcoservice.toString());
                 break;
             }
-            catch (IOException var10)
+            catch (IOException ioexception)
             {
                 Minecraft.getMinecraft().getLogAgent().logWarning("Realms: could not parse response");
             }
-            catch (Exception var11)
+            catch (Exception exception)
             {
-                var3 = true;
-                this.setFailedMessage(var11.getLocalizedMessage());
+                flag1 = true;
+                this.setFailedMessage(exception.getLocalizedMessage());
             }
 
-            if (var2)
+            if (flag)
             {
                 break;
             }
 
-            this.func_111251_a(var4);
+            this.func_111251_a(i);
         }
 
-        if (!this.wasScreenClosed() && !var3)
+        if (!this.wasScreenClosed() && !flag1)
         {
-            if (var2)
+            if (flag)
             {
-                ServerAddress var12 = ServerAddress.func_78860_a(var5.field_96417_a);
-                this.func_96582_a(var12.getIP(), var12.getPort());
+                ServerAddress serveraddress = ServerAddress.func_78860_a(mcoserveraddress.field_96417_a);
+                this.func_96582_a(serveraddress.getIP(), serveraddress.getPort());
             }
             else
             {
@@ -91,9 +91,9 @@ public class TaskOnlineConnect extends TaskLongRunning
         {
             Thread.sleep((long)(par1 * 1000));
         }
-        catch (InterruptedException var3)
+        catch (InterruptedException interruptedexception)
         {
-            Minecraft.getMinecraft().getLogAgent().logWarning(var3.getLocalizedMessage());
+            Minecraft.getMinecraft().getLogAgent().logWarning(interruptedexception.getLocalizedMessage());
         }
     }
 

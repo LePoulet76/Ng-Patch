@@ -81,14 +81,14 @@ public class ModelOcelot extends ModelBase
 
         if (this.isChild)
         {
-            float var8 = 2.0F;
+            float f6 = 2.0F;
             GL11.glPushMatrix();
-            GL11.glScalef(1.5F / var8, 1.5F / var8, 1.5F / var8);
+            GL11.glScalef(1.5F / f6, 1.5F / f6, 1.5F / f6);
             GL11.glTranslatef(0.0F, 10.0F * par7, 4.0F * par7);
             this.ocelotHead.render(par7);
             GL11.glPopMatrix();
             GL11.glPushMatrix();
-            GL11.glScalef(1.0F / var8, 1.0F / var8, 1.0F / var8);
+            GL11.glScalef(1.0F / f6, 1.0F / f6, 1.0F / f6);
             GL11.glTranslatef(0.0F, 24.0F * par7, 0.0F);
             this.ocelotBody.render(par7);
             this.ocelotBackLeftLeg.render(par7);
@@ -159,7 +159,7 @@ public class ModelOcelot extends ModelBase
      */
     public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
-        EntityOcelot var5 = (EntityOcelot)par1EntityLivingBase;
+        EntityOcelot entityocelot = (EntityOcelot)par1EntityLivingBase;
         this.ocelotBody.rotationPointY = 12.0F;
         this.ocelotBody.rotationPointZ = -10.0F;
         this.ocelotHead.rotationPointY = 15.0F;
@@ -174,7 +174,7 @@ public class ModelOcelot extends ModelBase
         this.ocelotBackLeftLeg.rotationPointZ = this.ocelotBackRightLeg.rotationPointZ = 5.0F;
         this.ocelotTail.rotateAngleX = 0.9F;
 
-        if (var5.isSneaking())
+        if (entityocelot.isSneaking())
         {
             ++this.ocelotBody.rotationPointY;
             this.ocelotHead.rotationPointY += 2.0F;
@@ -185,7 +185,7 @@ public class ModelOcelot extends ModelBase
             this.ocelotTail2.rotateAngleX = ((float)Math.PI / 2F);
             this.field_78163_i = 0;
         }
-        else if (var5.isSprinting())
+        else if (entityocelot.isSprinting())
         {
             this.ocelotTail2.rotationPointY = this.ocelotTail.rotationPointY;
             this.ocelotTail2.rotationPointZ += 2.0F;
@@ -193,7 +193,7 @@ public class ModelOcelot extends ModelBase
             this.ocelotTail2.rotateAngleX = ((float)Math.PI / 2F);
             this.field_78163_i = 2;
         }
-        else if (var5.isSitting())
+        else if (entityocelot.isSitting())
         {
             this.ocelotBody.rotateAngleX = ((float)Math.PI / 4F);
             this.ocelotBody.rotationPointY += -4.0F;

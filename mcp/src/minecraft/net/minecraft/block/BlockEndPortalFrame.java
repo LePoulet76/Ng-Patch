@@ -88,9 +88,9 @@ public class BlockEndPortalFrame extends Block
     {
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.8125F, 1.0F);
         super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-        int var8 = par1World.getBlockMetadata(par2, par3, par4);
+        int l = par1World.getBlockMetadata(par2, par3, par4);
 
-        if (isEnderEyeInserted(var8))
+        if (isEnderEyeInserted(l))
         {
             this.setBlockBounds(0.3125F, 0.8125F, 0.3125F, 0.6875F, 1.0F, 0.6875F);
             super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
@@ -120,8 +120,8 @@ public class BlockEndPortalFrame extends Block
      */
     public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
     {
-        int var7 = ((MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) + 2) % 4;
-        par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
+        int l = ((MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) + 2) % 4;
+        par1World.setBlockMetadataWithNotify(par2, par3, par4, l, 2);
     }
 
     /**
@@ -139,7 +139,7 @@ public class BlockEndPortalFrame extends Block
      */
     public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
     {
-        int var6 = par1World.getBlockMetadata(par2, par3, par4);
-        return isEnderEyeInserted(var6) ? 15 : 0;
+        int i1 = par1World.getBlockMetadata(par2, par3, par4);
+        return isEnderEyeInserted(i1) ? 15 : 0;
     }
 }

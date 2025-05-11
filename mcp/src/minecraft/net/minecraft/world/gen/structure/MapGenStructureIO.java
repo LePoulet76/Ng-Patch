@@ -36,64 +36,64 @@ public class MapGenStructureIO
 
     public static StructureStart func_143035_a(NBTTagCompound par0NBTTagCompound, World par1World)
     {
-        StructureStart var2 = null;
+        StructureStart structurestart = null;
 
         try
         {
-            Class var3 = (Class)field_143040_a.get(par0NBTTagCompound.getString("id"));
+            Class oclass = (Class)field_143040_a.get(par0NBTTagCompound.getString("id"));
 
-            if (var3 != null)
+            if (oclass != null)
             {
-                var2 = (StructureStart)var3.newInstance();
+                structurestart = (StructureStart)oclass.newInstance();
             }
         }
-        catch (Exception var4)
+        catch (Exception exception)
         {
             par1World.getWorldLogAgent().logWarning("Failed Start with id " + par0NBTTagCompound.getString("id"));
-            var4.printStackTrace();
+            exception.printStackTrace();
         }
 
-        if (var2 != null)
+        if (structurestart != null)
         {
-            var2.func_143020_a(par1World, par0NBTTagCompound);
+            structurestart.func_143020_a(par1World, par0NBTTagCompound);
         }
         else
         {
             par1World.getWorldLogAgent().logWarning("Skipping Structure with id " + par0NBTTagCompound.getString("id"));
         }
 
-        return var2;
+        return structurestart;
     }
 
     public static StructureComponent func_143032_b(NBTTagCompound par0NBTTagCompound, World par1World)
     {
-        StructureComponent var2 = null;
+        StructureComponent structurecomponent = null;
 
         try
         {
-            Class var3 = (Class)field_143039_c.get(par0NBTTagCompound.getString("id"));
+            Class oclass = (Class)field_143039_c.get(par0NBTTagCompound.getString("id"));
 
-            if (var3 != null)
+            if (oclass != null)
             {
-                var2 = (StructureComponent)var3.newInstance();
+                structurecomponent = (StructureComponent)oclass.newInstance();
             }
         }
-        catch (Exception var4)
+        catch (Exception exception)
         {
             par1World.getWorldLogAgent().logWarning("Failed Piece with id " + par0NBTTagCompound.getString("id"));
-            var4.printStackTrace();
+            exception.printStackTrace();
         }
 
-        if (var2 != null)
+        if (structurecomponent != null)
         {
-            var2.func_143009_a(par1World, par0NBTTagCompound);
+            structurecomponent.func_143009_a(par1World, par0NBTTagCompound);
         }
         else
         {
             par1World.getWorldLogAgent().logWarning("Skipping Piece with id " + par0NBTTagCompound.getString("id"));
         }
 
-        return var2;
+        return structurecomponent;
     }
 
     static

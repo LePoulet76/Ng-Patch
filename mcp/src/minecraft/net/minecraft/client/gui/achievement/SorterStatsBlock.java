@@ -22,49 +22,49 @@ class SorterStatsBlock implements Comparator
 
     public int func_78334_a(StatCrafting par1StatCrafting, StatCrafting par2StatCrafting)
     {
-        int var3 = par1StatCrafting.getItemID();
-        int var4 = par2StatCrafting.getItemID();
-        StatBase var5 = null;
-        StatBase var6 = null;
+        int i = par1StatCrafting.getItemID();
+        int j = par2StatCrafting.getItemID();
+        StatBase statbase = null;
+        StatBase statbase1 = null;
 
         if (this.slotStatsBlockGUI.field_77264_j == 2)
         {
-            var5 = StatList.mineBlockStatArray[var3];
-            var6 = StatList.mineBlockStatArray[var4];
+            statbase = StatList.mineBlockStatArray[i];
+            statbase1 = StatList.mineBlockStatArray[j];
         }
         else if (this.slotStatsBlockGUI.field_77264_j == 0)
         {
-            var5 = StatList.objectCraftStats[var3];
-            var6 = StatList.objectCraftStats[var4];
+            statbase = StatList.objectCraftStats[i];
+            statbase1 = StatList.objectCraftStats[j];
         }
         else if (this.slotStatsBlockGUI.field_77264_j == 1)
         {
-            var5 = StatList.objectUseStats[var3];
-            var6 = StatList.objectUseStats[var4];
+            statbase = StatList.objectUseStats[i];
+            statbase1 = StatList.objectUseStats[j];
         }
 
-        if (var5 != null || var6 != null)
+        if (statbase != null || statbase1 != null)
         {
-            if (var5 == null)
+            if (statbase == null)
             {
                 return 1;
             }
 
-            if (var6 == null)
+            if (statbase1 == null)
             {
                 return -1;
             }
 
-            int var7 = GuiStats.getStatsFileWriter(this.slotStatsBlockGUI.theStats).writeStat(var5);
-            int var8 = GuiStats.getStatsFileWriter(this.slotStatsBlockGUI.theStats).writeStat(var6);
+            int k = GuiStats.getStatsFileWriter(this.slotStatsBlockGUI.theStats).writeStat(statbase);
+            int l = GuiStats.getStatsFileWriter(this.slotStatsBlockGUI.theStats).writeStat(statbase1);
 
-            if (var7 != var8)
+            if (k != l)
             {
-                return (var7 - var8) * this.slotStatsBlockGUI.field_77265_k;
+                return (k - l) * this.slotStatsBlockGUI.field_77265_k;
             }
         }
 
-        return var3 - var4;
+        return i - j;
     }
 
     public int compare(Object par1Obj, Object par2Obj)

@@ -40,41 +40,41 @@ public class GuiVideoSettings extends GuiScreen
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.getString("gui.done")));
         this.is64bit = false;
-        String[] var1 = new String[] {"sun.arch.data.model", "com.ibm.vm.bitmode", "os.arch"};
-        String[] var2 = var1;
-        int var3 = var1.length;
+        String[] astring = new String[] {"sun.arch.data.model", "com.ibm.vm.bitmode", "os.arch"};
+        String[] astring1 = astring;
+        int i = astring.length;
 
-        for (int var4 = 0; var4 < var3; ++var4)
+        for (int j = 0; j < i; ++j)
         {
-            String var5 = var2[var4];
-            String var6 = System.getProperty(var5);
+            String s = astring1[j];
+            String s1 = System.getProperty(s);
 
-            if (var6 != null && var6.contains("64"))
+            if (s1 != null && s1.contains("64"))
             {
                 this.is64bit = true;
                 break;
             }
         }
 
-        int var8 = 0;
-        var3 = this.is64bit ? 0 : -15;
-        EnumOptions[] var9 = videoOptions;
-        int var10 = var9.length;
+        int k = 0;
+        i = this.is64bit ? 0 : -15;
+        EnumOptions[] aenumoptions = videoOptions;
+        int l = aenumoptions.length;
 
-        for (int var11 = 0; var11 < var10; ++var11)
+        for (int i1 = 0; i1 < l; ++i1)
         {
-            EnumOptions var7 = var9[var11];
+            EnumOptions enumoptions = aenumoptions[i1];
 
-            if (var7.getEnumFloat())
+            if (enumoptions.getEnumFloat())
             {
-                this.buttonList.add(new GuiSlider(var7.returnEnumOrdinal(), this.width / 2 - 155 + var8 % 2 * 160, this.height / 7 + var3 + 24 * (var8 >> 1), var7, this.guiGameSettings.getKeyBinding(var7), this.guiGameSettings.getOptionFloatValue(var7)));
+                this.buttonList.add(new GuiSlider(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + k % 2 * 160, this.height / 7 + i + 24 * (k >> 1), enumoptions, this.guiGameSettings.getKeyBinding(enumoptions), this.guiGameSettings.getOptionFloatValue(enumoptions)));
             }
             else
             {
-                this.buttonList.add(new GuiSmallButton(var7.returnEnumOrdinal(), this.width / 2 - 155 + var8 % 2 * 160, this.height / 7 + var3 + 24 * (var8 >> 1), var7, this.guiGameSettings.getKeyBinding(var7)));
+                this.buttonList.add(new GuiSmallButton(enumoptions.returnEnumOrdinal(), this.width / 2 - 155 + k % 2 * 160, this.height / 7 + i + 24 * (k >> 1), enumoptions, this.guiGameSettings.getKeyBinding(enumoptions)));
             }
 
-            ++var8;
+            ++k;
         }
     }
 
@@ -85,7 +85,7 @@ public class GuiVideoSettings extends GuiScreen
     {
         if (par1GuiButton.enabled)
         {
-            int var2 = this.guiGameSettings.guiScale;
+            int i = this.guiGameSettings.guiScale;
 
             if (par1GuiButton.id < 100 && par1GuiButton instanceof GuiSmallButton)
             {
@@ -99,12 +99,12 @@ public class GuiVideoSettings extends GuiScreen
                 this.mc.displayGuiScreen(this.parentGuiScreen);
             }
 
-            if (this.guiGameSettings.guiScale != var2)
+            if (this.guiGameSettings.guiScale != i)
             {
-                ScaledResolution var3 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
-                int var4 = var3.getScaledWidth();
-                int var5 = var3.getScaledHeight();
-                this.setWorldAndResolution(this.mc, var4, var5);
+                ScaledResolution scaledresolution = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
+                int j = scaledresolution.getScaledWidth();
+                int k = scaledresolution.getScaledHeight();
+                this.setWorldAndResolution(this.mc, j, k);
             }
         }
     }

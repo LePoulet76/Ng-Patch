@@ -40,11 +40,11 @@ public class BlockBeacon extends BlockContainer
         }
         else
         {
-            TileEntityBeacon var10 = (TileEntityBeacon)par1World.getBlockTileEntity(par2, par3, par4);
+            TileEntityBeacon tileentitybeacon = (TileEntityBeacon)par1World.getBlockTileEntity(par2, par3, par4);
 
-            if (var10 != null)
+            if (tileentitybeacon != null)
             {
-                par5EntityPlayer.displayGUIBeacon(var10);
+                par5EntityPlayer.displayGUIBeacon(tileentitybeacon);
             }
 
             return true;

@@ -54,12 +54,12 @@ public abstract class EntityCreature extends EntityLiving
 
         if (this.fleeingTick > 0 && --this.fleeingTick == 0)
         {
-            AttributeInstance var1 = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-            var1.removeModifier(field_110181_i);
+            AttributeInstance attributeinstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+            attributeinstance.removeModifier(field_110181_i);
         }
 
         this.hasAttacked = this.isMovementCeased();
-        float var21 = 16.0F;
+        float f = 16.0F;
 
         if (this.entityToAttack == null)
         {
@@ -67,16 +67,16 @@ public abstract class EntityCreature extends EntityLiving
 
             if (this.entityToAttack != null)
             {
-                this.pathToEntity = this.worldObj.getPathEntityToEntity(this, this.entityToAttack, var21, true, false, false, true);
+                this.pathToEntity = this.worldObj.getPathEntityToEntity(this, this.entityToAttack, f, true, false, false, true);
             }
         }
         else if (this.entityToAttack.isEntityAlive())
         {
-            float var2 = this.entityToAttack.getDistanceToEntity(this);
+            float f1 = this.entityToAttack.getDistanceToEntity(this);
 
             if (this.canEntityBeSeen(this.entityToAttack))
             {
-                this.attackEntity(this.entityToAttack, var2);
+                this.attackEntity(this.entityToAttack, f1);
             }
         }
         else
@@ -88,74 +88,74 @@ public abstract class EntityCreature extends EntityLiving
 
         if (!this.hasAttacked && this.entityToAttack != null && (this.pathToEntity == null || this.rand.nextInt(20) == 0))
         {
-            this.pathToEntity = this.worldObj.getPathEntityToEntity(this, this.entityToAttack, var21, true, false, false, true);
+            this.pathToEntity = this.worldObj.getPathEntityToEntity(this, this.entityToAttack, f, true, false, false, true);
         }
         else if (!this.hasAttacked && (this.pathToEntity == null && this.rand.nextInt(180) == 0 || this.rand.nextInt(120) == 0 || this.fleeingTick > 0) && this.entityAge < 100)
         {
             this.updateWanderPath();
         }
 
-        int var22 = MathHelper.floor_double(this.boundingBox.minY + 0.5D);
-        boolean var3 = this.isInWater();
-        boolean var4 = this.handleLavaMovement();
+        int i = MathHelper.floor_double(this.boundingBox.minY + 0.5D);
+        boolean flag = this.isInWater();
+        boolean flag1 = this.handleLavaMovement();
         this.rotationPitch = 0.0F;
 
         if (this.pathToEntity != null && this.rand.nextInt(100) != 0)
         {
             this.worldObj.theProfiler.startSection("followpath");
-            Vec3 var5 = this.pathToEntity.getPosition(this);
-            double var6 = (double)(this.width * 2.0F);
+            Vec3 vec3 = this.pathToEntity.getPosition(this);
+            double d0 = (double)(this.width * 2.0F);
 
-            while (var5 != null && var5.squareDistanceTo(this.posX, var5.yCoord, this.posZ) < var6 * var6)
+            while (vec3 != null && vec3.squareDistanceTo(this.posX, vec3.yCoord, this.posZ) < d0 * d0)
             {
                 this.pathToEntity.incrementPathIndex();
 
                 if (this.pathToEntity.isFinished())
                 {
-                    var5 = null;
+                    vec3 = null;
                     this.pathToEntity = null;
                 }
                 else
                 {
-                    var5 = this.pathToEntity.getPosition(this);
+                    vec3 = this.pathToEntity.getPosition(this);
                 }
             }
 
             this.isJumping = false;
 
-            if (var5 != null)
+            if (vec3 != null)
             {
-                double var8 = var5.xCoord - this.posX;
-                double var10 = var5.zCoord - this.posZ;
-                double var12 = var5.yCoord - (double)var22;
-                float var14 = (float)(Math.atan2(var10, var8) * 180.0D / Math.PI) - 90.0F;
-                float var15 = MathHelper.wrapAngleTo180_float(var14 - this.rotationYaw);
+                double d1 = vec3.xCoord - this.posX;
+                double d2 = vec3.zCoord - this.posZ;
+                double d3 = vec3.yCoord - (double)i;
+                float f2 = (float)(Math.atan2(d2, d1) * 180.0D / Math.PI) - 90.0F;
+                float f3 = MathHelper.wrapAngleTo180_float(f2 - this.rotationYaw);
                 this.moveForward = (float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
 
-                if (var15 > 30.0F)
+                if (f3 > 30.0F)
                 {
-                    var15 = 30.0F;
+                    f3 = 30.0F;
                 }
 
-                if (var15 < -30.0F)
+                if (f3 < -30.0F)
                 {
-                    var15 = -30.0F;
+                    f3 = -30.0F;
                 }
 
-                this.rotationYaw += var15;
+                this.rotationYaw += f3;
 
                 if (this.hasAttacked && this.entityToAttack != null)
                 {
-                    double var16 = this.entityToAttack.posX - this.posX;
-                    double var18 = this.entityToAttack.posZ - this.posZ;
-                    float var20 = this.rotationYaw;
-                    this.rotationYaw = (float)(Math.atan2(var18, var16) * 180.0D / Math.PI) - 90.0F;
-                    var15 = (var20 - this.rotationYaw + 90.0F) * (float)Math.PI / 180.0F;
-                    this.moveStrafing = -MathHelper.sin(var15) * this.moveForward * 1.0F;
-                    this.moveForward = MathHelper.cos(var15) * this.moveForward * 1.0F;
+                    double d4 = this.entityToAttack.posX - this.posX;
+                    double d5 = this.entityToAttack.posZ - this.posZ;
+                    float f4 = this.rotationYaw;
+                    this.rotationYaw = (float)(Math.atan2(d5, d4) * 180.0D / Math.PI) - 90.0F;
+                    f3 = (f4 - this.rotationYaw + 90.0F) * (float)Math.PI / 180.0F;
+                    this.moveStrafing = -MathHelper.sin(f3) * this.moveForward * 1.0F;
+                    this.moveForward = MathHelper.cos(f3) * this.moveForward * 1.0F;
                 }
 
-                if (var12 > 0.0D)
+                if (d3 > 0.0D)
                 {
                     this.isJumping = true;
                 }
@@ -171,7 +171,7 @@ public abstract class EntityCreature extends EntityLiving
                 this.isJumping = true;
             }
 
-            if (this.rand.nextFloat() < 0.8F && (var3 || var4))
+            if (this.rand.nextFloat() < 0.8F && (flag || flag1))
             {
                 this.isJumping = true;
             }
@@ -191,32 +191,32 @@ public abstract class EntityCreature extends EntityLiving
     protected void updateWanderPath()
     {
         this.worldObj.theProfiler.startSection("stroll");
-        boolean var1 = false;
-        int var2 = -1;
-        int var3 = -1;
-        int var4 = -1;
-        float var5 = -99999.0F;
+        boolean flag = false;
+        int i = -1;
+        int j = -1;
+        int k = -1;
+        float f = -99999.0F;
 
-        for (int var6 = 0; var6 < 10; ++var6)
+        for (int l = 0; l < 10; ++l)
         {
-            int var7 = MathHelper.floor_double(this.posX + (double)this.rand.nextInt(13) - 6.0D);
-            int var8 = MathHelper.floor_double(this.posY + (double)this.rand.nextInt(7) - 3.0D);
-            int var9 = MathHelper.floor_double(this.posZ + (double)this.rand.nextInt(13) - 6.0D);
-            float var10 = this.getBlockPathWeight(var7, var8, var9);
+            int i1 = MathHelper.floor_double(this.posX + (double)this.rand.nextInt(13) - 6.0D);
+            int j1 = MathHelper.floor_double(this.posY + (double)this.rand.nextInt(7) - 3.0D);
+            int k1 = MathHelper.floor_double(this.posZ + (double)this.rand.nextInt(13) - 6.0D);
+            float f1 = this.getBlockPathWeight(i1, j1, k1);
 
-            if (var10 > var5)
+            if (f1 > f)
             {
-                var5 = var10;
-                var2 = var7;
-                var3 = var8;
-                var4 = var9;
-                var1 = true;
+                f = f1;
+                i = i1;
+                j = j1;
+                k = k1;
+                flag = true;
             }
         }
 
-        if (var1)
+        if (flag)
         {
-            this.pathToEntity = this.worldObj.getEntityPathToXYZ(this, var2, var3, var4, 10.0F, true, false, false, true);
+            this.pathToEntity = this.worldObj.getEntityPathToXYZ(this, i, j, k, 10.0F, true, false, false, true);
         }
 
         this.worldObj.theProfiler.endSection();
@@ -250,10 +250,10 @@ public abstract class EntityCreature extends EntityLiving
      */
     public boolean getCanSpawnHere()
     {
-        int var1 = MathHelper.floor_double(this.posX);
-        int var2 = MathHelper.floor_double(this.boundingBox.minY);
-        int var3 = MathHelper.floor_double(this.posZ);
-        return super.getCanSpawnHere() && this.getBlockPathWeight(var1, var2, var3) >= 0.0F;
+        int i = MathHelper.floor_double(this.posX);
+        int j = MathHelper.floor_double(this.boundingBox.minY);
+        int k = MathHelper.floor_double(this.posZ);
+        return super.getCanSpawnHere() && this.getBlockPathWeight(i, j, k) >= 0.0F;
     }
 
     /**
@@ -336,13 +336,13 @@ public abstract class EntityCreature extends EntityLiving
 
         if (this.getLeashed() && this.getLeashedToEntity() != null && this.getLeashedToEntity().worldObj == this.worldObj)
         {
-            Entity var1 = this.getLeashedToEntity();
-            this.setHomeArea((int)var1.posX, (int)var1.posY, (int)var1.posZ, 5);
-            float var2 = this.getDistanceToEntity(var1);
+            Entity entity = this.getLeashedToEntity();
+            this.setHomeArea((int)entity.posX, (int)entity.posY, (int)entity.posZ, 5);
+            float f = this.getDistanceToEntity(entity);
 
             if (this instanceof EntityTameable && ((EntityTameable)this).isSitting())
             {
-                if (var2 > 10.0F)
+                if (f > 10.0F)
                 {
                     this.clearLeashed(true, true);
                 }
@@ -357,24 +357,24 @@ public abstract class EntityCreature extends EntityLiving
                 this.field_110180_bt = true;
             }
 
-            this.func_142017_o(var2);
+            this.func_142017_o(f);
 
-            if (var2 > 4.0F)
+            if (f > 4.0F)
             {
-                this.getNavigator().tryMoveToEntityLiving(var1, 1.0D);
+                this.getNavigator().tryMoveToEntityLiving(entity, 1.0D);
             }
 
-            if (var2 > 6.0F)
+            if (f > 6.0F)
             {
-                double var3 = (var1.posX - this.posX) / (double)var2;
-                double var5 = (var1.posY - this.posY) / (double)var2;
-                double var7 = (var1.posZ - this.posZ) / (double)var2;
-                this.motionX += var3 * Math.abs(var3) * 0.4D;
-                this.motionY += var5 * Math.abs(var5) * 0.4D;
-                this.motionZ += var7 * Math.abs(var7) * 0.4D;
+                double d0 = (entity.posX - this.posX) / (double)f;
+                double d1 = (entity.posY - this.posY) / (double)f;
+                double d2 = (entity.posZ - this.posZ) / (double)f;
+                this.motionX += d0 * Math.abs(d0) * 0.4D;
+                this.motionY += d1 * Math.abs(d1) * 0.4D;
+                this.motionZ += d2 * Math.abs(d2) * 0.4D;
             }
 
-            if (var2 > 10.0F)
+            if (f > 10.0F)
             {
                 this.clearLeashed(true, true);
             }

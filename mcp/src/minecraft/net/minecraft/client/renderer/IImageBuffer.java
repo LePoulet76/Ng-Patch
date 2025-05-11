@@ -7,5 +7,5 @@ import java.awt.image.BufferedImage;
 @SideOnly(Side.CLIENT)
 public interface IImageBuffer
 {
-    BufferedImage parseUserSkin(BufferedImage var1);
+    BufferedImage parseUserSkin(BufferedImage bufferedimage);
 }

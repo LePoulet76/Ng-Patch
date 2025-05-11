@@ -31,19 +31,19 @@ public class CommandGameMode extends CommandBase
     {
         if (par2ArrayOfStr.length > 0)
         {
-            EnumGameType var3 = this.getGameModeFromCommand(par1ICommandSender, par2ArrayOfStr[0]);
-            EntityPlayerMP var4 = par2ArrayOfStr.length >= 2 ? getPlayer(par1ICommandSender, par2ArrayOfStr[1]) : getCommandSenderAsPlayer(par1ICommandSender);
-            var4.setGameType(var3);
-            var4.fallDistance = 0.0F;
-            ChatMessageComponent var5 = ChatMessageComponent.createFromTranslationKey("gameMode." + var3.getName());
+            EnumGameType enumgametype = this.getGameModeFromCommand(par1ICommandSender, par2ArrayOfStr[0]);
+            EntityPlayerMP entityplayermp = par2ArrayOfStr.length >= 2 ? getPlayer(par1ICommandSender, par2ArrayOfStr[1]) : getCommandSenderAsPlayer(par1ICommandSender);
+            entityplayermp.setGameType(enumgametype);
+            entityplayermp.fallDistance = 0.0F;
+            ChatMessageComponent chatmessagecomponent = ChatMessageComponent.createFromTranslationKey("gameMode." + enumgametype.getName());
 
-            if (var4 != par1ICommandSender)
+            if (entityplayermp != par1ICommandSender)
             {
-                notifyAdmins(par1ICommandSender, 1, "commands.gamemode.success.other", new Object[] {var4.getEntityName(), var5});
+                notifyAdmins(par1ICommandSender, 1, "commands.gamemode.success.other", new Object[] {entityplayermp.getEntityName(), chatmessagecomponent});
             }
             else
             {
-                notifyAdmins(par1ICommandSender, 1, "commands.gamemode.success.self", new Object[] {var5});
+                notifyAdmins(par1ICommandSender, 1, "commands.gamemode.success.self", new Object[] {chatmessagecomponent});
             }
         }
         else

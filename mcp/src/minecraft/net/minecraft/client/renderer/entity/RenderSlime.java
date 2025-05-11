@@ -55,10 +55,10 @@ public class RenderSlime extends RenderLiving
      */
     protected void scaleSlime(EntitySlime par1EntitySlime, float par2)
     {
-        float var3 = (float)par1EntitySlime.getSlimeSize();
-        float var4 = (par1EntitySlime.prevSquishFactor + (par1EntitySlime.squishFactor - par1EntitySlime.prevSquishFactor) * par2) / (var3 * 0.5F + 1.0F);
-        float var5 = 1.0F / (var4 + 1.0F);
-        GL11.glScalef(var5 * var3, 1.0F / var5 * var3, var5 * var3);
+        float f1 = (float)par1EntitySlime.getSlimeSize();
+        float f2 = (par1EntitySlime.prevSquishFactor + (par1EntitySlime.squishFactor - par1EntitySlime.prevSquishFactor) * par2) / (f1 * 0.5F + 1.0F);
+        float f3 = 1.0F / (f2 + 1.0F);
+        GL11.glScalef(f3 * f1, 1.0F / f3 * f1, f3 * f1);
     }
 
     protected ResourceLocation getSlimeTextures(EntitySlime par1EntitySlime)

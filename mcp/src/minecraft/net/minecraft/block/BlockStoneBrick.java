@@ -52,9 +52,9 @@ public class BlockStoneBrick extends Block
      */
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (int var4 = 0; var4 < 4; ++var4)
+        for (int j = 0; j < 4; ++j)
         {
-            par3List.add(new ItemStack(par1, 1, var4));
+            par3List.add(new ItemStack(par1, 1, j));
         }
     }
 
@@ -68,16 +68,16 @@ public class BlockStoneBrick extends Block
     {
         this.field_94408_c = new Icon[field_94407_b.length];
 
-        for (int var2 = 0; var2 < this.field_94408_c.length; ++var2)
+        for (int i = 0; i < this.field_94408_c.length; ++i)
         {
-            String var3 = this.getTextureName();
+            String s = this.getTextureName();
 
-            if (field_94407_b[var2] != null)
+            if (field_94407_b[i] != null)
             {
-                var3 = var3 + "_" + field_94407_b[var2];
+                s = s + "_" + field_94407_b[i];
             }
 
-            this.field_94408_c[var2] = par1IconRegister.registerIcon(var3);
+            this.field_94408_c[i] = par1IconRegister.registerIcon(s);
         }
     }
 }

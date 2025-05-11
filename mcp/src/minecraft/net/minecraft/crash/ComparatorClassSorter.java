@@ -13,9 +13,9 @@ class ComparatorClassSorter implements Comparator
 
     public int func_85081_a(Class par1Class, Class par2Class)
     {
-        String var3 = par1Class.getPackage() == null ? "" : par1Class.getPackage().getName();
-        String var4 = par2Class.getPackage() == null ? "" : par2Class.getPackage().getName();
-        return var3.compareTo(var4);
+        String s = par1Class.getPackage() == null ? "" : par1Class.getPackage().getName();
+        String s1 = par2Class.getPackage() == null ? "" : par2Class.getPackage().getName();
+        return s.compareTo(s1);
     }
 
     public int compare(Object par1Obj, Object par2Obj)

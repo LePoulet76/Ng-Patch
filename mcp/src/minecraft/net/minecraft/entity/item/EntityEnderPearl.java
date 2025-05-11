@@ -9,6 +9,8 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
 public class EntityEnderPearl extends EntityThrowable
 {
@@ -38,7 +40,7 @@ public class EntityEnderPearl extends EntityThrowable
             par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
         }
 
-        for (int var2 = 0; var2 < 32; ++var2)
+        for (int i = 0; i < 32; ++i)
         {
             this.worldObj.spawnParticle("portal", this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
         }
@@ -47,18 +49,22 @@ public class EntityEnderPearl extends EntityThrowable
         {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP)
             {
-                EntityPlayerMP var3 = (EntityPlayerMP)this.getThrower();
+                EntityPlayerMP entityplayermp = (EntityPlayerMP)this.getThrower();
 
-                if (!var3.playerNetServerHandler.connectionClosed && var3.worldObj == this.worldObj)
+                if (!entityplayermp.playerNetServerHandler.connectionClosed && entityplayermp.worldObj == this.worldObj)
                 {
-                    if (this.getThrower().isRiding())
+                    EnderTeleportEvent event = new EnderTeleportEvent(entityplayermp, this.posX, this.posY, this.posZ, 5.0F);
+                    if (!MinecraftForge.EVENT_BUS.post(event))
                     {
-                        this.getThrower().mountEntity((Entity)null);
+                        if (this.getThrower().isRiding())
+                        {
+                            this.getThrower().mountEntity((Entity)null);
+                        }
+    
+                        this.getThrower().setPositionAndUpdate(event.targetX, event.targetY, event.targetZ);
+                        this.getThrower().fallDistance = 0.0F;
+                        this.getThrower().attackEntityFrom(DamageSource.fall, event.attackDamage);
                     }
-
-                    this.getThrower().setPositionAndUpdate(this.posX, this.posY, this.posZ);
-                    this.getThrower().fallDistance = 0.0F;
-                    this.getThrower().attackEntityFrom(DamageSource.fall, 5.0F);
                 }
             }
 

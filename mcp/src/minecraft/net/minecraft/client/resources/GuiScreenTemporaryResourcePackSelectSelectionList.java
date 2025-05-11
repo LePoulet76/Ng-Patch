@@ -41,7 +41,7 @@ class GuiScreenTemporaryResourcePackSelectSelectionList extends GuiSlot
      */
     protected void elementClicked(int par1, boolean par2)
     {
-        List var3 = this.field_110511_b.getRepositoryEntriesAll();
+        List list = this.field_110511_b.getRepositoryEntriesAll();
 
         try
         {
@@ -50,10 +50,10 @@ class GuiScreenTemporaryResourcePackSelectSelectionList extends GuiSlot
                 throw new RuntimeException("This is so horrible ;D");
             }
 
-            this.field_110511_b.setRepositoryEntries(new ResourcePackRepositoryEntry[] {(ResourcePackRepositoryEntry)var3.get(par1 - 1)});
+            this.field_110511_b.setRepositoryEntries(new ResourcePackRepositoryEntry[] {(ResourcePackRepositoryEntry)list.get(par1 - 1)});
             GuiScreenTemporaryResourcePackSelect.func_110341_b(this.field_110512_a).refreshResources();
         }
-        catch (Exception var5)
+        catch (Exception exception)
         {
             this.field_110511_b.setRepositoryEntries(new ResourcePackRepositoryEntry[0]);
             GuiScreenTemporaryResourcePackSelect.func_110339_c(this.field_110512_a).refreshResources();
@@ -68,8 +68,8 @@ class GuiScreenTemporaryResourcePackSelectSelectionList extends GuiSlot
      */
     protected boolean isSelected(int par1)
     {
-        List var2 = this.field_110511_b.getRepositoryEntries();
-        return par1 == 0 ? var2.isEmpty() : var2.contains(this.field_110511_b.getRepositoryEntriesAll().get(par1 - 1));
+        List list = this.field_110511_b.getRepositoryEntries();
+        return par1 == 0 ? list.isEmpty() : list.contains(this.field_110511_b.getRepositoryEntriesAll().get(par1 - 1));
     }
 
     /**
@@ -87,21 +87,21 @@ class GuiScreenTemporaryResourcePackSelectSelectionList extends GuiSlot
 
     protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
     {
-        TextureManager var6 = GuiScreenTemporaryResourcePackSelect.func_110340_f(this.field_110512_a).getTextureManager();
+        TextureManager texturemanager = GuiScreenTemporaryResourcePackSelect.func_110340_f(this.field_110512_a).getTextureManager();
 
         if (par1 == 0)
         {
             try
             {
-                ResourcePack var12 = this.field_110511_b.rprDefaultResourcePack;
-                PackMetadataSection var13 = (PackMetadataSection)var12.getPackMetadata(this.field_110511_b.rprMetadataSerializer, "pack");
+                ResourcePack resourcepack = this.field_110511_b.rprDefaultResourcePack;
+                PackMetadataSection packmetadatasection = (PackMetadataSection)resourcepack.getPackMetadata(this.field_110511_b.rprMetadataSerializer, "pack");
 
                 if (this.field_110513_h == null)
                 {
-                    this.field_110513_h = var6.getDynamicTextureLocation("texturepackicon", new DynamicTexture(var12.getPackImage()));
+                    this.field_110513_h = texturemanager.getDynamicTextureLocation("texturepackicon", new DynamicTexture(resourcepack.getPackImage()));
                 }
 
-                var6.bindTexture(this.field_110513_h);
+                texturemanager.bindTexture(this.field_110513_h);
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 par5Tessellator.startDrawingQuads();
                 par5Tessellator.setColorOpaque_I(16777215);
@@ -111,17 +111,17 @@ class GuiScreenTemporaryResourcePackSelectSelectionList extends GuiSlot
                 par5Tessellator.addVertexWithUV((double)par2, (double)par3, 0.0D, 0.0D, 0.0D);
                 par5Tessellator.draw();
                 this.field_110512_a.drawString(GuiScreenTemporaryResourcePackSelect.func_130017_g(this.field_110512_a), "Default", par2 + 32 + 2, par3 + 1, 16777215);
-                this.field_110512_a.drawString(GuiScreenTemporaryResourcePackSelect.func_130016_h(this.field_110512_a), var13.getPackDescription(), par2 + 32 + 2, par3 + 12 + 10, 8421504);
+                this.field_110512_a.drawString(GuiScreenTemporaryResourcePackSelect.func_130016_h(this.field_110512_a), packmetadatasection.getPackDescription(), par2 + 32 + 2, par3 + 12 + 10, 8421504);
             }
-            catch (IOException var11)
+            catch (IOException ioexception)
             {
                 ;
             }
         }
         else
         {
-            ResourcePackRepositoryEntry var7 = (ResourcePackRepositoryEntry)this.field_110511_b.getRepositoryEntriesAll().get(par1 - 1);
-            var7.bindTexturePackIcon(var6);
+            ResourcePackRepositoryEntry resourcepackrepositoryentry = (ResourcePackRepositoryEntry)this.field_110511_b.getRepositoryEntriesAll().get(par1 - 1);
+            resourcepackrepositoryentry.bindTexturePackIcon(texturemanager);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             par5Tessellator.startDrawingQuads();
             par5Tessellator.setColorOpaque_I(16777215);
@@ -130,19 +130,19 @@ class GuiScreenTemporaryResourcePackSelectSelectionList extends GuiSlot
             par5Tessellator.addVertexWithUV((double)(par2 + 32), (double)par3, 0.0D, 1.0D, 0.0D);
             par5Tessellator.addVertexWithUV((double)par2, (double)par3, 0.0D, 0.0D, 0.0D);
             par5Tessellator.draw();
-            String var8 = var7.getResourcePackName();
+            String s = resourcepackrepositoryentry.getResourcePackName();
 
-            if (var8.length() > 32)
+            if (s.length() > 32)
             {
-                var8 = var8.substring(0, 32).trim() + "...";
+                s = s.substring(0, 32).trim() + "...";
             }
 
-            this.field_110512_a.drawString(GuiScreenTemporaryResourcePackSelect.func_110337_i(this.field_110512_a), var8, par2 + 32 + 2, par3 + 1, 16777215);
-            List var9 = GuiScreenTemporaryResourcePackSelect.func_110335_j(this.field_110512_a).listFormattedStringToWidth(var7.getTexturePackDescription(), 183);
+            this.field_110512_a.drawString(GuiScreenTemporaryResourcePackSelect.func_110337_i(this.field_110512_a), s, par2 + 32 + 2, par3 + 1, 16777215);
+            List list = GuiScreenTemporaryResourcePackSelect.func_110335_j(this.field_110512_a).listFormattedStringToWidth(resourcepackrepositoryentry.getTexturePackDescription(), 183);
 
-            for (int var10 = 0; var10 < 2 && var10 < var9.size(); ++var10)
+            for (int i1 = 0; i1 < 2 && i1 < list.size(); ++i1)
             {
-                this.field_110512_a.drawString(GuiScreenTemporaryResourcePackSelect.func_110338_k(this.field_110512_a), (String)var9.get(var10), par2 + 32 + 2, par3 + 12 + 10 * var10, 8421504);
+                this.field_110512_a.drawString(GuiScreenTemporaryResourcePackSelect.func_110338_k(this.field_110512_a), (String)list.get(i1), par2 + 32 + 2, par3 + 12 + 10 * i1, 8421504);
             }
         }
     }

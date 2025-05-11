@@ -49,10 +49,10 @@ public class BlockSilverfish extends Block
     {
         if (!par1World.isRemote)
         {
-            EntitySilverfish var6 = new EntitySilverfish(par1World);
-            var6.setLocationAndAngles((double)par2 + 0.5D, (double)par3, (double)par4 + 0.5D, 0.0F, 0.0F);
-            par1World.spawnEntityInWorld(var6);
-            var6.spawnExplosionParticle();
+            EntitySilverfish entitysilverfish = new EntitySilverfish(par1World);
+            entitysilverfish.setLocationAndAngles((double)par2 + 0.5D, (double)par3, (double)par4 + 0.5D, 0.0F, 0.0F);
+            par1World.spawnEntityInWorld(entitysilverfish);
+            entitysilverfish.spawnExplosionParticle();
         }
 
         super.onBlockDestroyedByPlayer(par1World, par2, par3, par4, par5);
@@ -89,19 +89,19 @@ public class BlockSilverfish extends Block
      */
     protected ItemStack createStackedBlock(int par1)
     {
-        Block var2 = Block.stone;
+        Block block = Block.stone;
 
         if (par1 == 1)
         {
-            var2 = Block.cobblestone;
+            block = Block.cobblestone;
         }
 
         if (par1 == 2)
         {
-            var2 = Block.stoneBrick;
+            block = Block.stoneBrick;
         }
 
-        return new ItemStack(var2);
+        return new ItemStack(block);
     }
 
     /**
@@ -119,9 +119,9 @@ public class BlockSilverfish extends Block
      */
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (int var4 = 0; var4 < 3; ++var4)
+        for (int j = 0; j < 3; ++j)
         {
-            par3List.add(new ItemStack(par1, 1, var4));
+            par3List.add(new ItemStack(par1, 1, j));
         }
     }
 }

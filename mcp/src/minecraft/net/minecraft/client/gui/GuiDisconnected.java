@@ -67,14 +67,14 @@ public class GuiDisconnected extends GuiScreen
     {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRenderer, this.errorMessage, this.width / 2, this.height / 2 - 50, 11184810);
-        int var4 = this.height / 2 - 30;
+        int k = this.height / 2 - 30;
 
         if (this.field_74245_d != null)
         {
-            for (Iterator var5 = this.field_74245_d.iterator(); var5.hasNext(); var4 += this.fontRenderer.FONT_HEIGHT)
+            for (Iterator iterator = this.field_74245_d.iterator(); iterator.hasNext(); k += this.fontRenderer.FONT_HEIGHT)
             {
-                String var6 = (String)var5.next();
-                this.drawCenteredString(this.fontRenderer, var6, this.width / 2, var4, 16777215);
+                String s = (String)iterator.next();
+                this.drawCenteredString(this.fontRenderer, s, this.width / 2, k, 16777215);
             }
         }
 

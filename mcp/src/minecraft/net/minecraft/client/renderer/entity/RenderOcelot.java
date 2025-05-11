@@ -35,13 +35,10 @@ public class RenderOcelot extends RenderLiving
             case 0:
             default:
                 return ocelotTextures;
-
             case 1:
                 return blackOcelotTextures;
-
             case 2:
                 return redOcelotTextures;
-
             case 3:
                 return siameseOcelotTextures;
         }

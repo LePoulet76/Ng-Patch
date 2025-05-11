@@ -32,55 +32,55 @@ public class CommandXP extends CommandBase
         }
         else
         {
-            String var4 = par2ArrayOfStr[0];
-            boolean var5 = var4.endsWith("l") || var4.endsWith("L");
+            String s = par2ArrayOfStr[0];
+            boolean flag = s.endsWith("l") || s.endsWith("L");
 
-            if (var5 && var4.length() > 1)
+            if (flag && s.length() > 1)
             {
-                var4 = var4.substring(0, var4.length() - 1);
+                s = s.substring(0, s.length() - 1);
             }
 
-            int var6 = parseInt(par1ICommandSender, var4);
-            boolean var7 = var6 < 0;
+            int i = parseInt(par1ICommandSender, s);
+            boolean flag1 = i < 0;
 
-            if (var7)
+            if (flag1)
             {
-                var6 *= -1;
+                i *= -1;
             }
 
-            EntityPlayerMP var3;
+            EntityPlayerMP entityplayermp;
 
             if (par2ArrayOfStr.length > 1)
             {
-                var3 = getPlayer(par1ICommandSender, par2ArrayOfStr[1]);
+                entityplayermp = getPlayer(par1ICommandSender, par2ArrayOfStr[1]);
             }
             else
             {
-                var3 = getCommandSenderAsPlayer(par1ICommandSender);
+                entityplayermp = getCommandSenderAsPlayer(par1ICommandSender);
             }
 
-            if (var5)
+            if (flag)
             {
-                if (var7)
+                if (flag1)
                 {
-                    var3.addExperienceLevel(-var6);
-                    notifyAdmins(par1ICommandSender, "commands.xp.success.negative.levels", new Object[] {Integer.valueOf(var6), var3.getEntityName()});
+                    entityplayermp.addExperienceLevel(-i);
+                    notifyAdmins(par1ICommandSender, "commands.xp.success.negative.levels", new Object[] {Integer.valueOf(i), entityplayermp.getEntityName()});
                 }
                 else
                 {
-                    var3.addExperienceLevel(var6);
-                    notifyAdmins(par1ICommandSender, "commands.xp.success.levels", new Object[] {Integer.valueOf(var6), var3.getEntityName()});
+                    entityplayermp.addExperienceLevel(i);
+                    notifyAdmins(par1ICommandSender, "commands.xp.success.levels", new Object[] {Integer.valueOf(i), entityplayermp.getEntityName()});
                 }
             }
             else
             {
-                if (var7)
+                if (flag1)
                 {
                     throw new WrongUsageException("commands.xp.failure.widthdrawXp", new Object[0]);
                 }
 
-                var3.addExperience(var6);
-                notifyAdmins(par1ICommandSender, "commands.xp.success", new Object[] {Integer.valueOf(var6), var3.getEntityName()});
+                entityplayermp.addExperience(i);
+                notifyAdmins(par1ICommandSender, "commands.xp.success", new Object[] {Integer.valueOf(i), entityplayermp.getEntityName()});
             }
         }
     }

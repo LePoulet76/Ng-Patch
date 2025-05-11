@@ -32,40 +32,40 @@ public class ItemBed extends Item
         else
         {
             ++par5;
-            BlockBed var11 = (BlockBed)Block.bed;
-            int var12 = MathHelper.floor_double((double)(par2EntityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-            byte var13 = 0;
-            byte var14 = 0;
+            BlockBed blockbed = (BlockBed)Block.bed;
+            int i1 = MathHelper.floor_double((double)(par2EntityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+            byte b0 = 0;
+            byte b1 = 0;
 
-            if (var12 == 0)
+            if (i1 == 0)
             {
-                var14 = 1;
+                b1 = 1;
             }
 
-            if (var12 == 1)
+            if (i1 == 1)
             {
-                var13 = -1;
+                b0 = -1;
             }
 
-            if (var12 == 2)
+            if (i1 == 2)
             {
-                var14 = -1;
+                b1 = -1;
             }
 
-            if (var12 == 3)
+            if (i1 == 3)
             {
-                var13 = 1;
+                b0 = 1;
             }
 
-            if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4 + var13, par5, par6 + var14, par7, par1ItemStack))
+            if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4 + b0, par5, par6 + b1, par7, par1ItemStack))
             {
-                if (par3World.isAirBlock(par4, par5, par6) && par3World.isAirBlock(par4 + var13, par5, par6 + var14) && par3World.doesBlockHaveSolidTopSurface(par4, par5 - 1, par6) && par3World.doesBlockHaveSolidTopSurface(par4 + var13, par5 - 1, par6 + var14))
+                if (par3World.isAirBlock(par4, par5, par6) && par3World.isAirBlock(par4 + b0, par5, par6 + b1) && par3World.doesBlockHaveSolidTopSurface(par4, par5 - 1, par6) && par3World.doesBlockHaveSolidTopSurface(par4 + b0, par5 - 1, par6 + b1))
                 {
-                    par3World.setBlock(par4, par5, par6, var11.blockID, var12, 3);
+                    par3World.setBlock(par4, par5, par6, blockbed.blockID, i1, 3);
 
-                    if (par3World.getBlockId(par4, par5, par6) == var11.blockID)
+                    if (par3World.getBlockId(par4, par5, par6) == blockbed.blockID)
                     {
-                        par3World.setBlock(par4 + var13, par5, par6 + var14, var11.blockID, var12 + 8, 3);
+                        par3World.setBlock(par4 + b0, par5, par6 + b1, blockbed.blockID, i1 + 8, 3);
                     }
 
                     --par1ItemStack.stackSize;

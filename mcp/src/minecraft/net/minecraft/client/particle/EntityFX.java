@@ -67,11 +67,11 @@ public class EntityFX extends Entity
         this.motionX = par8 + (double)((float)(Math.random() * 2.0D - 1.0D) * 0.4F);
         this.motionY = par10 + (double)((float)(Math.random() * 2.0D - 1.0D) * 0.4F);
         this.motionZ = par12 + (double)((float)(Math.random() * 2.0D - 1.0D) * 0.4F);
-        float var14 = (float)(Math.random() + Math.random() + 1.0D) * 0.15F;
-        float var15 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-        this.motionX = this.motionX / (double)var15 * (double)var14 * 0.4000000059604645D;
-        this.motionY = this.motionY / (double)var15 * (double)var14 * 0.4000000059604645D + 0.10000000149011612D;
-        this.motionZ = this.motionZ / (double)var15 * (double)var14 * 0.4000000059604645D;
+        float f = (float)(Math.random() + Math.random() + 1.0D) * 0.15F;
+        float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+        this.motionX = this.motionX / (double)f1 * (double)f * 0.4000000059604645D;
+        this.motionY = this.motionY / (double)f1 * (double)f * 0.4000000059604645D + 0.10000000149011612D;
+        this.motionZ = this.motionZ / (double)f1 * (double)f * 0.4000000059604645D;
     }
 
     public EntityFX multiplyVelocity(float par1)
@@ -159,29 +159,29 @@ public class EntityFX extends Entity
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
     {
-        float var8 = (float)this.particleTextureIndexX / 16.0F;
-        float var9 = var8 + 0.0624375F;
-        float var10 = (float)this.particleTextureIndexY / 16.0F;
-        float var11 = var10 + 0.0624375F;
-        float var12 = 0.1F * this.particleScale;
+        float f6 = (float)this.particleTextureIndexX / 16.0F;
+        float f7 = f6 + 0.0624375F;
+        float f8 = (float)this.particleTextureIndexY / 16.0F;
+        float f9 = f8 + 0.0624375F;
+        float f10 = 0.1F * this.particleScale;
 
         if (this.particleIcon != null)
         {
-            var8 = this.particleIcon.getMinU();
-            var9 = this.particleIcon.getMaxU();
-            var10 = this.particleIcon.getMinV();
-            var11 = this.particleIcon.getMaxV();
+            f6 = this.particleIcon.getMinU();
+            f7 = this.particleIcon.getMaxU();
+            f8 = this.particleIcon.getMinV();
+            f9 = this.particleIcon.getMaxV();
         }
 
-        float var13 = (float)(this.prevPosX + (this.posX - this.prevPosX) * (double)par2 - interpPosX);
-        float var14 = (float)(this.prevPosY + (this.posY - this.prevPosY) * (double)par2 - interpPosY);
-        float var15 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * (double)par2 - interpPosZ);
-        float var16 = 1.0F;
-        par1Tessellator.setColorRGBA_F(this.particleRed * var16, this.particleGreen * var16, this.particleBlue * var16, this.particleAlpha);
-        par1Tessellator.addVertexWithUV((double)(var13 - par3 * var12 - par6 * var12), (double)(var14 - par4 * var12), (double)(var15 - par5 * var12 - par7 * var12), (double)var9, (double)var11);
-        par1Tessellator.addVertexWithUV((double)(var13 - par3 * var12 + par6 * var12), (double)(var14 + par4 * var12), (double)(var15 - par5 * var12 + par7 * var12), (double)var9, (double)var10);
-        par1Tessellator.addVertexWithUV((double)(var13 + par3 * var12 + par6 * var12), (double)(var14 + par4 * var12), (double)(var15 + par5 * var12 + par7 * var12), (double)var8, (double)var10);
-        par1Tessellator.addVertexWithUV((double)(var13 + par3 * var12 - par6 * var12), (double)(var14 - par4 * var12), (double)(var15 + par5 * var12 - par7 * var12), (double)var8, (double)var11);
+        float f11 = (float)(this.prevPosX + (this.posX - this.prevPosX) * (double)par2 - interpPosX);
+        float f12 = (float)(this.prevPosY + (this.posY - this.prevPosY) * (double)par2 - interpPosY);
+        float f13 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * (double)par2 - interpPosZ);
+        float f14 = 1.0F;
+        par1Tessellator.setColorRGBA_F(this.particleRed * f14, this.particleGreen * f14, this.particleBlue * f14, this.particleAlpha);
+        par1Tessellator.addVertexWithUV((double)(f11 - par3 * f10 - par6 * f10), (double)(f12 - par4 * f10), (double)(f13 - par5 * f10 - par7 * f10), (double)f7, (double)f9);
+        par1Tessellator.addVertexWithUV((double)(f11 - par3 * f10 + par6 * f10), (double)(f12 + par4 * f10), (double)(f13 - par5 * f10 + par7 * f10), (double)f7, (double)f8);
+        par1Tessellator.addVertexWithUV((double)(f11 + par3 * f10 + par6 * f10), (double)(f12 + par4 * f10), (double)(f13 + par5 * f10 + par7 * f10), (double)f6, (double)f8);
+        par1Tessellator.addVertexWithUV((double)(f11 + par3 * f10 - par6 * f10), (double)(f12 - par4 * f10), (double)(f13 + par5 * f10 - par7 * f10), (double)f6, (double)f9);
     }
 
     public int getFXLayer()

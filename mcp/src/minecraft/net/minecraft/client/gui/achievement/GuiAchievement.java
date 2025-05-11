@@ -81,9 +81,9 @@ public class GuiAchievement extends Gui
         GL11.glLoadIdentity();
         this.achievementWindowWidth = this.theGame.displayWidth;
         this.achievementWindowHeight = this.theGame.displayHeight;
-        ScaledResolution var1 = new ScaledResolution(this.theGame.gameSettings, this.theGame.displayWidth, this.theGame.displayHeight);
-        this.achievementWindowWidth = var1.getScaledWidth();
-        this.achievementWindowHeight = var1.getScaledHeight();
+        ScaledResolution scaledresolution = new ScaledResolution(this.theGame.gameSettings, this.theGame.displayWidth, this.theGame.displayHeight);
+        this.achievementWindowWidth = scaledresolution.getScaledWidth();
+        this.achievementWindowHeight = scaledresolution.getScaledHeight();
         GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
@@ -100,9 +100,9 @@ public class GuiAchievement extends Gui
     {
         if (this.theAchievement != null && this.achievementTime != 0L)
         {
-            double var1 = (double)(Minecraft.getSystemTime() - this.achievementTime) / 3000.0D;
+            double d0 = (double)(Minecraft.getSystemTime() - this.achievementTime) / 3000.0D;
 
-            if (!this.haveAchiement && (var1 < 0.0D || var1 > 1.0D))
+            if (!this.haveAchiement && (d0 < 0.0D || d0 > 1.0D))
             {
                 this.achievementTime = 0L;
             }
@@ -111,39 +111,39 @@ public class GuiAchievement extends Gui
                 this.updateAchievementWindowScale();
                 GL11.glDisable(GL11.GL_DEPTH_TEST);
                 GL11.glDepthMask(false);
-                double var3 = var1 * 2.0D;
+                double d1 = d0 * 2.0D;
 
-                if (var3 > 1.0D)
+                if (d1 > 1.0D)
                 {
-                    var3 = 2.0D - var3;
+                    d1 = 2.0D - d1;
                 }
 
-                var3 *= 4.0D;
-                var3 = 1.0D - var3;
+                d1 *= 4.0D;
+                d1 = 1.0D - d1;
 
-                if (var3 < 0.0D)
+                if (d1 < 0.0D)
                 {
-                    var3 = 0.0D;
+                    d1 = 0.0D;
                 }
 
-                var3 *= var3;
-                var3 *= var3;
-                int var5 = this.achievementWindowWidth - 160;
-                int var6 = 0 - (int)(var3 * 36.0D);
+                d1 *= d1;
+                d1 *= d1;
+                int i = this.achievementWindowWidth - 160;
+                int j = 0 - (int)(d1 * 36.0D);
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 GL11.glEnable(GL11.GL_TEXTURE_2D);
                 this.theGame.getTextureManager().bindTexture(achievementTextures);
                 GL11.glDisable(GL11.GL_LIGHTING);
-                this.drawTexturedModalRect(var5, var6, 96, 202, 160, 32);
+                this.drawTexturedModalRect(i, j, 96, 202, 160, 32);
 
                 if (this.haveAchiement)
                 {
-                    this.theGame.fontRenderer.drawSplitString(this.achievementStatName, var5 + 30, var6 + 7, 120, -1);
+                    this.theGame.fontRenderer.drawSplitString(this.achievementStatName, i + 30, j + 7, 120, -1);
                 }
                 else
                 {
-                    this.theGame.fontRenderer.drawString(this.achievementGetLocalText, var5 + 30, var6 + 7, -256);
-                    this.theGame.fontRenderer.drawString(this.achievementStatName, var5 + 30, var6 + 18, -1);
+                    this.theGame.fontRenderer.drawString(this.achievementGetLocalText, i + 30, j + 7, -256);
+                    this.theGame.fontRenderer.drawString(this.achievementStatName, i + 30, j + 18, -1);
                 }
 
                 RenderHelper.enableGUIStandardItemLighting();
@@ -151,7 +151,7 @@ public class GuiAchievement extends Gui
                 GL11.glEnable(GL12.GL_RESCALE_NORMAL);
                 GL11.glEnable(GL11.GL_COLOR_MATERIAL);
                 GL11.glEnable(GL11.GL_LIGHTING);
-                this.itemRender.renderItemAndEffectIntoGUI(this.theGame.fontRenderer, this.theGame.getTextureManager(), this.theAchievement.theItemStack, var5 + 8, var6 + 8);
+                this.itemRender.renderItemAndEffectIntoGUI(this.theGame.fontRenderer, this.theGame.getTextureManager(), this.theAchievement.theItemStack, i + 8, j + 8);
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glDepthMask(true);
                 GL11.glEnable(GL11.GL_DEPTH_TEST);

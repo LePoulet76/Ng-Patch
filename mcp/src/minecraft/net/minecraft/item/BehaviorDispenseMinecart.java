@@ -17,39 +17,39 @@ final class BehaviorDispenseMinecart extends BehaviorDefaultDispenseItem
      */
     public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
     {
-        EnumFacing var3 = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
-        World var4 = par1IBlockSource.getWorld();
-        double var5 = par1IBlockSource.getX() + (double)((float)var3.getFrontOffsetX() * 1.125F);
-        double var7 = par1IBlockSource.getY() + (double)((float)var3.getFrontOffsetY() * 1.125F);
-        double var9 = par1IBlockSource.getZ() + (double)((float)var3.getFrontOffsetZ() * 1.125F);
-        int var11 = par1IBlockSource.getXInt() + var3.getFrontOffsetX();
-        int var12 = par1IBlockSource.getYInt() + var3.getFrontOffsetY();
-        int var13 = par1IBlockSource.getZInt() + var3.getFrontOffsetZ();
-        int var14 = var4.getBlockId(var11, var12, var13);
-        double var15;
+        EnumFacing enumfacing = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
+        World world = par1IBlockSource.getWorld();
+        double d0 = par1IBlockSource.getX() + (double)((float)enumfacing.getFrontOffsetX() * 1.125F);
+        double d1 = par1IBlockSource.getY() + (double)((float)enumfacing.getFrontOffsetY() * 1.125F);
+        double d2 = par1IBlockSource.getZ() + (double)((float)enumfacing.getFrontOffsetZ() * 1.125F);
+        int i = par1IBlockSource.getXInt() + enumfacing.getFrontOffsetX();
+        int j = par1IBlockSource.getYInt() + enumfacing.getFrontOffsetY();
+        int k = par1IBlockSource.getZInt() + enumfacing.getFrontOffsetZ();
+        int l = world.getBlockId(i, j, k);
+        double d3;
 
-        if (BlockRailBase.isRailBlock(var14))
+        if (BlockRailBase.isRailBlock(l))
         {
-            var15 = 0.0D;
+            d3 = 0.0D;
         }
         else
         {
-            if (var14 != 0 || !BlockRailBase.isRailBlock(var4.getBlockId(var11, var12 - 1, var13)))
+            if (l != 0 || !BlockRailBase.isRailBlock(world.getBlockId(i, j - 1, k)))
             {
                 return this.behaviourDefaultDispenseItem.dispense(par1IBlockSource, par2ItemStack);
             }
 
-            var15 = -1.0D;
+            d3 = -1.0D;
         }
 
-        EntityMinecart var17 = EntityMinecart.createMinecart(var4, var5, var7 + var15, var9, ((ItemMinecart)par2ItemStack.getItem()).minecartType);
+        EntityMinecart entityminecart = EntityMinecart.createMinecart(world, d0, d1 + d3, d2, ((ItemMinecart)par2ItemStack.getItem()).minecartType);
 
         if (par2ItemStack.hasDisplayName())
         {
-            var17.setMinecartName(par2ItemStack.getDisplayName());
+            entityminecart.setMinecartName(par2ItemStack.getDisplayName());
         }
 
-        var4.spawnEntityInWorld(var17);
+        world.spawnEntityInWorld(entityminecart);
         par2ItemStack.splitStack(1);
         return par2ItemStack;
     }

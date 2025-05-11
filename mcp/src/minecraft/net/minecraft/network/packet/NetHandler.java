@@ -1,5 +1,7 @@
 package net.minecraft.network.packet;
 
+import net.minecraft.entity.player.EntityPlayer;
+
 public abstract class NetHandler
 {
     /**
@@ -475,4 +477,8 @@ public abstract class NetHandler
     {
         return false;
     }
+
+    public abstract void handleVanilla250Packet(Packet250CustomPayload payload);
+
+    public abstract EntityPlayer getPlayer();
 }

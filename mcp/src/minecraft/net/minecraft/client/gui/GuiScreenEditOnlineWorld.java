@@ -99,25 +99,25 @@ public class GuiScreenEditOnlineWorld extends GuiScreen
 
     private void func_96200_g()
     {
-        McoClient var1 = new McoClient(this.mc.getSession());
+        McoClient mcoclient = new McoClient(this.mc.getSession());
 
         try
         {
-            String var2 = this.field_96203_c.getText() != null && !this.field_96203_c.getText().trim().equals("") ? this.field_96203_c.getText() : null;
-            var1.func_96384_a(this.field_96205_n.field_96408_a, this.field_96201_d.getText(), var2, this.field_104051_s.field_104076_e, this.field_104051_s.field_104073_f);
+            String s = this.field_96203_c.getText() != null && !this.field_96203_c.getText().trim().equals("") ? this.field_96203_c.getText() : null;
+            mcoclient.func_96384_a(this.field_96205_n.field_96408_a, this.field_96201_d.getText(), s, this.field_104051_s.field_104076_e, this.field_104051_s.field_104073_f);
             this.field_96205_n.func_96399_a(this.field_96201_d.getText());
             this.field_96205_n.func_96400_b(this.field_96203_c.getText());
             this.field_96205_n.field_110729_i = this.field_104051_s.field_104076_e;
             this.field_96205_n.field_110728_j = this.field_104051_s.field_104073_f;
             this.mc.displayGuiScreen(new GuiScreenConfigureWorld(this.field_96202_b, this.field_96205_n));
         }
-        catch (ExceptionMcoService var3)
+        catch (ExceptionMcoService exceptionmcoservice)
         {
-            this.mc.getLogAgent().logSevere(var3.toString());
+            this.mc.getLogAgent().logSevere(exceptionmcoservice.toString());
         }
-        catch (UnsupportedEncodingException var4)
+        catch (UnsupportedEncodingException unsupportedencodingexception)
         {
-            this.mc.getLogAgent().logWarning("Realms: " + var4.getLocalizedMessage());
+            this.mc.getLogAgent().logWarning("Realms: " + unsupportedencodingexception.getLocalizedMessage());
         }
     }
 

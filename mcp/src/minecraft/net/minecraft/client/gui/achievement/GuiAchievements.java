@@ -2,6 +2,9 @@ package net.minecraft.client.gui.achievement;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -21,6 +24,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import net.minecraftforge.common.AchievementPage;
 
 @SideOnly(Side.CLIENT)
 public class GuiAchievements extends GuiScreen
@@ -60,13 +65,25 @@ public class GuiAchievements extends GuiScreen
     private int isMouseButtonDown;
     private StatFileWriter statFileWriter;
 
+    private int currentPage = -1;
+    private GuiSmallButton button;
+    private LinkedList<Achievement> minecraftAchievements = new LinkedList<Achievement>();
+
     public GuiAchievements(StatFileWriter par1StatFileWriter)
     {
         this.statFileWriter = par1StatFileWriter;
-        short var2 = 141;
-        short var3 = 141;
-        this.field_74117_m = this.guiMapX = this.field_74124_q = (double)(AchievementList.openInventory.displayColumn * 24 - var2 / 2 - 12);
-        this.field_74115_n = this.guiMapY = this.field_74123_r = (double)(AchievementList.openInventory.displayRow * 24 - var3 / 2);
+        short short1 = 141;
+        short short2 = 141;
+        this.field_74117_m = this.guiMapX = this.field_74124_q = (double)(AchievementList.openInventory.displayColumn * 24 - short1 / 2 - 12);
+        this.field_74115_n = this.guiMapY = this.field_74123_r = (double)(AchievementList.openInventory.displayRow * 24 - short2 / 2);
+        minecraftAchievements.clear();
+        for (Object achievement : AchievementList.achievementList)
+        {
+            if (!AchievementPage.isAchievementInPages((Achievement)achievement))
+            {
+                minecraftAchievements.add((Achievement)achievement);
+            }
+        }
     }
 
     /**
@@ -76,6 +93,7 @@ public class GuiAchievements extends GuiScreen
     {
         this.buttonList.clear();
         this.buttonList.add(new GuiSmallButton(1, this.width / 2 + 24, this.height / 2 + 74, 80, 20, I18n.getString("gui.done")));
+        this.buttonList.add(button = new GuiSmallButton(2, (width - achievementsPaneWidth) / 2 + 24, height / 2 + 74, 125, 20, AchievementPage.getTitle(currentPage)));
     }
 
     /**
@@ -87,6 +105,16 @@ public class GuiAchievements extends GuiScreen
         {
             this.mc.displayGuiScreen((GuiScreen)null);
             this.mc.setIngameFocus();
+        }
+
+        if (par1GuiButton.id == 2)
+        {
+            currentPage++;
+            if (currentPage >= AchievementPage.getAchievementPages().size())
+            {
+                currentPage = -1;
+            }
+            button.displayString = AchievementPage.getTitle(currentPage);
         }
 
         super.actionPerformed(par1GuiButton);
@@ -115,12 +143,12 @@ public class GuiAchievements extends GuiScreen
     {
         if (Mouse.isButtonDown(0))
         {
-            int var4 = (this.width - this.achievementsPaneWidth) / 2;
-            int var5 = (this.height - this.achievementsPaneHeight) / 2;
-            int var6 = var4 + 8;
-            int var7 = var5 + 17;
+            int k = (this.width - this.achievementsPaneWidth) / 2;
+            int l = (this.height - this.achievementsPaneHeight) / 2;
+            int i1 = k + 8;
+            int j1 = l + 17;
 
-            if ((this.isMouseButtonDown == 0 || this.isMouseButtonDown == 1) && par1 >= var6 && par1 < var6 + 224 && par2 >= var7 && par2 < var7 + 155)
+            if ((this.isMouseButtonDown == 0 || this.isMouseButtonDown == 1) && par1 >= i1 && par1 < i1 + 224 && par2 >= j1 && par2 < j1 + 155)
             {
                 if (this.isMouseButtonDown == 0)
                 {
@@ -179,18 +207,18 @@ public class GuiAchievements extends GuiScreen
     {
         this.field_74117_m = this.guiMapX;
         this.field_74115_n = this.guiMapY;
-        double var1 = this.field_74124_q - this.guiMapX;
-        double var3 = this.field_74123_r - this.guiMapY;
+        double d0 = this.field_74124_q - this.guiMapX;
+        double d1 = this.field_74123_r - this.guiMapY;
 
-        if (var1 * var1 + var3 * var3 < 4.0D)
+        if (d0 * d0 + d1 * d1 < 4.0D)
         {
-            this.guiMapX += var1;
-            this.guiMapY += var3;
+            this.guiMapX += d0;
+            this.guiMapY += d1;
         }
         else
         {
-            this.guiMapX += var1 * 0.85D;
-            this.guiMapY += var3 * 0.85D;
+            this.guiMapX += d0 * 0.85D;
+            this.guiMapY += d1 * 0.85D;
         }
     }
 
@@ -199,40 +227,40 @@ public class GuiAchievements extends GuiScreen
      */
     protected void drawTitle()
     {
-        int var1 = (this.width - this.achievementsPaneWidth) / 2;
-        int var2 = (this.height - this.achievementsPaneHeight) / 2;
-        this.fontRenderer.drawString("Achievements", var1 + 15, var2 + 5, 4210752);
+        int i = (this.width - this.achievementsPaneWidth) / 2;
+        int j = (this.height - this.achievementsPaneHeight) / 2;
+        this.fontRenderer.drawString("Achievements", i + 15, j + 5, 4210752);
     }
 
     protected void genAchievementBackground(int par1, int par2, float par3)
     {
-        int var4 = MathHelper.floor_double(this.field_74117_m + (this.guiMapX - this.field_74117_m) * (double)par3);
-        int var5 = MathHelper.floor_double(this.field_74115_n + (this.guiMapY - this.field_74115_n) * (double)par3);
+        int k = MathHelper.floor_double(this.field_74117_m + (this.guiMapX - this.field_74117_m) * (double)par3);
+        int l = MathHelper.floor_double(this.field_74115_n + (this.guiMapY - this.field_74115_n) * (double)par3);
 
-        if (var4 < guiMapTop)
+        if (k < guiMapTop)
         {
-            var4 = guiMapTop;
+            k = guiMapTop;
         }
 
-        if (var5 < guiMapLeft)
+        if (l < guiMapLeft)
         {
-            var5 = guiMapLeft;
+            l = guiMapLeft;
         }
 
-        if (var4 >= guiMapBottom)
+        if (k >= guiMapBottom)
         {
-            var4 = guiMapBottom - 1;
+            k = guiMapBottom - 1;
         }
 
-        if (var5 >= guiMapRight)
+        if (l >= guiMapRight)
         {
-            var5 = guiMapRight - 1;
+            l = guiMapRight - 1;
         }
 
-        int var6 = (this.width - this.achievementsPaneWidth) / 2;
-        int var7 = (this.height - this.achievementsPaneHeight) / 2;
-        int var8 = var6 + 16;
-        int var9 = var7 + 17;
+        int i1 = (this.width - this.achievementsPaneWidth) / 2;
+        int j1 = (this.height - this.achievementsPaneHeight) / 2;
+        int k1 = i1 + 16;
+        int l1 = j1 + 17;
         this.zLevel = 0.0F;
         GL11.glDepthFunc(GL11.GL_GEQUAL);
         GL11.glPushMatrix();
@@ -241,178 +269,179 @@ public class GuiAchievements extends GuiScreen
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-        int var10 = var4 + 288 >> 4;
-        int var11 = var5 + 288 >> 4;
-        int var12 = (var4 + 288) % 16;
-        int var13 = (var5 + 288) % 16;
-        boolean var14 = true;
-        boolean var15 = true;
-        boolean var16 = true;
-        boolean var17 = true;
-        boolean var18 = true;
-        Random var19 = new Random();
-        int var20;
-        int var22;
-        int var23;
+        int i2 = k + 288 >> 4;
+        int j2 = l + 288 >> 4;
+        int k2 = (k + 288) % 16;
+        int l2 = (l + 288) % 16;
+        boolean flag = true;
+        boolean flag1 = true;
+        boolean flag2 = true;
+        boolean flag3 = true;
+        boolean flag4 = true;
+        Random random = new Random();
+        int i3;
+        int j3;
+        int k3;
 
-        for (var20 = 0; var20 * 16 - var13 < 155; ++var20)
+        for (i3 = 0; i3 * 16 - l2 < 155; ++i3)
         {
-            float var21 = 0.6F - (float)(var11 + var20) / 25.0F * 0.3F;
-            GL11.glColor4f(var21, var21, var21, 1.0F);
+            float f1 = 0.6F - (float)(j2 + i3) / 25.0F * 0.3F;
+            GL11.glColor4f(f1, f1, f1, 1.0F);
 
-            for (var22 = 0; var22 * 16 - var12 < 224; ++var22)
+            for (j3 = 0; j3 * 16 - k2 < 224; ++j3)
             {
-                var19.setSeed((long)(1234 + var10 + var22));
-                var19.nextInt();
-                var23 = var19.nextInt(1 + var11 + var20) + (var11 + var20) / 2;
-                Icon var24 = Block.sand.getIcon(0, 0);
+                random.setSeed((long)(1234 + i2 + j3));
+                random.nextInt();
+                k3 = random.nextInt(1 + j2 + i3) + (j2 + i3) / 2;
+                Icon icon = Block.sand.getIcon(0, 0);
 
-                if (var23 <= 37 && var11 + var20 != 35)
+                if (k3 <= 37 && j2 + i3 != 35)
                 {
-                    if (var23 == 22)
+                    if (k3 == 22)
                     {
-                        if (var19.nextInt(2) == 0)
+                        if (random.nextInt(2) == 0)
                         {
-                            var24 = Block.oreDiamond.getIcon(0, 0);
+                            icon = Block.oreDiamond.getIcon(0, 0);
                         }
                         else
                         {
-                            var24 = Block.oreRedstone.getIcon(0, 0);
+                            icon = Block.oreRedstone.getIcon(0, 0);
                         }
                     }
-                    else if (var23 == 10)
+                    else if (k3 == 10)
                     {
-                        var24 = Block.oreIron.getIcon(0, 0);
+                        icon = Block.oreIron.getIcon(0, 0);
                     }
-                    else if (var23 == 8)
+                    else if (k3 == 8)
                     {
-                        var24 = Block.oreCoal.getIcon(0, 0);
+                        icon = Block.oreCoal.getIcon(0, 0);
                     }
-                    else if (var23 > 4)
+                    else if (k3 > 4)
                     {
-                        var24 = Block.stone.getIcon(0, 0);
+                        icon = Block.stone.getIcon(0, 0);
                     }
-                    else if (var23 > 0)
+                    else if (k3 > 0)
                     {
-                        var24 = Block.dirt.getIcon(0, 0);
+                        icon = Block.dirt.getIcon(0, 0);
                     }
                 }
                 else
                 {
-                    var24 = Block.bedrock.getIcon(0, 0);
+                    icon = Block.bedrock.getIcon(0, 0);
                 }
 
                 this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-                this.drawTexturedModelRectFromIcon(var8 + var22 * 16 - var12, var9 + var20 * 16 - var13, var24, 16, 16);
+                this.drawTexturedModelRectFromIcon(k1 + j3 * 16 - k2, l1 + i3 * 16 - l2, icon, 16, 16);
             }
         }
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        int var25;
-        int var28;
-        int var37;
+        int l3;
+        int i4;
+        int j4;
 
-        for (var20 = 0; var20 < AchievementList.achievementList.size(); ++var20)
+        List<Achievement> achievementList = (currentPage == -1 ? minecraftAchievements : AchievementPage.getAchievementPage(currentPage).getAchievements());
+        for (i3 = 0; i3 < achievementList.size(); ++i3)
         {
-            Achievement var31 = (Achievement)AchievementList.achievementList.get(var20);
+            Achievement achievement = achievementList.get(i3);
 
-            if (var31.parentAchievement != null)
+            if (achievement.parentAchievement != null && achievementList.contains(achievement.parentAchievement))
             {
-                var22 = var31.displayColumn * 24 - var4 + 11 + var8;
-                var23 = var31.displayRow * 24 - var5 + 11 + var9;
-                var37 = var31.parentAchievement.displayColumn * 24 - var4 + 11 + var8;
-                var25 = var31.parentAchievement.displayRow * 24 - var5 + 11 + var9;
-                boolean var26 = this.statFileWriter.hasAchievementUnlocked(var31);
-                boolean var27 = this.statFileWriter.canUnlockAchievement(var31);
-                var28 = Math.sin((double)(Minecraft.getSystemTime() % 600L) / 600.0D * Math.PI * 2.0D) > 0.6D ? 255 : 130;
-                int var29 = -16777216;
+                j3 = achievement.displayColumn * 24 - k + 11 + k1;
+                k3 = achievement.displayRow * 24 - l + 11 + l1;
+                j4 = achievement.parentAchievement.displayColumn * 24 - k + 11 + k1;
+                l3 = achievement.parentAchievement.displayRow * 24 - l + 11 + l1;
+                boolean flag5 = this.statFileWriter.hasAchievementUnlocked(achievement);
+                boolean flag6 = this.statFileWriter.canUnlockAchievement(achievement);
+                i4 = Math.sin((double)(Minecraft.getSystemTime() % 600L) / 600.0D * Math.PI * 2.0D) > 0.6D ? 255 : 130;
+                int k4 = -16777216;
 
-                if (var26)
+                if (flag5)
                 {
-                    var29 = -9408400;
+                    k4 = -9408400;
                 }
-                else if (var27)
+                else if (flag6)
                 {
-                    var29 = 65280 + (var28 << 24);
+                    k4 = 65280 + (i4 << 24);
                 }
 
-                this.drawHorizontalLine(var22, var37, var23, var29);
-                this.drawVerticalLine(var37, var23, var25, var29);
+                this.drawHorizontalLine(j3, j4, k3, k4);
+                this.drawVerticalLine(j4, k3, l3, k4);
             }
         }
 
-        Achievement var30 = null;
-        RenderItem var32 = new RenderItem();
+        Achievement achievement1 = null;
+        RenderItem renderitem = new RenderItem();
         RenderHelper.enableGUIStandardItemLighting();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-        int var38;
-        int var39;
+        int l4;
+        int i5;
 
-        for (var22 = 0; var22 < AchievementList.achievementList.size(); ++var22)
+        for (j3 = 0; j3 < AchievementList.achievementList.size(); ++j3)
         {
-            Achievement var33 = (Achievement)AchievementList.achievementList.get(var22);
-            var37 = var33.displayColumn * 24 - var4;
-            var25 = var33.displayRow * 24 - var5;
+            Achievement achievement2 = (Achievement)AchievementList.achievementList.get(j3);
+            j4 = achievement2.displayColumn * 24 - k;
+            l3 = achievement2.displayRow * 24 - l;
 
-            if (var37 >= -24 && var25 >= -24 && var37 <= 224 && var25 <= 155)
+            if (j4 >= -24 && l3 >= -24 && j4 <= 224 && l3 <= 155)
             {
-                float var36;
+                float f2;
 
-                if (this.statFileWriter.hasAchievementUnlocked(var33))
+                if (this.statFileWriter.hasAchievementUnlocked(achievement2))
                 {
-                    var36 = 1.0F;
-                    GL11.glColor4f(var36, var36, var36, 1.0F);
+                    f2 = 1.0F;
+                    GL11.glColor4f(f2, f2, f2, 1.0F);
                 }
-                else if (this.statFileWriter.canUnlockAchievement(var33))
+                else if (this.statFileWriter.canUnlockAchievement(achievement2))
                 {
-                    var36 = Math.sin((double)(Minecraft.getSystemTime() % 600L) / 600.0D * Math.PI * 2.0D) < 0.6D ? 0.6F : 0.8F;
-                    GL11.glColor4f(var36, var36, var36, 1.0F);
+                    f2 = Math.sin((double)(Minecraft.getSystemTime() % 600L) / 600.0D * Math.PI * 2.0D) < 0.6D ? 0.6F : 0.8F;
+                    GL11.glColor4f(f2, f2, f2, 1.0F);
                 }
                 else
                 {
-                    var36 = 0.3F;
-                    GL11.glColor4f(var36, var36, var36, 1.0F);
+                    f2 = 0.3F;
+                    GL11.glColor4f(f2, f2, f2, 1.0F);
                 }
 
                 this.mc.getTextureManager().bindTexture(achievementTextures);
-                var38 = var8 + var37;
-                var39 = var9 + var25;
+                l4 = k1 + j4;
+                i5 = l1 + l3;
 
-                if (var33.getSpecial())
+                if (achievement2.getSpecial())
                 {
-                    this.drawTexturedModalRect(var38 - 2, var39 - 2, 26, 202, 26, 26);
+                    this.drawTexturedModalRect(l4 - 2, i5 - 2, 26, 202, 26, 26);
                 }
                 else
                 {
-                    this.drawTexturedModalRect(var38 - 2, var39 - 2, 0, 202, 26, 26);
+                    this.drawTexturedModalRect(l4 - 2, i5 - 2, 0, 202, 26, 26);
                 }
 
-                if (!this.statFileWriter.canUnlockAchievement(var33))
+                if (!this.statFileWriter.canUnlockAchievement(achievement2))
                 {
-                    float var40 = 0.1F;
-                    GL11.glColor4f(var40, var40, var40, 1.0F);
-                    var32.renderWithColor = false;
+                    float f3 = 0.1F;
+                    GL11.glColor4f(f3, f3, f3, 1.0F);
+                    renderitem.renderWithColor = false;
                 }
 
                 GL11.glEnable(GL11.GL_LIGHTING);
                 GL11.glEnable(GL11.GL_CULL_FACE);
-                var32.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.getTextureManager(), var33.theItemStack, var38 + 3, var39 + 3);
+                renderitem.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.getTextureManager(), achievement2.theItemStack, l4 + 3, i5 + 3);
                 GL11.glDisable(GL11.GL_LIGHTING);
 
-                if (!this.statFileWriter.canUnlockAchievement(var33))
+                if (!this.statFileWriter.canUnlockAchievement(achievement2))
                 {
-                    var32.renderWithColor = true;
+                    renderitem.renderWithColor = true;
                 }
 
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-                if (par1 >= var8 && par2 >= var9 && par1 < var8 + 224 && par2 < var9 + 155 && par1 >= var38 && par1 <= var38 + 22 && par2 >= var39 && par2 <= var39 + 22)
+                if (par1 >= k1 && par2 >= l1 && par1 < k1 + 224 && par2 < l1 + 155 && par1 >= l4 && par1 <= l4 + 22 && par2 >= i5 && par2 <= i5 + 22)
                 {
-                    var30 = var33;
+                    achievement1 = achievement2;
                 }
             }
         }
@@ -421,7 +450,7 @@ public class GuiAchievements extends GuiScreen
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(achievementTextures);
-        this.drawTexturedModalRect(var6, var7, 0, 0, this.achievementsPaneWidth, this.achievementsPaneHeight);
+        this.drawTexturedModalRect(i1, j1, 0, 0, this.achievementsPaneWidth, this.achievementsPaneHeight);
         GL11.glPopMatrix();
         this.zLevel = 0.0F;
         GL11.glDepthFunc(GL11.GL_LEQUAL);
@@ -429,41 +458,41 @@ public class GuiAchievements extends GuiScreen
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         super.drawScreen(par1, par2, par3);
 
-        if (var30 != null)
+        if (achievement1 != null)
         {
-            String var34 = I18n.getString(var30.getName());
-            String var35 = var30.getDescription();
-            var37 = par1 + 12;
-            var25 = par2 - 4;
+            String s = I18n.getString(achievement1.getName());
+            String s1 = achievement1.getDescription();
+            j4 = par1 + 12;
+            l3 = par2 - 4;
 
-            if (this.statFileWriter.canUnlockAchievement(var30))
+            if (this.statFileWriter.canUnlockAchievement(achievement1))
             {
-                var38 = Math.max(this.fontRenderer.getStringWidth(var34), 120);
-                var39 = this.fontRenderer.splitStringWidth(var35, var38);
+                l4 = Math.max(this.fontRenderer.getStringWidth(s), 120);
+                i5 = this.fontRenderer.splitStringWidth(s1, l4);
 
-                if (this.statFileWriter.hasAchievementUnlocked(var30))
+                if (this.statFileWriter.hasAchievementUnlocked(achievement1))
                 {
-                    var39 += 12;
+                    i5 += 12;
                 }
 
-                this.drawGradientRect(var37 - 3, var25 - 3, var37 + var38 + 3, var25 + var39 + 3 + 12, -1073741824, -1073741824);
-                this.fontRenderer.drawSplitString(var35, var37, var25 + 12, var38, -6250336);
+                this.drawGradientRect(j4 - 3, l3 - 3, j4 + l4 + 3, l3 + i5 + 3 + 12, -1073741824, -1073741824);
+                this.fontRenderer.drawSplitString(s1, j4, l3 + 12, l4, -6250336);
 
-                if (this.statFileWriter.hasAchievementUnlocked(var30))
+                if (this.statFileWriter.hasAchievementUnlocked(achievement1))
                 {
-                    this.fontRenderer.drawStringWithShadow(I18n.getString("achievement.taken"), var37, var25 + var39 + 4, -7302913);
+                    this.fontRenderer.drawStringWithShadow(I18n.getString("achievement.taken"), j4, l3 + i5 + 4, -7302913);
                 }
             }
             else
             {
-                var38 = Math.max(this.fontRenderer.getStringWidth(var34), 120);
-                String var41 = I18n.getStringParams("achievement.requires", new Object[] {I18n.getString(var30.parentAchievement.getName())});
-                var28 = this.fontRenderer.splitStringWidth(var41, var38);
-                this.drawGradientRect(var37 - 3, var25 - 3, var37 + var38 + 3, var25 + var28 + 12 + 3, -1073741824, -1073741824);
-                this.fontRenderer.drawSplitString(var41, var37, var25 + 12, var38, -9416624);
+                l4 = Math.max(this.fontRenderer.getStringWidth(s), 120);
+                String s2 = I18n.getStringParams("achievement.requires", new Object[] {I18n.getString(achievement1.parentAchievement.getName())});
+                i4 = this.fontRenderer.splitStringWidth(s2, l4);
+                this.drawGradientRect(j4 - 3, l3 - 3, j4 + l4 + 3, l3 + i4 + 12 + 3, -1073741824, -1073741824);
+                this.fontRenderer.drawSplitString(s2, j4, l3 + 12, l4, -9416624);
             }
 
-            this.fontRenderer.drawStringWithShadow(var34, var37, var25, this.statFileWriter.canUnlockAchievement(var30) ? (var30.getSpecial() ? -128 : -1) : (var30.getSpecial() ? -8355776 : -8355712));
+            this.fontRenderer.drawStringWithShadow(s, j4, l3, this.statFileWriter.canUnlockAchievement(achievement1) ? (achievement1.getSpecial() ? -128 : -1) : (achievement1.getSpecial() ? -8355776 : -8355712));
         }
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);

@@ -71,7 +71,7 @@ public class GuiScreenInvite extends GuiScreen
             }
             else if (par1GuiButton.id == 0)
             {
-                McoClient var2 = new McoClient(this.mc.getSession());
+                McoClient mcoclient = new McoClient(this.mc.getSession());
 
                 if (this.field_96227_a.getText() == null || this.field_96227_a.getText().isEmpty())
                 {
@@ -80,11 +80,11 @@ public class GuiScreenInvite extends GuiScreen
 
                 try
                 {
-                    McoServer var3 = var2.func_96387_b(this.field_96223_b.field_96408_a, this.field_96227_a.getText());
+                    McoServer mcoserver = mcoclient.func_96387_b(this.field_96223_b.field_96408_a, this.field_96227_a.getText());
 
-                    if (var3 != null)
+                    if (mcoserver != null)
                     {
-                        this.field_96223_b.field_96402_f = var3.field_96402_f;
+                        this.field_96223_b.field_96402_f = mcoserver.field_96402_f;
                         this.mc.displayGuiScreen(new GuiScreenConfigureWorld(this.field_96224_c, this.field_96223_b));
                     }
                     else
@@ -92,12 +92,12 @@ public class GuiScreenInvite extends GuiScreen
                         this.func_101015_a(this.field_101016_p);
                     }
                 }
-                catch (ExceptionMcoService var4)
+                catch (ExceptionMcoService exceptionmcoservice)
                 {
-                    this.mc.getLogAgent().logSevere(var4.toString());
-                    this.func_101015_a(var4.field_96391_b);
+                    this.mc.getLogAgent().logSevere(exceptionmcoservice.toString());
+                    this.func_101015_a(exceptionmcoservice.field_96391_b);
                 }
-                catch (IOException var5)
+                catch (IOException ioexception)
                 {
                     this.mc.getLogAgent().logWarning("Realms: could not parse response");
                     this.func_101015_a(this.field_101016_p);

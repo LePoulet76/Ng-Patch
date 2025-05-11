@@ -101,17 +101,17 @@ public class EntityCow extends EntityAnimal
      */
     protected void dropFewItems(boolean par1, int par2)
     {
-        int var3 = this.rand.nextInt(3) + this.rand.nextInt(1 + par2);
-        int var4;
+        int j = this.rand.nextInt(3) + this.rand.nextInt(1 + par2);
+        int k;
 
-        for (var4 = 0; var4 < var3; ++var4)
+        for (k = 0; k < j; ++k)
         {
             this.dropItem(Item.leather.itemID, 1);
         }
 
-        var3 = this.rand.nextInt(3) + 1 + this.rand.nextInt(1 + par2);
+        j = this.rand.nextInt(3) + 1 + this.rand.nextInt(1 + par2);
 
-        for (var4 = 0; var4 < var3; ++var4)
+        for (k = 0; k < j; ++k)
         {
             if (this.isBurning())
             {
@@ -129,11 +129,11 @@ public class EntityCow extends EntityAnimal
      */
     public boolean interact(EntityPlayer par1EntityPlayer)
     {
-        ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
+        ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
 
-        if (var2 != null && var2.itemID == Item.bucketEmpty.itemID && !par1EntityPlayer.capabilities.isCreativeMode)
+        if (itemstack != null && itemstack.itemID == Item.bucketEmpty.itemID && !par1EntityPlayer.capabilities.isCreativeMode)
         {
-            if (var2.stackSize-- == 1)
+            if (itemstack.stackSize-- == 1)
             {
                 par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, new ItemStack(Item.bucketMilk));
             }

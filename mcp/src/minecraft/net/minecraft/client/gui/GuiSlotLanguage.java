@@ -25,13 +25,13 @@ class GuiSlotLanguage extends GuiSlot
         this.languageGui = par1GuiLanguage;
         this.field_77251_g = Lists.newArrayList();
         this.field_77253_h = Maps.newHashMap();
-        Iterator var2 = GuiLanguage.func_135011_a(par1GuiLanguage).getLanguages().iterator();
+        Iterator iterator = GuiLanguage.func_135011_a(par1GuiLanguage).getLanguages().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            Language var3 = (Language)var2.next();
-            this.field_77253_h.put(var3.getLanguageCode(), var3);
-            this.field_77251_g.add(var3.getLanguageCode());
+            Language language = (Language)iterator.next();
+            this.field_77253_h.put(language.getLanguageCode(), language);
+            this.field_77251_g.add(language.getLanguageCode());
         }
     }
 
@@ -48,9 +48,9 @@ class GuiSlotLanguage extends GuiSlot
      */
     protected void elementClicked(int par1, boolean par2)
     {
-        Language var3 = (Language)this.field_77253_h.get(this.field_77251_g.get(par1));
-        GuiLanguage.func_135011_a(this.languageGui).setCurrentLanguage(var3);
-        GuiLanguage.getGameSettings(this.languageGui).language = var3.getLanguageCode();
+        Language language = (Language)this.field_77253_h.get(this.field_77251_g.get(par1));
+        GuiLanguage.func_135011_a(this.languageGui).setCurrentLanguage(language);
+        GuiLanguage.getGameSettings(this.languageGui).language = language.getLanguageCode();
         this.languageGui.mc.refreshResources();
         this.languageGui.fontRenderer.setUnicodeFlag(GuiLanguage.func_135011_a(this.languageGui).isCurrentLocaleUnicode());
         this.languageGui.fontRenderer.setBidiFlag(GuiLanguage.func_135011_a(this.languageGui).isCurrentLanguageBidirectional());

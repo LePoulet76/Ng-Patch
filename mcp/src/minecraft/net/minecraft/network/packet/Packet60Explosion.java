@@ -55,18 +55,18 @@ public class Packet60Explosion extends Packet
         this.explosionY = par1DataInput.readDouble();
         this.explosionZ = par1DataInput.readDouble();
         this.explosionSize = par1DataInput.readFloat();
-        int var2 = par1DataInput.readInt();
-        this.chunkPositionRecords = new ArrayList(var2);
-        int var3 = (int)this.explosionX;
-        int var4 = (int)this.explosionY;
-        int var5 = (int)this.explosionZ;
+        int i = par1DataInput.readInt();
+        this.chunkPositionRecords = new ArrayList(i);
+        int j = (int)this.explosionX;
+        int k = (int)this.explosionY;
+        int l = (int)this.explosionZ;
 
-        for (int var6 = 0; var6 < var2; ++var6)
+        for (int i1 = 0; i1 < i; ++i1)
         {
-            int var7 = par1DataInput.readByte() + var3;
-            int var8 = par1DataInput.readByte() + var4;
-            int var9 = par1DataInput.readByte() + var5;
-            this.chunkPositionRecords.add(new ChunkPosition(var7, var8, var9));
+            int j1 = par1DataInput.readByte() + j;
+            int k1 = par1DataInput.readByte() + k;
+            int l1 = par1DataInput.readByte() + l;
+            this.chunkPositionRecords.add(new ChunkPosition(j1, k1, l1));
         }
 
         this.playerVelocityX = par1DataInput.readFloat();
@@ -84,20 +84,20 @@ public class Packet60Explosion extends Packet
         par1DataOutput.writeDouble(this.explosionZ);
         par1DataOutput.writeFloat(this.explosionSize);
         par1DataOutput.writeInt(this.chunkPositionRecords.size());
-        int var2 = (int)this.explosionX;
-        int var3 = (int)this.explosionY;
-        int var4 = (int)this.explosionZ;
-        Iterator var5 = this.chunkPositionRecords.iterator();
+        int i = (int)this.explosionX;
+        int j = (int)this.explosionY;
+        int k = (int)this.explosionZ;
+        Iterator iterator = this.chunkPositionRecords.iterator();
 
-        while (var5.hasNext())
+        while (iterator.hasNext())
         {
-            ChunkPosition var6 = (ChunkPosition)var5.next();
-            int var7 = var6.x - var2;
-            int var8 = var6.y - var3;
-            int var9 = var6.z - var4;
-            par1DataOutput.writeByte(var7);
-            par1DataOutput.writeByte(var8);
-            par1DataOutput.writeByte(var9);
+            ChunkPosition chunkposition = (ChunkPosition)iterator.next();
+            int l = chunkposition.x - i;
+            int i1 = chunkposition.y - j;
+            int j1 = chunkposition.z - k;
+            par1DataOutput.writeByte(l);
+            par1DataOutput.writeByte(i1);
+            par1DataOutput.writeByte(j1);
         }
 
         par1DataOutput.writeFloat(this.playerVelocityX);

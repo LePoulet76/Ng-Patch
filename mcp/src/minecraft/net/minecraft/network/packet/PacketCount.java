@@ -21,7 +21,7 @@ public class PacketCount
     {
         if (allowCounting)
         {
-            Object var3 = lock;
+            Object object = lock;
 
             synchronized (lock)
             {

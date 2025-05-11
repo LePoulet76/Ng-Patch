@@ -18,8 +18,8 @@ public class ComponentVillageHall extends ComponentVillage
 
     public static ComponentVillageHall func_74906_a(ComponentVillageStartPiece par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
     {
-        StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 9, 7, 11, par6);
-        return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new ComponentVillageHall(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 9, 7, 11, par6);
+        return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(par1List, structureboundingbox) == null ? new ComponentVillageHall(par0ComponentVillageStartPiece, par7, par2Random, structureboundingbox, par6) : null;
     }
 
     /**
@@ -61,17 +61,17 @@ public class ComponentVillageHall extends ComponentVillage
         this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 0, 4, 3, par3StructureBoundingBox);
         this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 8, 4, 2, par3StructureBoundingBox);
         this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 8, 4, 3, par3StructureBoundingBox);
-        int var4 = this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 3);
-        int var5 = this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 2);
-        int var6;
-        int var7;
+        int i = this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 3);
+        int j = this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 2);
+        int k;
+        int l;
 
-        for (var6 = -1; var6 <= 2; ++var6)
+        for (k = -1; k <= 2; ++k)
         {
-            for (var7 = 0; var7 <= 8; ++var7)
+            for (l = 0; l <= 8; ++l)
             {
-                this.placeBlockAtCurrentPosition(par1World, Block.stairsWoodOak.blockID, var4, var7, 4 + var6, var6, par3StructureBoundingBox);
-                this.placeBlockAtCurrentPosition(par1World, Block.stairsWoodOak.blockID, var5, var7, 4 + var6, 5 - var6, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stairsWoodOak.blockID, i, l, 4 + k, k, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stairsWoodOak.blockID, j, l, 4 + k, 5 - k, par3StructureBoundingBox);
             }
         }
 
@@ -110,12 +110,12 @@ public class ComponentVillageHall extends ComponentVillage
         this.placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 6, 3, 4, par3StructureBoundingBox);
         this.placeDoorAtCurrentPosition(par1World, par3StructureBoundingBox, par2Random, 6, 1, 5, this.getMetadataWithOffset(Block.doorWood.blockID, 1));
 
-        for (var6 = 0; var6 < 5; ++var6)
+        for (k = 0; k < 5; ++k)
         {
-            for (var7 = 0; var7 < 9; ++var7)
+            for (l = 0; l < 9; ++l)
             {
-                this.clearCurrentPositionBlocksUpwards(par1World, var7, 7, var6, par3StructureBoundingBox);
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.cobblestone.blockID, 0, var7, -1, var6, par3StructureBoundingBox);
+                this.clearCurrentPositionBlocksUpwards(par1World, l, 7, k, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.cobblestone.blockID, 0, l, -1, k, par3StructureBoundingBox);
             }
         }
 

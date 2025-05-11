@@ -4,7 +4,7 @@ public interface Attribute
 {
     String getAttributeUnlocalizedName();
 
-    double clampValue(double var1);
+    double clampValue(double d0);
 
     double getDefaultValue();
 

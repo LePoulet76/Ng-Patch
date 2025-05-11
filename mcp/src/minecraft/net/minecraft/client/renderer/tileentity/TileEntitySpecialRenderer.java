@@ -16,15 +16,15 @@ public abstract class TileEntitySpecialRenderer
      */
     protected TileEntityRenderer tileEntityRenderer;
 
-    public abstract void renderTileEntityAt(TileEntity var1, double var2, double var4, double var6, float var8);
+    public abstract void renderTileEntityAt(TileEntity tileentity, double d0, double d1, double d2, float f);
 
     protected void bindTexture(ResourceLocation par1ResourceLocation)
     {
-        TextureManager var2 = this.tileEntityRenderer.renderEngine;
+        TextureManager texturemanager = this.tileEntityRenderer.renderEngine;
 
-        if (var2 != null)
+        if (texturemanager != null)
         {
-            var2.bindTexture(par1ResourceLocation);
+            texturemanager.bindTexture(par1ResourceLocation);
         }
     }
 

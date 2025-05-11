@@ -30,17 +30,17 @@ public class RenderGhast extends RenderLiving
      */
     protected void preRenderGhast(EntityGhast par1EntityGhast, float par2)
     {
-        float var4 = ((float)par1EntityGhast.prevAttackCounter + (float)(par1EntityGhast.attackCounter - par1EntityGhast.prevAttackCounter) * par2) / 20.0F;
+        float f1 = ((float)par1EntityGhast.prevAttackCounter + (float)(par1EntityGhast.attackCounter - par1EntityGhast.prevAttackCounter) * par2) / 20.0F;
 
-        if (var4 < 0.0F)
+        if (f1 < 0.0F)
         {
-            var4 = 0.0F;
+            f1 = 0.0F;
         }
 
-        var4 = 1.0F / (var4 * var4 * var4 * var4 * var4 * 2.0F + 1.0F);
-        float var5 = (8.0F + var4) / 2.0F;
-        float var6 = (8.0F + 1.0F / var4) / 2.0F;
-        GL11.glScalef(var6, var5, var6);
+        f1 = 1.0F / (f1 * f1 * f1 * f1 * f1 * 2.0F + 1.0F);
+        float f2 = (8.0F + f1) / 2.0F;
+        float f3 = (8.0F + 1.0F / f1) / 2.0F;
+        GL11.glScalef(f3, f2, f3);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 

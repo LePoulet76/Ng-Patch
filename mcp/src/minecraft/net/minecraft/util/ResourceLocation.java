@@ -1,10 +1,7 @@
 package net.minecraft.util;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.Validate;
 
-@SideOnly(Side.CLIENT)
 public class ResourceLocation
 {
     private final String resourceDomain;
@@ -28,22 +25,22 @@ public class ResourceLocation
 
     public ResourceLocation(String par1Str)
     {
-        String var2 = "minecraft";
-        String var3 = par1Str;
-        int var4 = par1Str.indexOf(58);
+        String s1 = "minecraft";
+        String s2 = par1Str;
+        int i = par1Str.indexOf(58);
 
-        if (var4 >= 0)
+        if (i >= 0)
         {
-            var3 = par1Str.substring(var4 + 1, par1Str.length());
+            s2 = par1Str.substring(i + 1, par1Str.length());
 
-            if (var4 > 1)
+            if (i > 1)
             {
-                var2 = par1Str.substring(0, var4);
+                s1 = par1Str.substring(0, i);
             }
         }
 
-        this.resourceDomain = var2.toLowerCase();
-        this.resourcePath = var3;
+        this.resourceDomain = s1.toLowerCase();
+        this.resourcePath = s2;
     }
 
     public String getResourcePath()
@@ -73,8 +70,8 @@ public class ResourceLocation
         }
         else
         {
-            ResourceLocation var2 = (ResourceLocation)par1Obj;
-            return this.resourceDomain.equals(var2.resourceDomain) && this.resourcePath.equals(var2.resourcePath);
+            ResourceLocation resourcelocation = (ResourceLocation)par1Obj;
+            return this.resourceDomain.equals(resourcelocation.resourceDomain) && this.resourcePath.equals(resourcelocation.resourcePath);
         }
     }
 

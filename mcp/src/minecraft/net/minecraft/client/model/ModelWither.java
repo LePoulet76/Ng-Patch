@@ -52,24 +52,24 @@ public class ModelWither extends ModelBase
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
     {
         this.setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
-        ModelRenderer[] var8 = this.field_82904_b;
-        int var9 = var8.length;
-        int var10;
-        ModelRenderer var11;
+        ModelRenderer[] amodelrenderer = this.field_82904_b;
+        int i = amodelrenderer.length;
+        int j;
+        ModelRenderer modelrenderer;
 
-        for (var10 = 0; var10 < var9; ++var10)
+        for (j = 0; j < i; ++j)
         {
-            var11 = var8[var10];
-            var11.render(par7);
+            modelrenderer = amodelrenderer[j];
+            modelrenderer.render(par7);
         }
 
-        var8 = this.field_82905_a;
-        var9 = var8.length;
+        amodelrenderer = this.field_82905_a;
+        i = amodelrenderer.length;
 
-        for (var10 = 0; var10 < var9; ++var10)
+        for (j = 0; j < i; ++j)
         {
-            var11 = var8[var10];
-            var11.render(par7);
+            modelrenderer = amodelrenderer[j];
+            modelrenderer.render(par7);
         }
     }
 
@@ -80,10 +80,10 @@ public class ModelWither extends ModelBase
      */
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
-        float var8 = MathHelper.cos(par3 * 0.1F);
-        this.field_82905_a[1].rotateAngleX = (0.065F + 0.05F * var8) * (float)Math.PI;
+        float f6 = MathHelper.cos(par3 * 0.1F);
+        this.field_82905_a[1].rotateAngleX = (0.065F + 0.05F * f6) * (float)Math.PI;
         this.field_82905_a[2].setRotationPoint(-2.0F, 6.9F + MathHelper.cos(this.field_82905_a[1].rotateAngleX) * 10.0F, -0.5F + MathHelper.sin(this.field_82905_a[1].rotateAngleX) * 10.0F);
-        this.field_82905_a[2].rotateAngleX = (0.265F + 0.1F * var8) * (float)Math.PI;
+        this.field_82905_a[2].rotateAngleX = (0.265F + 0.1F * f6) * (float)Math.PI;
         this.field_82904_b[0].rotateAngleY = par4 / (180F / (float)Math.PI);
         this.field_82904_b[0].rotateAngleX = par5 / (180F / (float)Math.PI);
     }
@@ -94,12 +94,12 @@ public class ModelWither extends ModelBase
      */
     public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
     {
-        EntityWither var5 = (EntityWither)par1EntityLivingBase;
+        EntityWither entitywither = (EntityWither)par1EntityLivingBase;
 
-        for (int var6 = 1; var6 < 3; ++var6)
+        for (int i = 1; i < 3; ++i)
         {
-            this.field_82904_b[var6].rotateAngleY = (var5.func_82207_a(var6 - 1) - par1EntityLivingBase.renderYawOffset) / (180F / (float)Math.PI);
-            this.field_82904_b[var6].rotateAngleX = var5.func_82210_r(var6 - 1) / (180F / (float)Math.PI);
+            this.field_82904_b[i].rotateAngleY = (entitywither.func_82207_a(i - 1) - par1EntityLivingBase.renderYawOffset) / (180F / (float)Math.PI);
+            this.field_82904_b[i].rotateAngleX = entitywither.func_82210_r(i - 1) / (180F / (float)Math.PI);
         }
     }
 }

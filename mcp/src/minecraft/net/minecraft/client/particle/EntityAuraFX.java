@@ -10,10 +10,10 @@ public class EntityAuraFX extends EntityFX
     public EntityAuraFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
     {
         super(par1World, par2, par4, par6, par8, par10, par12);
-        float var14 = this.rand.nextFloat() * 0.1F + 0.2F;
-        this.particleRed = var14;
-        this.particleGreen = var14;
-        this.particleBlue = var14;
+        float f = this.rand.nextFloat() * 0.1F + 0.2F;
+        this.particleRed = f;
+        this.particleGreen = f;
+        this.particleBlue = f;
         this.setParticleTextureIndex(0);
         this.setSize(0.02F, 0.02F);
         this.particleScale *= this.rand.nextFloat() * 0.6F + 0.5F;

@@ -28,25 +28,25 @@ public class GuiButtonMerchant extends GuiButton
         {
             par1Minecraft.getTextureManager().bindTexture(GuiMerchant.func_110417_h());
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            boolean var4 = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
-            int var5 = 0;
-            int var6 = 176;
+            boolean flag = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
+            int k = 0;
+            int l = 176;
 
             if (!this.enabled)
             {
-                var6 += this.width * 2;
+                l += this.width * 2;
             }
-            else if (var4)
+            else if (flag)
             {
-                var6 += this.width;
+                l += this.width;
             }
 
             if (!this.mirrored)
             {
-                var5 += this.height;
+                k += this.height;
             }
 
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, var6, var5, this.width, this.height);
+            this.drawTexturedModalRect(this.xPosition, this.yPosition, l, k, this.width, this.height);
         }
     }
 }

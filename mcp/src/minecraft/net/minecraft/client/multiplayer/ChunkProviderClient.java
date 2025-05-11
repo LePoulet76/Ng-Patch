@@ -13,6 +13,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.EmptyChunk;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.ChunkEvent;
 
 @SideOnly(Side.CLIENT)
 public class ChunkProviderClient implements IChunkProvider
@@ -57,15 +59,15 @@ public class ChunkProviderClient implements IChunkProvider
      */
     public void unloadChunk(int par1, int par2)
     {
-        Chunk var3 = this.provideChunk(par1, par2);
+        Chunk chunk = this.provideChunk(par1, par2);
 
-        if (!var3.isEmpty())
+        if (!chunk.isEmpty())
         {
-            var3.onChunkUnload();
+            chunk.onChunkUnload();
         }
 
         this.chunkMapping.remove(ChunkCoordIntPair.chunkXZ2Int(par1, par2));
-        this.chunkListing.remove(var3);
+        this.chunkListing.remove(chunk);
     }
 
     /**
@@ -73,10 +75,11 @@ public class ChunkProviderClient implements IChunkProvider
      */
     public Chunk loadChunk(int par1, int par2)
     {
-        Chunk var3 = new Chunk(this.worldObj, par1, par2);
-        this.chunkMapping.add(ChunkCoordIntPair.chunkXZ2Int(par1, par2), var3);
-        var3.isChunkLoaded = true;
-        return var3;
+        Chunk chunk = new Chunk(this.worldObj, par1, par2);
+        this.chunkMapping.add(ChunkCoordIntPair.chunkXZ2Int(par1, par2), chunk);
+        MinecraftForge.EVENT_BUS.post(new ChunkEvent.Load(chunk));
+        chunk.isChunkLoaded = true;
+        return chunk;
     }
 
     /**
@@ -85,8 +88,8 @@ public class ChunkProviderClient implements IChunkProvider
      */
     public Chunk provideChunk(int par1, int par2)
     {
-        Chunk var3 = (Chunk)this.chunkMapping.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(par1, par2));
-        return var3 == null ? this.blankChunk : var3;
+        Chunk chunk = (Chunk)this.chunkMapping.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(par1, par2));
+        return chunk == null ? this.blankChunk : chunk;
     }
 
     /**

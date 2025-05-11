@@ -21,10 +21,10 @@ public class GuiConnecting extends GuiScreen
     {
         this.mc = par2Minecraft;
         this.field_98098_c = par1GuiScreen;
-        ServerAddress var4 = ServerAddress.func_78860_a(par3ServerData.serverIP);
+        ServerAddress serveraddress = ServerAddress.func_78860_a(par3ServerData.serverIP);
         par2Minecraft.loadWorld((WorldClient)null);
         par2Minecraft.setServerData(par3ServerData);
-        this.spawnNewServerThread(var4.getIP(), var4.getPort());
+        this.spawnNewServerThread(serveraddress.getIP(), serveraddress.getPort());
     }
 
     public GuiConnecting(GuiScreen par1GuiScreen, Minecraft par2Minecraft, String par3Str, int par4)
@@ -154,5 +154,11 @@ public class GuiConnecting extends GuiScreen
     static Minecraft func_98096_h(GuiConnecting par0GuiConnecting)
     {
         return par0GuiConnecting.mc;
+    }
+    
+    public static void forceTermination(GuiConnecting gui)
+    {
+        gui.cancelled = true;
+        gui.clientHandler = null;
     }
 }

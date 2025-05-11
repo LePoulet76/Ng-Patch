@@ -25,10 +25,10 @@ public class BiomeGenDesert extends BiomeGenBase
 
         if (par2Random.nextInt(1000) == 0)
         {
-            int var5 = par3 + par2Random.nextInt(16) + 8;
-            int var6 = par4 + par2Random.nextInt(16) + 8;
-            WorldGenDesertWells var7 = new WorldGenDesertWells();
-            var7.generate(par1World, par2Random, var5, par1World.getHeightValue(var5, var6) + 1, var6);
+            int k = par3 + par2Random.nextInt(16) + 8;
+            int l = par4 + par2Random.nextInt(16) + 8;
+            WorldGenDesertWells worldgendesertwells = new WorldGenDesertWells();
+            worldgendesertwells.generate(par1World, par2Random, k, par1World.getHeightValue(k, l) + 1, l);
         }
     }
 }

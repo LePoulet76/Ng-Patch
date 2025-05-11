@@ -26,7 +26,7 @@ class ThreadPollServers extends Thread
 
     public void run()
     {
-        boolean var27 = false;
+        boolean flag = false;
         label183:
         {
             label184:
@@ -39,52 +39,52 @@ class ThreadPollServers extends Thread
                         {
                             try
                             {
-                                var27 = true;
+                                flag = true;
                                 this.pollServersServerData.serverMOTD = EnumChatFormatting.DARK_GRAY + "Polling..";
-                                long var1 = System.nanoTime();
+                                long i = System.nanoTime();
                                 GuiMultiplayer.func_82291_a(this.pollServersServerData);
-                                long var3 = System.nanoTime();
-                                this.pollServersServerData.pingToServer = (var3 - var1) / 1000000L;
-                                var27 = false;
+                                long j = System.nanoTime();
+                                this.pollServersServerData.pingToServer = (j - i) / 1000000L;
+                                flag = false;
                                 break label183;
                             }
-                            catch (UnknownHostException var35)
+                            catch (UnknownHostException unknownhostexception)
                             {
                                 this.pollServersServerData.pingToServer = -1L;
                                 this.pollServersServerData.serverMOTD = EnumChatFormatting.DARK_RED + "Can\'t resolve hostname";
-                                var27 = false;
+                                flag = false;
                                 break label184;
                             }
-                            catch (SocketTimeoutException var36)
+                            catch (SocketTimeoutException sockettimeoutexception)
                             {
                                 this.pollServersServerData.pingToServer = -1L;
                                 this.pollServersServerData.serverMOTD = EnumChatFormatting.DARK_RED + "Can\'t reach server";
-                                var27 = false;
+                                flag = false;
                             }
-                            catch (ConnectException var37)
+                            catch (ConnectException connectexception)
                             {
                                 this.pollServersServerData.pingToServer = -1L;
                                 this.pollServersServerData.serverMOTD = EnumChatFormatting.DARK_RED + "Can\'t reach server";
-                                var27 = false;
+                                flag = false;
                                 break label187;
                             }
-                            catch (IOException var38)
+                            catch (IOException ioexception)
                             {
                                 this.pollServersServerData.pingToServer = -1L;
                                 this.pollServersServerData.serverMOTD = EnumChatFormatting.DARK_RED + "Communication error";
-                                var27 = false;
+                                flag = false;
                                 break label186;
                             }
-                            catch (Exception var39)
+                            catch (Exception exception)
                             {
                                 this.pollServersServerData.pingToServer = -1L;
-                                this.pollServersServerData.serverMOTD = "ERROR: " + var39.getClass();
-                                var27 = false;
+                                this.pollServersServerData.serverMOTD = "ERROR: " + exception.getClass();
+                                flag = false;
                                 break label185;
                             }
                             finally
                             {
-                                if (var27)
+                                if (flag)
                                 {
                                     synchronized (GuiMultiplayer.getLock())
                                     {

@@ -29,63 +29,63 @@ public class StructureNetherBridgePieces
 
     private static ComponentNetherBridgePiece createNextComponentRandom(StructureNetherBridgePieceWeight par0StructureNetherBridgePieceWeight, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
     {
-        Class var8 = par0StructureNetherBridgePieceWeight.weightClass;
-        Object var9 = null;
+        Class oclass = par0StructureNetherBridgePieceWeight.weightClass;
+        Object object = null;
 
-        if (var8 == ComponentNetherBridgeStraight.class)
+        if (oclass == ComponentNetherBridgeStraight.class)
         {
-            var9 = ComponentNetherBridgeStraight.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
+            object = ComponentNetherBridgeStraight.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
-        else if (var8 == ComponentNetherBridgeCrossing3.class)
+        else if (oclass == ComponentNetherBridgeCrossing3.class)
         {
-            var9 = ComponentNetherBridgeCrossing3.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
+            object = ComponentNetherBridgeCrossing3.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
-        else if (var8 == ComponentNetherBridgeCrossing.class)
+        else if (oclass == ComponentNetherBridgeCrossing.class)
         {
-            var9 = ComponentNetherBridgeCrossing.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
+            object = ComponentNetherBridgeCrossing.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
-        else if (var8 == ComponentNetherBridgeStairs.class)
+        else if (oclass == ComponentNetherBridgeStairs.class)
         {
-            var9 = ComponentNetherBridgeStairs.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
+            object = ComponentNetherBridgeStairs.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
-        else if (var8 == ComponentNetherBridgeThrone.class)
+        else if (oclass == ComponentNetherBridgeThrone.class)
         {
-            var9 = ComponentNetherBridgeThrone.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
+            object = ComponentNetherBridgeThrone.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
-        else if (var8 == ComponentNetherBridgeEntrance.class)
+        else if (oclass == ComponentNetherBridgeEntrance.class)
         {
-            var9 = ComponentNetherBridgeEntrance.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
+            object = ComponentNetherBridgeEntrance.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
-        else if (var8 == ComponentNetherBridgeCorridor5.class)
+        else if (oclass == ComponentNetherBridgeCorridor5.class)
         {
-            var9 = ComponentNetherBridgeCorridor5.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
+            object = ComponentNetherBridgeCorridor5.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
-        else if (var8 == ComponentNetherBridgeCorridor2.class)
+        else if (oclass == ComponentNetherBridgeCorridor2.class)
         {
-            var9 = ComponentNetherBridgeCorridor2.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
+            object = ComponentNetherBridgeCorridor2.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
-        else if (var8 == ComponentNetherBridgeCorridor.class)
+        else if (oclass == ComponentNetherBridgeCorridor.class)
         {
-            var9 = ComponentNetherBridgeCorridor.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
+            object = ComponentNetherBridgeCorridor.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
-        else if (var8 == ComponentNetherBridgeCorridor3.class)
+        else if (oclass == ComponentNetherBridgeCorridor3.class)
         {
-            var9 = ComponentNetherBridgeCorridor3.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
+            object = ComponentNetherBridgeCorridor3.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
-        else if (var8 == ComponentNetherBridgeCorridor4.class)
+        else if (oclass == ComponentNetherBridgeCorridor4.class)
         {
-            var9 = ComponentNetherBridgeCorridor4.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
+            object = ComponentNetherBridgeCorridor4.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
-        else if (var8 == ComponentNetherBridgeCrossing2.class)
+        else if (oclass == ComponentNetherBridgeCrossing2.class)
         {
-            var9 = ComponentNetherBridgeCrossing2.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
+            object = ComponentNetherBridgeCrossing2.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
-        else if (var8 == ComponentNetherBridgeNetherStalkRoom.class)
+        else if (oclass == ComponentNetherBridgeNetherStalkRoom.class)
         {
-            var9 = ComponentNetherBridgeNetherStalkRoom.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
+            object = ComponentNetherBridgeNetherStalkRoom.createValidComponent(par1List, par2Random, par3, par4, par5, par6, par7);
         }
 
-        return (ComponentNetherBridgePiece)var9;
+        return (ComponentNetherBridgePiece)object;
     }
 
     static ComponentNetherBridgePiece createNextComponent(StructureNetherBridgePieceWeight par0StructureNetherBridgePieceWeight, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)

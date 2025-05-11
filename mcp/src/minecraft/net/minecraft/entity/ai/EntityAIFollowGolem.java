@@ -33,23 +33,23 @@ public class EntityAIFollowGolem extends EntityAIBase
         }
         else
         {
-            List var1 = this.theVillager.worldObj.getEntitiesWithinAABB(EntityIronGolem.class, this.theVillager.boundingBox.expand(6.0D, 2.0D, 6.0D));
+            List list = this.theVillager.worldObj.getEntitiesWithinAABB(EntityIronGolem.class, this.theVillager.boundingBox.expand(6.0D, 2.0D, 6.0D));
 
-            if (var1.isEmpty())
+            if (list.isEmpty())
             {
                 return false;
             }
             else
             {
-                Iterator var2 = var1.iterator();
+                Iterator iterator = list.iterator();
 
-                while (var2.hasNext())
+                while (iterator.hasNext())
                 {
-                    EntityIronGolem var3 = (EntityIronGolem)var2.next();
+                    EntityIronGolem entityirongolem = (EntityIronGolem)iterator.next();
 
-                    if (var3.getHoldRoseTick() > 0)
+                    if (entityirongolem.getHoldRoseTick() > 0)
                     {
-                        this.theGolem = var3;
+                        this.theGolem = entityirongolem;
                         break;
                     }
                 }

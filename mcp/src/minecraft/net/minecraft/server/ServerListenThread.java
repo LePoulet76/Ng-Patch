@@ -1,5 +1,6 @@
 package net.minecraft.server;
 
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.io.IOException;
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+
 import net.minecraft.network.NetLoginHandler;
 import net.minecraft.network.NetworkListenThread;
 
@@ -39,30 +42,31 @@ public class ServerListenThread extends Thread
 
     public void processPendingConnections()
     {
-        List var1 = this.pendingConnections;
+        List list = this.pendingConnections;
 
         synchronized (this.pendingConnections)
         {
-            for (int var2 = 0; var2 < this.pendingConnections.size(); ++var2)
+            for (int i = 0; i < this.pendingConnections.size(); ++i)
             {
-                NetLoginHandler var3 = (NetLoginHandler)this.pendingConnections.get(var2);
+                NetLoginHandler netloginhandler = (NetLoginHandler)this.pendingConnections.get(i);
 
                 try
                 {
-                    var3.tryLogin();
+                    netloginhandler.tryLogin();
                 }
-                catch (Exception var6)
+                catch (Exception exception)
                 {
-                    var3.raiseErrorAndDisconnect("Internal server error");
-                    this.myNetworkListenThread.getServer().getLogAgent().logWarningException("Failed to handle packet for " + var3.getUsernameAndAddress() + ": " + var6, var6);
+                    netloginhandler.raiseErrorAndDisconnect("Internal server error");
+                    FMLLog.log(Level.SEVERE, exception, "Error handling login related packet - connection from %s refused", netloginhandler.getUsernameAndAddress());
+                    this.myNetworkListenThread.getServer().getLogAgent().logWarningException("Failed to handle packet for " + netloginhandler.getUsernameAndAddress() + ": " + exception, exception);
                 }
 
-                if (var3.connectionComplete)
+                if (netloginhandler.connectionComplete)
                 {
-                    this.pendingConnections.remove(var2--);
+                    this.pendingConnections.remove(i--);
                 }
 
-                var3.myTCPConnection.wakeThreads();
+                netloginhandler.myTCPConnection.wakeThreads();
             }
         }
     }
@@ -73,13 +77,13 @@ public class ServerListenThread extends Thread
         {
             try
             {
-                Socket var1 = this.myServerSocket.accept();
-                NetLoginHandler var2 = new NetLoginHandler(this.myNetworkListenThread.getServer(), var1, "Connection #" + this.connectionCounter++);
-                this.addPendingConnection(var2);
+                Socket socket = this.myServerSocket.accept();
+                NetLoginHandler netloginhandler = new NetLoginHandler(this.myNetworkListenThread.getServer(), socket, "Connection #" + this.connectionCounter++);
+                this.addPendingConnection(netloginhandler);
             }
-            catch (IOException var3)
+            catch (IOException ioexception)
             {
-                var3.printStackTrace();
+                ioexception.printStackTrace();
             }
         }
 
@@ -94,7 +98,7 @@ public class ServerListenThread extends Thread
         }
         else
         {
-            List var2 = this.pendingConnections;
+            List list = this.pendingConnections;
 
             synchronized (this.pendingConnections)
             {
@@ -107,7 +111,7 @@ public class ServerListenThread extends Thread
     {
         if (par1InetAddress != null)
         {
-            HashMap var2 = this.recentConnections;
+            HashMap hashmap = this.recentConnections;
 
             synchronized (this.recentConnections)
             {
@@ -122,7 +126,7 @@ public class ServerListenThread extends Thread
         {
             this.myServerSocket.close();
         }
-        catch (Throwable var2)
+        catch (Throwable throwable)
         {
             ;
         }

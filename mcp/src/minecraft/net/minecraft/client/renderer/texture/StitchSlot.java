@@ -47,12 +47,12 @@ public class StitchSlot
         }
         else
         {
-            int var2 = par1StitchHolder.getWidth();
-            int var3 = par1StitchHolder.getHeight();
+            int i = par1StitchHolder.getWidth();
+            int j = par1StitchHolder.getHeight();
 
-            if (var2 <= this.width && var3 <= this.height)
+            if (i <= this.width && j <= this.height)
             {
-                if (var2 == this.width && var3 == this.height)
+                if (i == this.width && j == this.height)
                 {
                     this.holder = par1StitchHolder;
                     return true;
@@ -62,49 +62,49 @@ public class StitchSlot
                     if (this.subSlots == null)
                     {
                         this.subSlots = new ArrayList(1);
-                        this.subSlots.add(new StitchSlot(this.originX, this.originY, var2, var3));
-                        int var4 = this.width - var2;
-                        int var5 = this.height - var3;
+                        this.subSlots.add(new StitchSlot(this.originX, this.originY, i, j));
+                        int k = this.width - i;
+                        int l = this.height - j;
 
-                        if (var5 > 0 && var4 > 0)
+                        if (l > 0 && k > 0)
                         {
-                            int var6 = Math.max(this.height, var4);
-                            int var7 = Math.max(this.width, var5);
+                            int i1 = Math.max(this.height, k);
+                            int j1 = Math.max(this.width, l);
 
-                            if (var6 >= var7)
+                            if (i1 >= j1)
                             {
-                                this.subSlots.add(new StitchSlot(this.originX, this.originY + var3, var2, var5));
-                                this.subSlots.add(new StitchSlot(this.originX + var2, this.originY, var4, this.height));
+                                this.subSlots.add(new StitchSlot(this.originX, this.originY + j, i, l));
+                                this.subSlots.add(new StitchSlot(this.originX + i, this.originY, k, this.height));
                             }
                             else
                             {
-                                this.subSlots.add(new StitchSlot(this.originX + var2, this.originY, var4, var3));
-                                this.subSlots.add(new StitchSlot(this.originX, this.originY + var3, this.width, var5));
+                                this.subSlots.add(new StitchSlot(this.originX + i, this.originY, k, j));
+                                this.subSlots.add(new StitchSlot(this.originX, this.originY + j, this.width, l));
                             }
                         }
-                        else if (var4 == 0)
+                        else if (k == 0)
                         {
-                            this.subSlots.add(new StitchSlot(this.originX, this.originY + var3, var2, var5));
+                            this.subSlots.add(new StitchSlot(this.originX, this.originY + j, i, l));
                         }
-                        else if (var5 == 0)
+                        else if (l == 0)
                         {
-                            this.subSlots.add(new StitchSlot(this.originX + var2, this.originY, var4, var3));
+                            this.subSlots.add(new StitchSlot(this.originX + i, this.originY, k, j));
                         }
                     }
 
-                    Iterator var8 = this.subSlots.iterator();
-                    StitchSlot var9;
+                    Iterator iterator = this.subSlots.iterator();
+                    StitchSlot stitchslot;
 
                     do
                     {
-                        if (!var8.hasNext())
+                        if (!iterator.hasNext())
                         {
                             return false;
                         }
 
-                        var9 = (StitchSlot)var8.next();
+                        stitchslot = (StitchSlot)iterator.next();
                     }
-                    while (!var9.addSlot(par1StitchHolder));
+                    while (!stitchslot.addSlot(par1StitchHolder));
 
                     return true;
                 }
@@ -127,12 +127,12 @@ public class StitchSlot
         }
         else if (this.subSlots != null)
         {
-            Iterator var2 = this.subSlots.iterator();
+            Iterator iterator = this.subSlots.iterator();
 
-            while (var2.hasNext())
+            while (iterator.hasNext())
             {
-                StitchSlot var3 = (StitchSlot)var2.next();
-                var3.getAllStitchSlots(par1List);
+                StitchSlot stitchslot = (StitchSlot)iterator.next();
+                stitchslot.getAllStitchSlots(par1List);
             }
         }
     }

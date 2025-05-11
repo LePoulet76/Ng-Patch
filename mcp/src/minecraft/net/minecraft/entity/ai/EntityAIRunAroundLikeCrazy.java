@@ -27,17 +27,17 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase
     {
         if (!this.horseHost.isTame() && this.horseHost.riddenByEntity != null)
         {
-            Vec3 var1 = RandomPositionGenerator.findRandomTarget(this.horseHost, 5, 4);
+            Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.horseHost, 5, 4);
 
-            if (var1 == null)
+            if (vec3 == null)
             {
                 return false;
             }
             else
             {
-                this.field_111179_c = var1.xCoord;
-                this.field_111176_d = var1.yCoord;
-                this.field_111177_e = var1.zCoord;
+                this.field_111179_c = vec3.xCoord;
+                this.field_111176_d = vec3.yCoord;
+                this.field_111177_e = vec3.zCoord;
                 return true;
             }
         }
@@ -72,10 +72,10 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase
         {
             if (this.horseHost.riddenByEntity instanceof EntityPlayer)
             {
-                int var1 = this.horseHost.getTemper();
-                int var2 = this.horseHost.getMaxTemper();
+                int i = this.horseHost.getTemper();
+                int j = this.horseHost.getMaxTemper();
 
-                if (var2 > 0 && this.horseHost.getRNG().nextInt(var2) < var1)
+                if (j > 0 && this.horseHost.getRNG().nextInt(j) < i)
                 {
                     this.horseHost.setTamedBy((EntityPlayer)this.horseHost.riddenByEntity);
                     this.horseHost.worldObj.setEntityState(this.horseHost, (byte)7);

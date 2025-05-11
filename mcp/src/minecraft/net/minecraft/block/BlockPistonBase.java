@@ -70,8 +70,8 @@ public class BlockPistonBase extends Block
      */
     public Icon getIcon(int par1, int par2)
     {
-        int var3 = getOrientation(par2);
-        return var3 > 5 ? this.topIcon : (par1 == var3 ? (!isExtended(par2) && this.minX <= 0.0D && this.minY <= 0.0D && this.minZ <= 0.0D && this.maxX >= 1.0D && this.maxY >= 1.0D && this.maxZ >= 1.0D ? this.topIcon : this.innerTopIcon) : (par1 == Facing.oppositeSide[var3] ? this.bottomIcon : this.blockIcon));
+        int k = getOrientation(par2);
+        return k > 5 ? this.topIcon : (par1 == k ? (!isExtended(par2) && this.minX <= 0.0D && this.minY <= 0.0D && this.minZ <= 0.0D && this.maxX >= 1.0D && this.maxY >= 1.0D && this.maxZ >= 1.0D ? this.topIcon : this.innerTopIcon) : (par1 == Facing.oppositeSide[k] ? this.bottomIcon : this.blockIcon));
     }
 
     @SideOnly(Side.CLIENT)
@@ -124,8 +124,8 @@ public class BlockPistonBase extends Block
      */
     public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
     {
-        int var7 = determineOrientation(par1World, par2, par3, par4, par5EntityLivingBase);
-        par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
+        int l = determineOrientation(par1World, par2, par3, par4, par5EntityLivingBase);
+        par1World.setBlockMetadataWithNotify(par2, par3, par4, l, 2);
 
         if (!par1World.isRemote)
         {
@@ -161,24 +161,24 @@ public class BlockPistonBase extends Block
      */
     private void updatePistonState(World par1World, int par2, int par3, int par4)
     {
-        int var5 = par1World.getBlockMetadata(par2, par3, par4);
-        int var6 = getOrientation(var5);
+        int l = par1World.getBlockMetadata(par2, par3, par4);
+        int i1 = getOrientation(l);
 
-        if (var6 != 7)
+        if (i1 != 7)
         {
-            boolean var7 = this.isIndirectlyPowered(par1World, par2, par3, par4, var6);
+            boolean flag = this.isIndirectlyPowered(par1World, par2, par3, par4, i1);
 
-            if (var7 && !isExtended(var5))
+            if (flag && !isExtended(l))
             {
-                if (canExtend(par1World, par2, par3, par4, var6))
+                if (canExtend(par1World, par2, par3, par4, i1))
                 {
-                    par1World.addBlockEvent(par2, par3, par4, this.blockID, 0, var6);
+                    par1World.addBlockEvent(par2, par3, par4, this.blockID, 0, i1);
                 }
             }
-            else if (!var7 && isExtended(var5))
+            else if (!flag && isExtended(l))
             {
-                par1World.setBlockMetadataWithNotify(par2, par3, par4, var6, 2);
-                par1World.addBlockEvent(par2, par3, par4, this.blockID, 1, var6);
+                par1World.setBlockMetadataWithNotify(par2, par3, par4, i1, 2);
+                par1World.addBlockEvent(par2, par3, par4, this.blockID, 1, i1);
             }
         }
     }
@@ -199,15 +199,15 @@ public class BlockPistonBase extends Block
     {
         if (!par1World.isRemote)
         {
-            boolean var7 = this.isIndirectlyPowered(par1World, par2, par3, par4, par6);
+            boolean flag = this.isIndirectlyPowered(par1World, par2, par3, par4, par6);
 
-            if (var7 && par5 == 1)
+            if (flag && par5 == 1)
             {
                 par1World.setBlockMetadataWithNotify(par2, par3, par4, par6 | 8, 2);
                 return false;
             }
 
-            if (!var7 && par5 == 0)
+            if (!flag && par5 == 0)
             {
                 return false;
             }
@@ -225,11 +225,11 @@ public class BlockPistonBase extends Block
         }
         else if (par5 == 1)
         {
-            TileEntity var16 = par1World.getBlockTileEntity(par2 + Facing.offsetsXForSide[par6], par3 + Facing.offsetsYForSide[par6], par4 + Facing.offsetsZForSide[par6]);
+            TileEntity tileentity = par1World.getBlockTileEntity(par2 + Facing.offsetsXForSide[par6], par3 + Facing.offsetsYForSide[par6], par4 + Facing.offsetsZForSide[par6]);
 
-            if (var16 instanceof TileEntityPiston)
+            if (tileentity instanceof TileEntityPiston)
             {
-                ((TileEntityPiston)var16).clearPistonTileEntity();
+                ((TileEntityPiston)tileentity).clearPistonTileEntity();
             }
 
             par1World.setBlock(par2, par3, par4, Block.pistonMoving.blockID, par6, 3);
@@ -237,41 +237,41 @@ public class BlockPistonBase extends Block
 
             if (this.isSticky)
             {
-                int var8 = par2 + Facing.offsetsXForSide[par6] * 2;
-                int var9 = par3 + Facing.offsetsYForSide[par6] * 2;
-                int var10 = par4 + Facing.offsetsZForSide[par6] * 2;
-                int var11 = par1World.getBlockId(var8, var9, var10);
-                int var12 = par1World.getBlockMetadata(var8, var9, var10);
-                boolean var13 = false;
+                int j1 = par2 + Facing.offsetsXForSide[par6] * 2;
+                int k1 = par3 + Facing.offsetsYForSide[par6] * 2;
+                int l1 = par4 + Facing.offsetsZForSide[par6] * 2;
+                int i2 = par1World.getBlockId(j1, k1, l1);
+                int j2 = par1World.getBlockMetadata(j1, k1, l1);
+                boolean flag1 = false;
 
-                if (var11 == Block.pistonMoving.blockID)
+                if (i2 == Block.pistonMoving.blockID)
                 {
-                    TileEntity var14 = par1World.getBlockTileEntity(var8, var9, var10);
+                    TileEntity tileentity1 = par1World.getBlockTileEntity(j1, k1, l1);
 
-                    if (var14 instanceof TileEntityPiston)
+                    if (tileentity1 instanceof TileEntityPiston)
                     {
-                        TileEntityPiston var15 = (TileEntityPiston)var14;
+                        TileEntityPiston tileentitypiston = (TileEntityPiston)tileentity1;
 
-                        if (var15.getPistonOrientation() == par6 && var15.isExtending())
+                        if (tileentitypiston.getPistonOrientation() == par6 && tileentitypiston.isExtending())
                         {
-                            var15.clearPistonTileEntity();
-                            var11 = var15.getStoredBlockID();
-                            var12 = var15.getBlockMetadata();
-                            var13 = true;
+                            tileentitypiston.clearPistonTileEntity();
+                            i2 = tileentitypiston.getStoredBlockID();
+                            j2 = tileentitypiston.getBlockMetadata();
+                            flag1 = true;
                         }
                     }
                 }
 
-                if (!var13 && var11 > 0 && canPushBlock(var11, par1World, var8, var9, var10, false) && (Block.blocksList[var11].getMobilityFlag() == 0 || var11 == Block.pistonBase.blockID || var11 == Block.pistonStickyBase.blockID))
+                if (!flag1 && i2 > 0 && canPushBlock(i2, par1World, j1, k1, l1, false) && (Block.blocksList[i2].getMobilityFlag() == 0 || i2 == Block.pistonBase.blockID || i2 == Block.pistonStickyBase.blockID))
                 {
                     par2 += Facing.offsetsXForSide[par6];
                     par3 += Facing.offsetsYForSide[par6];
                     par4 += Facing.offsetsZForSide[par6];
-                    par1World.setBlock(par2, par3, par4, Block.pistonMoving.blockID, var12, 3);
-                    par1World.setBlockTileEntity(par2, par3, par4, BlockPistonMoving.getTileEntity(var11, var12, par6, false, false));
-                    par1World.setBlockToAir(var8, var9, var10);
+                    par1World.setBlock(par2, par3, par4, Block.pistonMoving.blockID, j2, 3);
+                    par1World.setBlockTileEntity(par2, par3, par4, BlockPistonMoving.getTileEntity(i2, j2, par6, false, false));
+                    par1World.setBlockToAir(j1, k1, l1);
                 }
-                else if (!var13)
+                else if (!flag1)
                 {
                     par1World.setBlockToAir(par2 + Facing.offsetsXForSide[par6], par3 + Facing.offsetsYForSide[par6], par4 + Facing.offsetsZForSide[par6]);
                 }
@@ -292,34 +292,29 @@ public class BlockPistonBase extends Block
      */
     public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+        int l = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
 
-        if (isExtended(var5))
+        if (isExtended(l))
         {
-            float var6 = 0.25F;
+            float f = 0.25F;
 
-            switch (getOrientation(var5))
+            switch (getOrientation(l))
             {
                 case 0:
                     this.setBlockBounds(0.0F, 0.25F, 0.0F, 1.0F, 1.0F, 1.0F);
                     break;
-
                 case 1:
                     this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
                     break;
-
                 case 2:
                     this.setBlockBounds(0.0F, 0.0F, 0.25F, 1.0F, 1.0F, 1.0F);
                     break;
-
                 case 3:
                     this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.75F);
                     break;
-
                 case 4:
                     this.setBlockBounds(0.25F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
                     break;
-
                 case 5:
                     this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.75F, 1.0F, 1.0F);
             }
@@ -389,21 +384,21 @@ public class BlockPistonBase extends Block
     {
         if (MathHelper.abs((float)par4EntityLivingBase.posX - (float)par1) < 2.0F && MathHelper.abs((float)par4EntityLivingBase.posZ - (float)par3) < 2.0F)
         {
-            double var5 = par4EntityLivingBase.posY + 1.82D - (double)par4EntityLivingBase.yOffset;
+            double d0 = par4EntityLivingBase.posY + 1.82D - (double)par4EntityLivingBase.yOffset;
 
-            if (var5 - (double)par2 > 2.0D)
+            if (d0 - (double)par2 > 2.0D)
             {
                 return 1;
             }
 
-            if ((double)par2 - var5 > 0.0D)
+            if ((double)par2 - d0 > 0.0D)
             {
                 return 0;
             }
         }
 
-        int var7 = MathHelper.floor_double((double)(par4EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-        return var7 == 0 ? 2 : (var7 == 1 ? 5 : (var7 == 2 ? 3 : (var7 == 3 ? 4 : 0)));
+        int l = MathHelper.floor_double((double)(par4EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        return l == 0 ? 2 : (l == 1 ? 5 : (l == 2 ? 3 : (l == 3 ? 4 : 0)));
     }
 
     /**
@@ -444,7 +439,7 @@ public class BlockPistonBase extends Block
                 return false;
             }
 
-            return !(Block.blocksList[par0] instanceof ITileEntityProvider);
+            return !par1World.blockHasTileEntity(par2, par3, par4);
         }
     }
 
@@ -453,40 +448,40 @@ public class BlockPistonBase extends Block
      */
     private static boolean canExtend(World par0World, int par1, int par2, int par3, int par4)
     {
-        int var5 = par1 + Facing.offsetsXForSide[par4];
-        int var6 = par2 + Facing.offsetsYForSide[par4];
-        int var7 = par3 + Facing.offsetsZForSide[par4];
-        int var8 = 0;
+        int i1 = par1 + Facing.offsetsXForSide[par4];
+        int j1 = par2 + Facing.offsetsYForSide[par4];
+        int k1 = par3 + Facing.offsetsZForSide[par4];
+        int l1 = 0;
 
         while (true)
         {
-            if (var8 < 13)
+            if (l1 < 13)
             {
-                if (var6 <= 0 || var6 >= 255)
+                if (j1 <= 0 || j1 >= par0World.getHeight() - 1)
                 {
                     return false;
                 }
 
-                int var9 = par0World.getBlockId(var5, var6, var7);
+                int i2 = par0World.getBlockId(i1, j1, k1);
 
-                if (var9 != 0)
+                if (!par0World.isAirBlock(i1, j1, k1))
                 {
-                    if (!canPushBlock(var9, par0World, var5, var6, var7, true))
+                    if (!canPushBlock(i2, par0World, i1, j1, k1, true))
                     {
                         return false;
                     }
 
-                    if (Block.blocksList[var9].getMobilityFlag() != 1)
+                    if (Block.blocksList[i2].getMobilityFlag() != 1)
                     {
-                        if (var8 == 12)
+                        if (l1 == 12)
                         {
                             return false;
                         }
 
-                        var5 += Facing.offsetsXForSide[par4];
-                        var6 += Facing.offsetsYForSide[par4];
-                        var7 += Facing.offsetsZForSide[par4];
-                        ++var8;
+                        i1 += Facing.offsetsXForSide[par4];
+                        j1 += Facing.offsetsYForSide[par4];
+                        k1 += Facing.offsetsZForSide[par4];
+                        ++l1;
                         continue;
                     }
                 }
@@ -501,95 +496,97 @@ public class BlockPistonBase extends Block
      */
     private boolean tryExtend(World par1World, int par2, int par3, int par4, int par5)
     {
-        int var6 = par2 + Facing.offsetsXForSide[par5];
-        int var7 = par3 + Facing.offsetsYForSide[par5];
-        int var8 = par4 + Facing.offsetsZForSide[par5];
-        int var9 = 0;
+        int i1 = par2 + Facing.offsetsXForSide[par5];
+        int j1 = par3 + Facing.offsetsYForSide[par5];
+        int k1 = par4 + Facing.offsetsZForSide[par5];
+        int l1 = 0;
 
         while (true)
         {
-            int var10;
+            int i2;
 
-            if (var9 < 13)
+            if (l1 < 13)
             {
-                if (var7 <= 0 || var7 >= 255)
+                if (j1 <= 0 || j1 >= par1World.getHeight() - 1)
                 {
                     return false;
                 }
 
-                var10 = par1World.getBlockId(var6, var7, var8);
+                i2 = par1World.getBlockId(i1, j1, k1);
 
-                if (var10 != 0)
+                if (!par1World.isAirBlock(i1, j1, k1))
                 {
-                    if (!canPushBlock(var10, par1World, var6, var7, var8, true))
+                    if (!canPushBlock(i2, par1World, i1, j1, k1, true))
                     {
                         return false;
                     }
 
-                    if (Block.blocksList[var10].getMobilityFlag() != 1)
+                    if (Block.blocksList[i2].getMobilityFlag() != 1)
                     {
-                        if (var9 == 12)
+                        if (l1 == 12)
                         {
                             return false;
                         }
 
-                        var6 += Facing.offsetsXForSide[par5];
-                        var7 += Facing.offsetsYForSide[par5];
-                        var8 += Facing.offsetsZForSide[par5];
-                        ++var9;
+                        i1 += Facing.offsetsXForSide[par5];
+                        j1 += Facing.offsetsYForSide[par5];
+                        k1 += Facing.offsetsZForSide[par5];
+                        ++l1;
                         continue;
                     }
 
-                    Block.blocksList[var10].dropBlockAsItem(par1World, var6, var7, var8, par1World.getBlockMetadata(var6, var7, var8), 0);
-                    par1World.setBlockToAir(var6, var7, var8);
+                    //With our change to how snowballs are dropped this needs to disallow to mimic vanilla behavior.
+                    float chance = (Block.blocksList[i2] instanceof BlockSnow ? -1.0f : 1.0f);
+                    Block.blocksList[i2].dropBlockAsItemWithChance(par1World, i1, j1, k1, par1World.getBlockMetadata(i1, j1, k1), chance, 0);
+                    par1World.setBlockToAir(i1, j1, k1);
                 }
             }
 
-            var9 = var6;
-            var10 = var7;
-            int var11 = var8;
-            int var12 = 0;
-            int[] var13;
-            int var14;
-            int var15;
-            int var16;
+            l1 = i1;
+            i2 = j1;
+            int j2 = k1;
+            int k2 = 0;
+            int[] aint;
+            int l2;
+            int i3;
+            int j3;
 
-            for (var13 = new int[13]; var6 != par2 || var7 != par3 || var8 != par4; var8 = var16)
+            for (aint = new int[13]; i1 != par2 || j1 != par3 || k1 != par4; k1 = j3)
             {
-                var14 = var6 - Facing.offsetsXForSide[par5];
-                var15 = var7 - Facing.offsetsYForSide[par5];
-                var16 = var8 - Facing.offsetsZForSide[par5];
-                int var17 = par1World.getBlockId(var14, var15, var16);
-                int var18 = par1World.getBlockMetadata(var14, var15, var16);
+                l2 = i1 - Facing.offsetsXForSide[par5];
+                i3 = j1 - Facing.offsetsYForSide[par5];
+                j3 = k1 - Facing.offsetsZForSide[par5];
+                int k3 = par1World.getBlockId(l2, i3, j3);
+                int l3 = par1World.getBlockMetadata(l2, i3, j3);
 
-                if (var17 == this.blockID && var14 == par2 && var15 == par3 && var16 == par4)
+                if (k3 == this.blockID && l2 == par2 && i3 == par3 && j3 == par4)
                 {
-                    par1World.setBlock(var6, var7, var8, Block.pistonMoving.blockID, par5 | (this.isSticky ? 8 : 0), 4);
-                    par1World.setBlockTileEntity(var6, var7, var8, BlockPistonMoving.getTileEntity(Block.pistonExtension.blockID, par5 | (this.isSticky ? 8 : 0), par5, true, false));
+                    par1World.setBlock(i1, j1, k1, Block.pistonMoving.blockID, par5 | (this.isSticky ? 8 : 0), 4);
+                    par1World.setBlockTileEntity(i1, j1, k1, BlockPistonMoving.getTileEntity(Block.pistonExtension.blockID, par5 | (this.isSticky ? 8 : 0), par5, true, false));
                 }
                 else
                 {
-                    par1World.setBlock(var6, var7, var8, Block.pistonMoving.blockID, var18, 4);
-                    par1World.setBlockTileEntity(var6, var7, var8, BlockPistonMoving.getTileEntity(var17, var18, par5, true, false));
+                    par1World.setBlock(i1, j1, k1, Block.pistonMoving.blockID, l3, 4);
+                    par1World.setBlockTileEntity(i1, j1, k1, BlockPistonMoving.getTileEntity(k3, l3, par5, true, false));
                 }
 
-                var13[var12++] = var17;
-                var6 = var14;
-                var7 = var15;
+                aint[k2++] = k3;
+                i1 = l2;
+                j1 = i3;
             }
 
-            var6 = var9;
-            var7 = var10;
-            var8 = var11;
+            i1 = l1;
+            j1 = i2;
+            k1 = j2;
 
-            for (var12 = 0; var6 != par2 || var7 != par3 || var8 != par4; var8 = var16)
+            for (k2 = 0; i1 != par2 || j1 != par3 || k1 != par4; k1 = j3)
             {
-                var14 = var6 - Facing.offsetsXForSide[par5];
-                var15 = var7 - Facing.offsetsYForSide[par5];
-                var16 = var8 - Facing.offsetsZForSide[par5];
-                par1World.notifyBlocksOfNeighborChange(var14, var15, var16, var13[var12++]);
-                var6 = var14;
-                var7 = var15;
+                l2 = i1 - Facing.offsetsXForSide[par5];
+                i3 = j1 - Facing.offsetsYForSide[par5];
+                j3 = k1 - Facing.offsetsZForSide[par5];
+                par1World.notifyBlocksOfNeighborChange(l2, i3, j3, aint[k2++]);
+                i1 = l2;
+                j1 = i3;
             }
 
             return true;

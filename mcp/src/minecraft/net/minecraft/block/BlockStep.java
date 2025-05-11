@@ -30,14 +30,14 @@ public class BlockStep extends BlockHalfSlab
      */
     public Icon getIcon(int par1, int par2)
     {
-        int var3 = par2 & 7;
+        int k = par2 & 7;
 
         if (this.isDoubleSlab && (par2 & 8) != 0)
         {
             par1 = 1;
         }
 
-        return var3 == 0 ? (par1 != 1 && par1 != 0 ? this.theIcon : this.blockIcon) : (var3 == 1 ? Block.sandStone.getBlockTextureFromSide(par1) : (var3 == 2 ? Block.planks.getBlockTextureFromSide(par1) : (var3 == 3 ? Block.cobblestone.getBlockTextureFromSide(par1) : (var3 == 4 ? Block.brick.getBlockTextureFromSide(par1) : (var3 == 5 ? Block.stoneBrick.getIcon(par1, 0) : (var3 == 6 ? Block.netherBrick.getBlockTextureFromSide(1) : (var3 == 7 ? Block.blockNetherQuartz.getBlockTextureFromSide(par1) : this.blockIcon)))))));
+        return k == 0 ? (par1 != 1 && par1 != 0 ? this.theIcon : this.blockIcon) : (k == 1 ? Block.sandStone.getBlockTextureFromSide(par1) : (k == 2 ? Block.planks.getBlockTextureFromSide(par1) : (k == 3 ? Block.cobblestone.getBlockTextureFromSide(par1) : (k == 4 ? Block.brick.getBlockTextureFromSide(par1) : (k == 5 ? Block.stoneBrick.getIcon(par1, 0) : (k == 6 ? Block.netherBrick.getBlockTextureFromSide(1) : (k == 7 ? Block.blockNetherQuartz.getBlockTextureFromSide(par1) : this.blockIcon)))))));
     }
 
     @SideOnly(Side.CLIENT)
@@ -91,11 +91,11 @@ public class BlockStep extends BlockHalfSlab
     {
         if (par1 != Block.stoneDoubleSlab.blockID)
         {
-            for (int var4 = 0; var4 <= 7; ++var4)
+            for (int j = 0; j <= 7; ++j)
             {
-                if (var4 != 2)
+                if (j != 2)
                 {
-                    par3List.add(new ItemStack(par1, 1, var4));
+                    par3List.add(new ItemStack(par1, 1, j));
                 }
             }
         }

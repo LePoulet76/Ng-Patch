@@ -71,35 +71,35 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
      */
     public void notifyAdmins(ICommandSender par1ICommandSender, int par2, String par3Str, Object ... par4ArrayOfObj)
     {
-        boolean var5 = true;
+        boolean flag = true;
 
         if (par1ICommandSender instanceof TileEntityCommandBlock && !MinecraftServer.getServer().worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput"))
         {
-            var5 = false;
+            flag = false;
         }
 
-        ChatMessageComponent var6 = ChatMessageComponent.createFromTranslationWithSubstitutions("chat.type.admin", new Object[] {par1ICommandSender.getCommandSenderName(), ChatMessageComponent.createFromTranslationWithSubstitutions(par3Str, par4ArrayOfObj)});
-        var6.setColor(EnumChatFormatting.GRAY);
-        var6.setItalic(Boolean.valueOf(true));
+        ChatMessageComponent chatmessagecomponent = ChatMessageComponent.createFromTranslationWithSubstitutions("chat.type.admin", new Object[] {par1ICommandSender.getCommandSenderName(), ChatMessageComponent.createFromTranslationWithSubstitutions(par3Str, par4ArrayOfObj)});
+        chatmessagecomponent.setColor(EnumChatFormatting.GRAY);
+        chatmessagecomponent.setItalic(Boolean.valueOf(true));
 
-        if (var5)
+        if (flag)
         {
-            Iterator var7 = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator();
+            Iterator iterator = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator();
 
-            while (var7.hasNext())
+            while (iterator.hasNext())
             {
-                EntityPlayerMP var8 = (EntityPlayerMP)var7.next();
+                EntityPlayerMP entityplayermp = (EntityPlayerMP)iterator.next();
 
-                if (var8 != par1ICommandSender && MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(var8.getCommandSenderName()))
+                if (entityplayermp != par1ICommandSender && MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(entityplayermp.getCommandSenderName()))
                 {
-                    var8.sendChatToPlayer(var6);
+                    entityplayermp.sendChatToPlayer(chatmessagecomponent);
                 }
             }
         }
 
         if (par1ICommandSender != MinecraftServer.getServer())
         {
-            MinecraftServer.getServer().sendChatToPlayer(var6);
+            MinecraftServer.getServer().sendChatToPlayer(chatmessagecomponent);
         }
 
         if ((par2 & 1) != 1)

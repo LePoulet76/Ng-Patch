@@ -31,27 +31,27 @@ public class TileEntityEnderChest extends TileEntity
         }
 
         this.prevLidAngle = this.lidAngle;
-        float var1 = 0.1F;
-        double var4;
+        float f = 0.1F;
+        double d0;
 
         if (this.numUsingPlayers > 0 && this.lidAngle == 0.0F)
         {
-            double var2 = (double)this.xCoord + 0.5D;
-            var4 = (double)this.zCoord + 0.5D;
-            this.worldObj.playSoundEffect(var2, (double)this.yCoord + 0.5D, var4, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+            double d1 = (double)this.xCoord + 0.5D;
+            d0 = (double)this.zCoord + 0.5D;
+            this.worldObj.playSoundEffect(d1, (double)this.yCoord + 0.5D, d0, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
         }
 
         if (this.numUsingPlayers == 0 && this.lidAngle > 0.0F || this.numUsingPlayers > 0 && this.lidAngle < 1.0F)
         {
-            float var8 = this.lidAngle;
+            float f1 = this.lidAngle;
 
             if (this.numUsingPlayers > 0)
             {
-                this.lidAngle += var1;
+                this.lidAngle += f;
             }
             else
             {
-                this.lidAngle -= var1;
+                this.lidAngle -= f;
             }
 
             if (this.lidAngle > 1.0F)
@@ -59,13 +59,13 @@ public class TileEntityEnderChest extends TileEntity
                 this.lidAngle = 1.0F;
             }
 
-            float var3 = 0.5F;
+            float f2 = 0.5F;
 
-            if (this.lidAngle < var3 && var8 >= var3)
+            if (this.lidAngle < f2 && f1 >= f2)
             {
-                var4 = (double)this.xCoord + 0.5D;
-                double var6 = (double)this.zCoord + 0.5D;
-                this.worldObj.playSoundEffect(var4, (double)this.yCoord + 0.5D, var6, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+                d0 = (double)this.xCoord + 0.5D;
+                double d2 = (double)this.zCoord + 0.5D;
+                this.worldObj.playSoundEffect(d0, (double)this.yCoord + 0.5D, d2, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
             }
 
             if (this.lidAngle < 0.0F)

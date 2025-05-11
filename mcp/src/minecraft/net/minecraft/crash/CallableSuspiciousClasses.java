@@ -19,124 +19,117 @@ class CallableSuspiciousClasses implements Callable
 
     public String callSuspiciousClasses() throws SecurityException, NoSuchFieldException, IllegalAccessException, IllegalArgumentException
     {
-        StringBuilder var1 = new StringBuilder();
-        ArrayList var3;
+        StringBuilder stringbuilder = new StringBuilder();
+        ArrayList arraylist;
 
         try
         {
-            Field var2 = ClassLoader.class.getDeclaredField("classes");
-            var2.setAccessible(true);
-            var3 = new ArrayList((Vector)var2.get(CrashReport.class.getClassLoader()));
+            Field field = ClassLoader.class.getDeclaredField("classes");
+            field.setAccessible(true);
+            arraylist = new ArrayList((Vector)field.get(CrashReport.class.getClassLoader()));
         }
         catch (Exception ex)
         {
             return "";
         }
 
-        boolean var4 = true;
-        boolean var5 = !CrashReport.class.getCanonicalName().equals("net.minecraft.CrashReport");
-        HashMap var6 = new HashMap();
-        String var7 = "";
-        Collections.sort(var3, new ComparatorClassSorter(this));
-        Iterator var8 = var3.iterator();
+        boolean flag = true;
+        boolean flag1 = !CrashReport.class.getCanonicalName().equals("net.minecraft.CrashReport");
+        HashMap hashmap = new HashMap();
+        String s = "";
+        Collections.sort(arraylist, new ComparatorClassSorter(this));
+        Iterator iterator = arraylist.iterator();
 
-        while (var8.hasNext())
+        while (iterator.hasNext())
         {
-            Class var9 = (Class)var8.next();
+            Class oclass = (Class)iterator.next();
 
-            if (var9 != null)
+            if (oclass != null)
             {
-                String var10 = var9.getCanonicalName();
+                String s1 = oclass.getCanonicalName();
 
-                if (var10 != null && !var10.startsWith("org.lwjgl.") && !var10.startsWith("paulscode.") && !var10.startsWith("org.bouncycastle.") && !var10.startsWith("argo.") && !var10.startsWith("com.jcraft.") && !var10.startsWith("com.fasterxml.") && !var10.startsWith("com.google.") && !var10.startsWith("joptsimple.") && !var10.startsWith("org.apache.") && !var10.equals("util.GLX"))
+                if (s1 != null && !s1.startsWith("org.lwjgl.") && !s1.startsWith("paulscode.") && !s1.startsWith("org.bouncycastle.") && !s1.startsWith("argo.") && !s1.startsWith("com.jcraft.") && !s1.startsWith("com.fasterxml.") && !s1.startsWith("com.google.") && !s1.startsWith("joptsimple.") && !s1.startsWith("org.apache.") && !s1.equals("util.GLX"))
                 {
-                    if (var5)
+                    if (flag1)
                     {
-                        if (var10.length() <= 3 || var10.equals("net.minecraft.client.main.Main") || var10.equals("net.minecraft.client.Minecraft") || var10.equals("net.minecraft.client.ClientBrandRetriever") || var10.equals("net.minecraft.server.MinecraftServer"))
+                        if (s1.length() <= 3 || s1.equals("net.minecraft.client.main.Main") || s1.equals("net.minecraft.client.Minecraft") || s1.equals("net.minecraft.client.ClientBrandRetriever") || s1.equals("net.minecraft.server.MinecraftServer"))
                         {
                             continue;
                         }
                     }
-                    else if (var10.startsWith("net.minecraft"))
+                    else if (s1.startsWith("net.minecraft"))
                     {
                         continue;
                     }
 
-                    Package var11 = var9.getPackage();
-                    String var12 = var11 == null ? "" : var11.getName();
+                    Package opackage = oclass.getPackage();
+                    String s2 = opackage == null ? "" : opackage.getName();
 
-                    if (var6.containsKey(var12))
+                    if (hashmap.containsKey(s2))
                     {
-                        int var13 = ((Integer)var6.get(var12)).intValue();
-                        var6.put(var12, Integer.valueOf(var13 + 1));
+                        int i = ((Integer)hashmap.get(s2)).intValue();
+                        hashmap.put(s2, Integer.valueOf(i + 1));
 
-                        if (var13 == 3)
+                        if (i == 3)
                         {
-                            if (!var4)
+                            if (!flag)
                             {
-                                var1.append(", ");
+                                stringbuilder.append(", ");
                             }
 
-                            var1.append("...");
-                            var4 = false;
+                            stringbuilder.append("...");
+                            flag = false;
                             continue;
                         }
 
-                        if (var13 > 3)
+                        if (i > 3)
                         {
                             continue;
                         }
                     }
                     else
                     {
-                        var6.put(var12, Integer.valueOf(1));
+                        hashmap.put(s2, Integer.valueOf(1));
                     }
 
-                    if (!var7.equals(var12) && var7.length() > 0)
+                    if (!s.equals(s2) && s.length() > 0)
                     {
-                        var1.append("], ");
+                        stringbuilder.append("], ");
                     }
 
-                    if (!var4 && var7.equals(var12))
+                    if (!flag && s.equals(s2))
                     {
-                        var1.append(", ");
+                        stringbuilder.append(", ");
                     }
 
-                    if (!var7.equals(var12))
+                    if (!s.equals(s2))
                     {
-                        var1.append("[");
-                        var1.append(var12);
-                        var1.append(".");
+                        stringbuilder.append("[");
+                        stringbuilder.append(s2);
+                        stringbuilder.append(".");
                     }
 
-                    var1.append(var9.getSimpleName());
-                    var7 = var12;
-                    var4 = false;
+                    stringbuilder.append(oclass.getSimpleName());
+                    s = s2;
+                    flag = false;
                 }
             }
         }
 
-        if (var4)
+        if (flag)
         {
-            var1.append("No suspicious classes found.");
+            stringbuilder.append("No suspicious classes found.");
         }
         else
         {
-            var1.append("]");
+            stringbuilder.append("]");
         }
 
-        return var1.toString();
+        return stringbuilder.toString();
     }
 
     public Object call()
     {
-        try
-        {
-            return this.callSuspiciousClasses();
-        }
-        catch (Exception ex)
-        {
-            return null;
-        }
+        return "FML and Forge are installed";
     }
 }

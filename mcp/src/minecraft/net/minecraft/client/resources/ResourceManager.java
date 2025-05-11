@@ -12,7 +12,7 @@ public interface ResourceManager
 {
     Set getResourceDomains();
 
-    Resource getResource(ResourceLocation var1) throws IOException;
+    Resource getResource(ResourceLocation resourcelocation) throws IOException;
 
-    List getAllResources(ResourceLocation var1) throws IOException;
+    List getAllResources(ResourceLocation resourcelocation) throws IOException;
 }

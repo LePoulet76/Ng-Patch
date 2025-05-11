@@ -49,6 +49,9 @@ import net.minecraft.util.MouseFilter;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.Session;
 import net.minecraft.world.World;
+import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 
 @SideOnly(Side.CLIENT)
 public class EntityPlayerSP extends AbstractClientPlayer
@@ -187,9 +190,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 --this.timeUntilPortal;
             }
 
-            boolean var1 = this.movementInput.jump;
-            float var2 = 0.8F;
-            boolean var3 = this.movementInput.moveForward >= var2;
+            boolean flag = this.movementInput.jump;
+            float f = 0.8F;
+            boolean flag1 = this.movementInput.moveForward >= f;
             this.movementInput.updatePlayerMoveState();
 
             if (this.isUsingItem() && !this.isRiding())
@@ -208,9 +211,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
             this.pushOutOfBlocks(this.posX - (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ - (double)this.width * 0.35D);
             this.pushOutOfBlocks(this.posX + (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ - (double)this.width * 0.35D);
             this.pushOutOfBlocks(this.posX + (double)this.width * 0.35D, this.boundingBox.minY + 0.5D, this.posZ + (double)this.width * 0.35D);
-            boolean var4 = (float)this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
+            boolean flag2 = (float)this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
 
-            if (this.onGround && !var3 && this.movementInput.moveForward >= var2 && !this.isSprinting() && var4 && !this.isUsingItem() && !this.isPotionActive(Potion.blindness))
+            if (this.onGround && !flag1 && this.movementInput.moveForward >= f && !this.isSprinting() && flag2 && !this.isUsingItem() && !this.isPotionActive(Potion.blindness))
             {
                 if (this.sprintToggleTimer == 0)
                 {
@@ -228,12 +231,12 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.sprintToggleTimer = 0;
             }
 
-            if (this.isSprinting() && (this.movementInput.moveForward < var2 || this.isCollidedHorizontally || !var4))
+            if (this.isSprinting() && (this.movementInput.moveForward < f || this.isCollidedHorizontally || !flag2))
             {
                 this.setSprinting(false);
             }
 
-            if (this.capabilities.allowFlying && !var1 && this.movementInput.jump)
+            if (this.capabilities.allowFlying && !flag && this.movementInput.jump)
             {
                 if (this.flyToggleTimer == 0)
                 {
@@ -272,17 +275,17 @@ public class EntityPlayerSP extends AbstractClientPlayer
                     }
                 }
 
-                if (var1 && !this.movementInput.jump)
+                if (flag && !this.movementInput.jump)
                 {
                     this.horseJumpPowerCounter = -10;
                     this.func_110318_g();
                 }
-                else if (!var1 && this.movementInput.jump)
+                else if (!flag && this.movementInput.jump)
                 {
                     this.horseJumpPowerCounter = 0;
                     this.horseJumpPower = 0.0F;
                 }
-                else if (var1)
+                else if (flag)
                 {
                     ++this.horseJumpPowerCounter;
 
@@ -316,34 +319,34 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public float getFOVMultiplier()
     {
-        float var1 = 1.0F;
+        float f = 1.0F;
 
         if (this.capabilities.isFlying)
         {
-            var1 *= 1.1F;
+            f *= 1.1F;
         }
 
-        AttributeInstance var2 = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-        var1 = (float)((double)var1 * ((var2.getAttributeValue() / (double)this.capabilities.getWalkSpeed() + 1.0D) / 2.0D));
+        AttributeInstance attributeinstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+        f = (float)((double)f * ((attributeinstance.getAttributeValue() / (double)this.capabilities.getWalkSpeed() + 1.0D) / 2.0D));
 
         if (this.isUsingItem() && this.getItemInUse().itemID == Item.bow.itemID)
         {
-            int var3 = this.getItemInUseDuration();
-            float var4 = (float)var3 / 20.0F;
+            int i = this.getItemInUseDuration();
+            float f1 = (float)i / 20.0F;
 
-            if (var4 > 1.0F)
+            if (f1 > 1.0F)
             {
-                var4 = 1.0F;
+                f1 = 1.0F;
             }
             else
             {
-                var4 *= var4;
+                f1 *= f1;
             }
 
-            var1 *= 1.0F - var4 * 0.15F;
+            f *= 1.0F - f1 * 0.15F;
         }
 
-        return var1;
+        return ForgeHooksClient.getOffsetFOV(this, f);
     }
 
     /**
@@ -375,13 +378,13 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void displayGUIBook(ItemStack par1ItemStack)
     {
-        Item var2 = par1ItemStack.getItem();
+        Item item = par1ItemStack.getItem();
 
-        if (var2 == Item.writtenBook)
+        if (item == Item.writtenBook)
         {
             this.mc.displayGuiScreen(new GuiScreenBook(this, par1ItemStack, false));
         }
-        else if (var2 == Item.writableBook)
+        else if (item == Item.writableBook)
         {
             this.mc.displayGuiScreen(new GuiScreenBook(this, par1ItemStack, true));
         }
@@ -478,8 +481,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     public void onEnchantmentCritical(Entity par1Entity)
     {
-        EntityCrit2FX var2 = new EntityCrit2FX(this.mc.theWorld, par1Entity, "magicCrit");
-        this.mc.effectRenderer.addEffect(var2);
+        EntityCrit2FX entitycrit2fx = new EntityCrit2FX(this.mc.theWorld, par1Entity, "magicCrit");
+        this.mc.effectRenderer.addEffect(entitycrit2fx);
     }
 
     /**
@@ -503,23 +506,23 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void setPlayerSPHealth(float par1)
     {
-        float var2 = this.getHealth() - par1;
+        float f1 = this.getHealth() - par1;
 
-        if (var2 <= 0.0F)
+        if (f1 <= 0.0F)
         {
             this.setHealth(par1);
 
-            if (var2 < 0.0F)
+            if (f1 < 0.0F)
             {
                 this.hurtResistantTime = this.maxHurtResistantTime / 2;
             }
         }
         else
         {
-            this.lastDamage = var2;
+            this.lastDamage = f1;
             this.setHealth(this.getHealth());
             this.hurtResistantTime = this.maxHurtResistantTime;
-            this.damageEntity(DamageSource.generic, var2);
+            this.damageEntity(DamageSource.generic, f1);
             this.hurtTime = this.maxHurtTime = 10;
         }
     }
@@ -541,13 +544,13 @@ public class EntityPlayerSP extends AbstractClientPlayer
         {
             if (par1StatBase.isAchievement())
             {
-                Achievement var3 = (Achievement)par1StatBase;
+                Achievement achievement = (Achievement)par1StatBase;
 
-                if (var3.parentAchievement == null || this.mc.statFileWriter.hasAchievementUnlocked(var3.parentAchievement))
+                if (achievement.parentAchievement == null || this.mc.statFileWriter.hasAchievementUnlocked(achievement.parentAchievement))
                 {
-                    if (!this.mc.statFileWriter.hasAchievementUnlocked(var3))
+                    if (!this.mc.statFileWriter.hasAchievementUnlocked(achievement))
                     {
-                        this.mc.guiAchievement.queueTakenAchievement(var3);
+                        this.mc.guiAchievement.queueTakenAchievement(achievement);
                     }
 
                     this.mc.statFileWriter.readStat(par1StatBase, par2);
@@ -570,65 +573,113 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     protected boolean pushOutOfBlocks(double par1, double par3, double par5)
     {
-        int var7 = MathHelper.floor_double(par1);
-        int var8 = MathHelper.floor_double(par3);
-        int var9 = MathHelper.floor_double(par5);
-        double var10 = par1 - (double)var7;
-        double var12 = par5 - (double)var9;
-
-        if (this.isBlockTranslucent(var7, var8, var9) || this.isBlockTranslucent(var7, var8 + 1, var9))
+        if (this.noClip)
         {
-            boolean var14 = !this.isBlockTranslucent(var7 - 1, var8, var9) && !this.isBlockTranslucent(var7 - 1, var8 + 1, var9);
-            boolean var15 = !this.isBlockTranslucent(var7 + 1, var8, var9) && !this.isBlockTranslucent(var7 + 1, var8 + 1, var9);
-            boolean var16 = !this.isBlockTranslucent(var7, var8, var9 - 1) && !this.isBlockTranslucent(var7, var8 + 1, var9 - 1);
-            boolean var17 = !this.isBlockTranslucent(var7, var8, var9 + 1) && !this.isBlockTranslucent(var7, var8 + 1, var9 + 1);
-            byte var18 = -1;
-            double var19 = 9999.0D;
+            return false;
+        }
+        int i = MathHelper.floor_double(par1);
+        int j = MathHelper.floor_double(par3);
+        int k = MathHelper.floor_double(par5);
+        double d3 = par1 - (double)i;
+        double d4 = par5 - (double)k;
 
-            if (var14 && var10 < var19)
+        int entHeight = Math.max(Math.round(this.height), 1);
+        
+        boolean inTranslucentBlock = true;
+        
+        for (int i1 = 0; i1 < entHeight; i1++)
+        {
+            if (!this.isBlockTranslucent(i, j + i1, k))
             {
-                var19 = var10;
-                var18 = 0;
+                inTranslucentBlock = false;
+            }
+        }
+        
+        if (inTranslucentBlock)
+        {
+            boolean flag = true;
+            boolean flag1 = true;
+            boolean flag2 = true;
+            boolean flag3 = true;
+            for (int i1 = 0; i1 < entHeight; i1++)
+            {
+                if(this.isBlockTranslucent(i - 1, j + i1, k))
+                {
+            	    flag = false;
+            	    break;
+                }
+            }
+            for (int i1 = 0; i1 < entHeight; i1++)
+            {
+                if(this.isBlockTranslucent(i + 1, j + i1, k))
+                {
+            	    flag1 = false;
+            	    break;
+                }
+            }
+            for (int i1 = 0; i1 < entHeight; i1++)
+            {
+                if(this.isBlockTranslucent(i, j + i1, k - 1))
+                {
+            	    flag2 = false;
+            	    break;
+                }
+            }
+            for (int i1 = 0; i1 < entHeight; i1++)
+            {
+                if(this.isBlockTranslucent(i, j + i1, k + 1))
+                {
+            	    flag3 = false;
+            	    break;
+                }
+            }
+            byte b0 = -1;
+            double d5 = 9999.0D;
+
+            if (flag && d3 < d5)
+            {
+                d5 = d3;
+                b0 = 0;
             }
 
-            if (var15 && 1.0D - var10 < var19)
+            if (flag1 && 1.0D - d3 < d5)
             {
-                var19 = 1.0D - var10;
-                var18 = 1;
+                d5 = 1.0D - d3;
+                b0 = 1;
             }
 
-            if (var16 && var12 < var19)
+            if (flag2 && d4 < d5)
             {
-                var19 = var12;
-                var18 = 4;
+                d5 = d4;
+                b0 = 4;
             }
 
-            if (var17 && 1.0D - var12 < var19)
+            if (flag3 && 1.0D - d4 < d5)
             {
-                var19 = 1.0D - var12;
-                var18 = 5;
+                d5 = 1.0D - d4;
+                b0 = 5;
             }
 
-            float var21 = 0.1F;
+            float f = 0.1F;
 
-            if (var18 == 0)
+            if (b0 == 0)
             {
-                this.motionX = (double)(-var21);
+                this.motionX = (double)(-f);
             }
 
-            if (var18 == 1)
+            if (b0 == 1)
             {
-                this.motionX = (double)var21;
+                this.motionX = (double)f;
             }
 
-            if (var18 == 4)
+            if (b0 == 4)
             {
-                this.motionZ = (double)(-var21);
+                this.motionZ = (double)(-f);
             }
 
-            if (var18 == 5)
+            if (b0 == 5)
             {
-                this.motionZ = (double)var21;
+                this.motionZ = (double)f;
             }
         }
 
@@ -685,6 +736,12 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     public void playSound(String par1Str, float par2, float par3)
     {
+        PlaySoundAtEntityEvent event = new PlaySoundAtEntityEvent(this, par1Str, par2, par3);
+        if (MinecraftForge.EVENT_BUS.post(event))
+        {
+            return;
+        }
+        par1Str = event.name;
         this.worldObj.playSound(this.posX, this.posY - (double)this.yOffset, this.posZ, par1Str, par2, par3, false);
     }
 

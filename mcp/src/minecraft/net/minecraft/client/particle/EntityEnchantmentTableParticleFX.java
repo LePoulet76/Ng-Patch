@@ -21,9 +21,9 @@ public class EntityEnchantmentTableParticleFX extends EntityFX
         this.field_70568_aq = this.posX = par2;
         this.field_70567_ar = this.posY = par4;
         this.field_70566_as = this.posZ = par6;
-        float var14 = this.rand.nextFloat() * 0.6F + 0.4F;
+        float f = this.rand.nextFloat() * 0.6F + 0.4F;
         this.field_70565_a = this.particleScale = this.rand.nextFloat() * 0.5F + 0.2F;
-        this.particleRed = this.particleGreen = this.particleBlue = 1.0F * var14;
+        this.particleRed = this.particleGreen = this.particleBlue = 1.0F * f;
         this.particleGreen *= 0.9F;
         this.particleRed *= 0.9F;
         this.particleMaxAge = (int)(Math.random() * 10.0D) + 30;
@@ -33,20 +33,20 @@ public class EntityEnchantmentTableParticleFX extends EntityFX
 
     public int getBrightnessForRender(float par1)
     {
-        int var2 = super.getBrightnessForRender(par1);
-        float var3 = (float)this.particleAge / (float)this.particleMaxAge;
-        var3 *= var3;
-        var3 *= var3;
-        int var4 = var2 & 255;
-        int var5 = var2 >> 16 & 255;
-        var5 += (int)(var3 * 15.0F * 16.0F);
+        int i = super.getBrightnessForRender(par1);
+        float f1 = (float)this.particleAge / (float)this.particleMaxAge;
+        f1 *= f1;
+        f1 *= f1;
+        int j = i & 255;
+        int k = i >> 16 & 255;
+        k += (int)(f1 * 15.0F * 16.0F);
 
-        if (var5 > 240)
+        if (k > 240)
         {
-            var5 = 240;
+            k = 240;
         }
 
-        return var4 | var5 << 16;
+        return j | k << 16;
     }
 
     /**
@@ -54,11 +54,11 @@ public class EntityEnchantmentTableParticleFX extends EntityFX
      */
     public float getBrightness(float par1)
     {
-        float var2 = super.getBrightness(par1);
-        float var3 = (float)this.particleAge / (float)this.particleMaxAge;
-        var3 *= var3;
-        var3 *= var3;
-        return var2 * (1.0F - var3) + var3;
+        float f1 = super.getBrightness(par1);
+        float f2 = (float)this.particleAge / (float)this.particleMaxAge;
+        f2 *= f2;
+        f2 *= f2;
+        return f1 * (1.0F - f2) + f2;
     }
 
     /**
@@ -69,14 +69,14 @@ public class EntityEnchantmentTableParticleFX extends EntityFX
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
-        float var1 = (float)this.particleAge / (float)this.particleMaxAge;
-        var1 = 1.0F - var1;
-        float var2 = 1.0F - var1;
-        var2 *= var2;
-        var2 *= var2;
-        this.posX = this.field_70568_aq + this.motionX * (double)var1;
-        this.posY = this.field_70567_ar + this.motionY * (double)var1 - (double)(var2 * 1.2F);
-        this.posZ = this.field_70566_as + this.motionZ * (double)var1;
+        float f = (float)this.particleAge / (float)this.particleMaxAge;
+        f = 1.0F - f;
+        float f1 = 1.0F - f;
+        f1 *= f1;
+        f1 *= f1;
+        this.posX = this.field_70568_aq + this.motionX * (double)f;
+        this.posY = this.field_70567_ar + this.motionY * (double)f - (double)(f1 * 1.2F);
+        this.posZ = this.field_70566_as + this.motionZ * (double)f;
 
         if (this.particleAge++ >= this.particleMaxAge)
         {

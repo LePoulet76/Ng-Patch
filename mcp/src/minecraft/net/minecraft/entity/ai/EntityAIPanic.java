@@ -29,17 +29,17 @@ public class EntityAIPanic extends EntityAIBase
         }
         else
         {
-            Vec3 var1 = RandomPositionGenerator.findRandomTarget(this.theEntityCreature, 5, 4);
+            Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.theEntityCreature, 5, 4);
 
-            if (var1 == null)
+            if (vec3 == null)
             {
                 return false;
             }
             else
             {
-                this.randPosX = var1.xCoord;
-                this.randPosY = var1.yCoord;
-                this.randPosZ = var1.zCoord;
+                this.randPosX = vec3.xCoord;
+                this.randPosY = vec3.yCoord;
+                this.randPosZ = vec3.zCoord;
                 return true;
             }
         }

@@ -1,6 +1,13 @@
 package net.minecraft.entity.item;
 
 import java.util.Iterator;
+
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.Event.Result;
+import net.minecraftforge.event.entity.item.ItemExpireEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -28,6 +35,11 @@ public class EntityItem extends Entity
     /** The EntityItem's random initial float height. */
     public float hoverStart;
 
+    /**
+     * The maximum age of this EntityItem.  The item is expired once this is reached.
+     */
+    public int lifespan = 6000;
+
     public EntityItem(World par1World, double par2, double par4, double par6)
     {
         super(par1World);
@@ -46,6 +58,7 @@ public class EntityItem extends Entity
     {
         this(par1World, par2, par4, par6);
         this.setEntityItemStack(par8ItemStack);
+        this.lifespan = (par8ItemStack.getItem() == null ? 6000 : par8ItemStack.getItem().getEntityLifespan(par8ItemStack, par1World));
     }
 
     /**
@@ -76,6 +89,15 @@ public class EntityItem extends Entity
      */
     public void onUpdate()
     {
+        ItemStack stack = this.getDataWatcher().getWatchableObjectItemStack(10);
+        if (stack != null && stack.getItem() != null)
+        {
+            if (stack.getItem().onEntityItemUpdate(this))
+            {
+                return;
+            }
+        }
+
         super.onUpdate();
 
         if (this.delayBeforeCanPickup > 0)
@@ -89,9 +111,9 @@ public class EntityItem extends Entity
         this.motionY -= 0.03999999910593033D;
         this.noClip = this.pushOutOfBlocks(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        boolean var1 = (int)this.prevPosX != (int)this.posX || (int)this.prevPosY != (int)this.posY || (int)this.prevPosZ != (int)this.posZ;
+        boolean flag = (int)this.prevPosX != (int)this.posX || (int)this.prevPosY != (int)this.posY || (int)this.prevPosZ != (int)this.posZ;
 
-        if (var1 || this.ticksExisted % 25 == 0)
+        if (flag || this.ticksExisted % 25 == 0)
         {
             if (this.worldObj.getBlockMaterial(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)) == Material.lava)
             {
@@ -107,22 +129,22 @@ public class EntityItem extends Entity
             }
         }
 
-        float var2 = 0.98F;
+        float f = 0.98F;
 
         if (this.onGround)
         {
-            var2 = 0.58800006F;
-            int var3 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+            f = 0.58800006F;
+            int i = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
 
-            if (var3 > 0)
+            if (i > 0)
             {
-                var2 = Block.blocksList[var3].slipperiness * 0.98F;
+                f = Block.blocksList[i].slipperiness * 0.98F;
             }
         }
 
-        this.motionX *= (double)var2;
+        this.motionX *= (double)f;
         this.motionY *= 0.9800000190734863D;
-        this.motionZ *= (double)var2;
+        this.motionZ *= (double)f;
 
         if (this.onGround)
         {
@@ -131,7 +153,29 @@ public class EntityItem extends Entity
 
         ++this.age;
 
-        if (!this.worldObj.isRemote && this.age >= 6000)
+        ItemStack item = getDataWatcher().getWatchableObjectItemStack(10);
+
+        if (!this.worldObj.isRemote && this.age >= lifespan)
+        {
+            if (item != null)
+            {   
+                ItemExpireEvent event = new ItemExpireEvent(this, (item.getItem() == null ? 6000 : item.getItem().getEntityLifespan(item, worldObj)));
+                if (MinecraftForge.EVENT_BUS.post(event))
+                {
+                    lifespan += event.extraLife;
+                }
+                else
+                {
+                    this.setDead();
+                }
+            }
+            else
+            {
+                this.setDead();
+            }
+        }
+
+        if (item != null && item.stackSize <= 0)
         {
             this.setDead();
         }
@@ -142,12 +186,12 @@ public class EntityItem extends Entity
      */
     private void searchForOtherItemsNearby()
     {
-        Iterator var1 = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.boundingBox.expand(0.5D, 0.0D, 0.5D)).iterator();
+        Iterator iterator = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.boundingBox.expand(0.5D, 0.0D, 0.5D)).iterator();
 
-        while (var1.hasNext())
+        while (iterator.hasNext())
         {
-            EntityItem var2 = (EntityItem)var1.next();
-            this.combineItems(var2);
+            EntityItem entityitem = (EntityItem)iterator.next();
+            this.combineItems(entityitem);
         }
     }
 
@@ -163,39 +207,39 @@ public class EntityItem extends Entity
         }
         else if (par1EntityItem.isEntityAlive() && this.isEntityAlive())
         {
-            ItemStack var2 = this.getEntityItem();
-            ItemStack var3 = par1EntityItem.getEntityItem();
+            ItemStack itemstack = this.getEntityItem();
+            ItemStack itemstack1 = par1EntityItem.getEntityItem();
 
-            if (var3.getItem() != var2.getItem())
+            if (itemstack1.getItem() != itemstack.getItem())
             {
                 return false;
             }
-            else if (var3.hasTagCompound() ^ var2.hasTagCompound())
+            else if (itemstack1.hasTagCompound() ^ itemstack.hasTagCompound())
             {
                 return false;
             }
-            else if (var3.hasTagCompound() && !var3.getTagCompound().equals(var2.getTagCompound()))
+            else if (itemstack1.hasTagCompound() && !itemstack1.getTagCompound().equals(itemstack.getTagCompound()))
             {
                 return false;
             }
-            else if (var3.getItem().getHasSubtypes() && var3.getItemDamage() != var2.getItemDamage())
+            else if (itemstack1.getItem().getHasSubtypes() && itemstack1.getItemDamage() != itemstack.getItemDamage())
             {
                 return false;
             }
-            else if (var3.stackSize < var2.stackSize)
+            else if (itemstack1.stackSize < itemstack.stackSize)
             {
                 return par1EntityItem.combineItems(this);
             }
-            else if (var3.stackSize + var2.stackSize > var3.getMaxStackSize())
+            else if (itemstack1.stackSize + itemstack.stackSize > itemstack1.getMaxStackSize())
             {
                 return false;
             }
             else
             {
-                var3.stackSize += var2.stackSize;
+                itemstack1.stackSize += itemstack.stackSize;
                 par1EntityItem.delayBeforeCanPickup = Math.max(par1EntityItem.delayBeforeCanPickup, this.delayBeforeCanPickup);
                 par1EntityItem.age = Math.min(par1EntityItem.age, this.age);
-                par1EntityItem.setEntityItemStack(var3);
+                par1EntityItem.setEntityItemStack(itemstack1);
                 this.setDead();
                 return true;
             }
@@ -266,6 +310,7 @@ public class EntityItem extends Entity
     {
         par1NBTTagCompound.setShort("Health", (short)((byte)this.health));
         par1NBTTagCompound.setShort("Age", (short)this.age);
+        par1NBTTagCompound.setInteger("Lifespan", lifespan);
 
         if (this.getEntityItem() != null)
         {
@@ -280,12 +325,19 @@ public class EntityItem extends Entity
     {
         this.health = par1NBTTagCompound.getShort("Health") & 255;
         this.age = par1NBTTagCompound.getShort("Age");
-        NBTTagCompound var2 = par1NBTTagCompound.getCompoundTag("Item");
-        this.setEntityItemStack(ItemStack.loadItemStackFromNBT(var2));
+        NBTTagCompound nbttagcompound1 = par1NBTTagCompound.getCompoundTag("Item");
+        this.setEntityItemStack(ItemStack.loadItemStackFromNBT(nbttagcompound1));
 
-        if (this.getEntityItem() == null)
+        ItemStack item = getDataWatcher().getWatchableObjectItemStack(10);
+
+        if (item == null || item.stackSize <= 0)
         {
             this.setDead();
+        }
+
+        if (par1NBTTagCompound.hasKey("Lifespan"))
+        {
+            lifespan = par1NBTTagCompound.getInteger("Lifespan");
         }
     }
 
@@ -296,35 +348,49 @@ public class EntityItem extends Entity
     {
         if (!this.worldObj.isRemote)
         {
-            ItemStack var2 = this.getEntityItem();
-            int var3 = var2.stackSize;
-
-            if (this.delayBeforeCanPickup == 0 && par1EntityPlayer.inventory.addItemStackToInventory(var2))
+            if (this.delayBeforeCanPickup > 0)
             {
-                if (var2.itemID == Block.wood.blockID)
+                return;
+            }
+
+            EntityItemPickupEvent event = new EntityItemPickupEvent(par1EntityPlayer, this);
+
+            if (MinecraftForge.EVENT_BUS.post(event))
+            {
+                return;
+            }
+
+            ItemStack itemstack = this.getEntityItem();
+            int i = itemstack.stackSize;
+
+            if (this.delayBeforeCanPickup <= 0 && (event.getResult() == Result.ALLOW || i <= 0 || par1EntityPlayer.inventory.addItemStackToInventory(itemstack)))
+            {
+                if (itemstack.itemID == Block.wood.blockID)
                 {
                     par1EntityPlayer.triggerAchievement(AchievementList.mineWood);
                 }
 
-                if (var2.itemID == Item.leather.itemID)
+                if (itemstack.itemID == Item.leather.itemID)
                 {
                     par1EntityPlayer.triggerAchievement(AchievementList.killCow);
                 }
 
-                if (var2.itemID == Item.diamond.itemID)
+                if (itemstack.itemID == Item.diamond.itemID)
                 {
                     par1EntityPlayer.triggerAchievement(AchievementList.diamonds);
                 }
 
-                if (var2.itemID == Item.blazeRod.itemID)
+                if (itemstack.itemID == Item.blazeRod.itemID)
                 {
                     par1EntityPlayer.triggerAchievement(AchievementList.blazeRod);
                 }
 
-                this.playSound("random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
-                par1EntityPlayer.onItemPickup(this, var3);
+                GameRegistry.onPickupNotification(par1EntityPlayer, this);
 
-                if (var2.stackSize <= 0)
+                this.playSound("random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                par1EntityPlayer.onItemPickup(this, i);
+
+                if (itemstack.stackSize <= 0)
                 {
                     this.setDead();
                 }
@@ -367,9 +433,9 @@ public class EntityItem extends Entity
      */
     public ItemStack getEntityItem()
     {
-        ItemStack var1 = this.getDataWatcher().getWatchableObjectItemStack(10);
+        ItemStack itemstack = this.getDataWatcher().getWatchableObjectItemStack(10);
 
-        if (var1 == null)
+        if (itemstack == null)
         {
             if (this.worldObj != null)
             {
@@ -380,7 +446,7 @@ public class EntityItem extends Entity
         }
         else
         {
-            return var1;
+            return itemstack;
         }
     }
 

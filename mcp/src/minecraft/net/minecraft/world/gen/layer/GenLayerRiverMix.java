@@ -31,37 +31,37 @@ public class GenLayerRiverMix extends GenLayer
      */
     public int[] getInts(int par1, int par2, int par3, int par4)
     {
-        int[] var5 = this.biomePatternGeneratorChain.getInts(par1, par2, par3, par4);
-        int[] var6 = this.riverPatternGeneratorChain.getInts(par1, par2, par3, par4);
-        int[] var7 = IntCache.getIntCache(par3 * par4);
+        int[] aint = this.biomePatternGeneratorChain.getInts(par1, par2, par3, par4);
+        int[] aint1 = this.riverPatternGeneratorChain.getInts(par1, par2, par3, par4);
+        int[] aint2 = IntCache.getIntCache(par3 * par4);
 
-        for (int var8 = 0; var8 < par3 * par4; ++var8)
+        for (int i1 = 0; i1 < par3 * par4; ++i1)
         {
-            if (var5[var8] == BiomeGenBase.ocean.biomeID)
+            if (aint[i1] == BiomeGenBase.ocean.biomeID)
             {
-                var7[var8] = var5[var8];
+                aint2[i1] = aint[i1];
             }
-            else if (var6[var8] >= 0)
+            else if (aint1[i1] >= 0)
             {
-                if (var5[var8] == BiomeGenBase.icePlains.biomeID)
+                if (aint[i1] == BiomeGenBase.icePlains.biomeID)
                 {
-                    var7[var8] = BiomeGenBase.frozenRiver.biomeID;
+                    aint2[i1] = BiomeGenBase.frozenRiver.biomeID;
                 }
-                else if (var5[var8] != BiomeGenBase.mushroomIsland.biomeID && var5[var8] != BiomeGenBase.mushroomIslandShore.biomeID)
+                else if (aint[i1] != BiomeGenBase.mushroomIsland.biomeID && aint[i1] != BiomeGenBase.mushroomIslandShore.biomeID)
                 {
-                    var7[var8] = var6[var8];
+                    aint2[i1] = aint1[i1];
                 }
                 else
                 {
-                    var7[var8] = BiomeGenBase.mushroomIslandShore.biomeID;
+                    aint2[i1] = BiomeGenBase.mushroomIslandShore.biomeID;
                 }
             }
             else
             {
-                var7[var8] = var5[var8];
+                aint2[i1] = aint[i1];
             }
         }
 
-        return var7;
+        return aint2;
     }
 }

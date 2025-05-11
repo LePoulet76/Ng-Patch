@@ -32,61 +32,61 @@ public class WorldGenLakes extends WorldGenerator
         else
         {
             par4 -= 4;
-            boolean[] var6 = new boolean[2048];
-            int var7 = par2Random.nextInt(4) + 4;
-            int var8;
+            boolean[] aboolean = new boolean[2048];
+            int l = par2Random.nextInt(4) + 4;
+            int i1;
 
-            for (var8 = 0; var8 < var7; ++var8)
+            for (i1 = 0; i1 < l; ++i1)
             {
-                double var9 = par2Random.nextDouble() * 6.0D + 3.0D;
-                double var11 = par2Random.nextDouble() * 4.0D + 2.0D;
-                double var13 = par2Random.nextDouble() * 6.0D + 3.0D;
-                double var15 = par2Random.nextDouble() * (16.0D - var9 - 2.0D) + 1.0D + var9 / 2.0D;
-                double var17 = par2Random.nextDouble() * (8.0D - var11 - 4.0D) + 2.0D + var11 / 2.0D;
-                double var19 = par2Random.nextDouble() * (16.0D - var13 - 2.0D) + 1.0D + var13 / 2.0D;
+                double d0 = par2Random.nextDouble() * 6.0D + 3.0D;
+                double d1 = par2Random.nextDouble() * 4.0D + 2.0D;
+                double d2 = par2Random.nextDouble() * 6.0D + 3.0D;
+                double d3 = par2Random.nextDouble() * (16.0D - d0 - 2.0D) + 1.0D + d0 / 2.0D;
+                double d4 = par2Random.nextDouble() * (8.0D - d1 - 4.0D) + 2.0D + d1 / 2.0D;
+                double d5 = par2Random.nextDouble() * (16.0D - d2 - 2.0D) + 1.0D + d2 / 2.0D;
 
-                for (int var21 = 1; var21 < 15; ++var21)
+                for (int j1 = 1; j1 < 15; ++j1)
                 {
-                    for (int var22 = 1; var22 < 15; ++var22)
+                    for (int k1 = 1; k1 < 15; ++k1)
                     {
-                        for (int var23 = 1; var23 < 7; ++var23)
+                        for (int l1 = 1; l1 < 7; ++l1)
                         {
-                            double var24 = ((double)var21 - var15) / (var9 / 2.0D);
-                            double var26 = ((double)var23 - var17) / (var11 / 2.0D);
-                            double var28 = ((double)var22 - var19) / (var13 / 2.0D);
-                            double var30 = var24 * var24 + var26 * var26 + var28 * var28;
+                            double d6 = ((double)j1 - d3) / (d0 / 2.0D);
+                            double d7 = ((double)l1 - d4) / (d1 / 2.0D);
+                            double d8 = ((double)k1 - d5) / (d2 / 2.0D);
+                            double d9 = d6 * d6 + d7 * d7 + d8 * d8;
 
-                            if (var30 < 1.0D)
+                            if (d9 < 1.0D)
                             {
-                                var6[(var21 * 16 + var22) * 8 + var23] = true;
+                                aboolean[(j1 * 16 + k1) * 8 + l1] = true;
                             }
                         }
                     }
                 }
             }
 
-            int var10;
-            int var32;
-            boolean var33;
+            int i2;
+            int j2;
+            boolean flag;
 
-            for (var8 = 0; var8 < 16; ++var8)
+            for (i1 = 0; i1 < 16; ++i1)
             {
-                for (var32 = 0; var32 < 16; ++var32)
+                for (j2 = 0; j2 < 16; ++j2)
                 {
-                    for (var10 = 0; var10 < 8; ++var10)
+                    for (i2 = 0; i2 < 8; ++i2)
                     {
-                        var33 = !var6[(var8 * 16 + var32) * 8 + var10] && (var8 < 15 && var6[((var8 + 1) * 16 + var32) * 8 + var10] || var8 > 0 && var6[((var8 - 1) * 16 + var32) * 8 + var10] || var32 < 15 && var6[(var8 * 16 + var32 + 1) * 8 + var10] || var32 > 0 && var6[(var8 * 16 + (var32 - 1)) * 8 + var10] || var10 < 7 && var6[(var8 * 16 + var32) * 8 + var10 + 1] || var10 > 0 && var6[(var8 * 16 + var32) * 8 + (var10 - 1)]);
+                        flag = !aboolean[(i1 * 16 + j2) * 8 + i2] && (i1 < 15 && aboolean[((i1 + 1) * 16 + j2) * 8 + i2] || i1 > 0 && aboolean[((i1 - 1) * 16 + j2) * 8 + i2] || j2 < 15 && aboolean[(i1 * 16 + j2 + 1) * 8 + i2] || j2 > 0 && aboolean[(i1 * 16 + (j2 - 1)) * 8 + i2] || i2 < 7 && aboolean[(i1 * 16 + j2) * 8 + i2 + 1] || i2 > 0 && aboolean[(i1 * 16 + j2) * 8 + (i2 - 1)]);
 
-                        if (var33)
+                        if (flag)
                         {
-                            Material var12 = par1World.getBlockMaterial(par3 + var8, par4 + var10, par5 + var32);
+                            Material material = par1World.getBlockMaterial(par3 + i1, par4 + i2, par5 + j2);
 
-                            if (var10 >= 4 && var12.isLiquid())
+                            if (i2 >= 4 && material.isLiquid())
                             {
                                 return false;
                             }
 
-                            if (var10 < 4 && !var12.isSolid() && par1World.getBlockId(par3 + var8, par4 + var10, par5 + var32) != this.blockIndex)
+                            if (i2 < 4 && !material.isSolid() && par1World.getBlockId(par3 + i1, par4 + i2, par5 + j2) != this.blockIndex)
                             {
                                 return false;
                             }
@@ -95,37 +95,37 @@ public class WorldGenLakes extends WorldGenerator
                 }
             }
 
-            for (var8 = 0; var8 < 16; ++var8)
+            for (i1 = 0; i1 < 16; ++i1)
             {
-                for (var32 = 0; var32 < 16; ++var32)
+                for (j2 = 0; j2 < 16; ++j2)
                 {
-                    for (var10 = 0; var10 < 8; ++var10)
+                    for (i2 = 0; i2 < 8; ++i2)
                     {
-                        if (var6[(var8 * 16 + var32) * 8 + var10])
+                        if (aboolean[(i1 * 16 + j2) * 8 + i2])
                         {
-                            par1World.setBlock(par3 + var8, par4 + var10, par5 + var32, var10 >= 4 ? 0 : this.blockIndex, 0, 2);
+                            par1World.setBlock(par3 + i1, par4 + i2, par5 + j2, i2 >= 4 ? 0 : this.blockIndex, 0, 2);
                         }
                     }
                 }
             }
 
-            for (var8 = 0; var8 < 16; ++var8)
+            for (i1 = 0; i1 < 16; ++i1)
             {
-                for (var32 = 0; var32 < 16; ++var32)
+                for (j2 = 0; j2 < 16; ++j2)
                 {
-                    for (var10 = 4; var10 < 8; ++var10)
+                    for (i2 = 4; i2 < 8; ++i2)
                     {
-                        if (var6[(var8 * 16 + var32) * 8 + var10] && par1World.getBlockId(par3 + var8, par4 + var10 - 1, par5 + var32) == Block.dirt.blockID && par1World.getSavedLightValue(EnumSkyBlock.Sky, par3 + var8, par4 + var10, par5 + var32) > 0)
+                        if (aboolean[(i1 * 16 + j2) * 8 + i2] && par1World.getBlockId(par3 + i1, par4 + i2 - 1, par5 + j2) == Block.dirt.blockID && par1World.getSavedLightValue(EnumSkyBlock.Sky, par3 + i1, par4 + i2, par5 + j2) > 0)
                         {
-                            BiomeGenBase var34 = par1World.getBiomeGenForCoords(par3 + var8, par5 + var32);
+                            BiomeGenBase biomegenbase = par1World.getBiomeGenForCoords(par3 + i1, par5 + j2);
 
-                            if (var34.topBlock == Block.mycelium.blockID)
+                            if (biomegenbase.topBlock == Block.mycelium.blockID)
                             {
-                                par1World.setBlock(par3 + var8, par4 + var10 - 1, par5 + var32, Block.mycelium.blockID, 0, 2);
+                                par1World.setBlock(par3 + i1, par4 + i2 - 1, par5 + j2, Block.mycelium.blockID, 0, 2);
                             }
                             else
                             {
-                                par1World.setBlock(par3 + var8, par4 + var10 - 1, par5 + var32, Block.grass.blockID, 0, 2);
+                                par1World.setBlock(par3 + i1, par4 + i2 - 1, par5 + j2, Block.grass.blockID, 0, 2);
                             }
                         }
                     }
@@ -134,17 +134,17 @@ public class WorldGenLakes extends WorldGenerator
 
             if (Block.blocksList[this.blockIndex].blockMaterial == Material.lava)
             {
-                for (var8 = 0; var8 < 16; ++var8)
+                for (i1 = 0; i1 < 16; ++i1)
                 {
-                    for (var32 = 0; var32 < 16; ++var32)
+                    for (j2 = 0; j2 < 16; ++j2)
                     {
-                        for (var10 = 0; var10 < 8; ++var10)
+                        for (i2 = 0; i2 < 8; ++i2)
                         {
-                            var33 = !var6[(var8 * 16 + var32) * 8 + var10] && (var8 < 15 && var6[((var8 + 1) * 16 + var32) * 8 + var10] || var8 > 0 && var6[((var8 - 1) * 16 + var32) * 8 + var10] || var32 < 15 && var6[(var8 * 16 + var32 + 1) * 8 + var10] || var32 > 0 && var6[(var8 * 16 + (var32 - 1)) * 8 + var10] || var10 < 7 && var6[(var8 * 16 + var32) * 8 + var10 + 1] || var10 > 0 && var6[(var8 * 16 + var32) * 8 + (var10 - 1)]);
+                            flag = !aboolean[(i1 * 16 + j2) * 8 + i2] && (i1 < 15 && aboolean[((i1 + 1) * 16 + j2) * 8 + i2] || i1 > 0 && aboolean[((i1 - 1) * 16 + j2) * 8 + i2] || j2 < 15 && aboolean[(i1 * 16 + j2 + 1) * 8 + i2] || j2 > 0 && aboolean[(i1 * 16 + (j2 - 1)) * 8 + i2] || i2 < 7 && aboolean[(i1 * 16 + j2) * 8 + i2 + 1] || i2 > 0 && aboolean[(i1 * 16 + j2) * 8 + (i2 - 1)]);
 
-                            if (var33 && (var10 < 4 || par2Random.nextInt(2) != 0) && par1World.getBlockMaterial(par3 + var8, par4 + var10, par5 + var32).isSolid())
+                            if (flag && (i2 < 4 || par2Random.nextInt(2) != 0) && par1World.getBlockMaterial(par3 + i1, par4 + i2, par5 + j2).isSolid())
                             {
-                                par1World.setBlock(par3 + var8, par4 + var10, par5 + var32, Block.stone.blockID, 0, 2);
+                                par1World.setBlock(par3 + i1, par4 + i2, par5 + j2, Block.stone.blockID, 0, 2);
                             }
                         }
                     }
@@ -153,15 +153,15 @@ public class WorldGenLakes extends WorldGenerator
 
             if (Block.blocksList[this.blockIndex].blockMaterial == Material.water)
             {
-                for (var8 = 0; var8 < 16; ++var8)
+                for (i1 = 0; i1 < 16; ++i1)
                 {
-                    for (var32 = 0; var32 < 16; ++var32)
+                    for (j2 = 0; j2 < 16; ++j2)
                     {
-                        byte var35 = 4;
+                        byte b0 = 4;
 
-                        if (par1World.isBlockFreezable(par3 + var8, par4 + var35, par5 + var32))
+                        if (par1World.isBlockFreezable(par3 + i1, par4 + b0, par5 + j2))
                         {
-                            par1World.setBlock(par3 + var8, par4 + var35, par5 + var32, Block.ice.blockID, 0, 2);
+                            par1World.setBlock(par3 + i1, par4 + b0, par5 + j2, Block.ice.blockID, 0, 2);
                         }
                     }
                 }

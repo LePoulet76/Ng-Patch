@@ -12,6 +12,7 @@ public class ComponentVillageStartPiece extends ComponentVillageWell
 
     /** Boolean that determines if the village is in a desert or not. */
     public boolean inDesert;
+    public BiomeGenBase biome;
 
     /** World terrain type, 0 for normal, 1 for flap map */
     public int terrainType;
@@ -33,8 +34,9 @@ public class ComponentVillageStartPiece extends ComponentVillageWell
         this.worldChunkMngr = par1WorldChunkManager;
         this.structureVillageWeightedPieceList = par6List;
         this.terrainType = par7;
-        BiomeGenBase var8 = par1WorldChunkManager.getBiomeGenAt(par4, par5);
-        this.inDesert = var8 == BiomeGenBase.desert || var8 == BiomeGenBase.desertHills;
+        BiomeGenBase biomegenbase = par1WorldChunkManager.getBiomeGenAt(par4, par5);
+        this.inDesert = biomegenbase == BiomeGenBase.desert || biomegenbase == BiomeGenBase.desertHills;
+        this.biome = biomegenbase;
     }
 
     public WorldChunkManager getWorldChunkManager()

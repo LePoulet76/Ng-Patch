@@ -11,14 +11,19 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.ForgeDirection;
+
 public class BlockTrapDoor extends Block
 {
+    /** Set this to allow trapdoors to remain free-floating */
+    public static boolean disableValidation = false;
+
     protected BlockTrapDoor(int par1, Material par2Material)
     {
         super(par1, par2Material);
-        float var3 = 0.5F;
-        float var4 = 1.0F;
-        this.setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, var4, 0.5F + var3);
+        float f = 0.5F;
+        float f1 = 1.0F;
+        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
         this.setCreativeTab(CreativeTabs.tabRedstone);
     }
 
@@ -86,43 +91,43 @@ public class BlockTrapDoor extends Block
      */
     public void setBlockBoundsForItemRender()
     {
-        float var1 = 0.1875F;
-        this.setBlockBounds(0.0F, 0.5F - var1 / 2.0F, 0.0F, 1.0F, 0.5F + var1 / 2.0F, 1.0F);
+        float f = 0.1875F;
+        this.setBlockBounds(0.0F, 0.5F - f / 2.0F, 0.0F, 1.0F, 0.5F + f / 2.0F, 1.0F);
     }
 
     public void setBlockBoundsForBlockRender(int par1)
     {
-        float var2 = 0.1875F;
+        float f = 0.1875F;
 
         if ((par1 & 8) != 0)
         {
-            this.setBlockBounds(0.0F, 1.0F - var2, 0.0F, 1.0F, 1.0F, 1.0F);
+            this.setBlockBounds(0.0F, 1.0F - f, 0.0F, 1.0F, 1.0F, 1.0F);
         }
         else
         {
-            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, var2, 1.0F);
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
         }
 
         if (isTrapdoorOpen(par1))
         {
             if ((par1 & 3) == 0)
             {
-                this.setBlockBounds(0.0F, 0.0F, 1.0F - var2, 1.0F, 1.0F, 1.0F);
+                this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
             }
 
             if ((par1 & 3) == 1)
             {
-                this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var2);
+                this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
             }
 
             if ((par1 & 3) == 2)
             {
-                this.setBlockBounds(1.0F - var2, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+                this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
             }
 
             if ((par1 & 3) == 3)
             {
-                this.setBlockBounds(0.0F, 0.0F, 0.0F, var2, 1.0F, 1.0F);
+                this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
             }
         }
     }
@@ -143,8 +148,8 @@ public class BlockTrapDoor extends Block
         }
         else
         {
-            int var10 = par1World.getBlockMetadata(par2, par3, par4);
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, var10 ^ 4, 2);
+            int i1 = par1World.getBlockMetadata(par2, par3, par4);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, i1 ^ 4, 2);
             par1World.playAuxSFXAtEntity(par5EntityPlayer, 1003, par2, par3, par4, 0);
             return true;
         }
@@ -152,12 +157,12 @@ public class BlockTrapDoor extends Block
 
     public void onPoweredBlockChange(World par1World, int par2, int par3, int par4, boolean par5)
     {
-        int var6 = par1World.getBlockMetadata(par2, par3, par4);
-        boolean var7 = (var6 & 4) > 0;
+        int l = par1World.getBlockMetadata(par2, par3, par4);
+        boolean flag1 = (l & 4) > 0;
 
-        if (var7 != par5)
+        if (flag1 != par5)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, var6 ^ 4, 2);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, l ^ 4, 2);
             par1World.playAuxSFXAtEntity((EntityPlayer)null, 1003, par2, par3, par4, 0);
         }
     }
@@ -170,41 +175,41 @@ public class BlockTrapDoor extends Block
     {
         if (!par1World.isRemote)
         {
-            int var6 = par1World.getBlockMetadata(par2, par3, par4);
-            int var7 = par2;
-            int var8 = par4;
+            int i1 = par1World.getBlockMetadata(par2, par3, par4);
+            int j1 = par2;
+            int k1 = par4;
 
-            if ((var6 & 3) == 0)
+            if ((i1 & 3) == 0)
             {
-                var8 = par4 + 1;
+                k1 = par4 + 1;
             }
 
-            if ((var6 & 3) == 1)
+            if ((i1 & 3) == 1)
             {
-                --var8;
+                --k1;
             }
 
-            if ((var6 & 3) == 2)
+            if ((i1 & 3) == 2)
             {
-                var7 = par2 + 1;
+                j1 = par2 + 1;
             }
 
-            if ((var6 & 3) == 3)
+            if ((i1 & 3) == 3)
             {
-                --var7;
+                --j1;
             }
 
-            if (!isValidSupportBlock(par1World.getBlockId(var7, par3, var8)))
+            if (!(isValidSupportBlock(par1World.getBlockId(j1, par3, k1)) || par1World.isBlockSolidOnSide(j1, par3, k1, ForgeDirection.getOrientation((i1 & 3) + 2))))
             {
                 par1World.setBlockToAir(par2, par3, par4);
-                this.dropBlockAsItem(par1World, par2, par3, par4, var6, 0);
+                this.dropBlockAsItem(par1World, par2, par3, par4, i1, 0);
             }
 
-            boolean var9 = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4);
+            boolean flag = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4);
 
-            if (var9 || par5 > 0 && Block.blocksList[par5].canProvidePower())
+            if (flag || par5 > 0 && Block.blocksList[par5].canProvidePower())
             {
-                this.onPoweredBlockChange(par1World, par2, par3, par4, var9);
+                this.onPoweredBlockChange(par1World, par2, par3, par4, flag);
             }
         }
     }
@@ -224,34 +229,34 @@ public class BlockTrapDoor extends Block
      */
     public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
     {
-        int var10 = 0;
+        int j1 = 0;
 
         if (par5 == 2)
         {
-            var10 = 0;
+            j1 = 0;
         }
 
         if (par5 == 3)
         {
-            var10 = 1;
+            j1 = 1;
         }
 
         if (par5 == 4)
         {
-            var10 = 2;
+            j1 = 2;
         }
 
         if (par5 == 5)
         {
-            var10 = 3;
+            j1 = 3;
         }
 
         if (par5 != 1 && par5 != 0 && par7 > 0.5F)
         {
-            var10 |= 8;
+            j1 |= 8;
         }
 
-        return var10;
+        return j1;
     }
 
     /**
@@ -259,6 +264,10 @@ public class BlockTrapDoor extends Block
      */
     public boolean canPlaceBlockOnSide(World par1World, int par2, int par3, int par4, int par5)
     {
+        if (disableValidation)
+        {
+            return true;
+        }
         if (par5 == 0)
         {
             return false;
@@ -289,7 +298,7 @@ public class BlockTrapDoor extends Block
                 --par2;
             }
 
-            return isValidSupportBlock(par1World.getBlockId(par2, par3, par4));
+            return isValidSupportBlock(par1World.getBlockId(par2, par3, par4)) || par1World.isBlockSolidOnSide(par2, par3, par4, ForgeDirection.UP);
         }
     }
 
@@ -304,14 +313,18 @@ public class BlockTrapDoor extends Block
      */
     private static boolean isValidSupportBlock(int par0)
     {
+        if (disableValidation)
+        {
+            return true;
+        }
         if (par0 <= 0)
         {
             return false;
         }
         else
         {
-            Block var1 = Block.blocksList[par0];
-            return var1 != null && var1.blockMaterial.isOpaque() && var1.renderAsNormalBlock() || var1 == Block.glowStone || var1 instanceof BlockHalfSlab || var1 instanceof BlockStairs;
+            Block block = Block.blocksList[par0];
+            return block != null && block.blockMaterial.isOpaque() && block.renderAsNormalBlock() || block == Block.glowStone || block instanceof BlockHalfSlab || block instanceof BlockStairs;
         }
     }
 }

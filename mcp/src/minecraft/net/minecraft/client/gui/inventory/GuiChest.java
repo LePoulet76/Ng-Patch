@@ -26,10 +26,10 @@ public class GuiChest extends GuiContainer
         this.upperChestInventory = par1IInventory;
         this.lowerChestInventory = par2IInventory;
         this.allowUserInput = false;
-        short var3 = 222;
-        int var4 = var3 - 108;
+        short short1 = 222;
+        int i = short1 - 108;
         this.inventoryRows = par2IInventory.getSizeInventory() / 9;
-        this.ySize = var4 + this.inventoryRows * 18;
+        this.ySize = i + this.inventoryRows * 18;
     }
 
     /**
@@ -48,9 +48,9 @@ public class GuiChest extends GuiContainer
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(field_110421_t);
-        int var4 = (this.width - this.xSize) / 2;
-        int var5 = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(var4, var5, 0, 0, this.xSize, this.inventoryRows * 18 + 17);
-        this.drawTexturedModalRect(var4, var5 + this.inventoryRows * 18 + 17, 0, 126, this.xSize, 96);
+        int k = (this.width - this.xSize) / 2;
+        int l = (this.height - this.ySize) / 2;
+        this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.inventoryRows * 18 + 17);
+        this.drawTexturedModalRect(k, l + this.inventoryRows * 18 + 17, 0, 126, this.xSize, 96);
     }
 }

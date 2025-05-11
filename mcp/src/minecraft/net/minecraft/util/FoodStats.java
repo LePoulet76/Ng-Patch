@@ -43,7 +43,7 @@ public class FoodStats
      */
     public void onUpdate(EntityPlayer par1EntityPlayer)
     {
-        int var2 = par1EntityPlayer.worldObj.difficultySetting;
+        int i = par1EntityPlayer.worldObj.difficultySetting;
         this.prevFoodLevel = this.foodLevel;
 
         if (this.foodExhaustionLevel > 4.0F)
@@ -54,7 +54,7 @@ public class FoodStats
             {
                 this.foodSaturationLevel = Math.max(this.foodSaturationLevel - 1.0F, 0.0F);
             }
-            else if (var2 > 0)
+            else if (i > 0)
             {
                 this.foodLevel = Math.max(this.foodLevel - 1, 0);
             }
@@ -77,7 +77,7 @@ public class FoodStats
 
             if (this.foodTimer >= 80)
             {
-                if (par1EntityPlayer.getHealth() > 10.0F || var2 >= 3 || par1EntityPlayer.getHealth() > 1.0F && var2 >= 2)
+                if (par1EntityPlayer.getHealth() > 10.0F || i >= 3 || par1EntityPlayer.getHealth() > 1.0F && i >= 2)
                 {
                     par1EntityPlayer.attackEntityFrom(DamageSource.starve, 1.0F);
                 }

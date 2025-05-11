@@ -51,12 +51,12 @@ public class LowerStringMap implements Map
 
     public void putAll(Map par1Map)
     {
-        Iterator var2 = par1Map.entrySet().iterator();
+        Iterator iterator = par1Map.entrySet().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
-            this.putLower((String)var3.getKey(), var3.getValue());
+            Entry entry = (Entry)iterator.next();
+            this.putLower((String)entry.getKey(), entry.getValue());
         }
     }
 

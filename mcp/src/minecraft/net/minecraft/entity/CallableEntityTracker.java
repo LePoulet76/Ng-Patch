@@ -16,14 +16,14 @@ class CallableEntityTracker implements Callable
 
     public String func_96568_a()
     {
-        String var1 = "Once per " + this.field_96570_a + " ticks";
+        String s = "Once per " + this.field_96570_a + " ticks";
 
         if (this.field_96570_a == Integer.MAX_VALUE)
         {
-            var1 = "Maximum (" + var1 + ")";
+            s = "Maximum (" + s + ")";
         }
 
-        return var1;
+        return s;
     }
 
     public Object call()

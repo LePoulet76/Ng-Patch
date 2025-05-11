@@ -104,7 +104,7 @@ public class Packet34EntityTeleport extends Packet
      */
     public boolean containsSameEntityIDAs(Packet par1Packet)
     {
-        Packet34EntityTeleport var2 = (Packet34EntityTeleport)par1Packet;
-        return var2.entityId == this.entityId;
+        Packet34EntityTeleport packet34entityteleport = (Packet34EntityTeleport)par1Packet;
+        return packet34entityteleport.entityId == this.entityId;
     }
 }

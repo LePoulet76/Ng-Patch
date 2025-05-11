@@ -88,16 +88,16 @@ public enum EnumGameType
      */
     public static EnumGameType getByID(int par0)
     {
-        EnumGameType[] var1 = values();
-        int var2 = var1.length;
+        EnumGameType[] aenumgametype = values();
+        int j = aenumgametype.length;
 
-        for (int var3 = 0; var3 < var2; ++var3)
+        for (int k = 0; k < j; ++k)
         {
-            EnumGameType var4 = var1[var3];
+            EnumGameType enumgametype = aenumgametype[k];
 
-            if (var4.id == par0)
+            if (enumgametype.id == par0)
             {
-                return var4;
+                return enumgametype;
             }
         }
 
@@ -111,16 +111,16 @@ public enum EnumGameType
      */
     public static EnumGameType getByName(String par0Str)
     {
-        EnumGameType[] var1 = values();
-        int var2 = var1.length;
+        EnumGameType[] aenumgametype = values();
+        int i = aenumgametype.length;
 
-        for (int var3 = 0; var3 < var2; ++var3)
+        for (int j = 0; j < i; ++j)
         {
-            EnumGameType var4 = var1[var3];
+            EnumGameType enumgametype = aenumgametype[j];
 
-            if (var4.name.equals(par0Str))
+            if (enumgametype.name.equals(par0Str))
             {
-                return var4;
+                return enumgametype;
             }
         }
 

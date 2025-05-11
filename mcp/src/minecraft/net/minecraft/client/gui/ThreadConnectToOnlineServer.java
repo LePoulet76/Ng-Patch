@@ -23,7 +23,7 @@ class ThreadConnectToOnlineServer extends Thread
 
     public void run()
     {
-        boolean var27 = false;
+        boolean flag = false;
         label194:
         {
             label195:
@@ -36,7 +36,7 @@ class ThreadConnectToOnlineServer extends Thread
                         {
                             try
                             {
-                                var27 = true;
+                                flag = true;
 
                                 if (!this.field_96597_a.field_96411_l)
                                 {
@@ -44,57 +44,57 @@ class ThreadConnectToOnlineServer extends Thread
                                     this.field_96597_a.field_96412_m = -2L;
                                     this.field_96597_a.field_96414_k = "";
                                     GuiScreenOnlineServers.func_140016_k();
-                                    long var1 = System.nanoTime();
+                                    long i = System.nanoTime();
                                     GuiScreenOnlineServers.func_140024_a(this.field_96596_b.field_96294_a, this.field_96597_a);
-                                    long var3 = System.nanoTime();
-                                    this.field_96597_a.field_96412_m = (var3 - var1) / 1000000L;
-                                    var27 = false;
+                                    long j = System.nanoTime();
+                                    this.field_96597_a.field_96412_m = (j - i) / 1000000L;
+                                    flag = false;
                                 }
                                 else if (this.field_96597_a.field_102022_m)
                                 {
                                     this.field_96597_a.field_102022_m = false;
                                     GuiScreenOnlineServers.func_140024_a(this.field_96596_b.field_96294_a, this.field_96597_a);
-                                    var27 = false;
+                                    flag = false;
                                 }
                                 else
                                 {
-                                    var27 = false;
+                                    flag = false;
                                 }
 
                                 break label194;
                             }
-                            catch (UnknownHostException var35)
+                            catch (UnknownHostException unknownhostexception)
                             {
                                 this.field_96597_a.field_96412_m = -1L;
-                                var27 = false;
+                                flag = false;
                             }
-                            catch (SocketTimeoutException var36)
+                            catch (SocketTimeoutException sockettimeoutexception)
                             {
                                 this.field_96597_a.field_96412_m = -1L;
-                                var27 = false;
+                                flag = false;
                                 break label198;
                             }
-                            catch (ConnectException var37)
+                            catch (ConnectException connectexception)
                             {
                                 this.field_96597_a.field_96412_m = -1L;
-                                var27 = false;
+                                flag = false;
                                 break label197;
                             }
-                            catch (IOException var38)
+                            catch (IOException ioexception)
                             {
                                 this.field_96597_a.field_96412_m = -1L;
-                                var27 = false;
+                                flag = false;
                                 break label196;
                             }
-                            catch (Exception var39)
+                            catch (Exception exception)
                             {
                                 this.field_96597_a.field_96412_m = -1L;
-                                var27 = false;
+                                flag = false;
                                 break label195;
                             }
                             finally
                             {
-                                if (var27)
+                                if (flag)
                                 {
                                     synchronized (GuiScreenOnlineServers.func_140029_i())
                                     {

@@ -11,12 +11,12 @@ public interface INetworkManager
     /**
      * Sets the NetHandler for this NetworkManager. Server-only.
      */
-    void setNetHandler(NetHandler var1);
+    void setNetHandler(NetHandler nethandler);
 
     /**
      * Adds the packet to the correct send queue (chunk data packets go to a separate queue).
      */
-    void addToSendQueue(Packet var1);
+    void addToSendQueue(Packet packet);
 
     /**
      * Wakes reader and writer threads
@@ -47,7 +47,7 @@ public interface INetworkManager
      * Shuts down the network with the specified reason. Closes all streams and sockets, spawns NetworkMasterThread to
      * stop reading and writing threads.
      */
-    void networkShutdown(String var1, Object ... var2);
+    void networkShutdown(String s, Object ... var2);
 
     @SideOnly(Side.CLIENT)
     void closeConnections();

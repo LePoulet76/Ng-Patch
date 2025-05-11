@@ -19,14 +19,14 @@ public class RecipesArmor
      */
     public void addRecipes(CraftingManager par1CraftingManager)
     {
-        for (int var2 = 0; var2 < this.recipeItems[0].length; ++var2)
+        for (int i = 0; i < this.recipeItems[0].length; ++i)
         {
-            Object var3 = this.recipeItems[0][var2];
+            Object object = this.recipeItems[0][i];
 
-            for (int var4 = 0; var4 < this.recipeItems.length - 1; ++var4)
+            for (int j = 0; j < this.recipeItems.length - 1; ++j)
             {
-                Item var5 = (Item)this.recipeItems[var4 + 1][var2];
-                par1CraftingManager.addRecipe(new ItemStack(var5), new Object[] {this.recipePatterns[var4], 'X', var3});
+                Item item = (Item)this.recipeItems[j + 1][i];
+                par1CraftingManager.addRecipe(new ItemStack(item), new Object[] {this.recipePatterns[j], 'X', object});
             }
         }
     }

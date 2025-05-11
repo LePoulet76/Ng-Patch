@@ -5,9 +5,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import net.minecraftforge.common.ForgeDirection;
+import static net.minecraftforge.common.ForgeDirection.*;
 
 public class BlockLadder extends Block
 {
@@ -51,26 +55,26 @@ public class BlockLadder extends Block
      */
     public void updateLadderBounds(int par1)
     {
-        float var3 = 0.125F;
+        float f = 0.125F;
 
         if (par1 == 2)
         {
-            this.setBlockBounds(0.0F, 0.0F, 1.0F - var3, 1.0F, 1.0F, 1.0F);
+            this.setBlockBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
         }
 
         if (par1 == 3)
         {
-            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var3);
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
         }
 
         if (par1 == 4)
         {
-            this.setBlockBounds(1.0F - var3, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+            this.setBlockBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         }
 
         if (par1 == 5)
         {
-            this.setBlockBounds(0.0F, 0.0F, 0.0F, var3, 1.0F, 1.0F);
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
         }
     }
 
@@ -104,7 +108,10 @@ public class BlockLadder extends Block
      */
     public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
     {
-        return par1World.isBlockNormalCube(par2 - 1, par3, par4) ? true : (par1World.isBlockNormalCube(par2 + 1, par3, par4) ? true : (par1World.isBlockNormalCube(par2, par3, par4 - 1) ? true : par1World.isBlockNormalCube(par2, par3, par4 + 1)));
+        return par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST ) ||
+               par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST ) ||
+               par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH) ||
+               par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH);
     }
 
     /**
@@ -112,29 +119,29 @@ public class BlockLadder extends Block
      */
     public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
     {
-        int var10 = par9;
+        int j1 = par9;
 
-        if ((par9 == 0 || par5 == 2) && par1World.isBlockNormalCube(par2, par3, par4 + 1))
+        if ((j1 == 0 || par5 == 2) && par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH))
         {
-            var10 = 2;
+            j1 = 2;
         }
 
-        if ((var10 == 0 || par5 == 3) && par1World.isBlockNormalCube(par2, par3, par4 - 1))
+        if ((j1 == 0 || par5 == 3) && par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH))
         {
-            var10 = 3;
+            j1 = 3;
         }
 
-        if ((var10 == 0 || par5 == 4) && par1World.isBlockNormalCube(par2 + 1, par3, par4))
+        if ((j1 == 0 || par5 == 4) && par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST))
         {
-            var10 = 4;
+            j1 = 4;
         }
 
-        if ((var10 == 0 || par5 == 5) && par1World.isBlockNormalCube(par2 - 1, par3, par4))
+        if ((j1 == 0 || par5 == 5) && par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST))
         {
-            var10 = 5;
+            j1 = 5;
         }
 
-        return var10;
+        return j1;
     }
 
     /**
@@ -143,32 +150,32 @@ public class BlockLadder extends Block
      */
     public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
     {
-        int var6 = par1World.getBlockMetadata(par2, par3, par4);
-        boolean var7 = false;
+        int i1 = par1World.getBlockMetadata(par2, par3, par4);
+        boolean flag = false;
 
-        if (var6 == 2 && par1World.isBlockNormalCube(par2, par3, par4 + 1))
+        if (i1 == 2 && par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH))
         {
-            var7 = true;
+            flag = true;
         }
 
-        if (var6 == 3 && par1World.isBlockNormalCube(par2, par3, par4 - 1))
+        if (i1 == 3 && par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH))
         {
-            var7 = true;
+            flag = true;
         }
 
-        if (var6 == 4 && par1World.isBlockNormalCube(par2 + 1, par3, par4))
+        if (i1 == 4 && par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST))
         {
-            var7 = true;
+            flag = true;
         }
 
-        if (var6 == 5 && par1World.isBlockNormalCube(par2 - 1, par3, par4))
+        if (i1 == 5 && par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST))
         {
-            var7 = true;
+            flag = true;
         }
 
-        if (!var7)
+        if (!flag)
         {
-            this.dropBlockAsItem(par1World, par2, par3, par4, var6, 0);
+            this.dropBlockAsItem(par1World, par2, par3, par4, i1, 0);
             par1World.setBlockToAir(par2, par3, par4);
         }
 
@@ -181,5 +188,11 @@ public class BlockLadder extends Block
     public int quantityDropped(Random par1Random)
     {
         return 1;
+    }
+
+    @Override
+    public boolean isLadder(World world, int x, int y, int z, EntityLivingBase entity)
+    {
+        return true;
     }
 }

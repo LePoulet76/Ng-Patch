@@ -43,13 +43,13 @@ public class ItemMultiTextureTile extends ItemBlock
      */
     public String getUnlocalizedName(ItemStack par1ItemStack)
     {
-        int var2 = par1ItemStack.getItemDamage();
+        int i = par1ItemStack.getItemDamage();
 
-        if (var2 < 0 || var2 >= this.field_82804_b.length)
+        if (i < 0 || i >= this.field_82804_b.length)
         {
-            var2 = 0;
+            i = 0;
         }
 
-        return super.getUnlocalizedName() + "." + this.field_82804_b[var2];
+        return super.getUnlocalizedName() + "." + this.field_82804_b[i];
     }
 }

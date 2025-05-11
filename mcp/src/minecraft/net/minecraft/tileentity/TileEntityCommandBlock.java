@@ -42,12 +42,12 @@ public class TileEntityCommandBlock extends TileEntity implements ICommandSender
         }
         else
         {
-            MinecraftServer var2 = MinecraftServer.getServer();
+            MinecraftServer minecraftserver = MinecraftServer.getServer();
 
-            if (var2 != null && var2.isCommandBlockEnabled())
+            if (minecraftserver != null && minecraftserver.isCommandBlockEnabled())
             {
-                ICommandManager var3 = var2.getCommandManager();
-                return var3.executeCommand(this, this.command);
+                ICommandManager icommandmanager = minecraftserver.getCommandManager();
+                return icommandmanager.executeCommand(this, this.command);
             }
             else
             {
@@ -136,9 +136,9 @@ public class TileEntityCommandBlock extends TileEntity implements ICommandSender
      */
     public Packet getDescriptionPacket()
     {
-        NBTTagCompound var1 = new NBTTagCompound();
-        this.writeToNBT(var1);
-        return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 2, var1);
+        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        this.writeToNBT(nbttagcompound);
+        return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 2, nbttagcompound);
     }
 
     public int getSignalStrength()

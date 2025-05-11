@@ -39,72 +39,72 @@ public abstract class EntityHanging extends Entity
     {
         this.hangingDirection = par1;
         this.prevRotationYaw = this.rotationYaw = (float)(par1 * 90);
-        float var2 = (float)this.getWidthPixels();
-        float var3 = (float)this.getHeightPixels();
-        float var4 = (float)this.getWidthPixels();
+        float f = (float)this.getWidthPixels();
+        float f1 = (float)this.getHeightPixels();
+        float f2 = (float)this.getWidthPixels();
 
         if (par1 != 2 && par1 != 0)
         {
-            var2 = 0.5F;
+            f = 0.5F;
         }
         else
         {
-            var4 = 0.5F;
+            f2 = 0.5F;
             this.rotationYaw = this.prevRotationYaw = (float)(Direction.rotateOpposite[par1] * 90);
         }
 
-        var2 /= 32.0F;
-        var3 /= 32.0F;
-        var4 /= 32.0F;
-        float var5 = (float)this.xPosition + 0.5F;
-        float var6 = (float)this.yPosition + 0.5F;
-        float var7 = (float)this.zPosition + 0.5F;
-        float var8 = 0.5625F;
+        f /= 32.0F;
+        f1 /= 32.0F;
+        f2 /= 32.0F;
+        float f3 = (float)this.xPosition + 0.5F;
+        float f4 = (float)this.yPosition + 0.5F;
+        float f5 = (float)this.zPosition + 0.5F;
+        float f6 = 0.5625F;
 
         if (par1 == 2)
         {
-            var7 -= var8;
+            f5 -= f6;
         }
 
         if (par1 == 1)
         {
-            var5 -= var8;
+            f3 -= f6;
         }
 
         if (par1 == 0)
         {
-            var7 += var8;
+            f5 += f6;
         }
 
         if (par1 == 3)
         {
-            var5 += var8;
+            f3 += f6;
         }
 
         if (par1 == 2)
         {
-            var5 -= this.func_70517_b(this.getWidthPixels());
+            f3 -= this.func_70517_b(this.getWidthPixels());
         }
 
         if (par1 == 1)
         {
-            var7 += this.func_70517_b(this.getWidthPixels());
+            f5 += this.func_70517_b(this.getWidthPixels());
         }
 
         if (par1 == 0)
         {
-            var5 += this.func_70517_b(this.getWidthPixels());
+            f3 += this.func_70517_b(this.getWidthPixels());
         }
 
         if (par1 == 3)
         {
-            var7 -= this.func_70517_b(this.getWidthPixels());
+            f5 -= this.func_70517_b(this.getWidthPixels());
         }
 
-        var6 += this.func_70517_b(this.getHeightPixels());
-        this.setPosition((double)var5, (double)var6, (double)var7);
-        float var9 = -0.03125F;
-        this.boundingBox.setBounds((double)(var5 - var2 - var9), (double)(var6 - var3 - var9), (double)(var7 - var4 - var9), (double)(var5 + var2 + var9), (double)(var6 + var3 + var9), (double)(var7 + var4 + var9));
+        f4 += this.func_70517_b(this.getHeightPixels());
+        this.setPosition((double)f3, (double)f4, (double)f5);
+        float f7 = -0.03125F;
+        this.boundingBox.setBounds((double)(f3 - f - f7), (double)(f4 - f1 - f7), (double)(f5 - f2 - f7), (double)(f3 + f + f7), (double)(f4 + f1 + f7), (double)(f5 + f2 + f7));
     }
 
     private float func_70517_b(int par1)
@@ -144,70 +144,70 @@ public abstract class EntityHanging extends Entity
         }
         else
         {
-            int var1 = Math.max(1, this.getWidthPixels() / 16);
-            int var2 = Math.max(1, this.getHeightPixels() / 16);
-            int var3 = this.xPosition;
-            int var4 = this.yPosition;
-            int var5 = this.zPosition;
+            int i = Math.max(1, this.getWidthPixels() / 16);
+            int j = Math.max(1, this.getHeightPixels() / 16);
+            int k = this.xPosition;
+            int l = this.yPosition;
+            int i1 = this.zPosition;
 
             if (this.hangingDirection == 2)
             {
-                var3 = MathHelper.floor_double(this.posX - (double)((float)this.getWidthPixels() / 32.0F));
+                k = MathHelper.floor_double(this.posX - (double)((float)this.getWidthPixels() / 32.0F));
             }
 
             if (this.hangingDirection == 1)
             {
-                var5 = MathHelper.floor_double(this.posZ - (double)((float)this.getWidthPixels() / 32.0F));
+                i1 = MathHelper.floor_double(this.posZ - (double)((float)this.getWidthPixels() / 32.0F));
             }
 
             if (this.hangingDirection == 0)
             {
-                var3 = MathHelper.floor_double(this.posX - (double)((float)this.getWidthPixels() / 32.0F));
+                k = MathHelper.floor_double(this.posX - (double)((float)this.getWidthPixels() / 32.0F));
             }
 
             if (this.hangingDirection == 3)
             {
-                var5 = MathHelper.floor_double(this.posZ - (double)((float)this.getWidthPixels() / 32.0F));
+                i1 = MathHelper.floor_double(this.posZ - (double)((float)this.getWidthPixels() / 32.0F));
             }
 
-            var4 = MathHelper.floor_double(this.posY - (double)((float)this.getHeightPixels() / 32.0F));
+            l = MathHelper.floor_double(this.posY - (double)((float)this.getHeightPixels() / 32.0F));
 
-            for (int var6 = 0; var6 < var1; ++var6)
+            for (int j1 = 0; j1 < i; ++j1)
             {
-                for (int var7 = 0; var7 < var2; ++var7)
+                for (int k1 = 0; k1 < j; ++k1)
                 {
-                    Material var8;
+                    Material material;
 
                     if (this.hangingDirection != 2 && this.hangingDirection != 0)
                     {
-                        var8 = this.worldObj.getBlockMaterial(this.xPosition, var4 + var7, var5 + var6);
+                        material = this.worldObj.getBlockMaterial(this.xPosition, l + k1, i1 + j1);
                     }
                     else
                     {
-                        var8 = this.worldObj.getBlockMaterial(var3 + var6, var4 + var7, this.zPosition);
+                        material = this.worldObj.getBlockMaterial(k + j1, l + k1, this.zPosition);
                     }
 
-                    if (!var8.isSolid())
+                    if (!material.isSolid())
                     {
                         return false;
                     }
                 }
             }
 
-            List var9 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox);
-            Iterator var10 = var9.iterator();
-            Entity var11;
+            List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox);
+            Iterator iterator = list.iterator();
+            Entity entity;
 
             do
             {
-                if (!var10.hasNext())
+                if (!iterator.hasNext())
                 {
                     return true;
                 }
 
-                var11 = (Entity)var10.next();
+                entity = (Entity)iterator.next();
             }
-            while (!(var11 instanceof EntityHanging));
+            while (!(entity instanceof EntityHanging));
 
             return false;
         }
@@ -290,15 +290,12 @@ public abstract class EntityHanging extends Entity
             case 0:
                 par1NBTTagCompound.setByte("Dir", (byte)2);
                 break;
-
             case 1:
                 par1NBTTagCompound.setByte("Dir", (byte)1);
                 break;
-
             case 2:
                 par1NBTTagCompound.setByte("Dir", (byte)0);
                 break;
-
             case 3:
                 par1NBTTagCompound.setByte("Dir", (byte)3);
         }
@@ -320,15 +317,12 @@ public abstract class EntityHanging extends Entity
                 case 0:
                     this.hangingDirection = 2;
                     break;
-
                 case 1:
                     this.hangingDirection = 1;
                     break;
-
                 case 2:
                     this.hangingDirection = 0;
                     break;
-
                 case 3:
                     this.hangingDirection = 3;
             }
@@ -347,7 +341,7 @@ public abstract class EntityHanging extends Entity
     /**
      * Called when this entity is broken. Entity parameter may be null.
      */
-    public abstract void onBroken(Entity var1);
+    public abstract void onBroken(Entity entity);
 
     protected boolean shouldSetPosAfterLoading()
     {

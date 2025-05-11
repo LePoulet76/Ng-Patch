@@ -27,43 +27,43 @@ public class HttpUtil
      */
     public static String buildPostString(Map par0Map)
     {
-        StringBuilder var1 = new StringBuilder();
-        Iterator var2 = par0Map.entrySet().iterator();
+        StringBuilder stringbuilder = new StringBuilder();
+        Iterator iterator = par0Map.entrySet().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            Entry var3 = (Entry)var2.next();
+            Entry entry = (Entry)iterator.next();
 
-            if (var1.length() > 0)
+            if (stringbuilder.length() > 0)
             {
-                var1.append('&');
+                stringbuilder.append('&');
             }
 
             try
             {
-                var1.append(URLEncoder.encode((String)var3.getKey(), "UTF-8"));
+                stringbuilder.append(URLEncoder.encode((String)entry.getKey(), "UTF-8"));
             }
-            catch (UnsupportedEncodingException var6)
+            catch (UnsupportedEncodingException unsupportedencodingexception)
             {
-                var6.printStackTrace();
+                unsupportedencodingexception.printStackTrace();
             }
 
-            if (var3.getValue() != null)
+            if (entry.getValue() != null)
             {
-                var1.append('=');
+                stringbuilder.append('=');
 
                 try
                 {
-                    var1.append(URLEncoder.encode(var3.getValue().toString(), "UTF-8"));
+                    stringbuilder.append(URLEncoder.encode(entry.getValue().toString(), "UTF-8"));
                 }
-                catch (UnsupportedEncodingException var5)
+                catch (UnsupportedEncodingException unsupportedencodingexception1)
                 {
-                    var5.printStackTrace();
+                    unsupportedencodingexception1.printStackTrace();
                 }
             }
         }
 
-        return var1.toString();
+        return stringbuilder.toString();
     }
 
     /**
@@ -81,49 +81,49 @@ public class HttpUtil
     {
         try
         {
-            Proxy var4 = MinecraftServer.getServer() == null ? null : MinecraftServer.getServer().getServerProxy();
+            Proxy proxy = MinecraftServer.getServer() == null ? null : MinecraftServer.getServer().getServerProxy();
 
-            if (var4 == null)
+            if (proxy == null)
             {
-                var4 = Proxy.NO_PROXY;
+                proxy = Proxy.NO_PROXY;
             }
 
-            HttpURLConnection var5 = (HttpURLConnection)par1URL.openConnection(var4);
-            var5.setRequestMethod("POST");
-            var5.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            var5.setRequestProperty("Content-Length", "" + par2Str.getBytes().length);
-            var5.setRequestProperty("Content-Language", "en-US");
-            var5.setUseCaches(false);
-            var5.setDoInput(true);
-            var5.setDoOutput(true);
-            DataOutputStream var6 = new DataOutputStream(var5.getOutputStream());
-            var6.writeBytes(par2Str);
-            var6.flush();
-            var6.close();
-            BufferedReader var7 = new BufferedReader(new InputStreamReader(var5.getInputStream()));
-            StringBuffer var9 = new StringBuffer();
-            String var8;
+            HttpURLConnection httpurlconnection = (HttpURLConnection)par1URL.openConnection(proxy);
+            httpurlconnection.setRequestMethod("POST");
+            httpurlconnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            httpurlconnection.setRequestProperty("Content-Length", "" + par2Str.getBytes().length);
+            httpurlconnection.setRequestProperty("Content-Language", "en-US");
+            httpurlconnection.setUseCaches(false);
+            httpurlconnection.setDoInput(true);
+            httpurlconnection.setDoOutput(true);
+            DataOutputStream dataoutputstream = new DataOutputStream(httpurlconnection.getOutputStream());
+            dataoutputstream.writeBytes(par2Str);
+            dataoutputstream.flush();
+            dataoutputstream.close();
+            BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(httpurlconnection.getInputStream()));
+            StringBuffer stringbuffer = new StringBuffer();
+            String s1;
 
-            while ((var8 = var7.readLine()) != null)
+            while ((s1 = bufferedreader.readLine()) != null)
             {
-                var9.append(var8);
-                var9.append('\r');
+                stringbuffer.append(s1);
+                stringbuffer.append('\r');
             }
 
-            var7.close();
-            return var9.toString();
+            bufferedreader.close();
+            return stringbuffer.toString();
         }
-        catch (Exception var10)
+        catch (Exception exception)
         {
             if (!par3)
             {
                 if (par0ILogAgent != null)
                 {
-                    par0ILogAgent.logSevereException("Could not post to " + par1URL, var10);
+                    par0ILogAgent.logSevereException("Could not post to " + par1URL, exception);
                 }
                 else
                 {
-                    Logger.getAnonymousLogger().log(Level.SEVERE, "Could not post to " + par1URL, var10);
+                    Logger.getAnonymousLogger().log(Level.SEVERE, "Could not post to " + par1URL, exception);
                 }
             }
 
@@ -134,30 +134,30 @@ public class HttpUtil
     @SideOnly(Side.CLIENT)
     public static int func_76181_a() throws IOException
     {
-        ServerSocket var0 = null;
-        boolean var1 = true;
-        int var10;
+        ServerSocket serversocket = null;
+        boolean flag = true;
+        int i;
 
         try
         {
-            var0 = new ServerSocket(0);
-            var10 = var0.getLocalPort();
+            serversocket = new ServerSocket(0);
+            i = serversocket.getLocalPort();
         }
         finally
         {
             try
             {
-                if (var0 != null)
+                if (serversocket != null)
                 {
-                    var0.close();
+                    serversocket.close();
                 }
             }
-            catch (IOException var8)
+            catch (IOException ioexception)
             {
                 ;
             }
         }
 
-        return var10;
+        return i;
     }
 }

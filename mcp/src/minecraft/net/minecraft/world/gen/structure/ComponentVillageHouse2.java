@@ -8,6 +8,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.ChestGenHooks;
+import static net.minecraftforge.common.ChestGenHooks.*;
+
 public class ComponentVillageHouse2 extends ComponentVillage
 {
     /** List of items that Village's Blacksmith chest can contain. */
@@ -25,8 +28,8 @@ public class ComponentVillageHouse2 extends ComponentVillage
 
     public static ComponentVillageHouse2 func_74915_a(ComponentVillageStartPiece par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
     {
-        StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 10, 6, 7, par6);
-        return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new ComponentVillageHouse2(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 10, 6, 7, par6);
+        return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(par1List, structureboundingbox) == null ? new ComponentVillageHouse2(par0ComponentVillageStartPiece, par7, par2Random, structureboundingbox, par6) : null;
     }
 
     protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
@@ -94,36 +97,36 @@ public class ComponentVillageHouse2 extends ComponentVillage
         this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 1, 1, 5, par3StructureBoundingBox);
         this.placeBlockAtCurrentPosition(par1World, Block.stairsWoodOak.blockID, this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 3), 2, 1, 5, par3StructureBoundingBox);
         this.placeBlockAtCurrentPosition(par1World, Block.stairsWoodOak.blockID, this.getMetadataWithOffset(Block.stairsWoodOak.blockID, 1), 1, 1, 4, par3StructureBoundingBox);
-        int var4;
-        int var5;
+        int i;
+        int j;
 
         if (!this.hasMadeChest)
         {
-            var4 = this.getYWithOffset(1);
-            var5 = this.getXWithOffset(5, 5);
-            int var6 = this.getZWithOffset(5, 5);
+            i = this.getYWithOffset(1);
+            j = this.getXWithOffset(5, 5);
+            int k = this.getZWithOffset(5, 5);
 
-            if (par3StructureBoundingBox.isVecInside(var5, var4, var6))
+            if (par3StructureBoundingBox.isVecInside(j, i, k))
             {
                 this.hasMadeChest = true;
-                this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 5, 1, 5, villageBlacksmithChestContents, 3 + par2Random.nextInt(6));
+                this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 5, 1, 5, ChestGenHooks.getItems(VILLAGE_BLACKSMITH, par2Random), ChestGenHooks.getCount(VILLAGE_BLACKSMITH, par2Random));
             }
         }
 
-        for (var4 = 6; var4 <= 8; ++var4)
+        for (i = 6; i <= 8; ++i)
         {
-            if (this.getBlockIdAtCurrentPosition(par1World, var4, 0, -1, par3StructureBoundingBox) == 0 && this.getBlockIdAtCurrentPosition(par1World, var4, -1, -1, par3StructureBoundingBox) != 0)
+            if (this.getBlockIdAtCurrentPosition(par1World, i, 0, -1, par3StructureBoundingBox) == 0 && this.getBlockIdAtCurrentPosition(par1World, i, -1, -1, par3StructureBoundingBox) != 0)
             {
-                this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, this.getMetadataWithOffset(Block.stairsCobblestone.blockID, 3), var4, 0, -1, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, this.getMetadataWithOffset(Block.stairsCobblestone.blockID, 3), i, 0, -1, par3StructureBoundingBox);
             }
         }
 
-        for (var4 = 0; var4 < 7; ++var4)
+        for (i = 0; i < 7; ++i)
         {
-            for (var5 = 0; var5 < 10; ++var5)
+            for (j = 0; j < 10; ++j)
             {
-                this.clearCurrentPositionBlocksUpwards(par1World, var5, 6, var4, par3StructureBoundingBox);
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.cobblestone.blockID, 0, var5, -1, var4, par3StructureBoundingBox);
+                this.clearCurrentPositionBlocksUpwards(par1World, j, 6, i, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.cobblestone.blockID, 0, j, -1, i, par3StructureBoundingBox);
             }
         }
 

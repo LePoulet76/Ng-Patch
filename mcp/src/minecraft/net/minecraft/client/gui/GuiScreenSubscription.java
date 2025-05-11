@@ -47,19 +47,19 @@ public class GuiScreenSubscription extends GuiScreen
 
     private void func_98063_a(long par1)
     {
-        McoClient var3 = new McoClient(this.mc.getSession());
+        McoClient mcoclient = new McoClient(this.mc.getSession());
 
         try
         {
-            ValueObjectSubscription var4 = var3.func_98177_f(par1);
-            this.field_98068_n = var4.field_98170_b;
-            this.field_98069_o = this.func_98062_b(var4.field_98171_a);
+            ValueObjectSubscription valueobjectsubscription = mcoclient.func_98177_f(par1);
+            this.field_98068_n = valueobjectsubscription.field_98170_b;
+            this.field_98069_o = this.func_98062_b(valueobjectsubscription.field_98171_a);
         }
-        catch (ExceptionMcoService var5)
+        catch (ExceptionMcoService exceptionmcoservice)
         {
-            Minecraft.getMinecraft().getLogAgent().logSevere(var5.toString());
+            Minecraft.getMinecraft().getLogAgent().logSevere(exceptionmcoservice.toString());
         }
-        catch (IOException var6)
+        catch (IOException ioexception)
         {
             Minecraft.getMinecraft().getLogAgent().logWarning("Realms: could not parse response");
         }
@@ -67,9 +67,9 @@ public class GuiScreenSubscription extends GuiScreen
 
     private String func_98062_b(long par1)
     {
-        GregorianCalendar var3 = new GregorianCalendar(TimeZone.getDefault());
-        var3.setTimeInMillis(par1);
-        return SimpleDateFormat.getDateTimeInstance().format(var3.getTime());
+        GregorianCalendar gregoriancalendar = new GregorianCalendar(TimeZone.getDefault());
+        gregoriancalendar.setTimeInMillis(par1);
+        return SimpleDateFormat.getDateTimeInstance().format(gregoriancalendar.getTime());
     }
 
     /**

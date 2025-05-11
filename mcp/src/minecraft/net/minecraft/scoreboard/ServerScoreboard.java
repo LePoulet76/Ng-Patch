@@ -46,18 +46,18 @@ public class ServerScoreboard extends Scoreboard
 
     public void func_96530_a(int par1, ScoreObjective par2ScoreObjective)
     {
-        ScoreObjective var3 = this.func_96539_a(par1);
+        ScoreObjective scoreobjective1 = this.func_96539_a(par1);
         super.func_96530_a(par1, par2ScoreObjective);
 
-        if (var3 != par2ScoreObjective && var3 != null)
+        if (scoreobjective1 != par2ScoreObjective && scoreobjective1 != null)
         {
-            if (this.func_96552_h(var3) > 0)
+            if (this.func_96552_h(scoreobjective1) > 0)
             {
                 this.field_96555_a.getConfigurationManager().sendPacketToAllPlayers(new Packet208SetDisplayObjective(par1, par2ScoreObjective));
             }
             else
             {
-                this.func_96546_g(var3);
+                this.func_96546_g(scoreobjective1);
             }
         }
 
@@ -160,42 +160,42 @@ public class ServerScoreboard extends Scoreboard
 
     public List func_96550_d(ScoreObjective par1ScoreObjective)
     {
-        ArrayList var2 = new ArrayList();
-        var2.add(new Packet206SetObjective(par1ScoreObjective, 0));
+        ArrayList arraylist = new ArrayList();
+        arraylist.add(new Packet206SetObjective(par1ScoreObjective, 0));
 
-        for (int var3 = 0; var3 < 3; ++var3)
+        for (int i = 0; i < 3; ++i)
         {
-            if (this.func_96539_a(var3) == par1ScoreObjective)
+            if (this.func_96539_a(i) == par1ScoreObjective)
             {
-                var2.add(new Packet208SetDisplayObjective(var3, par1ScoreObjective));
+                arraylist.add(new Packet208SetDisplayObjective(i, par1ScoreObjective));
             }
         }
 
-        Iterator var5 = this.func_96534_i(par1ScoreObjective).iterator();
+        Iterator iterator = this.func_96534_i(par1ScoreObjective).iterator();
 
-        while (var5.hasNext())
+        while (iterator.hasNext())
         {
-            Score var4 = (Score)var5.next();
-            var2.add(new Packet207SetScore(var4, 0));
+            Score score = (Score)iterator.next();
+            arraylist.add(new Packet207SetScore(score, 0));
         }
 
-        return var2;
+        return arraylist;
     }
 
     public void func_96549_e(ScoreObjective par1ScoreObjective)
     {
-        List var2 = this.func_96550_d(par1ScoreObjective);
-        Iterator var3 = this.field_96555_a.getConfigurationManager().playerEntityList.iterator();
+        List list = this.func_96550_d(par1ScoreObjective);
+        Iterator iterator = this.field_96555_a.getConfigurationManager().playerEntityList.iterator();
 
-        while (var3.hasNext())
+        while (iterator.hasNext())
         {
-            EntityPlayerMP var4 = (EntityPlayerMP)var3.next();
-            Iterator var5 = var2.iterator();
+            EntityPlayerMP entityplayermp = (EntityPlayerMP)iterator.next();
+            Iterator iterator1 = list.iterator();
 
-            while (var5.hasNext())
+            while (iterator1.hasNext())
             {
-                Packet var6 = (Packet)var5.next();
-                var4.playerNetServerHandler.sendPacketToPlayer(var6);
+                Packet packet = (Packet)iterator1.next();
+                entityplayermp.playerNetServerHandler.sendPacketToPlayer(packet);
             }
         }
 
@@ -204,34 +204,34 @@ public class ServerScoreboard extends Scoreboard
 
     public List func_96548_f(ScoreObjective par1ScoreObjective)
     {
-        ArrayList var2 = new ArrayList();
-        var2.add(new Packet206SetObjective(par1ScoreObjective, 1));
+        ArrayList arraylist = new ArrayList();
+        arraylist.add(new Packet206SetObjective(par1ScoreObjective, 1));
 
-        for (int var3 = 0; var3 < 3; ++var3)
+        for (int i = 0; i < 3; ++i)
         {
-            if (this.func_96539_a(var3) == par1ScoreObjective)
+            if (this.func_96539_a(i) == par1ScoreObjective)
             {
-                var2.add(new Packet208SetDisplayObjective(var3, par1ScoreObjective));
+                arraylist.add(new Packet208SetDisplayObjective(i, par1ScoreObjective));
             }
         }
 
-        return var2;
+        return arraylist;
     }
 
     public void func_96546_g(ScoreObjective par1ScoreObjective)
     {
-        List var2 = this.func_96548_f(par1ScoreObjective);
-        Iterator var3 = this.field_96555_a.getConfigurationManager().playerEntityList.iterator();
+        List list = this.func_96548_f(par1ScoreObjective);
+        Iterator iterator = this.field_96555_a.getConfigurationManager().playerEntityList.iterator();
 
-        while (var3.hasNext())
+        while (iterator.hasNext())
         {
-            EntityPlayerMP var4 = (EntityPlayerMP)var3.next();
-            Iterator var5 = var2.iterator();
+            EntityPlayerMP entityplayermp = (EntityPlayerMP)iterator.next();
+            Iterator iterator1 = list.iterator();
 
-            while (var5.hasNext())
+            while (iterator1.hasNext())
             {
-                Packet var6 = (Packet)var5.next();
-                var4.playerNetServerHandler.sendPacketToPlayer(var6);
+                Packet packet = (Packet)iterator1.next();
+                entityplayermp.playerNetServerHandler.sendPacketToPlayer(packet);
             }
         }
 
@@ -240,16 +240,16 @@ public class ServerScoreboard extends Scoreboard
 
     public int func_96552_h(ScoreObjective par1ScoreObjective)
     {
-        int var2 = 0;
+        int i = 0;
 
-        for (int var3 = 0; var3 < 3; ++var3)
+        for (int j = 0; j < 3; ++j)
         {
-            if (this.func_96539_a(var3) == par1ScoreObjective)
+            if (this.func_96539_a(j) == par1ScoreObjective)
             {
-                ++var2;
+                ++i;
             }
         }
 
-        return var2;
+        return i;
     }
 }

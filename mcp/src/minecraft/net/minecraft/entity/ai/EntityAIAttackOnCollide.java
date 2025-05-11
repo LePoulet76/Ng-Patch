@@ -3,6 +3,7 @@ package net.minecraft.entity.ai;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.pathfinding.PathEntity;
+import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -29,6 +30,8 @@ public class EntityAIAttackOnCollide extends EntityAIBase
     Class classTarget;
     private int field_75445_i;
 
+    private int failedPathFindingPenalty;
+
     public EntityAIAttackOnCollide(EntityCreature par1EntityCreature, Class par2Class, double par3, boolean par5)
     {
         this(par1EntityCreature, par3, par5);
@@ -49,24 +52,32 @@ public class EntityAIAttackOnCollide extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        EntityLivingBase var1 = this.attacker.getAttackTarget();
+        EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
 
-        if (var1 == null)
+        if (entitylivingbase == null)
         {
             return false;
         }
-        else if (!var1.isEntityAlive())
+        else if (!entitylivingbase.isEntityAlive())
         {
             return false;
         }
-        else if (this.classTarget != null && !this.classTarget.isAssignableFrom(var1.getClass()))
+        else if (this.classTarget != null && !this.classTarget.isAssignableFrom(entitylivingbase.getClass()))
         {
             return false;
         }
         else
         {
-            this.entityPathEntity = this.attacker.getNavigator().getPathToEntityLiving(var1);
-            return this.entityPathEntity != null;
+            if (-- this.field_75445_i <= 0)
+            {
+                this.entityPathEntity = this.attacker.getNavigator().getPathToEntityLiving(entitylivingbase);
+                this.field_75445_i = 4 + this.attacker.getRNG().nextInt(7);
+                return this.entityPathEntity != null;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 
@@ -75,8 +86,8 @@ public class EntityAIAttackOnCollide extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        EntityLivingBase var1 = this.attacker.getAttackTarget();
-        return var1 == null ? false : (!var1.isEntityAlive() ? false : (!this.longMemory ? !this.attacker.getNavigator().noPath() : this.attacker.func_110176_b(MathHelper.floor_double(var1.posX), MathHelper.floor_double(var1.posY), MathHelper.floor_double(var1.posZ))));
+        EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+        return entitylivingbase == null ? false : (!entitylivingbase.isEntityAlive() ? false : (!this.longMemory ? !this.attacker.getNavigator().noPath() : this.attacker.func_110176_b(MathHelper.floor_double(entitylivingbase.posX), MathHelper.floor_double(entitylivingbase.posY), MathHelper.floor_double(entitylivingbase.posZ))));
     }
 
     /**
@@ -101,19 +112,35 @@ public class EntityAIAttackOnCollide extends EntityAIBase
      */
     public void updateTask()
     {
-        EntityLivingBase var1 = this.attacker.getAttackTarget();
-        this.attacker.getLookHelper().setLookPositionWithEntity(var1, 30.0F, 30.0F);
+        EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+        this.attacker.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
 
-        if ((this.longMemory || this.attacker.getEntitySenses().canSee(var1)) && --this.field_75445_i <= 0)
+        if ((this.longMemory || this.attacker.getEntitySenses().canSee(entitylivingbase)) && --this.field_75445_i <= 0)
         {
-            this.field_75445_i = 4 + this.attacker.getRNG().nextInt(7);
-            this.attacker.getNavigator().tryMoveToEntityLiving(var1, this.speedTowardsTarget);
+            this.field_75445_i = failedPathFindingPenalty + 4 + this.attacker.getRNG().nextInt(7);
+            this.attacker.getNavigator().tryMoveToEntityLiving(entitylivingbase, this.speedTowardsTarget);
+            if (this.attacker.getNavigator().getPath() != null)
+            {
+                PathPoint finalPathPoint = this.attacker.getNavigator().getPath().getFinalPathPoint();
+                if (finalPathPoint != null && entitylivingbase.getDistanceSq(finalPathPoint.xCoord, finalPathPoint.yCoord, finalPathPoint.zCoord) < 1)
+                {
+                    failedPathFindingPenalty = 0;
+                }
+                else
+                {
+                    failedPathFindingPenalty += 10;
+                }
+            }
+            else
+            {
+                failedPathFindingPenalty += 10;
+            }
         }
 
         this.attackTick = Math.max(this.attackTick - 1, 0);
-        double var2 = (double)(this.attacker.width * 2.0F * this.attacker.width * 2.0F + var1.width);
+        double d0 = (double)(this.attacker.width * 2.0F * this.attacker.width * 2.0F + entitylivingbase.width);
 
-        if (this.attacker.getDistanceSq(var1.posX, var1.boundingBox.minY, var1.posZ) <= var2)
+        if (this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.boundingBox.minY, entitylivingbase.posZ) <= d0)
         {
             if (this.attackTick <= 0)
             {
@@ -124,7 +151,7 @@ public class EntityAIAttackOnCollide extends EntityAIBase
                     this.attacker.swingItem();
                 }
 
-                this.attacker.attackEntityAsMob(var1);
+                this.attacker.attackEntityAsMob(entitylivingbase);
             }
         }
     }

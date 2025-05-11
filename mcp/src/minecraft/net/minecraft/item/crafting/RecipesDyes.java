@@ -12,12 +12,12 @@ public class RecipesDyes
      */
     public void addRecipes(CraftingManager par1CraftingManager)
     {
-        int var2;
+        int i;
 
-        for (var2 = 0; var2 < 16; ++var2)
+        for (i = 0; i < 16; ++i)
         {
-            par1CraftingManager.addShapelessRecipe(new ItemStack(Block.cloth, 1, BlockColored.getDyeFromBlock(var2)), new Object[] {new ItemStack(Item.dyePowder, 1, var2), new ItemStack(Item.itemsList[Block.cloth.blockID], 1, 0)});
-            par1CraftingManager.addRecipe(new ItemStack(Block.stainedClay, 8, BlockColored.getDyeFromBlock(var2)), new Object[] {"###", "#X#", "###", '#', new ItemStack(Block.hardenedClay), 'X', new ItemStack(Item.dyePowder, 1, var2)});
+            par1CraftingManager.addShapelessRecipe(new ItemStack(Block.cloth, 1, BlockColored.getDyeFromBlock(i)), new Object[] {new ItemStack(Item.dyePowder, 1, i), new ItemStack(Item.itemsList[Block.cloth.blockID], 1, 0)});
+            par1CraftingManager.addRecipe(new ItemStack(Block.stainedClay, 8, BlockColored.getDyeFromBlock(i)), new Object[] {"###", "#X#", "###", '#', new ItemStack(Block.hardenedClay), 'X', new ItemStack(Item.dyePowder, 1, i)});
         }
 
         par1CraftingManager.addShapelessRecipe(new ItemStack(Item.dyePowder, 2, 11), new Object[] {Block.plantYellow});
@@ -36,9 +36,9 @@ public class RecipesDyes
         par1CraftingManager.addShapelessRecipe(new ItemStack(Item.dyePowder, 3, 13), new Object[] {new ItemStack(Item.dyePowder, 1, 4), new ItemStack(Item.dyePowder, 1, 1), new ItemStack(Item.dyePowder, 1, 9)});
         par1CraftingManager.addShapelessRecipe(new ItemStack(Item.dyePowder, 4, 13), new Object[] {new ItemStack(Item.dyePowder, 1, 4), new ItemStack(Item.dyePowder, 1, 1), new ItemStack(Item.dyePowder, 1, 1), new ItemStack(Item.dyePowder, 1, 15)});
 
-        for (var2 = 0; var2 < 16; ++var2)
+        for (i = 0; i < 16; ++i)
         {
-            par1CraftingManager.addRecipe(new ItemStack(Block.carpet, 3, var2), new Object[] {"##", '#', new ItemStack(Block.cloth, 1, var2)});
+            par1CraftingManager.addRecipe(new ItemStack(Block.carpet, 3, i), new Object[] {"##", '#', new ItemStack(Block.cloth, 1, i)});
         }
     }
 }

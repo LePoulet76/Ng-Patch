@@ -15,23 +15,23 @@ public class ValueObjectSubscription extends ValueObject
 
     public static ValueObjectSubscription func_98169_a(String par0Str)
     {
-        ValueObjectSubscription var1 = new ValueObjectSubscription();
+        ValueObjectSubscription valueobjectsubscription = new ValueObjectSubscription();
 
         try
         {
-            JsonRootNode var2 = (new JdomParser()).parse(par0Str);
-            var1.field_98171_a = Long.parseLong(var2.getNumberValue(new Object[] {"startDate"}));
-            var1.field_98170_b = Integer.parseInt(var2.getNumberValue(new Object[] {"daysLeft"}));
+            JsonRootNode jsonrootnode = (new JdomParser()).parse(par0Str);
+            valueobjectsubscription.field_98171_a = Long.parseLong(jsonrootnode.getNumberValue(new Object[] {"startDate"}));
+            valueobjectsubscription.field_98170_b = Integer.parseInt(jsonrootnode.getNumberValue(new Object[] {"daysLeft"}));
         }
-        catch (InvalidSyntaxException var3)
+        catch (InvalidSyntaxException invalidsyntaxexception)
         {
             ;
         }
-        catch (IllegalArgumentException var4)
+        catch (IllegalArgumentException illegalargumentexception)
         {
             ;
         }
 
-        return var1;
+        return valueobjectsubscription;
     }
 }

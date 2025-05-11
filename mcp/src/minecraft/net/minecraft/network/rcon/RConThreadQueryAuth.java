@@ -28,12 +28,12 @@ class RConThreadQueryAuth
     {
         this.queryThread = par1RConThreadQuery;
         this.timestamp = (new Date()).getTime();
-        byte[] var3 = par2DatagramPacket.getData();
+        byte[] abyte = par2DatagramPacket.getData();
         this.requestId = new byte[4];
-        this.requestId[0] = var3[3];
-        this.requestId[1] = var3[4];
-        this.requestId[2] = var3[5];
-        this.requestId[3] = var3[6];
+        this.requestId[0] = abyte[3];
+        this.requestId[1] = abyte[4];
+        this.requestId[2] = abyte[5];
+        this.requestId[3] = abyte[6];
         this.requestIdAsString = new String(this.requestId);
         this.randomChallenge = (new Random()).nextInt(16777216);
         this.challengeValue = String.format("\t%s%d\u0000", new Object[] {this.requestIdAsString, Integer.valueOf(this.randomChallenge)}).getBytes();

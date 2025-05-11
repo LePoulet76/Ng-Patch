@@ -125,8 +125,8 @@ public class GuiFlatPresets extends GuiScreen
 
     public void func_82296_g()
     {
-        boolean var1 = this.func_82293_j();
-        this.theButton.enabled = var1;
+        boolean flag = this.func_82293_j();
+        this.theButton.enabled = flag;
     }
 
     private boolean func_82293_j()
@@ -147,28 +147,28 @@ public class GuiFlatPresets extends GuiScreen
      */
     public static void addPreset(String par0Str, int par1, BiomeGenBase par2BiomeGenBase, List par3List, FlatLayerInfo ... par4ArrayOfFlatLayerInfo)
     {
-        FlatGeneratorInfo var5 = new FlatGeneratorInfo();
+        FlatGeneratorInfo flatgeneratorinfo = new FlatGeneratorInfo();
 
-        for (int var6 = par4ArrayOfFlatLayerInfo.length - 1; var6 >= 0; --var6)
+        for (int j = par4ArrayOfFlatLayerInfo.length - 1; j >= 0; --j)
         {
-            var5.getFlatLayers().add(par4ArrayOfFlatLayerInfo[var6]);
+            flatgeneratorinfo.getFlatLayers().add(par4ArrayOfFlatLayerInfo[j]);
         }
 
-        var5.setBiome(par2BiomeGenBase.biomeID);
-        var5.func_82645_d();
+        flatgeneratorinfo.setBiome(par2BiomeGenBase.biomeID);
+        flatgeneratorinfo.func_82645_d();
 
         if (par3List != null)
         {
-            Iterator var8 = par3List.iterator();
+            Iterator iterator = par3List.iterator();
 
-            while (var8.hasNext())
+            while (iterator.hasNext())
             {
-                String var7 = (String)var8.next();
-                var5.getWorldFeatures().put(var7, new HashMap());
+                String s1 = (String)iterator.next();
+                flatgeneratorinfo.getWorldFeatures().put(s1, new HashMap());
             }
         }
 
-        presets.add(new GuiFlatPresetsItem(par1, par0Str, var5.toString()));
+        presets.add(new GuiFlatPresetsItem(par1, par0Str, flatgeneratorinfo.toString()));
     }
 
     /**

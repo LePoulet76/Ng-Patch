@@ -102,9 +102,9 @@ public class GuiMultiplayer extends GuiScreen
                 this.localServerFindThread = new ThreadLanServerFind(this.localNetworkServerList);
                 this.localServerFindThread.start();
             }
-            catch (Exception var2)
+            catch (Exception exception)
             {
-                this.mc.getLogAgent().logWarning("Unable to start LAN server detection: " + var2.getMessage());
+                this.mc.getLogAgent().logWarning("Unable to start LAN server detection: " + exception.getMessage());
             }
 
             this.serverSlotContainer = new GuiSlotServer(this);
@@ -129,10 +129,10 @@ public class GuiMultiplayer extends GuiScreen
         this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20, I18n.getString("selectServer.add")));
         this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20, I18n.getString("selectServer.refresh")));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, I18n.getString("gui.cancel")));
-        boolean var1 = this.selectedServer >= 0 && this.selectedServer < this.serverSlotContainer.getSize();
-        this.buttonSelect.enabled = var1;
-        this.field_96289_p.enabled = var1;
-        this.buttonDelete.enabled = var1;
+        boolean flag = this.selectedServer >= 0 && this.selectedServer < this.serverSlotContainer.getSize();
+        this.buttonSelect.enabled = flag;
+        this.field_96289_p.enabled = flag;
+        this.buttonDelete.enabled = flag;
     }
 
     /**
@@ -173,17 +173,17 @@ public class GuiMultiplayer extends GuiScreen
         {
             if (par1GuiButton.id == 2)
             {
-                String var2 = this.internetServerList.getServerData(this.selectedServer).serverName;
+                String s = this.internetServerList.getServerData(this.selectedServer).serverName;
 
-                if (var2 != null)
+                if (s != null)
                 {
                     this.deleteClicked = true;
-                    String var3 = I18n.getString("selectServer.deleteQuestion");
-                    String var4 = "\'" + var2 + "\' " + I18n.getString("selectServer.deleteWarning");
-                    String var5 = I18n.getString("selectServer.deleteButton");
-                    String var6 = I18n.getString("gui.cancel");
-                    GuiYesNo var7 = new GuiYesNo(this, var3, var4, var5, var6, this.selectedServer);
-                    this.mc.displayGuiScreen(var7);
+                    String s1 = I18n.getString("selectServer.deleteQuestion");
+                    String s2 = "\'" + s + "\' " + I18n.getString("selectServer.deleteWarning");
+                    String s3 = I18n.getString("selectServer.deleteButton");
+                    String s4 = I18n.getString("gui.cancel");
+                    GuiYesNo guiyesno = new GuiYesNo(this, s1, s2, s3, s4, this.selectedServer);
+                    this.mc.displayGuiScreen(guiyesno);
                 }
             }
             else if (par1GuiButton.id == 1)
@@ -203,9 +203,9 @@ public class GuiMultiplayer extends GuiScreen
             else if (par1GuiButton.id == 7)
             {
                 this.editClicked = true;
-                ServerData var8 = this.internetServerList.getServerData(this.selectedServer);
-                this.theServerData = new ServerData(var8.serverName, var8.serverIP);
-                this.theServerData.setHideAddress(var8.isHidingAddress());
+                ServerData serverdata = this.internetServerList.getServerData(this.selectedServer);
+                this.theServerData = new ServerData(serverdata.serverName, serverdata.serverIP);
+                this.theServerData.setHideAddress(serverdata.isHidingAddress());
                 this.mc.displayGuiScreen(new GuiScreenAddServer(this, this.theServerData));
             }
             else if (par1GuiButton.id == 0)
@@ -270,10 +270,10 @@ public class GuiMultiplayer extends GuiScreen
 
             if (par1)
             {
-                ServerData var3 = this.internetServerList.getServerData(this.selectedServer);
-                var3.serverName = this.theServerData.serverName;
-                var3.serverIP = this.theServerData.serverIP;
-                var3.setHideAddress(this.theServerData.isHidingAddress());
+                ServerData serverdata = this.internetServerList.getServerData(this.selectedServer);
+                serverdata.serverName = this.theServerData.serverName;
+                serverdata.serverIP = this.theServerData.serverIP;
+                serverdata.setHideAddress(this.theServerData.isHidingAddress());
                 this.internetServerList.saveServerList();
             }
 
@@ -286,7 +286,7 @@ public class GuiMultiplayer extends GuiScreen
      */
     protected void keyTyped(char par1, int par2)
     {
-        int var3 = this.selectedServer;
+        int j = this.selectedServer;
 
         if (par2 == 59)
         {
@@ -297,12 +297,12 @@ public class GuiMultiplayer extends GuiScreen
         {
             if (isShiftKeyDown() && par2 == 200)
             {
-                if (var3 > 0 && var3 < this.internetServerList.countServers())
+                if (j > 0 && j < this.internetServerList.countServers())
                 {
-                    this.internetServerList.swapServers(var3, var3 - 1);
+                    this.internetServerList.swapServers(j, j - 1);
                     --this.selectedServer;
 
-                    if (var3 < this.internetServerList.countServers() - 1)
+                    if (j < this.internetServerList.countServers() - 1)
                     {
                         this.serverSlotContainer.func_77208_b(-this.serverSlotContainer.slotHeight);
                     }
@@ -310,12 +310,12 @@ public class GuiMultiplayer extends GuiScreen
             }
             else if (isShiftKeyDown() && par2 == 208)
             {
-                if (var3 >= 0 & var3 < this.internetServerList.countServers() - 1)
+                if (j >= 0 & j < this.internetServerList.countServers() - 1)
                 {
-                    this.internetServerList.swapServers(var3, var3 + 1);
+                    this.internetServerList.swapServers(j, j + 1);
                     ++this.selectedServer;
 
-                    if (var3 > 0)
+                    if (j > 0)
                     {
                         this.serverSlotContainer.func_77208_b(this.serverSlotContainer.slotHeight);
                     }
@@ -364,8 +364,8 @@ public class GuiMultiplayer extends GuiScreen
 
             if (par1 < this.listofLanServers.size())
             {
-                LanServer var2 = (LanServer)this.listofLanServers.get(par1);
-                this.connectToServer(new ServerData(var2.getServerMotd(), var2.getServerIpPort()));
+                LanServer lanserver = (LanServer)this.listofLanServers.get(par1);
+                this.connectToServer(new ServerData(lanserver.getServerMotd(), lanserver.getServerIpPort()));
             }
         }
     }
@@ -377,60 +377,60 @@ public class GuiMultiplayer extends GuiScreen
 
     private static void func_74017_b(ServerData par0ServerData) throws IOException
     {
-        ServerAddress var1 = ServerAddress.func_78860_a(par0ServerData.serverIP);
-        Socket var2 = null;
-        DataInputStream var3 = null;
-        DataOutputStream var4 = null;
+        ServerAddress serveraddress = ServerAddress.func_78860_a(par0ServerData.serverIP);
+        Socket socket = null;
+        DataInputStream datainputstream = null;
+        DataOutputStream dataoutputstream = null;
 
         try
         {
-            var2 = new Socket();
-            var2.setSoTimeout(3000);
-            var2.setTcpNoDelay(true);
-            var2.setTrafficClass(18);
-            var2.connect(new InetSocketAddress(var1.getIP(), var1.getPort()), 3000);
-            var3 = new DataInputStream(var2.getInputStream());
-            var4 = new DataOutputStream(var2.getOutputStream());
-            Packet254ServerPing var5 = new Packet254ServerPing(78, var1.getIP(), var1.getPort());
-            var4.writeByte(var5.getPacketId());
-            var5.writePacketData(var4);
+            socket = new Socket();
+            socket.setSoTimeout(3000);
+            socket.setTcpNoDelay(true);
+            socket.setTrafficClass(18);
+            socket.connect(new InetSocketAddress(serveraddress.getIP(), serveraddress.getPort()), 3000);
+            datainputstream = new DataInputStream(socket.getInputStream());
+            dataoutputstream = new DataOutputStream(socket.getOutputStream());
+            Packet254ServerPing packet254serverping = new Packet254ServerPing(78, serveraddress.getIP(), serveraddress.getPort());
+            dataoutputstream.writeByte(packet254serverping.getPacketId());
+            packet254serverping.writePacketData(dataoutputstream);
 
-            if (var3.read() != 255)
+            if (datainputstream.read() != 255)
             {
                 throw new IOException("Bad message");
             }
 
-            String var6 = Packet.readString(var3, 256);
-            char[] var7 = var6.toCharArray();
+            String s = Packet.readString(datainputstream, 256);
+            char[] achar = s.toCharArray();
 
-            for (int var8 = 0; var8 < var7.length; ++var8)
+            for (int i = 0; i < achar.length; ++i)
             {
-                if (var7[var8] != 167 && var7[var8] != 0 && ChatAllowedCharacters.allowedCharacters.indexOf(var7[var8]) < 0)
+                if (achar[i] != 167 && achar[i] != 0 && ChatAllowedCharacters.allowedCharacters.indexOf(achar[i]) < 0)
                 {
-                    var7[var8] = 63;
+                    achar[i] = 63;
                 }
             }
 
-            var6 = new String(var7);
-            int var9;
-            int var10;
-            String[] var27;
+            s = new String(achar);
+            int j;
+            int k;
+            String[] astring;
 
-            if (var6.startsWith("\u00a7") && var6.length() > 1)
+            if (s.startsWith("\u00a7") && s.length() > 1)
             {
-                var27 = var6.substring(1).split("\u0000");
+                astring = s.substring(1).split("\u0000");
 
-                if (MathHelper.parseIntWithDefault(var27[0], 0) == 1)
+                if (MathHelper.parseIntWithDefault(astring[0], 0) == 1)
                 {
-                    par0ServerData.serverMOTD = var27[3];
-                    par0ServerData.field_82821_f = MathHelper.parseIntWithDefault(var27[1], par0ServerData.field_82821_f);
-                    par0ServerData.gameVersion = var27[2];
-                    var9 = MathHelper.parseIntWithDefault(var27[4], 0);
-                    var10 = MathHelper.parseIntWithDefault(var27[5], 0);
+                    par0ServerData.serverMOTD = astring[3];
+                    par0ServerData.field_82821_f = MathHelper.parseIntWithDefault(astring[1], par0ServerData.field_82821_f);
+                    par0ServerData.gameVersion = astring[2];
+                    j = MathHelper.parseIntWithDefault(astring[4], 0);
+                    k = MathHelper.parseIntWithDefault(astring[5], 0);
 
-                    if (var9 >= 0 && var10 >= 0)
+                    if (j >= 0 && k >= 0)
                     {
-                        par0ServerData.populationInfo = EnumChatFormatting.GRAY + "" + var9 + "" + EnumChatFormatting.DARK_GRAY + "/" + EnumChatFormatting.GRAY + var10;
+                        par0ServerData.populationInfo = EnumChatFormatting.GRAY + "" + j + "" + EnumChatFormatting.DARK_GRAY + "/" + EnumChatFormatting.GRAY + k;
                     }
                     else
                     {
@@ -447,26 +447,26 @@ public class GuiMultiplayer extends GuiScreen
             }
             else
             {
-                var27 = var6.split("\u00a7");
-                var6 = var27[0];
-                var9 = -1;
-                var10 = -1;
+                astring = s.split("\u00a7");
+                s = astring[0];
+                j = -1;
+                k = -1;
 
                 try
                 {
-                    var9 = Integer.parseInt(var27[1]);
-                    var10 = Integer.parseInt(var27[2]);
+                    j = Integer.parseInt(astring[1]);
+                    k = Integer.parseInt(astring[2]);
                 }
-                catch (Exception var25)
+                catch (Exception exception)
                 {
                     ;
                 }
 
-                par0ServerData.serverMOTD = EnumChatFormatting.GRAY + var6;
+                par0ServerData.serverMOTD = EnumChatFormatting.GRAY + s;
 
-                if (var9 >= 0 && var10 > 0)
+                if (j >= 0 && k > 0)
                 {
-                    par0ServerData.populationInfo = EnumChatFormatting.GRAY + "" + var9 + "" + EnumChatFormatting.DARK_GRAY + "/" + EnumChatFormatting.GRAY + var10;
+                    par0ServerData.populationInfo = EnumChatFormatting.GRAY + "" + j + "" + EnumChatFormatting.DARK_GRAY + "/" + EnumChatFormatting.GRAY + k;
                 }
                 else
                 {
@@ -481,36 +481,36 @@ public class GuiMultiplayer extends GuiScreen
         {
             try
             {
-                if (var3 != null)
+                if (datainputstream != null)
                 {
-                    var3.close();
+                    datainputstream.close();
                 }
             }
-            catch (Throwable var24)
+            catch (Throwable throwable)
             {
                 ;
             }
 
             try
             {
-                if (var4 != null)
+                if (dataoutputstream != null)
                 {
-                    var4.close();
+                    dataoutputstream.close();
                 }
             }
-            catch (Throwable var23)
+            catch (Throwable throwable1)
             {
                 ;
             }
 
             try
             {
-                if (var2 != null)
+                if (socket != null)
                 {
-                    var2.close();
+                    socket.close();
                 }
             }
-            catch (Throwable var22)
+            catch (Throwable throwable2)
             {
                 ;
             }
@@ -521,11 +521,11 @@ public class GuiMultiplayer extends GuiScreen
     {
         if (par1Str != null)
         {
-            int var4 = par2 + 12;
-            int var5 = par3 - 12;
-            int var6 = this.fontRenderer.getStringWidth(par1Str);
-            this.drawGradientRect(var4 - 3, var5 - 3, var4 + var6 + 3, var5 + 8 + 3, -1073741824, -1073741824);
-            this.fontRenderer.drawStringWithShadow(par1Str, var4, var5, -1);
+            int k = par2 + 12;
+            int l = par3 - 12;
+            int i1 = this.fontRenderer.getStringWidth(par1Str);
+            this.drawGradientRect(k - 3, l - 3, k + i1 + 3, l + 8 + 3, -1073741824, -1073741824);
+            this.fontRenderer.drawStringWithShadow(par1Str, k, l, -1);
         }
     }
 

@@ -28,8 +28,8 @@ public class EntitySelectorArmoredMob implements IEntitySelector
         }
         else
         {
-            EntityLivingBase var2 = (EntityLivingBase)par1Entity;
-            return var2.getCurrentItemOrArmor(EntityLiving.getArmorPosition(this.field_96567_c)) != null ? false : (var2 instanceof EntityLiving ? ((EntityLiving)var2).canPickUpLoot() : var2 instanceof EntityPlayer);
+            EntityLivingBase entitylivingbase = (EntityLivingBase)par1Entity;
+            return entitylivingbase.getCurrentItemOrArmor(EntityLiving.getArmorPosition(this.field_96567_c)) != null ? false : (entitylivingbase instanceof EntityLiving ? ((EntityLiving)entitylivingbase).canPickUpLoot() : entitylivingbase instanceof EntityPlayer);
         }
     }
 }

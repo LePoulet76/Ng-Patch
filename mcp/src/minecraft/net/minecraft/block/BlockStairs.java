@@ -83,9 +83,9 @@ public class BlockStairs extends Block
 
     public void func_82541_d(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+        int l = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
 
-        if ((var5 & 4) != 0)
+        if ((l & 4) != 0)
         {
             this.setBlockBounds(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
         }
@@ -109,248 +109,248 @@ public class BlockStairs extends Block
      */
     private boolean isBlockStairsDirection(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
     {
-        int var6 = par1IBlockAccess.getBlockId(par2, par3, par4);
-        return isBlockStairsID(var6) && par1IBlockAccess.getBlockMetadata(par2, par3, par4) == par5;
+        int i1 = par1IBlockAccess.getBlockId(par2, par3, par4);
+        return isBlockStairsID(i1) && par1IBlockAccess.getBlockMetadata(par2, par3, par4) == par5;
     }
 
     public boolean func_82542_g(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
-        int var6 = var5 & 3;
-        float var7 = 0.5F;
-        float var8 = 1.0F;
+        int l = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+        int i1 = l & 3;
+        float f = 0.5F;
+        float f1 = 1.0F;
 
-        if ((var5 & 4) != 0)
+        if ((l & 4) != 0)
         {
-            var7 = 0.0F;
-            var8 = 0.5F;
+            f = 0.0F;
+            f1 = 0.5F;
         }
 
-        float var9 = 0.0F;
-        float var10 = 1.0F;
-        float var11 = 0.0F;
-        float var12 = 0.5F;
-        boolean var13 = true;
-        int var14;
-        int var15;
-        int var16;
+        float f2 = 0.0F;
+        float f3 = 1.0F;
+        float f4 = 0.0F;
+        float f5 = 0.5F;
+        boolean flag = true;
+        int j1;
+        int k1;
+        int l1;
 
-        if (var6 == 0)
+        if (i1 == 0)
         {
-            var9 = 0.5F;
-            var12 = 1.0F;
-            var14 = par1IBlockAccess.getBlockId(par2 + 1, par3, par4);
-            var15 = par1IBlockAccess.getBlockMetadata(par2 + 1, par3, par4);
+            f2 = 0.5F;
+            f5 = 1.0F;
+            j1 = par1IBlockAccess.getBlockId(par2 + 1, par3, par4);
+            k1 = par1IBlockAccess.getBlockMetadata(par2 + 1, par3, par4);
 
-            if (isBlockStairsID(var14) && (var5 & 4) == (var15 & 4))
+            if (isBlockStairsID(j1) && (l & 4) == (k1 & 4))
             {
-                var16 = var15 & 3;
+                l1 = k1 & 3;
 
-                if (var16 == 3 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 + 1, var5))
+                if (l1 == 3 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 + 1, l))
                 {
-                    var12 = 0.5F;
-                    var13 = false;
+                    f5 = 0.5F;
+                    flag = false;
                 }
-                else if (var16 == 2 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 - 1, var5))
+                else if (l1 == 2 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 - 1, l))
                 {
-                    var11 = 0.5F;
-                    var13 = false;
+                    f4 = 0.5F;
+                    flag = false;
                 }
             }
         }
-        else if (var6 == 1)
+        else if (i1 == 1)
         {
-            var10 = 0.5F;
-            var12 = 1.0F;
-            var14 = par1IBlockAccess.getBlockId(par2 - 1, par3, par4);
-            var15 = par1IBlockAccess.getBlockMetadata(par2 - 1, par3, par4);
+            f3 = 0.5F;
+            f5 = 1.0F;
+            j1 = par1IBlockAccess.getBlockId(par2 - 1, par3, par4);
+            k1 = par1IBlockAccess.getBlockMetadata(par2 - 1, par3, par4);
 
-            if (isBlockStairsID(var14) && (var5 & 4) == (var15 & 4))
+            if (isBlockStairsID(j1) && (l & 4) == (k1 & 4))
             {
-                var16 = var15 & 3;
+                l1 = k1 & 3;
 
-                if (var16 == 3 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 + 1, var5))
+                if (l1 == 3 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 + 1, l))
                 {
-                    var12 = 0.5F;
-                    var13 = false;
+                    f5 = 0.5F;
+                    flag = false;
                 }
-                else if (var16 == 2 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 - 1, var5))
+                else if (l1 == 2 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 - 1, l))
                 {
-                    var11 = 0.5F;
-                    var13 = false;
+                    f4 = 0.5F;
+                    flag = false;
                 }
             }
         }
-        else if (var6 == 2)
+        else if (i1 == 2)
         {
-            var11 = 0.5F;
-            var12 = 1.0F;
-            var14 = par1IBlockAccess.getBlockId(par2, par3, par4 + 1);
-            var15 = par1IBlockAccess.getBlockMetadata(par2, par3, par4 + 1);
+            f4 = 0.5F;
+            f5 = 1.0F;
+            j1 = par1IBlockAccess.getBlockId(par2, par3, par4 + 1);
+            k1 = par1IBlockAccess.getBlockMetadata(par2, par3, par4 + 1);
 
-            if (isBlockStairsID(var14) && (var5 & 4) == (var15 & 4))
+            if (isBlockStairsID(j1) && (l & 4) == (k1 & 4))
             {
-                var16 = var15 & 3;
+                l1 = k1 & 3;
 
-                if (var16 == 1 && !this.isBlockStairsDirection(par1IBlockAccess, par2 + 1, par3, par4, var5))
+                if (l1 == 1 && !this.isBlockStairsDirection(par1IBlockAccess, par2 + 1, par3, par4, l))
                 {
-                    var10 = 0.5F;
-                    var13 = false;
+                    f3 = 0.5F;
+                    flag = false;
                 }
-                else if (var16 == 0 && !this.isBlockStairsDirection(par1IBlockAccess, par2 - 1, par3, par4, var5))
+                else if (l1 == 0 && !this.isBlockStairsDirection(par1IBlockAccess, par2 - 1, par3, par4, l))
                 {
-                    var9 = 0.5F;
-                    var13 = false;
+                    f2 = 0.5F;
+                    flag = false;
                 }
             }
         }
-        else if (var6 == 3)
+        else if (i1 == 3)
         {
-            var14 = par1IBlockAccess.getBlockId(par2, par3, par4 - 1);
-            var15 = par1IBlockAccess.getBlockMetadata(par2, par3, par4 - 1);
+            j1 = par1IBlockAccess.getBlockId(par2, par3, par4 - 1);
+            k1 = par1IBlockAccess.getBlockMetadata(par2, par3, par4 - 1);
 
-            if (isBlockStairsID(var14) && (var5 & 4) == (var15 & 4))
+            if (isBlockStairsID(j1) && (l & 4) == (k1 & 4))
             {
-                var16 = var15 & 3;
+                l1 = k1 & 3;
 
-                if (var16 == 1 && !this.isBlockStairsDirection(par1IBlockAccess, par2 + 1, par3, par4, var5))
+                if (l1 == 1 && !this.isBlockStairsDirection(par1IBlockAccess, par2 + 1, par3, par4, l))
                 {
-                    var10 = 0.5F;
-                    var13 = false;
+                    f3 = 0.5F;
+                    flag = false;
                 }
-                else if (var16 == 0 && !this.isBlockStairsDirection(par1IBlockAccess, par2 - 1, par3, par4, var5))
+                else if (l1 == 0 && !this.isBlockStairsDirection(par1IBlockAccess, par2 - 1, par3, par4, l))
                 {
-                    var9 = 0.5F;
-                    var13 = false;
+                    f2 = 0.5F;
+                    flag = false;
                 }
             }
         }
 
-        this.setBlockBounds(var9, var7, var11, var10, var8, var12);
-        return var13;
+        this.setBlockBounds(f2, f, f4, f3, f1, f5);
+        return flag;
     }
 
     public boolean func_82544_h(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
-        int var6 = var5 & 3;
-        float var7 = 0.5F;
-        float var8 = 1.0F;
+        int l = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+        int i1 = l & 3;
+        float f = 0.5F;
+        float f1 = 1.0F;
 
-        if ((var5 & 4) != 0)
+        if ((l & 4) != 0)
         {
-            var7 = 0.0F;
-            var8 = 0.5F;
+            f = 0.0F;
+            f1 = 0.5F;
         }
 
-        float var9 = 0.0F;
-        float var10 = 0.5F;
-        float var11 = 0.5F;
-        float var12 = 1.0F;
-        boolean var13 = false;
-        int var14;
-        int var15;
-        int var16;
+        float f2 = 0.0F;
+        float f3 = 0.5F;
+        float f4 = 0.5F;
+        float f5 = 1.0F;
+        boolean flag = false;
+        int j1;
+        int k1;
+        int l1;
 
-        if (var6 == 0)
+        if (i1 == 0)
         {
-            var14 = par1IBlockAccess.getBlockId(par2 - 1, par3, par4);
-            var15 = par1IBlockAccess.getBlockMetadata(par2 - 1, par3, par4);
+            j1 = par1IBlockAccess.getBlockId(par2 - 1, par3, par4);
+            k1 = par1IBlockAccess.getBlockMetadata(par2 - 1, par3, par4);
 
-            if (isBlockStairsID(var14) && (var5 & 4) == (var15 & 4))
+            if (isBlockStairsID(j1) && (l & 4) == (k1 & 4))
             {
-                var16 = var15 & 3;
+                l1 = k1 & 3;
 
-                if (var16 == 3 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 - 1, var5))
+                if (l1 == 3 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 - 1, l))
                 {
-                    var11 = 0.0F;
-                    var12 = 0.5F;
-                    var13 = true;
+                    f4 = 0.0F;
+                    f5 = 0.5F;
+                    flag = true;
                 }
-                else if (var16 == 2 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 + 1, var5))
+                else if (l1 == 2 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 + 1, l))
                 {
-                    var11 = 0.5F;
-                    var12 = 1.0F;
-                    var13 = true;
+                    f4 = 0.5F;
+                    f5 = 1.0F;
+                    flag = true;
                 }
             }
         }
-        else if (var6 == 1)
+        else if (i1 == 1)
         {
-            var14 = par1IBlockAccess.getBlockId(par2 + 1, par3, par4);
-            var15 = par1IBlockAccess.getBlockMetadata(par2 + 1, par3, par4);
+            j1 = par1IBlockAccess.getBlockId(par2 + 1, par3, par4);
+            k1 = par1IBlockAccess.getBlockMetadata(par2 + 1, par3, par4);
 
-            if (isBlockStairsID(var14) && (var5 & 4) == (var15 & 4))
+            if (isBlockStairsID(j1) && (l & 4) == (k1 & 4))
             {
-                var9 = 0.5F;
-                var10 = 1.0F;
-                var16 = var15 & 3;
+                f2 = 0.5F;
+                f3 = 1.0F;
+                l1 = k1 & 3;
 
-                if (var16 == 3 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 - 1, var5))
+                if (l1 == 3 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 - 1, l))
                 {
-                    var11 = 0.0F;
-                    var12 = 0.5F;
-                    var13 = true;
+                    f4 = 0.0F;
+                    f5 = 0.5F;
+                    flag = true;
                 }
-                else if (var16 == 2 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 + 1, var5))
+                else if (l1 == 2 && !this.isBlockStairsDirection(par1IBlockAccess, par2, par3, par4 + 1, l))
                 {
-                    var11 = 0.5F;
-                    var12 = 1.0F;
-                    var13 = true;
+                    f4 = 0.5F;
+                    f5 = 1.0F;
+                    flag = true;
                 }
             }
         }
-        else if (var6 == 2)
+        else if (i1 == 2)
         {
-            var14 = par1IBlockAccess.getBlockId(par2, par3, par4 - 1);
-            var15 = par1IBlockAccess.getBlockMetadata(par2, par3, par4 - 1);
+            j1 = par1IBlockAccess.getBlockId(par2, par3, par4 - 1);
+            k1 = par1IBlockAccess.getBlockMetadata(par2, par3, par4 - 1);
 
-            if (isBlockStairsID(var14) && (var5 & 4) == (var15 & 4))
+            if (isBlockStairsID(j1) && (l & 4) == (k1 & 4))
             {
-                var11 = 0.0F;
-                var12 = 0.5F;
-                var16 = var15 & 3;
+                f4 = 0.0F;
+                f5 = 0.5F;
+                l1 = k1 & 3;
 
-                if (var16 == 1 && !this.isBlockStairsDirection(par1IBlockAccess, par2 - 1, par3, par4, var5))
+                if (l1 == 1 && !this.isBlockStairsDirection(par1IBlockAccess, par2 - 1, par3, par4, l))
                 {
-                    var13 = true;
+                    flag = true;
                 }
-                else if (var16 == 0 && !this.isBlockStairsDirection(par1IBlockAccess, par2 + 1, par3, par4, var5))
+                else if (l1 == 0 && !this.isBlockStairsDirection(par1IBlockAccess, par2 + 1, par3, par4, l))
                 {
-                    var9 = 0.5F;
-                    var10 = 1.0F;
-                    var13 = true;
+                    f2 = 0.5F;
+                    f3 = 1.0F;
+                    flag = true;
                 }
             }
         }
-        else if (var6 == 3)
+        else if (i1 == 3)
         {
-            var14 = par1IBlockAccess.getBlockId(par2, par3, par4 + 1);
-            var15 = par1IBlockAccess.getBlockMetadata(par2, par3, par4 + 1);
+            j1 = par1IBlockAccess.getBlockId(par2, par3, par4 + 1);
+            k1 = par1IBlockAccess.getBlockMetadata(par2, par3, par4 + 1);
 
-            if (isBlockStairsID(var14) && (var5 & 4) == (var15 & 4))
+            if (isBlockStairsID(j1) && (l & 4) == (k1 & 4))
             {
-                var16 = var15 & 3;
+                l1 = k1 & 3;
 
-                if (var16 == 1 && !this.isBlockStairsDirection(par1IBlockAccess, par2 - 1, par3, par4, var5))
+                if (l1 == 1 && !this.isBlockStairsDirection(par1IBlockAccess, par2 - 1, par3, par4, l))
                 {
-                    var13 = true;
+                    flag = true;
                 }
-                else if (var16 == 0 && !this.isBlockStairsDirection(par1IBlockAccess, par2 + 1, par3, par4, var5))
+                else if (l1 == 0 && !this.isBlockStairsDirection(par1IBlockAccess, par2 + 1, par3, par4, l))
                 {
-                    var9 = 0.5F;
-                    var10 = 1.0F;
-                    var13 = true;
+                    f2 = 0.5F;
+                    f3 = 1.0F;
+                    flag = true;
                 }
             }
         }
 
-        if (var13)
+        if (flag)
         {
-            this.setBlockBounds(var9, var7, var11, var10, var8, var12);
+            this.setBlockBounds(f2, f, f4, f3, f1, f5);
         }
 
-        return var13;
+        return flag;
     }
 
     /**
@@ -361,10 +361,10 @@ public class BlockStairs extends Block
     {
         this.func_82541_d(par1World, par2, par3, par4);
         super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-        boolean var8 = this.func_82542_g(par1World, par2, par3, par4);
+        boolean flag = this.func_82542_g(par1World, par2, par3, par4);
         super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
 
-        if (var8 && this.func_82544_h(par1World, par2, par3, par4))
+        if (flag && this.func_82544_h(par1World, par2, par3, par4))
         {
             super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
         }
@@ -553,27 +553,27 @@ public class BlockStairs extends Block
      */
     public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
     {
-        int var7 = MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-        int var8 = par1World.getBlockMetadata(par2, par3, par4) & 4;
+        int l = MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int i1 = par1World.getBlockMetadata(par2, par3, par4) & 4;
 
-        if (var7 == 0)
+        if (l == 0)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, 2 | var8, 2);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, 2 | i1, 2);
         }
 
-        if (var7 == 1)
+        if (l == 1)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, 1 | var8, 2);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, 1 | i1, 2);
         }
 
-        if (var7 == 2)
+        if (l == 2)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, 3 | var8, 2);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, 3 | i1, 2);
         }
 
-        if (var7 == 3)
+        if (l == 3)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, 0 | var8, 2);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, 0 | i1, 2);
         }
     }
 
@@ -591,66 +591,66 @@ public class BlockStairs extends Block
      */
     public MovingObjectPosition collisionRayTrace(World par1World, int par2, int par3, int par4, Vec3 par5Vec3, Vec3 par6Vec3)
     {
-        MovingObjectPosition[] var7 = new MovingObjectPosition[8];
-        int var8 = par1World.getBlockMetadata(par2, par3, par4);
-        int var9 = var8 & 3;
-        boolean var10 = (var8 & 4) == 4;
-        int[] var11 = field_72159_a[var9 + (var10 ? 4 : 0)];
+        MovingObjectPosition[] amovingobjectposition = new MovingObjectPosition[8];
+        int l = par1World.getBlockMetadata(par2, par3, par4);
+        int i1 = l & 3;
+        boolean flag = (l & 4) == 4;
+        int[] aint = field_72159_a[i1 + (flag ? 4 : 0)];
         this.field_72156_cr = true;
-        int var14;
-        int var15;
-        int var16;
+        int j1;
+        int k1;
+        int l1;
 
-        for (int var12 = 0; var12 < 8; ++var12)
+        for (int i2 = 0; i2 < 8; ++i2)
         {
-            this.field_72160_cs = var12;
-            int[] var13 = var11;
-            var14 = var11.length;
+            this.field_72160_cs = i2;
+            int[] aint1 = aint;
+            j1 = aint.length;
 
-            for (var15 = 0; var15 < var14; ++var15)
+            for (k1 = 0; k1 < j1; ++k1)
             {
-                var16 = var13[var15];
+                l1 = aint1[k1];
 
-                if (var16 == var12)
+                if (l1 == i2)
                 {
                     ;
                 }
             }
 
-            var7[var12] = super.collisionRayTrace(par1World, par2, par3, par4, par5Vec3, par6Vec3);
+            amovingobjectposition[i2] = super.collisionRayTrace(par1World, par2, par3, par4, par5Vec3, par6Vec3);
         }
 
-        int[] var21 = var11;
-        int var23 = var11.length;
+        int[] aint2 = aint;
+        int j2 = aint.length;
 
-        for (var14 = 0; var14 < var23; ++var14)
+        for (j1 = 0; j1 < j2; ++j1)
         {
-            var15 = var21[var14];
-            var7[var15] = null;
+            k1 = aint2[j1];
+            amovingobjectposition[k1] = null;
         }
 
-        MovingObjectPosition var22 = null;
-        double var24 = 0.0D;
-        MovingObjectPosition[] var25 = var7;
-        var16 = var7.length;
+        MovingObjectPosition movingobjectposition = null;
+        double d0 = 0.0D;
+        MovingObjectPosition[] amovingobjectposition1 = amovingobjectposition;
+        l1 = amovingobjectposition.length;
 
-        for (int var17 = 0; var17 < var16; ++var17)
+        for (int k2 = 0; k2 < l1; ++k2)
         {
-            MovingObjectPosition var18 = var25[var17];
+            MovingObjectPosition movingobjectposition1 = amovingobjectposition1[k2];
 
-            if (var18 != null)
+            if (movingobjectposition1 != null)
             {
-                double var19 = var18.hitVec.squareDistanceTo(par6Vec3);
+                double d1 = movingobjectposition1.hitVec.squareDistanceTo(par6Vec3);
 
-                if (var19 > var24)
+                if (d1 > d0)
                 {
-                    var22 = var18;
-                    var24 = var19;
+                    movingobjectposition = movingobjectposition1;
+                    d0 = d1;
                 }
             }
         }
 
-        return var22;
+        return movingobjectposition;
     }
 
     @SideOnly(Side.CLIENT)

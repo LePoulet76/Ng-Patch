@@ -42,11 +42,11 @@ public class Packet202PlayerAbilities extends Packet
      */
     public void readPacketData(DataInput par1DataInput) throws IOException
     {
-        byte var2 = par1DataInput.readByte();
-        this.setDisableDamage((var2 & 1) > 0);
-        this.setFlying((var2 & 2) > 0);
-        this.setAllowFlying((var2 & 4) > 0);
-        this.setCreativeMode((var2 & 8) > 0);
+        byte b0 = par1DataInput.readByte();
+        this.setDisableDamage((b0 & 1) > 0);
+        this.setFlying((b0 & 2) > 0);
+        this.setAllowFlying((b0 & 4) > 0);
+        this.setCreativeMode((b0 & 8) > 0);
         this.setFlySpeed(par1DataInput.readFloat());
         this.setWalkSpeed(par1DataInput.readFloat());
     }
@@ -56,29 +56,29 @@ public class Packet202PlayerAbilities extends Packet
      */
     public void writePacketData(DataOutput par1DataOutput) throws IOException
     {
-        byte var2 = 0;
+        byte b0 = 0;
 
         if (this.getDisableDamage())
         {
-            var2 = (byte)(var2 | 1);
+            b0 = (byte)(b0 | 1);
         }
 
         if (this.getFlying())
         {
-            var2 = (byte)(var2 | 2);
+            b0 = (byte)(b0 | 2);
         }
 
         if (this.getAllowFlying())
         {
-            var2 = (byte)(var2 | 4);
+            b0 = (byte)(b0 | 4);
         }
 
         if (this.isCreativeMode())
         {
-            var2 = (byte)(var2 | 8);
+            b0 = (byte)(b0 | 8);
         }
 
-        par1DataOutput.writeByte(var2);
+        par1DataOutput.writeByte(b0);
         par1DataOutput.writeFloat(this.flySpeed);
         par1DataOutput.writeFloat(this.walkSpeed);
     }

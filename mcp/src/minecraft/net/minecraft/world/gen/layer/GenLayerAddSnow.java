@@ -16,42 +16,42 @@ public class GenLayerAddSnow extends GenLayer
      */
     public int[] getInts(int par1, int par2, int par3, int par4)
     {
-        int var5 = par1 - 1;
-        int var6 = par2 - 1;
-        int var7 = par3 + 2;
-        int var8 = par4 + 2;
-        int[] var9 = this.parent.getInts(var5, var6, var7, var8);
-        int[] var10 = IntCache.getIntCache(par3 * par4);
+        int i1 = par1 - 1;
+        int j1 = par2 - 1;
+        int k1 = par3 + 2;
+        int l1 = par4 + 2;
+        int[] aint = this.parent.getInts(i1, j1, k1, l1);
+        int[] aint1 = IntCache.getIntCache(par3 * par4);
 
-        for (int var11 = 0; var11 < par4; ++var11)
+        for (int i2 = 0; i2 < par4; ++i2)
         {
-            for (int var12 = 0; var12 < par3; ++var12)
+            for (int j2 = 0; j2 < par3; ++j2)
             {
-                int var13 = var9[var12 + 1 + (var11 + 1) * var7];
-                this.initChunkSeed((long)(var12 + par1), (long)(var11 + par2));
+                int k2 = aint[j2 + 1 + (i2 + 1) * k1];
+                this.initChunkSeed((long)(j2 + par1), (long)(i2 + par2));
 
-                if (var13 == 0)
+                if (k2 == 0)
                 {
-                    var10[var12 + var11 * par3] = 0;
+                    aint1[j2 + i2 * par3] = 0;
                 }
                 else
                 {
-                    int var14 = this.nextInt(5);
+                    int l2 = this.nextInt(5);
 
-                    if (var14 == 0)
+                    if (l2 == 0)
                     {
-                        var14 = BiomeGenBase.icePlains.biomeID;
+                        l2 = BiomeGenBase.icePlains.biomeID;
                     }
                     else
                     {
-                        var14 = 1;
+                        l2 = 1;
                     }
 
-                    var10[var12 + var11 * par3] = var14;
+                    aint1[j2 + i2 * par3] = l2;
                 }
             }
         }
 
-        return var10;
+        return aint1;
     }
 }

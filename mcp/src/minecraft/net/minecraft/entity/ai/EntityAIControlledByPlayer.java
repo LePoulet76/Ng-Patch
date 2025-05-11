@@ -65,21 +65,21 @@ public class EntityAIControlledByPlayer extends EntityAIBase
      */
     public void updateTask()
     {
-        EntityPlayer var1 = (EntityPlayer)this.thisEntity.riddenByEntity;
-        EntityCreature var2 = (EntityCreature)this.thisEntity;
-        float var3 = MathHelper.wrapAngleTo180_float(var1.rotationYaw - this.thisEntity.rotationYaw) * 0.5F;
+        EntityPlayer entityplayer = (EntityPlayer)this.thisEntity.riddenByEntity;
+        EntityCreature entitycreature = (EntityCreature)this.thisEntity;
+        float f = MathHelper.wrapAngleTo180_float(entityplayer.rotationYaw - this.thisEntity.rotationYaw) * 0.5F;
 
-        if (var3 > 5.0F)
+        if (f > 5.0F)
         {
-            var3 = 5.0F;
+            f = 5.0F;
         }
 
-        if (var3 < -5.0F)
+        if (f < -5.0F)
         {
-            var3 = -5.0F;
+            f = -5.0F;
         }
 
-        this.thisEntity.rotationYaw = MathHelper.wrapAngleTo180_float(this.thisEntity.rotationYaw + var3);
+        this.thisEntity.rotationYaw = MathHelper.wrapAngleTo180_float(this.thisEntity.rotationYaw + f);
 
         if (this.currentSpeed < this.maxSpeed)
         {
@@ -91,10 +91,10 @@ public class EntityAIControlledByPlayer extends EntityAIBase
             this.currentSpeed = this.maxSpeed;
         }
 
-        int var4 = MathHelper.floor_double(this.thisEntity.posX);
-        int var5 = MathHelper.floor_double(this.thisEntity.posY);
-        int var6 = MathHelper.floor_double(this.thisEntity.posZ);
-        float var7 = this.currentSpeed;
+        int i = MathHelper.floor_double(this.thisEntity.posX);
+        int j = MathHelper.floor_double(this.thisEntity.posY);
+        int k = MathHelper.floor_double(this.thisEntity.posZ);
+        float f1 = this.currentSpeed;
 
         if (this.speedBoosted)
         {
@@ -103,95 +103,95 @@ public class EntityAIControlledByPlayer extends EntityAIBase
                 this.speedBoosted = false;
             }
 
-            var7 += var7 * 1.15F * MathHelper.sin((float)this.speedBoostTime / (float)this.maxSpeedBoostTime * (float)Math.PI);
+            f1 += f1 * 1.15F * MathHelper.sin((float)this.speedBoostTime / (float)this.maxSpeedBoostTime * (float)Math.PI);
         }
 
-        float var8 = 0.91F;
+        float f2 = 0.91F;
 
         if (this.thisEntity.onGround)
         {
-            var8 = 0.54600006F;
-            int var9 = this.thisEntity.worldObj.getBlockId(MathHelper.floor_float((float)var4), MathHelper.floor_float((float)var5) - 1, MathHelper.floor_float((float)var6));
+            f2 = 0.54600006F;
+            int l = this.thisEntity.worldObj.getBlockId(MathHelper.floor_float((float)i), MathHelper.floor_float((float)j) - 1, MathHelper.floor_float((float)k));
 
-            if (var9 > 0)
+            if (l > 0)
             {
-                var8 = Block.blocksList[var9].slipperiness * 0.91F;
+                f2 = Block.blocksList[l].slipperiness * 0.91F;
             }
         }
 
-        float var23 = 0.16277136F / (var8 * var8 * var8);
-        float var10 = MathHelper.sin(var2.rotationYaw * (float)Math.PI / 180.0F);
-        float var11 = MathHelper.cos(var2.rotationYaw * (float)Math.PI / 180.0F);
-        float var12 = var2.getAIMoveSpeed() * var23;
-        float var13 = Math.max(var7, 1.0F);
-        var13 = var12 / var13;
-        float var14 = var7 * var13;
-        float var15 = -(var14 * var10);
-        float var16 = var14 * var11;
+        float f3 = 0.16277136F / (f2 * f2 * f2);
+        float f4 = MathHelper.sin(entitycreature.rotationYaw * (float)Math.PI / 180.0F);
+        float f5 = MathHelper.cos(entitycreature.rotationYaw * (float)Math.PI / 180.0F);
+        float f6 = entitycreature.getAIMoveSpeed() * f3;
+        float f7 = Math.max(f1, 1.0F);
+        f7 = f6 / f7;
+        float f8 = f1 * f7;
+        float f9 = -(f8 * f4);
+        float f10 = f8 * f5;
 
-        if (MathHelper.abs(var15) > MathHelper.abs(var16))
+        if (MathHelper.abs(f9) > MathHelper.abs(f10))
         {
-            if (var15 < 0.0F)
+            if (f9 < 0.0F)
             {
-                var15 -= this.thisEntity.width / 2.0F;
+                f9 -= this.thisEntity.width / 2.0F;
             }
 
-            if (var15 > 0.0F)
+            if (f9 > 0.0F)
             {
-                var15 += this.thisEntity.width / 2.0F;
+                f9 += this.thisEntity.width / 2.0F;
             }
 
-            var16 = 0.0F;
+            f10 = 0.0F;
         }
         else
         {
-            var15 = 0.0F;
+            f9 = 0.0F;
 
-            if (var16 < 0.0F)
+            if (f10 < 0.0F)
             {
-                var16 -= this.thisEntity.width / 2.0F;
+                f10 -= this.thisEntity.width / 2.0F;
             }
 
-            if (var16 > 0.0F)
+            if (f10 > 0.0F)
             {
-                var16 += this.thisEntity.width / 2.0F;
-            }
-        }
-
-        int var17 = MathHelper.floor_double(this.thisEntity.posX + (double)var15);
-        int var18 = MathHelper.floor_double(this.thisEntity.posZ + (double)var16);
-        PathPoint var19 = new PathPoint(MathHelper.floor_float(this.thisEntity.width + 1.0F), MathHelper.floor_float(this.thisEntity.height + var1.height + 1.0F), MathHelper.floor_float(this.thisEntity.width + 1.0F));
-
-        if (var4 != var17 || var6 != var18)
-        {
-            int var20 = this.thisEntity.worldObj.getBlockId(var4, var5, var6);
-            int var21 = this.thisEntity.worldObj.getBlockId(var4, var5 - 1, var6);
-            boolean var22 = this.func_98216_b(var20) || Block.blocksList[var20] == null && this.func_98216_b(var21);
-
-            if (!var22 && PathFinder.func_82565_a(this.thisEntity, var17, var5, var18, var19, false, false, true) == 0 && PathFinder.func_82565_a(this.thisEntity, var4, var5 + 1, var6, var19, false, false, true) == 1 && PathFinder.func_82565_a(this.thisEntity, var17, var5 + 1, var18, var19, false, false, true) == 1)
-            {
-                var2.getJumpHelper().setJumping();
+                f10 += this.thisEntity.width / 2.0F;
             }
         }
 
-        if (!var1.capabilities.isCreativeMode && this.currentSpeed >= this.maxSpeed * 0.5F && this.thisEntity.getRNG().nextFloat() < 0.006F && !this.speedBoosted)
+        int i1 = MathHelper.floor_double(this.thisEntity.posX + (double)f9);
+        int j1 = MathHelper.floor_double(this.thisEntity.posZ + (double)f10);
+        PathPoint pathpoint = new PathPoint(MathHelper.floor_float(this.thisEntity.width + 1.0F), MathHelper.floor_float(this.thisEntity.height + entityplayer.height + 1.0F), MathHelper.floor_float(this.thisEntity.width + 1.0F));
+
+        if (i != i1 || k != j1)
         {
-            ItemStack var24 = var1.getHeldItem();
+            int k1 = this.thisEntity.worldObj.getBlockId(i, j, k);
+            int l1 = this.thisEntity.worldObj.getBlockId(i, j - 1, k);
+            boolean flag = this.func_98216_b(k1) || Block.blocksList[k1] == null && this.func_98216_b(l1);
 
-            if (var24 != null && var24.itemID == Item.carrotOnAStick.itemID)
+            if (!flag && PathFinder.func_82565_a(this.thisEntity, i1, j, j1, pathpoint, false, false, true) == 0 && PathFinder.func_82565_a(this.thisEntity, i, j + 1, k, pathpoint, false, false, true) == 1 && PathFinder.func_82565_a(this.thisEntity, i1, j + 1, j1, pathpoint, false, false, true) == 1)
             {
-                var24.damageItem(1, var1);
+                entitycreature.getJumpHelper().setJumping();
+            }
+        }
 
-                if (var24.stackSize == 0)
+        if (!entityplayer.capabilities.isCreativeMode && this.currentSpeed >= this.maxSpeed * 0.5F && this.thisEntity.getRNG().nextFloat() < 0.006F && !this.speedBoosted)
+        {
+            ItemStack itemstack = entityplayer.getHeldItem();
+
+            if (itemstack != null && itemstack.itemID == Item.carrotOnAStick.itemID)
+            {
+                itemstack.damageItem(1, entityplayer);
+
+                if (itemstack.stackSize == 0)
                 {
-                    ItemStack var25 = new ItemStack(Item.fishingRod);
-                    var25.setTagCompound(var24.stackTagCompound);
-                    var1.inventory.mainInventory[var1.inventory.currentItem] = var25;
+                    ItemStack itemstack1 = new ItemStack(Item.fishingRod);
+                    itemstack1.setTagCompound(itemstack.stackTagCompound);
+                    entityplayer.inventory.mainInventory[entityplayer.inventory.currentItem] = itemstack1;
                 }
             }
         }
 
-        this.thisEntity.moveEntityWithHeading(0.0F, var7);
+        this.thisEntity.moveEntityWithHeading(0.0F, f1);
     }
 
     private boolean func_98216_b(int par1)

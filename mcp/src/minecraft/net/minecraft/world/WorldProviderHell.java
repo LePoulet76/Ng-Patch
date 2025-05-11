@@ -36,12 +36,12 @@ public class WorldProviderHell extends WorldProvider
      */
     protected void generateLightBrightnessTable()
     {
-        float var1 = 0.1F;
+        float f = 0.1F;
 
-        for (int var2 = 0; var2 <= 15; ++var2)
+        for (int i = 0; i <= 15; ++i)
         {
-            float var3 = 1.0F - (float)var2 / 15.0F;
-            this.lightBrightnessTable[var2] = (1.0F - var3) / (var3 * 3.0F + 1.0F) * (1.0F - var1) + var1;
+            float f1 = 1.0F - (float)i / 15.0F;
+            this.lightBrightnessTable[i] = (1.0F - f1) / (f1 * 3.0F + 1.0F) * (1.0F - f) + f;
         }
     }
 

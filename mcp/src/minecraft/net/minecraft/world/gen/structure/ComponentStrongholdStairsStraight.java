@@ -27,8 +27,8 @@ public class ComponentStrongholdStairsStraight extends ComponentStronghold
 
     public static ComponentStrongholdStairsStraight findValidPlacement(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
     {
-        StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -7, 0, 5, 11, 8, par5);
-        return canStrongholdGoDeeper(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentStrongholdStairsStraight(par6, par1Random, var7, par5) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -7, 0, 5, 11, 8, par5);
+        return canStrongholdGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(par0List, structureboundingbox) == null ? new ComponentStrongholdStairsStraight(par6, par1Random, structureboundingbox, par5) : null;
     }
 
     /**
@@ -46,19 +46,19 @@ public class ComponentStrongholdStairsStraight extends ComponentStronghold
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 4, 10, 7, true, par2Random, StructureStrongholdPieces.getStrongholdStones());
             this.placeDoor(par1World, par2Random, par3StructureBoundingBox, this.field_143013_d, 1, 7, 0);
             this.placeDoor(par1World, par2Random, par3StructureBoundingBox, EnumDoor.OPENING, 1, 1, 7);
-            int var4 = this.getMetadataWithOffset(Block.stairsCobblestone.blockID, 2);
+            int i = this.getMetadataWithOffset(Block.stairsCobblestone.blockID, 2);
 
-            for (int var5 = 0; var5 < 6; ++var5)
+            for (int j = 0; j < 6; ++j)
             {
-                this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 1, 6 - var5, 1 + var5, par3StructureBoundingBox);
-                this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 2, 6 - var5, 1 + var5, par3StructureBoundingBox);
-                this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 3, 6 - var5, 1 + var5, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 1, 6 - j, 1 + j, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 2, 6 - j, 1 + j, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 3, 6 - j, 1 + j, par3StructureBoundingBox);
 
-                if (var5 < 5)
+                if (j < 5)
                 {
-                    this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 1, 5 - var5, 1 + var5, par3StructureBoundingBox);
-                    this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 2, 5 - var5, 1 + var5, par3StructureBoundingBox);
-                    this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3, 5 - var5, 1 + var5, par3StructureBoundingBox);
+                    this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 1, 5 - j, 1 + j, par3StructureBoundingBox);
+                    this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 2, 5 - j, 1 + j, par3StructureBoundingBox);
+                    this.placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3, 5 - j, 1 + j, par3StructureBoundingBox);
                 }
             }
 

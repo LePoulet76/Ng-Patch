@@ -48,12 +48,12 @@ public class ModelEnderCrystal extends ModelBase
         GL11.glTranslatef(0.0F, 0.8F + par4, 0.0F);
         GL11.glRotatef(60.0F, 0.7071F, 0.0F, 0.7071F);
         this.glass.render(par7);
-        float var8 = 0.875F;
-        GL11.glScalef(var8, var8, var8);
+        float f6 = 0.875F;
+        GL11.glScalef(f6, f6, f6);
         GL11.glRotatef(60.0F, 0.7071F, 0.0F, 0.7071F);
         GL11.glRotatef(par3, 0.0F, 1.0F, 0.0F);
         this.glass.render(par7);
-        GL11.glScalef(var8, var8, var8);
+        GL11.glScalef(f6, f6, f6);
         GL11.glRotatef(60.0F, 0.7071F, 0.0F, 0.7071F);
         GL11.glRotatef(par3, 0.0F, 1.0F, 0.0F);
         this.cube.render(par7);

@@ -36,8 +36,8 @@ public class PlayerSelector
      */
     public static EntityPlayerMP matchOnePlayer(ICommandSender par0ICommandSender, String par1Str)
     {
-        EntityPlayerMP[] var2 = matchPlayers(par0ICommandSender, par1Str);
-        return var2 != null && var2.length == 1 ? var2[0] : null;
+        EntityPlayerMP[] aentityplayermp = matchPlayers(par0ICommandSender, par1Str);
+        return aentityplayermp != null && aentityplayermp.length == 1 ? aentityplayermp[0] : null;
     }
 
     /**
@@ -45,18 +45,18 @@ public class PlayerSelector
      */
     public static String matchPlayersAsString(ICommandSender par0ICommandSender, String par1Str)
     {
-        EntityPlayerMP[] var2 = matchPlayers(par0ICommandSender, par1Str);
+        EntityPlayerMP[] aentityplayermp = matchPlayers(par0ICommandSender, par1Str);
 
-        if (var2 != null && var2.length != 0)
+        if (aentityplayermp != null && aentityplayermp.length != 0)
         {
-            String[] var3 = new String[var2.length];
+            String[] astring = new String[aentityplayermp.length];
 
-            for (int var4 = 0; var4 < var3.length; ++var4)
+            for (int i = 0; i < astring.length; ++i)
             {
-                var3[var4] = var2[var4].getTranslatedEntityName();
+                astring[i] = aentityplayermp[i].getTranslatedEntityName();
             }
 
-            return CommandBase.joinNiceString(var3);
+            return CommandBase.joinNiceString(astring);
         }
         else
         {
@@ -69,130 +69,130 @@ public class PlayerSelector
      */
     public static EntityPlayerMP[] matchPlayers(ICommandSender par0ICommandSender, String par1Str)
     {
-        Matcher var2 = tokenPattern.matcher(par1Str);
+        Matcher matcher = tokenPattern.matcher(par1Str);
 
-        if (!var2.matches())
+        if (!matcher.matches())
         {
             return null;
         }
         else
         {
-            Map var3 = getArgumentMap(var2.group(2));
-            String var4 = var2.group(1);
-            int var5 = getDefaultMinimumRange(var4);
-            int var6 = getDefaultMaximumRange(var4);
-            int var7 = getDefaultMinimumLevel(var4);
-            int var8 = getDefaultMaximumLevel(var4);
-            int var9 = getDefaultCount(var4);
-            int var10 = EnumGameType.NOT_SET.getID();
-            ChunkCoordinates var11 = par0ICommandSender.getPlayerCoordinates();
-            Map var12 = func_96560_a(var3);
-            String var13 = null;
-            String var14 = null;
-            boolean var15 = false;
+            Map map = getArgumentMap(matcher.group(2));
+            String s1 = matcher.group(1);
+            int i = getDefaultMinimumRange(s1);
+            int j = getDefaultMaximumRange(s1);
+            int k = getDefaultMinimumLevel(s1);
+            int l = getDefaultMaximumLevel(s1);
+            int i1 = getDefaultCount(s1);
+            int j1 = EnumGameType.NOT_SET.getID();
+            ChunkCoordinates chunkcoordinates = par0ICommandSender.getPlayerCoordinates();
+            Map map1 = func_96560_a(map);
+            String s2 = null;
+            String s3 = null;
+            boolean flag = false;
 
-            if (var3.containsKey("rm"))
+            if (map.containsKey("rm"))
             {
-                var5 = MathHelper.parseIntWithDefault((String)var3.get("rm"), var5);
-                var15 = true;
+                i = MathHelper.parseIntWithDefault((String)map.get("rm"), i);
+                flag = true;
             }
 
-            if (var3.containsKey("r"))
+            if (map.containsKey("r"))
             {
-                var6 = MathHelper.parseIntWithDefault((String)var3.get("r"), var6);
-                var15 = true;
+                j = MathHelper.parseIntWithDefault((String)map.get("r"), j);
+                flag = true;
             }
 
-            if (var3.containsKey("lm"))
+            if (map.containsKey("lm"))
             {
-                var7 = MathHelper.parseIntWithDefault((String)var3.get("lm"), var7);
+                k = MathHelper.parseIntWithDefault((String)map.get("lm"), k);
             }
 
-            if (var3.containsKey("l"))
+            if (map.containsKey("l"))
             {
-                var8 = MathHelper.parseIntWithDefault((String)var3.get("l"), var8);
+                l = MathHelper.parseIntWithDefault((String)map.get("l"), l);
             }
 
-            if (var3.containsKey("x"))
+            if (map.containsKey("x"))
             {
-                var11.posX = MathHelper.parseIntWithDefault((String)var3.get("x"), var11.posX);
-                var15 = true;
+                chunkcoordinates.posX = MathHelper.parseIntWithDefault((String)map.get("x"), chunkcoordinates.posX);
+                flag = true;
             }
 
-            if (var3.containsKey("y"))
+            if (map.containsKey("y"))
             {
-                var11.posY = MathHelper.parseIntWithDefault((String)var3.get("y"), var11.posY);
-                var15 = true;
+                chunkcoordinates.posY = MathHelper.parseIntWithDefault((String)map.get("y"), chunkcoordinates.posY);
+                flag = true;
             }
 
-            if (var3.containsKey("z"))
+            if (map.containsKey("z"))
             {
-                var11.posZ = MathHelper.parseIntWithDefault((String)var3.get("z"), var11.posZ);
-                var15 = true;
+                chunkcoordinates.posZ = MathHelper.parseIntWithDefault((String)map.get("z"), chunkcoordinates.posZ);
+                flag = true;
             }
 
-            if (var3.containsKey("m"))
+            if (map.containsKey("m"))
             {
-                var10 = MathHelper.parseIntWithDefault((String)var3.get("m"), var10);
+                j1 = MathHelper.parseIntWithDefault((String)map.get("m"), j1);
             }
 
-            if (var3.containsKey("c"))
+            if (map.containsKey("c"))
             {
-                var9 = MathHelper.parseIntWithDefault((String)var3.get("c"), var9);
+                i1 = MathHelper.parseIntWithDefault((String)map.get("c"), i1);
             }
 
-            if (var3.containsKey("team"))
+            if (map.containsKey("team"))
             {
-                var14 = (String)var3.get("team");
+                s3 = (String)map.get("team");
             }
 
-            if (var3.containsKey("name"))
+            if (map.containsKey("name"))
             {
-                var13 = (String)var3.get("name");
+                s2 = (String)map.get("name");
             }
 
-            World var16 = var15 ? par0ICommandSender.getEntityWorld() : null;
-            List var17;
+            World world = flag ? par0ICommandSender.getEntityWorld() : null;
+            List list;
 
-            if (!var4.equals("p") && !var4.equals("a"))
+            if (!s1.equals("p") && !s1.equals("a"))
             {
-                if (!var4.equals("r"))
+                if (!s1.equals("r"))
                 {
                     return null;
                 }
                 else
                 {
-                    var17 = MinecraftServer.getServer().getConfigurationManager().findPlayers(var11, var5, var6, 0, var10, var7, var8, var12, var13, var14, var16);
-                    Collections.shuffle(var17);
-                    var17 = var17.subList(0, Math.min(var9, var17.size()));
-                    return var17 != null && !var17.isEmpty() ? (EntityPlayerMP[])var17.toArray(new EntityPlayerMP[0]) : new EntityPlayerMP[0];
+                    list = MinecraftServer.getServer().getConfigurationManager().findPlayers(chunkcoordinates, i, j, 0, j1, k, l, map1, s2, s3, world);
+                    Collections.shuffle(list);
+                    list = list.subList(0, Math.min(i1, list.size()));
+                    return list != null && !list.isEmpty() ? (EntityPlayerMP[])list.toArray(new EntityPlayerMP[0]) : new EntityPlayerMP[0];
                 }
             }
             else
             {
-                var17 = MinecraftServer.getServer().getConfigurationManager().findPlayers(var11, var5, var6, var9, var10, var7, var8, var12, var13, var14, var16);
-                return var17 != null && !var17.isEmpty() ? (EntityPlayerMP[])var17.toArray(new EntityPlayerMP[0]) : new EntityPlayerMP[0];
+                list = MinecraftServer.getServer().getConfigurationManager().findPlayers(chunkcoordinates, i, j, i1, j1, k, l, map1, s2, s3, world);
+                return list != null && !list.isEmpty() ? (EntityPlayerMP[])list.toArray(new EntityPlayerMP[0]) : new EntityPlayerMP[0];
             }
         }
     }
 
     public static Map func_96560_a(Map par0Map)
     {
-        HashMap var1 = new HashMap();
-        Iterator var2 = par0Map.keySet().iterator();
+        HashMap hashmap = new HashMap();
+        Iterator iterator = par0Map.keySet().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            String var3 = (String)var2.next();
+            String s = (String)iterator.next();
 
-            if (var3.startsWith("score_") && var3.length() > "score_".length())
+            if (s.startsWith("score_") && s.length() > "score_".length())
             {
-                String var4 = var3.substring("score_".length());
-                var1.put(var4, Integer.valueOf(MathHelper.parseIntWithDefault((String)par0Map.get(var3), 1)));
+                String s1 = s.substring("score_".length());
+                hashmap.put(s1, Integer.valueOf(MathHelper.parseIntWithDefault((String)par0Map.get(s), 1)));
             }
         }
 
-        return var1;
+        return hashmap;
     }
 
     /**
@@ -200,20 +200,20 @@ public class PlayerSelector
      */
     public static boolean matchesMultiplePlayers(String par0Str)
     {
-        Matcher var1 = tokenPattern.matcher(par0Str);
+        Matcher matcher = tokenPattern.matcher(par0Str);
 
-        if (var1.matches())
+        if (matcher.matches())
         {
-            Map var2 = getArgumentMap(var1.group(2));
-            String var3 = var1.group(1);
-            int var4 = getDefaultCount(var3);
+            Map map = getArgumentMap(matcher.group(2));
+            String s1 = matcher.group(1);
+            int i = getDefaultCount(s1);
 
-            if (var2.containsKey("c"))
+            if (map.containsKey("c"))
             {
-                var4 = MathHelper.parseIntWithDefault((String)var2.get("c"), var4);
+                i = MathHelper.parseIntWithDefault((String)map.get("c"), i);
             }
 
-            return var4 != 1;
+            return i != 1;
         }
         else
         {
@@ -226,12 +226,12 @@ public class PlayerSelector
      */
     public static boolean hasTheseArguments(String par0Str, String par1Str)
     {
-        Matcher var2 = tokenPattern.matcher(par0Str);
+        Matcher matcher = tokenPattern.matcher(par0Str);
 
-        if (var2.matches())
+        if (matcher.matches())
         {
-            String var3 = var2.group(1);
-            return par1Str == null || par1Str.equals(var3);
+            String s2 = matcher.group(1);
+            return par1Str == null || par1Str.equals(s2);
         }
         else
         {
@@ -292,57 +292,54 @@ public class PlayerSelector
      */
     private static Map getArgumentMap(String par0Str)
     {
-        HashMap var1 = new HashMap();
+        HashMap hashmap = new HashMap();
 
         if (par0Str == null)
         {
-            return var1;
+            return hashmap;
         }
         else
         {
-            Matcher var2 = intListPattern.matcher(par0Str);
-            int var3 = 0;
-            int var4;
+            Matcher matcher = intListPattern.matcher(par0Str);
+            int i = 0;
+            int j;
 
-            for (var4 = -1; var2.find(); var4 = var2.end())
+            for (j = -1; matcher.find(); j = matcher.end())
             {
-                String var5 = null;
+                String s1 = null;
 
-                switch (var3++)
+                switch (i++)
                 {
                     case 0:
-                        var5 = "x";
+                        s1 = "x";
                         break;
-
                     case 1:
-                        var5 = "y";
+                        s1 = "y";
                         break;
-
                     case 2:
-                        var5 = "z";
+                        s1 = "z";
                         break;
-
                     case 3:
-                        var5 = "r";
+                        s1 = "r";
                 }
 
-                if (var5 != null && var2.group(1).length() > 0)
+                if (s1 != null && matcher.group(1).length() > 0)
                 {
-                    var1.put(var5, var2.group(1));
+                    hashmap.put(s1, matcher.group(1));
                 }
             }
 
-            if (var4 < par0Str.length())
+            if (j < par0Str.length())
             {
-                var2 = keyValueListPattern.matcher(var4 == -1 ? par0Str : par0Str.substring(var4));
+                matcher = keyValueListPattern.matcher(j == -1 ? par0Str : par0Str.substring(j));
 
-                while (var2.find())
+                while (matcher.find())
                 {
-                    var1.put(var2.group(1), var2.group(2));
+                    hashmap.put(matcher.group(1), matcher.group(2));
                 }
             }
 
-            return var1;
+            return hashmap;
         }
     }
 }

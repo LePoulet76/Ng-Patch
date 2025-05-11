@@ -64,9 +64,9 @@ public class BlockCarrot extends BlockCrops
     {
         this.iconArray = new Icon[4];
 
-        for (int var2 = 0; var2 < this.iconArray.length; ++var2)
+        for (int i = 0; i < this.iconArray.length; ++i)
         {
-            this.iconArray[var2] = par1IconRegister.registerIcon(this.getTextureName() + "_stage_" + var2);
+            this.iconArray[i] = par1IconRegister.registerIcon(this.getTextureName() + "_stage_" + i);
         }
     }
 }

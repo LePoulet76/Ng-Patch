@@ -26,11 +26,11 @@ public class RenderMagmaCube extends RenderLiving
 
     protected void scaleMagmaCube(EntityMagmaCube par1EntityMagmaCube, float par2)
     {
-        int var3 = par1EntityMagmaCube.getSlimeSize();
-        float var4 = (par1EntityMagmaCube.prevSquishFactor + (par1EntityMagmaCube.squishFactor - par1EntityMagmaCube.prevSquishFactor) * par2) / ((float)var3 * 0.5F + 1.0F);
-        float var5 = 1.0F / (var4 + 1.0F);
-        float var6 = (float)var3;
-        GL11.glScalef(var5 * var6, 1.0F / var5 * var6, var5 * var6);
+        int i = par1EntityMagmaCube.getSlimeSize();
+        float f1 = (par1EntityMagmaCube.prevSquishFactor + (par1EntityMagmaCube.squishFactor - par1EntityMagmaCube.prevSquishFactor) * par2) / ((float)i * 0.5F + 1.0F);
+        float f2 = 1.0F / (f1 + 1.0F);
+        float f3 = (float)i;
+        GL11.glScalef(f2 * f3, 1.0F / f2 * f3, f2 * f3);
     }
 
     /**

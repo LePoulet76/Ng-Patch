@@ -21,44 +21,44 @@ public class KeyBinding
 
     public static void onTick(int par0)
     {
-        KeyBinding var1 = (KeyBinding)hash.lookup(par0);
+        KeyBinding keybinding = (KeyBinding)hash.lookup(par0);
 
-        if (var1 != null)
+        if (keybinding != null)
         {
-            ++var1.pressTime;
+            ++keybinding.pressTime;
         }
     }
 
     public static void setKeyBindState(int par0, boolean par1)
     {
-        KeyBinding var2 = (KeyBinding)hash.lookup(par0);
+        KeyBinding keybinding = (KeyBinding)hash.lookup(par0);
 
-        if (var2 != null)
+        if (keybinding != null)
         {
-            var2.pressed = par1;
+            keybinding.pressed = par1;
         }
     }
 
     public static void unPressAllKeys()
     {
-        Iterator var0 = keybindArray.iterator();
+        Iterator iterator = keybindArray.iterator();
 
-        while (var0.hasNext())
+        while (iterator.hasNext())
         {
-            KeyBinding var1 = (KeyBinding)var0.next();
-            var1.unpressKey();
+            KeyBinding keybinding = (KeyBinding)iterator.next();
+            keybinding.unpressKey();
         }
     }
 
     public static void resetKeyBindingArrayAndHash()
     {
         hash.clearMap();
-        Iterator var0 = keybindArray.iterator();
+        Iterator iterator = keybindArray.iterator();
 
-        while (var0.hasNext())
+        while (iterator.hasNext())
         {
-            KeyBinding var1 = (KeyBinding)var0.next();
-            hash.addKey(var1.keyCode, var1);
+            KeyBinding keybinding = (KeyBinding)iterator.next();
+            hash.addKey(keybinding.keyCode, keybinding);
         }
     }
 

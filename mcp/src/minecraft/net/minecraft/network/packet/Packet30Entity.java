@@ -85,7 +85,7 @@ public class Packet30Entity extends Packet
      */
     public boolean containsSameEntityIDAs(Packet par1Packet)
     {
-        Packet30Entity var2 = (Packet30Entity)par1Packet;
-        return var2.entityId == this.entityId;
+        Packet30Entity packet30entity = (Packet30Entity)par1Packet;
+        return packet30entity.entityId == this.entityId;
     }
 }

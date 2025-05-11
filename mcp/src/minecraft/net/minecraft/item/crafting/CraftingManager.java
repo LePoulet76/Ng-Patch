@@ -152,161 +152,161 @@ public class CraftingManager
 
     public ShapedRecipes addRecipe(ItemStack par1ItemStack, Object ... par2ArrayOfObj)
     {
-        String var3 = "";
-        int var4 = 0;
-        int var5 = 0;
-        int var6 = 0;
+        String s = "";
+        int i = 0;
+        int j = 0;
+        int k = 0;
 
-        if (par2ArrayOfObj[var4] instanceof String[])
+        if (par2ArrayOfObj[i] instanceof String[])
         {
-            String[] var7 = (String[])((String[])par2ArrayOfObj[var4++]);
+            String[] astring = (String[])((String[])par2ArrayOfObj[i++]);
 
-            for (int var8 = 0; var8 < var7.length; ++var8)
+            for (int l = 0; l < astring.length; ++l)
             {
-                String var9 = var7[var8];
-                ++var6;
-                var5 = var9.length();
-                var3 = var3 + var9;
+                String s1 = astring[l];
+                ++k;
+                j = s1.length();
+                s = s + s1;
             }
         }
         else
         {
-            while (par2ArrayOfObj[var4] instanceof String)
+            while (par2ArrayOfObj[i] instanceof String)
             {
-                String var11 = (String)par2ArrayOfObj[var4++];
-                ++var6;
-                var5 = var11.length();
-                var3 = var3 + var11;
+                String s2 = (String)par2ArrayOfObj[i++];
+                ++k;
+                j = s2.length();
+                s = s + s2;
             }
         }
 
-        HashMap var12;
+        HashMap hashmap;
 
-        for (var12 = new HashMap(); var4 < par2ArrayOfObj.length; var4 += 2)
+        for (hashmap = new HashMap(); i < par2ArrayOfObj.length; i += 2)
         {
-            Character var13 = (Character)par2ArrayOfObj[var4];
-            ItemStack var15 = null;
+            Character character = (Character)par2ArrayOfObj[i];
+            ItemStack itemstack1 = null;
 
-            if (par2ArrayOfObj[var4 + 1] instanceof Item)
+            if (par2ArrayOfObj[i + 1] instanceof Item)
             {
-                var15 = new ItemStack((Item)par2ArrayOfObj[var4 + 1]);
+                itemstack1 = new ItemStack((Item)par2ArrayOfObj[i + 1]);
             }
-            else if (par2ArrayOfObj[var4 + 1] instanceof Block)
+            else if (par2ArrayOfObj[i + 1] instanceof Block)
             {
-                var15 = new ItemStack((Block)par2ArrayOfObj[var4 + 1], 1, 32767);
+                itemstack1 = new ItemStack((Block)par2ArrayOfObj[i + 1], 1, 32767);
             }
-            else if (par2ArrayOfObj[var4 + 1] instanceof ItemStack)
+            else if (par2ArrayOfObj[i + 1] instanceof ItemStack)
             {
-                var15 = (ItemStack)par2ArrayOfObj[var4 + 1];
+                itemstack1 = (ItemStack)par2ArrayOfObj[i + 1];
             }
 
-            var12.put(var13, var15);
+            hashmap.put(character, itemstack1);
         }
 
-        ItemStack[] var14 = new ItemStack[var5 * var6];
+        ItemStack[] aitemstack = new ItemStack[j * k];
 
-        for (int var16 = 0; var16 < var5 * var6; ++var16)
+        for (int i1 = 0; i1 < j * k; ++i1)
         {
-            char var10 = var3.charAt(var16);
+            char c0 = s.charAt(i1);
 
-            if (var12.containsKey(Character.valueOf(var10)))
+            if (hashmap.containsKey(Character.valueOf(c0)))
             {
-                var14[var16] = ((ItemStack)var12.get(Character.valueOf(var10))).copy();
+                aitemstack[i1] = ((ItemStack)hashmap.get(Character.valueOf(c0))).copy();
             }
             else
             {
-                var14[var16] = null;
+                aitemstack[i1] = null;
             }
         }
 
-        ShapedRecipes var17 = new ShapedRecipes(var5, var6, var14, par1ItemStack);
-        this.recipes.add(var17);
-        return var17;
+        ShapedRecipes shapedrecipes = new ShapedRecipes(j, k, aitemstack, par1ItemStack);
+        this.recipes.add(shapedrecipes);
+        return shapedrecipes;
     }
 
     public void addShapelessRecipe(ItemStack par1ItemStack, Object ... par2ArrayOfObj)
     {
-        ArrayList var3 = new ArrayList();
-        Object[] var4 = par2ArrayOfObj;
-        int var5 = par2ArrayOfObj.length;
+        ArrayList arraylist = new ArrayList();
+        Object[] aobject = par2ArrayOfObj;
+        int i = par2ArrayOfObj.length;
 
-        for (int var6 = 0; var6 < var5; ++var6)
+        for (int j = 0; j < i; ++j)
         {
-            Object var7 = var4[var6];
+            Object object1 = aobject[j];
 
-            if (var7 instanceof ItemStack)
+            if (object1 instanceof ItemStack)
             {
-                var3.add(((ItemStack)var7).copy());
+                arraylist.add(((ItemStack)object1).copy());
             }
-            else if (var7 instanceof Item)
+            else if (object1 instanceof Item)
             {
-                var3.add(new ItemStack((Item)var7));
+                arraylist.add(new ItemStack((Item)object1));
             }
             else
             {
-                if (!(var7 instanceof Block))
+                if (!(object1 instanceof Block))
                 {
                     throw new RuntimeException("Invalid shapeless recipy!");
                 }
 
-                var3.add(new ItemStack((Block)var7));
+                arraylist.add(new ItemStack((Block)object1));
             }
         }
 
-        this.recipes.add(new ShapelessRecipes(par1ItemStack, var3));
+        this.recipes.add(new ShapelessRecipes(par1ItemStack, arraylist));
     }
 
     public ItemStack findMatchingRecipe(InventoryCrafting par1InventoryCrafting, World par2World)
     {
-        int var3 = 0;
-        ItemStack var4 = null;
-        ItemStack var5 = null;
-        int var6;
+        int i = 0;
+        ItemStack itemstack = null;
+        ItemStack itemstack1 = null;
+        int j;
 
-        for (var6 = 0; var6 < par1InventoryCrafting.getSizeInventory(); ++var6)
+        for (j = 0; j < par1InventoryCrafting.getSizeInventory(); ++j)
         {
-            ItemStack var7 = par1InventoryCrafting.getStackInSlot(var6);
+            ItemStack itemstack2 = par1InventoryCrafting.getStackInSlot(j);
 
-            if (var7 != null)
+            if (itemstack2 != null)
             {
-                if (var3 == 0)
+                if (i == 0)
                 {
-                    var4 = var7;
+                    itemstack = itemstack2;
                 }
 
-                if (var3 == 1)
+                if (i == 1)
                 {
-                    var5 = var7;
+                    itemstack1 = itemstack2;
                 }
 
-                ++var3;
+                ++i;
             }
         }
 
-        if (var3 == 2 && var4.itemID == var5.itemID && var4.stackSize == 1 && var5.stackSize == 1 && Item.itemsList[var4.itemID].isDamageable())
+        if (i == 2 && itemstack.itemID == itemstack1.itemID && itemstack.stackSize == 1 && itemstack1.stackSize == 1 && Item.itemsList[itemstack.itemID].isRepairable())
         {
-            Item var11 = Item.itemsList[var4.itemID];
-            int var13 = var11.getMaxDamage() - var4.getItemDamageForDisplay();
-            int var8 = var11.getMaxDamage() - var5.getItemDamageForDisplay();
-            int var9 = var13 + var8 + var11.getMaxDamage() * 5 / 100;
-            int var10 = var11.getMaxDamage() - var9;
+            Item item = Item.itemsList[itemstack.itemID];
+            int k = item.getMaxDamage() - itemstack.getItemDamageForDisplay();
+            int l = item.getMaxDamage() - itemstack1.getItemDamageForDisplay();
+            int i1 = k + l + item.getMaxDamage() * 5 / 100;
+            int j1 = item.getMaxDamage() - i1;
 
-            if (var10 < 0)
+            if (j1 < 0)
             {
-                var10 = 0;
+                j1 = 0;
             }
 
-            return new ItemStack(var4.itemID, 1, var10);
+            return new ItemStack(itemstack.itemID, 1, j1);
         }
         else
         {
-            for (var6 = 0; var6 < this.recipes.size(); ++var6)
+            for (j = 0; j < this.recipes.size(); ++j)
             {
-                IRecipe var12 = (IRecipe)this.recipes.get(var6);
+                IRecipe irecipe = (IRecipe)this.recipes.get(j);
 
-                if (var12.matches(par1InventoryCrafting, par2World))
+                if (irecipe.matches(par1InventoryCrafting, par2World))
                 {
-                    return var12.getCraftingResult(par1InventoryCrafting);
+                    return irecipe.getCraftingResult(par1InventoryCrafting);
                 }
             }
 

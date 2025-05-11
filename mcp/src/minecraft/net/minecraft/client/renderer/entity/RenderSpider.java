@@ -39,7 +39,7 @@ public class RenderSpider extends RenderLiving
         else
         {
             this.bindTexture(spiderEyesTextures);
-            float var4 = 1.0F;
+            float f1 = 1.0F;
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glDisable(GL11.GL_ALPHA_TEST);
             GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
@@ -53,12 +53,12 @@ public class RenderSpider extends RenderLiving
                 GL11.glDepthMask(true);
             }
 
-            char var5 = 61680;
-            int var6 = var5 % 65536;
-            int var7 = var5 / 65536;
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var6 / 1.0F, (float)var7 / 1.0F);
+            char c0 = 61680;
+            int j = c0 % 65536;
+            int k = c0 / 65536;
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j / 1.0F, (float)k / 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, var4);
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, f1);
             return 1;
         }
     }

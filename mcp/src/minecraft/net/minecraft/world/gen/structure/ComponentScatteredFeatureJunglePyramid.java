@@ -8,6 +8,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.ChestGenHooks;
+import static net.minecraftforge.common.ChestGenHooks.*;
+
 public class ComponentScatteredFeatureJunglePyramid extends ComponentScatteredFeature
 {
     private boolean field_74947_h;
@@ -63,10 +66,10 @@ public class ComponentScatteredFeatureJunglePyramid extends ComponentScatteredFe
         }
         else
         {
-            int var4 = this.getMetadataWithOffset(Block.stairsCobblestone.blockID, 3);
-            int var5 = this.getMetadataWithOffset(Block.stairsCobblestone.blockID, 2);
-            int var6 = this.getMetadataWithOffset(Block.stairsCobblestone.blockID, 0);
-            int var7 = this.getMetadataWithOffset(Block.stairsCobblestone.blockID, 1);
+            int i = this.getMetadataWithOffset(Block.stairsCobblestone.blockID, 3);
+            int j = this.getMetadataWithOffset(Block.stairsCobblestone.blockID, 2);
+            int k = this.getMetadataWithOffset(Block.stairsCobblestone.blockID, 0);
+            int l = this.getMetadataWithOffset(Block.stairsCobblestone.blockID, 1);
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, -4, 0, this.scatteredFeatureSizeX - 1, 0, this.scatteredFeatureSizeZ - 1, false, par2Random, junglePyramidsRandomScatteredStones);
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 2, 1, 2, 9, 2, 2, false, par2Random, junglePyramidsRandomScatteredStones);
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 2, 1, 12, 9, 2, 12, false, par2Random, junglePyramidsRandomScatteredStones);
@@ -93,27 +96,27 @@ public class ComponentScatteredFeatureJunglePyramid extends ComponentScatteredFe
             this.placeBlockAtCurrentPosition(par1World, 0, 0, 10, 5, 5, par3StructureBoundingBox);
             this.placeBlockAtCurrentPosition(par1World, 0, 0, 1, 5, 9, par3StructureBoundingBox);
             this.placeBlockAtCurrentPosition(par1World, 0, 0, 10, 5, 9, par3StructureBoundingBox);
-            int var8;
+            int i1;
 
-            for (var8 = 0; var8 <= 14; var8 += 14)
+            for (i1 = 0; i1 <= 14; i1 += 14)
             {
-                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 2, 4, var8, 2, 5, var8, false, par2Random, junglePyramidsRandomScatteredStones);
-                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 4, 4, var8, 4, 5, var8, false, par2Random, junglePyramidsRandomScatteredStones);
-                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 7, 4, var8, 7, 5, var8, false, par2Random, junglePyramidsRandomScatteredStones);
-                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 9, 4, var8, 9, 5, var8, false, par2Random, junglePyramidsRandomScatteredStones);
+                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 2, 4, i1, 2, 5, i1, false, par2Random, junglePyramidsRandomScatteredStones);
+                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 4, 4, i1, 4, 5, i1, false, par2Random, junglePyramidsRandomScatteredStones);
+                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 7, 4, i1, 7, 5, i1, false, par2Random, junglePyramidsRandomScatteredStones);
+                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 9, 4, i1, 9, 5, i1, false, par2Random, junglePyramidsRandomScatteredStones);
             }
 
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 5, 6, 0, 6, 6, 0, false, par2Random, junglePyramidsRandomScatteredStones);
 
-            for (var8 = 0; var8 <= 11; var8 += 11)
+            for (i1 = 0; i1 <= 11; i1 += 11)
             {
-                for (int var9 = 2; var9 <= 12; var9 += 2)
+                for (int j1 = 2; j1 <= 12; j1 += 2)
                 {
-                    this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, var8, 4, var9, var8, 5, var9, false, par2Random, junglePyramidsRandomScatteredStones);
+                    this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, i1, 4, j1, i1, 5, j1, false, par2Random, junglePyramidsRandomScatteredStones);
                 }
 
-                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, var8, 6, 5, var8, 6, 5, false, par2Random, junglePyramidsRandomScatteredStones);
-                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, var8, 6, 9, var8, 6, 9, false, par2Random, junglePyramidsRandomScatteredStones);
+                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, i1, 6, 5, i1, 6, 5, false, par2Random, junglePyramidsRandomScatteredStones);
+                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, i1, 6, 9, i1, 6, 9, false, par2Random, junglePyramidsRandomScatteredStones);
             }
 
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 2, 7, 2, 2, 9, 2, false, par2Random, junglePyramidsRandomScatteredStones);
@@ -125,46 +128,46 @@ public class ComponentScatteredFeatureJunglePyramid extends ComponentScatteredFe
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 4, 9, 10, 4, 9, 10, false, par2Random, junglePyramidsRandomScatteredStones);
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 7, 9, 10, 7, 9, 10, false, par2Random, junglePyramidsRandomScatteredStones);
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 5, 9, 7, 6, 9, 7, false, par2Random, junglePyramidsRandomScatteredStones);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 5, 9, 6, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 6, 9, 6, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var5, 5, 9, 8, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var5, 6, 9, 8, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 4, 0, 0, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 5, 0, 0, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 6, 0, 0, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 7, 0, 0, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 4, 1, 8, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 4, 2, 9, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 4, 3, 10, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 7, 1, 8, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 7, 2, 9, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var4, 7, 3, 10, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 5, 9, 6, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 6, 9, 6, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, j, 5, 9, 8, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, j, 6, 9, 8, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 4, 0, 0, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 5, 0, 0, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 6, 0, 0, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 7, 0, 0, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 4, 1, 8, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 4, 2, 9, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 4, 3, 10, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 7, 1, 8, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 7, 2, 9, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, i, 7, 3, 10, par3StructureBoundingBox);
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 4, 1, 9, 4, 1, 9, false, par2Random, junglePyramidsRandomScatteredStones);
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 7, 1, 9, 7, 1, 9, false, par2Random, junglePyramidsRandomScatteredStones);
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 4, 1, 10, 7, 2, 10, false, par2Random, junglePyramidsRandomScatteredStones);
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 5, 4, 5, 6, 4, 5, false, par2Random, junglePyramidsRandomScatteredStones);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var6, 4, 4, 5, par3StructureBoundingBox);
-            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var7, 7, 4, 5, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, k, 4, 4, 5, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, l, 7, 4, 5, par3StructureBoundingBox);
 
-            for (var8 = 0; var8 < 4; ++var8)
+            for (i1 = 0; i1 < 4; ++i1)
             {
-                this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var5, 5, 0 - var8, 6 + var8, par3StructureBoundingBox);
-                this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, var5, 6, 0 - var8, 6 + var8, par3StructureBoundingBox);
-                this.fillWithAir(par1World, par3StructureBoundingBox, 5, 0 - var8, 7 + var8, 6, 0 - var8, 9 + var8);
+                this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, j, 5, 0 - i1, 6 + i1, par3StructureBoundingBox);
+                this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, j, 6, 0 - i1, 6 + i1, par3StructureBoundingBox);
+                this.fillWithAir(par1World, par3StructureBoundingBox, 5, 0 - i1, 7 + i1, 6, 0 - i1, 9 + i1);
             }
 
             this.fillWithAir(par1World, par3StructureBoundingBox, 1, -3, 12, 10, -1, 13);
             this.fillWithAir(par1World, par3StructureBoundingBox, 1, -3, 1, 3, -1, 13);
             this.fillWithAir(par1World, par3StructureBoundingBox, 1, -3, 1, 9, -1, 5);
 
-            for (var8 = 1; var8 <= 13; var8 += 2)
+            for (i1 = 1; i1 <= 13; i1 += 2)
             {
-                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 1, -3, var8, 1, -2, var8, false, par2Random, junglePyramidsRandomScatteredStones);
+                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 1, -3, i1, 1, -2, i1, false, par2Random, junglePyramidsRandomScatteredStones);
             }
 
-            for (var8 = 2; var8 <= 12; var8 += 2)
+            for (i1 = 2; i1 <= 12; i1 += 2)
             {
-                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 1, -1, var8, 3, -1, var8, false, par2Random, junglePyramidsRandomScatteredStones);
+                this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 1, -1, i1, 3, -1, i1, false, par2Random, junglePyramidsRandomScatteredStones);
             }
 
             this.fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 2, -2, 1, 5, -2, 1, false, par2Random, junglePyramidsRandomScatteredStones);
@@ -185,9 +188,12 @@ public class ComponentScatteredFeatureJunglePyramid extends ComponentScatteredFe
             this.placeBlockAtCurrentPosition(par1World, Block.redstoneWire.blockID, 0, 4, -3, 1, par3StructureBoundingBox);
             this.placeBlockAtCurrentPosition(par1World, Block.cobblestoneMossy.blockID, 0, 3, -3, 1, par3StructureBoundingBox);
 
+            ChestGenHooks dispenser = ChestGenHooks.getInfo(PYRAMID_JUNGLE_DISPENSER);
+            ChestGenHooks chest = ChestGenHooks.getInfo(PYRAMID_JUNGLE_CHEST);
+
             if (!this.field_74945_j)
             {
-                this.field_74945_j = this.generateStructureDispenserContents(par1World, par3StructureBoundingBox, par2Random, 3, -2, 1, 2, junglePyramidsDispenserContents, 2);
+                this.field_74945_j = this.generateStructureDispenserContents(par1World, par3StructureBoundingBox, par2Random, 3, -2, 1, 2, dispenser.getItems(par2Random), dispenser.getCount(par2Random));
             }
 
             this.placeBlockAtCurrentPosition(par1World, Block.vine.blockID, 15, 3, -2, 2, par3StructureBoundingBox);
@@ -204,7 +210,7 @@ public class ComponentScatteredFeatureJunglePyramid extends ComponentScatteredFe
 
             if (!this.field_74946_k)
             {
-                this.field_74946_k = this.generateStructureDispenserContents(par1World, par3StructureBoundingBox, par2Random, 9, -2, 3, 4, junglePyramidsDispenserContents, 2);
+                this.field_74946_k = this.generateStructureDispenserContents(par1World, par3StructureBoundingBox, par2Random, 9, -2, 3, 4, dispenser.getItems(par2Random), dispenser.getCount(par2Random));
             }
 
             this.placeBlockAtCurrentPosition(par1World, Block.vine.blockID, 15, 8, -1, 3, par3StructureBoundingBox);
@@ -212,7 +218,7 @@ public class ComponentScatteredFeatureJunglePyramid extends ComponentScatteredFe
 
             if (!this.field_74947_h)
             {
-                this.field_74947_h = this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 8, -3, 3, WeightedRandomChestContent.func_92080_a(junglePyramidsChestContents, new WeightedRandomChestContent[] {Item.enchantedBook.func_92114_b(par2Random)}), 2 + par2Random.nextInt(5));
+                this.field_74947_h = this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 8, -3, 3, chest.getItems(par2Random), chest.getCount(par2Random));
             }
 
             this.placeBlockAtCurrentPosition(par1World, Block.cobblestoneMossy.blockID, 0, 9, -3, 2, par3StructureBoundingBox);
@@ -245,7 +251,7 @@ public class ComponentScatteredFeatureJunglePyramid extends ComponentScatteredFe
 
             if (!this.field_74948_i)
             {
-                this.field_74948_i = this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 9, -3, 10, WeightedRandomChestContent.func_92080_a(junglePyramidsChestContents, new WeightedRandomChestContent[] {Item.enchantedBook.func_92114_b(par2Random)}), 2 + par2Random.nextInt(5));
+                this.field_74948_i = this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 9, -3, 10, chest.getItems(par2Random), chest.getCount(par2Random));
             }
 
             return true;

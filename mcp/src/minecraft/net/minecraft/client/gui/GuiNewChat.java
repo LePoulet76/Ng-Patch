@@ -36,97 +36,97 @@ public class GuiNewChat extends Gui
     {
         if (this.mc.gameSettings.chatVisibility != 2)
         {
-            int var2 = this.func_96127_i();
-            boolean var3 = false;
-            int var4 = 0;
-            int var5 = this.field_96134_d.size();
-            float var6 = this.mc.gameSettings.chatOpacity * 0.9F + 0.1F;
+            int j = this.func_96127_i();
+            boolean flag = false;
+            int k = 0;
+            int l = this.field_96134_d.size();
+            float f = this.mc.gameSettings.chatOpacity * 0.9F + 0.1F;
 
-            if (var5 > 0)
+            if (l > 0)
             {
                 if (this.getChatOpen())
                 {
-                    var3 = true;
+                    flag = true;
                 }
 
-                float var7 = this.func_96131_h();
-                int var8 = MathHelper.ceiling_float_int((float)this.func_96126_f() / var7);
+                float f1 = this.func_96131_h();
+                int i1 = MathHelper.ceiling_float_int((float)this.func_96126_f() / f1);
                 GL11.glPushMatrix();
                 GL11.glTranslatef(2.0F, 20.0F, 0.0F);
-                GL11.glScalef(var7, var7, 1.0F);
-                int var9;
-                int var11;
-                int var14;
+                GL11.glScalef(f1, f1, 1.0F);
+                int j1;
+                int k1;
+                int l1;
 
-                for (var9 = 0; var9 + this.field_73768_d < this.field_96134_d.size() && var9 < var2; ++var9)
+                for (j1 = 0; j1 + this.field_73768_d < this.field_96134_d.size() && j1 < j; ++j1)
                 {
-                    ChatLine var10 = (ChatLine)this.field_96134_d.get(var9 + this.field_73768_d);
+                    ChatLine chatline = (ChatLine)this.field_96134_d.get(j1 + this.field_73768_d);
 
-                    if (var10 != null)
+                    if (chatline != null)
                     {
-                        var11 = par1 - var10.getUpdatedCounter();
+                        k1 = par1 - chatline.getUpdatedCounter();
 
-                        if (var11 < 200 || var3)
+                        if (k1 < 200 || flag)
                         {
-                            double var12 = (double)var11 / 200.0D;
-                            var12 = 1.0D - var12;
-                            var12 *= 10.0D;
+                            double d0 = (double)k1 / 200.0D;
+                            d0 = 1.0D - d0;
+                            d0 *= 10.0D;
 
-                            if (var12 < 0.0D)
+                            if (d0 < 0.0D)
                             {
-                                var12 = 0.0D;
+                                d0 = 0.0D;
                             }
 
-                            if (var12 > 1.0D)
+                            if (d0 > 1.0D)
                             {
-                                var12 = 1.0D;
+                                d0 = 1.0D;
                             }
 
-                            var12 *= var12;
-                            var14 = (int)(255.0D * var12);
+                            d0 *= d0;
+                            l1 = (int)(255.0D * d0);
 
-                            if (var3)
+                            if (flag)
                             {
-                                var14 = 255;
+                                l1 = 255;
                             }
 
-                            var14 = (int)((float)var14 * var6);
-                            ++var4;
+                            l1 = (int)((float)l1 * f);
+                            ++k;
 
-                            if (var14 > 3)
+                            if (l1 > 3)
                             {
-                                byte var15 = 0;
-                                int var16 = -var9 * 9;
-                                drawRect(var15, var16 - 9, var15 + var8 + 4, var16, var14 / 2 << 24);
+                                byte b0 = 0;
+                                int i2 = -j1 * 9;
+                                drawRect(b0, i2 - 9, b0 + i1 + 4, i2, l1 / 2 << 24);
                                 GL11.glEnable(GL11.GL_BLEND);
-                                String var17 = var10.getChatLineString();
+                                String s = chatline.getChatLineString();
 
                                 if (!this.mc.gameSettings.chatColours)
                                 {
-                                    var17 = StringUtils.stripControlCodes(var17);
+                                    s = StringUtils.stripControlCodes(s);
                                 }
 
-                                this.mc.fontRenderer.drawStringWithShadow(var17, var15, var16 - 8, 16777215 + (var14 << 24));
+                                this.mc.fontRenderer.drawStringWithShadow(s, b0, i2 - 8, 16777215 + (l1 << 24));
                             }
                         }
                     }
                 }
 
-                if (var3)
+                if (flag)
                 {
-                    var9 = this.mc.fontRenderer.FONT_HEIGHT;
+                    j1 = this.mc.fontRenderer.FONT_HEIGHT;
                     GL11.glTranslatef(-3.0F, 0.0F, 0.0F);
-                    int var18 = var5 * var9 + var5;
-                    var11 = var4 * var9 + var4;
-                    int var19 = this.field_73768_d * var11 / var5;
-                    int var13 = var11 * var11 / var18;
+                    int j2 = l * j1 + l;
+                    k1 = k * j1 + k;
+                    int k2 = this.field_73768_d * k1 / l;
+                    int l2 = k1 * k1 / j2;
 
-                    if (var18 != var11)
+                    if (j2 != k1)
                     {
-                        var14 = var19 > 0 ? 170 : 96;
-                        int var20 = this.field_73769_e ? 13382451 : 3355562;
-                        drawRect(0, -var19, 2, -var19 - var13, var20 + (var14 << 24));
-                        drawRect(2, -var19, 1, -var19 - var13, 13421772 + (var14 << 24));
+                        l1 = k2 > 0 ? 170 : 96;
+                        int i3 = this.field_73769_e ? 13382451 : 3355562;
+                        drawRect(0, -k2, 2, -k2 - l2, i3 + (l1 << 24));
+                        drawRect(2, -k2, 1, -k2 - l2, 13421772 + (l1 << 24));
                     }
                 }
 
@@ -164,33 +164,33 @@ public class GuiNewChat extends Gui
 
     private void func_96129_a(String par1Str, int par2, int par3, boolean par4)
     {
-        boolean var5 = this.getChatOpen();
-        boolean var6 = true;
+        boolean flag1 = this.getChatOpen();
+        boolean flag2 = true;
 
         if (par2 != 0)
         {
             this.deleteChatLine(par2);
         }
 
-        Iterator var7 = this.mc.fontRenderer.listFormattedStringToWidth(par1Str, MathHelper.floor_float((float)this.func_96126_f() / this.func_96131_h())).iterator();
+        Iterator iterator = this.mc.fontRenderer.listFormattedStringToWidth(par1Str, MathHelper.floor_float((float)this.func_96126_f() / this.func_96131_h())).iterator();
 
-        while (var7.hasNext())
+        while (iterator.hasNext())
         {
-            String var8 = (String)var7.next();
+            String s1 = (String)iterator.next();
 
-            if (var5 && this.field_73768_d > 0)
+            if (flag1 && this.field_73768_d > 0)
             {
                 this.field_73769_e = true;
                 this.scroll(1);
             }
 
-            if (!var6)
+            if (!flag2)
             {
-                var8 = " " + var8;
+                s1 = " " + s1;
             }
 
-            var6 = false;
-            this.field_96134_d.add(0, new ChatLine(par3, var8, par2));
+            flag2 = false;
+            this.field_96134_d.add(0, new ChatLine(par3, s1, par2));
         }
 
         while (this.field_96134_d.size() > 100)
@@ -214,10 +214,10 @@ public class GuiNewChat extends Gui
         this.field_96134_d.clear();
         this.resetScroll();
 
-        for (int var1 = this.chatLines.size() - 1; var1 >= 0; --var1)
+        for (int i = this.chatLines.size() - 1; i >= 0; --i)
         {
-            ChatLine var2 = (ChatLine)this.chatLines.get(var1);
-            this.func_96129_a(var2.getChatLineString(), var2.getChatLineID(), var2.getUpdatedCounter(), true);
+            ChatLine chatline = (ChatLine)this.chatLines.get(i);
+            this.func_96129_a(chatline.getChatLineString(), chatline.getChatLineID(), chatline.getUpdatedCounter(), true);
         }
     }
 
@@ -255,11 +255,11 @@ public class GuiNewChat extends Gui
     public void scroll(int par1)
     {
         this.field_73768_d += par1;
-        int var2 = this.field_96134_d.size();
+        int j = this.field_96134_d.size();
 
-        if (this.field_73768_d > var2 - this.func_96127_i())
+        if (this.field_73768_d > j - this.func_96127_i())
         {
-            this.field_73768_d = var2 - this.func_96127_i();
+            this.field_73768_d = j - this.func_96127_i();
         }
 
         if (this.field_73768_d <= 0)
@@ -277,22 +277,22 @@ public class GuiNewChat extends Gui
         }
         else
         {
-            ScaledResolution var3 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
-            int var4 = var3.getScaleFactor();
-            float var5 = this.func_96131_h();
-            int var6 = par1 / var4 - 3;
-            int var7 = par2 / var4 - 25;
-            var6 = MathHelper.floor_float((float)var6 / var5);
-            var7 = MathHelper.floor_float((float)var7 / var5);
+            ScaledResolution scaledresolution = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
+            int k = scaledresolution.getScaleFactor();
+            float f = this.func_96131_h();
+            int l = par1 / k - 3;
+            int i1 = par2 / k - 25;
+            l = MathHelper.floor_float((float)l / f);
+            i1 = MathHelper.floor_float((float)i1 / f);
 
-            if (var6 >= 0 && var7 >= 0)
+            if (l >= 0 && i1 >= 0)
             {
-                int var8 = Math.min(this.func_96127_i(), this.field_96134_d.size());
+                int j1 = Math.min(this.func_96127_i(), this.field_96134_d.size());
 
-                if (var6 <= MathHelper.floor_float((float)this.func_96126_f() / this.func_96131_h()) && var7 < this.mc.fontRenderer.FONT_HEIGHT * var8 + var8)
+                if (l <= MathHelper.floor_float((float)this.func_96126_f() / this.func_96131_h()) && i1 < this.mc.fontRenderer.FONT_HEIGHT * j1 + j1)
                 {
-                    int var9 = var7 / (this.mc.fontRenderer.FONT_HEIGHT + 1) + this.field_73768_d;
-                    return new ChatClickData(this.mc.fontRenderer, (ChatLine)this.field_96134_d.get(var9), var6, var7 - (var9 - this.field_73768_d) * this.mc.fontRenderer.FONT_HEIGHT + var9);
+                    int k1 = i1 / (this.mc.fontRenderer.FONT_HEIGHT + 1) + this.field_73768_d;
+                    return new ChatClickData(this.mc.fontRenderer, (ChatLine)this.field_96134_d.get(k1), l, i1 - (k1 - this.field_73768_d) * this.mc.fontRenderer.FONT_HEIGHT + k1);
                 }
                 else
                 {
@@ -327,35 +327,35 @@ public class GuiNewChat extends Gui
      */
     public void deleteChatLine(int par1)
     {
-        Iterator var2 = this.field_96134_d.iterator();
-        ChatLine var3;
+        Iterator iterator = this.field_96134_d.iterator();
+        ChatLine chatline;
 
         do
         {
-            if (!var2.hasNext())
+            if (!iterator.hasNext())
             {
-                var2 = this.chatLines.iterator();
+                iterator = this.chatLines.iterator();
 
                 do
                 {
-                    if (!var2.hasNext())
+                    if (!iterator.hasNext())
                     {
                         return;
                     }
 
-                    var3 = (ChatLine)var2.next();
+                    chatline = (ChatLine)iterator.next();
                 }
-                while (var3.getChatLineID() != par1);
+                while (chatline.getChatLineID() != par1);
 
-                var2.remove();
+                iterator.remove();
                 return;
             }
 
-            var3 = (ChatLine)var2.next();
+            chatline = (ChatLine)iterator.next();
         }
-        while (var3.getChatLineID() != par1);
+        while (chatline.getChatLineID() != par1);
 
-        var2.remove();
+        iterator.remove();
     }
 
     public int func_96126_f()
@@ -375,16 +375,16 @@ public class GuiNewChat extends Gui
 
     public static final int func_96128_a(float par0)
     {
-        short var1 = 320;
-        byte var2 = 40;
-        return MathHelper.floor_float(par0 * (float)(var1 - var2) + (float)var2);
+        short short1 = 320;
+        byte b0 = 40;
+        return MathHelper.floor_float(par0 * (float)(short1 - b0) + (float)b0);
     }
 
     public static final int func_96130_b(float par0)
     {
-        short var1 = 180;
-        byte var2 = 20;
-        return MathHelper.floor_float(par0 * (float)(var1 - var2) + (float)var2);
+        short short1 = 180;
+        byte b0 = 20;
+        return MathHelper.floor_float(par0 * (float)(short1 - b0) + (float)b0);
     }
 
     public int func_96127_i()

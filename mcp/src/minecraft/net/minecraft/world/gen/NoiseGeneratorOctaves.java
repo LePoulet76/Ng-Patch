@@ -16,9 +16,9 @@ public class NoiseGeneratorOctaves extends NoiseGenerator
         this.octaves = par2;
         this.generatorCollection = new NoiseGeneratorPerlin[par2];
 
-        for (int var3 = 0; var3 < par2; ++var3)
+        for (int j = 0; j < par2; ++j)
         {
-            this.generatorCollection[var3] = new NoiseGeneratorPerlin(par1Random);
+            this.generatorCollection[j] = new NoiseGeneratorPerlin(par1Random);
         }
     }
 
@@ -34,29 +34,29 @@ public class NoiseGeneratorOctaves extends NoiseGenerator
         }
         else
         {
-            for (int var14 = 0; var14 < par1ArrayOfDouble.length; ++var14)
+            for (int k1 = 0; k1 < par1ArrayOfDouble.length; ++k1)
             {
-                par1ArrayOfDouble[var14] = 0.0D;
+                par1ArrayOfDouble[k1] = 0.0D;
             }
         }
 
-        double var27 = 1.0D;
+        double d3 = 1.0D;
 
-        for (int var16 = 0; var16 < this.octaves; ++var16)
+        for (int l1 = 0; l1 < this.octaves; ++l1)
         {
-            double var17 = (double)par2 * var27 * par8;
-            double var19 = (double)par3 * var27 * par10;
-            double var21 = (double)par4 * var27 * par12;
-            long var23 = MathHelper.floor_double_long(var17);
-            long var25 = MathHelper.floor_double_long(var21);
-            var17 -= (double)var23;
-            var21 -= (double)var25;
-            var23 %= 16777216L;
-            var25 %= 16777216L;
-            var17 += (double)var23;
-            var21 += (double)var25;
-            this.generatorCollection[var16].populateNoiseArray(par1ArrayOfDouble, var17, var19, var21, par5, par6, par7, par8 * var27, par10 * var27, par12 * var27, var27);
-            var27 /= 2.0D;
+            double d4 = (double)par2 * d3 * par8;
+            double d5 = (double)par3 * d3 * par10;
+            double d6 = (double)par4 * d3 * par12;
+            long i2 = MathHelper.floor_double_long(d4);
+            long j2 = MathHelper.floor_double_long(d6);
+            d4 -= (double)i2;
+            d6 -= (double)j2;
+            i2 %= 16777216L;
+            j2 %= 16777216L;
+            d4 += (double)i2;
+            d6 += (double)j2;
+            this.generatorCollection[l1].populateNoiseArray(par1ArrayOfDouble, d4, d5, d6, par5, par6, par7, par8 * d3, par10 * d3, par12 * d3, d3);
+            d3 /= 2.0D;
         }
 
         return par1ArrayOfDouble;

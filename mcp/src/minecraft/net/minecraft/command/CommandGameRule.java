@@ -27,43 +27,43 @@ public class CommandGameRule extends CommandBase
 
     public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
-        String var6;
+        String s;
 
         if (par2ArrayOfStr.length == 2)
         {
-            var6 = par2ArrayOfStr[0];
-            String var7 = par2ArrayOfStr[1];
-            GameRules var8 = this.getGameRules();
+            s = par2ArrayOfStr[0];
+            String s1 = par2ArrayOfStr[1];
+            GameRules gamerules = this.getGameRules();
 
-            if (var8.hasRule(var6))
+            if (gamerules.hasRule(s))
             {
-                var8.setOrCreateGameRule(var6, var7);
+                gamerules.setOrCreateGameRule(s, s1);
                 notifyAdmins(par1ICommandSender, "commands.gamerule.success", new Object[0]);
             }
             else
             {
-                notifyAdmins(par1ICommandSender, "commands.gamerule.norule", new Object[] {var6});
+                notifyAdmins(par1ICommandSender, "commands.gamerule.norule", new Object[] {s});
             }
         }
         else if (par2ArrayOfStr.length == 1)
         {
-            var6 = par2ArrayOfStr[0];
-            GameRules var4 = this.getGameRules();
+            s = par2ArrayOfStr[0];
+            GameRules gamerules1 = this.getGameRules();
 
-            if (var4.hasRule(var6))
+            if (gamerules1.hasRule(s))
             {
-                String var5 = var4.getGameRuleStringValue(var6);
-                par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromText(var6).addText(" = ").addText(var5));
+                String s2 = gamerules1.getGameRuleStringValue(s);
+                par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromText(s).addText(" = ").addText(s2));
             }
             else
             {
-                notifyAdmins(par1ICommandSender, "commands.gamerule.norule", new Object[] {var6});
+                notifyAdmins(par1ICommandSender, "commands.gamerule.norule", new Object[] {s});
             }
         }
         else if (par2ArrayOfStr.length == 0)
         {
-            GameRules var3 = this.getGameRules();
-            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromText(joinNiceString(var3.getRules())));
+            GameRules gamerules2 = this.getGameRules();
+            par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromText(joinNiceString(gamerules2.getRules())));
         }
         else
         {

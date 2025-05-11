@@ -1,10 +1,15 @@
 package net.minecraft.inventory;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.AchievementList;
+
+import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 
 public class SlotCrafting extends Slot
 {
@@ -110,29 +115,36 @@ public class SlotCrafting extends Slot
 
     public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack)
     {
+        GameRegistry.onItemCrafted(par1EntityPlayer, par2ItemStack, craftMatrix);
         this.onCrafting(par2ItemStack);
 
-        for (int var3 = 0; var3 < this.craftMatrix.getSizeInventory(); ++var3)
+        for (int i = 0; i < this.craftMatrix.getSizeInventory(); ++i)
         {
-            ItemStack var4 = this.craftMatrix.getStackInSlot(var3);
+            ItemStack itemstack1 = this.craftMatrix.getStackInSlot(i);
 
-            if (var4 != null)
+            if (itemstack1 != null)
             {
-                this.craftMatrix.decrStackSize(var3, 1);
+                this.craftMatrix.decrStackSize(i, 1);
 
-                if (var4.getItem().hasContainerItem())
+                if (itemstack1.getItem().hasContainerItem())
                 {
-                    ItemStack var5 = new ItemStack(var4.getItem().getContainerItem());
+                    ItemStack itemstack2 = itemstack1.getItem().getContainerItemStack(itemstack1);
 
-                    if (!var4.getItem().doesContainerItemLeaveCraftingGrid(var4) || !this.thePlayer.inventory.addItemStackToInventory(var5))
+                    if (itemstack2.isItemStackDamageable() && itemstack2.getItemDamage() > itemstack2.getMaxDamage())
                     {
-                        if (this.craftMatrix.getStackInSlot(var3) == null)
+                        MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(thePlayer, itemstack2));
+                        itemstack2 = null;
+                    }
+
+                    if (itemstack2 != null && (!itemstack1.getItem().doesContainerItemLeaveCraftingGrid(itemstack1) || !this.thePlayer.inventory.addItemStackToInventory(itemstack2)))
+                    {
+                        if (this.craftMatrix.getStackInSlot(i) == null)
                         {
-                            this.craftMatrix.setInventorySlotContents(var3, var5);
+                            this.craftMatrix.setInventorySlotContents(i, itemstack2);
                         }
                         else
                         {
-                            this.thePlayer.dropPlayerItem(var5);
+                            this.thePlayer.dropPlayerItem(itemstack2);
                         }
                     }
                 }

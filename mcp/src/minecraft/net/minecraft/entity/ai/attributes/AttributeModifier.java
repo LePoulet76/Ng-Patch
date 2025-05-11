@@ -76,16 +76,16 @@ public class AttributeModifier
         }
         else if (par1Obj != null && this.getClass() == par1Obj.getClass())
         {
-            AttributeModifier var2 = (AttributeModifier)par1Obj;
+            AttributeModifier attributemodifier = (AttributeModifier)par1Obj;
 
             if (this.id != null)
             {
-                if (!this.id.equals(var2.id))
+                if (!this.id.equals(attributemodifier.id))
                 {
                     return false;
                 }
             }
-            else if (var2.id != null)
+            else if (attributemodifier.id != null)
             {
                 return false;
             }

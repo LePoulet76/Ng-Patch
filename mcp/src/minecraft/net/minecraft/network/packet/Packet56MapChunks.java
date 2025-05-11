@@ -6,6 +6,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -31,53 +32,61 @@ public class Packet56MapChunks extends Packet
      */
     private boolean skyLightSent;
     private static byte[] chunkDataNotCompressed = new byte[0];
+    private int maxLen = 0;
+
+    private Semaphore deflateGate;
 
     public Packet56MapChunks() {}
 
     public Packet56MapChunks(List par1List)
     {
-        int var2 = par1List.size();
-        this.chunkPostX = new int[var2];
-        this.chunkPosZ = new int[var2];
-        this.field_73590_a = new int[var2];
-        this.field_73588_b = new int[var2];
-        this.field_73584_f = new byte[var2][];
+        int i = par1List.size();
+        this.chunkPostX = new int[i];
+        this.chunkPosZ = new int[i];
+        this.field_73590_a = new int[i];
+        this.field_73588_b = new int[i];
+        this.field_73584_f = new byte[i][];
         this.skyLightSent = !par1List.isEmpty() && !((Chunk)par1List.get(0)).worldObj.provider.hasNoSky;
-        int var3 = 0;
+        int j = 0;
 
-        for (int var4 = 0; var4 < var2; ++var4)
+        for (int k = 0; k < i; ++k)
         {
-            Chunk var5 = (Chunk)par1List.get(var4);
-            Packet51MapChunkData var6 = Packet51MapChunk.getMapChunkData(var5, true, 65535);
+            Chunk chunk = (Chunk)par1List.get(k);
+            Packet51MapChunkData packet51mapchunkdata = Packet51MapChunk.getMapChunkData(chunk, true, 65535);
+            j += packet51mapchunkdata.compressedData.length;
+            this.chunkPostX[k] = chunk.xPosition;
+            this.chunkPosZ[k] = chunk.zPosition;
+            this.field_73590_a[k] = packet51mapchunkdata.chunkExistFlag;
+            this.field_73588_b[k] = packet51mapchunkdata.chunkHasAddSectionFlag;
+            this.field_73584_f[k] = packet51mapchunkdata.compressedData;
+        }
+        deflateGate = new Semaphore(1);
+        maxLen = j;
+    }
 
-            if (chunkDataNotCompressed.length < var3 + var6.compressedData.length)
-            {
-                byte[] var7 = new byte[var3 + var6.compressedData.length];
-                System.arraycopy(chunkDataNotCompressed, 0, var7, 0, chunkDataNotCompressed.length);
-                chunkDataNotCompressed = var7;
-            }
-
-            System.arraycopy(var6.compressedData, 0, chunkDataNotCompressed, var3, var6.compressedData.length);
-            var3 += var6.compressedData.length;
-            this.chunkPostX[var4] = var5.xPosition;
-            this.chunkPosZ[var4] = var5.zPosition;
-            this.field_73590_a[var4] = var6.chunkExistFlag;
-            this.field_73588_b[var4] = var6.chunkHasAddSectionFlag;
-            this.field_73584_f[var4] = var6.compressedData;
+    private void deflate()
+    {
+        byte[] data = new byte[maxLen];
+        int offset = 0;
+        for (int x = 0; x < field_73584_f.length; x++)
+        {
+            System.arraycopy(field_73584_f[x], 0, data, offset, field_73584_f[x].length);
+            offset += field_73584_f[x].length;
         }
 
-        Deflater var11 = new Deflater(-1);
+        Deflater deflater = new Deflater(-1);
 
         try
         {
-            var11.setInput(chunkDataNotCompressed, 0, var3);
-            var11.finish();
-            this.chunkDataBuffer = new byte[var3];
-            this.dataLength = var11.deflate(this.chunkDataBuffer);
+            deflater.setInput(data, 0, maxLen);
+            deflater.finish();
+            byte[] deflated = new byte[maxLen];
+            this.dataLength = deflater.deflate(deflated);
+            this.chunkDataBuffer = deflated;
         }
         finally
         {
-            var11.end();
+            deflater.end();
         }
     }
 
@@ -86,14 +95,14 @@ public class Packet56MapChunks extends Packet
      */
     public void readPacketData(DataInput par1DataInput) throws IOException
     {
-        short var2 = par1DataInput.readShort();
+        short short1 = par1DataInput.readShort();
         this.dataLength = par1DataInput.readInt();
         this.skyLightSent = par1DataInput.readBoolean();
-        this.chunkPostX = new int[var2];
-        this.chunkPosZ = new int[var2];
-        this.field_73590_a = new int[var2];
-        this.field_73588_b = new int[var2];
-        this.field_73584_f = new byte[var2][];
+        this.chunkPostX = new int[short1];
+        this.chunkPosZ = new int[short1];
+        this.field_73590_a = new int[short1];
+        this.field_73588_b = new int[short1];
+        this.field_73584_f = new byte[short1][];
 
         if (chunkDataNotCompressed.length < this.dataLength)
         {
@@ -101,52 +110,52 @@ public class Packet56MapChunks extends Packet
         }
 
         par1DataInput.readFully(chunkDataNotCompressed, 0, this.dataLength);
-        byte[] var3 = new byte[196864 * var2];
-        Inflater var4 = new Inflater();
-        var4.setInput(chunkDataNotCompressed, 0, this.dataLength);
+        byte[] abyte = new byte[196864 * short1];
+        Inflater inflater = new Inflater();
+        inflater.setInput(chunkDataNotCompressed, 0, this.dataLength);
 
         try
         {
-            var4.inflate(var3);
+            inflater.inflate(abyte);
         }
-        catch (DataFormatException var12)
+        catch (DataFormatException dataformatexception)
         {
             throw new IOException("Bad compressed data format");
         }
         finally
         {
-            var4.end();
+            inflater.end();
         }
 
-        int var5 = 0;
+        int i = 0;
 
-        for (int var6 = 0; var6 < var2; ++var6)
+        for (int j = 0; j < short1; ++j)
         {
-            this.chunkPostX[var6] = par1DataInput.readInt();
-            this.chunkPosZ[var6] = par1DataInput.readInt();
-            this.field_73590_a[var6] = par1DataInput.readShort();
-            this.field_73588_b[var6] = par1DataInput.readShort();
-            int var7 = 0;
-            int var8 = 0;
-            int var9;
+            this.chunkPostX[j] = par1DataInput.readInt();
+            this.chunkPosZ[j] = par1DataInput.readInt();
+            this.field_73590_a[j] = par1DataInput.readShort();
+            this.field_73588_b[j] = par1DataInput.readShort();
+            int k = 0;
+            int l = 0;
+            int i1;
 
-            for (var9 = 0; var9 < 16; ++var9)
+            for (i1 = 0; i1 < 16; ++i1)
             {
-                var7 += this.field_73590_a[var6] >> var9 & 1;
-                var8 += this.field_73588_b[var6] >> var9 & 1;
+                k += this.field_73590_a[j] >> i1 & 1;
+                l += this.field_73588_b[j] >> i1 & 1;
             }
 
-            var9 = 2048 * 4 * var7 + 256;
-            var9 += 2048 * var8;
+            i1 = 2048 * 4 * k + 256;
+            i1 += 2048 * l;
 
             if (this.skyLightSent)
             {
-                var9 += 2048 * var7;
+                i1 += 2048 * k;
             }
 
-            this.field_73584_f[var6] = new byte[var9];
-            System.arraycopy(var3, var5, this.field_73584_f[var6], 0, var9);
-            var5 += var9;
+            this.field_73584_f[j] = new byte[i1];
+            System.arraycopy(abyte, i, this.field_73584_f[j], 0, i1);
+            i += i1;
         }
     }
 
@@ -155,17 +164,26 @@ public class Packet56MapChunks extends Packet
      */
     public void writePacketData(DataOutput par1DataOutput) throws IOException
     {
+        if (this.chunkDataBuffer == null)
+        {
+            deflateGate.acquireUninterruptibly();
+            if (this.chunkDataBuffer == null)
+            {
+                deflate();
+            }
+            deflateGate.release();
+        }
         par1DataOutput.writeShort(this.chunkPostX.length);
         par1DataOutput.writeInt(this.dataLength);
         par1DataOutput.writeBoolean(this.skyLightSent);
         par1DataOutput.write(this.chunkDataBuffer, 0, this.dataLength);
 
-        for (int var2 = 0; var2 < this.chunkPostX.length; ++var2)
+        for (int i = 0; i < this.chunkPostX.length; ++i)
         {
-            par1DataOutput.writeInt(this.chunkPostX[var2]);
-            par1DataOutput.writeInt(this.chunkPosZ[var2]);
-            par1DataOutput.writeShort((short)(this.field_73590_a[var2] & 65535));
-            par1DataOutput.writeShort((short)(this.field_73588_b[var2] & 65535));
+            par1DataOutput.writeInt(this.chunkPostX[i]);
+            par1DataOutput.writeInt(this.chunkPosZ[i]);
+            par1DataOutput.writeShort((short)(this.field_73590_a[i] & 65535));
+            par1DataOutput.writeShort((short)(this.field_73588_b[i] & 65535));
         }
     }
 

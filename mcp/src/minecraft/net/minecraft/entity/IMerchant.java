@@ -9,16 +9,16 @@ import net.minecraft.village.MerchantRecipeList;
 
 public interface IMerchant
 {
-    void setCustomer(EntityPlayer var1);
+    void setCustomer(EntityPlayer entityplayer);
 
     EntityPlayer getCustomer();
 
-    MerchantRecipeList getRecipes(EntityPlayer var1);
+    MerchantRecipeList getRecipes(EntityPlayer entityplayer);
 
     @SideOnly(Side.CLIENT)
-    void setRecipes(MerchantRecipeList var1);
+    void setRecipes(MerchantRecipeList merchantrecipelist);
 
-    void useRecipe(MerchantRecipe var1);
+    void useRecipe(MerchantRecipe merchantrecipe);
 
-    void func_110297_a_(ItemStack var1);
+    void func_110297_a_(ItemStack itemstack);
 }

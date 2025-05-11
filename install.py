@@ -74,7 +74,8 @@ if __name__ == '__main__':
     fml_main(fml_dir, mcp_dir, disable_patches=options.no_patch, 
         disable_at=options.no_access, disable_merge=options.no_merge,
         enable_server=options.enable_server, disable_client=options.no_client,
-        disable_rename=options.no_rename, disable_assets=options.no_assets,
+        disable_rename=options.no_rename, disable_assets=True,
         decompile=options.decompile, gen_conf=False)
+
         
     forge_main(forge_dir, fml_dir, mcp_dir)

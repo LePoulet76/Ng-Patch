@@ -36,12 +36,12 @@ public abstract class Render
      * (Render<T extends Entity) and this method has signature public void doRender(T entity, double d, double d1,
      * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
      */
-    public abstract void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9);
+    public abstract void doRender(Entity entity, double d0, double d1, double d2, float f, float f1);
 
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
-    protected abstract ResourceLocation getEntityTexture(Entity var1);
+    protected abstract ResourceLocation getEntityTexture(Entity entity);
 
     protected void bindEntityTexture(Entity par1Entity)
     {
@@ -59,52 +59,52 @@ public abstract class Render
     private void renderEntityOnFire(Entity par1Entity, double par2, double par4, double par6, float par8)
     {
         GL11.glDisable(GL11.GL_LIGHTING);
-        Icon var9 = Block.fire.getFireIcon(0);
-        Icon var10 = Block.fire.getFireIcon(1);
+        Icon icon = Block.fire.getFireIcon(0);
+        Icon icon1 = Block.fire.getFireIcon(1);
         GL11.glPushMatrix();
         GL11.glTranslatef((float)par2, (float)par4, (float)par6);
-        float var11 = par1Entity.width * 1.4F;
-        GL11.glScalef(var11, var11, var11);
-        Tessellator var12 = Tessellator.instance;
-        float var13 = 0.5F;
-        float var14 = 0.0F;
-        float var15 = par1Entity.height / var11;
-        float var16 = (float)(par1Entity.posY - par1Entity.boundingBox.minY);
+        float f1 = par1Entity.width * 1.4F;
+        GL11.glScalef(f1, f1, f1);
+        Tessellator tessellator = Tessellator.instance;
+        float f2 = 0.5F;
+        float f3 = 0.0F;
+        float f4 = par1Entity.height / f1;
+        float f5 = (float)(par1Entity.posY - par1Entity.boundingBox.minY);
         GL11.glRotatef(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        GL11.glTranslatef(0.0F, 0.0F, -0.3F + (float)((int)var15) * 0.02F);
+        GL11.glTranslatef(0.0F, 0.0F, -0.3F + (float)((int)f4) * 0.02F);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        float var17 = 0.0F;
-        int var18 = 0;
-        var12.startDrawingQuads();
+        float f6 = 0.0F;
+        int i = 0;
+        tessellator.startDrawingQuads();
 
-        while (var15 > 0.0F)
+        while (f4 > 0.0F)
         {
-            Icon var19 = var18 % 2 == 0 ? var9 : var10;
+            Icon icon2 = i % 2 == 0 ? icon : icon1;
             this.bindTexture(TextureMap.locationBlocksTexture);
-            float var20 = var19.getMinU();
-            float var21 = var19.getMinV();
-            float var22 = var19.getMaxU();
-            float var23 = var19.getMaxV();
+            float f7 = icon2.getMinU();
+            float f8 = icon2.getMinV();
+            float f9 = icon2.getMaxU();
+            float f10 = icon2.getMaxV();
 
-            if (var18 / 2 % 2 == 0)
+            if (i / 2 % 2 == 0)
             {
-                float var24 = var22;
-                var22 = var20;
-                var20 = var24;
+                float f11 = f9;
+                f9 = f7;
+                f7 = f11;
             }
 
-            var12.addVertexWithUV((double)(var13 - var14), (double)(0.0F - var16), (double)var17, (double)var22, (double)var23);
-            var12.addVertexWithUV((double)(-var13 - var14), (double)(0.0F - var16), (double)var17, (double)var20, (double)var23);
-            var12.addVertexWithUV((double)(-var13 - var14), (double)(1.4F - var16), (double)var17, (double)var20, (double)var21);
-            var12.addVertexWithUV((double)(var13 - var14), (double)(1.4F - var16), (double)var17, (double)var22, (double)var21);
-            var15 -= 0.45F;
-            var16 -= 0.45F;
-            var13 *= 0.9F;
-            var17 += 0.03F;
-            ++var18;
+            tessellator.addVertexWithUV((double)(f2 - f3), (double)(0.0F - f5), (double)f6, (double)f9, (double)f10);
+            tessellator.addVertexWithUV((double)(-f2 - f3), (double)(0.0F - f5), (double)f6, (double)f7, (double)f10);
+            tessellator.addVertexWithUV((double)(-f2 - f3), (double)(1.4F - f5), (double)f6, (double)f7, (double)f8);
+            tessellator.addVertexWithUV((double)(f2 - f3), (double)(1.4F - f5), (double)f6, (double)f9, (double)f8);
+            f4 -= 0.45F;
+            f5 -= 0.45F;
+            f2 *= 0.9F;
+            f6 += 0.03F;
+            ++i;
         }
 
-        var12.draw();
+        tessellator.draw();
         GL11.glPopMatrix();
         GL11.glEnable(GL11.GL_LIGHTING);
     }
@@ -118,53 +118,53 @@ public abstract class Render
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         this.renderManager.renderEngine.bindTexture(shadowTextures);
-        World var10 = this.getWorldFromRenderManager();
+        World world = this.getWorldFromRenderManager();
         GL11.glDepthMask(false);
-        float var11 = this.shadowSize;
+        float f2 = this.shadowSize;
 
         if (par1Entity instanceof EntityLiving)
         {
-            EntityLiving var12 = (EntityLiving)par1Entity;
-            var11 *= var12.getRenderSizeModifier();
+            EntityLiving entityliving = (EntityLiving)par1Entity;
+            f2 *= entityliving.getRenderSizeModifier();
 
-            if (var12.isChild())
+            if (entityliving.isChild())
             {
-                var11 *= 0.5F;
+                f2 *= 0.5F;
             }
         }
 
-        double var35 = par1Entity.lastTickPosX + (par1Entity.posX - par1Entity.lastTickPosX) * (double)par9;
-        double var14 = par1Entity.lastTickPosY + (par1Entity.posY - par1Entity.lastTickPosY) * (double)par9 + (double)par1Entity.getShadowSize();
-        double var16 = par1Entity.lastTickPosZ + (par1Entity.posZ - par1Entity.lastTickPosZ) * (double)par9;
-        int var18 = MathHelper.floor_double(var35 - (double)var11);
-        int var19 = MathHelper.floor_double(var35 + (double)var11);
-        int var20 = MathHelper.floor_double(var14 - (double)var11);
-        int var21 = MathHelper.floor_double(var14);
-        int var22 = MathHelper.floor_double(var16 - (double)var11);
-        int var23 = MathHelper.floor_double(var16 + (double)var11);
-        double var24 = par2 - var35;
-        double var26 = par4 - var14;
-        double var28 = par6 - var16;
-        Tessellator var30 = Tessellator.instance;
-        var30.startDrawingQuads();
+        double d3 = par1Entity.lastTickPosX + (par1Entity.posX - par1Entity.lastTickPosX) * (double)par9;
+        double d4 = par1Entity.lastTickPosY + (par1Entity.posY - par1Entity.lastTickPosY) * (double)par9 + (double)par1Entity.getShadowSize();
+        double d5 = par1Entity.lastTickPosZ + (par1Entity.posZ - par1Entity.lastTickPosZ) * (double)par9;
+        int i = MathHelper.floor_double(d3 - (double)f2);
+        int j = MathHelper.floor_double(d3 + (double)f2);
+        int k = MathHelper.floor_double(d4 - (double)f2);
+        int l = MathHelper.floor_double(d4);
+        int i1 = MathHelper.floor_double(d5 - (double)f2);
+        int j1 = MathHelper.floor_double(d5 + (double)f2);
+        double d6 = par2 - d3;
+        double d7 = par4 - d4;
+        double d8 = par6 - d5;
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
 
-        for (int var31 = var18; var31 <= var19; ++var31)
+        for (int k1 = i; k1 <= j; ++k1)
         {
-            for (int var32 = var20; var32 <= var21; ++var32)
+            for (int l1 = k; l1 <= l; ++l1)
             {
-                for (int var33 = var22; var33 <= var23; ++var33)
+                for (int i2 = i1; i2 <= j1; ++i2)
                 {
-                    int var34 = var10.getBlockId(var31, var32 - 1, var33);
+                    int j2 = world.getBlockId(k1, l1 - 1, i2);
 
-                    if (var34 > 0 && var10.getBlockLightValue(var31, var32, var33) > 3)
+                    if (j2 > 0 && world.getBlockLightValue(k1, l1, i2) > 3)
                     {
-                        this.renderShadowOnBlock(Block.blocksList[var34], par2, par4 + (double)par1Entity.getShadowSize(), par6, var31, var32, var33, par8, var11, var24, var26 + (double)par1Entity.getShadowSize(), var28);
+                        this.renderShadowOnBlock(Block.blocksList[j2], par2, par4 + (double)par1Entity.getShadowSize(), par6, k1, l1, i2, par8, f2, d6, d7 + (double)par1Entity.getShadowSize(), d8);
                     }
                 }
             }
         }
 
-        var30.draw();
+        tessellator.draw();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDepthMask(true);
@@ -185,33 +185,33 @@ public abstract class Render
      */
     private void renderShadowOnBlock(Block par1Block, double par2, double par4, double par6, int par8, int par9, int par10, float par11, float par12, double par13, double par15, double par17)
     {
-        Tessellator var19 = Tessellator.instance;
+        Tessellator tessellator = Tessellator.instance;
 
         if (par1Block.renderAsNormalBlock())
         {
-            double var20 = ((double)par11 - (par4 - ((double)par9 + par15)) / 2.0D) * 0.5D * (double)this.getWorldFromRenderManager().getLightBrightness(par8, par9, par10);
+            double d6 = ((double)par11 - (par4 - ((double)par9 + par15)) / 2.0D) * 0.5D * (double)this.getWorldFromRenderManager().getLightBrightness(par8, par9, par10);
 
-            if (var20 >= 0.0D)
+            if (d6 >= 0.0D)
             {
-                if (var20 > 1.0D)
+                if (d6 > 1.0D)
                 {
-                    var20 = 1.0D;
+                    d6 = 1.0D;
                 }
 
-                var19.setColorRGBA_F(1.0F, 1.0F, 1.0F, (float)var20);
-                double var22 = (double)par8 + par1Block.getBlockBoundsMinX() + par13;
-                double var24 = (double)par8 + par1Block.getBlockBoundsMaxX() + par13;
-                double var26 = (double)par9 + par1Block.getBlockBoundsMinY() + par15 + 0.015625D;
-                double var28 = (double)par10 + par1Block.getBlockBoundsMinZ() + par17;
-                double var30 = (double)par10 + par1Block.getBlockBoundsMaxZ() + par17;
-                float var32 = (float)((par2 - var22) / 2.0D / (double)par12 + 0.5D);
-                float var33 = (float)((par2 - var24) / 2.0D / (double)par12 + 0.5D);
-                float var34 = (float)((par6 - var28) / 2.0D / (double)par12 + 0.5D);
-                float var35 = (float)((par6 - var30) / 2.0D / (double)par12 + 0.5D);
-                var19.addVertexWithUV(var22, var26, var28, (double)var32, (double)var34);
-                var19.addVertexWithUV(var22, var26, var30, (double)var32, (double)var35);
-                var19.addVertexWithUV(var24, var26, var30, (double)var33, (double)var35);
-                var19.addVertexWithUV(var24, var26, var28, (double)var33, (double)var34);
+                tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, (float)d6);
+                double d7 = (double)par8 + par1Block.getBlockBoundsMinX() + par13;
+                double d8 = (double)par8 + par1Block.getBlockBoundsMaxX() + par13;
+                double d9 = (double)par9 + par1Block.getBlockBoundsMinY() + par15 + 0.015625D;
+                double d10 = (double)par10 + par1Block.getBlockBoundsMinZ() + par17;
+                double d11 = (double)par10 + par1Block.getBlockBoundsMaxZ() + par17;
+                float f2 = (float)((par2 - d7) / 2.0D / (double)par12 + 0.5D);
+                float f3 = (float)((par2 - d8) / 2.0D / (double)par12 + 0.5D);
+                float f4 = (float)((par6 - d10) / 2.0D / (double)par12 + 0.5D);
+                float f5 = (float)((par6 - d11) / 2.0D / (double)par12 + 0.5D);
+                tessellator.addVertexWithUV(d7, d9, d10, (double)f2, (double)f4);
+                tessellator.addVertexWithUV(d7, d9, d11, (double)f2, (double)f5);
+                tessellator.addVertexWithUV(d8, d9, d11, (double)f3, (double)f5);
+                tessellator.addVertexWithUV(d8, d9, d10, (double)f3, (double)f4);
             }
         }
     }
@@ -222,42 +222,42 @@ public abstract class Render
     public static void renderOffsetAABB(AxisAlignedBB par0AxisAlignedBB, double par1, double par3, double par5)
     {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        Tessellator var7 = Tessellator.instance;
+        Tessellator tessellator = Tessellator.instance;
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        var7.startDrawingQuads();
-        var7.setTranslation(par1, par3, par5);
-        var7.setNormal(0.0F, 0.0F, -1.0F);
-        var7.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
-        var7.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
-        var7.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
-        var7.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
-        var7.setNormal(0.0F, 0.0F, 1.0F);
-        var7.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
-        var7.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
-        var7.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
-        var7.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
-        var7.setNormal(0.0F, -1.0F, 0.0F);
-        var7.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
-        var7.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
-        var7.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
-        var7.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
-        var7.setNormal(0.0F, 1.0F, 0.0F);
-        var7.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
-        var7.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
-        var7.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
-        var7.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
-        var7.setNormal(-1.0F, 0.0F, 0.0F);
-        var7.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
-        var7.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
-        var7.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
-        var7.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
-        var7.setNormal(1.0F, 0.0F, 0.0F);
-        var7.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
-        var7.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
-        var7.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
-        var7.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
-        var7.setTranslation(0.0D, 0.0D, 0.0D);
-        var7.draw();
+        tessellator.startDrawingQuads();
+        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setNormal(0.0F, 0.0F, -1.0F);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
+        tessellator.setNormal(0.0F, 0.0F, 1.0F);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
+        tessellator.setNormal(0.0F, -1.0F, 0.0F);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
+        tessellator.setNormal(0.0F, 1.0F, 0.0F);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
+        tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
+        tessellator.setNormal(1.0F, 0.0F, 0.0F);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
+        tessellator.setTranslation(0.0D, 0.0D, 0.0D);
+        tessellator.draw();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
@@ -266,33 +266,33 @@ public abstract class Render
      */
     public static void renderAABB(AxisAlignedBB par0AxisAlignedBB)
     {
-        Tessellator var1 = Tessellator.instance;
-        var1.startDrawingQuads();
-        var1.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
-        var1.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
-        var1.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
-        var1.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
-        var1.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
-        var1.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
-        var1.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
-        var1.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
-        var1.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
-        var1.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
-        var1.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
-        var1.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
-        var1.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
-        var1.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
-        var1.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
-        var1.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
-        var1.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
-        var1.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
-        var1.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
-        var1.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
-        var1.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
-        var1.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
-        var1.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
-        var1.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
-        var1.draw();
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.minX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ);
+        tessellator.addVertex(par0AxisAlignedBB.maxX, par0AxisAlignedBB.minY, par0AxisAlignedBB.maxZ);
+        tessellator.draw();
     }
 
     /**
@@ -310,12 +310,12 @@ public abstract class Render
     {
         if (this.renderManager.options.fancyGraphics && this.shadowSize > 0.0F && !par1Entity.isInvisible())
         {
-            double var10 = this.renderManager.getDistanceToCamera(par1Entity.posX, par1Entity.posY, par1Entity.posZ);
-            float var12 = (float)((1.0D - var10 / 256.0D) * (double)this.shadowOpaque);
+            double d3 = this.renderManager.getDistanceToCamera(par1Entity.posX, par1Entity.posY, par1Entity.posZ);
+            float f2 = (float)((1.0D - d3 / 256.0D) * (double)this.shadowOpaque);
 
-            if (var12 > 0.0F)
+            if (f2 > 0.0F)
             {
-                this.renderShadow(par1Entity, par2, par4, par6, var12, par9);
+                this.renderShadow(par1Entity, par2, par4, par6, f2, par9);
             }
         }
 

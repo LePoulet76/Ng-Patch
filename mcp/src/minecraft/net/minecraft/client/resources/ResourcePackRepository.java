@@ -31,15 +31,15 @@ public class ResourcePackRepository
         this.rprMetadataSerializer = par3MetadataSerializer;
         this.fixDirResourcepacks();
         this.updateRepositoryEntriesAll();
-        Iterator var5 = this.repositoryEntriesAll.iterator();
+        Iterator iterator = this.repositoryEntriesAll.iterator();
 
-        while (var5.hasNext())
+        while (iterator.hasNext())
         {
-            ResourcePackRepositoryEntry var6 = (ResourcePackRepositoryEntry)var5.next();
+            ResourcePackRepositoryEntry resourcepackrepositoryentry = (ResourcePackRepositoryEntry)iterator.next();
 
-            if (var6.getResourcePackName().equals(par4GameSettings.skin))
+            if (resourcepackrepositoryentry.getResourcePackName().equals(par4GameSettings.skin))
             {
-                this.repositoryEntries.add(var6);
+                this.repositoryEntries.add(resourcepackrepositoryentry);
             }
         }
     }
@@ -60,42 +60,42 @@ public class ResourcePackRepository
 
     public void updateRepositoryEntriesAll()
     {
-        ArrayList var1 = Lists.newArrayList();
-        Iterator var2 = this.getResourcePackFiles().iterator();
+        ArrayList arraylist = Lists.newArrayList();
+        Iterator iterator = this.getResourcePackFiles().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            File var3 = (File)var2.next();
-            ResourcePackRepositoryEntry var4 = new ResourcePackRepositoryEntry(this, var3, (ResourcePackRepositoryFilter)null);
+            File file1 = (File)iterator.next();
+            ResourcePackRepositoryEntry resourcepackrepositoryentry = new ResourcePackRepositoryEntry(this, file1, (ResourcePackRepositoryFilter)null);
 
-            if (!this.repositoryEntriesAll.contains(var4))
+            if (!this.repositoryEntriesAll.contains(resourcepackrepositoryentry))
             {
                 try
                 {
-                    var4.updateResourcePack();
-                    var1.add(var4);
+                    resourcepackrepositoryentry.updateResourcePack();
+                    arraylist.add(resourcepackrepositoryentry);
                 }
-                catch (Exception var6)
+                catch (Exception exception)
                 {
-                    var1.remove(var4);
+                    arraylist.remove(resourcepackrepositoryentry);
                 }
             }
             else
             {
-                var1.add(this.repositoryEntriesAll.get(this.repositoryEntriesAll.indexOf(var4)));
+                arraylist.add(this.repositoryEntriesAll.get(this.repositoryEntriesAll.indexOf(resourcepackrepositoryentry)));
             }
         }
 
-        this.repositoryEntriesAll.removeAll(var1);
-        var2 = this.repositoryEntriesAll.iterator();
+        this.repositoryEntriesAll.removeAll(arraylist);
+        iterator = this.repositoryEntriesAll.iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            ResourcePackRepositoryEntry var7 = (ResourcePackRepositoryEntry)var2.next();
-            var7.closeResourcePack();
+            ResourcePackRepositoryEntry resourcepackrepositoryentry1 = (ResourcePackRepositoryEntry)iterator.next();
+            resourcepackrepositoryentry1.closeResourcePack();
         }
 
-        this.repositoryEntriesAll = var1;
+        this.repositoryEntriesAll = arraylist;
     }
 
     public List getRepositoryEntriesAll()

@@ -85,9 +85,9 @@ public class BlockSandStone extends Block
     {
         this.field_94406_c = new Icon[field_94405_b.length];
 
-        for (int var2 = 0; var2 < this.field_94406_c.length; ++var2)
+        for (int i = 0; i < this.field_94406_c.length; ++i)
         {
-            this.field_94406_c[var2] = par1IconRegister.registerIcon(this.getTextureName() + "_" + field_94405_b[var2]);
+            this.field_94406_c[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + field_94405_b[i]);
         }
 
         this.field_94403_cO = par1IconRegister.registerIcon(this.getTextureName() + "_top");

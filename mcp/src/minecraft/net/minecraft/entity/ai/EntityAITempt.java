@@ -73,8 +73,8 @@ public class EntityAITempt extends EntityAIBase
             }
             else
             {
-                ItemStack var1 = this.temptingPlayer.getCurrentEquippedItem();
-                return var1 == null ? false : var1.itemID == this.breedingFood;
+                ItemStack itemstack = this.temptingPlayer.getCurrentEquippedItem();
+                return itemstack == null ? false : itemstack.itemID == this.breedingFood;
             }
         }
     }

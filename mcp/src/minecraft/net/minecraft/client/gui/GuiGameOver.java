@@ -45,11 +45,11 @@ public class GuiGameOver extends GuiScreen
             }
         }
 
-        GuiButton var2;
+        GuiButton guibutton;
 
-        for (Iterator var1 = this.buttonList.iterator(); var1.hasNext(); var2.enabled = false)
+        for (Iterator iterator = this.buttonList.iterator(); iterator.hasNext(); guibutton.enabled = false)
         {
-            var2 = (GuiButton)var1.next();
+            guibutton = (GuiButton)iterator.next();
         }
     }
 
@@ -69,7 +69,6 @@ public class GuiGameOver extends GuiScreen
                 this.mc.thePlayer.respawnPlayer();
                 this.mc.displayGuiScreen((GuiScreen)null);
                 break;
-
             case 2:
                 this.mc.theWorld.sendQuittingDisconnectingPacket();
                 this.mc.loadWorld((WorldClient)null);
@@ -85,12 +84,12 @@ public class GuiGameOver extends GuiScreen
         this.drawGradientRect(0, 0, this.width, this.height, 1615855616, -1602211792);
         GL11.glPushMatrix();
         GL11.glScalef(2.0F, 2.0F, 2.0F);
-        boolean var4 = this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled();
-        String var5 = var4 ? I18n.getString("deathScreen.title.hardcore") : I18n.getString("deathScreen.title");
-        this.drawCenteredString(this.fontRenderer, var5, this.width / 2 / 2, 30, 16777215);
+        boolean flag = this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled();
+        String s = flag ? I18n.getString("deathScreen.title.hardcore") : I18n.getString("deathScreen.title");
+        this.drawCenteredString(this.fontRenderer, s, this.width / 2 / 2, 30, 16777215);
         GL11.glPopMatrix();
 
-        if (var4)
+        if (flag)
         {
             this.drawCenteredString(this.fontRenderer, I18n.getString("deathScreen.hardcoreInfo"), this.width / 2, 144, 16777215);
         }
@@ -114,13 +113,13 @@ public class GuiGameOver extends GuiScreen
     {
         super.updateScreen();
         ++this.cooldownTimer;
-        GuiButton var2;
+        GuiButton guibutton;
 
         if (this.cooldownTimer == 20)
         {
-            for (Iterator var1 = this.buttonList.iterator(); var1.hasNext(); var2.enabled = true)
+            for (Iterator iterator = this.buttonList.iterator(); iterator.hasNext(); guibutton.enabled = true)
             {
-                var2 = (GuiButton)var1.next();
+                guibutton = (GuiButton)iterator.next();
             }
         }
     }

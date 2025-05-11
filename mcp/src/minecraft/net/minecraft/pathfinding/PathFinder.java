@@ -65,32 +65,32 @@ public class PathFinder
     {
         this.path.clearPath();
         this.pointMap.clearMap();
-        boolean var9 = this.isPathingInWater;
-        int var10 = MathHelper.floor_double(par1Entity.boundingBox.minY + 0.5D);
+        boolean flag = this.isPathingInWater;
+        int i = MathHelper.floor_double(par1Entity.boundingBox.minY + 0.5D);
 
         if (this.canEntityDrown && par1Entity.isInWater())
         {
-            var10 = (int)par1Entity.boundingBox.minY;
+            i = (int)par1Entity.boundingBox.minY;
 
-            for (int var11 = this.worldMap.getBlockId(MathHelper.floor_double(par1Entity.posX), var10, MathHelper.floor_double(par1Entity.posZ)); var11 == Block.waterMoving.blockID || var11 == Block.waterStill.blockID; var11 = this.worldMap.getBlockId(MathHelper.floor_double(par1Entity.posX), var10, MathHelper.floor_double(par1Entity.posZ)))
+            for (int j = this.worldMap.getBlockId(MathHelper.floor_double(par1Entity.posX), i, MathHelper.floor_double(par1Entity.posZ)); j == Block.waterMoving.blockID || j == Block.waterStill.blockID; j = this.worldMap.getBlockId(MathHelper.floor_double(par1Entity.posX), i, MathHelper.floor_double(par1Entity.posZ)))
             {
-                ++var10;
+                ++i;
             }
 
-            var9 = this.isPathingInWater;
+            flag = this.isPathingInWater;
             this.isPathingInWater = false;
         }
         else
         {
-            var10 = MathHelper.floor_double(par1Entity.boundingBox.minY + 0.5D);
+            i = MathHelper.floor_double(par1Entity.boundingBox.minY + 0.5D);
         }
 
-        PathPoint var15 = this.openPoint(MathHelper.floor_double(par1Entity.boundingBox.minX), var10, MathHelper.floor_double(par1Entity.boundingBox.minZ));
-        PathPoint var12 = this.openPoint(MathHelper.floor_double(par2 - (double)(par1Entity.width / 2.0F)), MathHelper.floor_double(par4), MathHelper.floor_double(par6 - (double)(par1Entity.width / 2.0F)));
-        PathPoint var13 = new PathPoint(MathHelper.floor_float(par1Entity.width + 1.0F), MathHelper.floor_float(par1Entity.height + 1.0F), MathHelper.floor_float(par1Entity.width + 1.0F));
-        PathEntity var14 = this.addToPath(par1Entity, var15, var12, var13, par8);
-        this.isPathingInWater = var9;
-        return var14;
+        PathPoint pathpoint = this.openPoint(MathHelper.floor_double(par1Entity.boundingBox.minX), i, MathHelper.floor_double(par1Entity.boundingBox.minZ));
+        PathPoint pathpoint1 = this.openPoint(MathHelper.floor_double(par2 - (double)(par1Entity.width / 2.0F)), MathHelper.floor_double(par4), MathHelper.floor_double(par6 - (double)(par1Entity.width / 2.0F)));
+        PathPoint pathpoint2 = new PathPoint(MathHelper.floor_float(par1Entity.width + 1.0F), MathHelper.floor_float(par1Entity.height + 1.0F), MathHelper.floor_float(par1Entity.width + 1.0F));
+        PathEntity pathentity = this.addToPath(par1Entity, pathpoint, pathpoint1, pathpoint2, par8);
+        this.isPathingInWater = flag;
+        return pathentity;
     }
 
     /**
@@ -103,56 +103,56 @@ public class PathFinder
         par2PathPoint.distanceToTarget = par2PathPoint.distanceToNext;
         this.path.clearPath();
         this.path.addPoint(par2PathPoint);
-        PathPoint var6 = par2PathPoint;
+        PathPoint pathpoint3 = par2PathPoint;
 
         while (!this.path.isPathEmpty())
         {
-            PathPoint var7 = this.path.dequeue();
+            PathPoint pathpoint4 = this.path.dequeue();
 
-            if (var7.equals(par3PathPoint))
+            if (pathpoint4.equals(par3PathPoint))
             {
                 return this.createEntityPath(par2PathPoint, par3PathPoint);
             }
 
-            if (var7.func_75832_b(par3PathPoint) < var6.func_75832_b(par3PathPoint))
+            if (pathpoint4.func_75832_b(par3PathPoint) < pathpoint3.func_75832_b(par3PathPoint))
             {
-                var6 = var7;
+                pathpoint3 = pathpoint4;
             }
 
-            var7.isFirst = true;
-            int var8 = this.findPathOptions(par1Entity, var7, par4PathPoint, par3PathPoint, par5);
+            pathpoint4.isFirst = true;
+            int i = this.findPathOptions(par1Entity, pathpoint4, par4PathPoint, par3PathPoint, par5);
 
-            for (int var9 = 0; var9 < var8; ++var9)
+            for (int j = 0; j < i; ++j)
             {
-                PathPoint var10 = this.pathOptions[var9];
-                float var11 = var7.totalPathDistance + var7.func_75832_b(var10);
+                PathPoint pathpoint5 = this.pathOptions[j];
+                float f1 = pathpoint4.totalPathDistance + pathpoint4.func_75832_b(pathpoint5);
 
-                if (!var10.isAssigned() || var11 < var10.totalPathDistance)
+                if (!pathpoint5.isAssigned() || f1 < pathpoint5.totalPathDistance)
                 {
-                    var10.previous = var7;
-                    var10.totalPathDistance = var11;
-                    var10.distanceToNext = var10.func_75832_b(par3PathPoint);
+                    pathpoint5.previous = pathpoint4;
+                    pathpoint5.totalPathDistance = f1;
+                    pathpoint5.distanceToNext = pathpoint5.func_75832_b(par3PathPoint);
 
-                    if (var10.isAssigned())
+                    if (pathpoint5.isAssigned())
                     {
-                        this.path.changeDistance(var10, var10.totalPathDistance + var10.distanceToNext);
+                        this.path.changeDistance(pathpoint5, pathpoint5.totalPathDistance + pathpoint5.distanceToNext);
                     }
                     else
                     {
-                        var10.distanceToTarget = var10.totalPathDistance + var10.distanceToNext;
-                        this.path.addPoint(var10);
+                        pathpoint5.distanceToTarget = pathpoint5.totalPathDistance + pathpoint5.distanceToNext;
+                        this.path.addPoint(pathpoint5);
                     }
                 }
             }
         }
 
-        if (var6 == par2PathPoint)
+        if (pathpoint3 == par2PathPoint)
         {
             return null;
         }
         else
         {
-            return this.createEntityPath(par2PathPoint, var6);
+            return this.createEntityPath(par2PathPoint, pathpoint3);
         }
     }
 
@@ -162,40 +162,40 @@ public class PathFinder
      */
     private int findPathOptions(Entity par1Entity, PathPoint par2PathPoint, PathPoint par3PathPoint, PathPoint par4PathPoint, float par5)
     {
-        int var6 = 0;
-        byte var7 = 0;
+        int i = 0;
+        byte b0 = 0;
 
         if (this.getVerticalOffset(par1Entity, par2PathPoint.xCoord, par2PathPoint.yCoord + 1, par2PathPoint.zCoord, par3PathPoint) == 1)
         {
-            var7 = 1;
+            b0 = 1;
         }
 
-        PathPoint var8 = this.getSafePoint(par1Entity, par2PathPoint.xCoord, par2PathPoint.yCoord, par2PathPoint.zCoord + 1, par3PathPoint, var7);
-        PathPoint var9 = this.getSafePoint(par1Entity, par2PathPoint.xCoord - 1, par2PathPoint.yCoord, par2PathPoint.zCoord, par3PathPoint, var7);
-        PathPoint var10 = this.getSafePoint(par1Entity, par2PathPoint.xCoord + 1, par2PathPoint.yCoord, par2PathPoint.zCoord, par3PathPoint, var7);
-        PathPoint var11 = this.getSafePoint(par1Entity, par2PathPoint.xCoord, par2PathPoint.yCoord, par2PathPoint.zCoord - 1, par3PathPoint, var7);
+        PathPoint pathpoint3 = this.getSafePoint(par1Entity, par2PathPoint.xCoord, par2PathPoint.yCoord, par2PathPoint.zCoord + 1, par3PathPoint, b0);
+        PathPoint pathpoint4 = this.getSafePoint(par1Entity, par2PathPoint.xCoord - 1, par2PathPoint.yCoord, par2PathPoint.zCoord, par3PathPoint, b0);
+        PathPoint pathpoint5 = this.getSafePoint(par1Entity, par2PathPoint.xCoord + 1, par2PathPoint.yCoord, par2PathPoint.zCoord, par3PathPoint, b0);
+        PathPoint pathpoint6 = this.getSafePoint(par1Entity, par2PathPoint.xCoord, par2PathPoint.yCoord, par2PathPoint.zCoord - 1, par3PathPoint, b0);
 
-        if (var8 != null && !var8.isFirst && var8.distanceTo(par4PathPoint) < par5)
+        if (pathpoint3 != null && !pathpoint3.isFirst && pathpoint3.distanceTo(par4PathPoint) < par5)
         {
-            this.pathOptions[var6++] = var8;
+            this.pathOptions[i++] = pathpoint3;
         }
 
-        if (var9 != null && !var9.isFirst && var9.distanceTo(par4PathPoint) < par5)
+        if (pathpoint4 != null && !pathpoint4.isFirst && pathpoint4.distanceTo(par4PathPoint) < par5)
         {
-            this.pathOptions[var6++] = var9;
+            this.pathOptions[i++] = pathpoint4;
         }
 
-        if (var10 != null && !var10.isFirst && var10.distanceTo(par4PathPoint) < par5)
+        if (pathpoint5 != null && !pathpoint5.isFirst && pathpoint5.distanceTo(par4PathPoint) < par5)
         {
-            this.pathOptions[var6++] = var10;
+            this.pathOptions[i++] = pathpoint5;
         }
 
-        if (var11 != null && !var11.isFirst && var11.distanceTo(par4PathPoint) < par5)
+        if (pathpoint6 != null && !pathpoint6.isFirst && pathpoint6.distanceTo(par4PathPoint) < par5)
         {
-            this.pathOptions[var6++] = var11;
+            this.pathOptions[i++] = pathpoint6;
         }
 
-        return var6;
+        return i;
     }
 
     /**
@@ -203,46 +203,46 @@ public class PathFinder
      */
     private PathPoint getSafePoint(Entity par1Entity, int par2, int par3, int par4, PathPoint par5PathPoint, int par6)
     {
-        PathPoint var7 = null;
-        int var8 = this.getVerticalOffset(par1Entity, par2, par3, par4, par5PathPoint);
+        PathPoint pathpoint1 = null;
+        int i1 = this.getVerticalOffset(par1Entity, par2, par3, par4, par5PathPoint);
 
-        if (var8 == 2)
+        if (i1 == 2)
         {
             return this.openPoint(par2, par3, par4);
         }
         else
         {
-            if (var8 == 1)
+            if (i1 == 1)
             {
-                var7 = this.openPoint(par2, par3, par4);
+                pathpoint1 = this.openPoint(par2, par3, par4);
             }
 
-            if (var7 == null && par6 > 0 && var8 != -3 && var8 != -4 && this.getVerticalOffset(par1Entity, par2, par3 + par6, par4, par5PathPoint) == 1)
+            if (pathpoint1 == null && par6 > 0 && i1 != -3 && i1 != -4 && this.getVerticalOffset(par1Entity, par2, par3 + par6, par4, par5PathPoint) == 1)
             {
-                var7 = this.openPoint(par2, par3 + par6, par4);
+                pathpoint1 = this.openPoint(par2, par3 + par6, par4);
                 par3 += par6;
             }
 
-            if (var7 != null)
+            if (pathpoint1 != null)
             {
-                int var9 = 0;
-                int var10 = 0;
+                int j1 = 0;
+                int k1 = 0;
 
                 while (par3 > 0)
                 {
-                    var10 = this.getVerticalOffset(par1Entity, par2, par3 - 1, par4, par5PathPoint);
+                    k1 = this.getVerticalOffset(par1Entity, par2, par3 - 1, par4, par5PathPoint);
 
-                    if (this.isPathingInWater && var10 == -1)
+                    if (this.isPathingInWater && k1 == -1)
                     {
                         return null;
                     }
 
-                    if (var10 != 1)
+                    if (k1 != 1)
                     {
                         break;
                     }
 
-                    if (var9++ >= par1Entity.getMaxSafePointTries())
+                    if (j1++ >= par1Entity.getMaxSafePointTries())
                     {
                         return null;
                     }
@@ -251,17 +251,17 @@ public class PathFinder
 
                     if (par3 > 0)
                     {
-                        var7 = this.openPoint(par2, par3, par4);
+                        pathpoint1 = this.openPoint(par2, par3, par4);
                     }
                 }
 
-                if (var10 == -2)
+                if (k1 == -2)
                 {
                     return null;
                 }
             }
 
-            return var7;
+            return pathpoint1;
         }
     }
 
@@ -270,16 +270,16 @@ public class PathFinder
      */
     private final PathPoint openPoint(int par1, int par2, int par3)
     {
-        int var4 = PathPoint.makeHash(par1, par2, par3);
-        PathPoint var5 = (PathPoint)this.pointMap.lookup(var4);
+        int l = PathPoint.makeHash(par1, par2, par3);
+        PathPoint pathpoint = (PathPoint)this.pointMap.lookup(l);
 
-        if (var5 == null)
+        if (pathpoint == null)
         {
-            var5 = new PathPoint(par1, par2, par3);
-            this.pointMap.addKey(var4, var5);
+            pathpoint = new PathPoint(par1, par2, par3);
+            this.pointMap.addKey(l, pathpoint);
         }
 
-        return var5;
+        return pathpoint;
     }
 
     /**
@@ -294,25 +294,25 @@ public class PathFinder
 
     public static int func_82565_a(Entity par0Entity, int par1, int par2, int par3, PathPoint par4PathPoint, boolean par5, boolean par6, boolean par7)
     {
-        boolean var8 = false;
+        boolean flag3 = false;
 
-        for (int var9 = par1; var9 < par1 + par4PathPoint.xCoord; ++var9)
+        for (int l = par1; l < par1 + par4PathPoint.xCoord; ++l)
         {
-            for (int var10 = par2; var10 < par2 + par4PathPoint.yCoord; ++var10)
+            for (int i1 = par2; i1 < par2 + par4PathPoint.yCoord; ++i1)
             {
-                for (int var11 = par3; var11 < par3 + par4PathPoint.zCoord; ++var11)
+                for (int j1 = par3; j1 < par3 + par4PathPoint.zCoord; ++j1)
                 {
-                    int var12 = par0Entity.worldObj.getBlockId(var9, var10, var11);
+                    int k1 = par0Entity.worldObj.getBlockId(l, i1, j1);
 
-                    if (var12 > 0)
+                    if (k1 > 0)
                     {
-                        if (var12 == Block.trapdoor.blockID)
+                        if (k1 == Block.trapdoor.blockID)
                         {
-                            var8 = true;
+                            flag3 = true;
                         }
-                        else if (var12 != Block.waterMoving.blockID && var12 != Block.waterStill.blockID)
+                        else if (k1 != Block.waterMoving.blockID && k1 != Block.waterStill.blockID)
                         {
-                            if (!par7 && var12 == Block.doorWood.blockID)
+                            if (!par7 && k1 == Block.doorWood.blockID)
                             {
                                 return 0;
                             }
@@ -324,38 +324,38 @@ public class PathFinder
                                 return -1;
                             }
 
-                            var8 = true;
+                            flag3 = true;
                         }
 
-                        Block var13 = Block.blocksList[var12];
-                        int var14 = var13.getRenderType();
+                        Block block = Block.blocksList[k1];
+                        int l1 = block.getRenderType();
 
-                        if (par0Entity.worldObj.blockGetRenderType(var9, var10, var11) == 9)
+                        if (par0Entity.worldObj.blockGetRenderType(l, i1, j1) == 9)
                         {
-                            int var18 = MathHelper.floor_double(par0Entity.posX);
-                            int var16 = MathHelper.floor_double(par0Entity.posY);
-                            int var17 = MathHelper.floor_double(par0Entity.posZ);
+                            int i2 = MathHelper.floor_double(par0Entity.posX);
+                            int j2 = MathHelper.floor_double(par0Entity.posY);
+                            int k2 = MathHelper.floor_double(par0Entity.posZ);
 
-                            if (par0Entity.worldObj.blockGetRenderType(var18, var16, var17) != 9 && par0Entity.worldObj.blockGetRenderType(var18, var16 - 1, var17) != 9)
+                            if (par0Entity.worldObj.blockGetRenderType(i2, j2, k2) != 9 && par0Entity.worldObj.blockGetRenderType(i2, j2 - 1, k2) != 9)
                             {
                                 return -3;
                             }
                         }
-                        else if (!var13.getBlocksMovement(par0Entity.worldObj, var9, var10, var11) && (!par6 || var12 != Block.doorWood.blockID))
+                        else if (!block.getBlocksMovement(par0Entity.worldObj, l, i1, j1) && (!par6 || k1 != Block.doorWood.blockID))
                         {
-                            if (var14 == 11 || var12 == Block.fenceGate.blockID || var14 == 32)
+                            if (l1 == 11 || k1 == Block.fenceGate.blockID || l1 == 32)
                             {
                                 return -3;
                             }
 
-                            if (var12 == Block.trapdoor.blockID)
+                            if (k1 == Block.trapdoor.blockID)
                             {
                                 return -4;
                             }
 
-                            Material var15 = var13.blockMaterial;
+                            Material material = block.blockMaterial;
 
-                            if (var15 != Material.lava)
+                            if (material != Material.lava)
                             {
                                 return 0;
                             }
@@ -370,7 +370,7 @@ public class PathFinder
             }
         }
 
-        return var8 ? 2 : 1;
+        return flag3 ? 2 : 1;
     }
 
     /**
@@ -378,24 +378,24 @@ public class PathFinder
      */
     private PathEntity createEntityPath(PathPoint par1PathPoint, PathPoint par2PathPoint)
     {
-        int var3 = 1;
-        PathPoint var4;
+        int i = 1;
+        PathPoint pathpoint2;
 
-        for (var4 = par2PathPoint; var4.previous != null; var4 = var4.previous)
+        for (pathpoint2 = par2PathPoint; pathpoint2.previous != null; pathpoint2 = pathpoint2.previous)
         {
-            ++var3;
+            ++i;
         }
 
-        PathPoint[] var5 = new PathPoint[var3];
-        var4 = par2PathPoint;
-        --var3;
+        PathPoint[] apathpoint = new PathPoint[i];
+        pathpoint2 = par2PathPoint;
+        --i;
 
-        for (var5[var3] = par2PathPoint; var4.previous != null; var5[var3] = var4)
+        for (apathpoint[i] = par2PathPoint; pathpoint2.previous != null; apathpoint[i] = pathpoint2)
         {
-            var4 = var4.previous;
-            --var3;
+            pathpoint2 = pathpoint2.previous;
+            --i;
         }
 
-        return new PathEntity(var5);
+        return new PathEntity(apathpoint);
     }
 }

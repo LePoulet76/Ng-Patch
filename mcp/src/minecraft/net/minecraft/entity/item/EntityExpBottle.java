@@ -48,13 +48,13 @@ public class EntityExpBottle extends EntityThrowable
         if (!this.worldObj.isRemote)
         {
             this.worldObj.playAuxSFX(2002, (int)Math.round(this.posX), (int)Math.round(this.posY), (int)Math.round(this.posZ), 0);
-            int var2 = 3 + this.worldObj.rand.nextInt(5) + this.worldObj.rand.nextInt(5);
+            int i = 3 + this.worldObj.rand.nextInt(5) + this.worldObj.rand.nextInt(5);
 
-            while (var2 > 0)
+            while (i > 0)
             {
-                int var3 = EntityXPOrb.getXPSplit(var2);
-                var2 -= var3;
-                this.worldObj.spawnEntityInWorld(new EntityXPOrb(this.worldObj, this.posX, this.posY, this.posZ, var3));
+                int j = EntityXPOrb.getXPSplit(i);
+                i -= j;
+                this.worldObj.spawnEntityInWorld(new EntityXPOrb(this.worldObj, this.posX, this.posY, this.posZ, j));
             }
 
             this.setDead();

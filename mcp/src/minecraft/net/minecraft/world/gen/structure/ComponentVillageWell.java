@@ -20,7 +20,6 @@ public class ComponentVillageWell extends ComponentVillage
             case 2:
                 this.boundingBox = new StructureBoundingBox(par4, 64, par5, par4 + 6 - 1, 78, par5 + 6 - 1);
                 break;
-
             default:
                 this.boundingBox = new StructureBoundingBox(par4, 64, par5, par4 + 6 - 1, 78, par5 + 6 - 1);
         }
@@ -70,14 +69,14 @@ public class ComponentVillageWell extends ComponentVillage
         this.placeBlockAtCurrentPosition(par1World, Block.fence.blockID, 0, 4, 14, 4, par3StructureBoundingBox);
         this.fillWithBlocks(par1World, par3StructureBoundingBox, 1, 15, 1, 4, 15, 4, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
 
-        for (int var4 = 0; var4 <= 5; ++var4)
+        for (int i = 0; i <= 5; ++i)
         {
-            for (int var5 = 0; var5 <= 5; ++var5)
+            for (int j = 0; j <= 5; ++j)
             {
-                if (var5 == 0 || var5 == 5 || var4 == 0 || var4 == 5)
+                if (j == 0 || j == 5 || i == 0 || i == 5)
                 {
-                    this.placeBlockAtCurrentPosition(par1World, Block.gravel.blockID, 0, var5, 11, var4, par3StructureBoundingBox);
-                    this.clearCurrentPositionBlocksUpwards(par1World, var5, 12, var4, par3StructureBoundingBox);
+                    this.placeBlockAtCurrentPosition(par1World, Block.gravel.blockID, 0, j, 11, i, par3StructureBoundingBox);
+                    this.clearCurrentPositionBlocksUpwards(par1World, j, 12, i, par3StructureBoundingBox);
                 }
             }
         }

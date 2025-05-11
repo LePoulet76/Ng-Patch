@@ -42,17 +42,17 @@ public class EntityAIFleeSun extends EntityAIBase
         }
         else
         {
-            Vec3 var1 = this.findPossibleShelter();
+            Vec3 vec3 = this.findPossibleShelter();
 
-            if (var1 == null)
+            if (vec3 == null)
             {
                 return false;
             }
             else
             {
-                this.shelterX = var1.xCoord;
-                this.shelterY = var1.yCoord;
-                this.shelterZ = var1.zCoord;
+                this.shelterX = vec3.xCoord;
+                this.shelterY = vec3.yCoord;
+                this.shelterZ = vec3.zCoord;
                 return true;
             }
         }
@@ -76,17 +76,17 @@ public class EntityAIFleeSun extends EntityAIBase
 
     private Vec3 findPossibleShelter()
     {
-        Random var1 = this.theCreature.getRNG();
+        Random random = this.theCreature.getRNG();
 
-        for (int var2 = 0; var2 < 10; ++var2)
+        for (int i = 0; i < 10; ++i)
         {
-            int var3 = MathHelper.floor_double(this.theCreature.posX + (double)var1.nextInt(20) - 10.0D);
-            int var4 = MathHelper.floor_double(this.theCreature.boundingBox.minY + (double)var1.nextInt(6) - 3.0D);
-            int var5 = MathHelper.floor_double(this.theCreature.posZ + (double)var1.nextInt(20) - 10.0D);
+            int j = MathHelper.floor_double(this.theCreature.posX + (double)random.nextInt(20) - 10.0D);
+            int k = MathHelper.floor_double(this.theCreature.boundingBox.minY + (double)random.nextInt(6) - 3.0D);
+            int l = MathHelper.floor_double(this.theCreature.posZ + (double)random.nextInt(20) - 10.0D);
 
-            if (!this.theWorld.canBlockSeeTheSky(var3, var4, var5) && this.theCreature.getBlockPathWeight(var3, var4, var5) < 0.0F)
+            if (!this.theWorld.canBlockSeeTheSky(j, k, l) && this.theCreature.getBlockPathWeight(j, k, l) < 0.0F)
             {
-                return this.theWorld.getWorldVec3Pool().getVecFromPool((double)var3, (double)var4, (double)var5);
+                return this.theWorld.getWorldVec3Pool().getVecFromPool((double)j, (double)k, (double)l);
             }
         }
 

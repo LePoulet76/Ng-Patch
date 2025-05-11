@@ -10,6 +10,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
 
 public class EntityLightningBolt extends EntityWeatherEffect
 {
@@ -38,24 +40,24 @@ public class EntityLightningBolt extends EntityWeatherEffect
 
         if (!par1World.isRemote && par1World.getGameRules().getGameRuleBooleanValue("doFireTick") && par1World.difficultySetting >= 2 && par1World.doChunksNearChunkExist(MathHelper.floor_double(par2), MathHelper.floor_double(par4), MathHelper.floor_double(par6), 10))
         {
-            int var8 = MathHelper.floor_double(par2);
-            int var9 = MathHelper.floor_double(par4);
-            int var10 = MathHelper.floor_double(par6);
+            int i = MathHelper.floor_double(par2);
+            int j = MathHelper.floor_double(par4);
+            int k = MathHelper.floor_double(par6);
 
-            if (par1World.getBlockId(var8, var9, var10) == 0 && Block.fire.canPlaceBlockAt(par1World, var8, var9, var10))
+            if (par1World.getBlockId(i, j, k) == 0 && Block.fire.canPlaceBlockAt(par1World, i, j, k))
             {
-                par1World.setBlock(var8, var9, var10, Block.fire.blockID);
+                par1World.setBlock(i, j, k, Block.fire.blockID);
             }
 
-            for (var8 = 0; var8 < 4; ++var8)
+            for (i = 0; i < 4; ++i)
             {
-                var9 = MathHelper.floor_double(par2) + this.rand.nextInt(3) - 1;
-                var10 = MathHelper.floor_double(par4) + this.rand.nextInt(3) - 1;
-                int var11 = MathHelper.floor_double(par6) + this.rand.nextInt(3) - 1;
+                j = MathHelper.floor_double(par2) + this.rand.nextInt(3) - 1;
+                k = MathHelper.floor_double(par4) + this.rand.nextInt(3) - 1;
+                int l = MathHelper.floor_double(par6) + this.rand.nextInt(3) - 1;
 
-                if (par1World.getBlockId(var9, var10, var11) == 0 && Block.fire.canPlaceBlockAt(par1World, var9, var10, var11))
+                if (par1World.getBlockId(j, k, l) == 0 && Block.fire.canPlaceBlockAt(par1World, j, k, l))
                 {
-                    par1World.setBlock(var9, var10, var11, Block.fire.blockID);
+                    par1World.setBlock(j, k, l, Block.fire.blockID);
                 }
             }
         }
@@ -90,13 +92,13 @@ public class EntityLightningBolt extends EntityWeatherEffect
 
                 if (!this.worldObj.isRemote && this.worldObj.getGameRules().getGameRuleBooleanValue("doFireTick") && this.worldObj.doChunksNearChunkExist(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ), 10))
                 {
-                    int var1 = MathHelper.floor_double(this.posX);
-                    int var2 = MathHelper.floor_double(this.posY);
-                    int var3 = MathHelper.floor_double(this.posZ);
+                    int i = MathHelper.floor_double(this.posX);
+                    int j = MathHelper.floor_double(this.posY);
+                    int k = MathHelper.floor_double(this.posZ);
 
-                    if (this.worldObj.getBlockId(var1, var2, var3) == 0 && Block.fire.canPlaceBlockAt(this.worldObj, var1, var2, var3))
+                    if (this.worldObj.getBlockId(i, j, k) == 0 && Block.fire.canPlaceBlockAt(this.worldObj, i, j, k))
                     {
-                        this.worldObj.setBlock(var1, var2, var3, Block.fire.blockID);
+                        this.worldObj.setBlock(i, j, k, Block.fire.blockID);
                     }
                 }
             }
@@ -110,13 +112,16 @@ public class EntityLightningBolt extends EntityWeatherEffect
             }
             else
             {
-                double var6 = 3.0D;
-                List var7 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, AxisAlignedBB.getAABBPool().getAABB(this.posX - var6, this.posY - var6, this.posZ - var6, this.posX + var6, this.posY + 6.0D + var6, this.posZ + var6));
+                double d0 = 3.0D;
+                List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, AxisAlignedBB.getAABBPool().getAABB(this.posX - d0, this.posY - d0, this.posZ - d0, this.posX + d0, this.posY + 6.0D + d0, this.posZ + d0));
 
-                for (int var4 = 0; var4 < var7.size(); ++var4)
+                for (int l = 0; l < list.size(); ++l)
                 {
-                    Entity var5 = (Entity)var7.get(var4);
-                    var5.onStruckByLightning(this);
+                    Entity entity = (Entity)list.get(l);
+                    if (!MinecraftForge.EVENT_BUS.post(new EntityStruckByLightningEvent(entity, this)))
+                    {
+                        entity.onStruckByLightning(this);
+                    }
                 }
             }
         }

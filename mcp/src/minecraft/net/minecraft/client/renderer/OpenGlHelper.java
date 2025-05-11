@@ -26,6 +26,10 @@ public class OpenGlHelper
      */
     private static boolean useMultitextureARB;
 
+    /* Stores the last values sent into setLightmapTextureCoords */
+    public static float lastBrightnessX = 0.0f;
+    public static float lastBrightnessY = 0.0f;
+
     /**
      * Initializes the texture constants to be used when rendering lightmap values
      */
@@ -87,6 +91,12 @@ public class OpenGlHelper
         else
         {
             GL13.glMultiTexCoord2f(par0, par1, par2);
+        }
+
+        if (par0 == lightmapTexUnit)
+        {
+            lastBrightnessX = par1;
+            lastBrightnessY = par2;
         }
     }
 }

@@ -8,6 +8,10 @@ import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.Event;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
+
 public class ItemBucket extends Item
 {
     /** field for checking if the bucket has been filled. */
@@ -26,36 +30,62 @@ public class ItemBucket extends Item
      */
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
-        boolean var4 = this.isFull == 0;
-        MovingObjectPosition var5 = this.getMovingObjectPositionFromPlayer(par2World, par3EntityPlayer, var4);
+        boolean flag = this.isFull == 0;
+        MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(par2World, par3EntityPlayer, flag);
 
-        if (var5 == null)
+        if (movingobjectposition == null)
         {
             return par1ItemStack;
         }
         else
         {
-            if (var5.typeOfHit == EnumMovingObjectType.TILE)
+            FillBucketEvent event = new FillBucketEvent(par3EntityPlayer, par1ItemStack, par2World, movingobjectposition);
+            if (MinecraftForge.EVENT_BUS.post(event))
             {
-                int var6 = var5.blockX;
-                int var7 = var5.blockY;
-                int var8 = var5.blockZ;
+                return par1ItemStack;
+            }
 
-                if (!par2World.canMineBlock(par3EntityPlayer, var6, var7, var8))
+            if (event.getResult() == Event.Result.ALLOW)
+            {
+                if (par3EntityPlayer.capabilities.isCreativeMode)
+                {
+                    return par1ItemStack;
+                }
+
+                if (--par1ItemStack.stackSize <= 0)
+                {
+                    return event.result;
+                }
+
+                if (!par3EntityPlayer.inventory.addItemStackToInventory(event.result))
+                {
+                    par3EntityPlayer.dropPlayerItem(event.result);
+                }
+
+                return par1ItemStack;
+            }
+
+            if (movingobjectposition.typeOfHit == EnumMovingObjectType.TILE)
+            {
+                int i = movingobjectposition.blockX;
+                int j = movingobjectposition.blockY;
+                int k = movingobjectposition.blockZ;
+
+                if (!par2World.canMineBlock(par3EntityPlayer, i, j, k))
                 {
                     return par1ItemStack;
                 }
 
                 if (this.isFull == 0)
                 {
-                    if (!par3EntityPlayer.canPlayerEdit(var6, var7, var8, var5.sideHit, par1ItemStack))
+                    if (!par3EntityPlayer.canPlayerEdit(i, j, k, movingobjectposition.sideHit, par1ItemStack))
                     {
                         return par1ItemStack;
                     }
 
-                    if (par2World.getBlockMaterial(var6, var7, var8) == Material.water && par2World.getBlockMetadata(var6, var7, var8) == 0)
+                    if (par2World.getBlockMaterial(i, j, k) == Material.water && par2World.getBlockMetadata(i, j, k) == 0)
                     {
-                        par2World.setBlockToAir(var6, var7, var8);
+                        par2World.setBlockToAir(i, j, k);
 
                         if (par3EntityPlayer.capabilities.isCreativeMode)
                         {
@@ -75,9 +105,9 @@ public class ItemBucket extends Item
                         return par1ItemStack;
                     }
 
-                    if (par2World.getBlockMaterial(var6, var7, var8) == Material.lava && par2World.getBlockMetadata(var6, var7, var8) == 0)
+                    if (par2World.getBlockMaterial(i, j, k) == Material.lava && par2World.getBlockMetadata(i, j, k) == 0)
                     {
-                        par2World.setBlockToAir(var6, var7, var8);
+                        par2World.setBlockToAir(i, j, k);
 
                         if (par3EntityPlayer.capabilities.isCreativeMode)
                         {
@@ -104,42 +134,42 @@ public class ItemBucket extends Item
                         return new ItemStack(Item.bucketEmpty);
                     }
 
-                    if (var5.sideHit == 0)
+                    if (movingobjectposition.sideHit == 0)
                     {
-                        --var7;
+                        --j;
                     }
 
-                    if (var5.sideHit == 1)
+                    if (movingobjectposition.sideHit == 1)
                     {
-                        ++var7;
+                        ++j;
                     }
 
-                    if (var5.sideHit == 2)
+                    if (movingobjectposition.sideHit == 2)
                     {
-                        --var8;
+                        --k;
                     }
 
-                    if (var5.sideHit == 3)
+                    if (movingobjectposition.sideHit == 3)
                     {
-                        ++var8;
+                        ++k;
                     }
 
-                    if (var5.sideHit == 4)
+                    if (movingobjectposition.sideHit == 4)
                     {
-                        --var6;
+                        --i;
                     }
 
-                    if (var5.sideHit == 5)
+                    if (movingobjectposition.sideHit == 5)
                     {
-                        ++var6;
+                        ++i;
                     }
 
-                    if (!par3EntityPlayer.canPlayerEdit(var6, var7, var8, var5.sideHit, par1ItemStack))
+                    if (!par3EntityPlayer.canPlayerEdit(i, j, k, movingobjectposition.sideHit, par1ItemStack))
                     {
                         return par1ItemStack;
                     }
 
-                    if (this.tryPlaceContainedLiquid(par2World, var6, var7, var8) && !par3EntityPlayer.capabilities.isCreativeMode)
+                    if (this.tryPlaceContainedLiquid(par2World, i, j, k) && !par3EntityPlayer.capabilities.isCreativeMode)
                     {
                         return new ItemStack(Item.bucketEmpty);
                     }
@@ -161,10 +191,10 @@ public class ItemBucket extends Item
         }
         else
         {
-            Material var5 = par1World.getBlockMaterial(par2, par3, par4);
-            boolean var6 = !var5.isSolid();
+            Material material = par1World.getBlockMaterial(par2, par3, par4);
+            boolean flag = !material.isSolid();
 
-            if (!par1World.isAirBlock(par2, par3, par4) && !var6)
+            if (!par1World.isAirBlock(par2, par3, par4) && !flag)
             {
                 return false;
             }
@@ -174,14 +204,14 @@ public class ItemBucket extends Item
                 {
                     par1World.playSoundEffect((double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), "random.fizz", 0.5F, 2.6F + (par1World.rand.nextFloat() - par1World.rand.nextFloat()) * 0.8F);
 
-                    for (int var7 = 0; var7 < 8; ++var7)
+                    for (int l = 0; l < 8; ++l)
                     {
                         par1World.spawnParticle("largesmoke", (double)par2 + Math.random(), (double)par3 + Math.random(), (double)par4 + Math.random(), 0.0D, 0.0D, 0.0D);
                     }
                 }
                 else
                 {
-                    if (!par1World.isRemote && var6 && !var5.isLiquid())
+                    if (!par1World.isRemote && flag && !material.isLiquid())
                     {
                         par1World.destroyBlock(par2, par3, par4, true);
                     }

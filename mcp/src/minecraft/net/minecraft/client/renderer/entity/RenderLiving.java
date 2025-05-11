@@ -36,85 +36,85 @@ public abstract class RenderLiving extends RendererLivingEntity
 
     protected void func_110827_b(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
     {
-        Entity var10 = par1EntityLiving.getLeashedToEntity();
+        Entity entity = par1EntityLiving.getLeashedToEntity();
 
-        if (var10 != null)
+        if (entity != null)
         {
             par4 -= (1.6D - (double)par1EntityLiving.height) * 0.5D;
-            Tessellator var11 = Tessellator.instance;
-            double var12 = this.func_110828_a((double)var10.prevRotationYaw, (double)var10.rotationYaw, (double)(par9 * 0.5F)) * 0.01745329238474369D;
-            double var14 = this.func_110828_a((double)var10.prevRotationPitch, (double)var10.rotationPitch, (double)(par9 * 0.5F)) * 0.01745329238474369D;
-            double var16 = Math.cos(var12);
-            double var18 = Math.sin(var12);
-            double var20 = Math.sin(var14);
+            Tessellator tessellator = Tessellator.instance;
+            double d3 = this.func_110828_a((double)entity.prevRotationYaw, (double)entity.rotationYaw, (double)(par9 * 0.5F)) * 0.01745329238474369D;
+            double d4 = this.func_110828_a((double)entity.prevRotationPitch, (double)entity.rotationPitch, (double)(par9 * 0.5F)) * 0.01745329238474369D;
+            double d5 = Math.cos(d3);
+            double d6 = Math.sin(d3);
+            double d7 = Math.sin(d4);
 
-            if (var10 instanceof EntityHanging)
+            if (entity instanceof EntityHanging)
             {
-                var16 = 0.0D;
-                var18 = 0.0D;
-                var20 = -1.0D;
+                d5 = 0.0D;
+                d6 = 0.0D;
+                d7 = -1.0D;
             }
 
-            double var22 = Math.cos(var14);
-            double var24 = this.func_110828_a(var10.prevPosX, var10.posX, (double)par9) - var16 * 0.7D - var18 * 0.5D * var22;
-            double var26 = this.func_110828_a(var10.prevPosY + (double)var10.getEyeHeight() * 0.7D, var10.posY + (double)var10.getEyeHeight() * 0.7D, (double)par9) - var20 * 0.5D - 0.25D;
-            double var28 = this.func_110828_a(var10.prevPosZ, var10.posZ, (double)par9) - var18 * 0.7D + var16 * 0.5D * var22;
-            double var30 = this.func_110828_a((double)par1EntityLiving.prevRenderYawOffset, (double)par1EntityLiving.renderYawOffset, (double)par9) * 0.01745329238474369D + (Math.PI / 2D);
-            var16 = Math.cos(var30) * (double)par1EntityLiving.width * 0.4D;
-            var18 = Math.sin(var30) * (double)par1EntityLiving.width * 0.4D;
-            double var32 = this.func_110828_a(par1EntityLiving.prevPosX, par1EntityLiving.posX, (double)par9) + var16;
-            double var34 = this.func_110828_a(par1EntityLiving.prevPosY, par1EntityLiving.posY, (double)par9);
-            double var36 = this.func_110828_a(par1EntityLiving.prevPosZ, par1EntityLiving.posZ, (double)par9) + var18;
-            par2 += var16;
-            par6 += var18;
-            double var38 = (double)((float)(var24 - var32));
-            double var40 = (double)((float)(var26 - var34));
-            double var42 = (double)((float)(var28 - var36));
+            double d8 = Math.cos(d4);
+            double d9 = this.func_110828_a(entity.prevPosX, entity.posX, (double)par9) - d5 * 0.7D - d6 * 0.5D * d8;
+            double d10 = this.func_110828_a(entity.prevPosY + (double)entity.getEyeHeight() * 0.7D, entity.posY + (double)entity.getEyeHeight() * 0.7D, (double)par9) - d7 * 0.5D - 0.25D;
+            double d11 = this.func_110828_a(entity.prevPosZ, entity.posZ, (double)par9) - d6 * 0.7D + d5 * 0.5D * d8;
+            double d12 = this.func_110828_a((double)par1EntityLiving.prevRenderYawOffset, (double)par1EntityLiving.renderYawOffset, (double)par9) * 0.01745329238474369D + (Math.PI / 2D);
+            d5 = Math.cos(d12) * (double)par1EntityLiving.width * 0.4D;
+            d6 = Math.sin(d12) * (double)par1EntityLiving.width * 0.4D;
+            double d13 = this.func_110828_a(par1EntityLiving.prevPosX, par1EntityLiving.posX, (double)par9) + d5;
+            double d14 = this.func_110828_a(par1EntityLiving.prevPosY, par1EntityLiving.posY, (double)par9);
+            double d15 = this.func_110828_a(par1EntityLiving.prevPosZ, par1EntityLiving.posZ, (double)par9) + d6;
+            par2 += d5;
+            par6 += d6;
+            double d16 = (double)((float)(d9 - d13));
+            double d17 = (double)((float)(d10 - d14));
+            double d18 = (double)((float)(d11 - d15));
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDisable(GL11.GL_CULL_FACE);
-            boolean var44 = true;
-            double var45 = 0.025D;
-            var11.startDrawing(5);
-            int var47;
-            float var48;
+            boolean flag = true;
+            double d19 = 0.025D;
+            tessellator.startDrawing(5);
+            int i;
+            float f2;
 
-            for (var47 = 0; var47 <= 24; ++var47)
+            for (i = 0; i <= 24; ++i)
             {
-                if (var47 % 2 == 0)
+                if (i % 2 == 0)
                 {
-                    var11.setColorRGBA_F(0.5F, 0.4F, 0.3F, 1.0F);
+                    tessellator.setColorRGBA_F(0.5F, 0.4F, 0.3F, 1.0F);
                 }
                 else
                 {
-                    var11.setColorRGBA_F(0.35F, 0.28F, 0.21000001F, 1.0F);
+                    tessellator.setColorRGBA_F(0.35F, 0.28F, 0.21000001F, 1.0F);
                 }
 
-                var48 = (float)var47 / 24.0F;
-                var11.addVertex(par2 + var38 * (double)var48 + 0.0D, par4 + var40 * (double)(var48 * var48 + var48) * 0.5D + (double)((24.0F - (float)var47) / 18.0F + 0.125F), par6 + var42 * (double)var48);
-                var11.addVertex(par2 + var38 * (double)var48 + 0.025D, par4 + var40 * (double)(var48 * var48 + var48) * 0.5D + (double)((24.0F - (float)var47) / 18.0F + 0.125F) + 0.025D, par6 + var42 * (double)var48);
+                f2 = (float)i / 24.0F;
+                tessellator.addVertex(par2 + d16 * (double)f2 + 0.0D, par4 + d17 * (double)(f2 * f2 + f2) * 0.5D + (double)((24.0F - (float)i) / 18.0F + 0.125F), par6 + d18 * (double)f2);
+                tessellator.addVertex(par2 + d16 * (double)f2 + 0.025D, par4 + d17 * (double)(f2 * f2 + f2) * 0.5D + (double)((24.0F - (float)i) / 18.0F + 0.125F) + 0.025D, par6 + d18 * (double)f2);
             }
 
-            var11.draw();
-            var11.startDrawing(5);
+            tessellator.draw();
+            tessellator.startDrawing(5);
 
-            for (var47 = 0; var47 <= 24; ++var47)
+            for (i = 0; i <= 24; ++i)
             {
-                if (var47 % 2 == 0)
+                if (i % 2 == 0)
                 {
-                    var11.setColorRGBA_F(0.5F, 0.4F, 0.3F, 1.0F);
+                    tessellator.setColorRGBA_F(0.5F, 0.4F, 0.3F, 1.0F);
                 }
                 else
                 {
-                    var11.setColorRGBA_F(0.35F, 0.28F, 0.21000001F, 1.0F);
+                    tessellator.setColorRGBA_F(0.35F, 0.28F, 0.21000001F, 1.0F);
                 }
 
-                var48 = (float)var47 / 24.0F;
-                var11.addVertex(par2 + var38 * (double)var48 + 0.0D, par4 + var40 * (double)(var48 * var48 + var48) * 0.5D + (double)((24.0F - (float)var47) / 18.0F + 0.125F) + 0.025D, par6 + var42 * (double)var48);
-                var11.addVertex(par2 + var38 * (double)var48 + 0.025D, par4 + var40 * (double)(var48 * var48 + var48) * 0.5D + (double)((24.0F - (float)var47) / 18.0F + 0.125F), par6 + var42 * (double)var48 + 0.025D);
+                f2 = (float)i / 24.0F;
+                tessellator.addVertex(par2 + d16 * (double)f2 + 0.0D, par4 + d17 * (double)(f2 * f2 + f2) * 0.5D + (double)((24.0F - (float)i) / 18.0F + 0.125F) + 0.025D, par6 + d18 * (double)f2);
+                tessellator.addVertex(par2 + d16 * (double)f2 + 0.025D, par4 + d17 * (double)(f2 * f2 + f2) * 0.5D + (double)((24.0F - (float)i) / 18.0F + 0.125F), par6 + d18 * (double)f2 + 0.025D);
             }
 
-            var11.draw();
+            tessellator.draw();
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glEnable(GL11.GL_CULL_FACE);

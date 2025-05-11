@@ -79,10 +79,10 @@ public class GuiSelectWorld extends GuiScreen
         {
             this.loadSaves();
         }
-        catch (AnvilConverterException var2)
+        catch (AnvilConverterException anvilconverterexception)
         {
-            var2.printStackTrace();
-            this.mc.displayGuiScreen(new GuiErrorScreen("Unable to load words", var2.getMessage()));
+            anvilconverterexception.printStackTrace();
+            this.mc.displayGuiScreen(new GuiErrorScreen("Unable to load words", anvilconverterexception.getMessage()));
             return;
         }
 
@@ -101,8 +101,8 @@ public class GuiSelectWorld extends GuiScreen
      */
     private void loadSaves() throws AnvilConverterException
     {
-        ISaveFormat var1 = this.mc.getSaveLoader();
-        this.saveList = var1.getSaveList();
+        ISaveFormat isaveformat = this.mc.getSaveLoader();
+        this.saveList = isaveformat.getSaveList();
         Collections.sort(this.saveList);
         this.selectedWorld = -1;
     }
@@ -120,14 +120,14 @@ public class GuiSelectWorld extends GuiScreen
      */
     protected String getSaveName(int par1)
     {
-        String var2 = ((SaveFormatComparator)this.saveList.get(par1)).getDisplayName();
+        String s = ((SaveFormatComparator)this.saveList.get(par1)).getDisplayName();
 
-        if (var2 == null || MathHelper.stringNullOrLengthZero(var2))
+        if (s == null || MathHelper.stringNullOrLengthZero(s))
         {
-            var2 = I18n.getString("selectWorld.world") + " " + (par1 + 1);
+            s = I18n.getString("selectWorld.world") + " " + (par1 + 1);
         }
 
-        return var2;
+        return s;
     }
 
     /**
@@ -156,13 +156,13 @@ public class GuiSelectWorld extends GuiScreen
         {
             if (par1GuiButton.id == 2)
             {
-                String var2 = this.getSaveName(this.selectedWorld);
+                String s = this.getSaveName(this.selectedWorld);
 
-                if (var2 != null)
+                if (s != null)
                 {
                     this.deleting = true;
-                    GuiYesNo var3 = getDeleteWorldScreen(this, var2, this.selectedWorld);
-                    this.mc.displayGuiScreen(var3);
+                    GuiYesNo guiyesno = getDeleteWorldScreen(this, s, this.selectedWorld);
+                    this.mc.displayGuiScreen(guiyesno);
                 }
             }
             else if (par1GuiButton.id == 1)
@@ -183,12 +183,12 @@ public class GuiSelectWorld extends GuiScreen
             }
             else if (par1GuiButton.id == 7)
             {
-                GuiCreateWorld var5 = new GuiCreateWorld(this);
-                ISaveHandler var6 = this.mc.getSaveLoader().getSaveLoader(this.getSaveFileName(this.selectedWorld), false);
-                WorldInfo var4 = var6.loadWorldInfo();
-                var6.flush();
-                var5.func_82286_a(var4);
-                this.mc.displayGuiScreen(var5);
+                GuiCreateWorld guicreateworld = new GuiCreateWorld(this);
+                ISaveHandler isavehandler = this.mc.getSaveLoader().getSaveLoader(this.getSaveFileName(this.selectedWorld), false);
+                WorldInfo worldinfo = isavehandler.loadWorldInfo();
+                isavehandler.flush();
+                guicreateworld.func_82286_a(worldinfo);
+                this.mc.displayGuiScreen(guicreateworld);
             }
             else
             {
@@ -207,23 +207,23 @@ public class GuiSelectWorld extends GuiScreen
         if (!this.selected)
         {
             this.selected = true;
-            String var2 = this.getSaveFileName(par1);
+            String s = this.getSaveFileName(par1);
 
-            if (var2 == null)
+            if (s == null)
             {
-                var2 = "World" + par1;
+                s = "World" + par1;
             }
 
-            String var3 = this.getSaveName(par1);
+            String s1 = this.getSaveName(par1);
 
-            if (var3 == null)
+            if (s1 == null)
             {
-                var3 = "World" + par1;
+                s1 = "World" + par1;
             }
 
-            if (this.mc.getSaveLoader().canLoadWorld(var2))
+            if (this.mc.getSaveLoader().canLoadWorld(s))
             {
-                this.mc.launchIntegratedServer(var2, var3, (WorldSettings)null);
+                this.mc.launchIntegratedServer(s, s1, (WorldSettings)null);
                 this.mc.statFileWriter.readStat(StatList.loadWorldStat, 1);
             }
         }
@@ -237,17 +237,17 @@ public class GuiSelectWorld extends GuiScreen
 
             if (par1)
             {
-                ISaveFormat var3 = this.mc.getSaveLoader();
-                var3.flushCache();
-                var3.deleteWorldDirectory(this.getSaveFileName(par2));
+                ISaveFormat isaveformat = this.mc.getSaveLoader();
+                isaveformat.flushCache();
+                isaveformat.deleteWorldDirectory(this.getSaveFileName(par2));
 
                 try
                 {
                     this.loadSaves();
                 }
-                catch (AnvilConverterException var5)
+                catch (AnvilConverterException anvilconverterexception)
                 {
-                    var5.printStackTrace();
+                    anvilconverterexception.printStackTrace();
                 }
             }
 
@@ -270,12 +270,12 @@ public class GuiSelectWorld extends GuiScreen
      */
     public static GuiYesNo getDeleteWorldScreen(GuiScreen par0GuiScreen, String par1Str, int par2)
     {
-        String var3 = I18n.getString("selectWorld.deleteQuestion");
-        String var4 = "\'" + par1Str + "\' " + I18n.getString("selectWorld.deleteWarning");
-        String var5 = I18n.getString("selectWorld.deleteButton");
-        String var6 = I18n.getString("gui.cancel");
-        GuiYesNo var7 = new GuiYesNo(par0GuiScreen, var3, var4, var5, var6, par2);
-        return var7;
+        String s1 = I18n.getString("selectWorld.deleteQuestion");
+        String s2 = "\'" + par1Str + "\' " + I18n.getString("selectWorld.deleteWarning");
+        String s3 = I18n.getString("selectWorld.deleteButton");
+        String s4 = I18n.getString("gui.cancel");
+        GuiYesNo guiyesno = new GuiYesNo(par0GuiScreen, s1, s2, s3, s4, par2);
+        return guiyesno;
     }
 
     static List getSize(GuiSelectWorld par0GuiSelectWorld)

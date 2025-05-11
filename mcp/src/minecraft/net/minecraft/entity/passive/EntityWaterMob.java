@@ -54,13 +54,13 @@ public abstract class EntityWaterMob extends EntityCreature implements IAnimals
      */
     public void onEntityUpdate()
     {
-        int var1 = this.getAir();
+        int i = this.getAir();
         super.onEntityUpdate();
 
         if (this.isEntityAlive() && !this.isInWater())
         {
-            --var1;
-            this.setAir(var1);
+            --i;
+            this.setAir(i);
 
             if (this.getAir() == -20)
             {

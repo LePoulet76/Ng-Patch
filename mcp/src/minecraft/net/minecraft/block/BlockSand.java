@@ -57,15 +57,15 @@ public class BlockSand extends Block
     {
         if (canFallBelow(par1World, par2, par3 - 1, par4) && par3 >= 0)
         {
-            byte var8 = 32;
+            byte b0 = 32;
 
-            if (!fallInstantly && par1World.checkChunksExist(par2 - var8, par3 - var8, par4 - var8, par2 + var8, par3 + var8, par4 + var8))
+            if (!fallInstantly && par1World.checkChunksExist(par2 - b0, par3 - b0, par4 - b0, par2 + b0, par3 + b0, par4 + b0))
             {
                 if (!par1World.isRemote)
                 {
-                    EntityFallingSand var9 = new EntityFallingSand(par1World, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), this.blockID, par1World.getBlockMetadata(par2, par3, par4));
-                    this.onStartFalling(var9);
-                    par1World.spawnEntityInWorld(var9);
+                    EntityFallingSand entityfallingsand = new EntityFallingSand(par1World, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), this.blockID, par1World.getBlockMetadata(par2, par3, par4));
+                    this.onStartFalling(entityfallingsand);
+                    par1World.spawnEntityInWorld(entityfallingsand);
                 }
             }
             else
@@ -103,20 +103,20 @@ public class BlockSand extends Block
      */
     public static boolean canFallBelow(World par0World, int par1, int par2, int par3)
     {
-        int var4 = par0World.getBlockId(par1, par2, par3);
+        int l = par0World.getBlockId(par1, par2, par3);
 
-        if (var4 == 0)
+        if (par0World.isAirBlock(par1, par2, par3))
         {
             return true;
         }
-        else if (var4 == Block.fire.blockID)
+        else if (l == Block.fire.blockID)
         {
             return true;
         }
         else
         {
-            Material var5 = Block.blocksList[var4].blockMaterial;
-            return var5 == Material.water ? true : var5 == Material.lava;
+            Material material = Block.blocksList[l].blockMaterial;
+            return material == Material.water ? true : material == Material.lava;
         }
     }
 

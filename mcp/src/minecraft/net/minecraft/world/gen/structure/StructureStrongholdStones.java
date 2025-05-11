@@ -15,17 +15,17 @@ class StructureStrongholdStones extends StructurePieceBlockSelector
         if (par5)
         {
             this.selectedBlockId = Block.stoneBrick.blockID;
-            float var6 = par1Random.nextFloat();
+            float f = par1Random.nextFloat();
 
-            if (var6 < 0.2F)
+            if (f < 0.2F)
             {
                 this.selectedBlockMetaData = 2;
             }
-            else if (var6 < 0.5F)
+            else if (f < 0.5F)
             {
                 this.selectedBlockMetaData = 1;
             }
-            else if (var6 < 0.55F)
+            else if (f < 0.55F)
             {
                 this.selectedBlockId = Block.silverfish.blockID;
                 this.selectedBlockMetaData = 2;

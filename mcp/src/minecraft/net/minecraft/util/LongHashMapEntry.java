@@ -40,16 +40,16 @@ class LongHashMapEntry
         }
         else
         {
-            LongHashMapEntry var2 = (LongHashMapEntry)par1Obj;
-            Long var3 = Long.valueOf(this.getKey());
-            Long var4 = Long.valueOf(var2.getKey());
+            LongHashMapEntry longhashmapentry = (LongHashMapEntry)par1Obj;
+            Long olong = Long.valueOf(this.getKey());
+            Long olong1 = Long.valueOf(longhashmapentry.getKey());
 
-            if (var3 == var4 || var3 != null && var3.equals(var4))
+            if (olong == olong1 || olong != null && olong.equals(olong1))
             {
-                Object var5 = this.getValue();
-                Object var6 = var2.getValue();
+                Object object1 = this.getValue();
+                Object object2 = longhashmapentry.getValue();
 
-                if (var5 == var6 || var5 != null && var5.equals(var6))
+                if (object1 == object2 || object1 != null && object1.equals(object2))
                 {
                     return true;
                 }

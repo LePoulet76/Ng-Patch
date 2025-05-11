@@ -22,24 +22,24 @@ public class ModelWitch extends ModelVillager
         this.witchHat.setRotationPoint(-5.0F, -10.03125F, -5.0F);
         this.witchHat.setTextureOffset(0, 64).addBox(0.0F, 0.0F, 0.0F, 10, 2, 10);
         this.villagerHead.addChild(this.witchHat);
-        ModelRenderer var2 = (new ModelRenderer(this)).setTextureSize(64, 128);
-        var2.setRotationPoint(1.75F, -4.0F, 2.0F);
-        var2.setTextureOffset(0, 76).addBox(0.0F, 0.0F, 0.0F, 7, 4, 7);
-        var2.rotateAngleX = -0.05235988F;
-        var2.rotateAngleZ = 0.02617994F;
-        this.witchHat.addChild(var2);
-        ModelRenderer var3 = (new ModelRenderer(this)).setTextureSize(64, 128);
-        var3.setRotationPoint(1.75F, -4.0F, 2.0F);
-        var3.setTextureOffset(0, 87).addBox(0.0F, 0.0F, 0.0F, 4, 4, 4);
-        var3.rotateAngleX = -0.10471976F;
-        var3.rotateAngleZ = 0.05235988F;
-        var2.addChild(var3);
-        ModelRenderer var4 = (new ModelRenderer(this)).setTextureSize(64, 128);
-        var4.setRotationPoint(1.75F, -2.0F, 2.0F);
-        var4.setTextureOffset(0, 95).addBox(0.0F, 0.0F, 0.0F, 1, 2, 1, 0.25F);
-        var4.rotateAngleX = -0.20943952F;
-        var4.rotateAngleZ = 0.10471976F;
-        var3.addChild(var4);
+        ModelRenderer modelrenderer = (new ModelRenderer(this)).setTextureSize(64, 128);
+        modelrenderer.setRotationPoint(1.75F, -4.0F, 2.0F);
+        modelrenderer.setTextureOffset(0, 76).addBox(0.0F, 0.0F, 0.0F, 7, 4, 7);
+        modelrenderer.rotateAngleX = -0.05235988F;
+        modelrenderer.rotateAngleZ = 0.02617994F;
+        this.witchHat.addChild(modelrenderer);
+        ModelRenderer modelrenderer1 = (new ModelRenderer(this)).setTextureSize(64, 128);
+        modelrenderer1.setRotationPoint(1.75F, -4.0F, 2.0F);
+        modelrenderer1.setTextureOffset(0, 87).addBox(0.0F, 0.0F, 0.0F, 4, 4, 4);
+        modelrenderer1.rotateAngleX = -0.10471976F;
+        modelrenderer1.rotateAngleZ = 0.05235988F;
+        modelrenderer.addChild(modelrenderer1);
+        ModelRenderer modelrenderer2 = (new ModelRenderer(this)).setTextureSize(64, 128);
+        modelrenderer2.setRotationPoint(1.75F, -2.0F, 2.0F);
+        modelrenderer2.setTextureOffset(0, 95).addBox(0.0F, 0.0F, 0.0F, 1, 2, 1, 0.25F);
+        modelrenderer2.rotateAngleX = -0.20943952F;
+        modelrenderer2.rotateAngleZ = 0.10471976F;
+        modelrenderer1.addChild(modelrenderer2);
     }
 
     /**
@@ -51,10 +51,10 @@ public class ModelWitch extends ModelVillager
     {
         super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);
         this.villagerNose.offsetX = this.villagerNose.offsetY = this.villagerNose.offsetZ = 0.0F;
-        float var8 = 0.01F * (float)(par7Entity.entityId % 10);
-        this.villagerNose.rotateAngleX = MathHelper.sin((float)par7Entity.ticksExisted * var8) * 4.5F * (float)Math.PI / 180.0F;
+        float f6 = 0.01F * (float)(par7Entity.entityId % 10);
+        this.villagerNose.rotateAngleX = MathHelper.sin((float)par7Entity.ticksExisted * f6) * 4.5F * (float)Math.PI / 180.0F;
         this.villagerNose.rotateAngleY = 0.0F;
-        this.villagerNose.rotateAngleZ = MathHelper.cos((float)par7Entity.ticksExisted * var8) * 2.5F * (float)Math.PI / 180.0F;
+        this.villagerNose.rotateAngleZ = MathHelper.cos((float)par7Entity.ticksExisted * f6) * 2.5F * (float)Math.PI / 180.0F;
 
         if (this.field_82900_g)
         {

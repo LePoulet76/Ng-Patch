@@ -3,6 +3,7 @@ package net.minecraft.block;
 import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -28,7 +29,7 @@ public abstract class BlockRailBase extends Block
      */
     public static final boolean isRailBlock(int par0)
     {
-        return par0 == Block.rail.blockID || par0 == Block.railPowered.blockID || par0 == Block.railDetector.blockID || par0 == Block.railActivator.blockID;
+        return Block.blocksList[par0] instanceof BlockRailBase;
     }
 
     protected BlockRailBase(int par1, boolean par2)
@@ -80,9 +81,9 @@ public abstract class BlockRailBase extends Block
      */
     public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+        int l = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
 
-        if (var5 >= 2 && var5 <= 5)
+        if (l >= 2 && l <= 5)
         {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
         }
@@ -105,7 +106,7 @@ public abstract class BlockRailBase extends Block
      */
     public int getRenderType()
     {
-        return 9;
+        return renderType;
     }
 
     /**
@@ -148,49 +149,49 @@ public abstract class BlockRailBase extends Block
     {
         if (!par1World.isRemote)
         {
-            int var6 = par1World.getBlockMetadata(par2, par3, par4);
-            int var7 = var6;
+            int i1 = par1World.getBlockMetadata(par2, par3, par4);
+            int j1 = i1;
 
             if (this.isPowered)
             {
-                var7 = var6 & 7;
+                j1 = i1 & 7;
             }
 
-            boolean var8 = false;
+            boolean flag = false;
 
             if (!par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4))
             {
-                var8 = true;
+                flag = true;
             }
 
-            if (var7 == 2 && !par1World.doesBlockHaveSolidTopSurface(par2 + 1, par3, par4))
+            if (j1 == 2 && !par1World.doesBlockHaveSolidTopSurface(par2 + 1, par3, par4))
             {
-                var8 = true;
+                flag = true;
             }
 
-            if (var7 == 3 && !par1World.doesBlockHaveSolidTopSurface(par2 - 1, par3, par4))
+            if (j1 == 3 && !par1World.doesBlockHaveSolidTopSurface(par2 - 1, par3, par4))
             {
-                var8 = true;
+                flag = true;
             }
 
-            if (var7 == 4 && !par1World.doesBlockHaveSolidTopSurface(par2, par3, par4 - 1))
+            if (j1 == 4 && !par1World.doesBlockHaveSolidTopSurface(par2, par3, par4 - 1))
             {
-                var8 = true;
+                flag = true;
             }
 
-            if (var7 == 5 && !par1World.doesBlockHaveSolidTopSurface(par2, par3, par4 + 1))
+            if (j1 == 5 && !par1World.doesBlockHaveSolidTopSurface(par2, par3, par4 + 1))
             {
-                var8 = true;
+                flag = true;
             }
 
-            if (var8)
+            if (flag)
             {
                 this.dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
                 par1World.setBlockToAir(par2, par3, par4);
             }
             else
             {
-                this.func_94358_a(par1World, par2, par3, par4, var6, var7, par5);
+                this.func_94358_a(par1World, par2, par3, par4, i1, j1, par5);
             }
         }
     }
@@ -224,16 +225,16 @@ public abstract class BlockRailBase extends Block
      */
     public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
-        int var7 = par6;
+        int j1 = par6;
 
         if (this.isPowered)
         {
-            var7 = par6 & 7;
+            j1 = par6 & 7;
         }
 
         super.breakBlock(par1World, par2, par3, par4, par5, par6);
 
-        if (var7 == 2 || var7 == 3 || var7 == 4 || var7 == 5)
+        if (j1 == 2 || j1 == 3 || j1 == 4 || j1 == 5)
         {
             par1World.notifyBlocksOfNeighborChange(par2, par3 + 1, par4, par5);
         }
@@ -243,5 +244,108 @@ public abstract class BlockRailBase extends Block
             par1World.notifyBlocksOfNeighborChange(par2, par3, par4, par5);
             par1World.notifyBlocksOfNeighborChange(par2, par3 - 1, par4, par5);
         }
+    }
+    
+        /**
+     * Return true if the rail can make corners.
+     * Used by placement logic.
+     * @param world The world.
+     * @param x The rail X coordinate.
+     * @param y The rail Y coordinate.
+     * @param z The rail Z coordinate.
+     * @return True if the rail can make corners.
+     */
+    public boolean isFlexibleRail(World world, int y, int x, int z)
+    {
+        return !isPowered;
+    }
+
+    /**
+     * Returns true if the rail can make up and down slopes.
+     * Used by placement logic.
+     * @param world The world.
+     * @param x The rail X coordinate.
+     * @param y The rail Y coordinate.
+     * @param z The rail Z coordinate.
+     * @return True if the rail can make slopes.
+     */
+    public boolean canMakeSlopes(World world, int x, int y, int z)
+    {
+        return true;
+    }
+
+    /**
+     * Return the rail's metadata (without the power bit if the rail uses one).
+     * Can be used to make the cart think the rail something other than it is,
+     * for example when making diamond junctions or switches.
+     * The cart parameter will often be null unless it it called from EntityMinecart.
+     * 
+     * Valid rail metadata is defined as follows:
+     * 0x0: flat track going North-South
+     * 0x1: flat track going West-East
+     * 0x2: track ascending to the East
+     * 0x3: track ascending to the West
+     * 0x4: track ascending to the North
+     * 0x5: track ascending to the South
+     * 0x6: WestNorth corner (connecting East and South)
+     * 0x7: EastNorth corner (connecting West and South)
+     * 0x8: EastSouth corner (connecting West and North)
+     * 0x9: WestSouth corner (connecting East and North)
+     * 
+     * @param world The world.
+     * @param cart The cart asking for the metadata, null if it is not called by EntityMinecart.
+     * @param y The rail X coordinate.
+     * @param x The rail Y coordinate.
+     * @param z The rail Z coordinate.
+     * @return The metadata.
+     */
+    public int getBasicRailMetadata(IBlockAccess world, EntityMinecart cart, int x, int y, int z)
+    {
+        int meta = world.getBlockMetadata(x, y, z);
+        if(isPowered)
+        {
+            meta = meta & 7;
+        }
+        return meta;
+    }
+
+    /**
+     * Returns the max speed of the rail at the specified position.
+     * @param world The world.
+     * @param cart The cart on the rail, may be null.
+     * @param x The rail X coordinate.
+     * @param y The rail Y coordinate.
+     * @param z The rail Z coordinate.
+     * @return The max speed of the current rail.
+     */
+    public float getRailMaxSpeed(World world, EntityMinecart cart, int y, int x, int z)
+    {
+        return 0.4f;
+    }
+
+    /**
+     * This function is called by any minecart that passes over this rail.
+     * It is called once per update tick that the minecart is on the rail.
+     * @param world The world.
+     * @param cart The cart on the rail.
+     * @param y The rail X coordinate.
+     * @param x The rail Y coordinate.
+     * @param z The rail Z coordinate.
+     */
+    public void onMinecartPass(World world, EntityMinecart cart, int y, int x, int z)
+    {
+    }    
+    
+    /**
+     * Forge: Moved render type to a field and a setter.
+     * This allows for a mod to change the render type
+     * for vanilla rails, and any mod rails that extend
+     * this class.
+     */
+    private int renderType = 9;
+    
+    public void setRenderType(int value)
+    {
+        renderType = value;
     }
 }

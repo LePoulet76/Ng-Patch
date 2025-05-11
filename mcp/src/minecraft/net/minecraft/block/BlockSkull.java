@@ -2,6 +2,8 @@ package net.minecraft.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
 import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -58,27 +60,23 @@ public class BlockSkull extends BlockContainer
      */
     public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 7;
+        int l = par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 7;
 
-        switch (var5)
+        switch (l)
         {
             case 1:
             default:
                 this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.5F, 0.75F);
                 break;
-
             case 2:
                 this.setBlockBounds(0.25F, 0.25F, 0.5F, 0.75F, 0.75F, 1.0F);
                 break;
-
             case 3:
                 this.setBlockBounds(0.25F, 0.25F, 0.0F, 0.75F, 0.75F, 0.5F);
                 break;
-
             case 4:
                 this.setBlockBounds(0.5F, 0.25F, 0.25F, 1.0F, 0.75F, 0.75F);
                 break;
-
             case 5:
                 this.setBlockBounds(0.0F, 0.25F, 0.25F, 0.5F, 0.75F, 0.75F);
         }
@@ -99,8 +97,8 @@ public class BlockSkull extends BlockContainer
      */
     public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
     {
-        int var7 = MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
-        par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
+        int l = MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
+        par1World.setBlockMetadataWithNotify(par2, par3, par4, l, 2);
     }
 
     /**
@@ -126,8 +124,8 @@ public class BlockSkull extends BlockContainer
      */
     public int getDamageValue(World par1World, int par2, int par3, int par4)
     {
-        TileEntity var5 = par1World.getBlockTileEntity(par2, par3, par4);
-        return var5 != null && var5 instanceof TileEntitySkull ? ((TileEntitySkull)var5).getSkullType() : super.getDamageValue(par1World, par2, par3, par4);
+        TileEntity tileentity = par1World.getBlockTileEntity(par2, par3, par4);
+        return tileentity != null && tileentity instanceof TileEntitySkull ? ((TileEntitySkull)tileentity).getSkullType() : super.getDamageValue(par1World, par2, par3, par4);
     }
 
     /**
@@ -137,11 +135,6 @@ public class BlockSkull extends BlockContainer
     {
         return par1;
     }
-
-    /**
-     * Drops the block items with a specified chance of dropping the specified items
-     */
-    public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7) {}
 
     /**
      * Called when the block is attempted to be harvested
@@ -154,6 +147,8 @@ public class BlockSkull extends BlockContainer
             par1World.setBlockMetadataWithNotify(par2, par3, par4, par5, 4);
         }
 
+        dropBlockAsItem(par1World, par2, par3, par4, par5, 0);
+
         super.onBlockHarvested(par1World, par2, par3, par4, par5, par6EntityPlayer);
     }
 
@@ -164,24 +159,30 @@ public class BlockSkull extends BlockContainer
      */
     public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
-        if (!par1World.isRemote)
+        super.breakBlock(par1World, par2, par3, par4, par5, par6);
+    }
+
+    @Override
+    public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
+    {
+        ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
+        if ((metadata & 8) == 0)
         {
-            if ((par6 & 8) == 0)
+            ItemStack itemstack = new ItemStack(Item.skull.itemID, 1, this.getDamageValue(world, x, y, z));
+            TileEntitySkull tileentityskull = (TileEntitySkull)world.getBlockTileEntity(x, y, z);
+
+            if (tileentityskull == null)
             {
-                ItemStack var7 = new ItemStack(Item.skull.itemID, 1, this.getDamageValue(par1World, par2, par3, par4));
-                TileEntitySkull var8 = (TileEntitySkull)par1World.getBlockTileEntity(par2, par3, par4);
-
-                if (var8.getSkullType() == 3 && var8.getExtraType() != null && var8.getExtraType().length() > 0)
-                {
-                    var7.setTagCompound(new NBTTagCompound());
-                    var7.getTagCompound().setString("SkullOwner", var8.getExtraType());
-                }
-
-                this.dropBlockAsItem_do(par1World, par2, par3, par4, var7);
+                return drops;
             }
-
-            super.breakBlock(par1World, par2, par3, par4, par5, par6);
+            if (tileentityskull.getSkullType() == 3 && tileentityskull.getExtraType() != null && tileentityskull.getExtraType().length() > 0)
+            {
+                itemstack.setTagCompound(new NBTTagCompound());
+                itemstack.getTagCompound().setString("SkullOwner", tileentityskull.getExtraType());
+            }
+            drops.add(itemstack);
         }
+        return drops;
     }
 
     /**
@@ -199,86 +200,86 @@ public class BlockSkull extends BlockContainer
     {
         if (par5TileEntitySkull.getSkullType() == 1 && par3 >= 2 && par1World.difficultySetting > 0 && !par1World.isRemote)
         {
-            int var6 = Block.slowSand.blockID;
-            int var7;
-            EntityWither var8;
-            int var9;
+            int l = Block.slowSand.blockID;
+            int i1;
+            EntityWither entitywither;
+            int j1;
 
-            for (var7 = -2; var7 <= 0; ++var7)
+            for (i1 = -2; i1 <= 0; ++i1)
             {
-                if (par1World.getBlockId(par2, par3 - 1, par4 + var7) == var6 && par1World.getBlockId(par2, par3 - 1, par4 + var7 + 1) == var6 && par1World.getBlockId(par2, par3 - 2, par4 + var7 + 1) == var6 && par1World.getBlockId(par2, par3 - 1, par4 + var7 + 2) == var6 && this.func_82528_d(par1World, par2, par3, par4 + var7, 1) && this.func_82528_d(par1World, par2, par3, par4 + var7 + 1, 1) && this.func_82528_d(par1World, par2, par3, par4 + var7 + 2, 1))
+                if (par1World.getBlockId(par2, par3 - 1, par4 + i1) == l && par1World.getBlockId(par2, par3 - 1, par4 + i1 + 1) == l && par1World.getBlockId(par2, par3 - 2, par4 + i1 + 1) == l && par1World.getBlockId(par2, par3 - 1, par4 + i1 + 2) == l && this.func_82528_d(par1World, par2, par3, par4 + i1, 1) && this.func_82528_d(par1World, par2, par3, par4 + i1 + 1, 1) && this.func_82528_d(par1World, par2, par3, par4 + i1 + 2, 1))
                 {
-                    par1World.setBlockMetadataWithNotify(par2, par3, par4 + var7, 8, 2);
-                    par1World.setBlockMetadataWithNotify(par2, par3, par4 + var7 + 1, 8, 2);
-                    par1World.setBlockMetadataWithNotify(par2, par3, par4 + var7 + 2, 8, 2);
-                    par1World.setBlock(par2, par3, par4 + var7, 0, 0, 2);
-                    par1World.setBlock(par2, par3, par4 + var7 + 1, 0, 0, 2);
-                    par1World.setBlock(par2, par3, par4 + var7 + 2, 0, 0, 2);
-                    par1World.setBlock(par2, par3 - 1, par4 + var7, 0, 0, 2);
-                    par1World.setBlock(par2, par3 - 1, par4 + var7 + 1, 0, 0, 2);
-                    par1World.setBlock(par2, par3 - 1, par4 + var7 + 2, 0, 0, 2);
-                    par1World.setBlock(par2, par3 - 2, par4 + var7 + 1, 0, 0, 2);
+                    par1World.setBlockMetadataWithNotify(par2, par3, par4 + i1, 8, 2);
+                    par1World.setBlockMetadataWithNotify(par2, par3, par4 + i1 + 1, 8, 2);
+                    par1World.setBlockMetadataWithNotify(par2, par3, par4 + i1 + 2, 8, 2);
+                    par1World.setBlock(par2, par3, par4 + i1, 0, 0, 2);
+                    par1World.setBlock(par2, par3, par4 + i1 + 1, 0, 0, 2);
+                    par1World.setBlock(par2, par3, par4 + i1 + 2, 0, 0, 2);
+                    par1World.setBlock(par2, par3 - 1, par4 + i1, 0, 0, 2);
+                    par1World.setBlock(par2, par3 - 1, par4 + i1 + 1, 0, 0, 2);
+                    par1World.setBlock(par2, par3 - 1, par4 + i1 + 2, 0, 0, 2);
+                    par1World.setBlock(par2, par3 - 2, par4 + i1 + 1, 0, 0, 2);
 
                     if (!par1World.isRemote)
                     {
-                        var8 = new EntityWither(par1World);
-                        var8.setLocationAndAngles((double)par2 + 0.5D, (double)par3 - 1.45D, (double)(par4 + var7) + 1.5D, 90.0F, 0.0F);
-                        var8.renderYawOffset = 90.0F;
-                        var8.func_82206_m();
-                        par1World.spawnEntityInWorld(var8);
+                        entitywither = new EntityWither(par1World);
+                        entitywither.setLocationAndAngles((double)par2 + 0.5D, (double)par3 - 1.45D, (double)(par4 + i1) + 1.5D, 90.0F, 0.0F);
+                        entitywither.renderYawOffset = 90.0F;
+                        entitywither.func_82206_m();
+                        par1World.spawnEntityInWorld(entitywither);
                     }
 
-                    for (var9 = 0; var9 < 120; ++var9)
+                    for (j1 = 0; j1 < 120; ++j1)
                     {
-                        par1World.spawnParticle("snowballpoof", (double)par2 + par1World.rand.nextDouble(), (double)(par3 - 2) + par1World.rand.nextDouble() * 3.9D, (double)(par4 + var7 + 1) + par1World.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
+                        par1World.spawnParticle("snowballpoof", (double)par2 + par1World.rand.nextDouble(), (double)(par3 - 2) + par1World.rand.nextDouble() * 3.9D, (double)(par4 + i1 + 1) + par1World.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
                     }
 
-                    par1World.notifyBlockChange(par2, par3, par4 + var7, 0);
-                    par1World.notifyBlockChange(par2, par3, par4 + var7 + 1, 0);
-                    par1World.notifyBlockChange(par2, par3, par4 + var7 + 2, 0);
-                    par1World.notifyBlockChange(par2, par3 - 1, par4 + var7, 0);
-                    par1World.notifyBlockChange(par2, par3 - 1, par4 + var7 + 1, 0);
-                    par1World.notifyBlockChange(par2, par3 - 1, par4 + var7 + 2, 0);
-                    par1World.notifyBlockChange(par2, par3 - 2, par4 + var7 + 1, 0);
+                    par1World.notifyBlockChange(par2, par3, par4 + i1, 0);
+                    par1World.notifyBlockChange(par2, par3, par4 + i1 + 1, 0);
+                    par1World.notifyBlockChange(par2, par3, par4 + i1 + 2, 0);
+                    par1World.notifyBlockChange(par2, par3 - 1, par4 + i1, 0);
+                    par1World.notifyBlockChange(par2, par3 - 1, par4 + i1 + 1, 0);
+                    par1World.notifyBlockChange(par2, par3 - 1, par4 + i1 + 2, 0);
+                    par1World.notifyBlockChange(par2, par3 - 2, par4 + i1 + 1, 0);
                     return;
                 }
             }
 
-            for (var7 = -2; var7 <= 0; ++var7)
+            for (i1 = -2; i1 <= 0; ++i1)
             {
-                if (par1World.getBlockId(par2 + var7, par3 - 1, par4) == var6 && par1World.getBlockId(par2 + var7 + 1, par3 - 1, par4) == var6 && par1World.getBlockId(par2 + var7 + 1, par3 - 2, par4) == var6 && par1World.getBlockId(par2 + var7 + 2, par3 - 1, par4) == var6 && this.func_82528_d(par1World, par2 + var7, par3, par4, 1) && this.func_82528_d(par1World, par2 + var7 + 1, par3, par4, 1) && this.func_82528_d(par1World, par2 + var7 + 2, par3, par4, 1))
+                if (par1World.getBlockId(par2 + i1, par3 - 1, par4) == l && par1World.getBlockId(par2 + i1 + 1, par3 - 1, par4) == l && par1World.getBlockId(par2 + i1 + 1, par3 - 2, par4) == l && par1World.getBlockId(par2 + i1 + 2, par3 - 1, par4) == l && this.func_82528_d(par1World, par2 + i1, par3, par4, 1) && this.func_82528_d(par1World, par2 + i1 + 1, par3, par4, 1) && this.func_82528_d(par1World, par2 + i1 + 2, par3, par4, 1))
                 {
-                    par1World.setBlockMetadataWithNotify(par2 + var7, par3, par4, 8, 2);
-                    par1World.setBlockMetadataWithNotify(par2 + var7 + 1, par3, par4, 8, 2);
-                    par1World.setBlockMetadataWithNotify(par2 + var7 + 2, par3, par4, 8, 2);
-                    par1World.setBlock(par2 + var7, par3, par4, 0, 0, 2);
-                    par1World.setBlock(par2 + var7 + 1, par3, par4, 0, 0, 2);
-                    par1World.setBlock(par2 + var7 + 2, par3, par4, 0, 0, 2);
-                    par1World.setBlock(par2 + var7, par3 - 1, par4, 0, 0, 2);
-                    par1World.setBlock(par2 + var7 + 1, par3 - 1, par4, 0, 0, 2);
-                    par1World.setBlock(par2 + var7 + 2, par3 - 1, par4, 0, 0, 2);
-                    par1World.setBlock(par2 + var7 + 1, par3 - 2, par4, 0, 0, 2);
+                    par1World.setBlockMetadataWithNotify(par2 + i1, par3, par4, 8, 2);
+                    par1World.setBlockMetadataWithNotify(par2 + i1 + 1, par3, par4, 8, 2);
+                    par1World.setBlockMetadataWithNotify(par2 + i1 + 2, par3, par4, 8, 2);
+                    par1World.setBlock(par2 + i1, par3, par4, 0, 0, 2);
+                    par1World.setBlock(par2 + i1 + 1, par3, par4, 0, 0, 2);
+                    par1World.setBlock(par2 + i1 + 2, par3, par4, 0, 0, 2);
+                    par1World.setBlock(par2 + i1, par3 - 1, par4, 0, 0, 2);
+                    par1World.setBlock(par2 + i1 + 1, par3 - 1, par4, 0, 0, 2);
+                    par1World.setBlock(par2 + i1 + 2, par3 - 1, par4, 0, 0, 2);
+                    par1World.setBlock(par2 + i1 + 1, par3 - 2, par4, 0, 0, 2);
 
                     if (!par1World.isRemote)
                     {
-                        var8 = new EntityWither(par1World);
-                        var8.setLocationAndAngles((double)(par2 + var7) + 1.5D, (double)par3 - 1.45D, (double)par4 + 0.5D, 0.0F, 0.0F);
-                        var8.func_82206_m();
-                        par1World.spawnEntityInWorld(var8);
+                        entitywither = new EntityWither(par1World);
+                        entitywither.setLocationAndAngles((double)(par2 + i1) + 1.5D, (double)par3 - 1.45D, (double)par4 + 0.5D, 0.0F, 0.0F);
+                        entitywither.func_82206_m();
+                        par1World.spawnEntityInWorld(entitywither);
                     }
 
-                    for (var9 = 0; var9 < 120; ++var9)
+                    for (j1 = 0; j1 < 120; ++j1)
                     {
-                        par1World.spawnParticle("snowballpoof", (double)(par2 + var7 + 1) + par1World.rand.nextDouble(), (double)(par3 - 2) + par1World.rand.nextDouble() * 3.9D, (double)par4 + par1World.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
+                        par1World.spawnParticle("snowballpoof", (double)(par2 + i1 + 1) + par1World.rand.nextDouble(), (double)(par3 - 2) + par1World.rand.nextDouble() * 3.9D, (double)par4 + par1World.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
                     }
 
-                    par1World.notifyBlockChange(par2 + var7, par3, par4, 0);
-                    par1World.notifyBlockChange(par2 + var7 + 1, par3, par4, 0);
-                    par1World.notifyBlockChange(par2 + var7 + 2, par3, par4, 0);
-                    par1World.notifyBlockChange(par2 + var7, par3 - 1, par4, 0);
-                    par1World.notifyBlockChange(par2 + var7 + 1, par3 - 1, par4, 0);
-                    par1World.notifyBlockChange(par2 + var7 + 2, par3 - 1, par4, 0);
-                    par1World.notifyBlockChange(par2 + var7 + 1, par3 - 2, par4, 0);
+                    par1World.notifyBlockChange(par2 + i1, par3, par4, 0);
+                    par1World.notifyBlockChange(par2 + i1 + 1, par3, par4, 0);
+                    par1World.notifyBlockChange(par2 + i1 + 2, par3, par4, 0);
+                    par1World.notifyBlockChange(par2 + i1, par3 - 1, par4, 0);
+                    par1World.notifyBlockChange(par2 + i1 + 1, par3 - 1, par4, 0);
+                    par1World.notifyBlockChange(par2 + i1 + 2, par3 - 1, par4, 0);
+                    par1World.notifyBlockChange(par2 + i1 + 1, par3 - 2, par4, 0);
                     return;
                 }
             }
@@ -293,8 +294,8 @@ public class BlockSkull extends BlockContainer
         }
         else
         {
-            TileEntity var6 = par1World.getBlockTileEntity(par2, par3, par4);
-            return var6 != null && var6 instanceof TileEntitySkull ? ((TileEntitySkull)var6).getSkullType() == par5 : false;
+            TileEntity tileentity = par1World.getBlockTileEntity(par2, par3, par4);
+            return tileentity != null && tileentity instanceof TileEntitySkull ? ((TileEntitySkull)tileentity).getSkullType() == par5 : false;
         }
     }
 

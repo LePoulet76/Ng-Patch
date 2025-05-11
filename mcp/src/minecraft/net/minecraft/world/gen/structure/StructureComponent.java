@@ -35,16 +35,21 @@ public abstract class StructureComponent
 
     public NBTTagCompound func_143010_b()
     {
-        NBTTagCompound var1 = new NBTTagCompound();
-        var1.setString("id", MapGenStructureIO.func_143036_a(this));
-        var1.setTag("BB", this.boundingBox.func_143047_a("BB"));
-        var1.setInteger("O", this.coordBaseMode);
-        var1.setInteger("GD", this.componentType);
-        this.func_143012_a(var1);
-        return var1;
+        if (MapGenStructureIO.func_143036_a(this) == null)
+        {
+            throw new RuntimeException("StructureComponent \"" + this.getClass().getName() + "\" missing ID Mapping, Modder see MapGenStructureIO");
+        }
+
+        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        nbttagcompound.setString("id", MapGenStructureIO.func_143036_a(this));
+        nbttagcompound.setTag("BB", this.boundingBox.func_143047_a("BB"));
+        nbttagcompound.setInteger("O", this.coordBaseMode);
+        nbttagcompound.setInteger("GD", this.componentType);
+        this.func_143012_a(nbttagcompound);
+        return nbttagcompound;
     }
 
-    protected abstract void func_143012_a(NBTTagCompound var1);
+    protected abstract void func_143012_a(NBTTagCompound nbttagcompound);
 
     public void func_143009_a(World par1World, NBTTagCompound par2NBTTagCompound)
     {
@@ -58,7 +63,7 @@ public abstract class StructureComponent
         this.func_143011_b(par2NBTTagCompound);
     }
 
-    protected abstract void func_143011_b(NBTTagCompound var1);
+    protected abstract void func_143011_b(NBTTagCompound nbttagcompound);
 
     /**
      * Initiates construction of the Structure Component picked, at the current Location of StructGen
@@ -69,7 +74,7 @@ public abstract class StructureComponent
      * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
      * the end, it adds Fences...
      */
-    public abstract boolean addComponentParts(World var1, Random var2, StructureBoundingBox var3);
+    public abstract boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox);
 
     public StructureBoundingBox getBoundingBox()
     {
@@ -89,21 +94,21 @@ public abstract class StructureComponent
      */
     public static StructureComponent findIntersecting(List par0List, StructureBoundingBox par1StructureBoundingBox)
     {
-        Iterator var2 = par0List.iterator();
-        StructureComponent var3;
+        Iterator iterator = par0List.iterator();
+        StructureComponent structurecomponent;
 
         do
         {
-            if (!var2.hasNext())
+            if (!iterator.hasNext())
             {
                 return null;
             }
 
-            var3 = (StructureComponent)var2.next();
+            structurecomponent = (StructureComponent)iterator.next();
         }
-        while (var3.getBoundingBox() == null || !var3.getBoundingBox().intersectsWith(par1StructureBoundingBox));
+        while (structurecomponent.getBoundingBox() == null || !structurecomponent.getBoundingBox().intersectsWith(par1StructureBoundingBox));
 
-        return var3;
+        return structurecomponent;
     }
 
     public ChunkPosition getCenter()
@@ -116,70 +121,70 @@ public abstract class StructureComponent
      */
     protected boolean isLiquidInStructureBoundingBox(World par1World, StructureBoundingBox par2StructureBoundingBox)
     {
-        int var3 = Math.max(this.boundingBox.minX - 1, par2StructureBoundingBox.minX);
-        int var4 = Math.max(this.boundingBox.minY - 1, par2StructureBoundingBox.minY);
-        int var5 = Math.max(this.boundingBox.minZ - 1, par2StructureBoundingBox.minZ);
-        int var6 = Math.min(this.boundingBox.maxX + 1, par2StructureBoundingBox.maxX);
-        int var7 = Math.min(this.boundingBox.maxY + 1, par2StructureBoundingBox.maxY);
-        int var8 = Math.min(this.boundingBox.maxZ + 1, par2StructureBoundingBox.maxZ);
-        int var9;
-        int var10;
-        int var11;
+        int i = Math.max(this.boundingBox.minX - 1, par2StructureBoundingBox.minX);
+        int j = Math.max(this.boundingBox.minY - 1, par2StructureBoundingBox.minY);
+        int k = Math.max(this.boundingBox.minZ - 1, par2StructureBoundingBox.minZ);
+        int l = Math.min(this.boundingBox.maxX + 1, par2StructureBoundingBox.maxX);
+        int i1 = Math.min(this.boundingBox.maxY + 1, par2StructureBoundingBox.maxY);
+        int j1 = Math.min(this.boundingBox.maxZ + 1, par2StructureBoundingBox.maxZ);
+        int k1;
+        int l1;
+        int i2;
 
-        for (var9 = var3; var9 <= var6; ++var9)
+        for (k1 = i; k1 <= l; ++k1)
         {
-            for (var10 = var5; var10 <= var8; ++var10)
+            for (l1 = k; l1 <= j1; ++l1)
             {
-                var11 = par1World.getBlockId(var9, var4, var10);
+                i2 = par1World.getBlockId(k1, j, l1);
 
-                if (var11 > 0 && Block.blocksList[var11].blockMaterial.isLiquid())
+                if (i2 > 0 && Block.blocksList[i2].blockMaterial.isLiquid())
                 {
                     return true;
                 }
 
-                var11 = par1World.getBlockId(var9, var7, var10);
+                i2 = par1World.getBlockId(k1, i1, l1);
 
-                if (var11 > 0 && Block.blocksList[var11].blockMaterial.isLiquid())
+                if (i2 > 0 && Block.blocksList[i2].blockMaterial.isLiquid())
                 {
                     return true;
                 }
             }
         }
 
-        for (var9 = var3; var9 <= var6; ++var9)
+        for (k1 = i; k1 <= l; ++k1)
         {
-            for (var10 = var4; var10 <= var7; ++var10)
+            for (l1 = j; l1 <= i1; ++l1)
             {
-                var11 = par1World.getBlockId(var9, var10, var5);
+                i2 = par1World.getBlockId(k1, l1, k);
 
-                if (var11 > 0 && Block.blocksList[var11].blockMaterial.isLiquid())
+                if (i2 > 0 && Block.blocksList[i2].blockMaterial.isLiquid())
                 {
                     return true;
                 }
 
-                var11 = par1World.getBlockId(var9, var10, var8);
+                i2 = par1World.getBlockId(k1, l1, j1);
 
-                if (var11 > 0 && Block.blocksList[var11].blockMaterial.isLiquid())
+                if (i2 > 0 && Block.blocksList[i2].blockMaterial.isLiquid())
                 {
                     return true;
                 }
             }
         }
 
-        for (var9 = var5; var9 <= var8; ++var9)
+        for (k1 = k; k1 <= j1; ++k1)
         {
-            for (var10 = var4; var10 <= var7; ++var10)
+            for (l1 = j; l1 <= i1; ++l1)
             {
-                var11 = par1World.getBlockId(var3, var10, var9);
+                i2 = par1World.getBlockId(i, l1, k1);
 
-                if (var11 > 0 && Block.blocksList[var11].blockMaterial.isLiquid())
+                if (i2 > 0 && Block.blocksList[i2].blockMaterial.isLiquid())
                 {
                     return true;
                 }
 
-                var11 = par1World.getBlockId(var6, var10, var9);
+                i2 = par1World.getBlockId(l, l1, k1);
 
-                if (var11 > 0 && Block.blocksList[var11].blockMaterial.isLiquid())
+                if (i2 > 0 && Block.blocksList[i2].blockMaterial.isLiquid())
                 {
                     return true;
                 }
@@ -196,13 +201,10 @@ public abstract class StructureComponent
             case 0:
             case 2:
                 return this.boundingBox.minX + par1;
-
             case 1:
                 return this.boundingBox.maxX - par2;
-
             case 3:
                 return this.boundingBox.minX + par2;
-
             default:
                 return par1;
         }
@@ -219,14 +221,11 @@ public abstract class StructureComponent
         {
             case 0:
                 return this.boundingBox.minZ + par2;
-
             case 1:
             case 3:
                 return this.boundingBox.minZ + par1;
-
             case 2:
                 return this.boundingBox.maxZ - par2;
-
             default:
                 return par2;
         }
@@ -571,22 +570,22 @@ public abstract class StructureComponent
      */
     protected void placeBlockAtCurrentPosition(World par1World, int par2, int par3, int par4, int par5, int par6, StructureBoundingBox par7StructureBoundingBox)
     {
-        int var8 = this.getXWithOffset(par4, par6);
-        int var9 = this.getYWithOffset(par5);
-        int var10 = this.getZWithOffset(par4, par6);
+        int j1 = this.getXWithOffset(par4, par6);
+        int k1 = this.getYWithOffset(par5);
+        int l1 = this.getZWithOffset(par4, par6);
 
-        if (par7StructureBoundingBox.isVecInside(var8, var9, var10))
+        if (par7StructureBoundingBox.isVecInside(j1, k1, l1))
         {
-            par1World.setBlock(var8, var9, var10, par2, par3, 2);
+            par1World.setBlock(j1, k1, l1, par2, par3, 2);
         }
     }
 
     protected int getBlockIdAtCurrentPosition(World par1World, int par2, int par3, int par4, StructureBoundingBox par5StructureBoundingBox)
     {
-        int var6 = this.getXWithOffset(par2, par4);
-        int var7 = this.getYWithOffset(par3);
-        int var8 = this.getZWithOffset(par2, par4);
-        return !par5StructureBoundingBox.isVecInside(var6, var7, var8) ? 0 : par1World.getBlockId(var6, var7, var8);
+        int l = this.getXWithOffset(par2, par4);
+        int i1 = this.getYWithOffset(par3);
+        int j1 = this.getZWithOffset(par2, par4);
+        return !par5StructureBoundingBox.isVecInside(l, i1, j1) ? 0 : par1World.getBlockId(l, i1, j1);
     }
 
     /**
@@ -595,13 +594,13 @@ public abstract class StructureComponent
      */
     protected void fillWithAir(World par1World, StructureBoundingBox par2StructureBoundingBox, int par3, int par4, int par5, int par6, int par7, int par8)
     {
-        for (int var9 = par4; var9 <= par7; ++var9)
+        for (int k1 = par4; k1 <= par7; ++k1)
         {
-            for (int var10 = par3; var10 <= par6; ++var10)
+            for (int l1 = par3; l1 <= par6; ++l1)
             {
-                for (int var11 = par5; var11 <= par8; ++var11)
+                for (int i2 = par5; i2 <= par8; ++i2)
                 {
-                    this.placeBlockAtCurrentPosition(par1World, 0, 0, var10, var9, var11, par2StructureBoundingBox);
+                    this.placeBlockAtCurrentPosition(par1World, 0, 0, l1, k1, i2, par2StructureBoundingBox);
                 }
             }
         }
@@ -613,21 +612,21 @@ public abstract class StructureComponent
      */
     protected void fillWithBlocks(World par1World, StructureBoundingBox par2StructureBoundingBox, int par3, int par4, int par5, int par6, int par7, int par8, int par9, int par10, boolean par11)
     {
-        for (int var12 = par4; var12 <= par7; ++var12)
+        for (int i2 = par4; i2 <= par7; ++i2)
         {
-            for (int var13 = par3; var13 <= par6; ++var13)
+            for (int j2 = par3; j2 <= par6; ++j2)
             {
-                for (int var14 = par5; var14 <= par8; ++var14)
+                for (int k2 = par5; k2 <= par8; ++k2)
                 {
-                    if (!par11 || this.getBlockIdAtCurrentPosition(par1World, var13, var12, var14, par2StructureBoundingBox) != 0)
+                    if (!par11 || this.getBlockIdAtCurrentPosition(par1World, j2, i2, k2, par2StructureBoundingBox) != 0)
                     {
-                        if (var12 != par4 && var12 != par7 && var13 != par3 && var13 != par6 && var14 != par5 && var14 != par8)
+                        if (i2 != par4 && i2 != par7 && j2 != par3 && j2 != par6 && k2 != par5 && k2 != par8)
                         {
-                            this.placeBlockAtCurrentPosition(par1World, par10, 0, var13, var12, var14, par2StructureBoundingBox);
+                            this.placeBlockAtCurrentPosition(par1World, par10, 0, j2, i2, k2, par2StructureBoundingBox);
                         }
                         else
                         {
-                            this.placeBlockAtCurrentPosition(par1World, par9, 0, var13, var12, var14, par2StructureBoundingBox);
+                            this.placeBlockAtCurrentPosition(par1World, par9, 0, j2, i2, k2, par2StructureBoundingBox);
                         }
                     }
                 }
@@ -642,21 +641,21 @@ public abstract class StructureComponent
      */
     protected void fillWithMetadataBlocks(World par1World, StructureBoundingBox par2StructureBoundingBox, int par3, int par4, int par5, int par6, int par7, int par8, int par9, int par10, int par11, int par12, boolean par13)
     {
-        for (int var14 = par4; var14 <= par7; ++var14)
+        for (int k2 = par4; k2 <= par7; ++k2)
         {
-            for (int var15 = par3; var15 <= par6; ++var15)
+            for (int l2 = par3; l2 <= par6; ++l2)
             {
-                for (int var16 = par5; var16 <= par8; ++var16)
+                for (int i3 = par5; i3 <= par8; ++i3)
                 {
-                    if (!par13 || this.getBlockIdAtCurrentPosition(par1World, var15, var14, var16, par2StructureBoundingBox) != 0)
+                    if (!par13 || this.getBlockIdAtCurrentPosition(par1World, l2, k2, i3, par2StructureBoundingBox) != 0)
                     {
-                        if (var14 != par4 && var14 != par7 && var15 != par3 && var15 != par6 && var16 != par5 && var16 != par8)
+                        if (k2 != par4 && k2 != par7 && l2 != par3 && l2 != par6 && i3 != par5 && i3 != par8)
                         {
-                            this.placeBlockAtCurrentPosition(par1World, par11, par12, var15, var14, var16, par2StructureBoundingBox);
+                            this.placeBlockAtCurrentPosition(par1World, par11, par12, l2, k2, i3, par2StructureBoundingBox);
                         }
                         else
                         {
-                            this.placeBlockAtCurrentPosition(par1World, par9, par10, var15, var14, var16, par2StructureBoundingBox);
+                            this.placeBlockAtCurrentPosition(par1World, par9, par10, l2, k2, i3, par2StructureBoundingBox);
                         }
                     }
                 }
@@ -670,16 +669,16 @@ public abstract class StructureComponent
      */
     protected void fillWithRandomizedBlocks(World par1World, StructureBoundingBox par2StructureBoundingBox, int par3, int par4, int par5, int par6, int par7, int par8, boolean par9, Random par10Random, StructurePieceBlockSelector par11StructurePieceBlockSelector)
     {
-        for (int var12 = par4; var12 <= par7; ++var12)
+        for (int k1 = par4; k1 <= par7; ++k1)
         {
-            for (int var13 = par3; var13 <= par6; ++var13)
+            for (int l1 = par3; l1 <= par6; ++l1)
             {
-                for (int var14 = par5; var14 <= par8; ++var14)
+                for (int i2 = par5; i2 <= par8; ++i2)
                 {
-                    if (!par9 || this.getBlockIdAtCurrentPosition(par1World, var13, var12, var14, par2StructureBoundingBox) != 0)
+                    if (!par9 || this.getBlockIdAtCurrentPosition(par1World, l1, k1, i2, par2StructureBoundingBox) != 0)
                     {
-                        par11StructurePieceBlockSelector.selectBlocks(par10Random, var13, var12, var14, var12 == par4 || var12 == par7 || var13 == par3 || var13 == par6 || var14 == par5 || var14 == par8);
-                        this.placeBlockAtCurrentPosition(par1World, par11StructurePieceBlockSelector.getSelectedBlockId(), par11StructurePieceBlockSelector.getSelectedBlockMetaData(), var13, var12, var14, par2StructureBoundingBox);
+                        par11StructurePieceBlockSelector.selectBlocks(par10Random, l1, k1, i2, k1 == par4 || k1 == par7 || l1 == par3 || l1 == par6 || i2 == par5 || i2 == par8);
+                        this.placeBlockAtCurrentPosition(par1World, par11StructurePieceBlockSelector.getSelectedBlockId(), par11StructurePieceBlockSelector.getSelectedBlockMetaData(), l1, k1, i2, par2StructureBoundingBox);
                     }
                 }
             }
@@ -692,21 +691,21 @@ public abstract class StructureComponent
      */
     protected void randomlyFillWithBlocks(World par1World, StructureBoundingBox par2StructureBoundingBox, Random par3Random, float par4, int par5, int par6, int par7, int par8, int par9, int par10, int par11, int par12, boolean par13)
     {
-        for (int var14 = par6; var14 <= par9; ++var14)
+        for (int i2 = par6; i2 <= par9; ++i2)
         {
-            for (int var15 = par5; var15 <= par8; ++var15)
+            for (int j2 = par5; j2 <= par8; ++j2)
             {
-                for (int var16 = par7; var16 <= par10; ++var16)
+                for (int k2 = par7; k2 <= par10; ++k2)
                 {
-                    if (par3Random.nextFloat() <= par4 && (!par13 || this.getBlockIdAtCurrentPosition(par1World, var15, var14, var16, par2StructureBoundingBox) != 0))
+                    if (par3Random.nextFloat() <= par4 && (!par13 || this.getBlockIdAtCurrentPosition(par1World, j2, i2, k2, par2StructureBoundingBox) != 0))
                     {
-                        if (var14 != par6 && var14 != par9 && var15 != par5 && var15 != par8 && var16 != par7 && var16 != par10)
+                        if (i2 != par6 && i2 != par9 && j2 != par5 && j2 != par8 && k2 != par7 && k2 != par10)
                         {
-                            this.placeBlockAtCurrentPosition(par1World, par12, 0, var15, var14, var16, par2StructureBoundingBox);
+                            this.placeBlockAtCurrentPosition(par1World, par12, 0, j2, i2, k2, par2StructureBoundingBox);
                         }
                         else
                         {
-                            this.placeBlockAtCurrentPosition(par1World, par11, 0, var15, var14, var16, par2StructureBoundingBox);
+                            this.placeBlockAtCurrentPosition(par1World, par11, 0, j2, i2, k2, par2StructureBoundingBox);
                         }
                     }
                 }
@@ -731,31 +730,31 @@ public abstract class StructureComponent
      */
     protected void randomlyRareFillWithBlocks(World par1World, StructureBoundingBox par2StructureBoundingBox, int par3, int par4, int par5, int par6, int par7, int par8, int par9, boolean par10)
     {
-        float var11 = (float)(par6 - par3 + 1);
-        float var12 = (float)(par7 - par4 + 1);
-        float var13 = (float)(par8 - par5 + 1);
-        float var14 = (float)par3 + var11 / 2.0F;
-        float var15 = (float)par5 + var13 / 2.0F;
+        float f = (float)(par6 - par3 + 1);
+        float f1 = (float)(par7 - par4 + 1);
+        float f2 = (float)(par8 - par5 + 1);
+        float f3 = (float)par3 + f / 2.0F;
+        float f4 = (float)par5 + f2 / 2.0F;
 
-        for (int var16 = par4; var16 <= par7; ++var16)
+        for (int l1 = par4; l1 <= par7; ++l1)
         {
-            float var17 = (float)(var16 - par4) / var12;
+            float f5 = (float)(l1 - par4) / f1;
 
-            for (int var18 = par3; var18 <= par6; ++var18)
+            for (int i2 = par3; i2 <= par6; ++i2)
             {
-                float var19 = ((float)var18 - var14) / (var11 * 0.5F);
+                float f6 = ((float)i2 - f3) / (f * 0.5F);
 
-                for (int var20 = par5; var20 <= par8; ++var20)
+                for (int j2 = par5; j2 <= par8; ++j2)
                 {
-                    float var21 = ((float)var20 - var15) / (var13 * 0.5F);
+                    float f7 = ((float)j2 - f4) / (f2 * 0.5F);
 
-                    if (!par10 || this.getBlockIdAtCurrentPosition(par1World, var18, var16, var20, par2StructureBoundingBox) != 0)
+                    if (!par10 || this.getBlockIdAtCurrentPosition(par1World, i2, l1, j2, par2StructureBoundingBox) != 0)
                     {
-                        float var22 = var19 * var19 + var17 * var17 + var21 * var21;
+                        float f8 = f6 * f6 + f5 * f5 + f7 * f7;
 
-                        if (var22 <= 1.05F)
+                        if (f8 <= 1.05F)
                         {
-                            this.placeBlockAtCurrentPosition(par1World, par9, 0, var18, var16, var20, par2StructureBoundingBox);
+                            this.placeBlockAtCurrentPosition(par1World, par9, 0, i2, l1, j2, par2StructureBoundingBox);
                         }
                     }
                 }
@@ -768,16 +767,16 @@ public abstract class StructureComponent
      */
     protected void clearCurrentPositionBlocksUpwards(World par1World, int par2, int par3, int par4, StructureBoundingBox par5StructureBoundingBox)
     {
-        int var6 = this.getXWithOffset(par2, par4);
-        int var7 = this.getYWithOffset(par3);
-        int var8 = this.getZWithOffset(par2, par4);
+        int l = this.getXWithOffset(par2, par4);
+        int i1 = this.getYWithOffset(par3);
+        int j1 = this.getZWithOffset(par2, par4);
 
-        if (par5StructureBoundingBox.isVecInside(var6, var7, var8))
+        if (par5StructureBoundingBox.isVecInside(l, i1, j1))
         {
-            while (!par1World.isAirBlock(var6, var7, var8) && var7 < 255)
+            while (!par1World.isAirBlock(l, i1, j1) && i1 < 255)
             {
-                par1World.setBlock(var6, var7, var8, 0, 0, 2);
-                ++var7;
+                par1World.setBlock(l, i1, j1, 0, 0, 2);
+                ++i1;
             }
         }
     }
@@ -787,16 +786,16 @@ public abstract class StructureComponent
      */
     protected void fillCurrentPositionBlocksDownwards(World par1World, int par2, int par3, int par4, int par5, int par6, StructureBoundingBox par7StructureBoundingBox)
     {
-        int var8 = this.getXWithOffset(par4, par6);
-        int var9 = this.getYWithOffset(par5);
-        int var10 = this.getZWithOffset(par4, par6);
+        int j1 = this.getXWithOffset(par4, par6);
+        int k1 = this.getYWithOffset(par5);
+        int l1 = this.getZWithOffset(par4, par6);
 
-        if (par7StructureBoundingBox.isVecInside(var8, var9, var10))
+        if (par7StructureBoundingBox.isVecInside(j1, k1, l1))
         {
-            while ((par1World.isAirBlock(var8, var9, var10) || par1World.getBlockMaterial(var8, var9, var10).isLiquid()) && var9 > 1)
+            while ((par1World.isAirBlock(j1, k1, l1) || par1World.getBlockMaterial(j1, k1, l1).isLiquid()) && k1 > 1)
             {
-                par1World.setBlock(var8, var9, var10, par2, par3, 2);
-                --var9;
+                par1World.setBlock(j1, k1, l1, par2, par3, 2);
+                --k1;
             }
         }
     }
@@ -806,18 +805,18 @@ public abstract class StructureComponent
      */
     protected boolean generateStructureChestContents(World par1World, StructureBoundingBox par2StructureBoundingBox, Random par3Random, int par4, int par5, int par6, WeightedRandomChestContent[] par7ArrayOfWeightedRandomChestContent, int par8)
     {
-        int var9 = this.getXWithOffset(par4, par6);
-        int var10 = this.getYWithOffset(par5);
-        int var11 = this.getZWithOffset(par4, par6);
+        int i1 = this.getXWithOffset(par4, par6);
+        int j1 = this.getYWithOffset(par5);
+        int k1 = this.getZWithOffset(par4, par6);
 
-        if (par2StructureBoundingBox.isVecInside(var9, var10, var11) && par1World.getBlockId(var9, var10, var11) != Block.chest.blockID)
+        if (par2StructureBoundingBox.isVecInside(i1, j1, k1) && par1World.getBlockId(i1, j1, k1) != Block.chest.blockID)
         {
-            par1World.setBlock(var9, var10, var11, Block.chest.blockID, 0, 2);
-            TileEntityChest var12 = (TileEntityChest)par1World.getBlockTileEntity(var9, var10, var11);
+            par1World.setBlock(i1, j1, k1, Block.chest.blockID, 0, 2);
+            TileEntityChest tileentitychest = (TileEntityChest)par1World.getBlockTileEntity(i1, j1, k1);
 
-            if (var12 != null)
+            if (tileentitychest != null)
             {
-                WeightedRandomChestContent.generateChestContents(par3Random, par7ArrayOfWeightedRandomChestContent, var12, par8);
+                WeightedRandomChestContent.generateChestContents(par3Random, par7ArrayOfWeightedRandomChestContent, tileentitychest, par8);
             }
 
             return true;
@@ -833,18 +832,18 @@ public abstract class StructureComponent
      */
     protected boolean generateStructureDispenserContents(World par1World, StructureBoundingBox par2StructureBoundingBox, Random par3Random, int par4, int par5, int par6, int par7, WeightedRandomChestContent[] par8ArrayOfWeightedRandomChestContent, int par9)
     {
-        int var10 = this.getXWithOffset(par4, par6);
-        int var11 = this.getYWithOffset(par5);
-        int var12 = this.getZWithOffset(par4, par6);
+        int j1 = this.getXWithOffset(par4, par6);
+        int k1 = this.getYWithOffset(par5);
+        int l1 = this.getZWithOffset(par4, par6);
 
-        if (par2StructureBoundingBox.isVecInside(var10, var11, var12) && par1World.getBlockId(var10, var11, var12) != Block.dispenser.blockID)
+        if (par2StructureBoundingBox.isVecInside(j1, k1, l1) && par1World.getBlockId(j1, k1, l1) != Block.dispenser.blockID)
         {
-            par1World.setBlock(var10, var11, var12, Block.dispenser.blockID, this.getMetadataWithOffset(Block.dispenser.blockID, par7), 2);
-            TileEntityDispenser var13 = (TileEntityDispenser)par1World.getBlockTileEntity(var10, var11, var12);
+            par1World.setBlock(j1, k1, l1, Block.dispenser.blockID, this.getMetadataWithOffset(Block.dispenser.blockID, par7), 2);
+            TileEntityDispenser tileentitydispenser = (TileEntityDispenser)par1World.getBlockTileEntity(j1, k1, l1);
 
-            if (var13 != null)
+            if (tileentitydispenser != null)
             {
-                WeightedRandomChestContent.generateDispenserContents(par3Random, par8ArrayOfWeightedRandomChestContent, var13, par9);
+                WeightedRandomChestContent.generateDispenserContents(par3Random, par8ArrayOfWeightedRandomChestContent, tileentitydispenser, par9);
             }
 
             return true;
@@ -857,13 +856,13 @@ public abstract class StructureComponent
 
     protected void placeDoorAtCurrentPosition(World par1World, StructureBoundingBox par2StructureBoundingBox, Random par3Random, int par4, int par5, int par6, int par7)
     {
-        int var8 = this.getXWithOffset(par4, par6);
-        int var9 = this.getYWithOffset(par5);
-        int var10 = this.getZWithOffset(par4, par6);
+        int i1 = this.getXWithOffset(par4, par6);
+        int j1 = this.getYWithOffset(par5);
+        int k1 = this.getZWithOffset(par4, par6);
 
-        if (par2StructureBoundingBox.isVecInside(var8, var9, var10))
+        if (par2StructureBoundingBox.isVecInside(i1, j1, k1))
         {
-            ItemDoor.placeDoorBlock(par1World, var8, var9, var10, par7, Block.doorWood);
+            ItemDoor.placeDoorBlock(par1World, i1, j1, k1, par7, Block.doorWood);
         }
     }
 }

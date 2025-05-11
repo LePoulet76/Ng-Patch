@@ -10,15 +10,15 @@ public interface IChunkLoader
     /**
      * Loads the specified(XZ) chunk into the specified world.
      */
-    Chunk loadChunk(World var1, int var2, int var3) throws IOException;
+    Chunk loadChunk(World world, int i, int j) throws IOException;
 
-    void saveChunk(World var1, Chunk var2) throws MinecraftException, IOException;
+    void saveChunk(World world, Chunk chunk) throws MinecraftException, IOException;
 
     /**
      * Save extra data associated with this Chunk not normally saved during autosave, only during chunk unload.
      * Currently unused.
      */
-    void saveExtraChunkData(World var1, Chunk var2);
+    void saveExtraChunkData(World world, Chunk chunk);
 
     /**
      * Called every World.tick()

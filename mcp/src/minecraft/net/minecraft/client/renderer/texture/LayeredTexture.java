@@ -25,36 +25,36 @@ public class LayeredTexture extends AbstractTexture
 
     public void loadTexture(ResourceManager par1ResourceManager) throws IOException
     {
-        BufferedImage var2 = null;
+        BufferedImage bufferedimage = null;
 
         try
         {
-            Iterator var3 = this.layeredTextureNames.iterator();
+            Iterator iterator = this.layeredTextureNames.iterator();
 
-            while (var3.hasNext())
+            while (iterator.hasNext())
             {
-                String var4 = (String)var3.next();
+                String s = (String)iterator.next();
 
-                if (var4 != null)
+                if (s != null)
                 {
-                    InputStream var5 = par1ResourceManager.getResource(new ResourceLocation(var4)).getInputStream();
-                    BufferedImage var6 = ImageIO.read(var5);
+                    InputStream inputstream = par1ResourceManager.getResource(new ResourceLocation(s)).getInputStream();
+                    BufferedImage bufferedimage1 = ImageIO.read(inputstream);
 
-                    if (var2 == null)
+                    if (bufferedimage == null)
                     {
-                        var2 = new BufferedImage(var6.getWidth(), var6.getHeight(), 2);
+                        bufferedimage = new BufferedImage(bufferedimage1.getWidth(), bufferedimage1.getHeight(), 2);
                     }
 
-                    var2.getGraphics().drawImage(var6, 0, 0, (ImageObserver)null);
+                    bufferedimage.getGraphics().drawImage(bufferedimage1, 0, 0, (ImageObserver)null);
                 }
             }
         }
-        catch (IOException var7)
+        catch (IOException ioexception)
         {
-            var7.printStackTrace();
+            ioexception.printStackTrace();
             return;
         }
 
-        TextureUtil.uploadTextureImage(this.getGlTextureId(), var2);
+        TextureUtil.uploadTextureImage(this.getGlTextureId(), bufferedimage);
     }
 }

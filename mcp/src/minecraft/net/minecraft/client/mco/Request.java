@@ -24,23 +24,23 @@ public abstract class Request
             this.field_96367_a.setConnectTimeout(par2);
             this.field_96367_a.setReadTimeout(par3);
         }
-        catch (Exception var5)
+        catch (Exception exception)
         {
-            throw new ExceptionMcoHttp("Failed URL: " + par1Str, var5);
+            throw new ExceptionMcoHttp("Failed URL: " + par1Str, exception);
         }
     }
 
     public void func_100006_a(String par1Str, String par2Str)
     {
-        String var3 = this.field_96367_a.getRequestProperty("Cookie");
+        String s2 = this.field_96367_a.getRequestProperty("Cookie");
 
-        if (var3 == null)
+        if (s2 == null)
         {
             this.field_96367_a.setRequestProperty("Cookie", par1Str + "=" + par2Str);
         }
         else
         {
-            this.field_96367_a.setRequestProperty("Cookie", var3 + ";" + par1Str + "=" + par2Str);
+            this.field_96367_a.setRequestProperty("Cookie", s2 + ";" + par1Str + "=" + par2Str);
         }
     }
 
@@ -51,21 +51,21 @@ public abstract class Request
             this.func_96354_d();
             return this.field_96367_a.getResponseCode();
         }
-        catch (Exception var2)
+        catch (Exception exception)
         {
-            throw new ExceptionMcoHttp("Failed URL: " + this.field_96365_b, var2);
+            throw new ExceptionMcoHttp("Failed URL: " + this.field_96365_b, exception);
         }
     }
 
     public int func_111221_b()
     {
-        String var1 = this.field_96367_a.getHeaderField("Retry-After");
+        String s = this.field_96367_a.getHeaderField("Retry-After");
 
         try
         {
-            return Integer.valueOf(var1).intValue();
+            return Integer.valueOf(s).intValue();
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
             return 5;
         }
@@ -76,13 +76,13 @@ public abstract class Request
         try
         {
             this.func_96354_d();
-            String var1 = this.func_96362_a() >= 400 ? this.func_96352_a(this.field_96367_a.getErrorStream()) : this.func_96352_a(this.field_96367_a.getInputStream());
+            String s = this.func_96362_a() >= 400 ? this.func_96352_a(this.field_96367_a.getErrorStream()) : this.func_96352_a(this.field_96367_a.getInputStream());
             this.func_96360_f();
-            return var1;
+            return s;
         }
-        catch (IOException var2)
+        catch (IOException ioexception)
         {
-            throw new ExceptionMcoHttp("Failed URL: " + this.field_96365_b, var2);
+            throw new ExceptionMcoHttp("Failed URL: " + this.field_96365_b, ioexception);
         }
     }
 
@@ -94,53 +94,53 @@ public abstract class Request
         }
         else
         {
-            StringBuilder var2 = new StringBuilder();
+            StringBuilder stringbuilder = new StringBuilder();
 
-            for (int var3 = par1InputStream.read(); var3 != -1; var3 = par1InputStream.read())
+            for (int i = par1InputStream.read(); i != -1; i = par1InputStream.read())
             {
-                var2.append((char)var3);
+                stringbuilder.append((char)i);
             }
 
-            return var2.toString();
+            return stringbuilder.toString();
         }
     }
 
     private void func_96360_f()
     {
-        byte[] var1 = new byte[1024];
-        InputStream var3;
+        byte[] abyte = new byte[1024];
+        InputStream inputstream;
 
         try
         {
-            boolean var2 = false;
-            var3 = this.field_96367_a.getInputStream();
+            boolean flag = false;
+            inputstream = this.field_96367_a.getInputStream();
 
             while (true)
             {
-                if (var3.read(var1) <= 0)
+                if (inputstream.read(abyte) <= 0)
                 {
-                    var3.close();
+                    inputstream.close();
                     break;
                 }
             }
         }
-        catch (Exception var6)
+        catch (Exception exception)
         {
             try
             {
-                var3 = this.field_96367_a.getErrorStream();
-                boolean var4 = false;
+                inputstream = this.field_96367_a.getErrorStream();
+                boolean flag1 = false;
 
                 while (true)
                 {
-                    if (var3.read(var1) <= 0)
+                    if (inputstream.read(abyte) <= 0)
                     {
-                        var3.close();
+                        inputstream.close();
                         break;
                     }
                 }
             }
-            catch (IOException var5)
+            catch (IOException ioexception)
             {
                 ;
             }
@@ -151,9 +151,9 @@ public abstract class Request
     {
         if (!this.field_96366_c)
         {
-            Request var1 = this.func_96359_e();
+            Request request = this.func_96359_e();
             this.field_96366_c = true;
-            return var1;
+            return request;
         }
         else
         {
@@ -195,13 +195,13 @@ public abstract class Request
 
     public int func_130110_g()
     {
-        String var1 = this.field_96367_a.getHeaderField("Error-Code");
+        String s = this.field_96367_a.getHeaderField("Error-Code");
 
         try
         {
-            return Integer.valueOf(var1).intValue();
+            return Integer.valueOf(s).intValue();
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
             return -1;
         }

@@ -31,31 +31,31 @@ public class CommandGive extends CommandBase
     {
         if (par2ArrayOfStr.length >= 2)
         {
-            EntityPlayerMP var3 = getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
-            int var4 = parseIntWithMin(par1ICommandSender, par2ArrayOfStr[1], 1);
-            int var5 = 1;
-            int var6 = 0;
+            EntityPlayerMP entityplayermp = getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
+            int i = parseIntWithMin(par1ICommandSender, par2ArrayOfStr[1], 1);
+            int j = 1;
+            int k = 0;
 
-            if (Item.itemsList[var4] == null)
+            if (Item.itemsList[i] == null)
             {
-                throw new NumberInvalidException("commands.give.notFound", new Object[] {Integer.valueOf(var4)});
+                throw new NumberInvalidException("commands.give.notFound", new Object[] {Integer.valueOf(i)});
             }
             else
             {
                 if (par2ArrayOfStr.length >= 3)
                 {
-                    var5 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[2], 1, 64);
+                    j = parseIntBounded(par1ICommandSender, par2ArrayOfStr[2], 1, 64);
                 }
 
                 if (par2ArrayOfStr.length >= 4)
                 {
-                    var6 = parseInt(par1ICommandSender, par2ArrayOfStr[3]);
+                    k = parseInt(par1ICommandSender, par2ArrayOfStr[3]);
                 }
 
-                ItemStack var7 = new ItemStack(var4, var5, var6);
-                EntityItem var8 = var3.dropPlayerItem(var7);
-                var8.delayBeforeCanPickup = 0;
-                notifyAdmins(par1ICommandSender, "commands.give.success", new Object[] {Item.itemsList[var4].getItemStackDisplayName(var7), Integer.valueOf(var4), Integer.valueOf(var5), var3.getEntityName()});
+                ItemStack itemstack = new ItemStack(i, j, k);
+                EntityItem entityitem = entityplayermp.dropPlayerItem(itemstack);
+                entityitem.delayBeforeCanPickup = 0;
+                notifyAdmins(par1ICommandSender, "commands.give.success", new Object[] {Item.itemsList[i].getItemStackDisplayName(itemstack), Integer.valueOf(i), Integer.valueOf(j), entityplayermp.getEntityName()});
             }
         }
         else

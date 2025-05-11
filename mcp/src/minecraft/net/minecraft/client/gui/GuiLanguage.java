@@ -50,11 +50,9 @@ public class GuiLanguage extends GuiScreen
             {
                 case 5:
                     break;
-
                 case 6:
                     this.mc.displayGuiScreen(this.parentGui);
                     break;
-
                 default:
                     this.languageList.actionPerformed(par1GuiButton);
             }

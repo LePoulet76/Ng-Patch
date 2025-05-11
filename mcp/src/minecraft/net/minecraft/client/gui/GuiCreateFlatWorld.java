@@ -62,7 +62,7 @@ public class GuiCreateFlatWorld extends GuiScreen
      */
     protected void actionPerformed(GuiButton par1GuiButton)
     {
-        int var2 = this.theFlatGeneratorInfo.getFlatLayers().size() - this.createFlatWorldListSlotGui.field_82454_a - 1;
+        int i = this.theFlatGeneratorInfo.getFlatLayers().size() - this.createFlatWorldListSlotGui.field_82454_a - 1;
 
         if (par1GuiButton.id == 1)
         {
@@ -79,7 +79,7 @@ public class GuiCreateFlatWorld extends GuiScreen
         }
         else if (par1GuiButton.id == 4 && this.func_82272_i())
         {
-            this.theFlatGeneratorInfo.getFlatLayers().remove(var2);
+            this.theFlatGeneratorInfo.getFlatLayers().remove(i);
             this.createFlatWorldListSlotGui.field_82454_a = Math.min(this.createFlatWorldListSlotGui.field_82454_a, this.theFlatGeneratorInfo.getFlatLayers().size() - 1);
         }
 
@@ -89,9 +89,9 @@ public class GuiCreateFlatWorld extends GuiScreen
 
     public void func_82270_g()
     {
-        boolean var1 = this.func_82272_i();
-        this.buttonRemoveLayer.enabled = var1;
-        this.buttonEditLayer.enabled = var1;
+        boolean flag = this.func_82272_i();
+        this.buttonRemoveLayer.enabled = flag;
+        this.buttonEditLayer.enabled = flag;
         this.buttonEditLayer.enabled = false;
         this.buttonAddLayer.enabled = false;
     }
@@ -109,9 +109,9 @@ public class GuiCreateFlatWorld extends GuiScreen
         this.drawDefaultBackground();
         this.createFlatWorldListSlotGui.drawScreen(par1, par2, par3);
         this.drawCenteredString(this.fontRenderer, this.customizationTitle, this.width / 2, 8, 16777215);
-        int var4 = this.width / 2 - 92 - 16;
-        this.drawString(this.fontRenderer, this.layerMaterialLabel, var4, 32, 16777215);
-        this.drawString(this.fontRenderer, this.heightLabel, var4 + 2 + 213 - this.fontRenderer.getStringWidth(this.heightLabel), 32, 16777215);
+        int k = this.width / 2 - 92 - 16;
+        this.drawString(this.fontRenderer, this.layerMaterialLabel, k, 32, 16777215);
+        this.drawString(this.fontRenderer, this.heightLabel, k + 2 + 213 - this.fontRenderer.getStringWidth(this.heightLabel), 32, 16777215);
         super.drawScreen(par1, par2, par3);
     }
 

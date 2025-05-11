@@ -25,12 +25,12 @@ public class EntityHugeExplodeFX extends EntityFX
      */
     public void onUpdate()
     {
-        for (int var1 = 0; var1 < 6; ++var1)
+        for (int i = 0; i < 6; ++i)
         {
-            double var2 = this.posX + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
-            double var4 = this.posY + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
-            double var6 = this.posZ + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
-            this.worldObj.spawnParticle("largeexplode", var2, var4, var6, (double)((float)this.timeSinceStart / (float)this.maximumTime), 0.0D, 0.0D);
+            double d0 = this.posX + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
+            double d1 = this.posY + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
+            double d2 = this.posZ + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
+            this.worldObj.spawnParticle("largeexplode", d0, d1, d2, (double)((float)this.timeSinceStart / (float)this.maximumTime), 0.0D, 0.0D);
         }
 
         ++this.timeSinceStart;

@@ -35,31 +35,31 @@ public class EntityAIPlay extends EntityAIBase
         }
         else
         {
-            List var1 = this.villagerObj.worldObj.getEntitiesWithinAABB(EntityVillager.class, this.villagerObj.boundingBox.expand(6.0D, 3.0D, 6.0D));
-            double var2 = Double.MAX_VALUE;
-            Iterator var4 = var1.iterator();
+            List list = this.villagerObj.worldObj.getEntitiesWithinAABB(EntityVillager.class, this.villagerObj.boundingBox.expand(6.0D, 3.0D, 6.0D));
+            double d0 = Double.MAX_VALUE;
+            Iterator iterator = list.iterator();
 
-            while (var4.hasNext())
+            while (iterator.hasNext())
             {
-                EntityVillager var5 = (EntityVillager)var4.next();
+                EntityVillager entityvillager = (EntityVillager)iterator.next();
 
-                if (var5 != this.villagerObj && !var5.isPlaying() && var5.getGrowingAge() < 0)
+                if (entityvillager != this.villagerObj && !entityvillager.isPlaying() && entityvillager.getGrowingAge() < 0)
                 {
-                    double var6 = var5.getDistanceSqToEntity(this.villagerObj);
+                    double d1 = entityvillager.getDistanceSqToEntity(this.villagerObj);
 
-                    if (var6 <= var2)
+                    if (d1 <= d0)
                     {
-                        var2 = var6;
-                        this.targetVillager = var5;
+                        d0 = d1;
+                        this.targetVillager = entityvillager;
                     }
                 }
             }
 
             if (this.targetVillager == null)
             {
-                Vec3 var8 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
+                Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
 
-                if (var8 == null)
+                if (vec3 == null)
                 {
                     return false;
                 }
@@ -115,14 +115,14 @@ public class EntityAIPlay extends EntityAIBase
         }
         else if (this.villagerObj.getNavigator().noPath())
         {
-            Vec3 var1 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
+            Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
 
-            if (var1 == null)
+            if (vec3 == null)
             {
                 return;
             }
 
-            this.villagerObj.getNavigator().tryMoveToXYZ(var1.xCoord, var1.yCoord, var1.zCoord, this.field_75261_c);
+            this.villagerObj.getNavigator().tryMoveToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord, this.field_75261_c);
         }
     }
 }

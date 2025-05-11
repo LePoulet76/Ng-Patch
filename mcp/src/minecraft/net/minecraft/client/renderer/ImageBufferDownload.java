@@ -24,15 +24,15 @@ public class ImageBufferDownload implements IImageBuffer
         {
             this.imageWidth = 64;
             this.imageHeight = 32;
-            BufferedImage var2 = new BufferedImage(this.imageWidth, this.imageHeight, 2);
-            Graphics var3 = var2.getGraphics();
-            var3.drawImage(par1BufferedImage, 0, 0, (ImageObserver)null);
-            var3.dispose();
-            this.imageData = ((DataBufferInt)var2.getRaster().getDataBuffer()).getData();
+            BufferedImage bufferedimage1 = new BufferedImage(this.imageWidth, this.imageHeight, 2);
+            Graphics graphics = bufferedimage1.getGraphics();
+            graphics.drawImage(par1BufferedImage, 0, 0, (ImageObserver)null);
+            graphics.dispose();
+            this.imageData = ((DataBufferInt)bufferedimage1.getRaster().getDataBuffer()).getData();
             this.setAreaOpaque(0, 0, 32, 16);
             this.setAreaTransparent(32, 0, 64, 32);
             this.setAreaOpaque(0, 16, 64, 32);
-            return var2;
+            return bufferedimage1;
         }
     }
 
@@ -45,11 +45,11 @@ public class ImageBufferDownload implements IImageBuffer
     {
         if (!this.hasTransparency(par1, par2, par3, par4))
         {
-            for (int var5 = par1; var5 < par3; ++var5)
+            for (int i1 = par1; i1 < par3; ++i1)
             {
-                for (int var6 = par2; var6 < par4; ++var6)
+                for (int j1 = par2; j1 < par4; ++j1)
                 {
-                    this.imageData[var5 + var6 * this.imageWidth] &= 16777215;
+                    this.imageData[i1 + j1 * this.imageWidth] &= 16777215;
                 }
             }
         }
@@ -60,11 +60,11 @@ public class ImageBufferDownload implements IImageBuffer
      */
     private void setAreaOpaque(int par1, int par2, int par3, int par4)
     {
-        for (int var5 = par1; var5 < par3; ++var5)
+        for (int i1 = par1; i1 < par3; ++i1)
         {
-            for (int var6 = par2; var6 < par4; ++var6)
+            for (int j1 = par2; j1 < par4; ++j1)
             {
-                this.imageData[var5 + var6 * this.imageWidth] |= -16777216;
+                this.imageData[i1 + j1 * this.imageWidth] |= -16777216;
             }
         }
     }
@@ -74,13 +74,13 @@ public class ImageBufferDownload implements IImageBuffer
      */
     private boolean hasTransparency(int par1, int par2, int par3, int par4)
     {
-        for (int var5 = par1; var5 < par3; ++var5)
+        for (int i1 = par1; i1 < par3; ++i1)
         {
-            for (int var6 = par2; var6 < par4; ++var6)
+            for (int j1 = par2; j1 < par4; ++j1)
             {
-                int var7 = this.imageData[var5 + var6 * this.imageWidth];
+                int k1 = this.imageData[i1 + j1 * this.imageWidth];
 
-                if ((var7 >> 24 & 255) < 128)
+                if ((k1 >> 24 & 255) < 128)
                 {
                     return true;
                 }

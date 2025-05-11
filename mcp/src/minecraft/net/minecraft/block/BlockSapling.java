@@ -16,6 +16,8 @@ import net.minecraft.world.gen.feature.WorldGenTaiga2;
 import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
+import net.minecraftforge.event.terraingen.TerrainGen;
+
 public class BlockSapling extends BlockFlower
 {
     public static final String[] WOOD_TYPES = new String[] {"oak", "spruce", "birch", "jungle"};
@@ -25,8 +27,8 @@ public class BlockSapling extends BlockFlower
     protected BlockSapling(int par1)
     {
         super(par1);
-        float var2 = 0.4F;
-        this.setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, var2 * 2.0F, 0.5F + var2);
+        float f = 0.4F;
+        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
@@ -59,11 +61,11 @@ public class BlockSapling extends BlockFlower
 
     public void markOrGrowMarked(World par1World, int par2, int par3, int par4, Random par5Random)
     {
-        int var6 = par1World.getBlockMetadata(par2, par3, par4);
+        int l = par1World.getBlockMetadata(par2, par3, par4);
 
-        if ((var6 & 8) == 0)
+        if ((l & 8) == 0)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, var6 | 8, 4);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, l | 8, 4);
         }
         else
         {
@@ -76,81 +78,83 @@ public class BlockSapling extends BlockFlower
      */
     public void growTree(World par1World, int par2, int par3, int par4, Random par5Random)
     {
-        int var6 = par1World.getBlockMetadata(par2, par3, par4) & 3;
-        Object var7 = null;
-        int var8 = 0;
-        int var9 = 0;
-        boolean var10 = false;
+        if (!TerrainGen.saplingGrowTree(par1World, par5Random, par2, par3, par4)) return;
 
-        if (var6 == 1)
+        int l = par1World.getBlockMetadata(par2, par3, par4) & 3;
+        Object object = null;
+        int i1 = 0;
+        int j1 = 0;
+        boolean flag = false;
+
+        if (l == 1)
         {
-            var7 = new WorldGenTaiga2(true);
+            object = new WorldGenTaiga2(true);
         }
-        else if (var6 == 2)
+        else if (l == 2)
         {
-            var7 = new WorldGenForest(true);
+            object = new WorldGenForest(true);
         }
-        else if (var6 == 3)
+        else if (l == 3)
         {
-            for (var8 = 0; var8 >= -1; --var8)
+            for (i1 = 0; i1 >= -1; --i1)
             {
-                for (var9 = 0; var9 >= -1; --var9)
+                for (j1 = 0; j1 >= -1; --j1)
                 {
-                    if (this.isSameSapling(par1World, par2 + var8, par3, par4 + var9, 3) && this.isSameSapling(par1World, par2 + var8 + 1, par3, par4 + var9, 3) && this.isSameSapling(par1World, par2 + var8, par3, par4 + var9 + 1, 3) && this.isSameSapling(par1World, par2 + var8 + 1, par3, par4 + var9 + 1, 3))
+                    if (this.isSameSapling(par1World, par2 + i1, par3, par4 + j1, 3) && this.isSameSapling(par1World, par2 + i1 + 1, par3, par4 + j1, 3) && this.isSameSapling(par1World, par2 + i1, par3, par4 + j1 + 1, 3) && this.isSameSapling(par1World, par2 + i1 + 1, par3, par4 + j1 + 1, 3))
                     {
-                        var7 = new WorldGenHugeTrees(true, 10 + par5Random.nextInt(20), 3, 3);
-                        var10 = true;
+                        object = new WorldGenHugeTrees(true, 10 + par5Random.nextInt(20), 3, 3);
+                        flag = true;
                         break;
                     }
                 }
 
-                if (var7 != null)
+                if (object != null)
                 {
                     break;
                 }
             }
 
-            if (var7 == null)
+            if (object == null)
             {
-                var9 = 0;
-                var8 = 0;
-                var7 = new WorldGenTrees(true, 4 + par5Random.nextInt(7), 3, 3, false);
+                j1 = 0;
+                i1 = 0;
+                object = new WorldGenTrees(true, 4 + par5Random.nextInt(7), 3, 3, false);
             }
         }
         else
         {
-            var7 = new WorldGenTrees(true);
+            object = new WorldGenTrees(true);
 
             if (par5Random.nextInt(10) == 0)
             {
-                var7 = new WorldGenBigTree(true);
+                object = new WorldGenBigTree(true);
             }
         }
 
-        if (var10)
+        if (flag)
         {
-            par1World.setBlock(par2 + var8, par3, par4 + var9, 0, 0, 4);
-            par1World.setBlock(par2 + var8 + 1, par3, par4 + var9, 0, 0, 4);
-            par1World.setBlock(par2 + var8, par3, par4 + var9 + 1, 0, 0, 4);
-            par1World.setBlock(par2 + var8 + 1, par3, par4 + var9 + 1, 0, 0, 4);
+            par1World.setBlock(par2 + i1, par3, par4 + j1, 0, 0, 4);
+            par1World.setBlock(par2 + i1 + 1, par3, par4 + j1, 0, 0, 4);
+            par1World.setBlock(par2 + i1, par3, par4 + j1 + 1, 0, 0, 4);
+            par1World.setBlock(par2 + i1 + 1, par3, par4 + j1 + 1, 0, 0, 4);
         }
         else
         {
             par1World.setBlock(par2, par3, par4, 0, 0, 4);
         }
 
-        if (!((WorldGenerator)var7).generate(par1World, par5Random, par2 + var8, par3, par4 + var9))
+        if (!((WorldGenerator)object).generate(par1World, par5Random, par2 + i1, par3, par4 + j1))
         {
-            if (var10)
+            if (flag)
             {
-                par1World.setBlock(par2 + var8, par3, par4 + var9, this.blockID, var6, 4);
-                par1World.setBlock(par2 + var8 + 1, par3, par4 + var9, this.blockID, var6, 4);
-                par1World.setBlock(par2 + var8, par3, par4 + var9 + 1, this.blockID, var6, 4);
-                par1World.setBlock(par2 + var8 + 1, par3, par4 + var9 + 1, this.blockID, var6, 4);
+                par1World.setBlock(par2 + i1, par3, par4 + j1, this.blockID, l, 4);
+                par1World.setBlock(par2 + i1 + 1, par3, par4 + j1, this.blockID, l, 4);
+                par1World.setBlock(par2 + i1, par3, par4 + j1 + 1, this.blockID, l, 4);
+                par1World.setBlock(par2 + i1 + 1, par3, par4 + j1 + 1, this.blockID, l, 4);
             }
             else
             {
-                par1World.setBlock(par2, par3, par4, this.blockID, var6, 4);
+                par1World.setBlock(par2, par3, par4, this.blockID, l, 4);
             }
         }
     }
@@ -194,9 +198,9 @@ public class BlockSapling extends BlockFlower
     {
         this.saplingIcon = new Icon[WOOD_TYPES.length];
 
-        for (int var2 = 0; var2 < this.saplingIcon.length; ++var2)
+        for (int i = 0; i < this.saplingIcon.length; ++i)
         {
-            this.saplingIcon[var2] = par1IconRegister.registerIcon(this.getTextureName() + "_" + WOOD_TYPES[var2]);
+            this.saplingIcon[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + WOOD_TYPES[i]);
         }
     }
 }

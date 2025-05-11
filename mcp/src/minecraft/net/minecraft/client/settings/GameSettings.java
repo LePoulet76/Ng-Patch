@@ -1,5 +1,6 @@
 package net.minecraft.client.settings;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.io.BufferedReader;
@@ -164,8 +165,8 @@ public class GameSettings
      */
     public String getOptionDisplayString(int par1)
     {
-        int var2 = this.keyBindings[par1].keyCode;
-        return getKeyDisplayString(var2);
+        int j = this.keyBindings[par1].keyCode;
+        return getKeyDisplayString(j);
     }
 
     /**
@@ -395,46 +396,32 @@ public class GameSettings
         {
             case 1:
                 return this.invertMouse;
-
             case 2:
                 return this.viewBobbing;
-
             case 3:
                 return this.anaglyph;
-
             case 4:
                 return this.advancedOpengl;
-
             case 5:
                 return this.clouds;
-
             case 6:
                 return this.chatColours;
-
             case 7:
                 return this.chatLinks;
-
             case 8:
                 return this.chatLinksPrompt;
-
             case 9:
                 return this.serverTextures;
-
             case 10:
                 return this.snooperEnabled;
-
             case 11:
                 return this.fullScreen;
-
             case 12:
                 return this.enableVsync;
-
             case 13:
                 return this.showCape;
-
             case 14:
                 return this.touchscreen;
-
             default:
                 return false;
         }
@@ -459,61 +446,61 @@ public class GameSettings
      */
     public String getKeyBinding(EnumOptions par1EnumOptions)
     {
-        String var2 = I18n.getString(par1EnumOptions.getEnumString()) + ": ";
+        String s = I18n.getString(par1EnumOptions.getEnumString()) + ": ";
 
         if (par1EnumOptions.getEnumFloat())
         {
-            float var5 = this.getOptionFloatValue(par1EnumOptions);
-            return par1EnumOptions == EnumOptions.SENSITIVITY ? (var5 == 0.0F ? var2 + I18n.getString("options.sensitivity.min") : (var5 == 1.0F ? var2 + I18n.getString("options.sensitivity.max") : var2 + (int)(var5 * 200.0F) + "%")) : (par1EnumOptions == EnumOptions.FOV ? (var5 == 0.0F ? var2 + I18n.getString("options.fov.min") : (var5 == 1.0F ? var2 + I18n.getString("options.fov.max") : var2 + (int)(70.0F + var5 * 40.0F))) : (par1EnumOptions == EnumOptions.GAMMA ? (var5 == 0.0F ? var2 + I18n.getString("options.gamma.min") : (var5 == 1.0F ? var2 + I18n.getString("options.gamma.max") : var2 + "+" + (int)(var5 * 100.0F) + "%")) : (par1EnumOptions == EnumOptions.CHAT_OPACITY ? var2 + (int)(var5 * 90.0F + 10.0F) + "%" : (par1EnumOptions == EnumOptions.CHAT_HEIGHT_UNFOCUSED ? var2 + GuiNewChat.func_96130_b(var5) + "px" : (par1EnumOptions == EnumOptions.CHAT_HEIGHT_FOCUSED ? var2 + GuiNewChat.func_96130_b(var5) + "px" : (par1EnumOptions == EnumOptions.CHAT_WIDTH ? var2 + GuiNewChat.func_96128_a(var5) + "px" : (var5 == 0.0F ? var2 + I18n.getString("options.off") : var2 + (int)(var5 * 100.0F) + "%")))))));
+            float f = this.getOptionFloatValue(par1EnumOptions);
+            return par1EnumOptions == EnumOptions.SENSITIVITY ? (f == 0.0F ? s + I18n.getString("options.sensitivity.min") : (f == 1.0F ? s + I18n.getString("options.sensitivity.max") : s + (int)(f * 200.0F) + "%")) : (par1EnumOptions == EnumOptions.FOV ? (f == 0.0F ? s + I18n.getString("options.fov.min") : (f == 1.0F ? s + I18n.getString("options.fov.max") : s + (int)(70.0F + f * 40.0F))) : (par1EnumOptions == EnumOptions.GAMMA ? (f == 0.0F ? s + I18n.getString("options.gamma.min") : (f == 1.0F ? s + I18n.getString("options.gamma.max") : s + "+" + (int)(f * 100.0F) + "%")) : (par1EnumOptions == EnumOptions.CHAT_OPACITY ? s + (int)(f * 90.0F + 10.0F) + "%" : (par1EnumOptions == EnumOptions.CHAT_HEIGHT_UNFOCUSED ? s + GuiNewChat.func_96130_b(f) + "px" : (par1EnumOptions == EnumOptions.CHAT_HEIGHT_FOCUSED ? s + GuiNewChat.func_96130_b(f) + "px" : (par1EnumOptions == EnumOptions.CHAT_WIDTH ? s + GuiNewChat.func_96128_a(f) + "px" : (f == 0.0F ? s + I18n.getString("options.off") : s + (int)(f * 100.0F) + "%")))))));
         }
         else if (par1EnumOptions.getEnumBoolean())
         {
-            boolean var4 = this.getOptionOrdinalValue(par1EnumOptions);
-            return var4 ? var2 + I18n.getString("options.on") : var2 + I18n.getString("options.off");
+            boolean flag = this.getOptionOrdinalValue(par1EnumOptions);
+            return flag ? s + I18n.getString("options.on") : s + I18n.getString("options.off");
         }
         else if (par1EnumOptions == EnumOptions.RENDER_DISTANCE)
         {
-            return var2 + getTranslation(RENDER_DISTANCES, this.renderDistance);
+            return s + getTranslation(RENDER_DISTANCES, this.renderDistance);
         }
         else if (par1EnumOptions == EnumOptions.DIFFICULTY)
         {
-            return var2 + getTranslation(DIFFICULTIES, this.difficulty);
+            return s + getTranslation(DIFFICULTIES, this.difficulty);
         }
         else if (par1EnumOptions == EnumOptions.GUI_SCALE)
         {
-            return var2 + getTranslation(GUISCALES, this.guiScale);
+            return s + getTranslation(GUISCALES, this.guiScale);
         }
         else if (par1EnumOptions == EnumOptions.CHAT_VISIBILITY)
         {
-            return var2 + getTranslation(CHAT_VISIBILITIES, this.chatVisibility);
+            return s + getTranslation(CHAT_VISIBILITIES, this.chatVisibility);
         }
         else if (par1EnumOptions == EnumOptions.PARTICLES)
         {
-            return var2 + getTranslation(PARTICLES, this.particleSetting);
+            return s + getTranslation(PARTICLES, this.particleSetting);
         }
         else if (par1EnumOptions == EnumOptions.FRAMERATE_LIMIT)
         {
-            return var2 + getTranslation(LIMIT_FRAMERATES, this.limitFramerate);
+            return s + getTranslation(LIMIT_FRAMERATES, this.limitFramerate);
         }
         else if (par1EnumOptions == EnumOptions.AMBIENT_OCCLUSION)
         {
-            return var2 + getTranslation(AMBIENT_OCCLUSIONS, this.ambientOcclusion);
+            return s + getTranslation(AMBIENT_OCCLUSIONS, this.ambientOcclusion);
         }
         else if (par1EnumOptions == EnumOptions.GRAPHICS)
         {
             if (this.fancyGraphics)
             {
-                return var2 + I18n.getString("options.graphics.fancy");
+                return s + I18n.getString("options.graphics.fancy");
             }
             else
             {
-                String var3 = "options.graphics.fast";
-                return var2 + I18n.getString("options.graphics.fast");
+                String s1 = "options.graphics.fast";
+                return s + I18n.getString("options.graphics.fast");
             }
         }
         else
         {
-            return var2;
+            return s;
         }
     }
 
@@ -529,252 +516,252 @@ public class GameSettings
                 return;
             }
 
-            BufferedReader var1 = new BufferedReader(new FileReader(this.optionsFile));
-            String var2 = "";
+            BufferedReader bufferedreader = new BufferedReader(new FileReader(this.optionsFile));
+            String s = "";
 
-            while ((var2 = var1.readLine()) != null)
+            while ((s = bufferedreader.readLine()) != null)
             {
                 try
                 {
-                    String[] var3 = var2.split(":");
+                    String[] astring = s.split(":");
 
-                    if (var3[0].equals("music"))
+                    if (astring[0].equals("music"))
                     {
-                        this.musicVolume = this.parseFloat(var3[1]);
+                        this.musicVolume = this.parseFloat(astring[1]);
                     }
 
-                    if (var3[0].equals("sound"))
+                    if (astring[0].equals("sound"))
                     {
-                        this.soundVolume = this.parseFloat(var3[1]);
+                        this.soundVolume = this.parseFloat(astring[1]);
                     }
 
-                    if (var3[0].equals("mouseSensitivity"))
+                    if (astring[0].equals("mouseSensitivity"))
                     {
-                        this.mouseSensitivity = this.parseFloat(var3[1]);
+                        this.mouseSensitivity = this.parseFloat(astring[1]);
                     }
 
-                    if (var3[0].equals("fov"))
+                    if (astring[0].equals("fov"))
                     {
-                        this.fovSetting = this.parseFloat(var3[1]);
+                        this.fovSetting = this.parseFloat(astring[1]);
                     }
 
-                    if (var3[0].equals("gamma"))
+                    if (astring[0].equals("gamma"))
                     {
-                        this.gammaSetting = this.parseFloat(var3[1]);
+                        this.gammaSetting = this.parseFloat(astring[1]);
                     }
 
-                    if (var3[0].equals("invertYMouse"))
+                    if (astring[0].equals("invertYMouse"))
                     {
-                        this.invertMouse = var3[1].equals("true");
+                        this.invertMouse = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("viewDistance"))
+                    if (astring[0].equals("viewDistance"))
                     {
-                        this.renderDistance = Integer.parseInt(var3[1]);
+                        this.renderDistance = Integer.parseInt(astring[1]);
                     }
 
-                    if (var3[0].equals("guiScale"))
+                    if (astring[0].equals("guiScale"))
                     {
-                        this.guiScale = Integer.parseInt(var3[1]);
+                        this.guiScale = Integer.parseInt(astring[1]);
                     }
 
-                    if (var3[0].equals("particles"))
+                    if (astring[0].equals("particles"))
                     {
-                        this.particleSetting = Integer.parseInt(var3[1]);
+                        this.particleSetting = Integer.parseInt(astring[1]);
                     }
 
-                    if (var3[0].equals("bobView"))
+                    if (astring[0].equals("bobView"))
                     {
-                        this.viewBobbing = var3[1].equals("true");
+                        this.viewBobbing = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("anaglyph3d"))
+                    if (astring[0].equals("anaglyph3d"))
                     {
-                        this.anaglyph = var3[1].equals("true");
+                        this.anaglyph = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("advancedOpengl"))
+                    if (astring[0].equals("advancedOpengl"))
                     {
-                        this.advancedOpengl = var3[1].equals("true");
+                        this.advancedOpengl = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("fpsLimit"))
+                    if (astring[0].equals("fpsLimit"))
                     {
-                        this.limitFramerate = Integer.parseInt(var3[1]);
+                        this.limitFramerate = Integer.parseInt(astring[1]);
                     }
 
-                    if (var3[0].equals("difficulty"))
+                    if (astring[0].equals("difficulty"))
                     {
-                        this.difficulty = Integer.parseInt(var3[1]);
+                        this.difficulty = Integer.parseInt(astring[1]);
                     }
 
-                    if (var3[0].equals("fancyGraphics"))
+                    if (astring[0].equals("fancyGraphics"))
                     {
-                        this.fancyGraphics = var3[1].equals("true");
+                        this.fancyGraphics = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("ao"))
+                    if (astring[0].equals("ao"))
                     {
-                        if (var3[1].equals("true"))
+                        if (astring[1].equals("true"))
                         {
                             this.ambientOcclusion = 2;
                         }
-                        else if (var3[1].equals("false"))
+                        else if (astring[1].equals("false"))
                         {
                             this.ambientOcclusion = 0;
                         }
                         else
                         {
-                            this.ambientOcclusion = Integer.parseInt(var3[1]);
+                            this.ambientOcclusion = Integer.parseInt(astring[1]);
                         }
                     }
 
-                    if (var3[0].equals("clouds"))
+                    if (astring[0].equals("clouds"))
                     {
-                        this.clouds = var3[1].equals("true");
+                        this.clouds = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("skin"))
+                    if (astring[0].equals("skin"))
                     {
-                        this.skin = var3[1];
+                        this.skin = astring[1];
                     }
 
-                    if (var3[0].equals("lastServer") && var3.length >= 2)
+                    if (astring[0].equals("lastServer") && astring.length >= 2)
                     {
-                        this.lastServer = var2.substring(var2.indexOf(58) + 1);
+                        this.lastServer = s.substring(s.indexOf(58) + 1);
                     }
 
-                    if (var3[0].equals("lang") && var3.length >= 2)
+                    if (astring[0].equals("lang") && astring.length >= 2)
                     {
-                        this.language = var3[1];
+                        this.language = astring[1];
                     }
 
-                    if (var3[0].equals("chatVisibility"))
+                    if (astring[0].equals("chatVisibility"))
                     {
-                        this.chatVisibility = Integer.parseInt(var3[1]);
+                        this.chatVisibility = Integer.parseInt(astring[1]);
                     }
 
-                    if (var3[0].equals("chatColors"))
+                    if (astring[0].equals("chatColors"))
                     {
-                        this.chatColours = var3[1].equals("true");
+                        this.chatColours = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("chatLinks"))
+                    if (astring[0].equals("chatLinks"))
                     {
-                        this.chatLinks = var3[1].equals("true");
+                        this.chatLinks = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("chatLinksPrompt"))
+                    if (astring[0].equals("chatLinksPrompt"))
                     {
-                        this.chatLinksPrompt = var3[1].equals("true");
+                        this.chatLinksPrompt = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("chatOpacity"))
+                    if (astring[0].equals("chatOpacity"))
                     {
-                        this.chatOpacity = this.parseFloat(var3[1]);
+                        this.chatOpacity = this.parseFloat(astring[1]);
                     }
 
-                    if (var3[0].equals("serverTextures"))
+                    if (astring[0].equals("serverTextures"))
                     {
-                        this.serverTextures = var3[1].equals("true");
+                        this.serverTextures = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("snooperEnabled"))
+                    if (astring[0].equals("snooperEnabled"))
                     {
-                        this.snooperEnabled = var3[1].equals("true");
+                        this.snooperEnabled = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("fullscreen"))
+                    if (astring[0].equals("fullscreen"))
                     {
-                        this.fullScreen = var3[1].equals("true");
+                        this.fullScreen = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("enableVsync"))
+                    if (astring[0].equals("enableVsync"))
                     {
-                        this.enableVsync = var3[1].equals("true");
+                        this.enableVsync = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("hideServerAddress"))
+                    if (astring[0].equals("hideServerAddress"))
                     {
-                        this.hideServerAddress = var3[1].equals("true");
+                        this.hideServerAddress = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("advancedItemTooltips"))
+                    if (astring[0].equals("advancedItemTooltips"))
                     {
-                        this.advancedItemTooltips = var3[1].equals("true");
+                        this.advancedItemTooltips = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("pauseOnLostFocus"))
+                    if (astring[0].equals("pauseOnLostFocus"))
                     {
-                        this.pauseOnLostFocus = var3[1].equals("true");
+                        this.pauseOnLostFocus = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("showCape"))
+                    if (astring[0].equals("showCape"))
                     {
-                        this.showCape = var3[1].equals("true");
+                        this.showCape = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("touchscreen"))
+                    if (astring[0].equals("touchscreen"))
                     {
-                        this.touchscreen = var3[1].equals("true");
+                        this.touchscreen = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("overrideHeight"))
+                    if (astring[0].equals("overrideHeight"))
                     {
-                        this.overrideHeight = Integer.parseInt(var3[1]);
+                        this.overrideHeight = Integer.parseInt(astring[1]);
                     }
 
-                    if (var3[0].equals("overrideWidth"))
+                    if (astring[0].equals("overrideWidth"))
                     {
-                        this.overrideWidth = Integer.parseInt(var3[1]);
+                        this.overrideWidth = Integer.parseInt(astring[1]);
                     }
 
-                    if (var3[0].equals("heldItemTooltips"))
+                    if (astring[0].equals("heldItemTooltips"))
                     {
-                        this.heldItemTooltips = var3[1].equals("true");
+                        this.heldItemTooltips = astring[1].equals("true");
                     }
 
-                    if (var3[0].equals("chatHeightFocused"))
+                    if (astring[0].equals("chatHeightFocused"))
                     {
-                        this.chatHeightFocused = this.parseFloat(var3[1]);
+                        this.chatHeightFocused = this.parseFloat(astring[1]);
                     }
 
-                    if (var3[0].equals("chatHeightUnfocused"))
+                    if (astring[0].equals("chatHeightUnfocused"))
                     {
-                        this.chatHeightUnfocused = this.parseFloat(var3[1]);
+                        this.chatHeightUnfocused = this.parseFloat(astring[1]);
                     }
 
-                    if (var3[0].equals("chatScale"))
+                    if (astring[0].equals("chatScale"))
                     {
-                        this.chatScale = this.parseFloat(var3[1]);
+                        this.chatScale = this.parseFloat(astring[1]);
                     }
 
-                    if (var3[0].equals("chatWidth"))
+                    if (astring[0].equals("chatWidth"))
                     {
-                        this.chatWidth = this.parseFloat(var3[1]);
+                        this.chatWidth = this.parseFloat(astring[1]);
                     }
 
-                    for (int var4 = 0; var4 < this.keyBindings.length; ++var4)
+                    for (int i = 0; i < this.keyBindings.length; ++i)
                     {
-                        if (var3[0].equals("key_" + this.keyBindings[var4].keyDescription))
+                        if (astring[0].equals("key_" + this.keyBindings[i].keyDescription))
                         {
-                            this.keyBindings[var4].keyCode = Integer.parseInt(var3[1]);
+                            this.keyBindings[i].keyCode = Integer.parseInt(astring[1]);
                         }
                     }
                 }
-                catch (Exception var5)
+                catch (Exception exception)
                 {
-                    this.mc.getLogAgent().logWarning("Skipping bad option: " + var2);
+                    this.mc.getLogAgent().logWarning("Skipping bad option: " + s);
                 }
             }
 
             KeyBinding.resetKeyBindingArrayAndHash();
-            var1.close();
+            bufferedreader.close();
         }
-        catch (Exception var6)
+        catch (Exception exception1)
         {
             this.mc.getLogAgent().logWarning("Failed to load options");
-            var6.printStackTrace();
+            exception1.printStackTrace();
         }
     }
 
@@ -791,62 +778,63 @@ public class GameSettings
      */
     public void saveOptions()
     {
+        if (FMLClientHandler.instance().isLoading()) return;
         try
         {
-            PrintWriter var1 = new PrintWriter(new FileWriter(this.optionsFile));
-            var1.println("music:" + this.musicVolume);
-            var1.println("sound:" + this.soundVolume);
-            var1.println("invertYMouse:" + this.invertMouse);
-            var1.println("mouseSensitivity:" + this.mouseSensitivity);
-            var1.println("fov:" + this.fovSetting);
-            var1.println("gamma:" + this.gammaSetting);
-            var1.println("viewDistance:" + this.renderDistance);
-            var1.println("guiScale:" + this.guiScale);
-            var1.println("particles:" + this.particleSetting);
-            var1.println("bobView:" + this.viewBobbing);
-            var1.println("anaglyph3d:" + this.anaglyph);
-            var1.println("advancedOpengl:" + this.advancedOpengl);
-            var1.println("fpsLimit:" + this.limitFramerate);
-            var1.println("difficulty:" + this.difficulty);
-            var1.println("fancyGraphics:" + this.fancyGraphics);
-            var1.println("ao:" + this.ambientOcclusion);
-            var1.println("clouds:" + this.clouds);
-            var1.println("skin:" + this.skin);
-            var1.println("lastServer:" + this.lastServer);
-            var1.println("lang:" + this.language);
-            var1.println("chatVisibility:" + this.chatVisibility);
-            var1.println("chatColors:" + this.chatColours);
-            var1.println("chatLinks:" + this.chatLinks);
-            var1.println("chatLinksPrompt:" + this.chatLinksPrompt);
-            var1.println("chatOpacity:" + this.chatOpacity);
-            var1.println("serverTextures:" + this.serverTextures);
-            var1.println("snooperEnabled:" + this.snooperEnabled);
-            var1.println("fullscreen:" + this.fullScreen);
-            var1.println("enableVsync:" + this.enableVsync);
-            var1.println("hideServerAddress:" + this.hideServerAddress);
-            var1.println("advancedItemTooltips:" + this.advancedItemTooltips);
-            var1.println("pauseOnLostFocus:" + this.pauseOnLostFocus);
-            var1.println("showCape:" + this.showCape);
-            var1.println("touchscreen:" + this.touchscreen);
-            var1.println("overrideWidth:" + this.overrideWidth);
-            var1.println("overrideHeight:" + this.overrideHeight);
-            var1.println("heldItemTooltips:" + this.heldItemTooltips);
-            var1.println("chatHeightFocused:" + this.chatHeightFocused);
-            var1.println("chatHeightUnfocused:" + this.chatHeightUnfocused);
-            var1.println("chatScale:" + this.chatScale);
-            var1.println("chatWidth:" + this.chatWidth);
+            PrintWriter printwriter = new PrintWriter(new FileWriter(this.optionsFile));
+            printwriter.println("music:" + this.musicVolume);
+            printwriter.println("sound:" + this.soundVolume);
+            printwriter.println("invertYMouse:" + this.invertMouse);
+            printwriter.println("mouseSensitivity:" + this.mouseSensitivity);
+            printwriter.println("fov:" + this.fovSetting);
+            printwriter.println("gamma:" + this.gammaSetting);
+            printwriter.println("viewDistance:" + this.renderDistance);
+            printwriter.println("guiScale:" + this.guiScale);
+            printwriter.println("particles:" + this.particleSetting);
+            printwriter.println("bobView:" + this.viewBobbing);
+            printwriter.println("anaglyph3d:" + this.anaglyph);
+            printwriter.println("advancedOpengl:" + this.advancedOpengl);
+            printwriter.println("fpsLimit:" + this.limitFramerate);
+            printwriter.println("difficulty:" + this.difficulty);
+            printwriter.println("fancyGraphics:" + this.fancyGraphics);
+            printwriter.println("ao:" + this.ambientOcclusion);
+            printwriter.println("clouds:" + this.clouds);
+            printwriter.println("skin:" + this.skin);
+            printwriter.println("lastServer:" + this.lastServer);
+            printwriter.println("lang:" + this.language);
+            printwriter.println("chatVisibility:" + this.chatVisibility);
+            printwriter.println("chatColors:" + this.chatColours);
+            printwriter.println("chatLinks:" + this.chatLinks);
+            printwriter.println("chatLinksPrompt:" + this.chatLinksPrompt);
+            printwriter.println("chatOpacity:" + this.chatOpacity);
+            printwriter.println("serverTextures:" + this.serverTextures);
+            printwriter.println("snooperEnabled:" + this.snooperEnabled);
+            printwriter.println("fullscreen:" + this.fullScreen);
+            printwriter.println("enableVsync:" + this.enableVsync);
+            printwriter.println("hideServerAddress:" + this.hideServerAddress);
+            printwriter.println("advancedItemTooltips:" + this.advancedItemTooltips);
+            printwriter.println("pauseOnLostFocus:" + this.pauseOnLostFocus);
+            printwriter.println("showCape:" + this.showCape);
+            printwriter.println("touchscreen:" + this.touchscreen);
+            printwriter.println("overrideWidth:" + this.overrideWidth);
+            printwriter.println("overrideHeight:" + this.overrideHeight);
+            printwriter.println("heldItemTooltips:" + this.heldItemTooltips);
+            printwriter.println("chatHeightFocused:" + this.chatHeightFocused);
+            printwriter.println("chatHeightUnfocused:" + this.chatHeightUnfocused);
+            printwriter.println("chatScale:" + this.chatScale);
+            printwriter.println("chatWidth:" + this.chatWidth);
 
-            for (int var2 = 0; var2 < this.keyBindings.length; ++var2)
+            for (int i = 0; i < this.keyBindings.length; ++i)
             {
-                var1.println("key_" + this.keyBindings[var2].keyDescription + ":" + this.keyBindings[var2].keyCode);
+                printwriter.println("key_" + this.keyBindings[i].keyDescription + ":" + this.keyBindings[i].keyCode);
             }
 
-            var1.close();
+            printwriter.close();
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
             this.mc.getLogAgent().logWarning("Failed to save options");
-            var3.printStackTrace();
+            exception.printStackTrace();
         }
 
         this.sendSettingsToServer();

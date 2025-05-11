@@ -23,9 +23,9 @@ class ThreadStatSyncherSend extends Thread
         {
             StatsSyncher.func_77414_a(this.syncher, this.field_77483_a, StatsSyncher.getUnsentDataFile(this.syncher), StatsSyncher.getUnsentTempFile(this.syncher), StatsSyncher.getUnsentOldFile(this.syncher));
         }
-        catch (Exception var5)
+        catch (Exception exception)
         {
-            var5.printStackTrace();
+            exception.printStackTrace();
         }
         finally
         {

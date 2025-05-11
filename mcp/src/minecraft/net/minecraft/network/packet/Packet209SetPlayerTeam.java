@@ -95,9 +95,9 @@ public class Packet209SetPlayerTeam extends Packet
 
         if (this.mode == 0 || this.mode == 3 || this.mode == 4)
         {
-            short var2 = par1DataInput.readShort();
+            short short1 = par1DataInput.readShort();
 
-            for (int var3 = 0; var3 < var2; ++var3)
+            for (int i = 0; i < short1; ++i)
             {
                 this.playerNames.add(readString(par1DataInput, 16));
             }
@@ -123,12 +123,12 @@ public class Packet209SetPlayerTeam extends Packet
         if (this.mode == 0 || this.mode == 3 || this.mode == 4)
         {
             par1DataOutput.writeShort(this.playerNames.size());
-            Iterator var2 = this.playerNames.iterator();
+            Iterator iterator = this.playerNames.iterator();
 
-            while (var2.hasNext())
+            while (iterator.hasNext())
             {
-                String var3 = (String)var2.next();
-                writeString(var3, par1DataOutput);
+                String s = (String)iterator.next();
+                writeString(s, par1DataOutput);
             }
         }
     }

@@ -34,9 +34,9 @@ public class GuiWinGame extends GuiScreen
     public void updateScreen()
     {
         ++this.updateCounter;
-        float var1 = (float)(this.field_73989_c + this.height + this.height + 24) / this.field_73987_d;
+        float f = (float)(this.field_73989_c + this.height + this.height + 24) / this.field_73987_d;
 
-        if ((float)this.updateCounter > var1)
+        if ((float)this.updateCounter > f)
         {
             this.respawnPlayer();
         }
@@ -81,85 +81,85 @@ public class GuiWinGame extends GuiScreen
 
             try
             {
-                String var1 = "";
-                String var2 = "" + EnumChatFormatting.WHITE + EnumChatFormatting.OBFUSCATED + EnumChatFormatting.GREEN + EnumChatFormatting.AQUA;
-                short var3 = 274;
-                BufferedReader var4 = new BufferedReader(new InputStreamReader(this.mc.getResourceManager().getResource(new ResourceLocation("texts/end.txt")).getInputStream(), Charsets.UTF_8));
-                Random var5 = new Random(8124371L);
-                int var6;
+                String s = "";
+                String s1 = "" + EnumChatFormatting.WHITE + EnumChatFormatting.OBFUSCATED + EnumChatFormatting.GREEN + EnumChatFormatting.AQUA;
+                short short1 = 274;
+                BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(this.mc.getResourceManager().getResource(new ResourceLocation("texts/end.txt")).getInputStream(), Charsets.UTF_8));
+                Random random = new Random(8124371L);
+                int i;
 
-                while ((var1 = var4.readLine()) != null)
+                while ((s = bufferedreader.readLine()) != null)
                 {
-                    String var7;
-                    String var8;
+                    String s2;
+                    String s3;
 
-                    for (var1 = var1.replaceAll("PLAYERNAME", this.mc.getSession().getUsername()); var1.contains(var2); var1 = var7 + EnumChatFormatting.WHITE + EnumChatFormatting.OBFUSCATED + "XXXXXXXX".substring(0, var5.nextInt(4) + 3) + var8)
+                    for (s = s.replaceAll("PLAYERNAME", this.mc.getSession().getUsername()); s.contains(s1); s = s2 + EnumChatFormatting.WHITE + EnumChatFormatting.OBFUSCATED + "XXXXXXXX".substring(0, random.nextInt(4) + 3) + s3)
                     {
-                        var6 = var1.indexOf(var2);
-                        var7 = var1.substring(0, var6);
-                        var8 = var1.substring(var6 + var2.length());
+                        i = s.indexOf(s1);
+                        s2 = s.substring(0, i);
+                        s3 = s.substring(i + s1.length());
                     }
 
-                    this.lines.addAll(this.mc.fontRenderer.listFormattedStringToWidth(var1, var3));
+                    this.lines.addAll(this.mc.fontRenderer.listFormattedStringToWidth(s, short1));
                     this.lines.add("");
                 }
 
-                for (var6 = 0; var6 < 8; ++var6)
+                for (i = 0; i < 8; ++i)
                 {
                     this.lines.add("");
                 }
 
-                var4 = new BufferedReader(new InputStreamReader(this.mc.getResourceManager().getResource(new ResourceLocation("texts/credits.txt")).getInputStream(), Charsets.UTF_8));
+                bufferedreader = new BufferedReader(new InputStreamReader(this.mc.getResourceManager().getResource(new ResourceLocation("texts/credits.txt")).getInputStream(), Charsets.UTF_8));
 
-                while ((var1 = var4.readLine()) != null)
+                while ((s = bufferedreader.readLine()) != null)
                 {
-                    var1 = var1.replaceAll("PLAYERNAME", this.mc.getSession().getUsername());
-                    var1 = var1.replaceAll("\t", "    ");
-                    this.lines.addAll(this.mc.fontRenderer.listFormattedStringToWidth(var1, var3));
+                    s = s.replaceAll("PLAYERNAME", this.mc.getSession().getUsername());
+                    s = s.replaceAll("\t", "    ");
+                    this.lines.addAll(this.mc.fontRenderer.listFormattedStringToWidth(s, short1));
                     this.lines.add("");
                 }
 
                 this.field_73989_c = this.lines.size() * 12;
             }
-            catch (Exception var9)
+            catch (Exception exception)
             {
-                var9.printStackTrace();
+                exception.printStackTrace();
             }
         }
     }
 
     private void func_73986_b(int par1, int par2, float par3)
     {
-        Tessellator var4 = Tessellator.instance;
+        Tessellator tessellator = Tessellator.instance;
         this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
-        var4.startDrawingQuads();
-        var4.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1.0F);
-        int var5 = this.width;
-        float var6 = 0.0F - ((float)this.updateCounter + par3) * 0.5F * this.field_73987_d;
-        float var7 = (float)this.height - ((float)this.updateCounter + par3) * 0.5F * this.field_73987_d;
-        float var8 = 0.015625F;
-        float var9 = ((float)this.updateCounter + par3 - 0.0F) * 0.02F;
-        float var10 = (float)(this.field_73989_c + this.height + this.height + 24) / this.field_73987_d;
-        float var11 = (var10 - 20.0F - ((float)this.updateCounter + par3)) * 0.005F;
+        tessellator.startDrawingQuads();
+        tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1.0F);
+        int k = this.width;
+        float f1 = 0.0F - ((float)this.updateCounter + par3) * 0.5F * this.field_73987_d;
+        float f2 = (float)this.height - ((float)this.updateCounter + par3) * 0.5F * this.field_73987_d;
+        float f3 = 0.015625F;
+        float f4 = ((float)this.updateCounter + par3 - 0.0F) * 0.02F;
+        float f5 = (float)(this.field_73989_c + this.height + this.height + 24) / this.field_73987_d;
+        float f6 = (f5 - 20.0F - ((float)this.updateCounter + par3)) * 0.005F;
 
-        if (var11 < var9)
+        if (f6 < f4)
         {
-            var9 = var11;
+            f4 = f6;
         }
 
-        if (var9 > 1.0F)
+        if (f4 > 1.0F)
         {
-            var9 = 1.0F;
+            f4 = 1.0F;
         }
 
-        var9 *= var9;
-        var9 = var9 * 96.0F / 255.0F;
-        var4.setColorOpaque_F(var9, var9, var9);
-        var4.addVertexWithUV(0.0D, (double)this.height, (double)this.zLevel, 0.0D, (double)(var6 * var8));
-        var4.addVertexWithUV((double)var5, (double)this.height, (double)this.zLevel, (double)((float)var5 * var8), (double)(var6 * var8));
-        var4.addVertexWithUV((double)var5, 0.0D, (double)this.zLevel, (double)((float)var5 * var8), (double)(var7 * var8));
-        var4.addVertexWithUV(0.0D, 0.0D, (double)this.zLevel, 0.0D, (double)(var7 * var8));
-        var4.draw();
+        f4 *= f4;
+        f4 = f4 * 96.0F / 255.0F;
+        tessellator.setColorOpaque_F(f4, f4, f4);
+        tessellator.addVertexWithUV(0.0D, (double)this.height, (double)this.zLevel, 0.0D, (double)(f1 * f3));
+        tessellator.addVertexWithUV((double)k, (double)this.height, (double)this.zLevel, (double)((float)k * f3), (double)(f1 * f3));
+        tessellator.addVertexWithUV((double)k, 0.0D, (double)this.zLevel, (double)((float)k * f3), (double)(f2 * f3));
+        tessellator.addVertexWithUV(0.0D, 0.0D, (double)this.zLevel, 0.0D, (double)(f2 * f3));
+        tessellator.draw();
     }
 
     /**
@@ -168,64 +168,64 @@ public class GuiWinGame extends GuiScreen
     public void drawScreen(int par1, int par2, float par3)
     {
         this.func_73986_b(par1, par2, par3);
-        Tessellator var4 = Tessellator.instance;
-        short var5 = 274;
-        int var6 = this.width / 2 - var5 / 2;
-        int var7 = this.height + 50;
-        float var8 = -((float)this.updateCounter + par3) * this.field_73987_d;
+        Tessellator tessellator = Tessellator.instance;
+        short short1 = 274;
+        int k = this.width / 2 - short1 / 2;
+        int l = this.height + 50;
+        float f1 = -((float)this.updateCounter + par3) * this.field_73987_d;
         GL11.glPushMatrix();
-        GL11.glTranslatef(0.0F, var8, 0.0F);
+        GL11.glTranslatef(0.0F, f1, 0.0F);
         this.mc.getTextureManager().bindTexture(minecraftLogoTexture);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.drawTexturedModalRect(var6, var7, 0, 0, 155, 44);
-        this.drawTexturedModalRect(var6 + 155, var7, 0, 45, 155, 44);
-        var4.setColorOpaque_I(16777215);
-        int var9 = var7 + 200;
-        int var10;
+        this.drawTexturedModalRect(k, l, 0, 0, 155, 44);
+        this.drawTexturedModalRect(k + 155, l, 0, 45, 155, 44);
+        tessellator.setColorOpaque_I(16777215);
+        int i1 = l + 200;
+        int j1;
 
-        for (var10 = 0; var10 < this.lines.size(); ++var10)
+        for (j1 = 0; j1 < this.lines.size(); ++j1)
         {
-            if (var10 == this.lines.size() - 1)
+            if (j1 == this.lines.size() - 1)
             {
-                float var11 = (float)var9 + var8 - (float)(this.height / 2 - 6);
+                float f2 = (float)i1 + f1 - (float)(this.height / 2 - 6);
 
-                if (var11 < 0.0F)
+                if (f2 < 0.0F)
                 {
-                    GL11.glTranslatef(0.0F, -var11, 0.0F);
+                    GL11.glTranslatef(0.0F, -f2, 0.0F);
                 }
             }
 
-            if ((float)var9 + var8 + 12.0F + 8.0F > 0.0F && (float)var9 + var8 < (float)this.height)
+            if ((float)i1 + f1 + 12.0F + 8.0F > 0.0F && (float)i1 + f1 < (float)this.height)
             {
-                String var12 = (String)this.lines.get(var10);
+                String s = (String)this.lines.get(j1);
 
-                if (var12.startsWith("[C]"))
+                if (s.startsWith("[C]"))
                 {
-                    this.fontRenderer.drawStringWithShadow(var12.substring(3), var6 + (var5 - this.fontRenderer.getStringWidth(var12.substring(3))) / 2, var9, 16777215);
+                    this.fontRenderer.drawStringWithShadow(s.substring(3), k + (short1 - this.fontRenderer.getStringWidth(s.substring(3))) / 2, i1, 16777215);
                 }
                 else
                 {
-                    this.fontRenderer.fontRandom.setSeed((long)var10 * 4238972211L + (long)(this.updateCounter / 4));
-                    this.fontRenderer.drawStringWithShadow(var12, var6, var9, 16777215);
+                    this.fontRenderer.fontRandom.setSeed((long)j1 * 4238972211L + (long)(this.updateCounter / 4));
+                    this.fontRenderer.drawStringWithShadow(s, k, i1, 16777215);
                 }
             }
 
-            var9 += 12;
+            i1 += 12;
         }
 
         GL11.glPopMatrix();
         this.mc.getTextureManager().bindTexture(field_110361_b);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_ZERO, GL11.GL_ONE_MINUS_SRC_COLOR);
-        var4.startDrawingQuads();
-        var4.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1.0F);
-        var10 = this.width;
-        int var13 = this.height;
-        var4.addVertexWithUV(0.0D, (double)var13, (double)this.zLevel, 0.0D, 1.0D);
-        var4.addVertexWithUV((double)var10, (double)var13, (double)this.zLevel, 1.0D, 1.0D);
-        var4.addVertexWithUV((double)var10, 0.0D, (double)this.zLevel, 1.0D, 0.0D);
-        var4.addVertexWithUV(0.0D, 0.0D, (double)this.zLevel, 0.0D, 0.0D);
-        var4.draw();
+        tessellator.startDrawingQuads();
+        tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1.0F);
+        j1 = this.width;
+        int k1 = this.height;
+        tessellator.addVertexWithUV(0.0D, (double)k1, (double)this.zLevel, 0.0D, 1.0D);
+        tessellator.addVertexWithUV((double)j1, (double)k1, (double)this.zLevel, 1.0D, 1.0D);
+        tessellator.addVertexWithUV((double)j1, 0.0D, (double)this.zLevel, 1.0D, 0.0D);
+        tessellator.addVertexWithUV(0.0D, 0.0D, (double)this.zLevel, 0.0D, 0.0D);
+        tessellator.draw();
         GL11.glDisable(GL11.GL_BLEND);
         super.drawScreen(par1, par2, par3);
     }

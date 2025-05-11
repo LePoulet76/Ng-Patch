@@ -29,15 +29,15 @@ public class ThreadDownloadImageData extends AbstractTexture
 
     public int getGlTextureId()
     {
-        int var1 = super.getGlTextureId();
+        int i = super.getGlTextureId();
 
         if (!this.textureUploaded && this.bufferedImage != null)
         {
-            TextureUtil.uploadTextureImage(var1, this.bufferedImage);
+            TextureUtil.uploadTextureImage(i, this.bufferedImage);
             this.textureUploaded = true;
         }
 
-        return var1;
+        return i;
     }
 
     public void getBufferedImage(BufferedImage par1BufferedImage)

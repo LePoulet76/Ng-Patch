@@ -26,24 +26,24 @@ public class BlockRedstoneTorch extends BlockTorch
             redstoneUpdateInfoCache.put(par1World, new ArrayList());
         }
 
-        List var6 = (List)redstoneUpdateInfoCache.get(par1World);
+        List list = (List)redstoneUpdateInfoCache.get(par1World);
 
         if (par5)
         {
-            var6.add(new RedstoneUpdateInfo(par2, par3, par4, par1World.getTotalWorldTime()));
+            list.add(new RedstoneUpdateInfo(par2, par3, par4, par1World.getTotalWorldTime()));
         }
 
-        int var7 = 0;
+        int l = 0;
 
-        for (int var8 = 0; var8 < var6.size(); ++var8)
+        for (int i1 = 0; i1 < list.size(); ++i1)
         {
-            RedstoneUpdateInfo var9 = (RedstoneUpdateInfo)var6.get(var8);
+            RedstoneUpdateInfo redstoneupdateinfo = (RedstoneUpdateInfo)list.get(i1);
 
-            if (var9.x == par2 && var9.y == par3 && var9.z == par4)
+            if (redstoneupdateinfo.x == par2 && redstoneupdateinfo.y == par3 && redstoneupdateinfo.z == par4)
             {
-                ++var7;
+                ++l;
 
-                if (var7 >= 8)
+                if (l >= 8)
                 {
                     return true;
                 }
@@ -121,8 +121,8 @@ public class BlockRedstoneTorch extends BlockTorch
         }
         else
         {
-            int var6 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
-            return var6 == 5 && par5 == 1 ? 0 : (var6 == 3 && par5 == 3 ? 0 : (var6 == 4 && par5 == 2 ? 0 : (var6 == 1 && par5 == 5 ? 0 : (var6 == 2 && par5 == 4 ? 0 : 15))));
+            int i1 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+            return i1 == 5 && par5 == 1 ? 0 : (i1 == 3 && par5 == 3 ? 0 : (i1 == 4 && par5 == 2 ? 0 : (i1 == 1 && par5 == 5 ? 0 : (i1 == 2 && par5 == 4 ? 0 : 15))));
         }
     }
 
@@ -131,8 +131,8 @@ public class BlockRedstoneTorch extends BlockTorch
      */
     private boolean isIndirectlyPowered(World par1World, int par2, int par3, int par4)
     {
-        int var5 = par1World.getBlockMetadata(par2, par3, par4);
-        return var5 == 5 && par1World.getIndirectPowerOutput(par2, par3 - 1, par4, 0) ? true : (var5 == 3 && par1World.getIndirectPowerOutput(par2, par3, par4 - 1, 2) ? true : (var5 == 4 && par1World.getIndirectPowerOutput(par2, par3, par4 + 1, 3) ? true : (var5 == 1 && par1World.getIndirectPowerOutput(par2 - 1, par3, par4, 4) ? true : var5 == 2 && par1World.getIndirectPowerOutput(par2 + 1, par3, par4, 5))));
+        int l = par1World.getBlockMetadata(par2, par3, par4);
+        return l == 5 && par1World.getIndirectPowerOutput(par2, par3 - 1, par4, 0) ? true : (l == 3 && par1World.getIndirectPowerOutput(par2, par3, par4 - 1, 2) ? true : (l == 4 && par1World.getIndirectPowerOutput(par2, par3, par4 + 1, 3) ? true : (l == 1 && par1World.getIndirectPowerOutput(par2 - 1, par3, par4, 4) ? true : l == 2 && par1World.getIndirectPowerOutput(par2 + 1, par3, par4, 5))));
     }
 
     /**
@@ -140,17 +140,17 @@ public class BlockRedstoneTorch extends BlockTorch
      */
     public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
     {
-        boolean var6 = this.isIndirectlyPowered(par1World, par2, par3, par4);
-        List var7 = (List)redstoneUpdateInfoCache.get(par1World);
+        boolean flag = this.isIndirectlyPowered(par1World, par2, par3, par4);
+        List list = (List)redstoneUpdateInfoCache.get(par1World);
 
-        while (var7 != null && !var7.isEmpty() && par1World.getTotalWorldTime() - ((RedstoneUpdateInfo)var7.get(0)).updateTime > 60L)
+        while (list != null && !list.isEmpty() && par1World.getTotalWorldTime() - ((RedstoneUpdateInfo)list.get(0)).updateTime > 60L)
         {
-            var7.remove(0);
+            list.remove(0);
         }
 
         if (this.torchActive)
         {
-            if (var6)
+            if (flag)
             {
                 par1World.setBlock(par2, par3, par4, Block.torchRedstoneIdle.blockID, par1World.getBlockMetadata(par2, par3, par4), 3);
 
@@ -158,17 +158,17 @@ public class BlockRedstoneTorch extends BlockTorch
                 {
                     par1World.playSoundEffect((double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), "random.fizz", 0.5F, 2.6F + (par1World.rand.nextFloat() - par1World.rand.nextFloat()) * 0.8F);
 
-                    for (int var8 = 0; var8 < 5; ++var8)
+                    for (int l = 0; l < 5; ++l)
                     {
-                        double var9 = (double)par2 + par5Random.nextDouble() * 0.6D + 0.2D;
-                        double var11 = (double)par3 + par5Random.nextDouble() * 0.6D + 0.2D;
-                        double var13 = (double)par4 + par5Random.nextDouble() * 0.6D + 0.2D;
-                        par1World.spawnParticle("smoke", var9, var11, var13, 0.0D, 0.0D, 0.0D);
+                        double d0 = (double)par2 + par5Random.nextDouble() * 0.6D + 0.2D;
+                        double d1 = (double)par3 + par5Random.nextDouble() * 0.6D + 0.2D;
+                        double d2 = (double)par4 + par5Random.nextDouble() * 0.6D + 0.2D;
+                        par1World.spawnParticle("smoke", d0, d1, d2, 0.0D, 0.0D, 0.0D);
                     }
                 }
             }
         }
-        else if (!var6 && !this.checkForBurnout(par1World, par2, par3, par4, false))
+        else if (!flag && !this.checkForBurnout(par1World, par2, par3, par4, false))
         {
             par1World.setBlock(par2, par3, par4, Block.torchRedstoneActive.blockID, par1World.getBlockMetadata(par2, par3, par4), 3);
         }
@@ -182,9 +182,9 @@ public class BlockRedstoneTorch extends BlockTorch
     {
         if (!this.func_94397_d(par1World, par2, par3, par4, par5))
         {
-            boolean var6 = this.isIndirectlyPowered(par1World, par2, par3, par4);
+            boolean flag = this.isIndirectlyPowered(par1World, par2, par3, par4);
 
-            if (this.torchActive && var6 || !this.torchActive && !var6)
+            if (this.torchActive && flag || !this.torchActive && !flag)
             {
                 par1World.scheduleBlockUpdate(par2, par3, par4, this.blockID, this.tickRate(par1World));
             }
@@ -225,32 +225,32 @@ public class BlockRedstoneTorch extends BlockTorch
     {
         if (this.torchActive)
         {
-            int var6 = par1World.getBlockMetadata(par2, par3, par4);
-            double var7 = (double)((float)par2 + 0.5F) + (double)(par5Random.nextFloat() - 0.5F) * 0.2D;
-            double var9 = (double)((float)par3 + 0.7F) + (double)(par5Random.nextFloat() - 0.5F) * 0.2D;
-            double var11 = (double)((float)par4 + 0.5F) + (double)(par5Random.nextFloat() - 0.5F) * 0.2D;
-            double var13 = 0.2199999988079071D;
-            double var15 = 0.27000001072883606D;
+            int l = par1World.getBlockMetadata(par2, par3, par4);
+            double d0 = (double)((float)par2 + 0.5F) + (double)(par5Random.nextFloat() - 0.5F) * 0.2D;
+            double d1 = (double)((float)par3 + 0.7F) + (double)(par5Random.nextFloat() - 0.5F) * 0.2D;
+            double d2 = (double)((float)par4 + 0.5F) + (double)(par5Random.nextFloat() - 0.5F) * 0.2D;
+            double d3 = 0.2199999988079071D;
+            double d4 = 0.27000001072883606D;
 
-            if (var6 == 1)
+            if (l == 1)
             {
-                par1World.spawnParticle("reddust", var7 - var15, var9 + var13, var11, 0.0D, 0.0D, 0.0D);
+                par1World.spawnParticle("reddust", d0 - d4, d1 + d3, d2, 0.0D, 0.0D, 0.0D);
             }
-            else if (var6 == 2)
+            else if (l == 2)
             {
-                par1World.spawnParticle("reddust", var7 + var15, var9 + var13, var11, 0.0D, 0.0D, 0.0D);
+                par1World.spawnParticle("reddust", d0 + d4, d1 + d3, d2, 0.0D, 0.0D, 0.0D);
             }
-            else if (var6 == 3)
+            else if (l == 3)
             {
-                par1World.spawnParticle("reddust", var7, var9 + var13, var11 - var15, 0.0D, 0.0D, 0.0D);
+                par1World.spawnParticle("reddust", d0, d1 + d3, d2 - d4, 0.0D, 0.0D, 0.0D);
             }
-            else if (var6 == 4)
+            else if (l == 4)
             {
-                par1World.spawnParticle("reddust", var7, var9 + var13, var11 + var15, 0.0D, 0.0D, 0.0D);
+                par1World.spawnParticle("reddust", d0, d1 + d3, d2 + d4, 0.0D, 0.0D, 0.0D);
             }
             else
             {
-                par1World.spawnParticle("reddust", var7, var9, var11, 0.0D, 0.0D, 0.0D);
+                par1World.spawnParticle("reddust", d0, d1, d2, 0.0D, 0.0D, 0.0D);
             }
         }
     }

@@ -33,18 +33,18 @@ public class SimpleReloadableResourceManager implements ReloadableResourceManage
 
     public void reloadResourcePack(ResourcePack par1ResourcePack)
     {
-        FallbackResourceManager var4;
+        FallbackResourceManager fallbackresourcemanager;
 
-        for (Iterator var2 = par1ResourcePack.getResourceDomains().iterator(); var2.hasNext(); var4.addResourcePack(par1ResourcePack))
+        for (Iterator iterator = par1ResourcePack.getResourceDomains().iterator(); iterator.hasNext(); fallbackresourcemanager.addResourcePack(par1ResourcePack))
         {
-            String var3 = (String)var2.next();
-            this.setResourceDomains.add(var3);
-            var4 = (FallbackResourceManager)this.domainResourceManagers.get(var3);
+            String s = (String)iterator.next();
+            this.setResourceDomains.add(s);
+            fallbackresourcemanager = (FallbackResourceManager)this.domainResourceManagers.get(s);
 
-            if (var4 == null)
+            if (fallbackresourcemanager == null)
             {
-                var4 = new FallbackResourceManager(this.rmMetadataSerializer);
-                this.domainResourceManagers.put(var3, var4);
+                fallbackresourcemanager = new FallbackResourceManager(this.rmMetadataSerializer);
+                this.domainResourceManagers.put(s, fallbackresourcemanager);
             }
         }
     }
@@ -56,11 +56,11 @@ public class SimpleReloadableResourceManager implements ReloadableResourceManage
 
     public Resource getResource(ResourceLocation par1ResourceLocation) throws IOException
     {
-        ResourceManager var2 = (ResourceManager)this.domainResourceManagers.get(par1ResourceLocation.getResourceDomain());
+        ResourceManager resourcemanager = (ResourceManager)this.domainResourceManagers.get(par1ResourceLocation.getResourceDomain());
 
-        if (var2 != null)
+        if (resourcemanager != null)
         {
-            return var2.getResource(par1ResourceLocation);
+            return resourcemanager.getResource(par1ResourceLocation);
         }
         else
         {
@@ -70,11 +70,11 @@ public class SimpleReloadableResourceManager implements ReloadableResourceManage
 
     public List getAllResources(ResourceLocation par1ResourceLocation) throws IOException
     {
-        ResourceManager var2 = (ResourceManager)this.domainResourceManagers.get(par1ResourceLocation.getResourceDomain());
+        ResourceManager resourcemanager = (ResourceManager)this.domainResourceManagers.get(par1ResourceLocation.getResourceDomain());
 
-        if (var2 != null)
+        if (resourcemanager != null)
         {
-            return var2.getAllResources(par1ResourceLocation);
+            return resourcemanager.getAllResources(par1ResourceLocation);
         }
         else
         {
@@ -92,12 +92,12 @@ public class SimpleReloadableResourceManager implements ReloadableResourceManage
     {
         this.clearResources();
         Minecraft.getMinecraft().getLogAgent().logInfo("Reloading ResourceManager: " + joinerResourcePacks.join(Iterables.transform(par1List, new SimpleReloadableResourceManagerINNER1(this))));
-        Iterator var2 = par1List.iterator();
+        Iterator iterator = par1List.iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            ResourcePack var3 = (ResourcePack)var2.next();
-            this.reloadResourcePack(var3);
+            ResourcePack resourcepack = (ResourcePack)iterator.next();
+            this.reloadResourcePack(resourcepack);
         }
 
         this.notifyReloadListeners();
@@ -111,12 +111,12 @@ public class SimpleReloadableResourceManager implements ReloadableResourceManage
 
     private void notifyReloadListeners()
     {
-        Iterator var1 = this.reloadListeners.iterator();
+        Iterator iterator = this.reloadListeners.iterator();
 
-        while (var1.hasNext())
+        while (iterator.hasNext())
         {
-            ResourceManagerReloadListener var2 = (ResourceManagerReloadListener)var1.next();
-            var2.onResourceManagerReload(this);
+            ResourceManagerReloadListener resourcemanagerreloadlistener = (ResourceManagerReloadListener)iterator.next();
+            resourcemanagerreloadlistener.onResourceManagerReload(this);
         }
     }
 }

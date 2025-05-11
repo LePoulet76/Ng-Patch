@@ -33,18 +33,18 @@ public class BiomeCache
     {
         par1 >>= 4;
         par2 >>= 4;
-        long var3 = (long)par1 & 4294967295L | ((long)par2 & 4294967295L) << 32;
-        BiomeCacheBlock var5 = (BiomeCacheBlock)this.cacheMap.getValueByKey(var3);
+        long k = (long)par1 & 4294967295L | ((long)par2 & 4294967295L) << 32;
+        BiomeCacheBlock biomecacheblock = (BiomeCacheBlock)this.cacheMap.getValueByKey(k);
 
-        if (var5 == null)
+        if (biomecacheblock == null)
         {
-            var5 = new BiomeCacheBlock(this, par1, par2);
-            this.cacheMap.add(var3, var5);
-            this.cache.add(var5);
+            biomecacheblock = new BiomeCacheBlock(this, par1, par2);
+            this.cacheMap.add(k, biomecacheblock);
+            this.cache.add(biomecacheblock);
         }
 
-        var5.lastAccessTime = MinecraftServer.getSystemTimeMillis();
-        return var5;
+        biomecacheblock.lastAccessTime = MinecraftServer.getSystemTimeMillis();
+        return biomecacheblock;
     }
 
     /**
@@ -60,23 +60,23 @@ public class BiomeCache
      */
     public void cleanupCache()
     {
-        long var1 = MinecraftServer.getSystemTimeMillis();
-        long var3 = var1 - this.lastCleanupTime;
+        long i = MinecraftServer.getSystemTimeMillis();
+        long j = i - this.lastCleanupTime;
 
-        if (var3 > 7500L || var3 < 0L)
+        if (j > 7500L || j < 0L)
         {
-            this.lastCleanupTime = var1;
+            this.lastCleanupTime = i;
 
-            for (int var5 = 0; var5 < this.cache.size(); ++var5)
+            for (int k = 0; k < this.cache.size(); ++k)
             {
-                BiomeCacheBlock var6 = (BiomeCacheBlock)this.cache.get(var5);
-                long var7 = var1 - var6.lastAccessTime;
+                BiomeCacheBlock biomecacheblock = (BiomeCacheBlock)this.cache.get(k);
+                long l = i - biomecacheblock.lastAccessTime;
 
-                if (var7 > 30000L || var7 < 0L)
+                if (l > 30000L || l < 0L)
                 {
-                    this.cache.remove(var5--);
-                    long var9 = (long)var6.xPosition & 4294967295L | ((long)var6.zPosition & 4294967295L) << 32;
-                    this.cacheMap.remove(var9);
+                    this.cache.remove(k--);
+                    long i1 = (long)biomecacheblock.xPosition & 4294967295L | ((long)biomecacheblock.zPosition & 4294967295L) << 32;
+                    this.cacheMap.remove(i1);
                 }
             }
         }

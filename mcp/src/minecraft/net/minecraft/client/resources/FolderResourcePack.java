@@ -32,30 +32,30 @@ public class FolderResourcePack extends AbstractResourcePack
 
     public Set getResourceDomains()
     {
-        HashSet var1 = Sets.newHashSet();
-        File var2 = new File(this.resourcePackFile, "assets/");
+        HashSet hashset = Sets.newHashSet();
+        File file1 = new File(this.resourcePackFile, "assets/");
 
-        if (var2.isDirectory())
+        if (file1.isDirectory())
         {
-            File[] var3 = var2.listFiles((java.io.FileFilter)DirectoryFileFilter.DIRECTORY);
-            int var4 = var3.length;
+            File[] afile = file1.listFiles((java.io.FileFilter)DirectoryFileFilter.DIRECTORY);
+            int i = afile.length;
 
-            for (int var5 = 0; var5 < var4; ++var5)
+            for (int j = 0; j < i; ++j)
             {
-                File var6 = var3[var5];
-                String var7 = getRelativeName(var2, var6);
+                File file2 = afile[j];
+                String s = getRelativeName(file1, file2);
 
-                if (!var7.equals(var7.toLowerCase()))
+                if (!s.equals(s.toLowerCase()))
                 {
-                    this.logNameNotLowercase(var7);
+                    this.logNameNotLowercase(s);
                 }
                 else
                 {
-                    var1.add(var7.substring(0, var7.length() - 1));
+                    hashset.add(s.substring(0, s.length() - 1));
                 }
             }
         }
 
-        return var1;
+        return hashset;
     }
 }

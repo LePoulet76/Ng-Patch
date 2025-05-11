@@ -22,9 +22,9 @@ public class EntityPortalFX extends EntityFX
         this.portalPosX = this.posX = par2;
         this.portalPosY = this.posY = par4;
         this.portalPosZ = this.posZ = par6;
-        float var14 = this.rand.nextFloat() * 0.6F + 0.4F;
+        float f = this.rand.nextFloat() * 0.6F + 0.4F;
         this.portalParticleScale = this.particleScale = this.rand.nextFloat() * 0.2F + 0.5F;
-        this.particleRed = this.particleGreen = this.particleBlue = 1.0F * var14;
+        this.particleRed = this.particleGreen = this.particleBlue = 1.0F * f;
         this.particleGreen *= 0.3F;
         this.particleRed *= 0.9F;
         this.particleMaxAge = (int)(Math.random() * 10.0D) + 40;
@@ -34,30 +34,30 @@ public class EntityPortalFX extends EntityFX
 
     public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
     {
-        float var8 = ((float)this.particleAge + par2) / (float)this.particleMaxAge;
-        var8 = 1.0F - var8;
-        var8 *= var8;
-        var8 = 1.0F - var8;
-        this.particleScale = this.portalParticleScale * var8;
+        float f6 = ((float)this.particleAge + par2) / (float)this.particleMaxAge;
+        f6 = 1.0F - f6;
+        f6 *= f6;
+        f6 = 1.0F - f6;
+        this.particleScale = this.portalParticleScale * f6;
         super.renderParticle(par1Tessellator, par2, par3, par4, par5, par6, par7);
     }
 
     public int getBrightnessForRender(float par1)
     {
-        int var2 = super.getBrightnessForRender(par1);
-        float var3 = (float)this.particleAge / (float)this.particleMaxAge;
-        var3 *= var3;
-        var3 *= var3;
-        int var4 = var2 & 255;
-        int var5 = var2 >> 16 & 255;
-        var5 += (int)(var3 * 15.0F * 16.0F);
+        int i = super.getBrightnessForRender(par1);
+        float f1 = (float)this.particleAge / (float)this.particleMaxAge;
+        f1 *= f1;
+        f1 *= f1;
+        int j = i & 255;
+        int k = i >> 16 & 255;
+        k += (int)(f1 * 15.0F * 16.0F);
 
-        if (var5 > 240)
+        if (k > 240)
         {
-            var5 = 240;
+            k = 240;
         }
 
-        return var4 | var5 << 16;
+        return j | k << 16;
     }
 
     /**
@@ -65,10 +65,10 @@ public class EntityPortalFX extends EntityFX
      */
     public float getBrightness(float par1)
     {
-        float var2 = super.getBrightness(par1);
-        float var3 = (float)this.particleAge / (float)this.particleMaxAge;
-        var3 = var3 * var3 * var3 * var3;
-        return var2 * (1.0F - var3) + var3;
+        float f1 = super.getBrightness(par1);
+        float f2 = (float)this.particleAge / (float)this.particleMaxAge;
+        f2 = f2 * f2 * f2 * f2;
+        return f1 * (1.0F - f2) + f2;
     }
 
     /**
@@ -79,13 +79,13 @@ public class EntityPortalFX extends EntityFX
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
-        float var1 = (float)this.particleAge / (float)this.particleMaxAge;
-        float var2 = var1;
-        var1 = -var1 + var1 * var1 * 2.0F;
-        var1 = 1.0F - var1;
-        this.posX = this.portalPosX + this.motionX * (double)var1;
-        this.posY = this.portalPosY + this.motionY * (double)var1 + (double)(1.0F - var2);
-        this.posZ = this.portalPosZ + this.motionZ * (double)var1;
+        float f = (float)this.particleAge / (float)this.particleMaxAge;
+        float f1 = f;
+        f = -f + f * f * 2.0F;
+        f = 1.0F - f;
+        this.posX = this.portalPosX + this.motionX * (double)f;
+        this.posY = this.portalPosY + this.motionY * (double)f + (double)(1.0F - f1);
+        this.posZ = this.portalPosZ + this.motionZ * (double)f;
 
         if (this.particleAge++ >= this.particleMaxAge)
         {

@@ -30,8 +30,8 @@ public class ItemEditableBook extends Item
         }
         else
         {
-            String var1 = par0NBTTagCompound.getString("title");
-            return var1 != null && var1.length() <= 16 ? par0NBTTagCompound.hasKey("author") : false;
+            String s = par0NBTTagCompound.getString("title");
+            return s != null && s.length() <= 16 ? par0NBTTagCompound.hasKey("author") : false;
         }
     }
 
@@ -39,12 +39,12 @@ public class ItemEditableBook extends Item
     {
         if (par1ItemStack.hasTagCompound())
         {
-            NBTTagCompound var2 = par1ItemStack.getTagCompound();
-            NBTTagString var3 = (NBTTagString)var2.getTag("title");
+            NBTTagCompound nbttagcompound = par1ItemStack.getTagCompound();
+            NBTTagString nbttagstring = (NBTTagString)nbttagcompound.getTag("title");
 
-            if (var3 != null)
+            if (nbttagstring != null)
             {
-                return var3.toString();
+                return nbttagstring.toString();
             }
         }
 
@@ -60,12 +60,12 @@ public class ItemEditableBook extends Item
     {
         if (par1ItemStack.hasTagCompound())
         {
-            NBTTagCompound var5 = par1ItemStack.getTagCompound();
-            NBTTagString var6 = (NBTTagString)var5.getTag("author");
+            NBTTagCompound nbttagcompound = par1ItemStack.getTagCompound();
+            NBTTagString nbttagstring = (NBTTagString)nbttagcompound.getTag("author");
 
-            if (var6 != null)
+            if (nbttagstring != null)
             {
-                par3List.add(EnumChatFormatting.GRAY + String.format(StatCollector.translateToLocalFormatted("book.byAuthor", new Object[] {var6.data}), new Object[0]));
+                par3List.add(EnumChatFormatting.GRAY + String.format(StatCollector.translateToLocalFormatted("book.byAuthor", new Object[] {nbttagstring.data}), new Object[0]));
             }
         }
     }

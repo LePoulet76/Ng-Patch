@@ -48,8 +48,8 @@ public class EntitySilverfish extends EntityMob
      */
     protected Entity findPlayerToAttack()
     {
-        double var1 = 8.0D;
-        return this.worldObj.getClosestVulnerablePlayerToEntity(this, var1);
+        double d0 = 8.0D;
+        return this.worldObj.getClosestVulnerablePlayerToEntity(this, d0);
     }
 
     /**
@@ -139,10 +139,10 @@ public class EntitySilverfish extends EntityMob
 
         if (!this.worldObj.isRemote)
         {
-            int var1;
-            int var2;
-            int var3;
-            int var5;
+            int i;
+            int j;
+            int k;
+            int l;
 
             if (this.allySummonCooldown > 0)
             {
@@ -150,48 +150,48 @@ public class EntitySilverfish extends EntityMob
 
                 if (this.allySummonCooldown == 0)
                 {
-                    var1 = MathHelper.floor_double(this.posX);
-                    var2 = MathHelper.floor_double(this.posY);
-                    var3 = MathHelper.floor_double(this.posZ);
-                    boolean var4 = false;
+                    i = MathHelper.floor_double(this.posX);
+                    j = MathHelper.floor_double(this.posY);
+                    k = MathHelper.floor_double(this.posZ);
+                    boolean flag = false;
 
-                    for (var5 = 0; !var4 && var5 <= 5 && var5 >= -5; var5 = var5 <= 0 ? 1 - var5 : 0 - var5)
+                    for (l = 0; !flag && l <= 5 && l >= -5; l = l <= 0 ? 1 - l : 0 - l)
                     {
-                        for (int var6 = 0; !var4 && var6 <= 10 && var6 >= -10; var6 = var6 <= 0 ? 1 - var6 : 0 - var6)
+                        for (int i1 = 0; !flag && i1 <= 10 && i1 >= -10; i1 = i1 <= 0 ? 1 - i1 : 0 - i1)
                         {
-                            for (int var7 = 0; !var4 && var7 <= 10 && var7 >= -10; var7 = var7 <= 0 ? 1 - var7 : 0 - var7)
+                            for (int j1 = 0; !flag && j1 <= 10 && j1 >= -10; j1 = j1 <= 0 ? 1 - j1 : 0 - j1)
                             {
-                                int var8 = this.worldObj.getBlockId(var1 + var6, var2 + var5, var3 + var7);
+                                int k1 = this.worldObj.getBlockId(i + i1, j + l, k + j1);
 
-                                if (var8 == Block.silverfish.blockID)
+                                if (k1 == Block.silverfish.blockID)
                                 {
                                     if (!this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))
                                     {
-                                        int var9 = this.worldObj.getBlockMetadata(var1 + var6, var2 + var5, var3 + var7);
-                                        Block var10 = Block.stone;
+                                        int l1 = this.worldObj.getBlockMetadata(i + i1, j + l, k + j1);
+                                        Block block = Block.stone;
 
-                                        if (var9 == 1)
+                                        if (l1 == 1)
                                         {
-                                            var10 = Block.cobblestone;
+                                            block = Block.cobblestone;
                                         }
 
-                                        if (var9 == 2)
+                                        if (l1 == 2)
                                         {
-                                            var10 = Block.stoneBrick;
+                                            block = Block.stoneBrick;
                                         }
 
-                                        this.worldObj.setBlock(var1 + var6, var2 + var5, var3 + var7, var10.blockID, 0, 3);
+                                        this.worldObj.setBlock(i + i1, j + l, k + j1, block.blockID, 0, 3);
                                     }
                                     else
                                     {
-                                        this.worldObj.destroyBlock(var1 + var6, var2 + var5, var3 + var7, false);
+                                        this.worldObj.destroyBlock(i + i1, j + l, k + j1, false);
                                     }
 
-                                    Block.silverfish.onBlockDestroyedByPlayer(this.worldObj, var1 + var6, var2 + var5, var3 + var7, 0);
+                                    Block.silverfish.onBlockDestroyedByPlayer(this.worldObj, i + i1, j + l, k + j1, 0);
 
                                     if (this.rand.nextBoolean())
                                     {
-                                        var4 = true;
+                                        flag = true;
                                         break;
                                     }
                                 }
@@ -203,15 +203,15 @@ public class EntitySilverfish extends EntityMob
 
             if (this.entityToAttack == null && !this.hasPath())
             {
-                var1 = MathHelper.floor_double(this.posX);
-                var2 = MathHelper.floor_double(this.posY + 0.5D);
-                var3 = MathHelper.floor_double(this.posZ);
-                int var11 = this.rand.nextInt(6);
-                var5 = this.worldObj.getBlockId(var1 + Facing.offsetsXForSide[var11], var2 + Facing.offsetsYForSide[var11], var3 + Facing.offsetsZForSide[var11]);
+                i = MathHelper.floor_double(this.posX);
+                j = MathHelper.floor_double(this.posY + 0.5D);
+                k = MathHelper.floor_double(this.posZ);
+                int i2 = this.rand.nextInt(6);
+                l = this.worldObj.getBlockId(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2]);
 
-                if (BlockSilverfish.getPosingIdByMetadata(var5))
+                if (BlockSilverfish.getPosingIdByMetadata(l))
                 {
-                    this.worldObj.setBlock(var1 + Facing.offsetsXForSide[var11], var2 + Facing.offsetsYForSide[var11], var3 + Facing.offsetsZForSide[var11], Block.silverfish.blockID, BlockSilverfish.getMetadataForBlockType(var5), 3);
+                    this.worldObj.setBlock(i + Facing.offsetsXForSide[i2], j + Facing.offsetsYForSide[i2], k + Facing.offsetsZForSide[i2], Block.silverfish.blockID, BlockSilverfish.getMetadataForBlockType(l), 3);
                     this.spawnExplosionParticle();
                     this.setDead();
                 }
@@ -251,8 +251,8 @@ public class EntitySilverfish extends EntityMob
     {
         if (super.getCanSpawnHere())
         {
-            EntityPlayer var1 = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
-            return var1 == null;
+            EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
+            return entityplayer == null;
         }
         else
         {

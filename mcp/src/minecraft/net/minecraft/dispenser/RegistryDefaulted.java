@@ -14,7 +14,7 @@ public class RegistryDefaulted extends RegistrySimple
 
     public Object getObject(Object par1Obj)
     {
-        Object var2 = super.getObject(par1Obj);
-        return var2 == null ? this.defaultObject : var2;
+        Object object1 = super.getObject(par1Obj);
+        return object1 == null ? this.defaultObject : object1;
     }
 }

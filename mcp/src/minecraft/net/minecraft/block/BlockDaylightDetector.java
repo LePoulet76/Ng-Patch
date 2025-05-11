@@ -63,34 +63,34 @@ public class BlockDaylightDetector extends BlockContainer
     {
         if (!par1World.provider.hasNoSky)
         {
-            int var5 = par1World.getBlockMetadata(par2, par3, par4);
-            int var6 = par1World.getSavedLightValue(EnumSkyBlock.Sky, par2, par3, par4) - par1World.skylightSubtracted;
-            float var7 = par1World.getCelestialAngleRadians(1.0F);
+            int l = par1World.getBlockMetadata(par2, par3, par4);
+            int i1 = par1World.getSavedLightValue(EnumSkyBlock.Sky, par2, par3, par4) - par1World.skylightSubtracted;
+            float f = par1World.getCelestialAngleRadians(1.0F);
 
-            if (var7 < (float)Math.PI)
+            if (f < (float)Math.PI)
             {
-                var7 += (0.0F - var7) * 0.2F;
+                f += (0.0F - f) * 0.2F;
             }
             else
             {
-                var7 += (((float)Math.PI * 2F) - var7) * 0.2F;
+                f += (((float)Math.PI * 2F) - f) * 0.2F;
             }
 
-            var6 = Math.round((float)var6 * MathHelper.cos(var7));
+            i1 = Math.round((float)i1 * MathHelper.cos(f));
 
-            if (var6 < 0)
+            if (i1 < 0)
             {
-                var6 = 0;
+                i1 = 0;
             }
 
-            if (var6 > 15)
+            if (i1 > 15)
             {
-                var6 = 15;
+                i1 = 15;
             }
 
-            if (var5 != var6)
+            if (l != i1)
             {
-                par1World.setBlockMetadataWithNotify(par2, par3, par4, var6, 3);
+                par1World.setBlockMetadataWithNotify(par2, par3, par4, i1, 3);
             }
         }
     }

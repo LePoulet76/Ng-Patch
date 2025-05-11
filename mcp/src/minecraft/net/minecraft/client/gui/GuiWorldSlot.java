@@ -34,13 +34,13 @@ class GuiWorldSlot extends GuiSlot
     protected void elementClicked(int par1, boolean par2)
     {
         GuiSelectWorld.onElementSelected(this.parentWorldGui, par1);
-        boolean var3 = GuiSelectWorld.getSelectedWorld(this.parentWorldGui) >= 0 && GuiSelectWorld.getSelectedWorld(this.parentWorldGui) < this.getSize();
-        GuiSelectWorld.getSelectButton(this.parentWorldGui).enabled = var3;
-        GuiSelectWorld.getRenameButton(this.parentWorldGui).enabled = var3;
-        GuiSelectWorld.getDeleteButton(this.parentWorldGui).enabled = var3;
-        GuiSelectWorld.func_82312_f(this.parentWorldGui).enabled = var3;
+        boolean flag1 = GuiSelectWorld.getSelectedWorld(this.parentWorldGui) >= 0 && GuiSelectWorld.getSelectedWorld(this.parentWorldGui) < this.getSize();
+        GuiSelectWorld.getSelectButton(this.parentWorldGui).enabled = flag1;
+        GuiSelectWorld.getRenameButton(this.parentWorldGui).enabled = flag1;
+        GuiSelectWorld.getDeleteButton(this.parentWorldGui).enabled = flag1;
+        GuiSelectWorld.func_82312_f(this.parentWorldGui).enabled = flag1;
 
-        if (par2 && var3)
+        if (par2 && flag1)
         {
             this.parentWorldGui.selectWorld(par1);
         }
@@ -69,40 +69,40 @@ class GuiWorldSlot extends GuiSlot
 
     protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
     {
-        SaveFormatComparator var6 = (SaveFormatComparator)GuiSelectWorld.getSize(this.parentWorldGui).get(par1);
-        String var7 = var6.getDisplayName();
+        SaveFormatComparator saveformatcomparator = (SaveFormatComparator)GuiSelectWorld.getSize(this.parentWorldGui).get(par1);
+        String s = saveformatcomparator.getDisplayName();
 
-        if (var7 == null || MathHelper.stringNullOrLengthZero(var7))
+        if (s == null || MathHelper.stringNullOrLengthZero(s))
         {
-            var7 = GuiSelectWorld.func_82313_g(this.parentWorldGui) + " " + (par1 + 1);
+            s = GuiSelectWorld.func_82313_g(this.parentWorldGui) + " " + (par1 + 1);
         }
 
-        String var8 = var6.getFileName();
-        var8 = var8 + " (" + GuiSelectWorld.func_82315_h(this.parentWorldGui).format(new Date(var6.getLastTimePlayed()));
-        var8 = var8 + ")";
-        String var9 = "";
+        String s1 = saveformatcomparator.getFileName();
+        s1 = s1 + " (" + GuiSelectWorld.func_82315_h(this.parentWorldGui).format(new Date(saveformatcomparator.getLastTimePlayed()));
+        s1 = s1 + ")";
+        String s2 = "";
 
-        if (var6.requiresConversion())
+        if (saveformatcomparator.requiresConversion())
         {
-            var9 = GuiSelectWorld.func_82311_i(this.parentWorldGui) + " " + var9;
+            s2 = GuiSelectWorld.func_82311_i(this.parentWorldGui) + " " + s2;
         }
         else
         {
-            var9 = GuiSelectWorld.func_82314_j(this.parentWorldGui)[var6.getEnumGameType().getID()];
+            s2 = GuiSelectWorld.func_82314_j(this.parentWorldGui)[saveformatcomparator.getEnumGameType().getID()];
 
-            if (var6.isHardcoreModeEnabled())
+            if (saveformatcomparator.isHardcoreModeEnabled())
             {
-                var9 = EnumChatFormatting.DARK_RED + I18n.getString("gameMode.hardcore") + EnumChatFormatting.RESET;
+                s2 = EnumChatFormatting.DARK_RED + I18n.getString("gameMode.hardcore") + EnumChatFormatting.RESET;
             }
 
-            if (var6.getCheatsEnabled())
+            if (saveformatcomparator.getCheatsEnabled())
             {
-                var9 = var9 + ", " + I18n.getString("selectWorld.cheats");
+                s2 = s2 + ", " + I18n.getString("selectWorld.cheats");
             }
         }
 
-        this.parentWorldGui.drawString(this.parentWorldGui.fontRenderer, var7, par2 + 2, par3 + 1, 16777215);
-        this.parentWorldGui.drawString(this.parentWorldGui.fontRenderer, var8, par2 + 2, par3 + 12, 8421504);
-        this.parentWorldGui.drawString(this.parentWorldGui.fontRenderer, var9, par2 + 2, par3 + 12 + 10, 8421504);
+        this.parentWorldGui.drawString(this.parentWorldGui.fontRenderer, s, par2 + 2, par3 + 1, 16777215);
+        this.parentWorldGui.drawString(this.parentWorldGui.fontRenderer, s1, par2 + 2, par3 + 12, 8421504);
+        this.parentWorldGui.drawString(this.parentWorldGui.fontRenderer, s2, par2 + 2, par3 + 12 + 10, 8421504);
     }
 }

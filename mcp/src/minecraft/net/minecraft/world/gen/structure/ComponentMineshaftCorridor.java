@@ -10,6 +10,9 @@ import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.ChestGenHooks;
+import static net.minecraftforge.common.ChestGenHooks.*;
+
 public class ComponentMineshaftCorridor extends StructureComponent
 {
     private boolean hasRails;
@@ -59,42 +62,39 @@ public class ComponentMineshaftCorridor extends StructureComponent
 
     public static StructureBoundingBox findValidPlacement(List par0List, Random par1Random, int par2, int par3, int par4, int par5)
     {
-        StructureBoundingBox var6 = new StructureBoundingBox(par2, par3, par4, par2, par3 + 2, par4);
-        int var7;
+        StructureBoundingBox structureboundingbox = new StructureBoundingBox(par2, par3, par4, par2, par3 + 2, par4);
+        int i1;
 
-        for (var7 = par1Random.nextInt(3) + 2; var7 > 0; --var7)
+        for (i1 = par1Random.nextInt(3) + 2; i1 > 0; --i1)
         {
-            int var8 = var7 * 5;
+            int j1 = i1 * 5;
 
             switch (par5)
             {
                 case 0:
-                    var6.maxX = par2 + 2;
-                    var6.maxZ = par4 + (var8 - 1);
+                    structureboundingbox.maxX = par2 + 2;
+                    structureboundingbox.maxZ = par4 + (j1 - 1);
                     break;
-
                 case 1:
-                    var6.minX = par2 - (var8 - 1);
-                    var6.maxZ = par4 + 2;
+                    structureboundingbox.minX = par2 - (j1 - 1);
+                    structureboundingbox.maxZ = par4 + 2;
                     break;
-
                 case 2:
-                    var6.maxX = par2 + 2;
-                    var6.minZ = par4 - (var8 - 1);
+                    structureboundingbox.maxX = par2 + 2;
+                    structureboundingbox.minZ = par4 - (j1 - 1);
                     break;
-
                 case 3:
-                    var6.maxX = par2 + (var8 - 1);
-                    var6.maxZ = par4 + 2;
+                    structureboundingbox.maxX = par2 + (j1 - 1);
+                    structureboundingbox.maxZ = par4 + 2;
             }
 
-            if (StructureComponent.findIntersecting(par0List, var6) == null)
+            if (StructureComponent.findIntersecting(par0List, structureboundingbox) == null)
             {
                 break;
             }
         }
 
-        return var7 > 0 ? var6 : null;
+        return i1 > 0 ? structureboundingbox : null;
     }
 
     /**
@@ -102,108 +102,105 @@ public class ComponentMineshaftCorridor extends StructureComponent
      */
     public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
     {
-        int var4 = this.getComponentType();
-        int var5 = par3Random.nextInt(4);
+        int i = this.getComponentType();
+        int j = par3Random.nextInt(4);
 
         switch (this.coordBaseMode)
         {
             case 0:
-                if (var5 <= 1)
+                if (j <= 1)
                 {
-                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ + 1, this.coordBaseMode, var4);
+                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ + 1, this.coordBaseMode, i);
                 }
-                else if (var5 == 2)
+                else if (j == 2)
                 {
-                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ - 3, 1, var4);
+                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ - 3, 1, i);
                 }
                 else
                 {
-                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ - 3, 3, var4);
+                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ - 3, 3, i);
                 }
 
                 break;
-
             case 1:
-                if (var5 <= 1)
+                if (j <= 1)
                 {
-                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ, this.coordBaseMode, var4);
+                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ, this.coordBaseMode, i);
                 }
-                else if (var5 == 2)
+                else if (j == 2)
                 {
-                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ - 1, 2, var4);
+                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ - 1, 2, i);
                 }
                 else
                 {
-                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ + 1, 0, var4);
+                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ + 1, 0, i);
                 }
 
                 break;
-
             case 2:
-                if (var5 <= 1)
+                if (j <= 1)
                 {
-                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ - 1, this.coordBaseMode, var4);
+                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ - 1, this.coordBaseMode, i);
                 }
-                else if (var5 == 2)
+                else if (j == 2)
                 {
-                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ, 1, var4);
+                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ, 1, i);
                 }
                 else
                 {
-                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ, 3, var4);
+                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ, 3, i);
                 }
 
                 break;
-
             case 3:
-                if (var5 <= 1)
+                if (j <= 1)
                 {
-                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ, this.coordBaseMode, var4);
+                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ, this.coordBaseMode, i);
                 }
-                else if (var5 == 2)
+                else if (j == 2)
                 {
-                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 3, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ - 1, 2, var4);
+                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 3, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.minZ - 1, 2, i);
                 }
                 else
                 {
-                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 3, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ + 1, 0, var4);
+                    StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX - 3, this.boundingBox.minY - 1 + par3Random.nextInt(3), this.boundingBox.maxZ + 1, 0, i);
                 }
         }
 
-        if (var4 < 8)
+        if (i < 8)
         {
-            int var6;
-            int var7;
+            int k;
+            int l;
 
             if (this.coordBaseMode != 2 && this.coordBaseMode != 0)
             {
-                for (var6 = this.boundingBox.minX + 3; var6 + 3 <= this.boundingBox.maxX; var6 += 5)
+                for (k = this.boundingBox.minX + 3; k + 3 <= this.boundingBox.maxX; k += 5)
                 {
-                    var7 = par3Random.nextInt(5);
+                    l = par3Random.nextInt(5);
 
-                    if (var7 == 0)
+                    if (l == 0)
                     {
-                        StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, var6, this.boundingBox.minY, this.boundingBox.minZ - 1, 2, var4 + 1);
+                        StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, k, this.boundingBox.minY, this.boundingBox.minZ - 1, 2, i + 1);
                     }
-                    else if (var7 == 1)
+                    else if (l == 1)
                     {
-                        StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, var6, this.boundingBox.minY, this.boundingBox.maxZ + 1, 0, var4 + 1);
+                        StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, k, this.boundingBox.minY, this.boundingBox.maxZ + 1, 0, i + 1);
                     }
                 }
             }
             else
             {
-                for (var6 = this.boundingBox.minZ + 3; var6 + 3 <= this.boundingBox.maxZ; var6 += 5)
+                for (k = this.boundingBox.minZ + 3; k + 3 <= this.boundingBox.maxZ; k += 5)
                 {
-                    var7 = par3Random.nextInt(5);
+                    l = par3Random.nextInt(5);
 
-                    if (var7 == 0)
+                    if (l == 0)
                     {
-                        StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY, var6, 1, var4 + 1);
+                        StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY, k, 1, i + 1);
                     }
-                    else if (var7 == 1)
+                    else if (l == 1)
                     {
-                        StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY, var6, 3, var4 + 1);
+                        StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY, k, 3, i + 1);
                     }
                 }
             }
@@ -215,16 +212,16 @@ public class ComponentMineshaftCorridor extends StructureComponent
      */
     protected boolean generateStructureChestContents(World par1World, StructureBoundingBox par2StructureBoundingBox, Random par3Random, int par4, int par5, int par6, WeightedRandomChestContent[] par7ArrayOfWeightedRandomChestContent, int par8)
     {
-        int var9 = this.getXWithOffset(par4, par6);
-        int var10 = this.getYWithOffset(par5);
-        int var11 = this.getZWithOffset(par4, par6);
+        int i1 = this.getXWithOffset(par4, par6);
+        int j1 = this.getYWithOffset(par5);
+        int k1 = this.getZWithOffset(par4, par6);
 
-        if (par2StructureBoundingBox.isVecInside(var9, var10, var11) && par1World.getBlockId(var9, var10, var11) == 0)
+        if (par2StructureBoundingBox.isVecInside(i1, j1, k1) && par1World.getBlockId(i1, j1, k1) == 0)
         {
-            par1World.setBlock(var9, var10, var11, Block.rail.blockID, this.getMetadataWithOffset(Block.rail.blockID, par3Random.nextBoolean() ? 1 : 0), 2);
-            EntityMinecartChest var12 = new EntityMinecartChest(par1World, (double)((float)var9 + 0.5F), (double)((float)var10 + 0.5F), (double)((float)var11 + 0.5F));
-            WeightedRandomChestContent.generateChestContents(par3Random, par7ArrayOfWeightedRandomChestContent, var12, par8);
-            par1World.spawnEntityInWorld(var12);
+            par1World.setBlock(i1, j1, k1, Block.rail.blockID, this.getMetadataWithOffset(Block.rail.blockID, par3Random.nextBoolean() ? 1 : 0), 2);
+            EntityMinecartChest entityminecartchest = new EntityMinecartChest(par1World, (double)((float)i1 + 0.5F), (double)((float)j1 + 0.5F), (double)((float)k1 + 0.5F));
+            WeightedRandomChestContent.generateChestContents(par3Random, par7ArrayOfWeightedRandomChestContent, entityminecartchest, par8);
+            par1World.spawnEntityInWorld(entityminecartchest);
             return true;
         }
         else
@@ -245,103 +242,105 @@ public class ComponentMineshaftCorridor extends StructureComponent
         }
         else
         {
-            boolean var4 = false;
-            boolean var5 = true;
-            boolean var6 = false;
-            boolean var7 = true;
-            int var8 = this.sectionCount * 5 - 1;
-            this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 2, 1, var8, 0, 0, false);
-            this.randomlyFillWithBlocks(par1World, par3StructureBoundingBox, par2Random, 0.8F, 0, 2, 0, 2, 2, var8, 0, 0, false);
+            boolean flag = false;
+            boolean flag1 = true;
+            boolean flag2 = false;
+            boolean flag3 = true;
+            int i = this.sectionCount * 5 - 1;
+            this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 2, 1, i, 0, 0, false);
+            this.randomlyFillWithBlocks(par1World, par3StructureBoundingBox, par2Random, 0.8F, 0, 2, 0, 2, 2, i, 0, 0, false);
 
             if (this.hasSpiders)
             {
-                this.randomlyFillWithBlocks(par1World, par3StructureBoundingBox, par2Random, 0.6F, 0, 0, 0, 2, 1, var8, Block.web.blockID, 0, false);
+                this.randomlyFillWithBlocks(par1World, par3StructureBoundingBox, par2Random, 0.6F, 0, 0, 0, 2, 1, i, Block.web.blockID, 0, false);
             }
 
-            int var9;
-            int var10;
-            int var11;
+            int j;
+            int k;
+            int l;
 
-            for (var9 = 0; var9 < this.sectionCount; ++var9)
+            for (j = 0; j < this.sectionCount; ++j)
             {
-                var10 = 2 + var9 * 5;
-                this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 0, var10, 0, 1, var10, Block.fence.blockID, 0, false);
-                this.fillWithBlocks(par1World, par3StructureBoundingBox, 2, 0, var10, 2, 1, var10, Block.fence.blockID, 0, false);
+                k = 2 + j * 5;
+                this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 0, k, 0, 1, k, Block.fence.blockID, 0, false);
+                this.fillWithBlocks(par1World, par3StructureBoundingBox, 2, 0, k, 2, 1, k, Block.fence.blockID, 0, false);
 
                 if (par2Random.nextInt(4) == 0)
                 {
-                    this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 2, var10, 0, 2, var10, Block.planks.blockID, 0, false);
-                    this.fillWithBlocks(par1World, par3StructureBoundingBox, 2, 2, var10, 2, 2, var10, Block.planks.blockID, 0, false);
+                    this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 2, k, 0, 2, k, Block.planks.blockID, 0, false);
+                    this.fillWithBlocks(par1World, par3StructureBoundingBox, 2, 2, k, 2, 2, k, Block.planks.blockID, 0, false);
                 }
                 else
                 {
-                    this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 2, var10, 2, 2, var10, Block.planks.blockID, 0, false);
+                    this.fillWithBlocks(par1World, par3StructureBoundingBox, 0, 2, k, 2, 2, k, Block.planks.blockID, 0, false);
                 }
 
-                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.1F, 0, 2, var10 - 1, Block.web.blockID, 0);
-                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.1F, 2, 2, var10 - 1, Block.web.blockID, 0);
-                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.1F, 0, 2, var10 + 1, Block.web.blockID, 0);
-                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.1F, 2, 2, var10 + 1, Block.web.blockID, 0);
-                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.05F, 0, 2, var10 - 2, Block.web.blockID, 0);
-                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.05F, 2, 2, var10 - 2, Block.web.blockID, 0);
-                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.05F, 0, 2, var10 + 2, Block.web.blockID, 0);
-                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.05F, 2, 2, var10 + 2, Block.web.blockID, 0);
-                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.05F, 1, 2, var10 - 1, Block.torchWood.blockID, 0);
-                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.05F, 1, 2, var10 + 1, Block.torchWood.blockID, 0);
+                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.1F, 0, 2, k - 1, Block.web.blockID, 0);
+                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.1F, 2, 2, k - 1, Block.web.blockID, 0);
+                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.1F, 0, 2, k + 1, Block.web.blockID, 0);
+                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.1F, 2, 2, k + 1, Block.web.blockID, 0);
+                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.05F, 0, 2, k - 2, Block.web.blockID, 0);
+                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.05F, 2, 2, k - 2, Block.web.blockID, 0);
+                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.05F, 0, 2, k + 2, Block.web.blockID, 0);
+                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.05F, 2, 2, k + 2, Block.web.blockID, 0);
+                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.05F, 1, 2, k - 1, Block.torchWood.blockID, 0);
+                this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.05F, 1, 2, k + 1, Block.torchWood.blockID, 0);
+
+                ChestGenHooks info = ChestGenHooks.getInfo(MINESHAFT_CORRIDOR);
 
                 if (par2Random.nextInt(100) == 0)
                 {
-                    this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 2, 0, var10 - 1, WeightedRandomChestContent.func_92080_a(StructureMineshaftPieces.func_78816_a(), new WeightedRandomChestContent[] {Item.enchantedBook.func_92114_b(par2Random)}), 3 + par2Random.nextInt(4));
+                    this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 2, 0, k - 1, info.getItems(par2Random), info.getCount(par2Random));
                 }
 
                 if (par2Random.nextInt(100) == 0)
                 {
-                    this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 0, 0, var10 + 1, WeightedRandomChestContent.func_92080_a(StructureMineshaftPieces.func_78816_a(), new WeightedRandomChestContent[] {Item.enchantedBook.func_92114_b(par2Random)}), 3 + par2Random.nextInt(4));
+                    this.generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 0, 0, k + 1, info.getItems(par2Random), info.getCount(par2Random));
                 }
 
                 if (this.hasSpiders && !this.spawnerPlaced)
                 {
-                    var11 = this.getYWithOffset(0);
-                    int var12 = var10 - 1 + par2Random.nextInt(3);
-                    int var13 = this.getXWithOffset(1, var12);
-                    var12 = this.getZWithOffset(1, var12);
+                    l = this.getYWithOffset(0);
+                    int i1 = k - 1 + par2Random.nextInt(3);
+                    int j1 = this.getXWithOffset(1, i1);
+                    i1 = this.getZWithOffset(1, i1);
 
-                    if (par3StructureBoundingBox.isVecInside(var13, var11, var12))
+                    if (par3StructureBoundingBox.isVecInside(j1, l, i1))
                     {
                         this.spawnerPlaced = true;
-                        par1World.setBlock(var13, var11, var12, Block.mobSpawner.blockID, 0, 2);
-                        TileEntityMobSpawner var14 = (TileEntityMobSpawner)par1World.getBlockTileEntity(var13, var11, var12);
+                        par1World.setBlock(j1, l, i1, Block.mobSpawner.blockID, 0, 2);
+                        TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner)par1World.getBlockTileEntity(j1, l, i1);
 
-                        if (var14 != null)
+                        if (tileentitymobspawner != null)
                         {
-                            var14.getSpawnerLogic().setMobID("CaveSpider");
+                            tileentitymobspawner.getSpawnerLogic().setMobID("CaveSpider");
                         }
                     }
                 }
             }
 
-            for (var9 = 0; var9 <= 2; ++var9)
+            for (j = 0; j <= 2; ++j)
             {
-                for (var10 = 0; var10 <= var8; ++var10)
+                for (k = 0; k <= i; ++k)
                 {
-                    var11 = this.getBlockIdAtCurrentPosition(par1World, var9, -1, var10, par3StructureBoundingBox);
+                    l = this.getBlockIdAtCurrentPosition(par1World, j, -1, k, par3StructureBoundingBox);
 
-                    if (var11 == 0)
+                    if (l == 0)
                     {
-                        this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, var9, -1, var10, par3StructureBoundingBox);
+                        this.placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, j, -1, k, par3StructureBoundingBox);
                     }
                 }
             }
 
             if (this.hasRails)
             {
-                for (var9 = 0; var9 <= var8; ++var9)
+                for (j = 0; j <= i; ++j)
                 {
-                    var10 = this.getBlockIdAtCurrentPosition(par1World, 1, -1, var9, par3StructureBoundingBox);
+                    k = this.getBlockIdAtCurrentPosition(par1World, 1, -1, j, par3StructureBoundingBox);
 
-                    if (var10 > 0 && Block.opaqueCubeLookup[var10])
+                    if (k > 0 && Block.opaqueCubeLookup[k])
                     {
-                        this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.7F, 1, 0, var9, Block.rail.blockID, this.getMetadataWithOffset(Block.rail.blockID, 0));
+                        this.randomlyPlaceBlock(par1World, par3StructureBoundingBox, par2Random, 0.7F, 1, 0, j, Block.rail.blockID, this.getMetadataWithOffset(Block.rail.blockID, 0));
                     }
                 }
             }

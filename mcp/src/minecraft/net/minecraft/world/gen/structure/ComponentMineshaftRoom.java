@@ -28,87 +28,87 @@ public class ComponentMineshaftRoom extends StructureComponent
      */
     public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
     {
-        int var4 = this.getComponentType();
-        int var6 = this.boundingBox.getYSize() - 3 - 1;
+        int i = this.getComponentType();
+        int j = this.boundingBox.getYSize() - 3 - 1;
 
-        if (var6 <= 0)
+        if (j <= 0)
         {
-            var6 = 1;
+            j = 1;
         }
 
-        int var5;
-        StructureComponent var7;
-        StructureBoundingBox var8;
+        int k;
+        StructureComponent structurecomponent1;
+        StructureBoundingBox structureboundingbox;
 
-        for (var5 = 0; var5 < this.boundingBox.getXSize(); var5 += 4)
+        for (k = 0; k < this.boundingBox.getXSize(); k += 4)
         {
-            var5 += par3Random.nextInt(this.boundingBox.getXSize());
+            k += par3Random.nextInt(this.boundingBox.getXSize());
 
-            if (var5 + 3 > this.boundingBox.getXSize())
+            if (k + 3 > this.boundingBox.getXSize())
             {
                 break;
             }
 
-            var7 = StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX + var5, this.boundingBox.minY + par3Random.nextInt(var6) + 1, this.boundingBox.minZ - 1, 2, var4);
+            structurecomponent1 = StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX + k, this.boundingBox.minY + par3Random.nextInt(j) + 1, this.boundingBox.minZ - 1, 2, i);
 
-            if (var7 != null)
+            if (structurecomponent1 != null)
             {
-                var8 = var7.getBoundingBox();
-                this.roomsLinkedToTheRoom.add(new StructureBoundingBox(var8.minX, var8.minY, this.boundingBox.minZ, var8.maxX, var8.maxY, this.boundingBox.minZ + 1));
+                structureboundingbox = structurecomponent1.getBoundingBox();
+                this.roomsLinkedToTheRoom.add(new StructureBoundingBox(structureboundingbox.minX, structureboundingbox.minY, this.boundingBox.minZ, structureboundingbox.maxX, structureboundingbox.maxY, this.boundingBox.minZ + 1));
             }
         }
 
-        for (var5 = 0; var5 < this.boundingBox.getXSize(); var5 += 4)
+        for (k = 0; k < this.boundingBox.getXSize(); k += 4)
         {
-            var5 += par3Random.nextInt(this.boundingBox.getXSize());
+            k += par3Random.nextInt(this.boundingBox.getXSize());
 
-            if (var5 + 3 > this.boundingBox.getXSize())
+            if (k + 3 > this.boundingBox.getXSize())
             {
                 break;
             }
 
-            var7 = StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX + var5, this.boundingBox.minY + par3Random.nextInt(var6) + 1, this.boundingBox.maxZ + 1, 0, var4);
+            structurecomponent1 = StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX + k, this.boundingBox.minY + par3Random.nextInt(j) + 1, this.boundingBox.maxZ + 1, 0, i);
 
-            if (var7 != null)
+            if (structurecomponent1 != null)
             {
-                var8 = var7.getBoundingBox();
-                this.roomsLinkedToTheRoom.add(new StructureBoundingBox(var8.minX, var8.minY, this.boundingBox.maxZ - 1, var8.maxX, var8.maxY, this.boundingBox.maxZ));
+                structureboundingbox = structurecomponent1.getBoundingBox();
+                this.roomsLinkedToTheRoom.add(new StructureBoundingBox(structureboundingbox.minX, structureboundingbox.minY, this.boundingBox.maxZ - 1, structureboundingbox.maxX, structureboundingbox.maxY, this.boundingBox.maxZ));
             }
         }
 
-        for (var5 = 0; var5 < this.boundingBox.getZSize(); var5 += 4)
+        for (k = 0; k < this.boundingBox.getZSize(); k += 4)
         {
-            var5 += par3Random.nextInt(this.boundingBox.getZSize());
+            k += par3Random.nextInt(this.boundingBox.getZSize());
 
-            if (var5 + 3 > this.boundingBox.getZSize())
+            if (k + 3 > this.boundingBox.getZSize())
             {
                 break;
             }
 
-            var7 = StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY + par3Random.nextInt(var6) + 1, this.boundingBox.minZ + var5, 1, var4);
+            structurecomponent1 = StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.minX - 1, this.boundingBox.minY + par3Random.nextInt(j) + 1, this.boundingBox.minZ + k, 1, i);
 
-            if (var7 != null)
+            if (structurecomponent1 != null)
             {
-                var8 = var7.getBoundingBox();
-                this.roomsLinkedToTheRoom.add(new StructureBoundingBox(this.boundingBox.minX, var8.minY, var8.minZ, this.boundingBox.minX + 1, var8.maxY, var8.maxZ));
+                structureboundingbox = structurecomponent1.getBoundingBox();
+                this.roomsLinkedToTheRoom.add(new StructureBoundingBox(this.boundingBox.minX, structureboundingbox.minY, structureboundingbox.minZ, this.boundingBox.minX + 1, structureboundingbox.maxY, structureboundingbox.maxZ));
             }
         }
 
-        for (var5 = 0; var5 < this.boundingBox.getZSize(); var5 += 4)
+        for (k = 0; k < this.boundingBox.getZSize(); k += 4)
         {
-            var5 += par3Random.nextInt(this.boundingBox.getZSize());
+            k += par3Random.nextInt(this.boundingBox.getZSize());
 
-            if (var5 + 3 > this.boundingBox.getZSize())
+            if (k + 3 > this.boundingBox.getZSize())
             {
                 break;
             }
 
-            var7 = StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY + par3Random.nextInt(var6) + 1, this.boundingBox.minZ + var5, 3, var4);
+            structurecomponent1 = StructureMineshaftPieces.getNextComponent(par1StructureComponent, par2List, par3Random, this.boundingBox.maxX + 1, this.boundingBox.minY + par3Random.nextInt(j) + 1, this.boundingBox.minZ + k, 3, i);
 
-            if (var7 != null)
+            if (structurecomponent1 != null)
             {
-                var8 = var7.getBoundingBox();
-                this.roomsLinkedToTheRoom.add(new StructureBoundingBox(this.boundingBox.maxX - 1, var8.minY, var8.minZ, this.boundingBox.maxX, var8.maxY, var8.maxZ));
+                structureboundingbox = structurecomponent1.getBoundingBox();
+                this.roomsLinkedToTheRoom.add(new StructureBoundingBox(this.boundingBox.maxX - 1, structureboundingbox.minY, structureboundingbox.minZ, this.boundingBox.maxX, structureboundingbox.maxY, structureboundingbox.maxZ));
             }
         }
     }
@@ -127,12 +127,12 @@ public class ComponentMineshaftRoom extends StructureComponent
         {
             this.fillWithBlocks(par1World, par3StructureBoundingBox, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ, this.boundingBox.maxX, this.boundingBox.minY, this.boundingBox.maxZ, Block.dirt.blockID, 0, true);
             this.fillWithBlocks(par1World, par3StructureBoundingBox, this.boundingBox.minX, this.boundingBox.minY + 1, this.boundingBox.minZ, this.boundingBox.maxX, Math.min(this.boundingBox.minY + 3, this.boundingBox.maxY), this.boundingBox.maxZ, 0, 0, false);
-            Iterator var4 = this.roomsLinkedToTheRoom.iterator();
+            Iterator iterator = this.roomsLinkedToTheRoom.iterator();
 
-            while (var4.hasNext())
+            while (iterator.hasNext())
             {
-                StructureBoundingBox var5 = (StructureBoundingBox)var4.next();
-                this.fillWithBlocks(par1World, par3StructureBoundingBox, var5.minX, var5.maxY - 2, var5.minZ, var5.maxX, var5.maxY, var5.maxZ, 0, 0, false);
+                StructureBoundingBox structureboundingbox1 = (StructureBoundingBox)iterator.next();
+                this.fillWithBlocks(par1World, par3StructureBoundingBox, structureboundingbox1.minX, structureboundingbox1.maxY - 2, structureboundingbox1.minZ, structureboundingbox1.maxX, structureboundingbox1.maxY, structureboundingbox1.maxZ, 0, 0, false);
             }
 
             this.randomlyRareFillWithBlocks(par1World, par3StructureBoundingBox, this.boundingBox.minX, this.boundingBox.minY + 4, this.boundingBox.minZ, this.boundingBox.maxX, this.boundingBox.maxY, this.boundingBox.maxZ, 0, false);
@@ -142,25 +142,25 @@ public class ComponentMineshaftRoom extends StructureComponent
 
     protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
     {
-        NBTTagList var2 = new NBTTagList("Entrances");
-        Iterator var3 = this.roomsLinkedToTheRoom.iterator();
+        NBTTagList nbttaglist = new NBTTagList("Entrances");
+        Iterator iterator = this.roomsLinkedToTheRoom.iterator();
 
-        while (var3.hasNext())
+        while (iterator.hasNext())
         {
-            StructureBoundingBox var4 = (StructureBoundingBox)var3.next();
-            var2.appendTag(var4.func_143047_a(""));
+            StructureBoundingBox structureboundingbox = (StructureBoundingBox)iterator.next();
+            nbttaglist.appendTag(structureboundingbox.func_143047_a(""));
         }
 
-        par1NBTTagCompound.setTag("Entrances", var2);
+        par1NBTTagCompound.setTag("Entrances", nbttaglist);
     }
 
     protected void func_143011_b(NBTTagCompound par1NBTTagCompound)
     {
-        NBTTagList var2 = par1NBTTagCompound.getTagList("Entrances");
+        NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Entrances");
 
-        for (int var3 = 0; var3 < var2.tagCount(); ++var3)
+        for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
-            this.roomsLinkedToTheRoom.add(new StructureBoundingBox(((NBTTagIntArray)var2.tagAt(var3)).intArray));
+            this.roomsLinkedToTheRoom.add(new StructureBoundingBox(((NBTTagIntArray)nbttaglist.tagAt(i)).intArray));
         }
     }
 }

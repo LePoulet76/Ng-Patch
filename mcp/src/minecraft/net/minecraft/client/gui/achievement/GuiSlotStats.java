@@ -87,24 +87,24 @@ abstract class GuiSlotStats extends GuiSlot
 
         if (this.field_77264_j != -1)
         {
-            short var4 = 79;
-            byte var5 = 18;
+            short short1 = 79;
+            byte b0 = 18;
 
             if (this.field_77264_j == 1)
             {
-                var4 = 129;
+                short1 = 129;
             }
             else if (this.field_77264_j == 2)
             {
-                var4 = 179;
+                short1 = 179;
             }
 
             if (this.field_77265_k == 1)
             {
-                var5 = 36;
+                b0 = 36;
             }
 
-            GuiStats.drawSprite(this.statsGui, par1 + var4, par2 + 1, var5, 0);
+            GuiStats.drawSprite(this.statsGui, par1 + short1, par2 + 1, b0, 0);
         }
     }
 
@@ -145,21 +145,21 @@ abstract class GuiSlotStats extends GuiSlot
         return (StatCrafting)this.field_77266_h.get(par1);
     }
 
-    protected abstract String func_77258_c(int var1);
+    protected abstract String func_77258_c(int i);
 
     protected void func_77260_a(StatCrafting par1StatCrafting, int par2, int par3, boolean par4)
     {
-        String var5;
+        String s;
 
         if (par1StatCrafting != null)
         {
-            var5 = par1StatCrafting.func_75968_a(GuiStats.getStatsFileWriter(this.statsGui).writeStat(par1StatCrafting));
-            this.statsGui.drawString(GuiStats.getFontRenderer4(this.statsGui), var5, par2 - GuiStats.getFontRenderer5(this.statsGui).getStringWidth(var5), par3 + 5, par4 ? 16777215 : 9474192);
+            s = par1StatCrafting.func_75968_a(GuiStats.getStatsFileWriter(this.statsGui).writeStat(par1StatCrafting));
+            this.statsGui.drawString(GuiStats.getFontRenderer4(this.statsGui), s, par2 - GuiStats.getFontRenderer5(this.statsGui).getStringWidth(s), par3 + 5, par4 ? 16777215 : 9474192);
         }
         else
         {
-            var5 = "-";
-            this.statsGui.drawString(GuiStats.getFontRenderer6(this.statsGui), var5, par2 - GuiStats.getFontRenderer7(this.statsGui).getStringWidth(var5), par3 + 5, par4 ? 16777215 : 9474192);
+            s = "-";
+            this.statsGui.drawString(GuiStats.getFontRenderer6(this.statsGui), s, par2 - GuiStats.getFontRenderer7(this.statsGui).getStringWidth(s), par3 + 5, par4 ? 16777215 : 9474192);
         }
     }
 
@@ -167,50 +167,50 @@ abstract class GuiSlotStats extends GuiSlot
     {
         if (par2 >= this.top && par2 <= this.bottom)
         {
-            int var3 = this.func_77210_c(par1, par2);
-            int var4 = this.statsGui.width / 2 - 92 - 16;
+            int k = this.func_77210_c(par1, par2);
+            int l = this.statsGui.width / 2 - 92 - 16;
 
-            if (var3 >= 0)
+            if (k >= 0)
             {
-                if (par1 < var4 + 40 || par1 > var4 + 40 + 20)
+                if (par1 < l + 40 || par1 > l + 40 + 20)
                 {
                     return;
                 }
 
-                StatCrafting var5 = this.func_77257_d(var3);
-                this.func_77259_a(var5, par1, par2);
+                StatCrafting statcrafting = this.func_77257_d(k);
+                this.func_77259_a(statcrafting, par1, par2);
             }
             else
             {
-                String var9 = "";
+                String s = "";
 
-                if (par1 >= var4 + 115 - 18 && par1 <= var4 + 115)
+                if (par1 >= l + 115 - 18 && par1 <= l + 115)
                 {
-                    var9 = this.func_77258_c(0);
+                    s = this.func_77258_c(0);
                 }
-                else if (par1 >= var4 + 165 - 18 && par1 <= var4 + 165)
+                else if (par1 >= l + 165 - 18 && par1 <= l + 165)
                 {
-                    var9 = this.func_77258_c(1);
+                    s = this.func_77258_c(1);
                 }
                 else
                 {
-                    if (par1 < var4 + 215 - 18 || par1 > var4 + 215)
+                    if (par1 < l + 215 - 18 || par1 > l + 215)
                     {
                         return;
                     }
 
-                    var9 = this.func_77258_c(2);
+                    s = this.func_77258_c(2);
                 }
 
-                var9 = ("" + I18n.getString(var9)).trim();
+                s = ("" + I18n.getString(s)).trim();
 
-                if (var9.length() > 0)
+                if (s.length() > 0)
                 {
-                    int var6 = par1 + 12;
-                    int var7 = par2 - 12;
-                    int var8 = GuiStats.getFontRenderer8(this.statsGui).getStringWidth(var9);
-                    GuiStats.drawGradientRect(this.statsGui, var6 - 3, var7 - 3, var6 + var8 + 3, var7 + 8 + 3, -1073741824, -1073741824);
-                    GuiStats.getFontRenderer9(this.statsGui).drawStringWithShadow(var9, var6, var7, -1);
+                    int i1 = par1 + 12;
+                    int j1 = par2 - 12;
+                    int k1 = GuiStats.getFontRenderer8(this.statsGui).getStringWidth(s);
+                    GuiStats.drawGradientRect(this.statsGui, i1 - 3, j1 - 3, i1 + k1 + 3, j1 + 8 + 3, -1073741824, -1073741824);
+                    GuiStats.getFontRenderer9(this.statsGui).drawStringWithShadow(s, i1, j1, -1);
                 }
             }
         }
@@ -220,16 +220,16 @@ abstract class GuiSlotStats extends GuiSlot
     {
         if (par1StatCrafting != null)
         {
-            Item var4 = Item.itemsList[par1StatCrafting.getItemID()];
-            String var5 = ("" + I18n.getString(var4.getUnlocalizedName() + ".name")).trim();
+            Item item = Item.itemsList[par1StatCrafting.getItemID()];
+            String s = ("" + I18n.getString(item.getUnlocalizedName() + ".name")).trim();
 
-            if (var5.length() > 0)
+            if (s.length() > 0)
             {
-                int var6 = par2 + 12;
-                int var7 = par3 - 12;
-                int var8 = GuiStats.getFontRenderer10(this.statsGui).getStringWidth(var5);
-                GuiStats.drawGradientRect1(this.statsGui, var6 - 3, var7 - 3, var6 + var8 + 3, var7 + 8 + 3, -1073741824, -1073741824);
-                GuiStats.getFontRenderer11(this.statsGui).drawStringWithShadow(var5, var6, var7, -1);
+                int k = par2 + 12;
+                int l = par3 - 12;
+                int i1 = GuiStats.getFontRenderer10(this.statsGui).getStringWidth(s);
+                GuiStats.drawGradientRect1(this.statsGui, k - 3, l - 3, k + i1 + 3, l + 8 + 3, -1073741824, -1073741824);
+                GuiStats.getFontRenderer11(this.statsGui).drawStringWithShadow(s, k, l, -1);
             }
         }
     }

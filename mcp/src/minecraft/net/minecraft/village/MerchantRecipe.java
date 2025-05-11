@@ -119,10 +119,10 @@ public class MerchantRecipe
 
     public void readFromTags(NBTTagCompound par1NBTTagCompound)
     {
-        NBTTagCompound var2 = par1NBTTagCompound.getCompoundTag("buy");
-        this.itemToBuy = ItemStack.loadItemStackFromNBT(var2);
-        NBTTagCompound var3 = par1NBTTagCompound.getCompoundTag("sell");
-        this.itemToSell = ItemStack.loadItemStackFromNBT(var3);
+        NBTTagCompound nbttagcompound1 = par1NBTTagCompound.getCompoundTag("buy");
+        this.itemToBuy = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+        NBTTagCompound nbttagcompound2 = par1NBTTagCompound.getCompoundTag("sell");
+        this.itemToSell = ItemStack.loadItemStackFromNBT(nbttagcompound2);
 
         if (par1NBTTagCompound.hasKey("buyB"))
         {
@@ -146,17 +146,17 @@ public class MerchantRecipe
 
     public NBTTagCompound writeToTags()
     {
-        NBTTagCompound var1 = new NBTTagCompound();
-        var1.setCompoundTag("buy", this.itemToBuy.writeToNBT(new NBTTagCompound("buy")));
-        var1.setCompoundTag("sell", this.itemToSell.writeToNBT(new NBTTagCompound("sell")));
+        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        nbttagcompound.setCompoundTag("buy", this.itemToBuy.writeToNBT(new NBTTagCompound("buy")));
+        nbttagcompound.setCompoundTag("sell", this.itemToSell.writeToNBT(new NBTTagCompound("sell")));
 
         if (this.secondItemToBuy != null)
         {
-            var1.setCompoundTag("buyB", this.secondItemToBuy.writeToNBT(new NBTTagCompound("buyB")));
+            nbttagcompound.setCompoundTag("buyB", this.secondItemToBuy.writeToNBT(new NBTTagCompound("buyB")));
         }
 
-        var1.setInteger("uses", this.toolUses);
-        var1.setInteger("maxUses", this.maxTradeUses);
-        return var1;
+        nbttagcompound.setInteger("uses", this.toolUses);
+        nbttagcompound.setInteger("maxUses", this.maxTradeUses);
+        return nbttagcompound;
     }
 }

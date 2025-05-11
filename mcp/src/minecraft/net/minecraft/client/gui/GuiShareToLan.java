@@ -91,19 +91,19 @@ public class GuiShareToLan extends GuiScreen
         else if (par1GuiButton.id == 101)
         {
             this.mc.displayGuiScreen((GuiScreen)null);
-            String var2 = this.mc.getIntegratedServer().shareToLAN(EnumGameType.getByName(this.gameMode), this.allowCommands);
-            ChatMessageComponent var3;
+            String s = this.mc.getIntegratedServer().shareToLAN(EnumGameType.getByName(this.gameMode), this.allowCommands);
+            ChatMessageComponent chatmessagecomponent;
 
-            if (var2 != null)
+            if (s != null)
             {
-                var3 = ChatMessageComponent.createFromTranslationWithSubstitutions("commands.publish.started", new Object[] {var2});
+                chatmessagecomponent = ChatMessageComponent.createFromTranslationWithSubstitutions("commands.publish.started", new Object[] {s});
             }
             else
             {
-                var3 = ChatMessageComponent.createFromText("commands.publish.failed");
+                chatmessagecomponent = ChatMessageComponent.createFromText("commands.publish.failed");
             }
 
-            this.mc.ingameGUI.getChatGUI().printChatMessage(var3.toStringWithFormatting(true));
+            this.mc.ingameGUI.getChatGUI().printChatMessage(chatmessagecomponent.toStringWithFormatting(true));
         }
     }
 

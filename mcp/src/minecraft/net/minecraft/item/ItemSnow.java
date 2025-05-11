@@ -27,17 +27,17 @@ public class ItemSnow extends ItemBlockWithMetadata
         }
         else
         {
-            int var11 = par3World.getBlockId(par4, par5, par6);
+            int i1 = par3World.getBlockId(par4, par5, par6);
 
-            if (var11 == Block.snow.blockID)
+            if (i1 == Block.snow.blockID)
             {
-                Block var12 = Block.blocksList[this.getBlockID()];
-                int var13 = par3World.getBlockMetadata(par4, par5, par6);
-                int var14 = var13 & 7;
+                Block block = Block.blocksList[this.getBlockID()];
+                int j1 = par3World.getBlockMetadata(par4, par5, par6);
+                int k1 = j1 & 7;
 
-                if (var14 <= 6 && par3World.checkNoEntityCollision(var12.getCollisionBoundingBoxFromPool(par3World, par4, par5, par6)) && par3World.setBlockMetadataWithNotify(par4, par5, par6, var14 + 1 | var13 & -8, 2))
+                if (k1 <= 6 && par3World.checkNoEntityCollision(block.getCollisionBoundingBoxFromPool(par3World, par4, par5, par6)) && par3World.setBlockMetadataWithNotify(par4, par5, par6, k1 + 1 | j1 & -8, 2))
                 {
-                    par3World.playSoundEffect((double)((float)par4 + 0.5F), (double)((float)par5 + 0.5F), (double)((float)par6 + 0.5F), var12.stepSound.getPlaceSound(), (var12.stepSound.getVolume() + 1.0F) / 2.0F, var12.stepSound.getPitch() * 0.8F);
+                    par3World.playSoundEffect((double)((float)par4 + 0.5F), (double)((float)par5 + 0.5F), (double)((float)par6 + 0.5F), block.stepSound.getPlaceSound(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
                     --par1ItemStack.stackSize;
                     return true;
                 }

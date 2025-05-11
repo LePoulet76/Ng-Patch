@@ -8,6 +8,8 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ChestGenHooks;
+import net.minecraftforge.common.DungeonHooks;
 
 public class WorldGenDungeons extends WorldGenerator
 {
@@ -15,141 +17,141 @@ public class WorldGenDungeons extends WorldGenerator
 
     public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
     {
-        byte var6 = 3;
-        int var7 = par2Random.nextInt(2) + 2;
-        int var8 = par2Random.nextInt(2) + 2;
-        int var9 = 0;
-        int var10;
-        int var11;
-        int var12;
+        byte b0 = 3;
+        int l = par2Random.nextInt(2) + 2;
+        int i1 = par2Random.nextInt(2) + 2;
+        int j1 = 0;
+        int k1;
+        int l1;
+        int i2;
 
-        for (var10 = par3 - var7 - 1; var10 <= par3 + var7 + 1; ++var10)
+        for (k1 = par3 - l - 1; k1 <= par3 + l + 1; ++k1)
         {
-            for (var11 = par4 - 1; var11 <= par4 + var6 + 1; ++var11)
+            for (l1 = par4 - 1; l1 <= par4 + b0 + 1; ++l1)
             {
-                for (var12 = par5 - var8 - 1; var12 <= par5 + var8 + 1; ++var12)
+                for (i2 = par5 - i1 - 1; i2 <= par5 + i1 + 1; ++i2)
                 {
-                    Material var13 = par1World.getBlockMaterial(var10, var11, var12);
+                    Material material = par1World.getBlockMaterial(k1, l1, i2);
 
-                    if (var11 == par4 - 1 && !var13.isSolid())
+                    if (l1 == par4 - 1 && !material.isSolid())
                     {
                         return false;
                     }
 
-                    if (var11 == par4 + var6 + 1 && !var13.isSolid())
+                    if (l1 == par4 + b0 + 1 && !material.isSolid())
                     {
                         return false;
                     }
 
-                    if ((var10 == par3 - var7 - 1 || var10 == par3 + var7 + 1 || var12 == par5 - var8 - 1 || var12 == par5 + var8 + 1) && var11 == par4 && par1World.isAirBlock(var10, var11, var12) && par1World.isAirBlock(var10, var11 + 1, var12))
+                    if ((k1 == par3 - l - 1 || k1 == par3 + l + 1 || i2 == par5 - i1 - 1 || i2 == par5 + i1 + 1) && l1 == par4 && par1World.isAirBlock(k1, l1, i2) && par1World.isAirBlock(k1, l1 + 1, i2))
                     {
-                        ++var9;
+                        ++j1;
                     }
                 }
             }
         }
 
-        if (var9 >= 1 && var9 <= 5)
+        if (j1 >= 1 && j1 <= 5)
         {
-            for (var10 = par3 - var7 - 1; var10 <= par3 + var7 + 1; ++var10)
+            for (k1 = par3 - l - 1; k1 <= par3 + l + 1; ++k1)
             {
-                for (var11 = par4 + var6; var11 >= par4 - 1; --var11)
+                for (l1 = par4 + b0; l1 >= par4 - 1; --l1)
                 {
-                    for (var12 = par5 - var8 - 1; var12 <= par5 + var8 + 1; ++var12)
+                    for (i2 = par5 - i1 - 1; i2 <= par5 + i1 + 1; ++i2)
                     {
-                        if (var10 != par3 - var7 - 1 && var11 != par4 - 1 && var12 != par5 - var8 - 1 && var10 != par3 + var7 + 1 && var11 != par4 + var6 + 1 && var12 != par5 + var8 + 1)
+                        if (k1 != par3 - l - 1 && l1 != par4 - 1 && i2 != par5 - i1 - 1 && k1 != par3 + l + 1 && l1 != par4 + b0 + 1 && i2 != par5 + i1 + 1)
                         {
-                            par1World.setBlockToAir(var10, var11, var12);
+                            par1World.setBlockToAir(k1, l1, i2);
                         }
-                        else if (var11 >= 0 && !par1World.getBlockMaterial(var10, var11 - 1, var12).isSolid())
+                        else if (l1 >= 0 && !par1World.getBlockMaterial(k1, l1 - 1, i2).isSolid())
                         {
-                            par1World.setBlockToAir(var10, var11, var12);
+                            par1World.setBlockToAir(k1, l1, i2);
                         }
-                        else if (par1World.getBlockMaterial(var10, var11, var12).isSolid())
+                        else if (par1World.getBlockMaterial(k1, l1, i2).isSolid())
                         {
-                            if (var11 == par4 - 1 && par2Random.nextInt(4) != 0)
+                            if (l1 == par4 - 1 && par2Random.nextInt(4) != 0)
                             {
-                                par1World.setBlock(var10, var11, var12, Block.cobblestoneMossy.blockID, 0, 2);
+                                par1World.setBlock(k1, l1, i2, Block.cobblestoneMossy.blockID, 0, 2);
                             }
                             else
                             {
-                                par1World.setBlock(var10, var11, var12, Block.cobblestone.blockID, 0, 2);
+                                par1World.setBlock(k1, l1, i2, Block.cobblestone.blockID, 0, 2);
                             }
                         }
                     }
                 }
             }
 
-            var10 = 0;
+            k1 = 0;
 
-            while (var10 < 2)
+            while (k1 < 2)
             {
-                var11 = 0;
+                l1 = 0;
 
                 while (true)
                 {
-                    if (var11 < 3)
+                    if (l1 < 3)
                     {
                         label197:
                         {
-                            var12 = par3 + par2Random.nextInt(var7 * 2 + 1) - var7;
-                            int var14 = par5 + par2Random.nextInt(var8 * 2 + 1) - var8;
+                            i2 = par3 + par2Random.nextInt(l * 2 + 1) - l;
+                            int j2 = par5 + par2Random.nextInt(i1 * 2 + 1) - i1;
 
-                            if (par1World.isAirBlock(var12, par4, var14))
+                            if (par1World.isAirBlock(i2, par4, j2))
                             {
-                                int var15 = 0;
+                                int k2 = 0;
 
-                                if (par1World.getBlockMaterial(var12 - 1, par4, var14).isSolid())
+                                if (par1World.getBlockMaterial(i2 - 1, par4, j2).isSolid())
                                 {
-                                    ++var15;
+                                    ++k2;
                                 }
 
-                                if (par1World.getBlockMaterial(var12 + 1, par4, var14).isSolid())
+                                if (par1World.getBlockMaterial(i2 + 1, par4, j2).isSolid())
                                 {
-                                    ++var15;
+                                    ++k2;
                                 }
 
-                                if (par1World.getBlockMaterial(var12, par4, var14 - 1).isSolid())
+                                if (par1World.getBlockMaterial(i2, par4, j2 - 1).isSolid())
                                 {
-                                    ++var15;
+                                    ++k2;
                                 }
 
-                                if (par1World.getBlockMaterial(var12, par4, var14 + 1).isSolid())
+                                if (par1World.getBlockMaterial(i2, par4, j2 + 1).isSolid())
                                 {
-                                    ++var15;
+                                    ++k2;
                                 }
 
-                                if (var15 == 1)
+                                if (k2 == 1)
                                 {
-                                    par1World.setBlock(var12, par4, var14, Block.chest.blockID, 0, 2);
-                                    WeightedRandomChestContent[] var16 = WeightedRandomChestContent.func_92080_a(field_111189_a, new WeightedRandomChestContent[] {Item.enchantedBook.func_92114_b(par2Random)});
-                                    TileEntityChest var17 = (TileEntityChest)par1World.getBlockTileEntity(var12, par4, var14);
+                                    par1World.setBlock(i2, par4, j2, Block.chest.blockID, 0, 2);
+                                    TileEntityChest tileentitychest = (TileEntityChest)par1World.getBlockTileEntity(i2, par4, j2);
 
-                                    if (var17 != null)
+                                    if (tileentitychest != null)
                                     {
-                                        WeightedRandomChestContent.generateChestContents(par2Random, var16, var17, 8);
+                                        ChestGenHooks info = ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST);
+                                        WeightedRandomChestContent.generateChestContents(par2Random, info.getItems(par2Random), tileentitychest, info.getCount(par2Random));
                                     }
 
                                     break label197;
                                 }
                             }
 
-                            ++var11;
+                            ++l1;
                             continue;
                         }
                     }
 
-                    ++var10;
+                    ++k1;
                     break;
                 }
             }
 
             par1World.setBlock(par3, par4, par5, Block.mobSpawner.blockID, 0, 2);
-            TileEntityMobSpawner var18 = (TileEntityMobSpawner)par1World.getBlockTileEntity(par3, par4, par5);
+            TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner)par1World.getBlockTileEntity(par3, par4, par5);
 
-            if (var18 != null)
+            if (tileentitymobspawner != null)
             {
-                var18.getSpawnerLogic().setMobID(this.pickMobSpawner(par2Random));
+                tileentitymobspawner.getSpawnerLogic().setMobID(this.pickMobSpawner(par2Random));
             }
             else
             {
@@ -169,7 +171,6 @@ public class WorldGenDungeons extends WorldGenerator
      */
     private String pickMobSpawner(Random par1Random)
     {
-        int var2 = par1Random.nextInt(4);
-        return var2 == 0 ? "Skeleton" : (var2 == 1 ? "Zombie" : (var2 == 2 ? "Zombie" : (var2 == 3 ? "Spider" : "")));
+        return DungeonHooks.getRandomDungeonMob(par1Random);
     }
 }

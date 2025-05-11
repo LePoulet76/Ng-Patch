@@ -39,9 +39,9 @@ public class BiomeGenSwamp extends BiomeGenBase
      */
     public int getBiomeGrassColor()
     {
-        double var1 = (double)this.getFloatTemperature();
-        double var3 = (double)this.getFloatRainfall();
-        return ((ColorizerGrass.getGrassColor(var1, var3) & 16711422) + 5115470) / 2;
+        double d0 = (double)this.getFloatTemperature();
+        double d1 = (double)this.getFloatRainfall();
+        return ((ColorizerGrass.getGrassColor(d0, d1) & 16711422) + 5115470) / 2;
     }
 
     @SideOnly(Side.CLIENT)
@@ -51,8 +51,8 @@ public class BiomeGenSwamp extends BiomeGenBase
      */
     public int getBiomeFoliageColor()
     {
-        double var1 = (double)this.getFloatTemperature();
-        double var3 = (double)this.getFloatRainfall();
-        return ((ColorizerFoliage.getFoliageColor(var1, var3) & 16711422) + 5115470) / 2;
+        double d0 = (double)this.getFloatTemperature();
+        double d1 = (double)this.getFloatRainfall();
+        return ((ColorizerFoliage.getFoliageColor(d0, d1) & 16711422) + 5115470) / 2;
     }
 }

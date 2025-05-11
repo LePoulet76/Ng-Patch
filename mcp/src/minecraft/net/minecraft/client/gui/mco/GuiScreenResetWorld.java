@@ -101,9 +101,9 @@ public class GuiScreenResetWorld extends ScreenWithCallback
             }
             else if (par1GuiButton.id == 1)
             {
-                String var2 = I18n.getString("mco.configure.world.reset.question.line1");
-                String var3 = I18n.getString("mco.configure.world.reset.question.line2");
-                this.mc.displayGuiScreen(new GuiScreenConfirmation(this, GuiScreenConfirmationType.Warning, var2, var3, 1));
+                String s = I18n.getString("mco.configure.world.reset.question.line1");
+                String s1 = I18n.getString("mco.configure.world.reset.question.line2");
+                this.mc.displayGuiScreen(new GuiScreenConfirmation(this, GuiScreenConfirmationType.Warning, s, s1, 1));
             }
             else if (par1GuiButton.id == field_110360_p)
             {
@@ -126,10 +126,10 @@ public class GuiScreenResetWorld extends ScreenWithCallback
 
     private void func_140006_g()
     {
-        TaskResetWorld var1 = new TaskResetWorld(this, this.field_96150_b.field_96408_a, this.field_96151_c.getText(), this.field_110359_q);
-        GuiScreenLongRunningTask var2 = new GuiScreenLongRunningTask(this.mc, this.field_96152_a, var1);
-        var2.func_98117_g();
-        this.mc.displayGuiScreen(var2);
+        TaskResetWorld taskresetworld = new TaskResetWorld(this, this.field_96150_b.field_96408_a, this.field_96151_c.getText(), this.field_110359_q);
+        GuiScreenLongRunningTask guiscreenlongrunningtask = new GuiScreenLongRunningTask(this.mc, this.field_96152_a, taskresetworld);
+        guiscreenlongrunningtask.func_98117_g();
+        this.mc.displayGuiScreen(guiscreenlongrunningtask);
     }
 
     /**

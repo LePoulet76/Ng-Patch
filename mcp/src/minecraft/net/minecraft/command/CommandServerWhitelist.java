@@ -47,8 +47,8 @@ public class CommandServerWhitelist extends CommandBase
             if (par2ArrayOfStr[0].equals("list"))
             {
                 par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromTranslationWithSubstitutions("commands.whitelist.list", new Object[] {Integer.valueOf(MinecraftServer.getServer().getConfigurationManager().getWhiteListedPlayers().size()), Integer.valueOf(MinecraftServer.getServer().getConfigurationManager().getAvailablePlayerDat().length)}));
-                Set var3 = MinecraftServer.getServer().getConfigurationManager().getWhiteListedPlayers();
-                par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromText(joinNiceString(var3.toArray(new String[var3.size()]))));
+                Set set = MinecraftServer.getServer().getConfigurationManager().getWhiteListedPlayers();
+                par1ICommandSender.sendChatToPlayer(ChatMessageComponent.createFromText(joinNiceString(set.toArray(new String[set.size()]))));
                 return;
             }
 
@@ -102,23 +102,23 @@ public class CommandServerWhitelist extends CommandBase
             {
                 if (par2ArrayOfStr[0].equals("add"))
                 {
-                    String[] var3 = MinecraftServer.getServer().getConfigurationManager().getAvailablePlayerDat();
-                    ArrayList var4 = new ArrayList();
-                    String var5 = par2ArrayOfStr[par2ArrayOfStr.length - 1];
-                    String[] var6 = var3;
-                    int var7 = var3.length;
+                    String[] astring1 = MinecraftServer.getServer().getConfigurationManager().getAvailablePlayerDat();
+                    ArrayList arraylist = new ArrayList();
+                    String s = par2ArrayOfStr[par2ArrayOfStr.length - 1];
+                    String[] astring2 = astring1;
+                    int i = astring1.length;
 
-                    for (int var8 = 0; var8 < var7; ++var8)
+                    for (int j = 0; j < i; ++j)
                     {
-                        String var9 = var6[var8];
+                        String s1 = astring2[j];
 
-                        if (doesStringStartWith(var5, var9) && !MinecraftServer.getServer().getConfigurationManager().getWhiteListedPlayers().contains(var9))
+                        if (doesStringStartWith(s, s1) && !MinecraftServer.getServer().getConfigurationManager().getWhiteListedPlayers().contains(s1))
                         {
-                            var4.add(var9);
+                            arraylist.add(s1);
                         }
                     }
 
-                    return var4;
+                    return arraylist;
                 }
 
                 if (par2ArrayOfStr[0].equals("remove"))

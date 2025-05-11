@@ -31,10 +31,10 @@ public class EntityAIEatGrass extends EntityAIBase
         }
         else
         {
-            int var1 = MathHelper.floor_double(this.theEntity.posX);
-            int var2 = MathHelper.floor_double(this.theEntity.posY);
-            int var3 = MathHelper.floor_double(this.theEntity.posZ);
-            return this.theWorld.getBlockId(var1, var2, var3) == Block.tallGrass.blockID && this.theWorld.getBlockMetadata(var1, var2, var3) == 1 ? true : this.theWorld.getBlockId(var1, var2 - 1, var3) == Block.grass.blockID;
+            int i = MathHelper.floor_double(this.theEntity.posX);
+            int j = MathHelper.floor_double(this.theEntity.posY);
+            int k = MathHelper.floor_double(this.theEntity.posZ);
+            return this.theWorld.getBlockId(i, j, k) == Block.tallGrass.blockID && this.theWorld.getBlockMetadata(i, j, k) == 1 ? true : this.theWorld.getBlockId(i, j - 1, k) == Block.grass.blockID;
         }
     }
 
@@ -78,19 +78,19 @@ public class EntityAIEatGrass extends EntityAIBase
 
         if (this.eatGrassTick == 4)
         {
-            int var1 = MathHelper.floor_double(this.theEntity.posX);
-            int var2 = MathHelper.floor_double(this.theEntity.posY);
-            int var3 = MathHelper.floor_double(this.theEntity.posZ);
+            int i = MathHelper.floor_double(this.theEntity.posX);
+            int j = MathHelper.floor_double(this.theEntity.posY);
+            int k = MathHelper.floor_double(this.theEntity.posZ);
 
-            if (this.theWorld.getBlockId(var1, var2, var3) == Block.tallGrass.blockID)
+            if (this.theWorld.getBlockId(i, j, k) == Block.tallGrass.blockID)
             {
-                this.theWorld.destroyBlock(var1, var2, var3, false);
+                this.theWorld.destroyBlock(i, j, k, false);
                 this.theEntity.eatGrassBonus();
             }
-            else if (this.theWorld.getBlockId(var1, var2 - 1, var3) == Block.grass.blockID)
+            else if (this.theWorld.getBlockId(i, j - 1, k) == Block.grass.blockID)
             {
-                this.theWorld.playAuxSFX(2001, var1, var2 - 1, var3, Block.grass.blockID);
-                this.theWorld.setBlock(var1, var2 - 1, var3, Block.dirt.blockID, 0, 2);
+                this.theWorld.playAuxSFX(2001, i, j - 1, k, Block.grass.blockID);
+                this.theWorld.setBlock(i, j - 1, k, Block.dirt.blockID, 0, 2);
                 this.theEntity.eatGrassBonus();
             }
         }

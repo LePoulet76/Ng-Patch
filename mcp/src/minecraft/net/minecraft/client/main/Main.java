@@ -21,76 +21,76 @@ public class Main
     public static void main(String[] par0ArrayOfStr)
     {
         System.setProperty("java.net.preferIPv4Stack", "true");
-        OptionParser var1 = new OptionParser();
-        var1.allowsUnrecognizedOptions();
-        var1.accepts("demo");
-        var1.accepts("fullscreen");
-        ArgumentAcceptingOptionSpec var2 = var1.accepts("server").withRequiredArg();
-        ArgumentAcceptingOptionSpec var3 = var1.accepts("port").withRequiredArg().ofType(Integer.class).defaultsTo(Integer.valueOf(25565), new Integer[0]);
-        ArgumentAcceptingOptionSpec var4 = var1.accepts("gameDir").withRequiredArg().ofType(File.class).defaultsTo(new File("."), new File[0]);
-        ArgumentAcceptingOptionSpec var5 = var1.accepts("assetsDir").withRequiredArg().ofType(File.class);
-        ArgumentAcceptingOptionSpec var6 = var1.accepts("resourcePackDir").withRequiredArg().ofType(File.class);
-        ArgumentAcceptingOptionSpec var7 = var1.accepts("proxyHost").withRequiredArg();
-        ArgumentAcceptingOptionSpec var8 = var1.accepts("proxyPort").withRequiredArg().defaultsTo("8080", new String[0]).ofType(Integer.class);
-        ArgumentAcceptingOptionSpec var9 = var1.accepts("proxyUser").withRequiredArg();
-        ArgumentAcceptingOptionSpec var10 = var1.accepts("proxyPass").withRequiredArg();
-        ArgumentAcceptingOptionSpec var11 = var1.accepts("username").withRequiredArg().defaultsTo("Player" + Minecraft.getSystemTime() % 1000L, new String[0]);
-        ArgumentAcceptingOptionSpec var12 = var1.accepts("session").withRequiredArg();
-        ArgumentAcceptingOptionSpec var13 = var1.accepts("version").withRequiredArg().required();
-        ArgumentAcceptingOptionSpec var14 = var1.accepts("width").withRequiredArg().ofType(Integer.class).defaultsTo(Integer.valueOf(854), new Integer[0]);
-        ArgumentAcceptingOptionSpec var15 = var1.accepts("height").withRequiredArg().ofType(Integer.class).defaultsTo(Integer.valueOf(480), new Integer[0]);
-        NonOptionArgumentSpec var16 = var1.nonOptions();
-        OptionSet var17 = var1.parse(par0ArrayOfStr);
-        List var18 = var17.valuesOf(var16);
-        String var19 = (String)var17.valueOf(var7);
-        Proxy var20 = Proxy.NO_PROXY;
+        OptionParser optionparser = new OptionParser();
+        optionparser.allowsUnrecognizedOptions();
+        optionparser.accepts("demo");
+        optionparser.accepts("fullscreen");
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec = optionparser.accepts("server").withRequiredArg();
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec1 = optionparser.accepts("port").withRequiredArg().ofType(Integer.class).defaultsTo(Integer.valueOf(25565), new Integer[0]);
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec2 = optionparser.accepts("gameDir").withRequiredArg().ofType(File.class).defaultsTo(new File("."), new File[0]);
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec3 = optionparser.accepts("assetsDir").withRequiredArg().ofType(File.class);
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec4 = optionparser.accepts("resourcePackDir").withRequiredArg().ofType(File.class);
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec5 = optionparser.accepts("proxyHost").withRequiredArg();
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec6 = optionparser.accepts("proxyPort").withRequiredArg().defaultsTo("8080", new String[0]).ofType(Integer.class);
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec7 = optionparser.accepts("proxyUser").withRequiredArg();
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec8 = optionparser.accepts("proxyPass").withRequiredArg();
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec9 = optionparser.accepts("username").withRequiredArg().defaultsTo("Player" + Minecraft.getSystemTime() % 1000L, new String[0]);
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec10 = optionparser.accepts("session").withRequiredArg();
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec11 = optionparser.accepts("version").withRequiredArg().required();
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec12 = optionparser.accepts("width").withRequiredArg().ofType(Integer.class).defaultsTo(Integer.valueOf(854), new Integer[0]);
+        ArgumentAcceptingOptionSpec argumentacceptingoptionspec13 = optionparser.accepts("height").withRequiredArg().ofType(Integer.class).defaultsTo(Integer.valueOf(480), new Integer[0]);
+        NonOptionArgumentSpec nonoptionargumentspec = optionparser.nonOptions();
+        OptionSet optionset = optionparser.parse(par0ArrayOfStr);
+        List list = optionset.valuesOf(nonoptionargumentspec);
+        String s = (String)optionset.valueOf(argumentacceptingoptionspec5);
+        Proxy proxy = Proxy.NO_PROXY;
 
-        if (var19 != null)
+        if (s != null)
         {
             try
             {
-                var20 = new Proxy(Type.SOCKS, new InetSocketAddress(var19, ((Integer)var17.valueOf(var8)).intValue()));
+                proxy = new Proxy(Type.SOCKS, new InetSocketAddress(s, ((Integer)optionset.valueOf(argumentacceptingoptionspec6)).intValue()));
             }
-            catch (Exception var34)
+            catch (Exception exception)
             {
                 ;
             }
         }
 
-        String var21 = (String)var17.valueOf(var9);
-        String var22 = (String)var17.valueOf(var10);
+        String s1 = (String)optionset.valueOf(argumentacceptingoptionspec7);
+        String s2 = (String)optionset.valueOf(argumentacceptingoptionspec8);
 
-        if (!var20.equals(Proxy.NO_PROXY) && func_110121_a(var21) && func_110121_a(var22))
+        if (!proxy.equals(Proxy.NO_PROXY) && func_110121_a(s1) && func_110121_a(s2))
         {
-            Authenticator.setDefault(new MainProxyAuthenticator(var21, var22));
+            Authenticator.setDefault(new MainProxyAuthenticator(s1, s2));
         }
 
-        int var23 = ((Integer)var17.valueOf(var14)).intValue();
-        int var24 = ((Integer)var17.valueOf(var15)).intValue();
-        boolean var25 = var17.has("fullscreen");
-        boolean var26 = var17.has("demo");
-        String var27 = (String)var17.valueOf(var13);
-        File var28 = (File)var17.valueOf(var4);
-        File var29 = var17.has(var5) ? (File)var17.valueOf(var5) : new File(var28, "assets/");
-        File var30 = var17.has(var6) ? (File)var17.valueOf(var6) : new File(var28, "resourcepacks/");
-        Session var31 = new Session((String)var11.value(var17), (String)var12.value(var17));
-        Minecraft var32 = new Minecraft(var31, var23, var24, var25, var26, var28, var29, var30, var20, var27);
-        String var33 = (String)var17.valueOf(var2);
+        int i = ((Integer)optionset.valueOf(argumentacceptingoptionspec12)).intValue();
+        int j = ((Integer)optionset.valueOf(argumentacceptingoptionspec13)).intValue();
+        boolean flag = optionset.has("fullscreen");
+        boolean flag1 = optionset.has("demo");
+        String s3 = (String)optionset.valueOf(argumentacceptingoptionspec11);
+        File file1 = (File)optionset.valueOf(argumentacceptingoptionspec2);
+        File file2 = optionset.has(argumentacceptingoptionspec3) ? (File)optionset.valueOf(argumentacceptingoptionspec3) : new File(file1, "assets/");
+        File file3 = optionset.has(argumentacceptingoptionspec4) ? (File)optionset.valueOf(argumentacceptingoptionspec4) : new File(file1, "resourcepacks/");
+        Session session = new Session((String)argumentacceptingoptionspec9.value(optionset), (String)argumentacceptingoptionspec10.value(optionset));
+        Minecraft minecraft = new Minecraft(session, i, j, flag, flag1, file1, file2, file3, proxy, s3);
+        String s4 = (String)optionset.valueOf(argumentacceptingoptionspec);
 
-        if (var33 != null)
+        if (s4 != null)
         {
-            var32.setServer(var33, ((Integer)var17.valueOf(var3)).intValue());
+            minecraft.setServer(s4, ((Integer)optionset.valueOf(argumentacceptingoptionspec1)).intValue());
         }
 
         Runtime.getRuntime().addShutdownHook(new MainShutdownHook());
 
-        if (!var18.isEmpty())
+        if (!list.isEmpty())
         {
-            System.out.println("Completely ignored arguments: " + var18);
+            System.out.println("Completely ignored arguments: " + list);
         }
 
         Thread.currentThread().setName("Minecraft main thread");
-        var32.run();
+        minecraft.run();
     }
 
     private static boolean func_110121_a(String par0Str)

@@ -22,19 +22,19 @@ public class TileEntityMobSpawnerRenderer extends TileEntitySpecialRenderer
 
     public static void func_98144_a(MobSpawnerBaseLogic par0MobSpawnerBaseLogic, double par1, double par3, double par5, float par7)
     {
-        Entity var8 = par0MobSpawnerBaseLogic.func_98281_h();
+        Entity entity = par0MobSpawnerBaseLogic.func_98281_h();
 
-        if (var8 != null)
+        if (entity != null)
         {
-            var8.setWorld(par0MobSpawnerBaseLogic.getSpawnerWorld());
-            float var9 = 0.4375F;
+            entity.setWorld(par0MobSpawnerBaseLogic.getSpawnerWorld());
+            float f1 = 0.4375F;
             GL11.glTranslatef(0.0F, 0.4F, 0.0F);
             GL11.glRotatef((float)(par0MobSpawnerBaseLogic.field_98284_d + (par0MobSpawnerBaseLogic.field_98287_c - par0MobSpawnerBaseLogic.field_98284_d) * (double)par7) * 10.0F, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(-30.0F, 1.0F, 0.0F, 0.0F);
             GL11.glTranslatef(0.0F, -0.4F, 0.0F);
-            GL11.glScalef(var9, var9, var9);
-            var8.setLocationAndAngles(par1, par3, par5, 0.0F, 0.0F);
-            RenderManager.instance.renderEntityWithPosYaw(var8, 0.0D, 0.0D, 0.0D, 0.0F, par7);
+            GL11.glScalef(f1, f1, f1);
+            entity.setLocationAndAngles(par1, par3, par5, 0.0F, 0.0F);
+            RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, par7);
         }
     }
 

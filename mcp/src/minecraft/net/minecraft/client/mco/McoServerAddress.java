@@ -14,22 +14,22 @@ public class McoServerAddress extends ValueObject
 
     public static McoServerAddress func_98162_a(String par0Str)
     {
-        McoServerAddress var1 = new McoServerAddress();
+        McoServerAddress mcoserveraddress = new McoServerAddress();
 
         try
         {
-            JsonRootNode var2 = (new JdomParser()).parse(par0Str);
-            var1.field_96417_a = var2.getStringValue(new Object[] {"address"});
+            JsonRootNode jsonrootnode = (new JdomParser()).parse(par0Str);
+            mcoserveraddress.field_96417_a = jsonrootnode.getStringValue(new Object[] {"address"});
         }
-        catch (InvalidSyntaxException var3)
+        catch (InvalidSyntaxException invalidsyntaxexception)
         {
             ;
         }
-        catch (IllegalArgumentException var4)
+        catch (IllegalArgumentException illegalargumentexception)
         {
             ;
         }
 
-        return var1;
+        return mcoserveraddress;
     }
 }

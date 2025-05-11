@@ -28,19 +28,19 @@ public class MinecraftServerGui extends JComponent
         {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
             ;
         }
 
-        MinecraftServerGui var1 = new MinecraftServerGui(par0DedicatedServer);
+        MinecraftServerGui minecraftservergui = new MinecraftServerGui(par0DedicatedServer);
         field_120022_a = true;
-        JFrame var2 = new JFrame("Minecraft server");
-        var2.add(var1);
-        var2.pack();
-        var2.setLocationRelativeTo((Component)null);
-        var2.setVisible(true);
-        var2.addWindowListener(new MinecraftServerGuiINNER1(par0DedicatedServer));
+        JFrame jframe = new JFrame("Minecraft server");
+        jframe.add(minecraftservergui);
+        jframe.pack();
+        jframe.setLocationRelativeTo((Component)null);
+        jframe.setVisible(true);
+        jframe.addWindowListener(new MinecraftServerGuiINNER1(par0DedicatedServer));
     }
 
     public MinecraftServerGui(DedicatedServer par1DedicatedServer)
@@ -54,43 +54,43 @@ public class MinecraftServerGui extends JComponent
             this.add(this.func_120018_d(), "Center");
             this.add(this.func_120019_b(), "West");
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
-            var3.printStackTrace();
+            exception.printStackTrace();
         }
     }
 
     private JComponent func_120019_b()
     {
-        JPanel var1 = new JPanel(new BorderLayout());
-        var1.add(new StatsComponent(this.field_120021_b), "North");
-        var1.add(this.func_120020_c(), "Center");
-        var1.setBorder(new TitledBorder(new EtchedBorder(), "Stats"));
-        return var1;
+        JPanel jpanel = new JPanel(new BorderLayout());
+        jpanel.add(new StatsComponent(this.field_120021_b), "North");
+        jpanel.add(this.func_120020_c(), "Center");
+        jpanel.setBorder(new TitledBorder(new EtchedBorder(), "Stats"));
+        return jpanel;
     }
 
     private JComponent func_120020_c()
     {
-        PlayerListComponent var1 = new PlayerListComponent(this.field_120021_b);
-        JScrollPane var2 = new JScrollPane(var1, 22, 30);
-        var2.setBorder(new TitledBorder(new EtchedBorder(), "Players"));
-        return var2;
+        PlayerListComponent playerlistcomponent = new PlayerListComponent(this.field_120021_b);
+        JScrollPane jscrollpane = new JScrollPane(playerlistcomponent, 22, 30);
+        jscrollpane.setBorder(new TitledBorder(new EtchedBorder(), "Players"));
+        return jscrollpane;
     }
 
     private JComponent func_120018_d()
     {
-        JPanel var1 = new JPanel(new BorderLayout());
-        JTextArea var2 = new JTextArea();
-        this.field_120021_b.getLogAgent().func_120013_a().addHandler(new TextAreaLogHandler(var2));
-        JScrollPane var3 = new JScrollPane(var2, 22, 30);
-        var2.setEditable(false);
-        JTextField var4 = new JTextField();
-        var4.addActionListener(new MinecraftServerGuiINNER2(this, var4));
-        var2.addFocusListener(new MinecraftServerGuiINNER3(this));
-        var1.add(var3, "Center");
-        var1.add(var4, "South");
-        var1.setBorder(new TitledBorder(new EtchedBorder(), "Log and chat"));
-        return var1;
+        JPanel jpanel = new JPanel(new BorderLayout());
+        JTextArea jtextarea = new JTextArea();
+        this.field_120021_b.getLogAgent().func_120013_a().addHandler(new TextAreaLogHandler(jtextarea));
+        JScrollPane jscrollpane = new JScrollPane(jtextarea, 22, 30);
+        jtextarea.setEditable(false);
+        JTextField jtextfield = new JTextField();
+        jtextfield.addActionListener(new MinecraftServerGuiINNER2(this, jtextfield));
+        jtextarea.addFocusListener(new MinecraftServerGuiINNER3(this));
+        jpanel.add(jscrollpane, "Center");
+        jpanel.add(jtextfield, "South");
+        jpanel.setBorder(new TitledBorder(new EtchedBorder(), "Log and chat"));
+        return jpanel;
     }
 
     static DedicatedServer func_120017_a(MinecraftServerGui par0MinecraftServerGui)

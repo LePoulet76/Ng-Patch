@@ -72,15 +72,15 @@ public class BanList
 
     public void removeExpiredBans()
     {
-        Iterator var1 = this.theBanList.values().iterator();
+        Iterator iterator = this.theBanList.values().iterator();
 
-        while (var1.hasNext())
+        while (iterator.hasNext())
         {
-            BanEntry var2 = (BanEntry)var1.next();
+            BanEntry banentry = (BanEntry)iterator.next();
 
-            if (var2.hasBanExpired())
+            if (banentry.hasBanExpired())
             {
-                var1.remove();
+                iterator.remove();
             }
         }
     }
@@ -92,37 +92,37 @@ public class BanList
     {
         if (this.fileName.isFile())
         {
-            BufferedReader var1;
+            BufferedReader bufferedreader;
 
             try
             {
-                var1 = new BufferedReader(new FileReader(this.fileName));
+                bufferedreader = new BufferedReader(new FileReader(this.fileName));
             }
-            catch (FileNotFoundException var4)
+            catch (FileNotFoundException filenotfoundexception)
             {
                 throw new Error();
             }
 
-            String var2;
+            String s;
 
             try
             {
-                while ((var2 = var1.readLine()) != null)
+                while ((s = bufferedreader.readLine()) != null)
                 {
-                    if (!var2.startsWith("#"))
+                    if (!s.startsWith("#"))
                     {
-                        BanEntry var3 = BanEntry.parse(var2);
+                        BanEntry banentry = BanEntry.parse(s);
 
-                        if (var3 != null)
+                        if (banentry != null)
                         {
-                            this.theBanList.putLower(var3.getBannedUsername(), var3);
+                            this.theBanList.putLower(banentry.getBannedUsername(), banentry);
                         }
                     }
                 }
             }
-            catch (IOException var5)
+            catch (IOException ioexception)
             {
-                MinecraftServer.getServer().getLogAgent().logSevereException("Could not load ban list", var5);
+                MinecraftServer.getServer().getLogAgent().logSevereException("Could not load ban list", ioexception);
             }
         }
     }
@@ -141,28 +141,28 @@ public class BanList
 
         try
         {
-            PrintWriter var2 = new PrintWriter(new FileWriter(this.fileName, false));
+            PrintWriter printwriter = new PrintWriter(new FileWriter(this.fileName, false));
 
             if (par1)
             {
-                var2.println("# Updated " + (new SimpleDateFormat()).format(new Date()) + " by Minecraft " + "1.6.4");
-                var2.println("# victim name | ban date | banned by | banned until | reason");
-                var2.println();
+                printwriter.println("# Updated " + (new SimpleDateFormat()).format(new Date()) + " by Minecraft " + "1.6.4");
+                printwriter.println("# victim name | ban date | banned by | banned until | reason");
+                printwriter.println();
             }
 
-            Iterator var3 = this.theBanList.values().iterator();
+            Iterator iterator = this.theBanList.values().iterator();
 
-            while (var3.hasNext())
+            while (iterator.hasNext())
             {
-                BanEntry var4 = (BanEntry)var3.next();
-                var2.println(var4.buildBanString());
+                BanEntry banentry = (BanEntry)iterator.next();
+                printwriter.println(banentry.buildBanString());
             }
 
-            var2.close();
+            printwriter.close();
         }
-        catch (IOException var5)
+        catch (IOException ioexception)
         {
-            MinecraftServer.getServer().getLogAgent().logSevereException("Could not save ban list", var5);
+            MinecraftServer.getServer().getLogAgent().logSevereException("Could not save ban list", ioexception);
         }
     }
 }

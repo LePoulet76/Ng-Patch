@@ -77,20 +77,20 @@ public class McoServerList
 
     private synchronized void func_96426_a(List par1List)
     {
-        int var2 = 0;
-        Iterator var3 = this.field_140060_d.iterator();
+        int i = 0;
+        Iterator iterator = this.field_140060_d.iterator();
 
-        while (var3.hasNext())
+        while (iterator.hasNext())
         {
-            McoServer var4 = (McoServer)var3.next();
+            McoServer mcoserver = (McoServer)iterator.next();
 
-            if (par1List.remove(var4))
+            if (par1List.remove(mcoserver))
             {
-                ++var2;
+                ++i;
             }
         }
 
-        if (var2 == 0)
+        if (i == 0)
         {
             this.field_140060_d.clear();
         }

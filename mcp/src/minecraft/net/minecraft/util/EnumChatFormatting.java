@@ -92,21 +92,21 @@ public enum EnumChatFormatting
 
     public static Collection func_96296_a(boolean par0, boolean par1)
     {
-        ArrayList var2 = new ArrayList();
-        EnumChatFormatting[] var3 = values();
-        int var4 = var3.length;
+        ArrayList arraylist = new ArrayList();
+        EnumChatFormatting[] aenumchatformatting = values();
+        int i = aenumchatformatting.length;
 
-        for (int var5 = 0; var5 < var4; ++var5)
+        for (int j = 0; j < i; ++j)
         {
-            EnumChatFormatting var6 = var3[var5];
+            EnumChatFormatting enumchatformatting = aenumchatformatting[j];
 
-            if ((!var6.isColor() || par0) && (!var6.func_96301_b() || par1))
+            if ((!enumchatformatting.isColor() || par0) && (!enumchatformatting.func_96301_b() || par1))
             {
-                var2.add(var6.func_96297_d());
+                arraylist.add(enumchatformatting.func_96297_d());
             }
         }
 
-        return var2;
+        return arraylist;
     }
 
     static {

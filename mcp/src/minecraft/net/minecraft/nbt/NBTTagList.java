@@ -1,7 +1,5 @@
 package net.minecraft.nbt;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -46,9 +44,9 @@ public class NBTTagList extends NBTBase
         par1DataOutput.writeByte(this.tagType);
         par1DataOutput.writeInt(this.tagList.size());
 
-        for (int var2 = 0; var2 < this.tagList.size(); ++var2)
+        for (int i = 0; i < this.tagList.size(); ++i)
         {
-            ((NBTBase)this.tagList.get(var2)).write(par1DataOutput);
+            ((NBTBase)this.tagList.get(i)).write(par1DataOutput);
         }
     }
 
@@ -64,14 +62,14 @@ public class NBTTagList extends NBTBase
         else
         {
             this.tagType = par1DataInput.readByte();
-            int var3 = par1DataInput.readInt();
+            int j = par1DataInput.readInt();
             this.tagList = new ArrayList();
 
-            for (int var4 = 0; var4 < var3; ++var4)
+            for (int k = 0; k < j; ++k)
             {
-                NBTBase var5 = NBTBase.newTag(this.tagType, (String)null);
-                var5.load(par1DataInput, par2 + 1);
-                this.tagList.add(var5);
+                NBTBase nbtbase = NBTBase.newTag(this.tagType, (String)null);
+                nbtbase.load(par1DataInput, par2 + 1);
+                this.tagList.add(nbtbase);
             }
         }
     }
@@ -98,8 +96,6 @@ public class NBTTagList extends NBTBase
         this.tagType = par1NBTBase.getId();
         this.tagList.add(par1NBTBase);
     }
-
-    @SideOnly(Side.CLIENT)
 
     /**
      * Removes a tag at the given index.
@@ -130,29 +126,29 @@ public class NBTTagList extends NBTBase
      */
     public NBTBase copy()
     {
-        NBTTagList var1 = new NBTTagList(this.getName());
-        var1.tagType = this.tagType;
-        Iterator var2 = this.tagList.iterator();
+        NBTTagList nbttaglist = new NBTTagList(this.getName());
+        nbttaglist.tagType = this.tagType;
+        Iterator iterator = this.tagList.iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            NBTBase var3 = (NBTBase)var2.next();
-            NBTBase var4 = var3.copy();
-            var1.tagList.add(var4);
+            NBTBase nbtbase = (NBTBase)iterator.next();
+            NBTBase nbtbase1 = nbtbase.copy();
+            nbttaglist.tagList.add(nbtbase1);
         }
 
-        return var1;
+        return nbttaglist;
     }
 
     public boolean equals(Object par1Obj)
     {
         if (super.equals(par1Obj))
         {
-            NBTTagList var2 = (NBTTagList)par1Obj;
+            NBTTagList nbttaglist = (NBTTagList)par1Obj;
 
-            if (this.tagType == var2.tagType)
+            if (this.tagType == nbttaglist.tagType)
             {
-                return this.tagList.equals(var2.tagList);
+                return this.tagList.equals(nbttaglist.tagList);
             }
         }
 

@@ -30,18 +30,18 @@ public class EntityAIMoveTowardsRestriction extends EntityAIBase
         }
         else
         {
-            ChunkCoordinates var1 = this.theEntity.getHomePosition();
-            Vec3 var2 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 16, 7, this.theEntity.worldObj.getWorldVec3Pool().getVecFromPool((double)var1.posX, (double)var1.posY, (double)var1.posZ));
+            ChunkCoordinates chunkcoordinates = this.theEntity.getHomePosition();
+            Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 16, 7, this.theEntity.worldObj.getWorldVec3Pool().getVecFromPool((double)chunkcoordinates.posX, (double)chunkcoordinates.posY, (double)chunkcoordinates.posZ));
 
-            if (var2 == null)
+            if (vec3 == null)
             {
                 return false;
             }
             else
             {
-                this.movePosX = var2.xCoord;
-                this.movePosY = var2.yCoord;
-                this.movePosZ = var2.zCoord;
+                this.movePosX = vec3.xCoord;
+                this.movePosY = vec3.yCoord;
+                this.movePosZ = vec3.zCoord;
                 return true;
             }
         }

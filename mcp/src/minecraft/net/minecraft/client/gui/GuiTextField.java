@@ -102,9 +102,9 @@ public class GuiTextField extends Gui
      */
     public String getSelectedtext()
     {
-        int var1 = this.cursorPosition < this.selectionEnd ? this.cursorPosition : this.selectionEnd;
-        int var2 = this.cursorPosition < this.selectionEnd ? this.selectionEnd : this.cursorPosition;
-        return this.text.substring(var1, var2);
+        int i = this.cursorPosition < this.selectionEnd ? this.cursorPosition : this.selectionEnd;
+        int j = this.cursorPosition < this.selectionEnd ? this.selectionEnd : this.cursorPosition;
+        return this.text.substring(i, j);
     }
 
     /**
@@ -112,38 +112,38 @@ public class GuiTextField extends Gui
      */
     public void writeText(String par1Str)
     {
-        String var2 = "";
-        String var3 = ChatAllowedCharacters.filerAllowedCharacters(par1Str);
-        int var4 = this.cursorPosition < this.selectionEnd ? this.cursorPosition : this.selectionEnd;
-        int var5 = this.cursorPosition < this.selectionEnd ? this.selectionEnd : this.cursorPosition;
-        int var6 = this.maxStringLength - this.text.length() - (var4 - this.selectionEnd);
-        boolean var7 = false;
+        String s1 = "";
+        String s2 = ChatAllowedCharacters.filerAllowedCharacters(par1Str);
+        int i = this.cursorPosition < this.selectionEnd ? this.cursorPosition : this.selectionEnd;
+        int j = this.cursorPosition < this.selectionEnd ? this.selectionEnd : this.cursorPosition;
+        int k = this.maxStringLength - this.text.length() - (i - this.selectionEnd);
+        boolean flag = false;
 
         if (this.text.length() > 0)
         {
-            var2 = var2 + this.text.substring(0, var4);
+            s1 = s1 + this.text.substring(0, i);
         }
 
-        int var8;
+        int l;
 
-        if (var6 < var3.length())
+        if (k < s2.length())
         {
-            var2 = var2 + var3.substring(0, var6);
-            var8 = var6;
+            s1 = s1 + s2.substring(0, k);
+            l = k;
         }
         else
         {
-            var2 = var2 + var3;
-            var8 = var3.length();
+            s1 = s1 + s2;
+            l = s2.length();
         }
 
-        if (this.text.length() > 0 && var5 < this.text.length())
+        if (this.text.length() > 0 && j < this.text.length())
         {
-            var2 = var2 + this.text.substring(var5);
+            s1 = s1 + this.text.substring(j);
         }
 
-        this.text = var2;
-        this.moveCursorBy(var4 - this.selectionEnd + var8);
+        this.text = s1;
+        this.moveCursorBy(i - this.selectionEnd + l);
     }
 
     /**
@@ -178,24 +178,24 @@ public class GuiTextField extends Gui
             }
             else
             {
-                boolean var2 = par1 < 0;
-                int var3 = var2 ? this.cursorPosition + par1 : this.cursorPosition;
-                int var4 = var2 ? this.cursorPosition : this.cursorPosition + par1;
-                String var5 = "";
+                boolean flag = par1 < 0;
+                int j = flag ? this.cursorPosition + par1 : this.cursorPosition;
+                int k = flag ? this.cursorPosition : this.cursorPosition + par1;
+                String s = "";
 
-                if (var3 >= 0)
+                if (j >= 0)
                 {
-                    var5 = this.text.substring(0, var3);
+                    s = this.text.substring(0, j);
                 }
 
-                if (var4 < this.text.length())
+                if (k < this.text.length())
                 {
-                    var5 = var5 + this.text.substring(var4);
+                    s = s + this.text.substring(k);
                 }
 
-                this.text = var5;
+                this.text = s;
 
-                if (var2)
+                if (flag)
                 {
                     this.moveCursorBy(par1);
                 }
@@ -221,44 +221,44 @@ public class GuiTextField extends Gui
 
     public int func_73798_a(int par1, int par2, boolean par3)
     {
-        int var4 = par2;
-        boolean var5 = par1 < 0;
-        int var6 = Math.abs(par1);
+        int k = par2;
+        boolean flag1 = par1 < 0;
+        int l = Math.abs(par1);
 
-        for (int var7 = 0; var7 < var6; ++var7)
+        for (int i1 = 0; i1 < l; ++i1)
         {
-            if (var5)
+            if (flag1)
             {
-                while (par3 && var4 > 0 && this.text.charAt(var4 - 1) == 32)
+                while (par3 && k > 0 && this.text.charAt(k - 1) == 32)
                 {
-                    --var4;
+                    --k;
                 }
 
-                while (var4 > 0 && this.text.charAt(var4 - 1) != 32)
+                while (k > 0 && this.text.charAt(k - 1) != 32)
                 {
-                    --var4;
+                    --k;
                 }
             }
             else
             {
-                int var8 = this.text.length();
-                var4 = this.text.indexOf(32, var4);
+                int j1 = this.text.length();
+                k = this.text.indexOf(32, k);
 
-                if (var4 == -1)
+                if (k == -1)
                 {
-                    var4 = var8;
+                    k = j1;
                 }
                 else
                 {
-                    while (par3 && var4 < var8 && this.text.charAt(var4) == 32)
+                    while (par3 && k < j1 && this.text.charAt(k) == 32)
                     {
-                        ++var4;
+                        ++k;
                     }
                 }
             }
         }
 
-        return var4;
+        return k;
     }
 
     /**
@@ -275,16 +275,16 @@ public class GuiTextField extends Gui
     public void setCursorPosition(int par1)
     {
         this.cursorPosition = par1;
-        int var2 = this.text.length();
+        int j = this.text.length();
 
         if (this.cursorPosition < 0)
         {
             this.cursorPosition = 0;
         }
 
-        if (this.cursorPosition > var2)
+        if (this.cursorPosition > j)
         {
-            this.cursorPosition = var2;
+            this.cursorPosition = j;
         }
 
         this.setSelectionPos(this.cursorPosition);
@@ -319,20 +319,16 @@ public class GuiTextField extends Gui
                     this.setCursorPositionEnd();
                     this.setSelectionPos(0);
                     return true;
-
                 case 3:
                     GuiScreen.setClipboardString(this.getSelectedtext());
                     return true;
-
                 case 22:
                     this.writeText(GuiScreen.getClipboardString());
                     return true;
-
                 case 24:
                     GuiScreen.setClipboardString(this.getSelectedtext());
                     this.writeText("");
                     return true;
-
                 default:
                     switch (par2)
                     {
@@ -347,7 +343,6 @@ public class GuiTextField extends Gui
                             }
 
                             return true;
-
                         case 199:
                             if (GuiScreen.isShiftKeyDown())
                             {
@@ -359,7 +354,6 @@ public class GuiTextField extends Gui
                             }
 
                             return true;
-
                         case 203:
                             if (GuiScreen.isShiftKeyDown())
                             {
@@ -382,7 +376,6 @@ public class GuiTextField extends Gui
                             }
 
                             return true;
-
                         case 205:
                             if (GuiScreen.isShiftKeyDown())
                             {
@@ -405,7 +398,6 @@ public class GuiTextField extends Gui
                             }
 
                             return true;
-
                         case 207:
                             if (GuiScreen.isShiftKeyDown())
                             {
@@ -417,7 +409,6 @@ public class GuiTextField extends Gui
                             }
 
                             return true;
-
                         case 211:
                             if (GuiScreen.isCtrlKeyDown())
                             {
@@ -429,7 +420,6 @@ public class GuiTextField extends Gui
                             }
 
                             return true;
-
                         default:
                             if (ChatAllowedCharacters.isAllowedCharacter(par1))
                             {
@@ -454,24 +444,24 @@ public class GuiTextField extends Gui
      */
     public void mouseClicked(int par1, int par2, int par3)
     {
-        boolean var4 = par1 >= this.xPos && par1 < this.xPos + this.width && par2 >= this.yPos && par2 < this.yPos + this.height;
+        boolean flag = par1 >= this.xPos && par1 < this.xPos + this.width && par2 >= this.yPos && par2 < this.yPos + this.height;
 
         if (this.canLoseFocus)
         {
-            this.setFocused(this.isEnabled && var4);
+            this.setFocused(this.isEnabled && flag);
         }
 
         if (this.isFocused && par3 == 0)
         {
-            int var5 = par1 - this.xPos;
+            int l = par1 - this.xPos;
 
             if (this.enableBackgroundDrawing)
             {
-                var5 -= 4;
+                l -= 4;
             }
 
-            String var6 = this.fontRenderer.trimStringToWidth(this.text.substring(this.lineScrollOffset), this.getWidth());
-            this.setCursorPosition(this.fontRenderer.trimStringToWidth(var6, var5).length() + this.lineScrollOffset);
+            String s = this.fontRenderer.trimStringToWidth(this.text.substring(this.lineScrollOffset), this.getWidth());
+            this.setCursorPosition(this.fontRenderer.trimStringToWidth(s, l).length() + this.lineScrollOffset);
         }
     }
 
@@ -488,61 +478,61 @@ public class GuiTextField extends Gui
                 drawRect(this.xPos, this.yPos, this.xPos + this.width, this.yPos + this.height, -16777216);
             }
 
-            int var1 = this.isEnabled ? this.enabledColor : this.disabledColor;
-            int var2 = this.cursorPosition - this.lineScrollOffset;
-            int var3 = this.selectionEnd - this.lineScrollOffset;
-            String var4 = this.fontRenderer.trimStringToWidth(this.text.substring(this.lineScrollOffset), this.getWidth());
-            boolean var5 = var2 >= 0 && var2 <= var4.length();
-            boolean var6 = this.isFocused && this.cursorCounter / 6 % 2 == 0 && var5;
-            int var7 = this.enableBackgroundDrawing ? this.xPos + 4 : this.xPos;
-            int var8 = this.enableBackgroundDrawing ? this.yPos + (this.height - 8) / 2 : this.yPos;
-            int var9 = var7;
+            int i = this.isEnabled ? this.enabledColor : this.disabledColor;
+            int j = this.cursorPosition - this.lineScrollOffset;
+            int k = this.selectionEnd - this.lineScrollOffset;
+            String s = this.fontRenderer.trimStringToWidth(this.text.substring(this.lineScrollOffset), this.getWidth());
+            boolean flag = j >= 0 && j <= s.length();
+            boolean flag1 = this.isFocused && this.cursorCounter / 6 % 2 == 0 && flag;
+            int l = this.enableBackgroundDrawing ? this.xPos + 4 : this.xPos;
+            int i1 = this.enableBackgroundDrawing ? this.yPos + (this.height - 8) / 2 : this.yPos;
+            int j1 = l;
 
-            if (var3 > var4.length())
+            if (k > s.length())
             {
-                var3 = var4.length();
+                k = s.length();
             }
 
-            if (var4.length() > 0)
+            if (s.length() > 0)
             {
-                String var10 = var5 ? var4.substring(0, var2) : var4;
-                var9 = this.fontRenderer.drawStringWithShadow(var10, var7, var8, var1);
+                String s1 = flag ? s.substring(0, j) : s;
+                j1 = this.fontRenderer.drawStringWithShadow(s1, l, i1, i);
             }
 
-            boolean var13 = this.cursorPosition < this.text.length() || this.text.length() >= this.getMaxStringLength();
-            int var11 = var9;
+            boolean flag2 = this.cursorPosition < this.text.length() || this.text.length() >= this.getMaxStringLength();
+            int k1 = j1;
 
-            if (!var5)
+            if (!flag)
             {
-                var11 = var2 > 0 ? var7 + this.width : var7;
+                k1 = j > 0 ? l + this.width : l;
             }
-            else if (var13)
+            else if (flag2)
             {
-                var11 = var9 - 1;
-                --var9;
-            }
-
-            if (var4.length() > 0 && var5 && var2 < var4.length())
-            {
-                this.fontRenderer.drawStringWithShadow(var4.substring(var2), var9, var8, var1);
+                k1 = j1 - 1;
+                --j1;
             }
 
-            if (var6)
+            if (s.length() > 0 && flag && j < s.length())
             {
-                if (var13)
+                this.fontRenderer.drawStringWithShadow(s.substring(j), j1, i1, i);
+            }
+
+            if (flag1)
+            {
+                if (flag2)
                 {
-                    Gui.drawRect(var11, var8 - 1, var11 + 1, var8 + 1 + this.fontRenderer.FONT_HEIGHT, -3092272);
+                    Gui.drawRect(k1, i1 - 1, k1 + 1, i1 + 1 + this.fontRenderer.FONT_HEIGHT, -3092272);
                 }
                 else
                 {
-                    this.fontRenderer.drawStringWithShadow("_", var11, var8, var1);
+                    this.fontRenderer.drawStringWithShadow("_", k1, i1, i);
                 }
             }
 
-            if (var3 != var2)
+            if (k != j)
             {
-                int var12 = var7 + this.fontRenderer.getStringWidth(var4.substring(0, var3));
-                this.drawCursorVertical(var11, var8 - 1, var12 - 1, var8 + 1 + this.fontRenderer.FONT_HEIGHT);
+                int l1 = l + this.fontRenderer.getStringWidth(s.substring(0, k));
+                this.drawCursorVertical(k1, i1 - 1, l1 - 1, i1 + 1 + this.fontRenderer.FONT_HEIGHT);
             }
         }
     }
@@ -552,33 +542,33 @@ public class GuiTextField extends Gui
      */
     private void drawCursorVertical(int par1, int par2, int par3, int par4)
     {
-        int var5;
+        int i1;
 
         if (par1 < par3)
         {
-            var5 = par1;
+            i1 = par1;
             par1 = par3;
-            par3 = var5;
+            par3 = i1;
         }
 
         if (par2 < par4)
         {
-            var5 = par2;
+            i1 = par2;
             par2 = par4;
-            par4 = var5;
+            par4 = i1;
         }
 
-        Tessellator var6 = Tessellator.instance;
+        Tessellator tessellator = Tessellator.instance;
         GL11.glColor4f(0.0F, 0.0F, 255.0F, 255.0F);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_COLOR_LOGIC_OP);
         GL11.glLogicOp(GL11.GL_OR_REVERSE);
-        var6.startDrawingQuads();
-        var6.addVertex((double)par1, (double)par4, 0.0D);
-        var6.addVertex((double)par3, (double)par4, 0.0D);
-        var6.addVertex((double)par3, (double)par2, 0.0D);
-        var6.addVertex((double)par1, (double)par2, 0.0D);
-        var6.draw();
+        tessellator.startDrawingQuads();
+        tessellator.addVertex((double)par1, (double)par4, 0.0D);
+        tessellator.addVertex((double)par3, (double)par4, 0.0D);
+        tessellator.addVertex((double)par3, (double)par2, 0.0D);
+        tessellator.addVertex((double)par1, (double)par2, 0.0D);
+        tessellator.draw();
         GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
@@ -685,11 +675,11 @@ public class GuiTextField extends Gui
      */
     public void setSelectionPos(int par1)
     {
-        int var2 = this.text.length();
+        int j = this.text.length();
 
-        if (par1 > var2)
+        if (par1 > j)
         {
-            par1 = var2;
+            par1 = j;
         }
 
         if (par1 < 0)
@@ -701,23 +691,23 @@ public class GuiTextField extends Gui
 
         if (this.fontRenderer != null)
         {
-            if (this.lineScrollOffset > var2)
+            if (this.lineScrollOffset > j)
             {
-                this.lineScrollOffset = var2;
+                this.lineScrollOffset = j;
             }
 
-            int var3 = this.getWidth();
-            String var4 = this.fontRenderer.trimStringToWidth(this.text.substring(this.lineScrollOffset), var3);
-            int var5 = var4.length() + this.lineScrollOffset;
+            int k = this.getWidth();
+            String s = this.fontRenderer.trimStringToWidth(this.text.substring(this.lineScrollOffset), k);
+            int l = s.length() + this.lineScrollOffset;
 
             if (par1 == this.lineScrollOffset)
             {
-                this.lineScrollOffset -= this.fontRenderer.trimStringToWidth(this.text, var3, true).length();
+                this.lineScrollOffset -= this.fontRenderer.trimStringToWidth(this.text, k, true).length();
             }
 
-            if (par1 > var5)
+            if (par1 > l)
             {
-                this.lineScrollOffset += par1 - var5;
+                this.lineScrollOffset += par1 - l;
             }
             else if (par1 <= this.lineScrollOffset)
             {
@@ -729,9 +719,9 @@ public class GuiTextField extends Gui
                 this.lineScrollOffset = 0;
             }
 
-            if (this.lineScrollOffset > var2)
+            if (this.lineScrollOffset > j)
             {
-                this.lineScrollOffset = var2;
+                this.lineScrollOffset = j;
             }
         }
     }

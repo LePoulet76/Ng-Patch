@@ -12,16 +12,16 @@ public class StructureStrongholdStart extends StructureStart
     {
         super(par3, par4);
         StructureStrongholdPieces.prepareStructurePieces();
-        ComponentStrongholdStairs2 var5 = new ComponentStrongholdStairs2(0, par2Random, (par3 << 4) + 2, (par4 << 4) + 2);
-        this.components.add(var5);
-        var5.buildComponent(var5, this.components, par2Random);
-        List var6 = var5.field_75026_c;
+        ComponentStrongholdStairs2 componentstrongholdstairs2 = new ComponentStrongholdStairs2(0, par2Random, (par3 << 4) + 2, (par4 << 4) + 2);
+        this.components.add(componentstrongholdstairs2);
+        componentstrongholdstairs2.buildComponent(componentstrongholdstairs2, this.components, par2Random);
+        List list = componentstrongholdstairs2.field_75026_c;
 
-        while (!var6.isEmpty())
+        while (!list.isEmpty())
         {
-            int var7 = par2Random.nextInt(var6.size());
-            StructureComponent var8 = (StructureComponent)var6.remove(var7);
-            var8.buildComponent(var5, this.components, par2Random);
+            int k = par2Random.nextInt(list.size());
+            StructureComponent structurecomponent = (StructureComponent)list.remove(k);
+            structurecomponent.buildComponent(componentstrongholdstairs2, this.components, par2Random);
         }
 
         this.updateBoundingBox();

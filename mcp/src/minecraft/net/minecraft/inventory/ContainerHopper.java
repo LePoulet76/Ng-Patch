@@ -12,25 +12,25 @@ public class ContainerHopper extends Container
     {
         this.field_94538_a = par2IInventory;
         par2IInventory.openChest();
-        byte var3 = 51;
-        int var4;
+        byte b0 = 51;
+        int i;
 
-        for (var4 = 0; var4 < par2IInventory.getSizeInventory(); ++var4)
+        for (i = 0; i < par2IInventory.getSizeInventory(); ++i)
         {
-            this.addSlotToContainer(new Slot(par2IInventory, var4, 44 + var4 * 18, 20));
+            this.addSlotToContainer(new Slot(par2IInventory, i, 44 + i * 18, 20));
         }
 
-        for (var4 = 0; var4 < 3; ++var4)
+        for (i = 0; i < 3; ++i)
         {
-            for (int var5 = 0; var5 < 9; ++var5)
+            for (int j = 0; j < 9; ++j)
             {
-                this.addSlotToContainer(new Slot(par1InventoryPlayer, var5 + var4 * 9 + 9, 8 + var5 * 18, var4 * 18 + var3));
+                this.addSlotToContainer(new Slot(par1InventoryPlayer, j + i * 9 + 9, 8 + j * 18, i * 18 + b0));
             }
         }
 
-        for (var4 = 0; var4 < 9; ++var4)
+        for (i = 0; i < 9; ++i)
         {
-            this.addSlotToContainer(new Slot(par1InventoryPlayer, var4, 8 + var4 * 18, 58 + var3));
+            this.addSlotToContainer(new Slot(par1InventoryPlayer, i, 8 + i * 18, 58 + b0));
         }
     }
 
@@ -44,37 +44,37 @@ public class ContainerHopper extends Container
      */
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
-        ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        ItemStack itemstack = null;
+        Slot slot = (Slot)this.inventorySlots.get(par2);
 
-        if (var4 != null && var4.getHasStack())
+        if (slot != null && slot.getHasStack())
         {
-            ItemStack var5 = var4.getStack();
-            var3 = var5.copy();
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
 
             if (par2 < this.field_94538_a.getSizeInventory())
             {
-                if (!this.mergeItemStack(var5, this.field_94538_a.getSizeInventory(), this.inventorySlots.size(), true))
+                if (!this.mergeItemStack(itemstack1, this.field_94538_a.getSizeInventory(), this.inventorySlots.size(), true))
                 {
                     return null;
                 }
             }
-            else if (!this.mergeItemStack(var5, 0, this.field_94538_a.getSizeInventory(), false))
+            else if (!this.mergeItemStack(itemstack1, 0, this.field_94538_a.getSizeInventory(), false))
             {
                 return null;
             }
 
-            if (var5.stackSize == 0)
+            if (itemstack1.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
+                slot.putStack((ItemStack)null);
             }
             else
             {
-                var4.onSlotChanged();
+                slot.onSlotChanged();
             }
         }
 
-        return var3;
+        return itemstack;
     }
 
     /**

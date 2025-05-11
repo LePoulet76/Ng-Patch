@@ -51,12 +51,12 @@ public class EntitySpider extends EntityMob
      */
     protected Entity findPlayerToAttack()
     {
-        float var1 = this.getBrightness(1.0F);
+        float f = this.getBrightness(1.0F);
 
-        if (var1 < 0.5F)
+        if (f < 0.5F)
         {
-            double var2 = 16.0D;
-            return this.worldObj.getClosestVulnerablePlayerToEntity(this, var2);
+            double d0 = 16.0D;
+            return this.worldObj.getClosestVulnerablePlayerToEntity(this, d0);
         }
         else
         {
@@ -101,9 +101,9 @@ public class EntitySpider extends EntityMob
      */
     protected void attackEntity(Entity par1Entity, float par2)
     {
-        float var3 = this.getBrightness(1.0F);
+        float f1 = this.getBrightness(1.0F);
 
-        if (var3 > 0.5F && this.rand.nextInt(100) == 0)
+        if (f1 > 0.5F && this.rand.nextInt(100) == 0)
         {
             this.entityToAttack = null;
         }
@@ -113,11 +113,11 @@ public class EntitySpider extends EntityMob
             {
                 if (this.onGround)
                 {
-                    double var4 = par1Entity.posX - this.posX;
-                    double var6 = par1Entity.posZ - this.posZ;
-                    float var8 = MathHelper.sqrt_double(var4 * var4 + var6 * var6);
-                    this.motionX = var4 / (double)var8 * 0.5D * 0.800000011920929D + this.motionX * 0.20000000298023224D;
-                    this.motionZ = var6 / (double)var8 * 0.5D * 0.800000011920929D + this.motionZ * 0.20000000298023224D;
+                    double d0 = par1Entity.posX - this.posX;
+                    double d1 = par1Entity.posZ - this.posZ;
+                    float f2 = MathHelper.sqrt_double(d0 * d0 + d1 * d1);
+                    this.motionX = d0 / (double)f2 * 0.5D * 0.800000011920929D + this.motionX * 0.20000000298023224D;
+                    this.motionZ = d1 / (double)f2 * 0.5D * 0.800000011920929D + this.motionZ * 0.20000000298023224D;
                     this.motionY = 0.4000000059604645D;
                 }
             }
@@ -191,18 +191,18 @@ public class EntitySpider extends EntityMob
      */
     public void setBesideClimbableBlock(boolean par1)
     {
-        byte var2 = this.dataWatcher.getWatchableObjectByte(16);
+        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
 
         if (par1)
         {
-            var2 = (byte)(var2 | 1);
+            b0 = (byte)(b0 | 1);
         }
         else
         {
-            var2 &= -2;
+            b0 &= -2;
         }
 
-        this.dataWatcher.updateObject(16, Byte.valueOf(var2));
+        this.dataWatcher.updateObject(16, Byte.valueOf(b0));
     }
 
     public EntityLivingData onSpawnWithEgg(EntityLivingData par1EntityLivingData)
@@ -211,11 +211,11 @@ public class EntitySpider extends EntityMob
 
         if (this.worldObj.rand.nextInt(100) == 0)
         {
-            EntitySkeleton var2 = new EntitySkeleton(this.worldObj);
-            var2.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-            var2.onSpawnWithEgg((EntityLivingData)null);
-            this.worldObj.spawnEntityInWorld(var2);
-            var2.mountEntity(this);
+            EntitySkeleton entityskeleton = new EntitySkeleton(this.worldObj);
+            entityskeleton.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+            entityskeleton.onSpawnWithEgg((EntityLivingData)null);
+            this.worldObj.spawnEntityInWorld(entityskeleton);
+            entityskeleton.mountEntity(this);
         }
 
         if (par1EntityLivingData1 == null)
@@ -230,11 +230,11 @@ public class EntitySpider extends EntityMob
 
         if (par1EntityLivingData1 instanceof SpiderEffectsGroupData)
         {
-            int var4 = ((SpiderEffectsGroupData)par1EntityLivingData1).field_111105_a;
+            int i = ((SpiderEffectsGroupData)par1EntityLivingData1).field_111105_a;
 
-            if (var4 > 0 && Potion.potionTypes[var4] != null)
+            if (i > 0 && Potion.potionTypes[i] != null)
             {
-                this.addPotionEffect(new PotionEffect(var4, Integer.MAX_VALUE));
+                this.addPotionEffect(new PotionEffect(i, Integer.MAX_VALUE));
             }
         }
 

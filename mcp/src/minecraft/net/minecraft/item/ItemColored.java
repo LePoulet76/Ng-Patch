@@ -67,8 +67,8 @@ public class ItemColored extends ItemBlock
         }
         else
         {
-            int var2 = par1ItemStack.getItemDamage();
-            return var2 >= 0 && var2 < this.blockNames.length ? super.getUnlocalizedName(par1ItemStack) + "." + this.blockNames[var2] : super.getUnlocalizedName(par1ItemStack);
+            int i = par1ItemStack.getItemDamage();
+            return i >= 0 && i < this.blockNames.length ? super.getUnlocalizedName(par1ItemStack) + "." + this.blockNames[i] : super.getUnlocalizedName(par1ItemStack);
         }
     }
 }

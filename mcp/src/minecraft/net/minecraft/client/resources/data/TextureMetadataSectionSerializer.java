@@ -12,10 +12,10 @@ public class TextureMetadataSectionSerializer extends BaseMetadataSectionSeriali
 {
     public TextureMetadataSection func_110494_a(JsonElement par1JsonElement, Type par2Type, JsonDeserializationContext par3JsonDeserializationContext)
     {
-        JsonObject var4 = par1JsonElement.getAsJsonObject();
-        boolean var5 = this.func_110484_a(var4.get("blur"), "blur", Boolean.valueOf(false));
-        boolean var6 = this.func_110484_a(var4.get("clamp"), "clamp", Boolean.valueOf(false));
-        return new TextureMetadataSection(var5, var6);
+        JsonObject jsonobject = par1JsonElement.getAsJsonObject();
+        boolean flag = this.func_110484_a(jsonobject.get("blur"), "blur", Boolean.valueOf(false));
+        boolean flag1 = this.func_110484_a(jsonobject.get("clamp"), "clamp", Boolean.valueOf(false));
+        return new TextureMetadataSection(flag, flag1);
     }
 
     /**

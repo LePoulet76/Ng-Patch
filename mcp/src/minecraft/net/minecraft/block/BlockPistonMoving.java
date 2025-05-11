@@ -41,11 +41,11 @@ public class BlockPistonMoving extends BlockContainer
      */
     public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
-        TileEntity var7 = par1World.getBlockTileEntity(par2, par3, par4);
+        TileEntity tileentity = par1World.getBlockTileEntity(par2, par3, par4);
 
-        if (var7 instanceof TileEntityPiston)
+        if (tileentity instanceof TileEntityPiston)
         {
-            ((TileEntityPiston)var7).clearPistonTileEntity();
+            ((TileEntityPiston)tileentity).clearPistonTileEntity();
         }
         else
         {
@@ -125,11 +125,11 @@ public class BlockPistonMoving extends BlockContainer
     {
         if (!par1World.isRemote)
         {
-            TileEntityPiston var8 = this.getTileEntityAtLocation(par1World, par2, par3, par4);
+            TileEntityPiston tileentitypiston = this.getTileEntityAtLocation(par1World, par2, par3, par4);
 
-            if (var8 != null)
+            if (tileentitypiston != null)
             {
-                Block.blocksList[var8.getStoredBlockID()].dropBlockAsItem(par1World, par2, par3, par4, var8.getBlockMetadata(), 0);
+                Block.blocksList[tileentitypiston.getStoredBlockID()].dropBlockAsItem(par1World, par2, par3, par4, tileentitypiston.getBlockMetadata(), 0);
             }
         }
     }
@@ -160,22 +160,22 @@ public class BlockPistonMoving extends BlockContainer
      */
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
     {
-        TileEntityPiston var5 = this.getTileEntityAtLocation(par1World, par2, par3, par4);
+        TileEntityPiston tileentitypiston = this.getTileEntityAtLocation(par1World, par2, par3, par4);
 
-        if (var5 == null)
+        if (tileentitypiston == null)
         {
             return null;
         }
         else
         {
-            float var6 = var5.getProgress(0.0F);
+            float f = tileentitypiston.getProgress(0.0F);
 
-            if (var5.isExtending())
+            if (tileentitypiston.isExtending())
             {
-                var6 = 1.0F - var6;
+                f = 1.0F - f;
             }
 
-            return this.getAxisAlignedBB(par1World, par2, par3, par4, var5.getStoredBlockID(), var6, var5.getPistonOrientation());
+            return this.getAxisAlignedBB(par1World, par2, par3, par4, tileentitypiston.getStoredBlockID(), f, tileentitypiston.getPistonOrientation());
         }
     }
 
@@ -184,32 +184,32 @@ public class BlockPistonMoving extends BlockContainer
      */
     public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        TileEntityPiston var5 = this.getTileEntityAtLocation(par1IBlockAccess, par2, par3, par4);
+        TileEntityPiston tileentitypiston = this.getTileEntityAtLocation(par1IBlockAccess, par2, par3, par4);
 
-        if (var5 != null)
+        if (tileentitypiston != null)
         {
-            Block var6 = Block.blocksList[var5.getStoredBlockID()];
+            Block block = Block.blocksList[tileentitypiston.getStoredBlockID()];
 
-            if (var6 == null || var6 == this)
+            if (block == null || block == this)
             {
                 return;
             }
 
-            var6.setBlockBoundsBasedOnState(par1IBlockAccess, par2, par3, par4);
-            float var7 = var5.getProgress(0.0F);
+            block.setBlockBoundsBasedOnState(par1IBlockAccess, par2, par3, par4);
+            float f = tileentitypiston.getProgress(0.0F);
 
-            if (var5.isExtending())
+            if (tileentitypiston.isExtending())
             {
-                var7 = 1.0F - var7;
+                f = 1.0F - f;
             }
 
-            int var8 = var5.getPistonOrientation();
-            this.minX = var6.getBlockBoundsMinX() - (double)((float)Facing.offsetsXForSide[var8] * var7);
-            this.minY = var6.getBlockBoundsMinY() - (double)((float)Facing.offsetsYForSide[var8] * var7);
-            this.minZ = var6.getBlockBoundsMinZ() - (double)((float)Facing.offsetsZForSide[var8] * var7);
-            this.maxX = var6.getBlockBoundsMaxX() - (double)((float)Facing.offsetsXForSide[var8] * var7);
-            this.maxY = var6.getBlockBoundsMaxY() - (double)((float)Facing.offsetsYForSide[var8] * var7);
-            this.maxZ = var6.getBlockBoundsMaxZ() - (double)((float)Facing.offsetsZForSide[var8] * var7);
+            int l = tileentitypiston.getPistonOrientation();
+            this.minX = block.getBlockBoundsMinX() - (double)((float)Facing.offsetsXForSide[l] * f);
+            this.minY = block.getBlockBoundsMinY() - (double)((float)Facing.offsetsYForSide[l] * f);
+            this.minZ = block.getBlockBoundsMinZ() - (double)((float)Facing.offsetsZForSide[l] * f);
+            this.maxX = block.getBlockBoundsMaxX() - (double)((float)Facing.offsetsXForSide[l] * f);
+            this.maxY = block.getBlockBoundsMaxY() - (double)((float)Facing.offsetsYForSide[l] * f);
+            this.maxZ = block.getBlockBoundsMaxZ() - (double)((float)Facing.offsetsZForSide[l] * f);
         }
     }
 
@@ -217,9 +217,9 @@ public class BlockPistonMoving extends BlockContainer
     {
         if (par5 != 0 && par5 != this.blockID)
         {
-            AxisAlignedBB var8 = Block.blocksList[par5].getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
+            AxisAlignedBB axisalignedbb = Block.blocksList[par5].getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
 
-            if (var8 == null)
+            if (axisalignedbb == null)
             {
                 return null;
             }
@@ -227,32 +227,32 @@ public class BlockPistonMoving extends BlockContainer
             {
                 if (Facing.offsetsXForSide[par7] < 0)
                 {
-                    var8.minX -= (double)((float)Facing.offsetsXForSide[par7] * par6);
+                    axisalignedbb.minX -= (double)((float)Facing.offsetsXForSide[par7] * par6);
                 }
                 else
                 {
-                    var8.maxX -= (double)((float)Facing.offsetsXForSide[par7] * par6);
+                    axisalignedbb.maxX -= (double)((float)Facing.offsetsXForSide[par7] * par6);
                 }
 
                 if (Facing.offsetsYForSide[par7] < 0)
                 {
-                    var8.minY -= (double)((float)Facing.offsetsYForSide[par7] * par6);
+                    axisalignedbb.minY -= (double)((float)Facing.offsetsYForSide[par7] * par6);
                 }
                 else
                 {
-                    var8.maxY -= (double)((float)Facing.offsetsYForSide[par7] * par6);
+                    axisalignedbb.maxY -= (double)((float)Facing.offsetsYForSide[par7] * par6);
                 }
 
                 if (Facing.offsetsZForSide[par7] < 0)
                 {
-                    var8.minZ -= (double)((float)Facing.offsetsZForSide[par7] * par6);
+                    axisalignedbb.minZ -= (double)((float)Facing.offsetsZForSide[par7] * par6);
                 }
                 else
                 {
-                    var8.maxZ -= (double)((float)Facing.offsetsZForSide[par7] * par6);
+                    axisalignedbb.maxZ -= (double)((float)Facing.offsetsZForSide[par7] * par6);
                 }
 
-                return var8;
+                return axisalignedbb;
             }
         }
         else
@@ -266,8 +266,8 @@ public class BlockPistonMoving extends BlockContainer
      */
     private TileEntityPiston getTileEntityAtLocation(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        TileEntity var5 = par1IBlockAccess.getBlockTileEntity(par2, par3, par4);
-        return var5 instanceof TileEntityPiston ? (TileEntityPiston)var5 : null;
+        TileEntity tileentity = par1IBlockAccess.getBlockTileEntity(par2, par3, par4);
+        return tileentity instanceof TileEntityPiston ? (TileEntityPiston)tileentity : null;
     }
 
     @SideOnly(Side.CLIENT)

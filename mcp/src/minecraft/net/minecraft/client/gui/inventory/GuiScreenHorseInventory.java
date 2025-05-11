@@ -44,21 +44,21 @@ public class GuiScreenHorseInventory extends GuiContainer
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(horseGuiTextures);
-        int var4 = (this.width - this.xSize) / 2;
-        int var5 = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(var4, var5, 0, 0, this.xSize, this.ySize);
+        int k = (this.width - this.xSize) / 2;
+        int l = (this.height - this.ySize) / 2;
+        this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 
         if (this.field_110411_w.isChested())
         {
-            this.drawTexturedModalRect(var4 + 79, var5 + 17, 0, this.ySize, 90, 54);
+            this.drawTexturedModalRect(k + 79, l + 17, 0, this.ySize, 90, 54);
         }
 
         if (this.field_110411_w.func_110259_cr())
         {
-            this.drawTexturedModalRect(var4 + 7, var5 + 35, 0, this.ySize + 54, 18, 18);
+            this.drawTexturedModalRect(k + 7, l + 35, 0, this.ySize + 54, 18, 18);
         }
 
-        GuiInventory.func_110423_a(var4 + 51, var5 + 60, 17, (float)(var4 + 51) - this.field_110416_x, (float)(var5 + 75 - 50) - this.field_110415_y, this.field_110411_w);
+        GuiInventory.func_110423_a(k + 51, l + 60, 17, (float)(k + 51) - this.field_110416_x, (float)(l + 75 - 50) - this.field_110415_y, this.field_110411_w);
     }
 
     /**

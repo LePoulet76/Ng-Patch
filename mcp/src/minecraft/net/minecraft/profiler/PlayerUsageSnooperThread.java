@@ -18,15 +18,15 @@ class PlayerUsageSnooperThread extends TimerTask
     {
         if (PlayerUsageSnooper.getStatsCollectorFor(this.snooper).isSnooperEnabled())
         {
-            HashMap var1;
+            HashMap hashmap;
 
             synchronized (PlayerUsageSnooper.getSyncLockFor(this.snooper))
             {
-                var1 = new HashMap(PlayerUsageSnooper.getDataMapFor(this.snooper));
-                var1.put("snooper_count", Integer.valueOf(PlayerUsageSnooper.getSelfCounterFor(this.snooper)));
+                hashmap = new HashMap(PlayerUsageSnooper.getDataMapFor(this.snooper));
+                hashmap.put("snooper_count", Integer.valueOf(PlayerUsageSnooper.getSelfCounterFor(this.snooper)));
             }
 
-            HttpUtil.sendPost(PlayerUsageSnooper.getStatsCollectorFor(this.snooper).getLogAgent(), PlayerUsageSnooper.getServerUrlFor(this.snooper), var1, true);
+            HttpUtil.sendPost(PlayerUsageSnooper.getStatsCollectorFor(this.snooper).getLogAgent(), PlayerUsageSnooper.getServerUrlFor(this.snooper), hashmap, true);
         }
     }
 }

@@ -114,12 +114,12 @@ public abstract class GuiSlot
     /**
      * the element in the slot that was clicked, boolean for wether it was double clicked or not
      */
-    protected abstract void elementClicked(int var1, boolean var2);
+    protected abstract void elementClicked(int i, boolean flag);
 
     /**
      * returns true if the element passed in is currently selected
      */
-    protected abstract boolean isSelected(int var1);
+    protected abstract boolean isSelected(int i);
 
     /**
      * return the height of the content being scrolled
@@ -131,7 +131,7 @@ public abstract class GuiSlot
 
     protected abstract void drawBackground();
 
-    protected abstract void drawSlot(int var1, int var2, int var3, int var4, Tessellator var5);
+    protected abstract void drawSlot(int i, int j, int k, int l, Tessellator tessellator);
 
     protected void func_77222_a(int par1, int par2, Tessellator par3Tessellator) {}
 
@@ -141,11 +141,11 @@ public abstract class GuiSlot
 
     public int func_77210_c(int par1, int par2)
     {
-        int var3 = this.width / 2 - 110;
-        int var4 = this.width / 2 + 110;
-        int var5 = par2 - this.top - this.field_77242_t + (int)this.amountScrolled - 4;
-        int var6 = var5 / this.slotHeight;
-        return par1 >= var3 && par1 <= var4 && var6 >= 0 && var5 >= 0 && var6 < this.getSize() ? var6 : -1;
+        int k = this.width / 2 - 110;
+        int l = this.width / 2 + 110;
+        int i1 = par2 - this.top - this.field_77242_t + (int)this.amountScrolled - 4;
+        int j1 = i1 / this.slotHeight;
+        return par1 >= k && par1 <= l && j1 >= 0 && i1 >= 0 && j1 < this.getSize() ? j1 : -1;
     }
 
     /**
@@ -162,11 +162,11 @@ public abstract class GuiSlot
      */
     private void bindAmountScrolled()
     {
-        int var1 = this.func_77209_d();
+        int i = this.func_77209_d();
 
-        if (var1 < 0)
+        if (i < 0)
         {
-            var1 /= 2;
+            i /= 2;
         }
 
         if (this.amountScrolled < 0.0F)
@@ -174,9 +174,9 @@ public abstract class GuiSlot
             this.amountScrolled = 0.0F;
         }
 
-        if (this.amountScrolled > (float)var1)
+        if (this.amountScrolled > (float)i)
         {
-            this.amountScrolled = (float)var1;
+            this.amountScrolled = (float)i;
         }
     }
 
@@ -219,71 +219,71 @@ public abstract class GuiSlot
         this.mouseX = par1;
         this.mouseY = par2;
         this.drawBackground();
-        int var4 = this.getSize();
-        int var5 = this.getScrollBarX();
-        int var6 = var5 + 6;
-        int var9;
-        int var10;
-        int var11;
-        int var13;
-        int var20;
+        int k = this.getSize();
+        int l = this.getScrollBarX();
+        int i1 = l + 6;
+        int j1;
+        int k1;
+        int l1;
+        int i2;
+        int j2;
 
         if (Mouse.isButtonDown(0))
         {
             if (this.initialClickY == -1.0F)
             {
-                boolean var7 = true;
+                boolean flag = true;
 
                 if (par2 >= this.top && par2 <= this.bottom)
                 {
-                    int var8 = this.width / 2 - 110;
-                    var9 = this.width / 2 + 110;
-                    var10 = par2 - this.top - this.field_77242_t + (int)this.amountScrolled - 4;
-                    var11 = var10 / this.slotHeight;
+                    int k2 = this.width / 2 - 110;
+                    j1 = this.width / 2 + 110;
+                    k1 = par2 - this.top - this.field_77242_t + (int)this.amountScrolled - 4;
+                    l1 = k1 / this.slotHeight;
 
-                    if (par1 >= var8 && par1 <= var9 && var11 >= 0 && var10 >= 0 && var11 < var4)
+                    if (par1 >= k2 && par1 <= j1 && l1 >= 0 && k1 >= 0 && l1 < k)
                     {
-                        boolean var12 = var11 == this.selectedElement && Minecraft.getSystemTime() - this.lastClicked < 250L;
-                        this.elementClicked(var11, var12);
-                        this.selectedElement = var11;
+                        boolean flag1 = l1 == this.selectedElement && Minecraft.getSystemTime() - this.lastClicked < 250L;
+                        this.elementClicked(l1, flag1);
+                        this.selectedElement = l1;
                         this.lastClicked = Minecraft.getSystemTime();
                     }
-                    else if (par1 >= var8 && par1 <= var9 && var10 < 0)
+                    else if (par1 >= k2 && par1 <= j1 && k1 < 0)
                     {
-                        this.func_77224_a(par1 - var8, par2 - this.top + (int)this.amountScrolled - 4);
-                        var7 = false;
+                        this.func_77224_a(par1 - k2, par2 - this.top + (int)this.amountScrolled - 4);
+                        flag = false;
                     }
 
-                    if (par1 >= var5 && par1 <= var6)
+                    if (par1 >= l && par1 <= i1)
                     {
                         this.scrollMultiplier = -1.0F;
-                        var20 = this.func_77209_d();
+                        j2 = this.func_77209_d();
 
-                        if (var20 < 1)
+                        if (j2 < 1)
                         {
-                            var20 = 1;
+                            j2 = 1;
                         }
 
-                        var13 = (int)((float)((this.bottom - this.top) * (this.bottom - this.top)) / (float)this.getContentHeight());
+                        i2 = (int)((float)((this.bottom - this.top) * (this.bottom - this.top)) / (float)this.getContentHeight());
 
-                        if (var13 < 32)
+                        if (i2 < 32)
                         {
-                            var13 = 32;
+                            i2 = 32;
                         }
 
-                        if (var13 > this.bottom - this.top - 8)
+                        if (i2 > this.bottom - this.top - 8)
                         {
-                            var13 = this.bottom - this.top - 8;
+                            i2 = this.bottom - this.top - 8;
                         }
 
-                        this.scrollMultiplier /= (float)(this.bottom - this.top - var13) / (float)var20;
+                        this.scrollMultiplier /= (float)(this.bottom - this.top - i2) / (float)j2;
                     }
                     else
                     {
                         this.scrollMultiplier = 1.0F;
                     }
 
-                    if (var7)
+                    if (flag)
                     {
                         this.initialClickY = (float)par2;
                     }
@@ -307,20 +307,20 @@ public abstract class GuiSlot
         {
             while (!this.mc.gameSettings.touchscreen && Mouse.next())
             {
-                int var16 = Mouse.getEventDWheel();
+                int l2 = Mouse.getEventDWheel();
 
-                if (var16 != 0)
+                if (l2 != 0)
                 {
-                    if (var16 > 0)
+                    if (l2 > 0)
                     {
-                        var16 = -1;
+                        l2 = -1;
                     }
-                    else if (var16 < 0)
+                    else if (l2 < 0)
                     {
-                        var16 = 1;
+                        l2 = 1;
                     }
 
-                    this.amountScrolled += (float)(var16 * this.slotHeight / 2);
+                    this.amountScrolled += (float)(l2 * this.slotHeight / 2);
                 }
             }
 
@@ -330,61 +330,52 @@ public abstract class GuiSlot
         this.bindAmountScrolled();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_FOG);
-        Tessellator var18 = Tessellator.instance;
-        this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        float var17 = 32.0F;
-        var18.startDrawingQuads();
-        var18.setColorOpaque_I(2105376);
-        var18.addVertexWithUV((double)this.left, (double)this.bottom, 0.0D, (double)((float)this.left / var17), (double)((float)(this.bottom + (int)this.amountScrolled) / var17));
-        var18.addVertexWithUV((double)this.right, (double)this.bottom, 0.0D, (double)((float)this.right / var17), (double)((float)(this.bottom + (int)this.amountScrolled) / var17));
-        var18.addVertexWithUV((double)this.right, (double)this.top, 0.0D, (double)((float)this.right / var17), (double)((float)(this.top + (int)this.amountScrolled) / var17));
-        var18.addVertexWithUV((double)this.left, (double)this.top, 0.0D, (double)((float)this.left / var17), (double)((float)(this.top + (int)this.amountScrolled) / var17));
-        var18.draw();
-        var9 = this.width / 2 - 92 - 16;
-        var10 = this.top + 4 - (int)this.amountScrolled;
+        Tessellator tessellator = Tessellator.instance;
+        drawContainerBackground(tessellator);
+        j1 = this.width / 2 - 92 - 16;
+        k1 = this.top + 4 - (int)this.amountScrolled;
 
         if (this.field_77243_s)
         {
-            this.func_77222_a(var9, var10, var18);
+            this.func_77222_a(j1, k1, tessellator);
         }
 
-        int var14;
+        int i3;
 
-        for (var11 = 0; var11 < var4; ++var11)
+        for (l1 = 0; l1 < k; ++l1)
         {
-            var20 = var10 + var11 * this.slotHeight + this.field_77242_t;
-            var13 = this.slotHeight - 4;
+            j2 = k1 + l1 * this.slotHeight + this.field_77242_t;
+            i2 = this.slotHeight - 4;
 
-            if (var20 <= this.bottom && var20 + var13 >= this.top)
+            if (j2 <= this.bottom && j2 + i2 >= this.top)
             {
-                if (this.showSelectionBox && this.isSelected(var11))
+                if (this.showSelectionBox && this.isSelected(l1))
                 {
-                    var14 = this.width / 2 - 110;
-                    int var15 = this.width / 2 + 110;
+                    i3 = this.width / 2 - 110;
+                    int j3 = this.width / 2 + 110;
                     GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                     GL11.glDisable(GL11.GL_TEXTURE_2D);
-                    var18.startDrawingQuads();
-                    var18.setColorOpaque_I(8421504);
-                    var18.addVertexWithUV((double)var14, (double)(var20 + var13 + 2), 0.0D, 0.0D, 1.0D);
-                    var18.addVertexWithUV((double)var15, (double)(var20 + var13 + 2), 0.0D, 1.0D, 1.0D);
-                    var18.addVertexWithUV((double)var15, (double)(var20 - 2), 0.0D, 1.0D, 0.0D);
-                    var18.addVertexWithUV((double)var14, (double)(var20 - 2), 0.0D, 0.0D, 0.0D);
-                    var18.setColorOpaque_I(0);
-                    var18.addVertexWithUV((double)(var14 + 1), (double)(var20 + var13 + 1), 0.0D, 0.0D, 1.0D);
-                    var18.addVertexWithUV((double)(var15 - 1), (double)(var20 + var13 + 1), 0.0D, 1.0D, 1.0D);
-                    var18.addVertexWithUV((double)(var15 - 1), (double)(var20 - 1), 0.0D, 1.0D, 0.0D);
-                    var18.addVertexWithUV((double)(var14 + 1), (double)(var20 - 1), 0.0D, 0.0D, 0.0D);
-                    var18.draw();
+                    tessellator.startDrawingQuads();
+                    tessellator.setColorOpaque_I(8421504);
+                    tessellator.addVertexWithUV((double)i3, (double)(j2 + i2 + 2), 0.0D, 0.0D, 1.0D);
+                    tessellator.addVertexWithUV((double)j3, (double)(j2 + i2 + 2), 0.0D, 1.0D, 1.0D);
+                    tessellator.addVertexWithUV((double)j3, (double)(j2 - 2), 0.0D, 1.0D, 0.0D);
+                    tessellator.addVertexWithUV((double)i3, (double)(j2 - 2), 0.0D, 0.0D, 0.0D);
+                    tessellator.setColorOpaque_I(0);
+                    tessellator.addVertexWithUV((double)(i3 + 1), (double)(j2 + i2 + 1), 0.0D, 0.0D, 1.0D);
+                    tessellator.addVertexWithUV((double)(j3 - 1), (double)(j2 + i2 + 1), 0.0D, 1.0D, 1.0D);
+                    tessellator.addVertexWithUV((double)(j3 - 1), (double)(j2 - 1), 0.0D, 1.0D, 0.0D);
+                    tessellator.addVertexWithUV((double)(i3 + 1), (double)(j2 - 1), 0.0D, 0.0D, 0.0D);
+                    tessellator.draw();
                     GL11.glEnable(GL11.GL_TEXTURE_2D);
                 }
 
-                this.drawSlot(var11, var9, var20, var13, var18);
+                this.drawSlot(l1, j1, j2, i2, tessellator);
             }
         }
 
         GL11.glDisable(GL11.GL_DEPTH_TEST);
-        byte var19 = 4;
+        byte b0 = 4;
         this.overlayBackground(0, this.top, 255, 255);
         this.overlayBackground(this.bottom, this.height, 255, 255);
         GL11.glEnable(GL11.GL_BLEND);
@@ -392,66 +383,66 @@ public abstract class GuiSlot
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         GL11.glShadeModel(GL11.GL_SMOOTH);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        var18.startDrawingQuads();
-        var18.setColorRGBA_I(0, 0);
-        var18.addVertexWithUV((double)this.left, (double)(this.top + var19), 0.0D, 0.0D, 1.0D);
-        var18.addVertexWithUV((double)this.right, (double)(this.top + var19), 0.0D, 1.0D, 1.0D);
-        var18.setColorRGBA_I(0, 255);
-        var18.addVertexWithUV((double)this.right, (double)this.top, 0.0D, 1.0D, 0.0D);
-        var18.addVertexWithUV((double)this.left, (double)this.top, 0.0D, 0.0D, 0.0D);
-        var18.draw();
-        var18.startDrawingQuads();
-        var18.setColorRGBA_I(0, 255);
-        var18.addVertexWithUV((double)this.left, (double)this.bottom, 0.0D, 0.0D, 1.0D);
-        var18.addVertexWithUV((double)this.right, (double)this.bottom, 0.0D, 1.0D, 1.0D);
-        var18.setColorRGBA_I(0, 0);
-        var18.addVertexWithUV((double)this.right, (double)(this.bottom - var19), 0.0D, 1.0D, 0.0D);
-        var18.addVertexWithUV((double)this.left, (double)(this.bottom - var19), 0.0D, 0.0D, 0.0D);
-        var18.draw();
-        var20 = this.func_77209_d();
+        tessellator.startDrawingQuads();
+        tessellator.setColorRGBA_I(0, 0);
+        tessellator.addVertexWithUV((double)this.left, (double)(this.top + b0), 0.0D, 0.0D, 1.0D);
+        tessellator.addVertexWithUV((double)this.right, (double)(this.top + b0), 0.0D, 1.0D, 1.0D);
+        tessellator.setColorRGBA_I(0, 255);
+        tessellator.addVertexWithUV((double)this.right, (double)this.top, 0.0D, 1.0D, 0.0D);
+        tessellator.addVertexWithUV((double)this.left, (double)this.top, 0.0D, 0.0D, 0.0D);
+        tessellator.draw();
+        tessellator.startDrawingQuads();
+        tessellator.setColorRGBA_I(0, 255);
+        tessellator.addVertexWithUV((double)this.left, (double)this.bottom, 0.0D, 0.0D, 1.0D);
+        tessellator.addVertexWithUV((double)this.right, (double)this.bottom, 0.0D, 1.0D, 1.0D);
+        tessellator.setColorRGBA_I(0, 0);
+        tessellator.addVertexWithUV((double)this.right, (double)(this.bottom - b0), 0.0D, 1.0D, 0.0D);
+        tessellator.addVertexWithUV((double)this.left, (double)(this.bottom - b0), 0.0D, 0.0D, 0.0D);
+        tessellator.draw();
+        j2 = this.func_77209_d();
 
-        if (var20 > 0)
+        if (j2 > 0)
         {
-            var13 = (this.bottom - this.top) * (this.bottom - this.top) / this.getContentHeight();
+            i2 = (this.bottom - this.top) * (this.bottom - this.top) / this.getContentHeight();
 
-            if (var13 < 32)
+            if (i2 < 32)
             {
-                var13 = 32;
+                i2 = 32;
             }
 
-            if (var13 > this.bottom - this.top - 8)
+            if (i2 > this.bottom - this.top - 8)
             {
-                var13 = this.bottom - this.top - 8;
+                i2 = this.bottom - this.top - 8;
             }
 
-            var14 = (int)this.amountScrolled * (this.bottom - this.top - var13) / var20 + this.top;
+            i3 = (int)this.amountScrolled * (this.bottom - this.top - i2) / j2 + this.top;
 
-            if (var14 < this.top)
+            if (i3 < this.top)
             {
-                var14 = this.top;
+                i3 = this.top;
             }
 
-            var18.startDrawingQuads();
-            var18.setColorRGBA_I(0, 255);
-            var18.addVertexWithUV((double)var5, (double)this.bottom, 0.0D, 0.0D, 1.0D);
-            var18.addVertexWithUV((double)var6, (double)this.bottom, 0.0D, 1.0D, 1.0D);
-            var18.addVertexWithUV((double)var6, (double)this.top, 0.0D, 1.0D, 0.0D);
-            var18.addVertexWithUV((double)var5, (double)this.top, 0.0D, 0.0D, 0.0D);
-            var18.draw();
-            var18.startDrawingQuads();
-            var18.setColorRGBA_I(8421504, 255);
-            var18.addVertexWithUV((double)var5, (double)(var14 + var13), 0.0D, 0.0D, 1.0D);
-            var18.addVertexWithUV((double)var6, (double)(var14 + var13), 0.0D, 1.0D, 1.0D);
-            var18.addVertexWithUV((double)var6, (double)var14, 0.0D, 1.0D, 0.0D);
-            var18.addVertexWithUV((double)var5, (double)var14, 0.0D, 0.0D, 0.0D);
-            var18.draw();
-            var18.startDrawingQuads();
-            var18.setColorRGBA_I(12632256, 255);
-            var18.addVertexWithUV((double)var5, (double)(var14 + var13 - 1), 0.0D, 0.0D, 1.0D);
-            var18.addVertexWithUV((double)(var6 - 1), (double)(var14 + var13 - 1), 0.0D, 1.0D, 1.0D);
-            var18.addVertexWithUV((double)(var6 - 1), (double)var14, 0.0D, 1.0D, 0.0D);
-            var18.addVertexWithUV((double)var5, (double)var14, 0.0D, 0.0D, 0.0D);
-            var18.draw();
+            tessellator.startDrawingQuads();
+            tessellator.setColorRGBA_I(0, 255);
+            tessellator.addVertexWithUV((double)l, (double)this.bottom, 0.0D, 0.0D, 1.0D);
+            tessellator.addVertexWithUV((double)i1, (double)this.bottom, 0.0D, 1.0D, 1.0D);
+            tessellator.addVertexWithUV((double)i1, (double)this.top, 0.0D, 1.0D, 0.0D);
+            tessellator.addVertexWithUV((double)l, (double)this.top, 0.0D, 0.0D, 0.0D);
+            tessellator.draw();
+            tessellator.startDrawingQuads();
+            tessellator.setColorRGBA_I(8421504, 255);
+            tessellator.addVertexWithUV((double)l, (double)(i3 + i2), 0.0D, 0.0D, 1.0D);
+            tessellator.addVertexWithUV((double)i1, (double)(i3 + i2), 0.0D, 1.0D, 1.0D);
+            tessellator.addVertexWithUV((double)i1, (double)i3, 0.0D, 1.0D, 0.0D);
+            tessellator.addVertexWithUV((double)l, (double)i3, 0.0D, 0.0D, 0.0D);
+            tessellator.draw();
+            tessellator.startDrawingQuads();
+            tessellator.setColorRGBA_I(12632256, 255);
+            tessellator.addVertexWithUV((double)l, (double)(i3 + i2 - 1), 0.0D, 0.0D, 1.0D);
+            tessellator.addVertexWithUV((double)(i1 - 1), (double)(i3 + i2 - 1), 0.0D, 1.0D, 1.0D);
+            tessellator.addVertexWithUV((double)(i1 - 1), (double)i3, 0.0D, 1.0D, 0.0D);
+            tessellator.addVertexWithUV((double)l, (double)i3, 0.0D, 0.0D, 0.0D);
+            tessellator.draw();
         }
 
         this.func_77215_b(par1, par2);
@@ -471,17 +462,31 @@ public abstract class GuiSlot
      */
     protected void overlayBackground(int par1, int par2, int par3, int par4)
     {
-        Tessellator var5 = Tessellator.instance;
+        Tessellator tessellator = Tessellator.instance;
         this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        float var6 = 32.0F;
-        var5.startDrawingQuads();
-        var5.setColorRGBA_I(4210752, par4);
-        var5.addVertexWithUV(0.0D, (double)par2, 0.0D, 0.0D, (double)((float)par2 / var6));
-        var5.addVertexWithUV((double)this.width, (double)par2, 0.0D, (double)((float)this.width / var6), (double)((float)par2 / var6));
-        var5.setColorRGBA_I(4210752, par3);
-        var5.addVertexWithUV((double)this.width, (double)par1, 0.0D, (double)((float)this.width / var6), (double)((float)par1 / var6));
-        var5.addVertexWithUV(0.0D, (double)par1, 0.0D, 0.0D, (double)((float)par1 / var6));
-        var5.draw();
+        float f = 32.0F;
+        tessellator.startDrawingQuads();
+        tessellator.setColorRGBA_I(4210752, par4);
+        tessellator.addVertexWithUV(0.0D, (double)par2, 0.0D, 0.0D, (double)((float)par2 / f));
+        tessellator.addVertexWithUV((double)this.width, (double)par2, 0.0D, (double)((float)this.width / f), (double)((float)par2 / f));
+        tessellator.setColorRGBA_I(4210752, par3);
+        tessellator.addVertexWithUV((double)this.width, (double)par1, 0.0D, (double)((float)this.width / f), (double)((float)par1 / f));
+        tessellator.addVertexWithUV(0.0D, (double)par1, 0.0D, 0.0D, (double)((float)par1 / f));
+        tessellator.draw();
+    }
+
+    protected void drawContainerBackground(Tessellator tess)
+    {
+        this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        float height = 32.0F;
+        tess.startDrawingQuads();
+        tess.setColorOpaque_I(2105376);
+        tess.addVertexWithUV((double)left,  (double)bottom, 0.0D, (double)(left  / height), (double)((bottom + (int)amountScrolled) / height));
+        tess.addVertexWithUV((double)right, (double)bottom, 0.0D, (double)(right / height), (double)((bottom + (int)amountScrolled) / height));
+        tess.addVertexWithUV((double)right, (double)top,    0.0D, (double)(right / height), (double)((top    + (int)amountScrolled) / height));
+        tess.addVertexWithUV((double)left,  (double)top,    0.0D, (double)(left  / height), (double)((top    + (int)amountScrolled) / height));
+        tess.draw();
     }
 }

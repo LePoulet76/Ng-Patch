@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.opengl.GL11;
 
-@SideOnly(Side.CLIENT)
 public class ModelRenderer
 {
     /** The size of the texture file's width in pixels. */
@@ -91,8 +90,8 @@ public class ModelRenderer
     public ModelRenderer addBox(String par1Str, float par2, float par3, float par4, int par5, int par6, int par7)
     {
         par1Str = this.boxName + "." + par1Str;
-        TextureOffset var8 = this.baseModel.getTextureOffset(par1Str);
-        this.setTextureOffset(var8.textureOffsetX, var8.textureOffsetY);
+        TextureOffset textureoffset = this.baseModel.getTextureOffset(par1Str);
+        this.setTextureOffset(textureoffset.textureOffsetX, textureoffset.textureOffsetY);
         this.cubeList.add((new ModelBox(this, this.textureOffsetX, this.textureOffsetY, par2, par3, par4, par5, par6, par7, 0.0F)).func_78244_a(par1Str));
         return this;
     }
@@ -117,7 +116,8 @@ public class ModelRenderer
         this.rotationPointY = par2;
         this.rotationPointZ = par3;
     }
-
+    
+    @SideOnly(Side.CLIENT)
     public void render(float par1)
     {
         if (!this.isHidden)
@@ -130,7 +130,7 @@ public class ModelRenderer
                 }
 
                 GL11.glTranslatef(this.offsetX, this.offsetY, this.offsetZ);
-                int var2;
+                int i;
 
                 if (this.rotateAngleX == 0.0F && this.rotateAngleY == 0.0F && this.rotateAngleZ == 0.0F)
                 {
@@ -140,9 +140,9 @@ public class ModelRenderer
 
                         if (this.childModels != null)
                         {
-                            for (var2 = 0; var2 < this.childModels.size(); ++var2)
+                            for (i = 0; i < this.childModels.size(); ++i)
                             {
-                                ((ModelRenderer)this.childModels.get(var2)).render(par1);
+                                ((ModelRenderer)this.childModels.get(i)).render(par1);
                             }
                         }
                     }
@@ -153,9 +153,9 @@ public class ModelRenderer
 
                         if (this.childModels != null)
                         {
-                            for (var2 = 0; var2 < this.childModels.size(); ++var2)
+                            for (i = 0; i < this.childModels.size(); ++i)
                             {
-                                ((ModelRenderer)this.childModels.get(var2)).render(par1);
+                                ((ModelRenderer)this.childModels.get(i)).render(par1);
                             }
                         }
 
@@ -186,9 +186,9 @@ public class ModelRenderer
 
                     if (this.childModels != null)
                     {
-                        for (var2 = 0; var2 < this.childModels.size(); ++var2)
+                        for (i = 0; i < this.childModels.size(); ++i)
                         {
-                            ((ModelRenderer)this.childModels.get(var2)).render(par1);
+                            ((ModelRenderer)this.childModels.get(i)).render(par1);
                         }
                     }
 
@@ -200,6 +200,7 @@ public class ModelRenderer
         }
     }
 
+    @SideOnly(Side.CLIENT)
     public void renderWithRotation(float par1)
     {
         if (!this.isHidden)
@@ -238,6 +239,7 @@ public class ModelRenderer
     /**
      * Allows the changing of Angles after a box has been rendered
      */
+    @SideOnly(Side.CLIENT)
     public void postRender(float par1)
     {
         if (!this.isHidden)
@@ -282,15 +284,16 @@ public class ModelRenderer
     /**
      * Compiles a GL display list for this model
      */
+    @SideOnly(Side.CLIENT)
     private void compileDisplayList(float par1)
     {
         this.displayList = GLAllocation.generateDisplayLists(1);
         GL11.glNewList(this.displayList, GL11.GL_COMPILE);
-        Tessellator var2 = Tessellator.instance;
+        Tessellator tessellator = Tessellator.instance;
 
-        for (int var3 = 0; var3 < this.cubeList.size(); ++var3)
+        for (int i = 0; i < this.cubeList.size(); ++i)
         {
-            ((ModelBox)this.cubeList.get(var3)).render(var2, par1);
+            ((ModelBox)this.cubeList.get(i)).render(tessellator, par1);
         }
 
         GL11.glEndList();

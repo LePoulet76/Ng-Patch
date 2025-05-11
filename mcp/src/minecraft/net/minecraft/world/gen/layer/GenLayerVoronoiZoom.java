@@ -16,83 +16,83 @@ public class GenLayerVoronoiZoom extends GenLayer
     {
         par1 -= 2;
         par2 -= 2;
-        byte var5 = 2;
-        int var6 = 1 << var5;
-        int var7 = par1 >> var5;
-        int var8 = par2 >> var5;
-        int var9 = (par3 >> var5) + 3;
-        int var10 = (par4 >> var5) + 3;
-        int[] var11 = this.parent.getInts(var7, var8, var9, var10);
-        int var12 = var9 << var5;
-        int var13 = var10 << var5;
-        int[] var14 = IntCache.getIntCache(var12 * var13);
-        int var16;
+        byte b0 = 2;
+        int i1 = 1 << b0;
+        int j1 = par1 >> b0;
+        int k1 = par2 >> b0;
+        int l1 = (par3 >> b0) + 3;
+        int i2 = (par4 >> b0) + 3;
+        int[] aint = this.parent.getInts(j1, k1, l1, i2);
+        int j2 = l1 << b0;
+        int k2 = i2 << b0;
+        int[] aint1 = IntCache.getIntCache(j2 * k2);
+        int l2;
 
-        for (int var15 = 0; var15 < var10 - 1; ++var15)
+        for (int i3 = 0; i3 < i2 - 1; ++i3)
         {
-            var16 = var11[0 + (var15 + 0) * var9];
-            int var17 = var11[0 + (var15 + 1) * var9];
+            l2 = aint[0 + (i3 + 0) * l1];
+            int j3 = aint[0 + (i3 + 1) * l1];
 
-            for (int var18 = 0; var18 < var9 - 1; ++var18)
+            for (int k3 = 0; k3 < l1 - 1; ++k3)
             {
-                double var19 = (double)var6 * 0.9D;
-                this.initChunkSeed((long)(var18 + var7 << var5), (long)(var15 + var8 << var5));
-                double var21 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * var19;
-                double var23 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * var19;
-                this.initChunkSeed((long)(var18 + var7 + 1 << var5), (long)(var15 + var8 << var5));
-                double var25 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * var19 + (double)var6;
-                double var27 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * var19;
-                this.initChunkSeed((long)(var18 + var7 << var5), (long)(var15 + var8 + 1 << var5));
-                double var29 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * var19;
-                double var31 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * var19 + (double)var6;
-                this.initChunkSeed((long)(var18 + var7 + 1 << var5), (long)(var15 + var8 + 1 << var5));
-                double var33 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * var19 + (double)var6;
-                double var35 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * var19 + (double)var6;
-                int var37 = var11[var18 + 1 + (var15 + 0) * var9];
-                int var38 = var11[var18 + 1 + (var15 + 1) * var9];
+                double d0 = (double)i1 * 0.9D;
+                this.initChunkSeed((long)(k3 + j1 << b0), (long)(i3 + k1 << b0));
+                double d1 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * d0;
+                double d2 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * d0;
+                this.initChunkSeed((long)(k3 + j1 + 1 << b0), (long)(i3 + k1 << b0));
+                double d3 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * d0 + (double)i1;
+                double d4 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * d0;
+                this.initChunkSeed((long)(k3 + j1 << b0), (long)(i3 + k1 + 1 << b0));
+                double d5 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * d0;
+                double d6 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * d0 + (double)i1;
+                this.initChunkSeed((long)(k3 + j1 + 1 << b0), (long)(i3 + k1 + 1 << b0));
+                double d7 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * d0 + (double)i1;
+                double d8 = ((double)this.nextInt(1024) / 1024.0D - 0.5D) * d0 + (double)i1;
+                int l3 = aint[k3 + 1 + (i3 + 0) * l1];
+                int i4 = aint[k3 + 1 + (i3 + 1) * l1];
 
-                for (int var39 = 0; var39 < var6; ++var39)
+                for (int j4 = 0; j4 < i1; ++j4)
                 {
-                    int var40 = ((var15 << var5) + var39) * var12 + (var18 << var5);
+                    int k4 = ((i3 << b0) + j4) * j2 + (k3 << b0);
 
-                    for (int var41 = 0; var41 < var6; ++var41)
+                    for (int l4 = 0; l4 < i1; ++l4)
                     {
-                        double var42 = ((double)var39 - var23) * ((double)var39 - var23) + ((double)var41 - var21) * ((double)var41 - var21);
-                        double var44 = ((double)var39 - var27) * ((double)var39 - var27) + ((double)var41 - var25) * ((double)var41 - var25);
-                        double var46 = ((double)var39 - var31) * ((double)var39 - var31) + ((double)var41 - var29) * ((double)var41 - var29);
-                        double var48 = ((double)var39 - var35) * ((double)var39 - var35) + ((double)var41 - var33) * ((double)var41 - var33);
+                        double d9 = ((double)j4 - d2) * ((double)j4 - d2) + ((double)l4 - d1) * ((double)l4 - d1);
+                        double d10 = ((double)j4 - d4) * ((double)j4 - d4) + ((double)l4 - d3) * ((double)l4 - d3);
+                        double d11 = ((double)j4 - d6) * ((double)j4 - d6) + ((double)l4 - d5) * ((double)l4 - d5);
+                        double d12 = ((double)j4 - d8) * ((double)j4 - d8) + ((double)l4 - d7) * ((double)l4 - d7);
 
-                        if (var42 < var44 && var42 < var46 && var42 < var48)
+                        if (d9 < d10 && d9 < d11 && d9 < d12)
                         {
-                            var14[var40++] = var16;
+                            aint1[k4++] = l2;
                         }
-                        else if (var44 < var42 && var44 < var46 && var44 < var48)
+                        else if (d10 < d9 && d10 < d11 && d10 < d12)
                         {
-                            var14[var40++] = var37;
+                            aint1[k4++] = l3;
                         }
-                        else if (var46 < var42 && var46 < var44 && var46 < var48)
+                        else if (d11 < d9 && d11 < d10 && d11 < d12)
                         {
-                            var14[var40++] = var17;
+                            aint1[k4++] = j3;
                         }
                         else
                         {
-                            var14[var40++] = var38;
+                            aint1[k4++] = i4;
                         }
                     }
                 }
 
-                var16 = var37;
-                var17 = var38;
+                l2 = l3;
+                j3 = i4;
             }
         }
 
-        int[] var50 = IntCache.getIntCache(par3 * par4);
+        int[] aint2 = IntCache.getIntCache(par3 * par4);
 
-        for (var16 = 0; var16 < par4; ++var16)
+        for (l2 = 0; l2 < par4; ++l2)
         {
-            System.arraycopy(var14, (var16 + (par2 & var6 - 1)) * (var9 << var5) + (par1 & var6 - 1), var50, var16 * par3, par3);
+            System.arraycopy(aint1, (l2 + (par2 & i1 - 1)) * (l1 << b0) + (par1 & i1 - 1), aint2, l2 * par3, par3);
         }
 
-        return var50;
+        return aint2;
     }
 }

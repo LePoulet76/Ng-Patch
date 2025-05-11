@@ -48,13 +48,13 @@ public class ModelQuadruped extends ModelBase
 
         if (this.isChild)
         {
-            float var8 = 2.0F;
+            float f6 = 2.0F;
             GL11.glPushMatrix();
             GL11.glTranslatef(0.0F, this.field_78145_g * par7, this.field_78151_h * par7);
             this.head.render(par7);
             GL11.glPopMatrix();
             GL11.glPushMatrix();
-            GL11.glScalef(1.0F / var8, 1.0F / var8, 1.0F / var8);
+            GL11.glScalef(1.0F / f6, 1.0F / f6, 1.0F / f6);
             GL11.glTranslatef(0.0F, 24.0F * par7, 0.0F);
             this.body.render(par7);
             this.leg1.render(par7);
@@ -81,7 +81,7 @@ public class ModelQuadruped extends ModelBase
      */
     public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
     {
-        float var8 = (180F / (float)Math.PI);
+        float f6 = (180F / (float)Math.PI);
         this.head.rotateAngleX = par5 / (180F / (float)Math.PI);
         this.head.rotateAngleY = par4 / (180F / (float)Math.PI);
         this.body.rotateAngleX = ((float)Math.PI / 2F);

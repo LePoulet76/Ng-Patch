@@ -36,45 +36,45 @@ public class ServerAddress
         }
         else
         {
-            String[] var1 = par0Str.split(":");
+            String[] astring = par0Str.split(":");
 
             if (par0Str.startsWith("["))
             {
-                int var2 = par0Str.indexOf("]");
+                int i = par0Str.indexOf("]");
 
-                if (var2 > 0)
+                if (i > 0)
                 {
-                    String var3 = par0Str.substring(1, var2);
-                    String var4 = par0Str.substring(var2 + 1).trim();
+                    String s1 = par0Str.substring(1, i);
+                    String s2 = par0Str.substring(i + 1).trim();
 
-                    if (var4.startsWith(":") && var4.length() > 0)
+                    if (s2.startsWith(":") && s2.length() > 0)
                     {
-                        var4 = var4.substring(1);
-                        var1 = new String[] {var3, var4};
+                        s2 = s2.substring(1);
+                        astring = new String[] {s1, s2};
                     }
                     else
                     {
-                        var1 = new String[] {var3};
+                        astring = new String[] {s1};
                     }
                 }
             }
 
-            if (var1.length > 2)
+            if (astring.length > 2)
             {
-                var1 = new String[] {par0Str};
+                astring = new String[] {par0Str};
             }
 
-            String var5 = var1[0];
-            int var6 = var1.length > 1 ? parseIntWithDefault(var1[1], 25565) : 25565;
+            String s3 = astring[0];
+            int j = astring.length > 1 ? parseIntWithDefault(astring[1], 25565) : 25565;
 
-            if (var6 == 25565)
+            if (j == 25565)
             {
-                String[] var7 = getServerAddress(var5);
-                var5 = var7[0];
-                var6 = parseIntWithDefault(var7[1], 25565);
+                String[] astring1 = getServerAddress(s3);
+                s3 = astring1[0];
+                j = parseIntWithDefault(astring1[1], 25565);
             }
 
-            return new ServerAddress(var5, var6);
+            return new ServerAddress(s3, j);
         }
     }
 
@@ -85,18 +85,18 @@ public class ServerAddress
     {
         try
         {
-            String var1 = "com.sun.jndi.dns.DnsContextFactory";
+            String s1 = "com.sun.jndi.dns.DnsContextFactory";
             Class.forName("com.sun.jndi.dns.DnsContextFactory");
-            Hashtable var2 = new Hashtable();
-            var2.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
-            var2.put("java.naming.provider.url", "dns:");
-            var2.put("com.sun.jndi.dns.timeout.retries", "1");
-            InitialDirContext var3 = new InitialDirContext(var2);
-            Attributes var4 = var3.getAttributes("_minecraft._tcp." + par0Str, new String[] {"SRV"});
-            String[] var5 = var4.get("srv").get().toString().split(" ", 4);
-            return new String[] {var5[3], var5[2]};
+            Hashtable hashtable = new Hashtable();
+            hashtable.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
+            hashtable.put("java.naming.provider.url", "dns:");
+            hashtable.put("com.sun.jndi.dns.timeout.retries", "1");
+            InitialDirContext initialdircontext = new InitialDirContext(hashtable);
+            Attributes attributes = initialdircontext.getAttributes("_minecraft._tcp." + par0Str, new String[] {"SRV"});
+            String[] astring = attributes.get("srv").get().toString().split(" ", 4);
+            return new String[] {astring[3], astring[2]};
         }
-        catch (Throwable var6)
+        catch (Throwable throwable)
         {
             return new String[] {par0Str, Integer.toString(25565)};
         }
@@ -108,7 +108,7 @@ public class ServerAddress
         {
             return Integer.parseInt(par0Str.trim());
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
             return par1;
         }

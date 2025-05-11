@@ -11,13 +11,9 @@ public class GenLayerBiome extends GenLayer
     public GenLayerBiome(long par1, GenLayer par3GenLayer, WorldType par4WorldType)
     {
         super(par1);
-        this.allowedBiomes = new BiomeGenBase[] {BiomeGenBase.desert, BiomeGenBase.forest, BiomeGenBase.extremeHills, BiomeGenBase.swampland, BiomeGenBase.plains, BiomeGenBase.taiga, BiomeGenBase.jungle};
+        this.allowedBiomes = par4WorldType.getBiomesForWorldType();
         this.parent = par3GenLayer;
 
-        if (par4WorldType == WorldType.DEFAULT_1_1)
-        {
-            this.allowedBiomes = new BiomeGenBase[] {BiomeGenBase.desert, BiomeGenBase.forest, BiomeGenBase.extremeHills, BiomeGenBase.swampland, BiomeGenBase.plains, BiomeGenBase.taiga};
-        }
     }
 
     /**
@@ -26,44 +22,44 @@ public class GenLayerBiome extends GenLayer
      */
     public int[] getInts(int par1, int par2, int par3, int par4)
     {
-        int[] var5 = this.parent.getInts(par1, par2, par3, par4);
-        int[] var6 = IntCache.getIntCache(par3 * par4);
+        int[] aint = this.parent.getInts(par1, par2, par3, par4);
+        int[] aint1 = IntCache.getIntCache(par3 * par4);
 
-        for (int var7 = 0; var7 < par4; ++var7)
+        for (int i1 = 0; i1 < par4; ++i1)
         {
-            for (int var8 = 0; var8 < par3; ++var8)
+            for (int j1 = 0; j1 < par3; ++j1)
             {
-                this.initChunkSeed((long)(var8 + par1), (long)(var7 + par2));
-                int var9 = var5[var8 + var7 * par3];
+                this.initChunkSeed((long)(j1 + par1), (long)(i1 + par2));
+                int k1 = aint[j1 + i1 * par3];
 
-                if (var9 == 0)
+                if (k1 == 0)
                 {
-                    var6[var8 + var7 * par3] = 0;
+                    aint1[j1 + i1 * par3] = 0;
                 }
-                else if (var9 == BiomeGenBase.mushroomIsland.biomeID)
+                else if (k1 == BiomeGenBase.mushroomIsland.biomeID)
                 {
-                    var6[var8 + var7 * par3] = var9;
+                    aint1[j1 + i1 * par3] = k1;
                 }
-                else if (var9 == 1)
+                else if (k1 == 1)
                 {
-                    var6[var8 + var7 * par3] = this.allowedBiomes[this.nextInt(this.allowedBiomes.length)].biomeID;
+                    aint1[j1 + i1 * par3] = this.allowedBiomes[this.nextInt(this.allowedBiomes.length)].biomeID;
                 }
                 else
                 {
-                    int var10 = this.allowedBiomes[this.nextInt(this.allowedBiomes.length)].biomeID;
+                    int l1 = this.allowedBiomes[this.nextInt(this.allowedBiomes.length)].biomeID;
 
-                    if (var10 == BiomeGenBase.taiga.biomeID)
+                    if (l1 == BiomeGenBase.taiga.biomeID)
                     {
-                        var6[var8 + var7 * par3] = var10;
+                        aint1[j1 + i1 * par3] = l1;
                     }
                     else
                     {
-                        var6[var8 + var7 * par3] = BiomeGenBase.icePlains.biomeID;
+                        aint1[j1 + i1 * par3] = BiomeGenBase.icePlains.biomeID;
                     }
                 }
             }
         }
 
-        return var6;
+        return aint1;
     }
 }

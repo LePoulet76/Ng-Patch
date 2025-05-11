@@ -39,23 +39,23 @@ public class RenderDragon extends RenderLiving
      */
     protected void rotateDragonBody(EntityDragon par1EntityDragon, float par2, float par3, float par4)
     {
-        float var5 = (float)par1EntityDragon.getMovementOffsets(7, par4)[0];
-        float var6 = (float)(par1EntityDragon.getMovementOffsets(5, par4)[1] - par1EntityDragon.getMovementOffsets(10, par4)[1]);
-        GL11.glRotatef(-var5, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(var6 * 10.0F, 1.0F, 0.0F, 0.0F);
+        float f3 = (float)par1EntityDragon.getMovementOffsets(7, par4)[0];
+        float f4 = (float)(par1EntityDragon.getMovementOffsets(5, par4)[1] - par1EntityDragon.getMovementOffsets(10, par4)[1]);
+        GL11.glRotatef(-f3, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(f4 * 10.0F, 1.0F, 0.0F, 0.0F);
         GL11.glTranslatef(0.0F, 0.0F, 1.0F);
 
         if (par1EntityDragon.deathTime > 0)
         {
-            float var7 = ((float)par1EntityDragon.deathTime + par4 - 1.0F) / 20.0F * 1.6F;
-            var7 = MathHelper.sqrt_float(var7);
+            float f5 = ((float)par1EntityDragon.deathTime + par4 - 1.0F) / 20.0F * 1.6F;
+            f5 = MathHelper.sqrt_float(f5);
 
-            if (var7 > 1.0F)
+            if (f5 > 1.0F)
             {
-                var7 = 1.0F;
+                f5 = 1.0F;
             }
 
-            GL11.glRotatef(var7 * this.getDeathMaxRotation(par1EntityDragon), 0.0F, 0.0F, 1.0F);
+            GL11.glRotatef(f5 * this.getDeathMaxRotation(par1EntityDragon), 0.0F, 0.0F, 1.0F);
         }
     }
 
@@ -66,10 +66,10 @@ public class RenderDragon extends RenderLiving
     {
         if (par1EntityDragon.deathTicks > 0)
         {
-            float var8 = (float)par1EntityDragon.deathTicks / 200.0F;
+            float f6 = (float)par1EntityDragon.deathTicks / 200.0F;
             GL11.glDepthFunc(GL11.GL_LEQUAL);
             GL11.glEnable(GL11.GL_ALPHA_TEST);
-            GL11.glAlphaFunc(GL11.GL_GREATER, var8);
+            GL11.glAlphaFunc(GL11.GL_GREATER, f6);
             this.bindTexture(enderDragonExplodingTextures);
             this.mainModel.render(par1EntityDragon, par2, par3, par4, par5, par6, par7);
             GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
@@ -103,40 +103,40 @@ public class RenderDragon extends RenderLiving
 
         if (par1EntityDragon.healingEnderCrystal != null)
         {
-            float var10 = (float)par1EntityDragon.healingEnderCrystal.innerRotation + par9;
-            float var11 = MathHelper.sin(var10 * 0.2F) / 2.0F + 0.5F;
-            var11 = (var11 * var11 + var11) * 0.2F;
-            float var12 = (float)(par1EntityDragon.healingEnderCrystal.posX - par1EntityDragon.posX - (par1EntityDragon.prevPosX - par1EntityDragon.posX) * (double)(1.0F - par9));
-            float var13 = (float)((double)var11 + par1EntityDragon.healingEnderCrystal.posY - 1.0D - par1EntityDragon.posY - (par1EntityDragon.prevPosY - par1EntityDragon.posY) * (double)(1.0F - par9));
-            float var14 = (float)(par1EntityDragon.healingEnderCrystal.posZ - par1EntityDragon.posZ - (par1EntityDragon.prevPosZ - par1EntityDragon.posZ) * (double)(1.0F - par9));
-            float var15 = MathHelper.sqrt_float(var12 * var12 + var14 * var14);
-            float var16 = MathHelper.sqrt_float(var12 * var12 + var13 * var13 + var14 * var14);
+            float f2 = (float)par1EntityDragon.healingEnderCrystal.innerRotation + par9;
+            float f3 = MathHelper.sin(f2 * 0.2F) / 2.0F + 0.5F;
+            f3 = (f3 * f3 + f3) * 0.2F;
+            float f4 = (float)(par1EntityDragon.healingEnderCrystal.posX - par1EntityDragon.posX - (par1EntityDragon.prevPosX - par1EntityDragon.posX) * (double)(1.0F - par9));
+            float f5 = (float)((double)f3 + par1EntityDragon.healingEnderCrystal.posY - 1.0D - par1EntityDragon.posY - (par1EntityDragon.prevPosY - par1EntityDragon.posY) * (double)(1.0F - par9));
+            float f6 = (float)(par1EntityDragon.healingEnderCrystal.posZ - par1EntityDragon.posZ - (par1EntityDragon.prevPosZ - par1EntityDragon.posZ) * (double)(1.0F - par9));
+            float f7 = MathHelper.sqrt_float(f4 * f4 + f6 * f6);
+            float f8 = MathHelper.sqrt_float(f4 * f4 + f5 * f5 + f6 * f6);
             GL11.glPushMatrix();
             GL11.glTranslatef((float)par2, (float)par4 + 2.0F, (float)par6);
-            GL11.glRotatef((float)(-Math.atan2((double)var14, (double)var12)) * 180.0F / (float)Math.PI - 90.0F, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef((float)(-Math.atan2((double)var15, (double)var13)) * 180.0F / (float)Math.PI - 90.0F, 1.0F, 0.0F, 0.0F);
-            Tessellator var17 = Tessellator.instance;
+            GL11.glRotatef((float)(-Math.atan2((double)f6, (double)f4)) * 180.0F / (float)Math.PI - 90.0F, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef((float)(-Math.atan2((double)f7, (double)f5)) * 180.0F / (float)Math.PI - 90.0F, 1.0F, 0.0F, 0.0F);
+            Tessellator tessellator = Tessellator.instance;
             RenderHelper.disableStandardItemLighting();
             GL11.glDisable(GL11.GL_CULL_FACE);
             this.bindTexture(enderDragonCrystalBeamTextures);
             GL11.glShadeModel(GL11.GL_SMOOTH);
-            float var18 = 0.0F - ((float)par1EntityDragon.ticksExisted + par9) * 0.01F;
-            float var19 = MathHelper.sqrt_float(var12 * var12 + var13 * var13 + var14 * var14) / 32.0F - ((float)par1EntityDragon.ticksExisted + par9) * 0.01F;
-            var17.startDrawing(5);
-            byte var20 = 8;
+            float f9 = 0.0F - ((float)par1EntityDragon.ticksExisted + par9) * 0.01F;
+            float f10 = MathHelper.sqrt_float(f4 * f4 + f5 * f5 + f6 * f6) / 32.0F - ((float)par1EntityDragon.ticksExisted + par9) * 0.01F;
+            tessellator.startDrawing(5);
+            byte b0 = 8;
 
-            for (int var21 = 0; var21 <= var20; ++var21)
+            for (int i = 0; i <= b0; ++i)
             {
-                float var22 = MathHelper.sin((float)(var21 % var20) * (float)Math.PI * 2.0F / (float)var20) * 0.75F;
-                float var23 = MathHelper.cos((float)(var21 % var20) * (float)Math.PI * 2.0F / (float)var20) * 0.75F;
-                float var24 = (float)(var21 % var20) * 1.0F / (float)var20;
-                var17.setColorOpaque_I(0);
-                var17.addVertexWithUV((double)(var22 * 0.2F), (double)(var23 * 0.2F), 0.0D, (double)var24, (double)var19);
-                var17.setColorOpaque_I(16777215);
-                var17.addVertexWithUV((double)var22, (double)var23, (double)var16, (double)var24, (double)var18);
+                float f11 = MathHelper.sin((float)(i % b0) * (float)Math.PI * 2.0F / (float)b0) * 0.75F;
+                float f12 = MathHelper.cos((float)(i % b0) * (float)Math.PI * 2.0F / (float)b0) * 0.75F;
+                float f13 = (float)(i % b0) * 1.0F / (float)b0;
+                tessellator.setColorOpaque_I(0);
+                tessellator.addVertexWithUV((double)(f11 * 0.2F), (double)(f12 * 0.2F), 0.0D, (double)f13, (double)f10);
+                tessellator.setColorOpaque_I(16777215);
+                tessellator.addVertexWithUV((double)f11, (double)f12, (double)f8, (double)f13, (double)f9);
             }
 
-            var17.draw();
+            tessellator.draw();
             GL11.glEnable(GL11.GL_CULL_FACE);
             GL11.glShadeModel(GL11.GL_FLAT);
             RenderHelper.enableStandardItemLighting();
@@ -155,20 +155,20 @@ public class RenderDragon extends RenderLiving
     protected void renderDragonDying(EntityDragon par1EntityDragon, float par2)
     {
         super.renderEquippedItems(par1EntityDragon, par2);
-        Tessellator var3 = Tessellator.instance;
+        Tessellator tessellator = Tessellator.instance;
 
         if (par1EntityDragon.deathTicks > 0)
         {
             RenderHelper.disableStandardItemLighting();
-            float var4 = ((float)par1EntityDragon.deathTicks + par2) / 200.0F;
-            float var5 = 0.0F;
+            float f1 = ((float)par1EntityDragon.deathTicks + par2) / 200.0F;
+            float f2 = 0.0F;
 
-            if (var4 > 0.8F)
+            if (f1 > 0.8F)
             {
-                var5 = (var4 - 0.8F) / 0.2F;
+                f2 = (f1 - 0.8F) / 0.2F;
             }
 
-            Random var6 = new Random(432L);
+            Random random = new Random(432L);
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glShadeModel(GL11.GL_SMOOTH);
             GL11.glEnable(GL11.GL_BLEND);
@@ -179,25 +179,25 @@ public class RenderDragon extends RenderLiving
             GL11.glPushMatrix();
             GL11.glTranslatef(0.0F, -1.0F, -2.0F);
 
-            for (int var7 = 0; (float)var7 < (var4 + var4 * var4) / 2.0F * 60.0F; ++var7)
+            for (int i = 0; (float)i < (f1 + f1 * f1) / 2.0F * 60.0F; ++i)
             {
-                GL11.glRotatef(var6.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-                GL11.glRotatef(var6.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-                GL11.glRotatef(var6.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
-                GL11.glRotatef(var6.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-                GL11.glRotatef(var6.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-                GL11.glRotatef(var6.nextFloat() * 360.0F + var4 * 90.0F, 0.0F, 0.0F, 1.0F);
-                var3.startDrawing(6);
-                float var8 = var6.nextFloat() * 20.0F + 5.0F + var5 * 10.0F;
-                float var9 = var6.nextFloat() * 2.0F + 1.0F + var5 * 2.0F;
-                var3.setColorRGBA_I(16777215, (int)(255.0F * (1.0F - var5)));
-                var3.addVertex(0.0D, 0.0D, 0.0D);
-                var3.setColorRGBA_I(16711935, 0);
-                var3.addVertex(-0.866D * (double)var9, (double)var8, (double)(-0.5F * var9));
-                var3.addVertex(0.866D * (double)var9, (double)var8, (double)(-0.5F * var9));
-                var3.addVertex(0.0D, (double)var8, (double)(1.0F * var9));
-                var3.addVertex(-0.866D * (double)var9, (double)var8, (double)(-0.5F * var9));
-                var3.draw();
+                GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+                GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
+                GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+                GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(random.nextFloat() * 360.0F + f1 * 90.0F, 0.0F, 0.0F, 1.0F);
+                tessellator.startDrawing(6);
+                float f3 = random.nextFloat() * 20.0F + 5.0F + f2 * 10.0F;
+                float f4 = random.nextFloat() * 2.0F + 1.0F + f2 * 2.0F;
+                tessellator.setColorRGBA_I(16777215, (int)(255.0F * (1.0F - f2)));
+                tessellator.addVertex(0.0D, 0.0D, 0.0D);
+                tessellator.setColorRGBA_I(16711935, 0);
+                tessellator.addVertex(-0.866D * (double)f4, (double)f3, (double)(-0.5F * f4));
+                tessellator.addVertex(0.866D * (double)f4, (double)f3, (double)(-0.5F * f4));
+                tessellator.addVertex(0.0D, (double)f3, (double)(1.0F * f4));
+                tessellator.addVertex(-0.866D * (double)f4, (double)f3, (double)(-0.5F * f4));
+                tessellator.draw();
             }
 
             GL11.glPopMatrix();
@@ -229,19 +229,19 @@ public class RenderDragon extends RenderLiving
         else
         {
             this.bindTexture(enderDragonEyesTextures);
-            float var4 = 1.0F;
+            float f1 = 1.0F;
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glDisable(GL11.GL_ALPHA_TEST);
             GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDepthFunc(GL11.GL_EQUAL);
-            char var5 = 61680;
-            int var6 = var5 % 65536;
-            int var7 = var5 / 65536;
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var6 / 1.0F, (float)var7 / 1.0F);
+            char c0 = 61680;
+            int j = c0 % 65536;
+            int k = c0 / 65536;
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j / 1.0F, (float)k / 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, var4);
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, f1);
             return 1;
         }
     }

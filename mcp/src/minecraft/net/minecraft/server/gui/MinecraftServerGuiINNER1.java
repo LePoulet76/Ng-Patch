@@ -26,9 +26,9 @@ final class MinecraftServerGuiINNER1 extends WindowAdapter
             {
                 Thread.sleep(100L);
             }
-            catch (InterruptedException var3)
+            catch (InterruptedException interruptedexception)
             {
-                var3.printStackTrace();
+                interruptedexception.printStackTrace();
             }
         }
 

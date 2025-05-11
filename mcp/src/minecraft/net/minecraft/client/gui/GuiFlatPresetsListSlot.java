@@ -41,17 +41,17 @@ class GuiFlatPresetsListSlot extends GuiSlot
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.flatPresetsGui.mc.getTextureManager().bindTexture(Gui.statIcons);
-        float var5 = 0.0078125F;
-        float var6 = 0.0078125F;
-        boolean var7 = true;
-        boolean var8 = true;
-        Tessellator var9 = Tessellator.instance;
-        var9.startDrawingQuads();
-        var9.addVertexWithUV((double)(par1 + 0), (double)(par2 + 18), (double)this.flatPresetsGui.zLevel, (double)((float)(par3 + 0) * 0.0078125F), (double)((float)(par4 + 18) * 0.0078125F));
-        var9.addVertexWithUV((double)(par1 + 18), (double)(par2 + 18), (double)this.flatPresetsGui.zLevel, (double)((float)(par3 + 18) * 0.0078125F), (double)((float)(par4 + 18) * 0.0078125F));
-        var9.addVertexWithUV((double)(par1 + 18), (double)(par2 + 0), (double)this.flatPresetsGui.zLevel, (double)((float)(par3 + 18) * 0.0078125F), (double)((float)(par4 + 0) * 0.0078125F));
-        var9.addVertexWithUV((double)(par1 + 0), (double)(par2 + 0), (double)this.flatPresetsGui.zLevel, (double)((float)(par3 + 0) * 0.0078125F), (double)((float)(par4 + 0) * 0.0078125F));
-        var9.draw();
+        float f = 0.0078125F;
+        float f1 = 0.0078125F;
+        boolean flag = true;
+        boolean flag1 = true;
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV((double)(par1 + 0), (double)(par2 + 18), (double)this.flatPresetsGui.zLevel, (double)((float)(par3 + 0) * 0.0078125F), (double)((float)(par4 + 18) * 0.0078125F));
+        tessellator.addVertexWithUV((double)(par1 + 18), (double)(par2 + 18), (double)this.flatPresetsGui.zLevel, (double)((float)(par3 + 18) * 0.0078125F), (double)((float)(par4 + 18) * 0.0078125F));
+        tessellator.addVertexWithUV((double)(par1 + 18), (double)(par2 + 0), (double)this.flatPresetsGui.zLevel, (double)((float)(par3 + 18) * 0.0078125F), (double)((float)(par4 + 0) * 0.0078125F));
+        tessellator.addVertexWithUV((double)(par1 + 0), (double)(par2 + 0), (double)this.flatPresetsGui.zLevel, (double)((float)(par3 + 0) * 0.0078125F), (double)((float)(par4 + 0) * 0.0078125F));
+        tessellator.draw();
     }
 
     /**
@@ -84,8 +84,8 @@ class GuiFlatPresetsListSlot extends GuiSlot
 
     protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
     {
-        GuiFlatPresetsItem var6 = (GuiFlatPresetsItem)GuiFlatPresets.getPresets().get(par1);
-        this.func_82457_a(par2, par3, var6.iconId);
-        this.flatPresetsGui.fontRenderer.drawString(var6.presetName, par2 + 18 + 5, par3 + 6, 16777215);
+        GuiFlatPresetsItem guiflatpresetsitem = (GuiFlatPresetsItem)GuiFlatPresets.getPresets().get(par1);
+        this.func_82457_a(par2, par3, guiflatpresetsitem.iconId);
+        this.flatPresetsGui.fontRenderer.drawString(guiflatpresetsitem.presetName, par2 + 18 + 5, par3 + 6, 16777215);
     }
 }

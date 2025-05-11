@@ -78,12 +78,12 @@ public class TileEntityRenderer
         this.specialRendererMap.put(TileEntityEndPortal.class, new RenderEndPortal());
         this.specialRendererMap.put(TileEntityBeacon.class, new TileEntityBeaconRenderer());
         this.specialRendererMap.put(TileEntitySkull.class, new TileEntitySkullRenderer());
-        Iterator var1 = this.specialRendererMap.values().iterator();
+        Iterator iterator = this.specialRendererMap.values().iterator();
 
-        while (var1.hasNext())
+        while (iterator.hasNext())
         {
-            TileEntitySpecialRenderer var2 = (TileEntitySpecialRenderer)var1.next();
-            var2.setTileEntityRenderer(this);
+            TileEntitySpecialRenderer tileentityspecialrenderer = (TileEntitySpecialRenderer)iterator.next();
+            tileentityspecialrenderer.setTileEntityRenderer(this);
         }
     }
 
@@ -92,15 +92,15 @@ public class TileEntityRenderer
      */
     public TileEntitySpecialRenderer getSpecialRendererForClass(Class par1Class)
     {
-        TileEntitySpecialRenderer var2 = (TileEntitySpecialRenderer)this.specialRendererMap.get(par1Class);
+        TileEntitySpecialRenderer tileentityspecialrenderer = (TileEntitySpecialRenderer)this.specialRendererMap.get(par1Class);
 
-        if (var2 == null && par1Class != TileEntity.class)
+        if (tileentityspecialrenderer == null && par1Class != TileEntity.class)
         {
-            var2 = this.getSpecialRendererForClass(par1Class.getSuperclass());
-            this.specialRendererMap.put(par1Class, var2);
+            tileentityspecialrenderer = this.getSpecialRendererForClass(par1Class.getSuperclass());
+            this.specialRendererMap.put(par1Class, tileentityspecialrenderer);
         }
 
-        return var2;
+        return tileentityspecialrenderer;
     }
 
     /**
@@ -149,10 +149,10 @@ public class TileEntityRenderer
     {
         if (par1TileEntity.getDistanceFrom(this.playerX, this.playerY, this.playerZ) < par1TileEntity.getMaxRenderDistanceSquared())
         {
-            int var3 = this.worldObj.getLightBrightnessForSkyBlocks(par1TileEntity.xCoord, par1TileEntity.yCoord, par1TileEntity.zCoord, 0);
-            int var4 = var3 % 65536;
-            int var5 = var3 / 65536;
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)var4 / 1.0F, (float)var5 / 1.0F);
+            int i = this.worldObj.getLightBrightnessForSkyBlocks(par1TileEntity.xCoord, par1TileEntity.yCoord, par1TileEntity.zCoord, 0);
+            int j = i % 65536;
+            int k = i / 65536;
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j / 1.0F, (float)k / 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.renderTileEntityAt(par1TileEntity, (double)par1TileEntity.xCoord - staticPlayerX, (double)par1TileEntity.yCoord - staticPlayerY, (double)par1TileEntity.zCoord - staticPlayerZ, par2);
         }
@@ -163,20 +163,20 @@ public class TileEntityRenderer
      */
     public void renderTileEntityAt(TileEntity par1TileEntity, double par2, double par4, double par6, float par8)
     {
-        TileEntitySpecialRenderer var9 = this.getSpecialRendererForEntity(par1TileEntity);
+        TileEntitySpecialRenderer tileentityspecialrenderer = this.getSpecialRendererForEntity(par1TileEntity);
 
-        if (var9 != null)
+        if (tileentityspecialrenderer != null)
         {
             try
             {
-                var9.renderTileEntityAt(par1TileEntity, par2, par4, par6, par8);
+                tileentityspecialrenderer.renderTileEntityAt(par1TileEntity, par2, par4, par6, par8);
             }
-            catch (Throwable var13)
+            catch (Throwable throwable)
             {
-                CrashReport var11 = CrashReport.makeCrashReport(var13, "Rendering Tile Entity");
-                CrashReportCategory var12 = var11.makeCategory("Tile Entity Details");
-                par1TileEntity.func_85027_a(var12);
-                throw new ReportedException(var11);
+                CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering Tile Entity");
+                CrashReportCategory crashreportcategory = crashreport.makeCategory("Tile Entity Details");
+                par1TileEntity.func_85027_a(crashreportcategory);
+                throw new ReportedException(crashreport);
             }
         }
     }
@@ -187,15 +187,15 @@ public class TileEntityRenderer
     public void setWorld(World par1World)
     {
         this.worldObj = par1World;
-        Iterator var2 = this.specialRendererMap.values().iterator();
+        Iterator iterator = this.specialRendererMap.values().iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            TileEntitySpecialRenderer var3 = (TileEntitySpecialRenderer)var2.next();
+            TileEntitySpecialRenderer tileentityspecialrenderer = (TileEntitySpecialRenderer)iterator.next();
 
-            if (var3 != null)
+            if (tileentityspecialrenderer != null)
             {
-                var3.onWorldChange(par1World);
+                tileentityspecialrenderer.onWorldChange(par1World);
             }
         }
     }

@@ -34,8 +34,8 @@ public class ChunkPosition
         }
         else
         {
-            ChunkPosition var2 = (ChunkPosition)par1Obj;
-            return var2.x == this.x && var2.y == this.y && var2.z == this.z;
+            ChunkPosition chunkposition = (ChunkPosition)par1Obj;
+            return chunkposition.x == this.x && chunkposition.y == this.y && chunkposition.z == this.z;
         }
     }
 

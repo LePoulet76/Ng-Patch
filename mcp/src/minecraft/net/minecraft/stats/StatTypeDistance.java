@@ -12,8 +12,8 @@ final class StatTypeDistance implements IStatType
      */
     public String format(int par1)
     {
-        double var2 = (double)par1 / 100.0D;
-        double var4 = var2 / 1000.0D;
-        return var4 > 0.5D ? StatBase.getDecimalFormat().format(var4) + " km" : (var2 > 0.5D ? StatBase.getDecimalFormat().format(var2) + " m" : par1 + " cm");
+        double d0 = (double)par1 / 100.0D;
+        double d1 = d0 / 1000.0D;
+        return d1 > 0.5D ? StatBase.getDecimalFormat().format(d1) + " km" : (d0 > 0.5D ? StatBase.getDecimalFormat().format(d0) + " m" : par1 + " cm");
     }
 }

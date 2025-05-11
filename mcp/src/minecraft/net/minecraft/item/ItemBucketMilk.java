@@ -22,7 +22,7 @@ public class ItemBucketMilk extends Item
 
         if (!par2World.isRemote)
         {
-            par3EntityPlayer.clearActivePotions();
+            par3EntityPlayer.curePotionEffects(par1ItemStack);
         }
 
         return par1ItemStack.stackSize <= 0 ? new ItemStack(Item.bucketEmpty) : par1ItemStack;

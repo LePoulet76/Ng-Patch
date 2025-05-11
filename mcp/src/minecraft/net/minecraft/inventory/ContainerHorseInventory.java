@@ -13,36 +13,36 @@ public class ContainerHorseInventory extends Container
     {
         this.field_111243_a = par2IInventory;
         this.theHorse = par3EntityHorse;
-        byte var4 = 3;
+        byte b0 = 3;
         par2IInventory.openChest();
-        int var5 = (var4 - 4) * 18;
+        int i = (b0 - 4) * 18;
         this.addSlotToContainer(new ContainerHorseInventorySlotSaddle(this, par2IInventory, 0, 8, 18));
         this.addSlotToContainer(new ContainerHorseInventorySlotArmor(this, par2IInventory, 1, 8, 36, par3EntityHorse));
-        int var6;
-        int var7;
+        int j;
+        int k;
 
         if (par3EntityHorse.isChested())
         {
-            for (var6 = 0; var6 < var4; ++var6)
+            for (j = 0; j < b0; ++j)
             {
-                for (var7 = 0; var7 < 5; ++var7)
+                for (k = 0; k < 5; ++k)
                 {
-                    this.addSlotToContainer(new Slot(par2IInventory, 2 + var7 + var6 * 5, 80 + var7 * 18, 18 + var6 * 18));
+                    this.addSlotToContainer(new Slot(par2IInventory, 2 + k + j * 5, 80 + k * 18, 18 + j * 18));
                 }
             }
         }
 
-        for (var6 = 0; var6 < 3; ++var6)
+        for (j = 0; j < 3; ++j)
         {
-            for (var7 = 0; var7 < 9; ++var7)
+            for (k = 0; k < 9; ++k)
             {
-                this.addSlotToContainer(new Slot(par1IInventory, var7 + var6 * 9 + 9, 8 + var7 * 18, 102 + var6 * 18 + var5));
+                this.addSlotToContainer(new Slot(par1IInventory, k + j * 9 + 9, 8 + k * 18, 102 + j * 18 + i));
             }
         }
 
-        for (var6 = 0; var6 < 9; ++var6)
+        for (j = 0; j < 9; ++j)
         {
-            this.addSlotToContainer(new Slot(par1IInventory, var6, 8 + var6 * 18, 160 + var5));
+            this.addSlotToContainer(new Slot(par1IInventory, j, 8 + j * 18, 160 + i));
         }
     }
 
@@ -56,51 +56,51 @@ public class ContainerHorseInventory extends Container
      */
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
-        ItemStack var3 = null;
-        Slot var4 = (Slot)this.inventorySlots.get(par2);
+        ItemStack itemstack = null;
+        Slot slot = (Slot)this.inventorySlots.get(par2);
 
-        if (var4 != null && var4.getHasStack())
+        if (slot != null && slot.getHasStack())
         {
-            ItemStack var5 = var4.getStack();
-            var3 = var5.copy();
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
 
             if (par2 < this.field_111243_a.getSizeInventory())
             {
-                if (!this.mergeItemStack(var5, this.field_111243_a.getSizeInventory(), this.inventorySlots.size(), true))
+                if (!this.mergeItemStack(itemstack1, this.field_111243_a.getSizeInventory(), this.inventorySlots.size(), true))
                 {
                     return null;
                 }
             }
-            else if (this.getSlot(1).isItemValid(var5) && !this.getSlot(1).getHasStack())
+            else if (this.getSlot(1).isItemValid(itemstack1) && !this.getSlot(1).getHasStack())
             {
-                if (!this.mergeItemStack(var5, 1, 2, false))
+                if (!this.mergeItemStack(itemstack1, 1, 2, false))
                 {
                     return null;
                 }
             }
-            else if (this.getSlot(0).isItemValid(var5))
+            else if (this.getSlot(0).isItemValid(itemstack1))
             {
-                if (!this.mergeItemStack(var5, 0, 1, false))
+                if (!this.mergeItemStack(itemstack1, 0, 1, false))
                 {
                     return null;
                 }
             }
-            else if (this.field_111243_a.getSizeInventory() <= 2 || !this.mergeItemStack(var5, 2, this.field_111243_a.getSizeInventory(), false))
+            else if (this.field_111243_a.getSizeInventory() <= 2 || !this.mergeItemStack(itemstack1, 2, this.field_111243_a.getSizeInventory(), false))
             {
                 return null;
             }
 
-            if (var5.stackSize == 0)
+            if (itemstack1.stackSize == 0)
             {
-                var4.putStack((ItemStack)null);
+                slot.putStack((ItemStack)null);
             }
             else
             {
-                var4.onSlotChanged();
+                slot.onSlotChanged();
             }
         }
 
-        return var3;
+        return itemstack;
     }
 
     /**

@@ -20,35 +20,35 @@ class TcpWriterThread extends Thread
         {
             while (TcpConnection.isRunning(this.theTcpConnection))
             {
-                boolean var1;
+                boolean flag;
 
-                for (var1 = false; TcpConnection.sendNetworkPacket(this.theTcpConnection); var1 = true)
+                for (flag = false; TcpConnection.sendNetworkPacket(this.theTcpConnection); flag = true)
                 {
                     ;
                 }
 
                 try
                 {
-                    if (var1 && TcpConnection.getOutputStream(this.theTcpConnection) != null)
+                    if (flag && TcpConnection.getOutputStream(this.theTcpConnection) != null)
                     {
                         TcpConnection.getOutputStream(this.theTcpConnection).flush();
                     }
                 }
-                catch (IOException var8)
+                catch (IOException ioexception)
                 {
                     if (!TcpConnection.isTerminating(this.theTcpConnection))
                     {
-                        TcpConnection.sendError(this.theTcpConnection, var8);
+                        TcpConnection.sendError(this.theTcpConnection, ioexception);
                     }
 
-                    var8.printStackTrace();
+                    ioexception.printStackTrace();
                 }
 
                 try
                 {
                     sleep(2L);
                 }
-                catch (InterruptedException var7)
+                catch (InterruptedException interruptedexception)
                 {
                     ;
                 }

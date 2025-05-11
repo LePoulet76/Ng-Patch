@@ -30,28 +30,28 @@ public class CommandWeather extends CommandBase
     {
         if (par2ArrayOfStr.length >= 1 && par2ArrayOfStr.length <= 2)
         {
-            int var3 = (300 + (new Random()).nextInt(600)) * 20;
+            int i = (300 + (new Random()).nextInt(600)) * 20;
 
             if (par2ArrayOfStr.length >= 2)
             {
-                var3 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[1], 1, 1000000) * 20;
+                i = parseIntBounded(par1ICommandSender, par2ArrayOfStr[1], 1, 1000000) * 20;
             }
 
-            WorldServer var4 = MinecraftServer.getServer().worldServers[0];
-            WorldInfo var5 = var4.getWorldInfo();
-            var5.setRainTime(var3);
-            var5.setThunderTime(var3);
+            WorldServer worldserver = MinecraftServer.getServer().worldServers[0];
+            WorldInfo worldinfo = worldserver.getWorldInfo();
+            worldinfo.setRainTime(i);
+            worldinfo.setThunderTime(i);
 
             if ("clear".equalsIgnoreCase(par2ArrayOfStr[0]))
             {
-                var5.setRaining(false);
-                var5.setThundering(false);
+                worldinfo.setRaining(false);
+                worldinfo.setThundering(false);
                 notifyAdmins(par1ICommandSender, "commands.weather.clear", new Object[0]);
             }
             else if ("rain".equalsIgnoreCase(par2ArrayOfStr[0]))
             {
-                var5.setRaining(true);
-                var5.setThundering(false);
+                worldinfo.setRaining(true);
+                worldinfo.setThundering(false);
                 notifyAdmins(par1ICommandSender, "commands.weather.rain", new Object[0]);
             }
             else
@@ -61,8 +61,8 @@ public class CommandWeather extends CommandBase
                     throw new WrongUsageException("commands.weather.usage", new Object[0]);
                 }
 
-                var5.setRaining(true);
-                var5.setThundering(true);
+                worldinfo.setRaining(true);
+                worldinfo.setThundering(true);
                 notifyAdmins(par1ICommandSender, "commands.weather.thunder", new Object[0]);
             }
         }

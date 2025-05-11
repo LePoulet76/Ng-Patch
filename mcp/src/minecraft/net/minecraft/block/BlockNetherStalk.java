@@ -2,6 +2,8 @@ package net.minecraft.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
 import java.util.Random;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -9,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 public class BlockNetherStalk extends BlockFlower
 {
@@ -19,8 +22,8 @@ public class BlockNetherStalk extends BlockFlower
     {
         super(par1);
         this.setTickRandomly(true);
-        float var2 = 0.5F;
-        this.setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, 0.25F, 0.5F + var2);
+        float f = 0.5F;
+        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
         this.setCreativeTab((CreativeTabs)null);
     }
 
@@ -38,7 +41,8 @@ public class BlockNetherStalk extends BlockFlower
      */
     public boolean canBlockStay(World par1World, int par2, int par3, int par4)
     {
-        return this.canThisPlantGrowOnThisBlockID(par1World.getBlockId(par2, par3 - 1, par4));
+        Block block = Block.blocksList[par1World.getBlockId(par2, par3 - 1, par4)];
+        return (block != null && block.canSustainPlant(par1World, par2, par3 - 1, par4, ForgeDirection.UP, this));
     }
 
     /**
@@ -46,12 +50,12 @@ public class BlockNetherStalk extends BlockFlower
      */
     public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
     {
-        int var6 = par1World.getBlockMetadata(par2, par3, par4);
+        int l = par1World.getBlockMetadata(par2, par3, par4);
 
-        if (var6 < 3 && par5Random.nextInt(10) == 0)
+        if (l < 3 && par5Random.nextInt(10) == 0)
         {
-            ++var6;
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, var6, 2);
+            ++l;
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, l, 2);
         }
 
         super.updateTick(par1World, par2, par3, par4, par5Random);
@@ -80,25 +84,7 @@ public class BlockNetherStalk extends BlockFlower
      */
     public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
     {
-        if (!par1World.isRemote)
-        {
-            int var8 = 1;
-
-            if (par5 >= 3)
-            {
-                var8 = 2 + par1World.rand.nextInt(3);
-
-                if (par7 > 0)
-                {
-                    var8 += par1World.rand.nextInt(par7 + 1);
-                }
-            }
-
-            for (int var9 = 0; var9 < var8; ++var9)
-            {
-                this.dropBlockAsItem_do(par1World, par2, par3, par4, new ItemStack(Item.netherStalkSeeds));
-            }
-        }
+        super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5, par6, par7);
     }
 
     /**
@@ -137,9 +123,28 @@ public class BlockNetherStalk extends BlockFlower
     {
         this.iconArray = new Icon[3];
 
-        for (int var2 = 0; var2 < this.iconArray.length; ++var2)
+        for (int i = 0; i < this.iconArray.length; ++i)
         {
-            this.iconArray[var2] = par1IconRegister.registerIcon(this.getTextureName() + "_stage_" + var2);
+            this.iconArray[i] = par1IconRegister.registerIcon(this.getTextureName() + "_stage_" + i);
         }
+    }
+
+    @Override
+    public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
+    {
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+        int count = 1;
+
+        if (metadata >= 3)
+        {
+            count = 2 + world.rand.nextInt(3) + (fortune > 0 ? world.rand.nextInt(fortune + 1) : 0);
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            ret.add(new ItemStack(Item.netherStalkSeeds));
+        }
+
+        return ret;
     }
 }

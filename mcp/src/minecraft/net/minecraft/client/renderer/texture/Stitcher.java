@@ -52,31 +52,31 @@ public class Stitcher
 
     public void addSprite(TextureAtlasSprite par1TextureAtlasSprite)
     {
-        StitchHolder var2 = new StitchHolder(par1TextureAtlasSprite);
+        StitchHolder stitchholder = new StitchHolder(par1TextureAtlasSprite);
 
         if (this.maxTileDimension > 0)
         {
-            var2.setNewDimension(this.maxTileDimension);
+            stitchholder.setNewDimension(this.maxTileDimension);
         }
 
-        this.setStitchHolders.add(var2);
+        this.setStitchHolders.add(stitchholder);
     }
 
     public void doStitch()
     {
-        StitchHolder[] var1 = (StitchHolder[])this.setStitchHolders.toArray(new StitchHolder[this.setStitchHolders.size()]);
-        Arrays.sort(var1);
-        StitchHolder[] var2 = var1;
-        int var3 = var1.length;
+        StitchHolder[] astitchholder = (StitchHolder[])this.setStitchHolders.toArray(new StitchHolder[this.setStitchHolders.size()]);
+        Arrays.sort(astitchholder);
+        StitchHolder[] astitchholder1 = astitchholder;
+        int i = astitchholder.length;
 
-        for (int var4 = 0; var4 < var3; ++var4)
+        for (int j = 0; j < i; ++j)
         {
-            StitchHolder var5 = var2[var4];
+            StitchHolder stitchholder = astitchholder1[j];
 
-            if (!this.allocateSlot(var5))
+            if (!this.allocateSlot(stitchholder))
             {
-                String var6 = String.format("Unable to fit: %s - size: %dx%d - Maybe try a lowerresolution texturepack?", new Object[] {var5.getAtlasSprite().getIconName(), Integer.valueOf(var5.getAtlasSprite().getIconWidth()), Integer.valueOf(var5.getAtlasSprite().getIconHeight())});
-                throw new StitcherException(var5, var6);
+                String s = String.format("Unable to fit: %s - size: %dx%d - Maybe try a lowerresolution texturepack?", new Object[] {stitchholder.getAtlasSprite().getIconName(), Integer.valueOf(stitchholder.getAtlasSprite().getIconWidth()), Integer.valueOf(stitchholder.getAtlasSprite().getIconHeight())});
+                throw new StitcherException(stitchholder, s);
             }
         }
 
@@ -89,28 +89,28 @@ public class Stitcher
 
     public List getStichSlots()
     {
-        ArrayList var1 = Lists.newArrayList();
-        Iterator var2 = this.stitchSlots.iterator();
+        ArrayList arraylist = Lists.newArrayList();
+        Iterator iterator = this.stitchSlots.iterator();
 
-        while (var2.hasNext())
+        while (iterator.hasNext())
         {
-            StitchSlot var3 = (StitchSlot)var2.next();
-            var3.getAllStitchSlots(var1);
+            StitchSlot stitchslot = (StitchSlot)iterator.next();
+            stitchslot.getAllStitchSlots(arraylist);
         }
 
-        ArrayList var7 = Lists.newArrayList();
-        Iterator var8 = var1.iterator();
+        ArrayList arraylist1 = Lists.newArrayList();
+        Iterator iterator1 = arraylist.iterator();
 
-        while (var8.hasNext())
+        while (iterator1.hasNext())
         {
-            StitchSlot var4 = (StitchSlot)var8.next();
-            StitchHolder var5 = var4.getStitchHolder();
-            TextureAtlasSprite var6 = var5.getAtlasSprite();
-            var6.initSprite(this.currentWidth, this.currentHeight, var4.getOriginX(), var4.getOriginY(), var5.isRotated());
-            var7.add(var6);
+            StitchSlot stitchslot1 = (StitchSlot)iterator1.next();
+            StitchHolder stitchholder = stitchslot1.getStitchHolder();
+            TextureAtlasSprite textureatlassprite = stitchholder.getAtlasSprite();
+            textureatlassprite.initSprite(this.currentWidth, this.currentHeight, stitchslot1.getOriginX(), stitchslot1.getOriginY(), stitchholder.isRotated());
+            arraylist1.add(textureatlassprite);
         }
 
-        return var7;
+        return arraylist1;
     }
 
     /**
@@ -118,13 +118,13 @@ public class Stitcher
      */
     private int getCeilPowerOf2(int par1)
     {
-        int var2 = par1 - 1;
-        var2 |= var2 >> 1;
-        var2 |= var2 >> 2;
-        var2 |= var2 >> 4;
-        var2 |= var2 >> 8;
-        var2 |= var2 >> 16;
-        return var2 + 1;
+        int j = par1 - 1;
+        j |= j >> 1;
+        j |= j >> 2;
+        j |= j >> 4;
+        j |= j >> 8;
+        j |= j >> 16;
+        return j + 1;
     }
 
     /**
@@ -132,16 +132,16 @@ public class Stitcher
      */
     private boolean allocateSlot(StitchHolder par1StitchHolder)
     {
-        for (int var2 = 0; var2 < this.stitchSlots.size(); ++var2)
+        for (int i = 0; i < this.stitchSlots.size(); ++i)
         {
-            if (((StitchSlot)this.stitchSlots.get(var2)).addSlot(par1StitchHolder))
+            if (((StitchSlot)this.stitchSlots.get(i)).addSlot(par1StitchHolder))
             {
                 return true;
             }
 
             par1StitchHolder.rotate();
 
-            if (((StitchSlot)this.stitchSlots.get(var2)).addSlot(par1StitchHolder))
+            if (((StitchSlot)this.stitchSlots.get(i)).addSlot(par1StitchHolder))
             {
                 return true;
             }
@@ -157,59 +157,59 @@ public class Stitcher
      */
     private boolean expandAndAllocateSlot(StitchHolder par1StitchHolder)
     {
-        int var2 = Math.min(par1StitchHolder.getHeight(), par1StitchHolder.getWidth());
-        boolean var3 = this.currentWidth == 0 && this.currentHeight == 0;
-        boolean var4;
+        int i = Math.min(par1StitchHolder.getHeight(), par1StitchHolder.getWidth());
+        boolean flag = this.currentWidth == 0 && this.currentHeight == 0;
+        boolean flag1;
 
         if (this.forcePowerOf2)
         {
-            int var5 = this.getCeilPowerOf2(this.currentWidth);
-            int var6 = this.getCeilPowerOf2(this.currentHeight);
-            int var7 = this.getCeilPowerOf2(this.currentWidth + var2);
-            int var8 = this.getCeilPowerOf2(this.currentHeight + var2);
-            boolean var9 = var7 <= this.maxWidth;
-            boolean var10 = var8 <= this.maxHeight;
+            int j = this.getCeilPowerOf2(this.currentWidth);
+            int k = this.getCeilPowerOf2(this.currentHeight);
+            int l = this.getCeilPowerOf2(this.currentWidth + i);
+            int i1 = this.getCeilPowerOf2(this.currentHeight + i);
+            boolean flag2 = l <= this.maxWidth;
+            boolean flag3 = i1 <= this.maxHeight;
 
-            if (!var9 && !var10)
+            if (!flag2 && !flag3)
             {
                 return false;
             }
 
-            int var11 = Math.max(par1StitchHolder.getHeight(), par1StitchHolder.getWidth());
+            int j1 = Math.max(par1StitchHolder.getHeight(), par1StitchHolder.getWidth());
 
-            if (var3 && !var9 && this.getCeilPowerOf2(this.currentHeight + var11) > this.maxHeight)
+            if (flag && !flag2 && this.getCeilPowerOf2(this.currentHeight + j1) > this.maxHeight)
             {
                 return false;
             }
 
-            boolean var12 = var5 != var7;
-            boolean var13 = var6 != var8;
+            boolean flag4 = j != l;
+            boolean flag5 = k != i1;
 
-            if (var12 ^ var13)
+            if (flag4 ^ flag5)
             {
-                var4 = var12 && var9;
+                flag1 = flag5 && flag3; //Forge: Bug fix: Attempt to fill all downward space before expanding width
             }
             else
             {
-                var4 = var9 && var5 <= var6;
+                flag1 = flag2 && j <= k;
             }
         }
         else
         {
-            boolean var14 = this.currentWidth + var2 <= this.maxWidth;
-            boolean var16 = this.currentHeight + var2 <= this.maxHeight;
+            boolean flag6 = this.currentWidth + i <= this.maxWidth;
+            boolean flag7 = this.currentHeight + i <= this.maxHeight;
 
-            if (!var14 && !var16)
+            if (!flag6 && !flag7)
             {
                 return false;
             }
 
-            var4 = (var3 || this.currentWidth <= this.currentHeight) && var14;
+            flag1 = (flag || this.currentWidth <= this.currentHeight) && flag6;
         }
 
-        StitchSlot var15;
+        StitchSlot stitchslot;
 
-        if (var4)
+        if (flag1)
         {
             if (par1StitchHolder.getWidth() > par1StitchHolder.getHeight())
             {
@@ -221,17 +221,17 @@ public class Stitcher
                 this.currentHeight = par1StitchHolder.getHeight();
             }
 
-            var15 = new StitchSlot(this.currentWidth, 0, par1StitchHolder.getWidth(), this.currentHeight);
+            stitchslot = new StitchSlot(this.currentWidth, 0, par1StitchHolder.getWidth(), this.currentHeight);
             this.currentWidth += par1StitchHolder.getWidth();
         }
         else
         {
-            var15 = new StitchSlot(0, this.currentHeight, this.currentWidth, par1StitchHolder.getHeight());
+            stitchslot = new StitchSlot(0, this.currentHeight, this.currentWidth, par1StitchHolder.getHeight());
             this.currentHeight += par1StitchHolder.getHeight();
         }
 
-        var15.addSlot(par1StitchHolder);
-        this.stitchSlots.add(var15);
+        stitchslot.addSlot(par1StitchHolder);
+        this.stitchSlots.add(stitchslot);
         return true;
     }
 }

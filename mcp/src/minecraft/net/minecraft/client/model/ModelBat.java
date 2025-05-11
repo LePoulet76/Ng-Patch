@@ -32,13 +32,13 @@ public class ModelBat extends ModelBase
         this.textureHeight = 64;
         this.batHead = new ModelRenderer(this, 0, 0);
         this.batHead.addBox(-3.0F, -3.0F, -3.0F, 6, 6, 6);
-        ModelRenderer var1 = new ModelRenderer(this, 24, 0);
-        var1.addBox(-4.0F, -6.0F, -2.0F, 3, 4, 1);
-        this.batHead.addChild(var1);
-        ModelRenderer var2 = new ModelRenderer(this, 24, 0);
-        var2.mirror = true;
-        var2.addBox(1.0F, -6.0F, -2.0F, 3, 4, 1);
-        this.batHead.addChild(var2);
+        ModelRenderer modelrenderer = new ModelRenderer(this, 24, 0);
+        modelrenderer.addBox(-4.0F, -6.0F, -2.0F, 3, 4, 1);
+        this.batHead.addChild(modelrenderer);
+        ModelRenderer modelrenderer1 = new ModelRenderer(this, 24, 0);
+        modelrenderer1.mirror = true;
+        modelrenderer1.addBox(1.0F, -6.0F, -2.0F, 3, 4, 1);
+        this.batHead.addChild(modelrenderer1);
         this.batBody = new ModelRenderer(this, 0, 16);
         this.batBody.addBox(-3.0F, 4.0F, -3.0F, 6, 12, 6);
         this.batBody.setTextureOffset(0, 34).addBox(-5.0F, 16.0F, 0.0F, 10, 6, 1);
@@ -74,12 +74,12 @@ public class ModelBat extends ModelBase
      */
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
     {
-        EntityBat var8 = (EntityBat)par1Entity;
-        float var9;
+        EntityBat entitybat = (EntityBat)par1Entity;
+        float f6;
 
-        if (var8.getIsBatHanging())
+        if (entitybat.getIsBatHanging())
         {
-            var9 = (180F / (float)Math.PI);
+            f6 = (180F / (float)Math.PI);
             this.batHead.rotateAngleX = par6 / (180F / (float)Math.PI);
             this.batHead.rotateAngleY = (float)Math.PI - par5 / (180F / (float)Math.PI);
             this.batHead.rotateAngleZ = (float)Math.PI;
@@ -96,7 +96,7 @@ public class ModelBat extends ModelBase
         }
         else
         {
-            var9 = (180F / (float)Math.PI);
+            f6 = (180F / (float)Math.PI);
             this.batHead.rotateAngleX = par6 / (180F / (float)Math.PI);
             this.batHead.rotateAngleY = par5 / (180F / (float)Math.PI);
             this.batHead.rotateAngleZ = 0.0F;

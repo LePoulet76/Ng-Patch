@@ -69,33 +69,33 @@ public class BlockDispenser extends BlockContainer
     {
         if (!par1World.isRemote)
         {
-            int var5 = par1World.getBlockId(par2, par3, par4 - 1);
-            int var6 = par1World.getBlockId(par2, par3, par4 + 1);
-            int var7 = par1World.getBlockId(par2 - 1, par3, par4);
-            int var8 = par1World.getBlockId(par2 + 1, par3, par4);
-            byte var9 = 3;
+            int l = par1World.getBlockId(par2, par3, par4 - 1);
+            int i1 = par1World.getBlockId(par2, par3, par4 + 1);
+            int j1 = par1World.getBlockId(par2 - 1, par3, par4);
+            int k1 = par1World.getBlockId(par2 + 1, par3, par4);
+            byte b0 = 3;
 
-            if (Block.opaqueCubeLookup[var5] && !Block.opaqueCubeLookup[var6])
+            if (Block.opaqueCubeLookup[l] && !Block.opaqueCubeLookup[i1])
             {
-                var9 = 3;
+                b0 = 3;
             }
 
-            if (Block.opaqueCubeLookup[var6] && !Block.opaqueCubeLookup[var5])
+            if (Block.opaqueCubeLookup[i1] && !Block.opaqueCubeLookup[l])
             {
-                var9 = 2;
+                b0 = 2;
             }
 
-            if (Block.opaqueCubeLookup[var7] && !Block.opaqueCubeLookup[var8])
+            if (Block.opaqueCubeLookup[j1] && !Block.opaqueCubeLookup[k1])
             {
-                var9 = 5;
+                b0 = 5;
             }
 
-            if (Block.opaqueCubeLookup[var8] && !Block.opaqueCubeLookup[var7])
+            if (Block.opaqueCubeLookup[k1] && !Block.opaqueCubeLookup[j1])
             {
-                var9 = 4;
+                b0 = 4;
             }
 
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, var9, 2);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, b0, 2);
         }
     }
 
@@ -106,8 +106,8 @@ public class BlockDispenser extends BlockContainer
      */
     public Icon getIcon(int par1, int par2)
     {
-        int var3 = par2 & 7;
-        return par1 == var3 ? (var3 != 1 && var3 != 0 ? this.furnaceFrontIcon : this.field_96473_e) : (var3 != 1 && var3 != 0 ? (par1 != 1 && par1 != 0 ? this.blockIcon : this.furnaceTopIcon) : this.furnaceTopIcon);
+        int k = par2 & 7;
+        return par1 == k ? (k != 1 && k != 0 ? this.furnaceFrontIcon : this.field_96473_e) : (k != 1 && k != 0 ? (par1 != 1 && par1 != 0 ? this.blockIcon : this.furnaceTopIcon) : this.furnaceTopIcon);
     }
 
     @SideOnly(Side.CLIENT)
@@ -135,11 +135,11 @@ public class BlockDispenser extends BlockContainer
         }
         else
         {
-            TileEntityDispenser var10 = (TileEntityDispenser)par1World.getBlockTileEntity(par2, par3, par4);
+            TileEntityDispenser tileentitydispenser = (TileEntityDispenser)par1World.getBlockTileEntity(par2, par3, par4);
 
-            if (var10 != null)
+            if (tileentitydispenser != null)
             {
-                par5EntityPlayer.displayGUIDispenser(var10);
+                par5EntityPlayer.displayGUIDispenser(tileentitydispenser);
             }
 
             return true;
@@ -148,26 +148,26 @@ public class BlockDispenser extends BlockContainer
 
     protected void dispense(World par1World, int par2, int par3, int par4)
     {
-        BlockSourceImpl var5 = new BlockSourceImpl(par1World, par2, par3, par4);
-        TileEntityDispenser var6 = (TileEntityDispenser)var5.getBlockTileEntity();
+        BlockSourceImpl blocksourceimpl = new BlockSourceImpl(par1World, par2, par3, par4);
+        TileEntityDispenser tileentitydispenser = (TileEntityDispenser)blocksourceimpl.getBlockTileEntity();
 
-        if (var6 != null)
+        if (tileentitydispenser != null)
         {
-            int var7 = var6.getRandomStackFromInventory();
+            int l = tileentitydispenser.getRandomStackFromInventory();
 
-            if (var7 < 0)
+            if (l < 0)
             {
                 par1World.playAuxSFX(1001, par2, par3, par4, 0);
             }
             else
             {
-                ItemStack var8 = var6.getStackInSlot(var7);
-                IBehaviorDispenseItem var9 = this.getBehaviorForItemStack(var8);
+                ItemStack itemstack = tileentitydispenser.getStackInSlot(l);
+                IBehaviorDispenseItem ibehaviordispenseitem = this.getBehaviorForItemStack(itemstack);
 
-                if (var9 != IBehaviorDispenseItem.itemDispenseBehaviorProvider)
+                if (ibehaviordispenseitem != IBehaviorDispenseItem.itemDispenseBehaviorProvider)
                 {
-                    ItemStack var10 = var9.dispense(var5, var8);
-                    var6.setInventorySlotContents(var7, var10.stackSize == 0 ? null : var10);
+                    ItemStack itemstack1 = ibehaviordispenseitem.dispense(blocksourceimpl, itemstack);
+                    tileentitydispenser.setInventorySlotContents(l, itemstack1.stackSize == 0 ? null : itemstack1);
                 }
             }
         }
@@ -187,18 +187,18 @@ public class BlockDispenser extends BlockContainer
      */
     public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
     {
-        boolean var6 = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4) || par1World.isBlockIndirectlyGettingPowered(par2, par3 + 1, par4);
-        int var7 = par1World.getBlockMetadata(par2, par3, par4);
-        boolean var8 = (var7 & 8) != 0;
+        boolean flag = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4) || par1World.isBlockIndirectlyGettingPowered(par2, par3 + 1, par4);
+        int i1 = par1World.getBlockMetadata(par2, par3, par4);
+        boolean flag1 = (i1 & 8) != 0;
 
-        if (var6 && !var8)
+        if (flag && !flag1)
         {
             par1World.scheduleBlockUpdate(par2, par3, par4, this.blockID, this.tickRate(par1World));
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, var7 | 8, 4);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, i1 | 8, 4);
         }
-        else if (!var6 && var8)
+        else if (!flag && flag1)
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, var7 & -9, 4);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, i1 & -9, 4);
         }
     }
 
@@ -226,8 +226,8 @@ public class BlockDispenser extends BlockContainer
      */
     public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
     {
-        int var7 = BlockPistonBase.determineOrientation(par1World, par2, par3, par4, par5EntityLivingBase);
-        par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
+        int l = BlockPistonBase.determineOrientation(par1World, par2, par3, par4, par5EntityLivingBase);
+        par1World.setBlockMetadataWithNotify(par2, par3, par4, l, 2);
 
         if (par6ItemStack.hasDisplayName())
         {
@@ -242,42 +242,42 @@ public class BlockDispenser extends BlockContainer
      */
     public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
-        TileEntityDispenser var7 = (TileEntityDispenser)par1World.getBlockTileEntity(par2, par3, par4);
+        TileEntityDispenser tileentitydispenser = (TileEntityDispenser)par1World.getBlockTileEntity(par2, par3, par4);
 
-        if (var7 != null)
+        if (tileentitydispenser != null)
         {
-            for (int var8 = 0; var8 < var7.getSizeInventory(); ++var8)
+            for (int j1 = 0; j1 < tileentitydispenser.getSizeInventory(); ++j1)
             {
-                ItemStack var9 = var7.getStackInSlot(var8);
+                ItemStack itemstack = tileentitydispenser.getStackInSlot(j1);
 
-                if (var9 != null)
+                if (itemstack != null)
                 {
-                    float var10 = this.random.nextFloat() * 0.8F + 0.1F;
-                    float var11 = this.random.nextFloat() * 0.8F + 0.1F;
-                    float var12 = this.random.nextFloat() * 0.8F + 0.1F;
+                    float f = this.random.nextFloat() * 0.8F + 0.1F;
+                    float f1 = this.random.nextFloat() * 0.8F + 0.1F;
+                    float f2 = this.random.nextFloat() * 0.8F + 0.1F;
 
-                    while (var9.stackSize > 0)
+                    while (itemstack.stackSize > 0)
                     {
-                        int var13 = this.random.nextInt(21) + 10;
+                        int k1 = this.random.nextInt(21) + 10;
 
-                        if (var13 > var9.stackSize)
+                        if (k1 > itemstack.stackSize)
                         {
-                            var13 = var9.stackSize;
+                            k1 = itemstack.stackSize;
                         }
 
-                        var9.stackSize -= var13;
-                        EntityItem var14 = new EntityItem(par1World, (double)((float)par2 + var10), (double)((float)par3 + var11), (double)((float)par4 + var12), new ItemStack(var9.itemID, var13, var9.getItemDamage()));
+                        itemstack.stackSize -= k1;
+                        EntityItem entityitem = new EntityItem(par1World, (double)((float)par2 + f), (double)((float)par3 + f1), (double)((float)par4 + f2), new ItemStack(itemstack.itemID, k1, itemstack.getItemDamage()));
 
-                        if (var9.hasTagCompound())
+                        if (itemstack.hasTagCompound())
                         {
-                            var14.getEntityItem().setTagCompound((NBTTagCompound)var9.getTagCompound().copy());
+                            entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
                         }
 
-                        float var15 = 0.05F;
-                        var14.motionX = (double)((float)this.random.nextGaussian() * var15);
-                        var14.motionY = (double)((float)this.random.nextGaussian() * var15 + 0.2F);
-                        var14.motionZ = (double)((float)this.random.nextGaussian() * var15);
-                        par1World.spawnEntityInWorld(var14);
+                        float f3 = 0.05F;
+                        entityitem.motionX = (double)((float)this.random.nextGaussian() * f3);
+                        entityitem.motionY = (double)((float)this.random.nextGaussian() * f3 + 0.2F);
+                        entityitem.motionZ = (double)((float)this.random.nextGaussian() * f3);
+                        par1World.spawnEntityInWorld(entityitem);
                     }
                 }
             }
@@ -290,11 +290,11 @@ public class BlockDispenser extends BlockContainer
 
     public static IPosition getIPositionFromBlockSource(IBlockSource par0IBlockSource)
     {
-        EnumFacing var1 = getFacing(par0IBlockSource.getBlockMetadata());
-        double var2 = par0IBlockSource.getX() + 0.7D * (double)var1.getFrontOffsetX();
-        double var4 = par0IBlockSource.getY() + 0.7D * (double)var1.getFrontOffsetY();
-        double var6 = par0IBlockSource.getZ() + 0.7D * (double)var1.getFrontOffsetZ();
-        return new PositionImpl(var2, var4, var6);
+        EnumFacing enumfacing = getFacing(par0IBlockSource.getBlockMetadata());
+        double d0 = par0IBlockSource.getX() + 0.7D * (double)enumfacing.getFrontOffsetX();
+        double d1 = par0IBlockSource.getY() + 0.7D * (double)enumfacing.getFrontOffsetY();
+        double d2 = par0IBlockSource.getZ() + 0.7D * (double)enumfacing.getFrontOffsetZ();
+        return new PositionImpl(d0, d1, d2);
     }
 
     public static EnumFacing getFacing(int par0)

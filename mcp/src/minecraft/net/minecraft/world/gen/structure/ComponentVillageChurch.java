@@ -18,8 +18,8 @@ public class ComponentVillageChurch extends ComponentVillage
 
     public static ComponentVillageChurch func_74919_a(ComponentVillageStartPiece par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
     {
-        StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 5, 12, 9, par6);
-        return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new ComponentVillageChurch(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 5, 12, 9, par6);
+        return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(par1List, structureboundingbox) == null ? new ComponentVillageChurch(par0ComponentVillageStartPiece, par7, par2Random, structureboundingbox, par6) : null;
     }
 
     /**
@@ -86,12 +86,12 @@ public class ComponentVillageChurch extends ComponentVillage
         this.placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 1, 4, 6, par3StructureBoundingBox);
         this.placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 3, 4, 6, par3StructureBoundingBox);
         this.placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 2, 4, 5, par3StructureBoundingBox);
-        int var4 = this.getMetadataWithOffset(Block.ladder.blockID, 4);
-        int var5;
+        int i = this.getMetadataWithOffset(Block.ladder.blockID, 4);
+        int j;
 
-        for (var5 = 1; var5 <= 9; ++var5)
+        for (j = 1; j <= 9; ++j)
         {
-            this.placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, var4, 3, var5, 3, par3StructureBoundingBox);
+            this.placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, i, 3, j, 3, par3StructureBoundingBox);
         }
 
         this.placeBlockAtCurrentPosition(par1World, 0, 0, 2, 1, 0, par3StructureBoundingBox);
@@ -103,12 +103,12 @@ public class ComponentVillageChurch extends ComponentVillage
             this.placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, this.getMetadataWithOffset(Block.stairsCobblestone.blockID, 3), 2, 0, -1, par3StructureBoundingBox);
         }
 
-        for (var5 = 0; var5 < 9; ++var5)
+        for (j = 0; j < 9; ++j)
         {
-            for (int var6 = 0; var6 < 5; ++var6)
+            for (int k = 0; k < 5; ++k)
             {
-                this.clearCurrentPositionBlocksUpwards(par1World, var6, 12, var5, par3StructureBoundingBox);
-                this.fillCurrentPositionBlocksDownwards(par1World, Block.cobblestone.blockID, 0, var6, -1, var5, par3StructureBoundingBox);
+                this.clearCurrentPositionBlocksUpwards(par1World, k, 12, j, par3StructureBoundingBox);
+                this.fillCurrentPositionBlocksDownwards(par1World, Block.cobblestone.blockID, 0, k, -1, j, par3StructureBoundingBox);
             }
         }
 

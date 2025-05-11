@@ -46,8 +46,8 @@ public class BlockFenceGate extends BlockDirectional
      */
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
     {
-        int var5 = par1World.getBlockMetadata(par2, par3, par4);
-        return isFenceGateOpen(var5) ? null : (var5 != 2 && var5 != 0 ? AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + 0.375F), (double)par3, (double)par4, (double)((float)par2 + 0.625F), (double)((float)par3 + 1.5F), (double)(par4 + 1)) : AxisAlignedBB.getAABBPool().getAABB((double)par2, (double)par3, (double)((float)par4 + 0.375F), (double)(par2 + 1), (double)((float)par3 + 1.5F), (double)((float)par4 + 0.625F)));
+        int l = par1World.getBlockMetadata(par2, par3, par4);
+        return isFenceGateOpen(l) ? null : (l != 2 && l != 0 ? AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + 0.375F), (double)par3, (double)par4, (double)((float)par2 + 0.625F), (double)((float)par3 + 1.5F), (double)(par4 + 1)) : AxisAlignedBB.getAABBPool().getAABB((double)par2, (double)par3, (double)((float)par4 + 0.375F), (double)(par2 + 1), (double)((float)par3 + 1.5F), (double)((float)par4 + 0.625F)));
     }
 
     /**
@@ -55,9 +55,9 @@ public class BlockFenceGate extends BlockDirectional
      */
     public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int var5 = getDirection(par1IBlockAccess.getBlockMetadata(par2, par3, par4));
+        int l = getDirection(par1IBlockAccess.getBlockMetadata(par2, par3, par4));
 
-        if (var5 != 2 && var5 != 0)
+        if (l != 2 && l != 0)
         {
             this.setBlockBounds(0.375F, 0.0F, 0.0F, 0.625F, 1.0F, 1.0F);
         }
@@ -102,8 +102,8 @@ public class BlockFenceGate extends BlockDirectional
      */
     public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
     {
-        int var7 = (MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) % 4;
-        par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
+        int l = (MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) % 4;
+        par1World.setBlockMetadataWithNotify(par2, par3, par4, l, 2);
     }
 
     /**
@@ -111,23 +111,23 @@ public class BlockFenceGate extends BlockDirectional
      */
     public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
-        int var10 = par1World.getBlockMetadata(par2, par3, par4);
+        int i1 = par1World.getBlockMetadata(par2, par3, par4);
 
-        if (isFenceGateOpen(var10))
+        if (isFenceGateOpen(i1))
         {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, var10 & -5, 2);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, i1 & -5, 2);
         }
         else
         {
-            int var11 = (MathHelper.floor_double((double)(par5EntityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) % 4;
-            int var12 = getDirection(var10);
+            int j1 = (MathHelper.floor_double((double)(par5EntityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) % 4;
+            int k1 = getDirection(i1);
 
-            if (var12 == (var11 + 2) % 4)
+            if (k1 == (j1 + 2) % 4)
             {
-                var10 = var11;
+                i1 = j1;
             }
 
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, var10 | 4, 2);
+            par1World.setBlockMetadataWithNotify(par2, par3, par4, i1 | 4, 2);
         }
 
         par1World.playAuxSFXAtEntity(par5EntityPlayer, 1003, par2, par3, par4, 0);
@@ -142,19 +142,19 @@ public class BlockFenceGate extends BlockDirectional
     {
         if (!par1World.isRemote)
         {
-            int var6 = par1World.getBlockMetadata(par2, par3, par4);
-            boolean var7 = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4);
+            int i1 = par1World.getBlockMetadata(par2, par3, par4);
+            boolean flag = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4);
 
-            if (var7 || par5 > 0 && Block.blocksList[par5].canProvidePower())
+            if (flag || par5 > 0 && Block.blocksList[par5].canProvidePower())
             {
-                if (var7 && !isFenceGateOpen(var6))
+                if (flag && !isFenceGateOpen(i1))
                 {
-                    par1World.setBlockMetadataWithNotify(par2, par3, par4, var6 | 4, 2);
+                    par1World.setBlockMetadataWithNotify(par2, par3, par4, i1 | 4, 2);
                     par1World.playAuxSFXAtEntity((EntityPlayer)null, 1003, par2, par3, par4, 0);
                 }
-                else if (!var7 && isFenceGateOpen(var6))
+                else if (!flag && isFenceGateOpen(i1))
                 {
-                    par1World.setBlockMetadataWithNotify(par2, par3, par4, var6 & -5, 2);
+                    par1World.setBlockMetadataWithNotify(par2, par3, par4, i1 & -5, 2);
                     par1World.playAuxSFXAtEntity((EntityPlayer)null, 1003, par2, par3, par4, 0);
                 }
             }

@@ -77,8 +77,8 @@ public class EnchantmentProtection extends Enchantment
         }
         else
         {
-            float var3 = (float)(6 + par1 * par1) / 3.0F;
-            return this.protectionType == 0 ? MathHelper.floor_float(var3 * 0.75F) : (this.protectionType == 1 && par2DamageSource.isFireDamage() ? MathHelper.floor_float(var3 * 1.25F) : (this.protectionType == 2 && par2DamageSource == DamageSource.fall ? MathHelper.floor_float(var3 * 2.5F) : (this.protectionType == 3 && par2DamageSource.isExplosion() ? MathHelper.floor_float(var3 * 1.5F) : (this.protectionType == 4 && par2DamageSource.isProjectile() ? MathHelper.floor_float(var3 * 1.5F) : 0))));
+            float f = (float)(6 + par1 * par1) / 3.0F;
+            return this.protectionType == 0 ? MathHelper.floor_float(f * 0.75F) : (this.protectionType == 1 && par2DamageSource.isFireDamage() ? MathHelper.floor_float(f * 1.25F) : (this.protectionType == 2 && par2DamageSource == DamageSource.fall ? MathHelper.floor_float(f * 2.5F) : (this.protectionType == 3 && par2DamageSource.isExplosion() ? MathHelper.floor_float(f * 1.5F) : (this.protectionType == 4 && par2DamageSource.isProjectile() ? MathHelper.floor_float(f * 1.5F) : 0))));
         }
     }
 
@@ -97,8 +97,8 @@ public class EnchantmentProtection extends Enchantment
     {
         if (par1Enchantment instanceof EnchantmentProtection)
         {
-            EnchantmentProtection var2 = (EnchantmentProtection)par1Enchantment;
-            return var2.protectionType == this.protectionType ? false : this.protectionType == 2 || var2.protectionType == 2;
+            EnchantmentProtection enchantmentprotection = (EnchantmentProtection)par1Enchantment;
+            return enchantmentprotection.protectionType == this.protectionType ? false : this.protectionType == 2 || enchantmentprotection.protectionType == 2;
         }
         else
         {
@@ -111,11 +111,11 @@ public class EnchantmentProtection extends Enchantment
      */
     public static int getFireTimeForEntity(Entity par0Entity, int par1)
     {
-        int var2 = EnchantmentHelper.getMaxEnchantmentLevel(Enchantment.fireProtection.effectId, par0Entity.getLastActiveItems());
+        int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantment.fireProtection.effectId, par0Entity.getLastActiveItems());
 
-        if (var2 > 0)
+        if (j > 0)
         {
-            par1 -= MathHelper.floor_float((float)par1 * (float)var2 * 0.15F);
+            par1 -= MathHelper.floor_float((float)par1 * (float)j * 0.15F);
         }
 
         return par1;
@@ -123,11 +123,11 @@ public class EnchantmentProtection extends Enchantment
 
     public static double func_92092_a(Entity par0Entity, double par1)
     {
-        int var3 = EnchantmentHelper.getMaxEnchantmentLevel(Enchantment.blastProtection.effectId, par0Entity.getLastActiveItems());
+        int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantment.blastProtection.effectId, par0Entity.getLastActiveItems());
 
-        if (var3 > 0)
+        if (i > 0)
         {
-            par1 -= (double)MathHelper.floor_double(par1 * (double)((float)var3 * 0.15F));
+            par1 -= (double)MathHelper.floor_double(par1 * (double)((float)i * 0.15F));
         }
 
         return par1;

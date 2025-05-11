@@ -8,15 +8,15 @@ public class WorldGenWaterlily extends WorldGenerator
 {
     public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
     {
-        for (int var6 = 0; var6 < 10; ++var6)
+        for (int l = 0; l < 10; ++l)
         {
-            int var7 = par3 + par2Random.nextInt(8) - par2Random.nextInt(8);
-            int var8 = par4 + par2Random.nextInt(4) - par2Random.nextInt(4);
-            int var9 = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
+            int i1 = par3 + par2Random.nextInt(8) - par2Random.nextInt(8);
+            int j1 = par4 + par2Random.nextInt(4) - par2Random.nextInt(4);
+            int k1 = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
 
-            if (par1World.isAirBlock(var7, var8, var9) && Block.waterlily.canPlaceBlockAt(par1World, var7, var8, var9))
+            if (par1World.isAirBlock(i1, j1, k1) && Block.waterlily.canPlaceBlockAt(par1World, i1, j1, k1))
             {
-                par1World.setBlock(var7, var8, var9, Block.waterlily.blockID, 0, 2);
+                par1World.setBlock(i1, j1, k1, Block.waterlily.blockID, 0, 2);
             }
         }
 

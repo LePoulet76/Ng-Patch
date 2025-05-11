@@ -15,10 +15,10 @@ public class StringUtils
      */
     public static String ticksToElapsedTime(int par0)
     {
-        int var1 = par0 / 20;
-        int var2 = var1 / 60;
-        var1 %= 60;
-        return var1 < 10 ? var2 + ":0" + var1 : var2 + ":" + var1;
+        int j = par0 / 20;
+        int k = j / 60;
+        j %= 60;
+        return j < 10 ? k + ":0" + j : k + ":" + j;
     }
 
     public static String stripControlCodes(String par0Str)

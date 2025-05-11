@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+
+import cpw.mods.fml.common.FMLLog;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.server.MinecraftServer;
@@ -42,34 +45,35 @@ public abstract class NetworkListenThread
      */
     public void networkTick()
     {
-        for (int var1 = 0; var1 < this.connections.size(); ++var1)
+        for (int i = 0; i < this.connections.size(); ++i)
         {
-            NetServerHandler var2 = (NetServerHandler)this.connections.get(var1);
+            NetServerHandler netserverhandler = (NetServerHandler)this.connections.get(i);
 
             try
             {
-                var2.networkTick();
+                netserverhandler.networkTick();
             }
-            catch (Exception var6)
+            catch (Exception exception)
             {
-                if (var2.netManager instanceof MemoryConnection)
+                if (netserverhandler.netManager instanceof MemoryConnection)
                 {
-                    CrashReport var4 = CrashReport.makeCrashReport(var6, "Ticking memory connection");
-                    CrashReportCategory var5 = var4.makeCategory("Ticking connection");
-                    var5.addCrashSectionCallable("Connection", new CallableConnectionName(this, var2));
-                    throw new ReportedException(var4);
+                    CrashReport crashreport = CrashReport.makeCrashReport(exception, "Ticking memory connection");
+                    CrashReportCategory crashreportcategory = crashreport.makeCategory("Ticking connection");
+                    crashreportcategory.addCrashSectionCallable("Connection", new CallableConnectionName(this, netserverhandler));
+                    throw new ReportedException(crashreport);
                 }
 
-                this.mcServer.getLogAgent().logWarningException("Failed to handle packet for " + var2.playerEntity.getEntityName() + "/" + var2.playerEntity.getPlayerIP() + ": " + var6, var6);
-                var2.kickPlayerFromServer("Internal server error");
+                FMLLog.log(Level.SEVERE, exception, "A critical server error occured handling a packet, kicking %s", netserverhandler.getPlayer().entityId);
+                this.mcServer.getLogAgent().logWarningException("Failed to handle packet for " + netserverhandler.playerEntity.getEntityName() + "/" + netserverhandler.playerEntity.getPlayerIP() + ": " + exception, exception);
+                netserverhandler.kickPlayerFromServer("Internal server error");
             }
 
-            if (var2.connectionClosed)
+            if (netserverhandler.connectionClosed)
             {
-                this.connections.remove(var1--);
+                this.connections.remove(i--);
             }
 
-            var2.netManager.wakeThreads();
+            netserverhandler.netManager.wakeThreads();
         }
     }
 

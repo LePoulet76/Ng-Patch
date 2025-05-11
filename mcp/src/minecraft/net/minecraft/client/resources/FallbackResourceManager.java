@@ -36,28 +36,28 @@ public class FallbackResourceManager implements ResourceManager
 
     public Resource getResource(ResourceLocation par1ResourceLocation) throws IOException
     {
-        ResourcePack var2 = null;
-        ResourceLocation var3 = getLocationMcmeta(par1ResourceLocation);
+        ResourcePack resourcepack = null;
+        ResourceLocation resourcelocation1 = getLocationMcmeta(par1ResourceLocation);
 
-        for (int var4 = this.resourcePacks.size() - 1; var4 >= 0; --var4)
+        for (int i = this.resourcePacks.size() - 1; i >= 0; --i)
         {
-            ResourcePack var5 = (ResourcePack)this.resourcePacks.get(var4);
+            ResourcePack resourcepack1 = (ResourcePack)this.resourcePacks.get(i);
 
-            if (var2 == null && var5.resourceExists(var3))
+            if (resourcepack == null && resourcepack1.resourceExists(resourcelocation1))
             {
-                var2 = var5;
+                resourcepack = resourcepack1;
             }
 
-            if (var5.resourceExists(par1ResourceLocation))
+            if (resourcepack1.resourceExists(par1ResourceLocation))
             {
-                InputStream var6 = null;
+                InputStream inputstream = null;
 
-                if (var2 != null)
+                if (resourcepack != null)
                 {
-                    var6 = var2.getInputStream(var3);
+                    inputstream = resourcepack.getInputStream(resourcelocation1);
                 }
 
-                return new SimpleResource(par1ResourceLocation, var5.getInputStream(par1ResourceLocation), var6, this.frmMetadataSerializer);
+                return new SimpleResource(par1ResourceLocation, resourcepack1.getInputStream(par1ResourceLocation), inputstream, this.frmMetadataSerializer);
             }
         }
 
@@ -66,28 +66,28 @@ public class FallbackResourceManager implements ResourceManager
 
     public List getAllResources(ResourceLocation par1ResourceLocation) throws IOException
     {
-        ArrayList var2 = Lists.newArrayList();
-        ResourceLocation var3 = getLocationMcmeta(par1ResourceLocation);
-        Iterator var4 = this.resourcePacks.iterator();
+        ArrayList arraylist = Lists.newArrayList();
+        ResourceLocation resourcelocation1 = getLocationMcmeta(par1ResourceLocation);
+        Iterator iterator = this.resourcePacks.iterator();
 
-        while (var4.hasNext())
+        while (iterator.hasNext())
         {
-            ResourcePack var5 = (ResourcePack)var4.next();
+            ResourcePack resourcepack = (ResourcePack)iterator.next();
 
-            if (var5.resourceExists(par1ResourceLocation))
+            if (resourcepack.resourceExists(par1ResourceLocation))
             {
-                InputStream var6 = var5.resourceExists(var3) ? var5.getInputStream(var3) : null;
-                var2.add(new SimpleResource(par1ResourceLocation, var5.getInputStream(par1ResourceLocation), var6, this.frmMetadataSerializer));
+                InputStream inputstream = resourcepack.resourceExists(resourcelocation1) ? resourcepack.getInputStream(resourcelocation1) : null;
+                arraylist.add(new SimpleResource(par1ResourceLocation, resourcepack.getInputStream(par1ResourceLocation), inputstream, this.frmMetadataSerializer));
             }
         }
 
-        if (var2.isEmpty())
+        if (arraylist.isEmpty())
         {
             throw new FileNotFoundException(par1ResourceLocation.toString());
         }
         else
         {
-            return var2;
+            return arraylist;
         }
     }
 

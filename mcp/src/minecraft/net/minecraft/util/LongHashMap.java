@@ -56,13 +56,13 @@ public class LongHashMap
      */
     public Object getValueByKey(long par1)
     {
-        int var3 = getHashedKey(par1);
+        int j = getHashedKey(par1);
 
-        for (LongHashMapEntry var4 = this.hashArray[getHashIndex(var3, this.hashArray.length)]; var4 != null; var4 = var4.nextEntry)
+        for (LongHashMapEntry longhashmapentry = this.hashArray[getHashIndex(j, this.hashArray.length)]; longhashmapentry != null; longhashmapentry = longhashmapentry.nextEntry)
         {
-            if (var4.key == par1)
+            if (longhashmapentry.key == par1)
             {
-                return var4.value;
+                return longhashmapentry.value;
             }
         }
 
@@ -76,13 +76,13 @@ public class LongHashMap
 
     final LongHashMapEntry getEntry(long par1)
     {
-        int var3 = getHashedKey(par1);
+        int j = getHashedKey(par1);
 
-        for (LongHashMapEntry var4 = this.hashArray[getHashIndex(var3, this.hashArray.length)]; var4 != null; var4 = var4.nextEntry)
+        for (LongHashMapEntry longhashmapentry = this.hashArray[getHashIndex(j, this.hashArray.length)]; longhashmapentry != null; longhashmapentry = longhashmapentry.nextEntry)
         {
-            if (var4.key == par1)
+            if (longhashmapentry.key == par1)
             {
-                return var4;
+                return longhashmapentry;
             }
         }
 
@@ -94,20 +94,20 @@ public class LongHashMap
      */
     public void add(long par1, Object par3Obj)
     {
-        int var4 = getHashedKey(par1);
-        int var5 = getHashIndex(var4, this.hashArray.length);
+        int j = getHashedKey(par1);
+        int k = getHashIndex(j, this.hashArray.length);
 
-        for (LongHashMapEntry var6 = this.hashArray[var5]; var6 != null; var6 = var6.nextEntry)
+        for (LongHashMapEntry longhashmapentry = this.hashArray[k]; longhashmapentry != null; longhashmapentry = longhashmapentry.nextEntry)
         {
-            if (var6.key == par1)
+            if (longhashmapentry.key == par1)
             {
-                var6.value = par3Obj;
+                longhashmapentry.value = par3Obj;
                 return;
             }
         }
 
         ++this.modCount;
-        this.createKey(var4, par1, par3Obj, var5);
+        this.createKey(j, par1, par3Obj, k);
     }
 
     /**
@@ -115,18 +115,18 @@ public class LongHashMap
      */
     private void resizeTable(int par1)
     {
-        LongHashMapEntry[] var2 = this.hashArray;
-        int var3 = var2.length;
+        LongHashMapEntry[] alonghashmapentry = this.hashArray;
+        int j = alonghashmapentry.length;
 
-        if (var3 == 1073741824)
+        if (j == 1073741824)
         {
             this.capacity = Integer.MAX_VALUE;
         }
         else
         {
-            LongHashMapEntry[] var4 = new LongHashMapEntry[par1];
-            this.copyHashTableTo(var4);
-            this.hashArray = var4;
+            LongHashMapEntry[] alonghashmapentry1 = new LongHashMapEntry[par1];
+            this.copyHashTableTo(alonghashmapentry1);
+            this.hashArray = alonghashmapentry1;
             this.capacity = (int)((float)par1 * this.percentUseable);
         }
     }
@@ -136,27 +136,27 @@ public class LongHashMap
      */
     private void copyHashTableTo(LongHashMapEntry[] par1ArrayOfLongHashMapEntry)
     {
-        LongHashMapEntry[] var2 = this.hashArray;
-        int var3 = par1ArrayOfLongHashMapEntry.length;
+        LongHashMapEntry[] alonghashmapentry1 = this.hashArray;
+        int i = par1ArrayOfLongHashMapEntry.length;
 
-        for (int var4 = 0; var4 < var2.length; ++var4)
+        for (int j = 0; j < alonghashmapentry1.length; ++j)
         {
-            LongHashMapEntry var5 = var2[var4];
+            LongHashMapEntry longhashmapentry = alonghashmapentry1[j];
 
-            if (var5 != null)
+            if (longhashmapentry != null)
             {
-                var2[var4] = null;
-                LongHashMapEntry var6;
+                alonghashmapentry1[j] = null;
+                LongHashMapEntry longhashmapentry1;
 
                 do
                 {
-                    var6 = var5.nextEntry;
-                    int var7 = getHashIndex(var5.hash, var3);
-                    var5.nextEntry = par1ArrayOfLongHashMapEntry[var7];
-                    par1ArrayOfLongHashMapEntry[var7] = var5;
-                    var5 = var6;
+                    longhashmapentry1 = longhashmapentry.nextEntry;
+                    int k = getHashIndex(longhashmapentry.hash, i);
+                    longhashmapentry.nextEntry = par1ArrayOfLongHashMapEntry[k];
+                    par1ArrayOfLongHashMapEntry[k] = longhashmapentry;
+                    longhashmapentry = longhashmapentry1;
                 }
-                while (var6 != null);
+                while (longhashmapentry1 != null);
             }
         }
     }
@@ -166,8 +166,8 @@ public class LongHashMap
      */
     public Object remove(long par1)
     {
-        LongHashMapEntry var3 = this.removeKey(par1);
-        return var3 == null ? null : var3.value;
+        LongHashMapEntry longhashmapentry = this.removeKey(par1);
+        return longhashmapentry == null ? null : longhashmapentry.value;
     }
 
     /**
@@ -175,37 +175,37 @@ public class LongHashMap
      */
     final LongHashMapEntry removeKey(long par1)
     {
-        int var3 = getHashedKey(par1);
-        int var4 = getHashIndex(var3, this.hashArray.length);
-        LongHashMapEntry var5 = this.hashArray[var4];
-        LongHashMapEntry var6;
-        LongHashMapEntry var7;
+        int j = getHashedKey(par1);
+        int k = getHashIndex(j, this.hashArray.length);
+        LongHashMapEntry longhashmapentry = this.hashArray[k];
+        LongHashMapEntry longhashmapentry1;
+        LongHashMapEntry longhashmapentry2;
 
-        for (var6 = var5; var6 != null; var6 = var7)
+        for (longhashmapentry1 = longhashmapentry; longhashmapentry1 != null; longhashmapentry1 = longhashmapentry2)
         {
-            var7 = var6.nextEntry;
+            longhashmapentry2 = longhashmapentry1.nextEntry;
 
-            if (var6.key == par1)
+            if (longhashmapentry1.key == par1)
             {
                 ++this.modCount;
                 --this.numHashElements;
 
-                if (var5 == var6)
+                if (longhashmapentry == longhashmapentry1)
                 {
-                    this.hashArray[var4] = var7;
+                    this.hashArray[k] = longhashmapentry2;
                 }
                 else
                 {
-                    var5.nextEntry = var7;
+                    longhashmapentry.nextEntry = longhashmapentry2;
                 }
 
-                return var6;
+                return longhashmapentry1;
             }
 
-            var5 = var6;
+            longhashmapentry = longhashmapentry1;
         }
 
-        return var6;
+        return longhashmapentry1;
     }
 
     /**
@@ -213,8 +213,8 @@ public class LongHashMap
      */
     private void createKey(int par1, long par2, Object par4Obj, int par5)
     {
-        LongHashMapEntry var6 = this.hashArray[par5];
-        this.hashArray[par5] = new LongHashMapEntry(par1, par2, par4Obj, var6);
+        LongHashMapEntry longhashmapentry = this.hashArray[par5];
+        this.hashArray[par5] = new LongHashMapEntry(par1, par2, par4Obj, longhashmapentry);
 
         if (this.numHashElements++ >= this.capacity)
         {

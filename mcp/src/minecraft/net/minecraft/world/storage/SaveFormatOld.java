@@ -32,20 +32,20 @@ public class SaveFormatOld implements ISaveFormat
     @SideOnly(Side.CLIENT)
     public List getSaveList() throws AnvilConverterException
     {
-        ArrayList var1 = new ArrayList();
+        ArrayList arraylist = new ArrayList();
 
-        for (int var2 = 0; var2 < 5; ++var2)
+        for (int i = 0; i < 5; ++i)
         {
-            String var3 = "World" + (var2 + 1);
-            WorldInfo var4 = this.getWorldInfo(var3);
+            String s = "World" + (i + 1);
+            WorldInfo worldinfo = this.getWorldInfo(s);
 
-            if (var4 != null)
+            if (worldinfo != null)
             {
-                var1.add(new SaveFormatComparator(var3, "", var4.getLastTimePlayed(), var4.getSizeOnDisk(), var4.getGameType(), false, var4.isHardcoreModeEnabled(), var4.areCommandsAllowed()));
+                arraylist.add(new SaveFormatComparator(s, "", worldinfo.getLastTimePlayed(), worldinfo.getSizeOnDisk(), worldinfo.getGameType(), false, worldinfo.isHardcoreModeEnabled(), worldinfo.areCommandsAllowed()));
             }
         }
 
-        return var1;
+        return arraylist;
     }
 
     public void flushCache() {}
@@ -55,45 +55,45 @@ public class SaveFormatOld implements ISaveFormat
      */
     public WorldInfo getWorldInfo(String par1Str)
     {
-        File var2 = new File(this.savesDirectory, par1Str);
+        File file1 = new File(this.savesDirectory, par1Str);
 
-        if (!var2.exists())
+        if (!file1.exists())
         {
             return null;
         }
         else
         {
-            File var3 = new File(var2, "level.dat");
-            NBTTagCompound var4;
-            NBTTagCompound var5;
+            File file2 = new File(file1, "level.dat");
+            NBTTagCompound nbttagcompound;
+            NBTTagCompound nbttagcompound1;
 
-            if (var3.exists())
+            if (file2.exists())
             {
                 try
                 {
-                    var4 = CompressedStreamTools.readCompressed(new FileInputStream(var3));
-                    var5 = var4.getCompoundTag("Data");
-                    return new WorldInfo(var5);
+                    nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file2));
+                    nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
+                    return new WorldInfo(nbttagcompound1);
                 }
-                catch (Exception var7)
+                catch (Exception exception)
                 {
-                    var7.printStackTrace();
+                    exception.printStackTrace();
                 }
             }
 
-            var3 = new File(var2, "level.dat_old");
+            file2 = new File(file1, "level.dat_old");
 
-            if (var3.exists())
+            if (file2.exists())
             {
                 try
                 {
-                    var4 = CompressedStreamTools.readCompressed(new FileInputStream(var3));
-                    var5 = var4.getCompoundTag("Data");
-                    return new WorldInfo(var5);
+                    nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file2));
+                    nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
+                    return new WorldInfo(nbttagcompound1);
                 }
-                catch (Exception var6)
+                catch (Exception exception1)
                 {
-                    var6.printStackTrace();
+                    exception1.printStackTrace();
                 }
             }
 
@@ -110,24 +110,24 @@ public class SaveFormatOld implements ISaveFormat
      */
     public void renameWorld(String par1Str, String par2Str)
     {
-        File var3 = new File(this.savesDirectory, par1Str);
+        File file1 = new File(this.savesDirectory, par1Str);
 
-        if (var3.exists())
+        if (file1.exists())
         {
-            File var4 = new File(var3, "level.dat");
+            File file2 = new File(file1, "level.dat");
 
-            if (var4.exists())
+            if (file2.exists())
             {
                 try
                 {
-                    NBTTagCompound var5 = CompressedStreamTools.readCompressed(new FileInputStream(var4));
-                    NBTTagCompound var6 = var5.getCompoundTag("Data");
-                    var6.setString("LevelName", par2Str);
-                    CompressedStreamTools.writeCompressed(var5, new FileOutputStream(var4));
+                    NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file2));
+                    NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
+                    nbttagcompound1.setString("LevelName", par2Str);
+                    CompressedStreamTools.writeCompressed(nbttagcompound, new FileOutputStream(file2));
                 }
-                catch (Exception var7)
+                catch (Exception exception)
                 {
-                    var7.printStackTrace();
+                    exception.printStackTrace();
                 }
             }
         }
@@ -139,9 +139,9 @@ public class SaveFormatOld implements ISaveFormat
      */
     public boolean deleteWorldDirectory(String par1Str)
     {
-        File var2 = new File(this.savesDirectory, par1Str);
+        File file1 = new File(this.savesDirectory, par1Str);
 
-        if (!var2.exists())
+        if (!file1.exists())
         {
             return true;
         }
@@ -149,31 +149,31 @@ public class SaveFormatOld implements ISaveFormat
         {
             System.out.println("Deleting level " + par1Str);
 
-            for (int var3 = 1; var3 <= 5; ++var3)
+            for (int i = 1; i <= 5; ++i)
             {
-                System.out.println("Attempt " + var3 + "...");
+                System.out.println("Attempt " + i + "...");
 
-                if (deleteFiles(var2.listFiles()))
+                if (deleteFiles(file1.listFiles()))
                 {
                     break;
                 }
 
                 System.out.println("Unsuccessful in deleting contents.");
 
-                if (var3 < 5)
+                if (i < 5)
                 {
                     try
                     {
                         Thread.sleep(500L);
                     }
-                    catch (InterruptedException var5)
+                    catch (InterruptedException interruptedexception)
                     {
                         ;
                     }
                 }
             }
 
-            return var2.delete();
+            return file1.delete();
         }
     }
 
@@ -183,20 +183,20 @@ public class SaveFormatOld implements ISaveFormat
      */
     protected static boolean deleteFiles(File[] par0ArrayOfFile)
     {
-        for (int var1 = 0; var1 < par0ArrayOfFile.length; ++var1)
+        for (int i = 0; i < par0ArrayOfFile.length; ++i)
         {
-            File var2 = par0ArrayOfFile[var1];
-            System.out.println("Deleting " + var2);
+            File file1 = par0ArrayOfFile[i];
+            System.out.println("Deleting " + file1);
 
-            if (var2.isDirectory() && !deleteFiles(var2.listFiles()))
+            if (file1.isDirectory() && !deleteFiles(file1.listFiles()))
             {
-                System.out.println("Couldn\'t delete directory " + var2);
+                System.out.println("Couldn\'t delete directory " + file1);
                 return false;
             }
 
-            if (!var2.delete())
+            if (!file1.delete())
             {
-                System.out.println("Couldn\'t delete file " + var2);
+                System.out.println("Couldn\'t delete file " + file1);
                 return false;
             }
         }
@@ -235,7 +235,7 @@ public class SaveFormatOld implements ISaveFormat
      */
     public boolean canLoadWorld(String par1Str)
     {
-        File var2 = new File(this.savesDirectory, par1Str);
-        return var2.isDirectory();
+        File file1 = new File(this.savesDirectory, par1Str);
+        return file1.isDirectory();
     }
 }

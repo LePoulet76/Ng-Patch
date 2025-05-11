@@ -38,7 +38,7 @@ public abstract class BlockContainer extends Block implements ITileEntityProvide
     public boolean onBlockEventReceived(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
         super.onBlockEventReceived(par1World, par2, par3, par4, par5, par6);
-        TileEntity var7 = par1World.getBlockTileEntity(par2, par3, par4);
-        return var7 != null ? var7.receiveClientEvent(par5, par6) : false;
+        TileEntity tileentity = par1World.getBlockTileEntity(par2, par3, par4);
+        return tileentity != null ? tileentity.receiveClientEvent(par5, par6) : false;
     }
 }

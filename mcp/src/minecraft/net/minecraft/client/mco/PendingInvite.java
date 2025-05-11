@@ -14,19 +14,19 @@ public class PendingInvite extends ValueObject
 
     public static PendingInvite func_130091_a(JsonNode par0JsonNode)
     {
-        PendingInvite var1 = new PendingInvite();
+        PendingInvite pendinginvite = new PendingInvite();
 
         try
         {
-            var1.field_130094_a = par0JsonNode.getStringValue(new Object[] {"invitationId"});
-            var1.field_130092_b = par0JsonNode.getStringValue(new Object[] {"worldName"});
-            var1.field_130093_c = par0JsonNode.getStringValue(new Object[] {"worldOwnerName"});
+            pendinginvite.field_130094_a = par0JsonNode.getStringValue(new Object[] {"invitationId"});
+            pendinginvite.field_130092_b = par0JsonNode.getStringValue(new Object[] {"worldName"});
+            pendinginvite.field_130093_c = par0JsonNode.getStringValue(new Object[] {"worldOwnerName"});
         }
-        catch (Exception var3)
+        catch (Exception exception)
         {
             ;
         }
 
-        return var1;
+        return pendinginvite;
     }
 }

@@ -46,27 +46,27 @@ public class BlockEnchantmentTable extends BlockContainer
     {
         super.randomDisplayTick(par1World, par2, par3, par4, par5Random);
 
-        for (int var6 = par2 - 2; var6 <= par2 + 2; ++var6)
+        for (int l = par2 - 2; l <= par2 + 2; ++l)
         {
-            for (int var7 = par4 - 2; var7 <= par4 + 2; ++var7)
+            for (int i1 = par4 - 2; i1 <= par4 + 2; ++i1)
             {
-                if (var6 > par2 - 2 && var6 < par2 + 2 && var7 == par4 - 1)
+                if (l > par2 - 2 && l < par2 + 2 && i1 == par4 - 1)
                 {
-                    var7 = par4 + 2;
+                    i1 = par4 + 2;
                 }
 
                 if (par5Random.nextInt(16) == 0)
                 {
-                    for (int var8 = par3; var8 <= par3 + 1; ++var8)
+                    for (int j1 = par3; j1 <= par3 + 1; ++j1)
                     {
-                        if (par1World.getBlockId(var6, var8, var7) == Block.bookShelf.blockID)
+                        if (par1World.getBlockId(l, j1, i1) == Block.bookShelf.blockID)
                         {
-                            if (!par1World.isAirBlock((var6 - par2) / 2 + par2, var8, (var7 - par4) / 2 + par4))
+                            if (!par1World.isAirBlock((l - par2) / 2 + par2, j1, (i1 - par4) / 2 + par4))
                             {
                                 break;
                             }
 
-                            par1World.spawnParticle("enchantmenttable", (double)par2 + 0.5D, (double)par3 + 2.0D, (double)par4 + 0.5D, (double)((float)(var6 - par2) + par5Random.nextFloat()) - 0.5D, (double)((float)(var8 - par3) - par5Random.nextFloat() - 1.0F), (double)((float)(var7 - par4) + par5Random.nextFloat()) - 0.5D);
+                            par1World.spawnParticle("enchantmenttable", (double)par2 + 0.5D, (double)par3 + 2.0D, (double)par4 + 0.5D, (double)((float)(l - par2) + par5Random.nextFloat()) - 0.5D, (double)((float)(j1 - par3) - par5Random.nextFloat() - 1.0F), (double)((float)(i1 - par4) + par5Random.nextFloat()) - 0.5D);
                         }
                     }
                 }
@@ -112,8 +112,8 @@ public class BlockEnchantmentTable extends BlockContainer
         }
         else
         {
-            TileEntityEnchantmentTable var10 = (TileEntityEnchantmentTable)par1World.getBlockTileEntity(par2, par3, par4);
-            par5EntityPlayer.displayGUIEnchantment(par2, par3, par4, var10.func_94135_b() ? var10.func_94133_a() : null);
+            TileEntityEnchantmentTable tileentityenchantmenttable = (TileEntityEnchantmentTable)par1World.getBlockTileEntity(par2, par3, par4);
+            par5EntityPlayer.displayGUIEnchantment(par2, par3, par4, tileentityenchantmenttable.func_94135_b() ? tileentityenchantmenttable.func_94133_a() : null);
             return true;
         }
     }

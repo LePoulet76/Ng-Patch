@@ -21,52 +21,52 @@ public class RenderEnchantmentTable extends TileEntitySpecialRenderer
     {
         GL11.glPushMatrix();
         GL11.glTranslatef((float)par2 + 0.5F, (float)par4 + 0.75F, (float)par6 + 0.5F);
-        float var9 = (float)par1TileEntityEnchantmentTable.tickCount + par8;
-        GL11.glTranslatef(0.0F, 0.1F + MathHelper.sin(var9 * 0.1F) * 0.01F, 0.0F);
-        float var10;
+        float f1 = (float)par1TileEntityEnchantmentTable.tickCount + par8;
+        GL11.glTranslatef(0.0F, 0.1F + MathHelper.sin(f1 * 0.1F) * 0.01F, 0.0F);
+        float f2;
 
-        for (var10 = par1TileEntityEnchantmentTable.bookRotation2 - par1TileEntityEnchantmentTable.bookRotationPrev; var10 >= (float)Math.PI; var10 -= ((float)Math.PI * 2F))
+        for (f2 = par1TileEntityEnchantmentTable.bookRotation2 - par1TileEntityEnchantmentTable.bookRotationPrev; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F))
         {
             ;
         }
 
-        while (var10 < -(float)Math.PI)
+        while (f2 < -(float)Math.PI)
         {
-            var10 += ((float)Math.PI * 2F);
+            f2 += ((float)Math.PI * 2F);
         }
 
-        float var11 = par1TileEntityEnchantmentTable.bookRotationPrev + var10 * par8;
-        GL11.glRotatef(-var11 * 180.0F / (float)Math.PI, 0.0F, 1.0F, 0.0F);
+        float f3 = par1TileEntityEnchantmentTable.bookRotationPrev + f2 * par8;
+        GL11.glRotatef(-f3 * 180.0F / (float)Math.PI, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(80.0F, 0.0F, 0.0F, 1.0F);
         this.bindTexture(enchantingTableBookTextures);
-        float var12 = par1TileEntityEnchantmentTable.pageFlipPrev + (par1TileEntityEnchantmentTable.pageFlip - par1TileEntityEnchantmentTable.pageFlipPrev) * par8 + 0.25F;
-        float var13 = par1TileEntityEnchantmentTable.pageFlipPrev + (par1TileEntityEnchantmentTable.pageFlip - par1TileEntityEnchantmentTable.pageFlipPrev) * par8 + 0.75F;
-        var12 = (var12 - (float)MathHelper.truncateDoubleToInt((double)var12)) * 1.6F - 0.3F;
-        var13 = (var13 - (float)MathHelper.truncateDoubleToInt((double)var13)) * 1.6F - 0.3F;
+        float f4 = par1TileEntityEnchantmentTable.pageFlipPrev + (par1TileEntityEnchantmentTable.pageFlip - par1TileEntityEnchantmentTable.pageFlipPrev) * par8 + 0.25F;
+        float f5 = par1TileEntityEnchantmentTable.pageFlipPrev + (par1TileEntityEnchantmentTable.pageFlip - par1TileEntityEnchantmentTable.pageFlipPrev) * par8 + 0.75F;
+        f4 = (f4 - (float)MathHelper.truncateDoubleToInt((double)f4)) * 1.6F - 0.3F;
+        f5 = (f5 - (float)MathHelper.truncateDoubleToInt((double)f5)) * 1.6F - 0.3F;
 
-        if (var12 < 0.0F)
+        if (f4 < 0.0F)
         {
-            var12 = 0.0F;
+            f4 = 0.0F;
         }
 
-        if (var13 < 0.0F)
+        if (f5 < 0.0F)
         {
-            var13 = 0.0F;
+            f5 = 0.0F;
         }
 
-        if (var12 > 1.0F)
+        if (f4 > 1.0F)
         {
-            var12 = 1.0F;
+            f4 = 1.0F;
         }
 
-        if (var13 > 1.0F)
+        if (f5 > 1.0F)
         {
-            var13 = 1.0F;
+            f5 = 1.0F;
         }
 
-        float var14 = par1TileEntityEnchantmentTable.bookSpreadPrev + (par1TileEntityEnchantmentTable.bookSpread - par1TileEntityEnchantmentTable.bookSpreadPrev) * par8;
+        float f6 = par1TileEntityEnchantmentTable.bookSpreadPrev + (par1TileEntityEnchantmentTable.bookSpread - par1TileEntityEnchantmentTable.bookSpreadPrev) * par8;
         GL11.glEnable(GL11.GL_CULL_FACE);
-        this.enchantmentBook.render((Entity)null, var9, var12, var13, var14, 0.0F, 0.0625F);
+        this.enchantmentBook.render((Entity)null, f1, f4, f5, f6, 0.0F, 0.0625F);
         GL11.glPopMatrix();
     }
 

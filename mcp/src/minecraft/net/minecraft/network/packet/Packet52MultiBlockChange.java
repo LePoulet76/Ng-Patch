@@ -7,6 +7,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.common.ForgeDummyContainer;
+import net.minecraftforge.common.MinecraftForge;
 
 public class Packet52MultiBlockChange extends Packet
 {
@@ -34,45 +36,43 @@ public class Packet52MultiBlockChange extends Packet
         this.xPosition = par1;
         this.zPosition = par2;
         this.size = par4;
-        int var6 = 4 * par4;
-        Chunk var7 = par5World.getChunkFromChunkCoords(par1, par2);
+        int l = 4 * par4;
+        Chunk chunk = par5World.getChunkFromChunkCoords(par1, par2);
 
         try
         {
-            if (par4 >= 64)
+            if (par4 >= ForgeDummyContainer.clumpingThreshold)
             {
-                this.field_98193_m.logInfo("ChunkTilesUpdatePacket compress " + par4);
-
-                if (field_73449_e.length < var6)
+                if (field_73449_e.length < l)
                 {
-                    field_73449_e = new byte[var6];
+                    field_73449_e = new byte[l];
                 }
             }
             else
             {
-                ByteArrayOutputStream var8 = new ByteArrayOutputStream(var6);
-                DataOutputStream var9 = new DataOutputStream(var8);
+                ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream(l);
+                DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream);
 
-                for (int var10 = 0; var10 < par4; ++var10)
+                for (int i1 = 0; i1 < par4; ++i1)
                 {
-                    int var11 = par3ArrayOfShort[var10] >> 12 & 15;
-                    int var12 = par3ArrayOfShort[var10] >> 8 & 15;
-                    int var13 = par3ArrayOfShort[var10] & 255;
-                    var9.writeShort(par3ArrayOfShort[var10]);
-                    var9.writeShort((short)((var7.getBlockID(var11, var13, var12) & 4095) << 4 | var7.getBlockMetadata(var11, var13, var12) & 15));
+                    int j1 = par3ArrayOfShort[i1] >> 12 & 15;
+                    int k1 = par3ArrayOfShort[i1] >> 8 & 15;
+                    int l1 = par3ArrayOfShort[i1] & 255;
+                    dataoutputstream.writeShort(par3ArrayOfShort[i1]);
+                    dataoutputstream.writeShort((short)((chunk.getBlockID(j1, l1, k1) & 4095) << 4 | chunk.getBlockMetadata(j1, l1, k1) & 15));
                 }
 
-                this.metadataArray = var8.toByteArray();
+                this.metadataArray = bytearrayoutputstream.toByteArray();
 
-                if (this.metadataArray.length != var6)
+                if (this.metadataArray.length != l)
                 {
-                    throw new RuntimeException("Expected length " + var6 + " doesn\'t match received length " + this.metadataArray.length);
+                    throw new RuntimeException("Expected length " + l + " doesn\'t match received length " + this.metadataArray.length);
                 }
             }
         }
-        catch (IOException var14)
+        catch (IOException ioexception)
         {
-            this.field_98193_m.logSevereException("Couldn\'t create chunk packet", var14);
+            this.field_98193_m.logSevereException("Couldn\'t create chunk packet", ioexception);
             this.metadataArray = null;
         }
     }
@@ -85,11 +85,11 @@ public class Packet52MultiBlockChange extends Packet
         this.xPosition = par1DataInput.readInt();
         this.zPosition = par1DataInput.readInt();
         this.size = par1DataInput.readShort() & 65535;
-        int var2 = par1DataInput.readInt();
+        int i = par1DataInput.readInt();
 
-        if (var2 > 0)
+        if (i > 0)
         {
-            this.metadataArray = new byte[var2];
+            this.metadataArray = new byte[i];
             par1DataInput.readFully(this.metadataArray);
         }
     }

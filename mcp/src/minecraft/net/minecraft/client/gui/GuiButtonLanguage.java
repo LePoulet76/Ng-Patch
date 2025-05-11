@@ -22,15 +22,15 @@ public class GuiButtonLanguage extends GuiButton
         {
             par1Minecraft.getTextureManager().bindTexture(GuiButton.buttonTextures);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            boolean var4 = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
-            int var5 = 106;
+            boolean flag = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
+            int k = 106;
 
-            if (var4)
+            if (flag)
             {
-                var5 += this.height;
+                k += this.height;
             }
 
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, var5, this.width, this.height);
+            this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, k, this.width, this.height);
         }
     }
 }

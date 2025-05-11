@@ -41,10 +41,10 @@ public class TileEntityMobSpawner extends TileEntity
      */
     public Packet getDescriptionPacket()
     {
-        NBTTagCompound var1 = new NBTTagCompound();
-        this.writeToNBT(var1);
-        var1.removeTag("SpawnPotentials");
-        return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 1, var1);
+        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        this.writeToNBT(nbttagcompound);
+        nbttagcompound.removeTag("SpawnPotentials");
+        return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 1, nbttagcompound);
     }
 
     /**

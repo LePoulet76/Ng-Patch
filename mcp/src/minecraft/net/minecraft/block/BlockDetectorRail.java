@@ -49,11 +49,11 @@ public class BlockDetectorRail extends BlockRailBase
     {
         if (!par1World.isRemote)
         {
-            int var6 = par1World.getBlockMetadata(par2, par3, par4);
+            int l = par1World.getBlockMetadata(par2, par3, par4);
 
-            if ((var6 & 8) == 0)
+            if ((l & 8) == 0)
             {
-                this.setStateIfMinecartInteractsWithRail(par1World, par2, par3, par4, var6);
+                this.setStateIfMinecartInteractsWithRail(par1World, par2, par3, par4, l);
             }
         }
     }
@@ -65,11 +65,11 @@ public class BlockDetectorRail extends BlockRailBase
     {
         if (!par1World.isRemote)
         {
-            int var6 = par1World.getBlockMetadata(par2, par3, par4);
+            int l = par1World.getBlockMetadata(par2, par3, par4);
 
-            if ((var6 & 8) != 0)
+            if ((l & 8) != 0)
             {
-                this.setStateIfMinecartInteractsWithRail(par1World, par2, par3, par4, var6);
+                this.setStateIfMinecartInteractsWithRail(par1World, par2, par3, par4, l);
             }
         }
     }
@@ -98,17 +98,17 @@ public class BlockDetectorRail extends BlockRailBase
      */
     private void setStateIfMinecartInteractsWithRail(World par1World, int par2, int par3, int par4, int par5)
     {
-        boolean var6 = (par5 & 8) != 0;
-        boolean var7 = false;
-        float var8 = 0.125F;
-        List var9 = par1World.getEntitiesWithinAABB(EntityMinecart.class, AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + var8), (double)par3, (double)((float)par4 + var8), (double)((float)(par2 + 1) - var8), (double)((float)(par3 + 1) - var8), (double)((float)(par4 + 1) - var8)));
+        boolean flag = (par5 & 8) != 0;
+        boolean flag1 = false;
+        float f = 0.125F;
+        List list = par1World.getEntitiesWithinAABB(EntityMinecart.class, AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + f), (double)par3, (double)((float)par4 + f), (double)((float)(par2 + 1) - f), (double)((float)(par3 + 1) - f), (double)((float)(par4 + 1) - f)));
 
-        if (!var9.isEmpty())
+        if (!list.isEmpty())
         {
-            var7 = true;
+            flag1 = true;
         }
 
-        if (var7 && !var6)
+        if (flag1 && !flag)
         {
             par1World.setBlockMetadataWithNotify(par2, par3, par4, par5 | 8, 3);
             par1World.notifyBlocksOfNeighborChange(par2, par3, par4, this.blockID);
@@ -116,7 +116,7 @@ public class BlockDetectorRail extends BlockRailBase
             par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
         }
 
-        if (!var7 && var6)
+        if (!flag1 && flag)
         {
             par1World.setBlockMetadataWithNotify(par2, par3, par4, par5 & 7, 3);
             par1World.notifyBlocksOfNeighborChange(par2, par3, par4, this.blockID);
@@ -124,7 +124,7 @@ public class BlockDetectorRail extends BlockRailBase
             par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
         }
 
-        if (var7)
+        if (flag1)
         {
             par1World.scheduleBlockUpdate(par2, par3, par4, this.blockID, this.tickRate(par1World));
         }
@@ -158,12 +158,12 @@ public class BlockDetectorRail extends BlockRailBase
     {
         if ((par1World.getBlockMetadata(par2, par3, par4) & 8) > 0)
         {
-            float var6 = 0.125F;
-            List var7 = par1World.selectEntitiesWithinAABB(EntityMinecart.class, AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + var6), (double)par3, (double)((float)par4 + var6), (double)((float)(par2 + 1) - var6), (double)((float)(par3 + 1) - var6), (double)((float)(par4 + 1) - var6)), IEntitySelector.selectInventories);
+            float f = 0.125F;
+            List list = par1World.selectEntitiesWithinAABB(EntityMinecart.class, AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 + f), (double)par3, (double)((float)par4 + f), (double)((float)(par2 + 1) - f), (double)((float)(par3 + 1) - f), (double)((float)(par4 + 1) - f)), IEntitySelector.selectInventories);
 
-            if (var7.size() > 0)
+            if (list.size() > 0)
             {
-                return Container.calcRedstoneFromInventory((IInventory)var7.get(0));
+                return Container.calcRedstoneFromInventory((IInventory)list.get(0));
             }
         }
 

@@ -42,8 +42,8 @@ public class BlockStationary extends BlockFluid
      */
     private void setNotStationary(World par1World, int par2, int par3, int par4)
     {
-        int var5 = par1World.getBlockMetadata(par2, par3, par4);
-        par1World.setBlock(par2, par3, par4, this.blockID - 1, var5, 2);
+        int l = par1World.getBlockMetadata(par2, par3, par4);
+        par1World.setBlock(par2, par3, par4, this.blockID - 1, l, 2);
         par1World.scheduleBlockUpdate(par2, par3, par4, this.blockID - 1, this.tickRate(par1World));
     }
 
@@ -54,18 +54,18 @@ public class BlockStationary extends BlockFluid
     {
         if (this.blockMaterial == Material.lava)
         {
-            int var6 = par5Random.nextInt(3);
-            int var7;
-            int var8;
+            int l = par5Random.nextInt(3);
+            int i1;
+            int j1;
 
-            for (var7 = 0; var7 < var6; ++var7)
+            for (i1 = 0; i1 < l; ++i1)
             {
                 par2 += par5Random.nextInt(3) - 1;
                 ++par3;
                 par4 += par5Random.nextInt(3) - 1;
-                var8 = par1World.getBlockId(par2, par3, par4);
+                j1 = par1World.getBlockId(par2, par3, par4);
 
-                if (var8 == 0)
+                if (j1 == 0)
                 {
                     if (this.isFlammable(par1World, par2 - 1, par3, par4) || this.isFlammable(par1World, par2 + 1, par3, par4) || this.isFlammable(par1World, par2, par3, par4 - 1) || this.isFlammable(par1World, par2, par3, par4 + 1) || this.isFlammable(par1World, par2, par3 - 1, par4) || this.isFlammable(par1World, par2, par3 + 1, par4))
                     {
@@ -73,21 +73,21 @@ public class BlockStationary extends BlockFluid
                         return;
                     }
                 }
-                else if (Block.blocksList[var8].blockMaterial.blocksMovement())
+                else if (Block.blocksList[j1].blockMaterial.blocksMovement())
                 {
                     return;
                 }
             }
 
-            if (var6 == 0)
+            if (l == 0)
             {
-                var7 = par2;
-                var8 = par4;
+                i1 = par2;
+                j1 = par4;
 
-                for (int var9 = 0; var9 < 3; ++var9)
+                for (int k1 = 0; k1 < 3; ++k1)
                 {
-                    par2 = var7 + par5Random.nextInt(3) - 1;
-                    par4 = var8 + par5Random.nextInt(3) - 1;
+                    par2 = i1 + par5Random.nextInt(3) - 1;
+                    par4 = j1 + par5Random.nextInt(3) - 1;
 
                     if (par1World.isAirBlock(par2, par3 + 1, par4) && this.isFlammable(par1World, par2, par3, par4))
                     {

@@ -14,35 +14,33 @@ public class WeightedRandomMinecart extends WeightedRandomItem
     {
         super(par2NBTTagCompound.getInteger("Weight"));
         this.field_98221_d = par1MobSpawnerBaseLogic;
-        NBTTagCompound var3 = par2NBTTagCompound.getCompoundTag("Properties");
-        String var4 = par2NBTTagCompound.getString("Type");
+        NBTTagCompound nbttagcompound1 = par2NBTTagCompound.getCompoundTag("Properties");
+        String s = par2NBTTagCompound.getString("Type");
 
-        if (var4.equals("Minecart"))
+        if (s.equals("Minecart"))
         {
-            if (var3 != null)
+            if (nbttagcompound1 != null)
             {
-                switch (var3.getInteger("Type"))
+                switch (nbttagcompound1.getInteger("Type"))
                 {
                     case 0:
-                        var4 = "MinecartRideable";
+                        s = "MinecartRideable";
                         break;
-
                     case 1:
-                        var4 = "MinecartChest";
+                        s = "MinecartChest";
                         break;
-
                     case 2:
-                        var4 = "MinecartFurnace";
+                        s = "MinecartFurnace";
                 }
             }
             else
             {
-                var4 = "MinecartRideable";
+                s = "MinecartRideable";
             }
         }
 
-        this.field_98222_b = var3;
-        this.minecartName = var4;
+        this.field_98222_b = nbttagcompound1;
+        this.minecartName = s;
     }
 
     public WeightedRandomMinecart(MobSpawnerBaseLogic par1MobSpawnerBaseLogic, NBTTagCompound par2NBTTagCompound, String par3Str)
@@ -59,11 +57,9 @@ public class WeightedRandomMinecart extends WeightedRandomItem
                     case 0:
                         par3Str = "MinecartRideable";
                         break;
-
                     case 1:
                         par3Str = "MinecartChest";
                         break;
-
                     case 2:
                         par3Str = "MinecartFurnace";
                 }
@@ -80,10 +76,10 @@ public class WeightedRandomMinecart extends WeightedRandomItem
 
     public NBTTagCompound func_98220_a()
     {
-        NBTTagCompound var1 = new NBTTagCompound();
-        var1.setCompoundTag("Properties", this.field_98222_b);
-        var1.setString("Type", this.minecartName);
-        var1.setInteger("Weight", this.itemWeight);
-        return var1;
+        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        nbttagcompound.setCompoundTag("Properties", this.field_98222_b);
+        nbttagcompound.setString("Type", this.minecartName);
+        nbttagcompound.setInteger("Weight", this.itemWeight);
+        return nbttagcompound;
     }
 }

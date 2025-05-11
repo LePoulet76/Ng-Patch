@@ -22,27 +22,27 @@ public class PropertyManager
 
         if (par1File.exists())
         {
-            FileInputStream var3 = null;
+            FileInputStream fileinputstream = null;
 
             try
             {
-                var3 = new FileInputStream(par1File);
-                this.properties.load(var3);
+                fileinputstream = new FileInputStream(par1File);
+                this.properties.load(fileinputstream);
             }
-            catch (Exception var13)
+            catch (Exception exception)
             {
-                par2ILogAgent.logWarningException("Failed to load " + par1File, var13);
+                par2ILogAgent.logWarningException("Failed to load " + par1File, exception);
                 this.logMessageAndSave();
             }
             finally
             {
-                if (var3 != null)
+                if (fileinputstream != null)
                 {
                     try
                     {
-                        var3.close();
+                        fileinputstream.close();
                     }
-                    catch (IOException var12)
+                    catch (IOException ioexception)
                     {
                         ;
                     }
@@ -71,27 +71,27 @@ public class PropertyManager
      */
     public void saveProperties()
     {
-        FileOutputStream var1 = null;
+        FileOutputStream fileoutputstream = null;
 
         try
         {
-            var1 = new FileOutputStream(this.associatedFile);
-            this.properties.store(var1, "Minecraft server properties");
+            fileoutputstream = new FileOutputStream(this.associatedFile);
+            this.properties.store(fileoutputstream, "Minecraft server properties");
         }
-        catch (Exception var11)
+        catch (Exception exception)
         {
-            this.logger.logWarningException("Failed to save " + this.associatedFile, var11);
+            this.logger.logWarningException("Failed to save " + this.associatedFile, exception);
             this.logMessageAndSave();
         }
         finally
         {
-            if (var1 != null)
+            if (fileoutputstream != null)
             {
                 try
                 {
-                    var1.close();
+                    fileoutputstream.close();
                 }
-                catch (IOException var10)
+                catch (IOException ioexception)
                 {
                     ;
                 }
@@ -130,7 +130,7 @@ public class PropertyManager
         {
             return Integer.parseInt(this.getProperty(par1Str, "" + par2));
         }
-        catch (Exception var4)
+        catch (Exception exception)
         {
             this.properties.setProperty(par1Str, "" + par2);
             return par2;
@@ -146,7 +146,7 @@ public class PropertyManager
         {
             return Boolean.parseBoolean(this.getProperty(par1Str, "" + par2));
         }
-        catch (Exception var4)
+        catch (Exception exception)
         {
             this.properties.setProperty(par1Str, "" + par2);
             return par2;

@@ -38,9 +38,9 @@ public class EntityEnderEye extends Entity
      */
     public boolean isInRangeToRenderDist(double par1)
     {
-        double var3 = this.boundingBox.getAverageEdgeLength() * 4.0D;
-        var3 *= 64.0D;
-        return par1 < var3 * var3;
+        double d1 = this.boundingBox.getAverageEdgeLength() * 4.0D;
+        d1 *= 64.0D;
+        return par1 < d1 * d1;
     }
 
     public EntityEnderEye(World par1World, double par2, double par4, double par6)
@@ -58,14 +58,14 @@ public class EntityEnderEye extends Entity
      */
     public void moveTowards(double par1, int par3, double par4)
     {
-        double var6 = par1 - this.posX;
-        double var8 = par4 - this.posZ;
-        float var10 = MathHelper.sqrt_double(var6 * var6 + var8 * var8);
+        double d2 = par1 - this.posX;
+        double d3 = par4 - this.posZ;
+        float f = MathHelper.sqrt_double(d2 * d2 + d3 * d3);
 
-        if (var10 > 12.0F)
+        if (f > 12.0F)
         {
-            this.targetX = this.posX + var6 / (double)var10 * 12.0D;
-            this.targetZ = this.posZ + var8 / (double)var10 * 12.0D;
+            this.targetX = this.posX + d2 / (double)f * 12.0D;
+            this.targetZ = this.posZ + d3 / (double)f * 12.0D;
             this.targetY = this.posY + 8.0D;
         }
         else
@@ -92,9 +92,9 @@ public class EntityEnderEye extends Entity
 
         if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
         {
-            float var7 = MathHelper.sqrt_double(par1 * par1 + par5 * par5);
+            float f = MathHelper.sqrt_double(par1 * par1 + par5 * par5);
             this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(par1, par5) * 180.0D / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(par3, (double)var7) * 180.0D / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(par3, (double)f) * 180.0D / Math.PI);
         }
     }
 
@@ -110,10 +110,10 @@ public class EntityEnderEye extends Entity
         this.posX += this.motionX;
         this.posY += this.motionY;
         this.posZ += this.motionZ;
-        float var1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
         this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
-        for (this.rotationPitch = (float)(Math.atan2(this.motionY, (double)var1) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+        for (this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
         {
             ;
         }
@@ -138,20 +138,20 @@ public class EntityEnderEye extends Entity
 
         if (!this.worldObj.isRemote)
         {
-            double var2 = this.targetX - this.posX;
-            double var4 = this.targetZ - this.posZ;
-            float var6 = (float)Math.sqrt(var2 * var2 + var4 * var4);
-            float var7 = (float)Math.atan2(var4, var2);
-            double var8 = (double)var1 + (double)(var6 - var1) * 0.0025D;
+            double d0 = this.targetX - this.posX;
+            double d1 = this.targetZ - this.posZ;
+            float f1 = (float)Math.sqrt(d0 * d0 + d1 * d1);
+            float f2 = (float)Math.atan2(d1, d0);
+            double d2 = (double)f + (double)(f1 - f) * 0.0025D;
 
-            if (var6 < 1.0F)
+            if (f1 < 1.0F)
             {
-                var8 *= 0.8D;
+                d2 *= 0.8D;
                 this.motionY *= 0.8D;
             }
 
-            this.motionX = Math.cos((double)var7) * var8;
-            this.motionZ = Math.sin((double)var7) * var8;
+            this.motionX = Math.cos((double)f2) * d2;
+            this.motionZ = Math.sin((double)f2) * d2;
 
             if (this.posY < this.targetY)
             {
@@ -163,18 +163,18 @@ public class EntityEnderEye extends Entity
             }
         }
 
-        float var10 = 0.25F;
+        float f3 = 0.25F;
 
         if (this.isInWater())
         {
-            for (int var3 = 0; var3 < 4; ++var3)
+            for (int i = 0; i < 4; ++i)
             {
-                this.worldObj.spawnParticle("bubble", this.posX - this.motionX * (double)var10, this.posY - this.motionY * (double)var10, this.posZ - this.motionZ * (double)var10, this.motionX, this.motionY, this.motionZ);
+                this.worldObj.spawnParticle("bubble", this.posX - this.motionX * (double)f3, this.posY - this.motionY * (double)f3, this.posZ - this.motionZ * (double)f3, this.motionX, this.motionY, this.motionZ);
             }
         }
         else
         {
-            this.worldObj.spawnParticle("portal", this.posX - this.motionX * (double)var10 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double)var10 - 0.5D, this.posZ - this.motionZ * (double)var10 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ);
+            this.worldObj.spawnParticle("portal", this.posX - this.motionX * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double)f3 - 0.5D, this.posZ - this.motionZ * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ);
         }
 
         if (!this.worldObj.isRemote)

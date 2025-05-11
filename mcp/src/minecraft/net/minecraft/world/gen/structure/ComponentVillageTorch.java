@@ -18,8 +18,8 @@ public class ComponentVillageTorch extends ComponentVillage
 
     public static StructureBoundingBox func_74904_a(ComponentVillageStartPiece par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6)
     {
-        StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 3, 4, 2, par6);
-        return StructureComponent.findIntersecting(par1List, var7) != null ? null : var7;
+        StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 3, 4, 2, par6);
+        return StructureComponent.findIntersecting(par1List, structureboundingbox) != null ? null : structureboundingbox;
     }
 
     /**
